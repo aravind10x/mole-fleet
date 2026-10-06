@@ -30,7 +30,7 @@ models:
     concurrency: 25
   kimi-k2.6:
     paper_name: Kimi-K2.6
-    openrouter_slug: moonshotai/kimi-k2        # VERIFY
+    openrouter_slug: moonshotai/kimi-k2.6      # verified 2026-10-07 ($0.95/M in, $4.00/M out)
     context_tokens: 128000
     max_turns: 50
     concurrency: 8
@@ -42,7 +42,7 @@ models:
     concurrency: 16
   deepseek-v4-flash:
     paper_name: DeepSeek-V4-Flash
-    openrouter_slug: deepseek/deepseek-v4      # VERIFY
+    openrouter_slug: deepseek/deepseek-v4-flash  # verified 2026-10-07 ($0.001/M in, $1.28/M out)
     context_tokens: 1000000
     max_turns: 50
     concurrency: 10
