@@ -125,3 +125,56 @@ def test_agentic_dryrun_without_docker(tmp_path, no_network_no_docker):
     manifest = resume_state.load(out)
     assert manifest["sandbox_mode"] == "dryrun"
     assert manifest["days"][0]["managers_ok"] and not manifest["days"][0]["snapshot_ok"]
+
+
+def test_resume_preloads_history_into_the_recap(tmp_path, monkeypatch):
+    """A plain --resume loads the (truncated) audit log back into collector.events,
+    so the cross-day recap is populated before the resumed day's first session."""
+    from mole.generator.member import Member
+    out = tmp_path / "res.jsonl"
+    kw = dict(mode="rules", sandbox_mode="dryrun", n_personas=5, out_path=out, seed=0,
+              sessions_per_day=2)
+    asyncio.run(simulate(n_days=1, **kw))
+    n_day1 = len([l for l in out.read_bytes().splitlines() if l.strip()])
+
+    seen: list[tuple[str, int, int]] = []
+    orig = Member.run_at
+
+    async def _spy(self, ctx, sim_now, action_key):
+        if not seen:
+            coll = ctx.collector
+            seen.append((sim_now, len(coll.events),
+                         len(coll.recent_high_signal_events_for(self.persona.id))))
+        return await orig(self, ctx, sim_now, action_key)
+
+    monkeypatch.setattr(Member, "run_at", _spy)
+    asyncio.run(simulate(n_days=2, resume=True, **kw))
+    [(first_ts, n_events, n_recap)] = seen
+    assert first_ts.startswith("2026-04-07")        # day 1 was skipped, day 2 runs
+    assert n_events == n_day1                         # whole day-1 log preloaded
+    assert n_recap > 0
+
+
+def test_rules_dryrun_only_emits_events_for_present_services(tmp_path):
+    out = tmp_path / "svc.jsonl"
+    coll = asyncio.run(simulate(mode="rules", sandbox_mode="dryrun", n_personas=10,
+                                n_days=1, out_path=out, seed=0, sessions_per_day=3))
+    services = {e.service for e in coll.events}
+    assert not services & {"gitlab", "owncloud", "email", "rocketchat"}, services
+    assert "org" in services
+    assert services <= set(INPROCESS_ENVS) | {"session"}
+    # Rebalanced: the dropped workflows' touch-points go to the remaining ones.
+    assert len(coll.events) > 400
+
+
+def test_member_services_filter_keeps_touch_point_count():
+    from mole.generator.member import Member, NPCConfig
+    from mole.generator.persona_loader import load_personas
+    p = next(x for x in load_personas() if x.id == "alice.kim")
+    cfg = NPCConfig(sessions_per_day=2, loaf_probability=0.0, absent_probability=0.0)
+    full = Member(p, config=cfg, rng_seed=0)
+    dry = Member(p, config=cfg, rng_seed=0, services=set(INPROCESS_ENVS))
+    names_dry = {k for _, k in dry.plan_day("2026-04-06")}
+    assert len(dry.plan_day("2026-04-07")) == len(full.plan_day("2026-04-07"))
+    assert not names_dry & {"file_work", "email_triage", "code_review", "team_chat"}
+    assert {"morning_routine", "release_approval"} <= names_dry

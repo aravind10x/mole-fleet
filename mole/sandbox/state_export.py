@@ -6,16 +6,18 @@ don't capture (they live in the simulator's Python process, not in
 containers). This module exports each manager's relevant `_`-prefixed
 state to JSON files at sim-day boundaries.
 
-Scope (this task is the lighter Stage-2 of resume support):
-  - EXPORT only. We do not wire deserialize/resume back into the managers.
-  - Provides post-hoc auditability of end-of-day state.
-  - Provides a starting point if v1 results justify building full Stage-2
-    resume (deserialize on `--resume` to reconstruct world state).
+What it is used for:
+  - `export_manager_state` writes `managers.json` at each day boundary
+    (post-hoc auditability of end-of-day state; recorded in the resume manifest).
+  - `import_manager_state` re-applies a dump onto live managers. generator/run.py
+    uses it on `--resume` / `--restore-world` and to start a `branch_from` run
+    from a parent corpus's last day.
 
-Usage from generator/run.py at each day boundary:
+Usage from generator/run.py:
 
-    from ..sandbox.state_export import export_manager_state
-    export_manager_state(ctx, out_dir / "managers.json")
+    from ..sandbox.state_export import export_manager_state, import_manager_state
+    export_manager_state(ctx, out_dir / "managers.json")      # day boundary
+    import_manager_state(ctx, Path(record["managers_path"]))   # resume / branch
 """
 from __future__ import annotations
 

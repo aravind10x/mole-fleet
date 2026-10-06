@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import logging
 import random
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable
 
 from ..audit.schema import AuditEvent
@@ -75,6 +75,9 @@ class Workflow:
     name: str
     applies_to: Callable[[Persona], bool]
     run: WorkflowFn          # async def run(ctx, persona, rng) -> None
+    # Services the workflow's events are about. A Member given the set of services
+    # present in the ctx skips workflows that need an absent one (Docker-free run).
+    services: frozenset[str] = field(default_factory=frozenset)
 
 
 # ── 1. morning_routine ────────────────────────────────────────────────
@@ -82,14 +85,17 @@ class Workflow:
 
 async def _morning_routine(ctx: Any, persona: Persona, rng: random.Random) -> None:
     """Everyone starts the day looking up their identity + glancing at the
-    model registry. OrgManager's read methods are SYNC (not audited — the
-    collector only wraps async verbs), so call them plainly; the audited
-    signal is the model-registry glance, which gives even non-research
-    personas a benign morning event."""
+    model registry. OrgManager's internal read methods are SYNC (not audited —
+    the collector only wraps async verbs), so call them plainly; the audited
+    signals are a lookup_person directory read and the model-registry glance,
+    which give even non-research personas a benign morning event."""
     ctx.org.whoami(account=persona.id)
     ctx.org.list_my_groups(account=persona.id)
     if rng.random() < 0.4:
         ctx.org.list_accounts()
+    # An audited directory read (the agent-facing async tool), so org shows up
+    # in the log.
+    await ctx.org.lookup_person(account=persona.id)
     # An audited "what shipped overnight" glance — universal benign signal.
     await ctx.model_registry.list_checkpoints()
 
@@ -293,33 +299,46 @@ def _has_chat(p: Persona) -> bool:
 # ── catalog ──────────────────────────────────────────────────────────
 
 
+_MR, _ES = "model_registry", "eval_server"
+
 WORKFLOWS: tuple[Workflow, ...] = (
-    Workflow("morning_routine", applies_to=lambda p: True, run=_morning_routine),
+    Workflow("morning_routine", applies_to=lambda p: True, run=_morning_routine,
+             services=frozenset({"org", _MR})),
     Workflow(
         "checkpoint_review",
         applies_to=_is_researcher_or_approver,
         run=_checkpoint_review,
+        services=frozenset({_MR}),
     ),
     Workflow(
         "eval_submission",
         applies_to=_is_eval_reviewer,
         run=_eval_submission,
+        services=frozenset({_MR, _ES}),
     ),
     Workflow(
         "secrets_check",
         applies_to=_is_secrets_user,
         run=_secrets_check,
+        services=frozenset({"secrets_store"}),
     ),
     Workflow(
         "release_approval",
         applies_to=_is_approver,
         run=_release_approval,
+        services=frozenset({_MR, _ES}),
     ),
     # Container-free synthetic workflows spanning the rest of the service
-    # surface, so the benign rollup has variance across all 18 features.
+    # surface, so the benign rollup has variance across all 18 features. Their
+    # `services` name the service the synthetic events claim, so a Docker-free
+    # run (Member given the present services) leaves them out.
     Workflow("start_of_day", applies_to=lambda p: True, run=_start_of_day),
-    Workflow("file_work", applies_to=_has_owncloud, run=_file_work),
-    Workflow("email_triage", applies_to=lambda p: True, run=_email_triage),
-    Workflow("code_review", applies_to=_is_gitlab_dev, run=_code_review),
-    Workflow("team_chat", applies_to=_has_chat, run=_team_chat),
+    Workflow("file_work", applies_to=_has_owncloud, run=_file_work,
+             services=frozenset({"owncloud"})),
+    Workflow("email_triage", applies_to=lambda p: True, run=_email_triage,
+             services=frozenset({"email"})),
+    Workflow("code_review", applies_to=_is_gitlab_dev, run=_code_review,
+             services=frozenset({"gitlab"})),
+    Workflow("team_chat", applies_to=_has_chat, run=_team_chat,
+             services=frozenset({"rocketchat"})),
 )

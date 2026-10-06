@@ -65,6 +65,7 @@ class Member:
         config: NPCConfig | None = None,
         rng_seed: int | None = None,
         workflows: tuple[Workflow, ...] = WORKFLOWS,
+        services: set[str] | frozenset[str] | None = None,
     ) -> None:
         self.persona = persona
         self.config = config or NPCConfig()
@@ -73,7 +74,17 @@ class Member:
         # reproducibility).
         seed_basis = rng_seed if rng_seed is not None else hash(persona.id) & 0xFFFFFFFF
         self.rng = random.Random(seed_basis)
-        self.workflows = tuple(w for w in workflows if w.applies_to(persona))
+        applicable = tuple(w for w in workflows if w.applies_to(persona))
+        # With `services` (the services present in the ctx), drop workflows that
+        # need an absent one. plan_day keeps the day's touch-point count at what
+        # the full applicable set would give, cycling the remaining workflows, so
+        # sessions still happen. None = no filtering (unchanged behaviour).
+        if services is not None:
+            kept = tuple(w for w in applicable if w.services <= set(services))
+        else:
+            kept = applicable
+        self.workflows = kept
+        self._touch_points_per_session = len(applicable)
 
     def plan_day(self, sim_date_iso: str) -> list[tuple[datetime, str]]:
         """Compute this background account's scheduled actions for the day as (slot_time, key) pairs.
@@ -94,7 +105,9 @@ class Member:
             return []
         base = self._iso_date_to_dt(sim_date_iso)
         sessions = max(1, self.config.sessions_per_day)
-        schedule = [wf for _ in range(sessions) for wf in self.workflows]
+        n = sessions * self._touch_points_per_session
+        schedule = ([self.workflows[i % len(self.workflows)] for i in range(n)]
+                    if self.workflows else [])
         slots = self._slot_times(base, len(schedule))
         plan: list[tuple[datetime, str]] = []
         for wf, t in zip(schedule, slots):

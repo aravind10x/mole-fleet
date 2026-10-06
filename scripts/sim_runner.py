@@ -330,7 +330,10 @@ def main(argv: list[str] | None = None) -> int:
         print("  benign multi-day arcs: ENABLED (non-insiders run multi-day benign projects)")
     # In smoke mode, only the first N personas run; report how many of those
     # are designated insiders so the user can see attack activity to expect.
-    if args.smoke:
+    if args.mode == "rules":
+        # Rules mode runs scripted benign workflows only; the insider maps are unused.
+        print("  insiders: ignored in rules mode")
+    elif args.smoke:
         from mole.generator.persona_loader import load_personas
         personas = load_personas(include_holdouts=True)[:n_personas]
         designated_in_smoke = [p.id for p in personas if p.id in persona_map]

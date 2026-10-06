@@ -560,6 +560,11 @@ async def simulate(
     if branch_info is not None:
         n_pre = collector.preload(out_path)
         logger.info("branch_from: preloaded %d parent events into the recap", n_pre)
+    elif resume and out_path.exists():
+        # The log was truncated to the resume boundary above; load what is left
+        # so the cross-day session recap sees the pre-crash history.
+        n_pre = collector.preload(out_path)
+        logger.info("--resume: preloaded %d prior events into the recap", n_pre)
     tmp_dir = out_path.resolve().parent
 
     transcript_fh = None
@@ -768,8 +773,13 @@ async def simulate(
             from ..sandbox.state_export import import_manager_state
             applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
             logger.info("branch_from: imported parent in-process state: %s", applied)
+        # Docker-free: skip the synthetic owncloud/email/gitlab/rocketchat workflows
+        # so the corpus only has events for services that exist. (Lab rules mode
+        # keeps them — it is the container-free stand-in for the full surface.)
+        rules_services = set(ctx._managers) if sandbox_mode == "dryrun" else None
         members = [
-            Member(p, config=config, rng_seed=(None if seed is None else seed + i))
+            Member(p, config=config, rng_seed=(None if seed is None else seed + i),
+                   services=rules_services)
             for i, p in enumerate(personas)
         ]
 
