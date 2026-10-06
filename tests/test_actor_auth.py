@@ -118,3 +118,26 @@ def test_actor_schema_description():
     schema = next(t for t in tools if t.name == "svc.submit")
     assert schema.parameters["properties"]["account"]["description"] == (
         "the acting user; set automatically from your session — do not pass")
+
+
+class _Mail:
+    def __init__(self) -> None:
+        self.calls: list[dict] = []
+
+    async def send_email(self, *, from_user: str | None = None, to: str = "") -> dict:
+        """Send."""
+        self.calls.append({"from_user": from_user, "to": to})
+        return {"to": to}
+
+
+def test_own_email_address_counts_as_self():
+    set_account("alice.kim", "agent")
+    mail = _Mail()
+    _, dispatcher = build_tools_for(_ctx(email=mail))
+    r = _call(dispatcher, "email.send_email",
+              {"from_user": "alice.kim@agentlab.local", "to": "bob@agentlab.local"})
+    assert r.is_error is False
+    assert mail.calls == [{"from_user": "alice.kim", "to": "bob@agentlab.local"}]  # normalised
+    r = _call(dispatcher, "email.send_email",
+              {"from_user": "bob.li@agentlab.local", "to": "x@agentlab.local"})
+    assert r.is_error is True and len(mail.calls) == 1

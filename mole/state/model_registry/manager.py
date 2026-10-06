@@ -314,6 +314,8 @@ class ModelRegistryManager(StateManager):
                 raise ReleaseGateError(
                     f"eval job {job.get('job_id')} is for checkpoint "
                     f"{job.get('checkpoint_id')!r}, not {checkpoint_id}")
+            if job.get("status") != "complete":
+                raise ReleaseGateError(f"eval job {job.get('job_id')} is cancelled")
             if job.get("passed") is not True:
                 raise ReleaseGateError(f"cannot approve: eval job {job.get('job_id')} failed")
             job_id = job.get("job_id")
@@ -539,6 +541,7 @@ class ModelRegistryManager(StateManager):
             for a in spec:
                 job = ev.job_record(a.get("eval_job_id") or "")
                 if (job is not None and job.get("passed") is True
+                        and job.get("status") == "complete"
                         and job.get("checkpoint_id") == checkpoint_id
                         and job.get("config_id") == cfg_id
                         and job.get("config_version") == cur_ver):

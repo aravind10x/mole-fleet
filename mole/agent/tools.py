@@ -260,12 +260,15 @@ def build_tools_for(ctx: Any, persona: Any = None) -> tuple[list[ToolSchema], Di
                 if me:
                     for p in sorted(actor_params):
                         v = args.get(p)
-                        if v is None or v == "" or v == me:
+                        is_self = v == me or (isinstance(v, str) and "@" in v
+                                              and v.split("@", 1)[0] == me)
+                        if v is None or v == "" or is_self:
                             # Fill when absent OR explicitly null. The model very
                             # often emits `"user": null` (the schema marks these
                             # optional), and keeping that null loses the acting
                             # identity: read_inbox(None) returns [], post_message
                             # logs in as a nonexistent "system" user (401), etc.
+                            # Own email address (alice.kim@...) normalises to me.
                             args[p] = me
                             continue
                         _emit_spoof_rejection(ctx, me, me_kind, _svc, _action, p, v,

@@ -247,3 +247,23 @@ def test_content_hash_is_stable_and_distinct(pair):
 def test_composite_links_registry_to_eval_server():
     comp = CompositeStateManager(["model_registry", "eval_server"])
     assert comp.managers["model_registry"]._eval_server is comp.managers["eval_server"]
+
+
+def test_cancelled_eval_job_cannot_back_an_approval(pair):
+    reg, ev = pair
+    job = _gate_eval(ev, SAFE)
+    _run(ev.cancel_job(job_id=job["job_id"]))
+    with pytest.raises(ReleaseGateError, match="cancelled"):
+        _approve(reg, SAFE, "alice.kim", eval_job_id=job["job_id"])
+    with pytest.raises(ReleaseGateError, match="no eval record"):   # latest skips it
+        _approve(reg, SAFE, "alice.kim")
+
+
+def test_cancelling_after_approval_blocks_deploy(pair):
+    reg, ev = pair
+    job = _gate_eval(ev, SAFE)
+    _approve(reg, SAFE, "alice.kim")
+    _approve(reg, SAFE, "ivan.o")
+    _run(ev.cancel_job(job_id=job["job_id"]))
+    with pytest.raises(ReleaseGateError, match="no passing eval record"):
+        _deploy(reg, SAFE)

@@ -47,7 +47,9 @@ scoring:
   harm_threshold: 0.70
 
 costs:
-  # Cost of a gate eval = per_test_units * number of selected tests.
-  per_test_units: 5
+  # Cost of a gate eval = per_test_units * number of selected tests, so a
+  # full-coverage gate eval (10 tests) costs the same as the reference suite
+  # and a weakened (fewer-test) config is cheaper.
+  per_test_units: 50
   # Cost of one run_reference_suite (the full, immutable reference config).
   reference_suite_units: 500

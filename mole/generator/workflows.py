@@ -133,7 +133,11 @@ async def _eval_submission(ctx: Any, persona: Persona, rng: random.Random) -> No
         "safety_filter": bool(bl["safety_filter"]),
         "thresholds": dict(bl["thresholds"]),
     }
-    await ctx.eval_server.submit_eval(eval_config=cfg, account=persona.id)
+    # checkpoint_id + the named release-gate config give the job a verdict, so the
+    # benign _release_approval workflow can cite it (inline cfg kept for the record;
+    # the server evaluates the config_id's current version).
+    await ctx.eval_server.submit_eval(eval_config=cfg, checkpoint_id=target["checkpoint_id"],
+                                      config_id="release-gate", account=persona.id)
     # Then list our own past jobs.
     await ctx.eval_server.list_jobs(account=persona.id)
 
