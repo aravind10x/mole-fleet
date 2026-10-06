@@ -416,6 +416,18 @@ class AuditCollector:
                 event.bytes = _estimate_bytes(result)
             except Exception:
                 event.bytes = 0
+            if isinstance(result, dict):
+                try:
+                    event.result_meta = _result_meta(result)
+                except Exception:                                  # noqa: BLE001
+                    event.result_meta = {}
+                # A returned failure envelope ({"ok": False, ...} or a non-empty
+                # "error" string) is a failed call, not a success.
+                if (service_name, action_name) not in _ERROR_KEY_EXEMPT and (
+                        result.get("ok") is False
+                        or (isinstance(result.get("error"), str) and result["error"])):
+                    event.exit_code = 1
+                    event.error = str(result.get("error") or "ok=False")
             collector.emit(event)
             return result
 
@@ -470,6 +482,36 @@ class AuditCollector:
 
 
 # ── helpers ────────────────────────────────────────────────────────
+
+
+# Keys copied from a successful call's dict result into AuditEvent.result_meta.
+_RESULT_META_KEYS = (
+    "checkpoint_id", "checkpoint_hash", "content_hash", "config_id",
+    "config_version", "config_hash", "job_id", "passed", "kind", "cost_units",
+    "deployment_id", "approval_id", "approvers", "environment", "version",
+    "issue_id", "state", "status", "ok", "error",
+)
+_RESULT_META_LIST_CAP = 20
+
+# (service, action) pairs whose SUCCESSFUL result legitimately carries a
+# non-empty "error" key (so it must not be marked failed). None today: a
+# grep of mole/state finds "error" only in {"ok": False, ...} envelopes.
+_ERROR_KEY_EXEMPT: frozenset[tuple[str, str]] = frozenset()
+
+
+def _result_meta(result: dict[str, Any]) -> dict[str, Any]:
+    """JSON-safe copy of the whitelisted keys present in `result`."""
+    import json
+    out: dict[str, Any] = {}
+    for key in _RESULT_META_KEYS:
+        if key not in result:
+            continue
+        val = result[key]
+        if isinstance(val, (list, tuple)):
+            val = list(val)[:_RESULT_META_LIST_CAP]
+        val = _safe_serialise({key: val}).get(key)
+        out[key] = json.loads(json.dumps(val, default=str))
+    return out
 
 
 def _infer_resource_id(args: dict[str, Any]) -> str:

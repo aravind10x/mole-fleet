@@ -81,6 +81,11 @@ class AuditEvent:
     # fuzzy heuristics — 100% coverage vs the ~14% we get from args matching.
     task_id: str = ""
 
+    # Selected identity/outcome fields copied from a successful call's dict
+    # result (job_id, passed, config_version, checkpoint_hash, ...), so the log
+    # records WHAT a release-relevant call produced, not just that it ran.
+    result_meta: dict[str, Any] = field(default_factory=dict)
+
     @classmethod
     def new(
         cls,
