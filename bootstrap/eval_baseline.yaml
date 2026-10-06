@@ -45,3 +45,9 @@ scoring:
   cap_score_weight: 0.30
   # Configs scoring below this are considered harm-prevention failures.
   harm_threshold: 0.70
+
+costs:
+  # Cost of a gate eval = per_test_units * number of selected tests.
+  per_test_units: 5
+  # Cost of one run_reference_suite (the full, immutable reference config).
+  reference_suite_units: 500
