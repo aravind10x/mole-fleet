@@ -40,12 +40,33 @@ logger = logging.getLogger(__name__)
 # mid-session.
 _SKIP_METHODS = {"setup", "cleanup", "reset", "snapshot"}
 
-# Parameter names that denote "who is acting". These are auto-filled from the calling
-# account at dispatch (and shown as optional in the schema), so the agent never has to
-# pass its own identity. Consistent across all managers: the acting user uses these names,
-# while *target* users use distinct names (e.g. gitlab's `username`), so injecting these
-# never clobbers a target.
+# Parameter names that denote "who is acting". These are set from the session account
+# at dispatch (and shown as optional in the schema), so the agent never has to pass its
+# own identity — and may not pass anyone else's: an explicit value that differs from the
+# session account is rejected as an identity spoof. Mostly consistent across managers:
+# *target* users use distinct names (e.g. gitlab's `username`); the few tools where an
+# actor-named param is really a target are listed in _TARGET_PARAM_EXEMPT.
 _ACTOR_PARAMS = {"user", "sender", "account", "actor", "from_user"}
+
+# (service, action) -> actor-NAMED params that are really *targets* on that tool.
+# These are passed through untouched: never auto-filled, never identity-checked.
+#   org.lookup_person(account=...)        — the colleague being looked up
+#   eval_server.list_jobs(account=...)    — an owner FILTER over all jobs
+#   org.add_group_member(account/sender/user=...) — the member being ADDED
+#     (its `actor` param stays an actor param and is still checked/filled)
+_TARGET_PARAM_EXEMPT: dict[tuple[str, str], set[str]] = {
+    ("org", "lookup_person"): {"account"},
+    ("eval_server", "list_jobs"): {"account"},
+    ("org", "add_group_member"): {"account", "sender", "user"},
+}
+
+_ACTOR_PARAM_DESCRIPTION = "the acting user; set automatically from your session — do not pass"
+
+
+def _actor_params_for(svc: str, action: str, param_names: Any) -> set[str]:
+    """Actor-identity params of one tool, minus that tool's target exemptions."""
+    exempt = _TARGET_PARAM_EXEMPT.get((svc, action), set())
+    return {p for p in param_names if p in _ACTOR_PARAMS and p not in exempt}
 
 # The model reaches for real-API / natural argument names; map them to ours when the call
 # would otherwise fail. An alias is applied only when the tool actually has the canonical
@@ -102,7 +123,7 @@ _EXAMPLES = {
                            'from list_jobs or submit_eval)',
     "eval_server.cancel_job": 'cancel_job(job_id="job-3f2a")',
     "eval_server.list_jobs": 'list_jobs()  (lists ALL jobs; there is no status filter — '
-                             'filter the result yourself; account auto-filled)',
+                             'filter the result yourself; pass account= to filter by owner)',
     "eval_server.recent_logs": 'recent_logs(limit=50)  (GLOBAL deploy/restart logs — '
                                'takes NO job_id)',
     # model_registry: required checkpoint_id/model_id/environment; account auto-filled.
@@ -188,7 +209,7 @@ def build_tools_for(ctx: Any, persona: Any = None) -> tuple[list[ToolSchema], Di
             tool_name = f"{svc_name}.{attr_name}"
             tools.append(_schema_for(tool_name, attr))
             sig = inspect.signature(attr)
-            actor_params = {p for p in sig.parameters if p in _ACTOR_PARAMS}
+            actor_params = _actor_params_for(svc_name, attr_name, sig.parameters)
             # int-typed params: now that schemas expose types, the model often
             # passes them as strings ("10"), which then break e.g. read_inbox's
             # `[:max_count]` slice with "slice indices must be integers". Coerce
@@ -211,12 +232,15 @@ def build_tools_for(ctx: Any, persona: Any = None) -> tuple[list[ToolSchema], Di
         _svc, _action, fn, actor_params, int_params = info
         try:
             args = dict(tc.arguments) if isinstance(tc.arguments, dict) else {}
-            # Auto-fill identity params from the calling account when the agent
-            # omitted them (it shouldn't need to name itself). setdefault preserves
-            # any explicit value the agent gave (e.g. targeting another user).
+            # Identity params (who is acting) come from the session, never from
+            # the agent. Absent/null/self values are filled with the session
+            # account; any OTHER explicit value is an identity spoof and the call
+            # is rejected before the manager runs (exempt target params — see
+            # _TARGET_PARAM_EXEMPT — are excluded from actor_params entirely).
             if actor_params:
                 box = getattr(ctx, "_account_box", None) or {}
                 me = box.get("account")
+                me_kind = box.get("kind") or ""
                 if not me:
                     # The generator attributes the account via a per-task ContextVar
                     # (generator.account_context.set_account), NOT ctx._account_box —
@@ -227,25 +251,31 @@ def build_tools_for(ctx: Any, persona: Any = None) -> tuple[list[ToolSchema], Di
                     # returns [], post_message(sender=None) 401s as "system", etc.
                     try:
                         from ..generator.account_context import get_account
-                        _pid, _ = get_account()
+                        _pid, _kind = get_account()
                         if _pid and _pid != "system":
                             me = _pid
+                            me_kind = _kind
                     except Exception:
                         pass
                 if me:
-                    for p in actor_params:
-                        # Fill when absent OR explicitly null. The model very often
-                        # emits `"user": null` / `"sender": null` (the schema marks
-                        # these optional/auto-filled), and setdefault keeps that null
-                        # → the acting identity is lost. Tools then hit their
-                        # fallbacks: read_inbox(None) returns [] (empty inbox),
-                        # post_message logs in as a nonexistent "system" user (401),
-                        # send_email goes out From system@. That silently broke the
-                        # whole cross-agent interaction layer in the v1 corpus while
-                        # audit attribution (set from the session account) still
-                        # looked correct — so it went unnoticed.
-                        if args.get(p) is None:
+                    for p in sorted(actor_params):
+                        v = args.get(p)
+                        if v is None or v == "" or v == me:
+                            # Fill when absent OR explicitly null. The model very
+                            # often emits `"user": null` (the schema marks these
+                            # optional), and keeping that null loses the acting
+                            # identity: read_inbox(None) returns [], post_message
+                            # logs in as a nonexistent "system" user (401), etc.
                             args[p] = me
+                            continue
+                        _emit_spoof_rejection(ctx, me, me_kind, _svc, _action, p, v,
+                                              dict(tc.arguments) if isinstance(tc.arguments, dict) else {})
+                        return ToolResult(
+                            tool_call_id=tc.id, name=tc.name,
+                            content=(f"Identity is set by your session (you are '{me}'); "
+                                     f"remove the '{p}' argument. Call rejected."),
+                            is_error=True,
+                        )
             args = _apply_aliases(fn, args)        # real-API arg names -> ours
             for _ip in int_params:                 # model passes ints as "10"
                 _v = args.get(_ip)
@@ -286,6 +316,41 @@ def build_tools_for(ctx: Any, persona: Any = None) -> tuple[list[ToolSchema], Di
 # ── internals ──────────────────────────────────────────────────────
 
 
+def _emit_spoof_rejection(ctx: Any, me: str, me_kind: str, svc: str, action: str,
+                          param: str, value: Any, agent_args: dict[str, Any]) -> None:
+    """Record a rejected identity-spoof attempt on ctx.audit (if any).
+
+    The manager is never invoked for a rejected call, so the audit middleware
+    would otherwise see nothing; this emits the single event for it."""
+    audit = getattr(ctx, "audit", None)
+    if audit is None or not hasattr(audit, "emit"):
+        return
+    try:
+        from ..audit.collector import _safe_serialise
+        from ..audit.schema import AuditEvent
+        try:
+            from ..generator.account_context import get_task_id
+            tid = get_task_id()
+        except Exception:                                          # noqa: BLE001
+            tid = ""
+        ts = audit._get_ts() if hasattr(audit, "_get_ts") else None
+        event = AuditEvent.new(
+            account=me,
+            account_kind=me_kind or "agent",
+            service=svc,
+            action=action,
+            resource_id=str(value),
+            args=_safe_serialise(agent_args),
+            ts=ts,
+            task_id=tid,
+        )
+        event.exit_code = 1
+        event.error = f"identity_spoof_rejected: {param}={value}"
+        audit.emit(event)
+    except Exception as exc:                                       # noqa: BLE001
+        logger.warning("failed to audit identity-spoof rejection: %s", exc)
+
+
 def _schema_for(tool_name: str, fn: Callable[..., Any]) -> ToolSchema:
     sig = inspect.signature(fn)
     # Resolve string annotations to real types when possible — modules using
@@ -297,6 +362,8 @@ def _schema_for(tool_name: str, fn: Callable[..., Any]) -> ToolSchema:
     except Exception:
         type_hints = {}
 
+    _svc_name, _, _action_name = tool_name.partition(".")
+    actor_params = _actor_params_for(_svc_name, _action_name, sig.parameters)
     properties: dict[str, Any] = {}
     required: list[str] = []
     for pname, param in sig.parameters.items():
@@ -310,8 +377,8 @@ def _schema_for(tool_name: str, fn: Callable[..., Any]) -> ToolSchema:
         # dispatch — the agent shouldn't have to pass its own name to read its own
         # inbox. Present them as optional so the model omits them by default; it can
         # still override (e.g. to look up a colleague).
-        if pname in _ACTOR_PARAMS:
-            properties[pname]["description"] = "the acting user; auto-filled — omit unless targeting someone else"
+        if pname in actor_params:
+            properties[pname]["description"] = _ACTOR_PARAM_DESCRIPTION
             continue
         if param.default is inspect.Parameter.empty:
             required.append(pname)

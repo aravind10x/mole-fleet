@@ -155,7 +155,12 @@ def test_actor_param_autofilled_when_null_or_absent():
 
     assert call({"account": None, "item": "a"}) == "alice.kim"   # explicit null
     assert call({"item": "b"}) == "alice.kim"                      # absent
-    assert call({"account": "bob.li", "item": "c"}) == "bob.li"  # explicit value preserved
+    # An explicit DIFFERENT identity is now rejected as a spoof (see
+    # tests/test_actor_auth.py); an explicit self-identity is kept.
+    assert call({"account": "alice.kim", "item": "c"}) == "alice.kim"
+    r = asyncio.run(dispatcher(ToolCall(id="x", name="svc.submit",
+                                        arguments={"account": "bob.li", "item": "c"})))
+    assert r.is_error is True and "Call rejected" in r.content
 
 
 def test_actor_param_autofilled_from_contextvar_when_no_box():
