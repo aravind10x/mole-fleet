@@ -556,7 +556,11 @@ async def simulate(
                         raise
                 retry_on_disk_full(transcript_fh.flush, what="transcript sink")
 
-        task_bank = load_task_bank(rich=True)   # expanded (v2) bank; RAISES if absent (no silent v1 fallback)
+        if sandbox_mode == "dryrun":
+            # Only tasks doable on the in-process services; RAISES if absent.
+            task_bank = load_task_bank(bank="inprocess")
+        else:
+            task_bank = load_task_bank(rich=True)   # expanded (v2) bank; RAISES if absent (no silent v1 fallback)
         # Benign multi-day arc bank (default OFF; loaded only when --benign-arcs; {} if absent).
         arc_bank = load_arc_bank() if benign_arcs else {}
         persona_map = insider_persona_map or {}

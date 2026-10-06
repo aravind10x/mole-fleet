@@ -85,3 +85,43 @@ def test_seed_company_skips_absent_managers_cleanly():
     counts = asyncio.run(seed_company(SimpleNamespace()))
     assert counts["org"] == {}
     assert asyncio.run(seed_s1_variants(SimpleNamespace())) == {}
+
+
+class _OneToolThenStop:
+    """Calls one in-process tool on its first turn, then stops; records the tool
+    names it was offered and the system prompts it saw."""
+    backend = "fake"
+    model_id = "fake"
+
+    def __init__(self):
+        self.calls = 0
+        self.offered: set[str] = set()
+
+    async def complete(self, messages, *, tools=None, temperature=0.0, max_tokens=None,
+                       seed=None):
+        from mole.llm.base import ChatResponse, ToolCall
+        self.calls += 1
+        for t in tools or []:
+            self.offered.add(getattr(t, "name", None) or t.get("name", ""))
+        if self.calls % 2 == 1:
+            return ChatResponse(content="", tool_calls=[ToolCall(
+                id=f"c{self.calls}", name="model_registry.list_checkpoints", arguments={})])
+        return ChatResponse(content="done", tool_calls=[])
+
+
+def test_agentic_dryrun_without_docker(tmp_path, no_network_no_docker):
+    """Agentic mode with sandbox_mode="dryrun" never touches Docker and only
+    offers the agent tools on the in-process services."""
+    llm = _OneToolThenStop()
+    out = tmp_path / "agentic_dry.jsonl"
+    coll = asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=llm,
+                                n_personas=2, n_days=1, out_path=out, seed=0,
+                                sessions_per_day=1, max_turns=4))
+    agent_events = [e for e in coll.events if e.account_kind == "background_llm_agent"]
+    assert agent_events
+    assert {e.service for e in agent_events} <= set(INPROCESS_ENVS)
+    services_offered = {n.split(".", 1)[0] for n in llm.offered if "." in n}
+    assert services_offered and services_offered <= set(INPROCESS_ENVS), services_offered
+    manifest = resume_state.load(out)
+    assert manifest["sandbox_mode"] == "dryrun"
+    assert manifest["days"][0]["managers_ok"] and not manifest["days"][0]["snapshot_ok"]

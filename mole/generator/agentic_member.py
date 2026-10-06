@@ -28,7 +28,8 @@ from .persona_loader import Persona
 logger = logging.getLogger(__name__)
 
 
-def load_task_bank(path: str | None = None, *, rich: bool = False) -> dict[str, list[str]]:
+def load_task_bank(path: str | None = None, *, rich: bool = False,
+                   bank: str | None = None) -> dict[str, list[str]]:
     """Load the benign task bank → {team: [task, ...]}.
 
     The bank (bootstrap/benign_task_bank.yaml) is keyed by threat, each with a
@@ -40,6 +41,10 @@ def load_task_bank(path: str | None = None, *, rich: bool = False) -> dict[str, 
     degrades the per-team task floor and is hard to spot in the corpus). A missing bank
     file likewise raises rather than returning {} (a missing bank is a misconfiguration,
     not a reason to silently run on generic routine-work prompts).
+
+    bank="inprocess" loads benign_task_bank_inprocess.yaml (only tasks that use the
+    in-process services; written by scripts/filter_inprocess_tasks.py) for the
+    Docker-free runner, and likewise RAISES if it is absent.
     """
     import yaml
     from pathlib import Path
@@ -47,7 +52,16 @@ def load_task_bank(path: str | None = None, *, rich: bool = False) -> dict[str, 
         # agentic_member.py is benchmark/mole/generator/; bootstrap/ is at
         # benchmark/bootstrap/ (parents[2]).
         base = Path(__file__).resolve().parents[2] / "bootstrap"
-        if rich:
+        if bank is not None and bank != "inprocess":
+            raise ValueError(f"unknown task bank {bank!r} (expected 'inprocess')")
+        if bank == "inprocess":
+            inproc = base / "benign_task_bank_inprocess.yaml"
+            if not inproc.exists():
+                raise FileNotFoundError(
+                    f"in-process task bank required but missing: {inproc}. Generate it "
+                    "with `python scripts/filter_inprocess_tasks.py`.")
+            path = str(inproc)
+        elif rich:
             v2 = base / "benign_task_bank_v2.yaml"
             if not v2.exists():
                 raise FileNotFoundError(
