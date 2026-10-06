@@ -113,11 +113,11 @@ def test_enrichments_preserved_in_agent_set():
     assert "alignment-research study" in ag["01_ip_theft_s0.yaml"]["persona_override"]
 
 
-def test_agent_and_human_same_44_files():
+def test_agent_and_human_same_50_files():
     a = {p.name for p in PERSONAS.glob("*.yaml")}
     h = {p.name for p in PERSONAS_HUMAN.glob("*.yaml")}
     assert a == h
-    assert len(a) == 44
+    assert len(a) == 50   # 44 + six C3 release-sabotage role files (s0/s1 x 3 roles)
 
 
 def test_agent_human_metadata_identical_only_override_differs():

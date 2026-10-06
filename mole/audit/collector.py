@@ -489,7 +489,7 @@ _RESULT_META_KEYS = (
     "checkpoint_id", "checkpoint_hash", "content_hash", "config_id",
     "config_version", "config_hash", "job_id", "passed", "kind", "cost_units",
     "deployment_id", "approval_id", "approvers", "environment", "version",
-    "issue_id", "state", "status", "ok", "error",
+    "issue_id", "id", "state", "status", "ok", "error",
 )
 _RESULT_META_LIST_CAP = 20
 
