@@ -11,13 +11,11 @@ venv/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
-
 # OS / editor
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
-
 # Generated corpora, trajectories, attack traces, run logs — large and regenerable.
 # Track directory markers and READMEs only.
 data/**
@@ -26,9 +24,7 @@ data/**
 !data/**/README.md
 # ...plus the small illustrative sample corpus (~2 MB), which DOES ship.
 !data/corpus/sample/**
-
 # Local trace output (per-run; see MOLE_TRACE_DIR)
 traces/
-
 # Docker-free warm-up / branch spike corpora (never committed)
 data/corpus/spike/

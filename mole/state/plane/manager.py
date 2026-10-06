@@ -248,7 +248,13 @@ class PlaneManager(StateManager):
         if m:
             issue_id = m.group(1)
         else:
+            # Seeded issues carry explicit ids (INFRA-2, INFRA-204, ...) while the
+            # project's auto counter starts at 0, so a naive increment would hand out
+            # an id that already exists and silently overwrite the seeded ticket.
+            # Skip to the first free id.
             proj["issue_seq"] += 1
+            while f"{identifier}-{proj['issue_seq']}" in ws["issues"]:
+                proj["issue_seq"] += 1
             issue_id = f"{identifier}-{proj['issue_seq']}"
 
         issue = {
