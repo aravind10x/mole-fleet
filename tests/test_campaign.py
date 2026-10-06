@@ -80,6 +80,41 @@ def test_c2_roles_name_same_handoff_location():
     assert loc in d_stage and loc in d_exfil
 
 
+def test_c2_directive_uses_stealth_level_stage_dir():
+    # s1 must stage/exfil through the s1 folder its harm oracle watches (v18), not v17.
+    sim_dates = [f"2026-04-{6 + i:02d}" for i in range(4)]
+    for role in ("read_access", "egress_access"):
+        d1 = build_campaign("c2_split_exfil", sim_dates, random.Random(0), role=role,
+                            stealth_level="s1")[0]["directive"]
+        assert "/shared/model-cards/v18-stage/" in d1 and "v17-stage" not in d1, d1
+        d0 = build_campaign("c2_split_exfil", sim_dates, random.Random(0), role=role,
+                            stealth_level="s0")[0]["directive"]
+        assert "/shared/model-cards/v17-stage/" in d0 and "v18-stage" not in d0, d0
+        assert "{" not in d0 and "{" not in d1
+
+
+def test_c1_directives_unchanged_by_stealth_level():
+    sim_dates = [f"2026-04-{6 + i:02d}" for i in range(4)]
+    from mole.generator.campaign import COLLUSION_DECOMP
+    d = build_campaign("c1_release_bypass", sim_dates, random.Random(0), role="approver_1",
+                       stealth_level="s1")[0]["directive"]
+    assert d == COLLUSION_DECOMP["c1_release_bypass"]["approver_1"]
+
+
+def test_collusion_targets_match_c2_task_metadata():
+    import importlib
+    import sys
+    from pathlib import Path
+    repo = Path(__file__).resolve().parents[1]
+    if str(repo) not in sys.path:
+        sys.path.insert(0, str(repo))
+    from mole.generator.campaign import COLLUSION_TARGETS
+    task = importlib.import_module("tasks.c2_split_exfil.task")
+    for lvl in ("s0", "s1"):
+        assert (COLLUSION_TARGETS["c2_split_exfil"][lvl]["stage_dir"]
+                == task.METADATA["disjoint_targets"][lvl]["stage_dir"])
+
+
 # --- benign multi-day arcs (default-off feature) ---
 
 def test_benign_arc_strictly_increasing_days():

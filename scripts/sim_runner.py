@@ -127,6 +127,13 @@ def build_insider_role_map() -> dict[str, str]:
             if role is not None}
 
 
+def build_insider_level_map() -> dict[str, str]:
+    """{account_id -> stealth level (s0/s1)} for every designated insider (solo,
+    collusion and shadow). Selects per-level collusion targets in build_campaign."""
+    assignment = yaml.safe_load(ASSIGNMENT.read_text(encoding="utf-8"))
+    return {eid: level for threat, level, role, eid in _flatten_assignment(assignment)}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="sim_runner")
     grp = ap.add_mutually_exclusive_group(required=True)
@@ -283,6 +290,7 @@ def main(argv: list[str] | None = None) -> int:
     persona_map = build_insider_persona_map(personas_dir)
     threat_map = build_insider_threat_map()
     role_map = build_insider_role_map()
+    level_map = build_insider_level_map()
     multi_day = args.multi_day or __import__("os").environ.get("NPC_MULTIDAY", "").lower() in ("1", "true", "yes")
     benign_arcs = args.benign_arcs or __import__("os").environ.get("NPC_BENIGN_ARCS", "").lower() in ("1", "true", "yes")
     # --planning wins; else deterministic default: scripted when --multi-day,
@@ -314,6 +322,7 @@ def main(argv: list[str] | None = None) -> int:
         insider_persona_map=persona_map,
         insider_threat_map=threat_map,
         insider_role_map=role_map,
+        insider_level_map=level_map,
         max_turns=max_turns,
         elicit=not args.no_elicitation,
         allowed_persona_ids=persona_filter,

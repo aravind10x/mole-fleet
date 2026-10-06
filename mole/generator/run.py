@@ -264,6 +264,7 @@ async def simulate(
     insider_persona_map: dict[str, str] | None = None,
     insider_threat_map: dict[str, str] | None = None,
     insider_role_map: dict[str, str] | None = None,
+    insider_level_map: dict[str, str] | None = None,
     max_turns: int = 30,
     elicit: bool = True,
     allowed_persona_ids: set[str] | None = None,
@@ -506,6 +507,9 @@ async def simulate(
         # drives requester-before-co-signer day sequencing in build_campaign. Empty for
         # solo/shadow (role=None there -> legacy single random day).
         role_map = insider_role_map or {}
+        # Stealth level per insider (s0/s1); selects per-level collusion targets
+        # (e.g. the c2 handoff folder) in build_campaign.
+        level_map = insider_level_map or {}
         # Resolve the planning mode. Default is DETERMINISTIC: "scripted" (stage->
         # trigger multi-day campaign) when --multi-day, else "single" (K self-contained
         # attack-days per insider). "coinflip" is the legacy random single-day path,
@@ -528,7 +532,8 @@ async def simulate(
             if planning == "scripted":
                 from .campaign import build_campaign
                 return build_campaign(threat_map.get(account_id, ""), _sim_dates, rng,
-                                      role=role_map.get(account_id)) or None
+                                      role=role_map.get(account_id),
+                                      stealth_level=level_map.get(account_id)) or None
             if planning == "single":
                 # Collusion is inherently multi-day (the requester->co-signer handoff needs
                 # >=2 days); single-day can't coordinate it, so collusion insiders run BENIGN
