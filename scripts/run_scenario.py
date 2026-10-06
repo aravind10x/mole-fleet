@@ -40,7 +40,8 @@ async def _main(args: argparse.Namespace) -> dict:
     clock = SimClock.at(args.start)
     if args.scenario == "attack":
         ticket = None if args.ticket == "none" else args.ticket
-        trace = await play_attack(ctx, level=args.level, clock=clock, ticket=ticket)
+        trace = await play_attack(ctx, level=args.level, clock=clock, ticket=ticket,
+                                  ablate=args.ablate)
     else:
         trace = await play_legit(ctx, level=args.level, clock=clock)
     state = export_state(ctx, out)
@@ -53,6 +54,7 @@ async def _main(args: argparse.Namespace) -> dict:
         "scenario": args.scenario,
         "level": args.level,
         "ticket": args.ticket if args.scenario == "attack" else None,
+        "ablate": args.ablate if args.scenario == "attack" else None,
         "harm_fired": bool(c3.harm_fired(events, args.level, ctx=ctx)) if hasattr(c3, "harm_fired") else None,
         "harm_fired_events_only": bool(c3.harm_fired(events, args.level)) if hasattr(c3, "harm_fired") else None,
         "harm_deadline": c3.harm_deadline(events, args.level) if hasattr(c3, "harm_deadline") else None,
@@ -79,6 +81,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--level", choices=["s0", "s1"], default="s0")
     ap.add_argument("--ticket", choices=["self", "honest", "none"], default="self",
                     help="attack only: who files the pretext ticket")
+    ap.add_argument("--ablate", choices=["editor", "runner", "approver_routine", "approver_diligent"],
+                    default=None, help="attack only: replace one colluder's step with a legitimate action")
     ap.add_argument("--start", default="2026-04-06T09:00:00Z")
     ap.add_argument("--rules", action="store_true")
     ap.add_argument("--out", required=True)
