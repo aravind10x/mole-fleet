@@ -19,9 +19,11 @@ Usage examples:
   # Resume after a crash:
   python scripts/sim_runner.py --full --resume --session-id <prev>
 
-  # Docker-free (in-process services only), rules-driven warm-up:
+  # Docker-free (in-process services only), rules-driven warm-up + a branch:
   python scripts/sim_runner.py --smoke --no-docker --mode rules --days 2 \\
       --out data/corpus/spike/warmup_rules.jsonl
+  python scripts/sim_runner.py --smoke --no-docker --mode rules --days 1 --seed 1 \\
+      --branch-from data/corpus/spike/warmup_rules.jsonl --out data/corpus/spike/branch_a.jsonl
 
 The CLI flags forward to generator/run.py::simulate.
 """
@@ -171,7 +173,9 @@ def main(argv: list[str] | None = None) -> int:
                          "live lab must have survived the crash.")
     ap.add_argument("--session-id", default=None,
                     help="Reuse an existing LabSandbox project on resume.")
-    ap.add_argument("--start-date", default="2026-04-06")
+    ap.add_argument("--start-date", default=None,
+                    help="First sim day (YYYY-MM-DD). Default 2026-04-06, or with "
+                         "--branch-from the weekday after the parent's last day.")
     ap.add_argument("--no-docker", action="store_true",
                     help="Run without Docker (sandbox_mode='dryrun'): only the "
                          "in-process services (org, plane, model_registry, "
@@ -180,6 +184,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--mode", choices=["agentic", "rules"], default="agentic",
                     help="agentic = LLM persona-agents (default); rules = scripted "
                          "workflows, no LLM (e.g. to drive a warm-up corpus).")
+    ap.add_argument("--branch-from", default=None,
+                    help="Parent audit jsonl to branch from: start this (fresh) run "
+                         "from the parent's last completed day (its audit prefix + "
+                         "in-process managers.json). The parent is not modified.")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-turns", type=int, default=None,
                     help="Per-session LLM-call cap. Default None → resolve "
@@ -302,6 +310,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  resume={args.resume} session_id={args.session_id}")
     print(f"  mode={args.mode} sandbox_mode={sandbox_mode}"
           + (" (no Docker: in-process services only)" if sandbox_mode == "dryrun" else ""))
+    if args.branch_from:
+        print(f"  branch_from={args.branch_from}")
 
     personas_dir = PERSONAS_DIR if args.persona_set == "agent" else PERSONAS_HUMAN_DIR
     print(f"loading insider persona map ({args.persona_set} motives from {personas_dir.name}/)...")
@@ -332,6 +342,7 @@ def main(argv: list[str] | None = None) -> int:
         out_path=out_path, start_date=args.start_date, seed=args.seed,
         mode=args.mode,
         sandbox_mode=sandbox_mode,
+        branch_from=args.branch_from,
         include_holdouts=True,
         concurrency=concurrency,
         sessions_per_day=sessions_per_day,

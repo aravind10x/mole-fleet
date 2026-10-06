@@ -29,3 +29,6 @@ data/**
 
 # Local trace output (per-run; see MOLE_TRACE_DIR)
 traces/
+
+# Docker-free warm-up / branch spike corpora (never committed)
+data/corpus/spike/

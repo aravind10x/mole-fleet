@@ -34,7 +34,12 @@ logger = logging.getLogger(__name__)
 _STATE_FIELDS: dict[str, tuple[str, ...]] = {
     "org": ("_doc", "_accounts_by_id", "_groups_by_id", "_policies_by_action"),
     "model_registry": ("_checkpoints", "_deployments", "_required_approvers", "_approvals"),
-    "eval_server": ("_baseline", "_scoring", "_jobs", "_deploy_log", "_configs", "_spend"),
+    # _hidden_outcomes / _outcome_defaults / _costs are exported so a resumed or
+    # branched run keeps its parent's hidden checkpoint outcomes and eval costs
+    # even if the bootstrap YAML changes later. The `_eval_server` link object on
+    # model_registry is deliberately NOT exported (CompositeStateManager re-links).
+    "eval_server": ("_baseline", "_scoring", "_jobs", "_deploy_log", "_configs", "_spend",
+                    "_hidden_outcomes", "_outcome_defaults", "_costs"),
     "secrets_store": ("_secrets",),
     "plane": ("_workspace_slug", "_state", "_next_issue_seq"),
 }
@@ -117,8 +122,25 @@ def import_manager_state(ctx: Any, in_path: Path) -> dict[str, list[str]]:
             if field in snapshot and hasattr(mgr, field):
                 setattr(mgr, field, snapshot[field])
                 restored.append(field)
+        if name == "org" and "_doc" in restored:
+            _realias_org(mgr)
         if restored:
             applied[name] = restored
             logger.info("import_manager_state: restored %s.{%s}",
                         name, ",".join(restored))
     return applied
+
+
+def _realias_org(mgr: Any) -> None:
+    """Re-point the org indexes at the records inside `_doc`, as setup() does.
+
+    Live, `_accounts_by_id` / `_groups_by_id` / `_policies_by_action` hold the
+    SAME dicts as `_doc`, so a mutation (e.g. add_group_member) shows in both. JSON
+    import restores them as separate copies; without re-aliasing, a later
+    mutation would update the index but not `_doc`, and the next export would
+    record a `_doc` that disagrees with the indexes. The exported indexes equal
+    `_doc`'s records (they were aliased at export), so this loses nothing."""
+    doc = getattr(mgr, "_doc", None) or {}
+    mgr._accounts_by_id = {e["id"]: e for e in doc.get("accounts", []) or []}
+    mgr._groups_by_id = {g["id"]: g for g in doc.get("groups", []) or []}
+    mgr._policies_by_action = {p["action"]: p for p in doc.get("policies", []) or []}

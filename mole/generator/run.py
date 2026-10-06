@@ -275,6 +275,71 @@ def _last_managers_record(manifest: dict[str, Any]) -> dict[str, Any] | None:
     return None
 
 
+def _next_weekday(day_iso: str) -> str:
+    d = date.fromisoformat(day_iso) + timedelta(days=1)
+    while d.weekday() >= 5:
+        d += timedelta(days=1)
+    return d.isoformat()
+
+
+def _copy_prefix(src: Path, dst: Path, n_bytes: int) -> None:
+    """Write the first `n_bytes` of `src` to `dst` (src is only read)."""
+    if src.stat().st_size < n_bytes:
+        raise ValueError(f"{src} is {src.stat().st_size} bytes, shorter than the "
+                         f"recorded day boundary ({n_bytes} bytes)")
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    remaining = n_bytes
+    with src.open("rb") as fi, dst.open("wb") as fo:
+        while remaining > 0:
+            chunk = fi.read(min(remaining, 1 << 20))
+            if not chunk:
+                break
+            fo.write(chunk)
+            remaining -= len(chunk)
+
+
+def _prepare_branch(parent_out: Path, out_path: Path,
+                    transcript_path: Path) -> dict[str, Any]:
+    """Seed a branch run's outputs from a parent corpus.
+
+    Takes the parent's last COMPLETED day boundary (which must have a
+    managers.json), copies the parent audit log / transcript truncated to that
+    boundary's byte offsets into this run's own paths, and returns the lineage
+    record {parent, day, managers_path, next_day}. The parent's files are only
+    read, never modified."""
+    parent_out = Path(parent_out)
+    if parent_out.resolve() == out_path.resolve():
+        raise ValueError("branch_from must name a different corpus than out_path")
+    parent_manifest = resume_state.load(parent_out)
+    if parent_manifest is None:
+        raise FileNotFoundError(
+            f"branch_from: no resume manifest for {parent_out} "
+            f"(expected {resume_state.manifest_path(parent_out)})")
+    rec = resume_state.last_completed_record(parent_manifest)
+    if rec is None:
+        raise ValueError(f"branch_from: parent {parent_out} has no completed day")
+    if not rec.get("managers_ok") or not rec.get("managers_path"):
+        raise ValueError(f"branch_from: parent day {rec['day']} has no managers.json "
+                         f"(managers_ok={rec.get('managers_ok')})")
+    managers_path = Path(rec["managers_path"])
+    if not managers_path.exists():
+        # The recorded path is relative to the parent run's cwd; fall back to the
+        # canonical snapshot location next to the parent corpus.
+        alt = (parent_out.parent / ".snapshots" / parent_out.stem
+               / f"day_{rec['day']}" / "managers.json")
+        if not alt.exists():
+            raise FileNotFoundError(f"branch_from: managers.json not found at "
+                                    f"{managers_path} or {alt}")
+        managers_path = alt
+    _copy_prefix(parent_out, out_path, int(rec["audit_bytes"]))
+    parent_transcript = Path(parent_manifest.get("transcript_path")
+                             or parent_out.with_suffix(".transcripts.jsonl"))
+    if parent_transcript.exists():
+        _copy_prefix(parent_transcript, transcript_path, int(rec["transcript_bytes"]))
+    return {"parent": str(parent_out), "day": rec["day"],
+            "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"])}
+
+
 def _weekday_dates(start: date, n_days: int) -> list[str]:
     """`n_days` consecutive working days (skip Sat/Sun) from `start`."""
     out: list[str] = []
@@ -321,7 +386,8 @@ async def simulate(
     n_personas: int,
     n_days: int,
     out_path: str | Path,
-    start_date: str = DEFAULT_START_DATE,
+    start_date: str | None = None,    # None → DEFAULT_START_DATE (or, with
+                                      # branch_from, the weekday after the parent's last day)
     seed: int | None = 0,
     sessions_per_day: int = 8,        # generation default; ~8 × 0.95 loaf ≈ 7.6/day
     config: NPCConfig | None = None,
@@ -349,6 +415,7 @@ async def simulate(
     auth_failure_limit: int = 25,
     absent_probability: float = 0.01,
     sandbox_mode: str = "lab",
+    branch_from: str | Path | None = None,
 ) -> AuditCollector:
     """Generate a benign background-account audit corpus.
 
@@ -376,9 +443,21 @@ async def simulate(
     world on a fresh run, the in-process benign task bank, and no docker
     snapshot (managers.json is still exported each day). In rules mode it also
     seeds the world on a fresh run.
+
+    `branch_from` (a parent audit jsonl; fresh runs only) starts this run from the
+    parent's last completed day: the parent's audit log / transcript up to that
+    boundary are copied into this run's own files (and preloaded so the recap
+    sees the history), its managers.json is imported over a freshly seeded world,
+    and `start_date` defaults to the next weekday. The parent is never modified.
     """
     if sandbox_mode not in SANDBOX_MODES:
         raise ValueError(f"sandbox_mode must be one of {SANDBOX_MODES}, got {sandbox_mode!r}")
+    if branch_from is not None and resume:
+        raise ValueError("branch_from starts a fresh run; it cannot be combined with resume")
+    if branch_from is not None and mode == "agentic" and sandbox_mode == "lab":
+        # A lab branch would also need the parent's docker volumes restored; only
+        # the in-process world is branchable today.
+        raise ValueError("branch_from requires sandbox_mode='dryrun' in agentic mode")
     config = config or NPCConfig(sessions_per_day=sessions_per_day,
                                  absent_probability=absent_probability)
     personas = load_personas(include_holdouts=include_holdouts)
@@ -395,6 +474,16 @@ async def simulate(
     # metadata projection; level 2 LLM monitors need the whole conversation, and
     # regenerating an agentic corpus is expensive). One JSON object per session.
     transcript_path = out_path.with_suffix(".transcripts.jsonl")
+
+    branch_info: dict[str, Any] | None = None
+    if branch_from is not None:
+        branch_info = _prepare_branch(Path(branch_from), out_path, transcript_path)
+        if start_date is None:
+            start_date = branch_info["next_day"]
+        logger.info("branch_from: %s day %s -> %s (start_date=%s)",
+                    branch_info["parent"], branch_info["day"], out_path, start_date)
+    if start_date is None:
+        start_date = DEFAULT_START_DATE
 
     # Resume: prefer the day-boundary resume manifest (the authoritative record
     # of the last FULLY-committed day + the byte offsets to trim a partial/
@@ -461,8 +550,16 @@ async def simulate(
             audit_path=out_path, transcript_path=transcript_path,
             start_date=start_date, n_days=n_days, seed=seed, session_id=session_id)
     manifest["sandbox_mode"] = sandbox_mode
+    if branch_info is not None:
+        manifest["branch_from"] = {k: branch_info[k] for k in ("parent", "day", "managers_path")}
+        resume_state.write_atomic(manifest, out_path)
 
-    collector = AuditCollector(jsonl_path=out_path, append=resume)
+    # A branch appends to the parent prefix copied into out_path above.
+    collector = AuditCollector(jsonl_path=out_path,
+                               append=resume or branch_info is not None)
+    if branch_info is not None:
+        n_pre = collector.preload(out_path)
+        logger.info("branch_from: preloaded %d parent events into the recap", n_pre)
     tmp_dir = out_path.resolve().parent
 
     transcript_fh = None
@@ -508,7 +605,8 @@ async def simulate(
         #  - plain --resume: reuse the prior session_id so compose reattaches to
         #    a still-running lab (works only if the containers outlived the crash,
         #    e.g. a python-only kill / the auth-breaker halt). No re-seed.
-        #  - fresh run: new session id, seed the world.
+        #  - fresh run: new session id, seed the world (a branch then overlays
+        #    the parent's managers.json).
         # "dryrun" mode never touches Docker: the sandbox is a DryRunSandbox and
         # the in-process managers are the whole world.
         if restore_rec is not None:
@@ -537,8 +635,12 @@ async def simulate(
             # managers.json (see _import_resume_managers).
             if resume:
                 _import_resume_managers(ctx, manifest)
+            elif branch_info is not None:
+                from ..sandbox.state_export import import_manager_state
+                applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
+                logger.info("branch_from: imported parent in-process state: %s", applied)
         from .agentic_member import AgenticMember, load_task_bank, load_arc_bank
-        transcript_mode = "a" if resume else "w"
+        transcript_mode = "a" if (resume or branch_info is not None) else "w"
         transcript_fh = open(transcript_path, transcript_mode, encoding="utf-8")
 
         def _sink(rec: dict) -> None:
@@ -653,15 +755,19 @@ async def simulate(
         ]
     else:
         # Rules mode acts on the in-process managers only (plane included). A
-        # dryrun fresh run seeds the shared world like agentic mode.
+        # dryrun fresh run and a branch seed the shared world like agentic mode.
         ctx = await build_context(
             collector, tmp_dir=tmp_dir, envs=INPROCESS_ENVS,
-            seed_world=(not resume) and sandbox_mode == "dryrun")
+            seed_world=(not resume) and (sandbox_mode == "dryrun" or branch_info is not None))
         if restore_rec is not None:
             from ..sandbox.state_export import import_manager_state
             import_manager_state(ctx, Path(restore_rec["managers_path"]))
         elif resume:
             _import_resume_managers(ctx, manifest)
+        elif branch_info is not None:
+            from ..sandbox.state_export import import_manager_state
+            applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
+            logger.info("branch_from: imported parent in-process state: %s", applied)
         members = [
             Member(p, config=config, rng_seed=(None if seed is None else seed + i))
             for i, p in enumerate(personas)

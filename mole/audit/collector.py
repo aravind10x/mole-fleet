@@ -22,6 +22,7 @@ from __future__ import annotations
 import asyncio
 import contextvars
 import inspect
+import json
 import logging
 import os
 import threading
@@ -163,6 +164,32 @@ class AuditCollector:
                     self._fp.close()
                 finally:
                     self._fp = None
+
+    def preload(self, path: Path | str, *, up_to_bytes: int | None = None) -> int:
+        """Load the events of an existing audit jsonl (optionally only its first
+        `up_to_bytes` bytes) into `self.events` and return how many were loaded.
+
+        Used when a run continues another corpus's history (a branch), so readers
+        of the in-memory log — e.g. the cross-day session recap — see it. The
+        events are NOT written to this collector's own file. A partial trailing
+        line (a cut mid-record) and unparseable lines are skipped."""
+        with Path(path).open("rb") as f:
+            data = f.read() if up_to_bytes is None else f.read(max(0, up_to_bytes))
+        lines = data.split(b"\n")
+        if not data.endswith(b"\n"):
+            lines = lines[:-1]          # incomplete last record (or empty remainder)
+        loaded: list[AuditEvent] = []
+        for raw in lines:
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                loaded.append(AuditEvent.from_row(json.loads(raw)))
+            except (ValueError, TypeError):
+                logger.warning("AuditCollector.preload: skipping unparseable line in %s", path)
+        with self._lock:
+            self.events.extend(loaded)
+        return len(loaded)
 
     @property
     def jsonl_path(self) -> Path | None:
