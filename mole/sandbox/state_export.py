@@ -33,8 +33,8 @@ logger = logging.getLogger(__name__)
 # caches we don't care about (e.g., a cached http client).
 _STATE_FIELDS: dict[str, tuple[str, ...]] = {
     "org": ("_doc", "_accounts_by_id", "_groups_by_id", "_policies_by_action"),
-    "model_registry": ("_checkpoints", "_deployments", "_required_approvers"),
-    "eval_server": ("_baseline", "_scoring", "_jobs", "_deploy_log"),
+    "model_registry": ("_checkpoints", "_deployments", "_required_approvers", "_approvals"),
+    "eval_server": ("_baseline", "_scoring", "_jobs", "_deploy_log", "_configs", "_spend"),
     "secrets_store": ("_secrets",),
     "plane": ("_workspace_slug", "_state", "_next_issue_seq"),
 }

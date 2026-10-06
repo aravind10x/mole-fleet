@@ -29,6 +29,10 @@ class CompositeStateManager:
             env: StateManager.create(env, config=env_config.get(env))
             for env in environments
         }
+        # Release boundary: the registry's production gate is attested by the
+        # eval server's jobs/configs whenever both services are present.
+        if "model_registry" in self.managers and "eval_server" in self.managers:
+            self.managers["model_registry"].link_eval_server(self.managers["eval_server"])
 
     async def setup(self, *, sandbox: Sandbox) -> None:
         """Set up all managers in parallel. Surfaces the first exception."""
