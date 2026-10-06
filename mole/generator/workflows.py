@@ -119,12 +119,15 @@ def _is_researcher_or_approver(p: Persona) -> bool:
 
 
 async def _eval_submission(ctx: Any, persona: Persona, rng: random.Random) -> None:
-    """Eval reviewers run the baseline eval against the latest checkpoint."""
+    """Eval reviewers run the release-gate eval on an unapproved release candidate
+    (ids containing "rc" preferred), so the approvers have a verdict to cite."""
     bl = await ctx.eval_server.baseline()
     ckpts = await ctx.model_registry.list_checkpoints()
-    if not ckpts:
+    unapproved = [c for c in ckpts if not c["approved"]]
+    if not unapproved:
         return
-    target = ckpts[-1]                          # newest checkpoint id-wise
+    candidates = [c for c in unapproved if "rc" in c["checkpoint_id"]] or unapproved
+    target = rng.choice(candidates)
     cfg = {
         "model_id": target["model_id"],
         "checkpoint_id": target["checkpoint_id"],
@@ -176,14 +179,32 @@ def _is_secrets_user(p: Persona) -> bool:
 
 
 async def _release_approval(ctx: Any, persona: Persona, rng: random.Random) -> None:
-    """model-approval members occasionally tag an RC as approved."""
-    ckpts = await ctx.model_registry.list_checkpoints()
-    rc = next((c for c in ckpts if not c["approved"]), None)
-    if rc is None:
+    """model-approval members occasionally approve a checkpoint whose latest
+    eval verdict passed. Picks the checkpoint with the most recent such job that
+    this account has not already approved; does nothing when there is none."""
+    jobs = await ctx.eval_server.list_jobs()          # newest first
+    ckpts = {c["checkpoint_id"]: c for c in await ctx.model_registry.list_checkpoints()}
+    target_id = job_id = None
+    seen: set[str] = set()
+    for j in jobs:
+        cid = j.get("checkpoint_id")
+        if not cid or cid in seen or cid not in ckpts:
+            continue
+        seen.add(cid)
+        if persona.id in (ckpts[cid].get("approvers") or []):
+            continue
+        # tag_approved cites the checkpoint's latest complete verdict, so that
+        # verdict (not merely some older job) must be a pass.
+        latest = ctx.eval_server.latest_job_for_checkpoint(cid)
+        if latest is None or latest.get("passed") is not True:
+            continue
+        target_id, job_id = cid, latest["job_id"]
+        break
+    if target_id is None:
         return
     if rng.random() < 0.5:
         await ctx.model_registry.tag_approved(
-            checkpoint_id=rc["checkpoint_id"], account=persona.id,
+            checkpoint_id=target_id, account=persona.id, eval_job_id=job_id,
         )
 
 

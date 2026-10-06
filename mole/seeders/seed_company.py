@@ -23,6 +23,10 @@ from .seed_s1_variants import seed_s1_variants
 
 logger = logging.getLogger(__name__)
 
+# Every backend some seeding step may use (used only to log which are absent).
+_ALL_BACKENDS = ("org", "email", "owncloud", "rocketchat", "gitlab", "plane",
+                 "model_registry", "eval_server", "secrets_store")
+
 
 def _tasks_root() -> Path:
     # seeders/seed_company.py -> seeders -> mole -> benchmark; tasks/ is
@@ -44,7 +48,15 @@ async def seed_company(
     """Seed the full shared company world: common org seed + every threat's resources.
 
     Returns {"org": <counts>, "threats": {threat_id: <counts>}}.
+
+    Tolerates a ctx carrying only some managers (e.g. the Docker-free run with
+    just the in-process ones): every step that needs an absent manager skips
+    cleanly, and the org / S1 counts cover only the steps that ran.
     """
+    absent = [name for name in _ALL_BACKENDS if getattr(ctx, name, None) is None]
+    if absent:
+        logger.info("seed_company: managers absent from ctx (%s); seeding steps "
+                    "that need them are skipped", ", ".join(absent))
     counts: dict[str, Any] = {"org": await seed_org(ctx)}
     root = Path(tasks_root) if tasks_root else _tasks_root()
     seeded: dict[str, Any] = {}

@@ -70,7 +70,7 @@ def test_seed_email_sends_one_welcome_per_employee(org_yaml: Path):
 
 def test_seed_email_skipped_when_backend_missing(org_yaml: Path):
     counts = asyncio.run(seed_org(_ctx(), org_yaml=org_yaml, only={"email"}))
-    assert counts["email"] == 0
+    assert "email" not in counts                      # absent backend: skipped, not counted
 
 
 def test_seed_email_continues_on_individual_failure(org_yaml: Path):
@@ -272,7 +272,7 @@ def test_seed_gitlab_adds_members_with_role_specific_access_level(org_yaml: Path
 
 def test_seed_gitlab_skipped_when_backend_missing(org_yaml: Path):
     counts = asyncio.run(seed_org(_ctx(), org_yaml=org_yaml, only={"gitlab"}))
-    assert counts["gitlab"] == 0
+    assert "gitlab" not in counts                      # absent backend: skipped, not counted
 
 
 def test_seed_gitlab_swallows_individual_failures(org_yaml: Path):

@@ -59,7 +59,8 @@ async def seed_org(
     org_yaml: str | Path | None = None,
     only: Iterable[str] | None = None,
 ) -> dict[str, int]:
-    """Seed every live backend from `org_yaml`. Returns per-backend counts.
+    """Seed every live backend from `org_yaml`. Returns per-backend counts for
+    the backends present on `ctx` (absent backends are skipped and omitted).
 
     `only` is a set of backend names to restrict to (e.g. {"email"}).
     Defaults to all known backends.
@@ -76,15 +77,18 @@ async def seed_org(
         else {"email", "owncloud", "rocketchat", "gitlab"}
     )
     counts: dict[str, int] = {}
-
-    if "email" in targets:
-        counts["email"] = await _seed_email(ctx, accounts)
-    if "owncloud" in targets:
-        counts["owncloud"] = await _seed_owncloud(ctx, accounts)
-    if "rocketchat" in targets:
-        counts["rocketchat"] = await _seed_rocketchat(ctx, accounts)
-    if "gitlab" in targets:
-        counts["gitlab"] = await _seed_gitlab(ctx, accounts)
+    steps = (("email", _seed_email), ("owncloud", _seed_owncloud),
+             ("rocketchat", _seed_rocketchat), ("gitlab", _seed_gitlab))
+    for name, step in steps:
+        if name not in targets:
+            continue
+        # A backend absent from ctx (e.g. a Docker-free run with only the
+        # in-process managers) is skipped and left out of the counts, so the
+        # result reports only the steps that actually ran.
+        if getattr(ctx, name, None) is None:
+            logger.info("seed_org: no %s backend on ctx; skipping", name)
+            continue
+        counts[name] = await step(ctx, accounts)
 
     logger.info("seed_org: %s", counts)
     return counts

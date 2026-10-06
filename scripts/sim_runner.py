@@ -19,6 +19,10 @@ Usage examples:
   # Resume after a crash:
   python scripts/sim_runner.py --full --resume --session-id <prev>
 
+  # Docker-free (in-process services only), rules-driven warm-up:
+  python scripts/sim_runner.py --smoke --no-docker --mode rules --days 2 \\
+      --out data/corpus/spike/warmup_rules.jsonl
+
 The CLI flags forward to generator/run.py::simulate.
 """
 from __future__ import annotations
@@ -168,6 +172,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--session-id", default=None,
                     help="Reuse an existing LabSandbox project on resume.")
     ap.add_argument("--start-date", default="2026-04-06")
+    ap.add_argument("--no-docker", action="store_true",
+                    help="Run without Docker (sandbox_mode='dryrun'): only the "
+                         "in-process services (org, plane, model_registry, "
+                         "eval_server, secrets_store), the in-process task bank, "
+                         "no docker snapshots. Also env NPC_SANDBOX_MODE=dryrun.")
+    ap.add_argument("--mode", choices=["agentic", "rules"], default="agentic",
+                    help="agentic = LLM persona-agents (default); rules = scripted "
+                         "workflows, no LLM (e.g. to drive a warm-up corpus).")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-turns", type=int, default=None,
                     help="Per-session LLM-call cap. Default None → resolve "
@@ -274,6 +286,10 @@ def main(argv: list[str] | None = None) -> int:
                  else recommended_max_turns(_active_model_id()))
     sessions_per_day = args.sessions_per_day if args.sessions_per_day is not None else 8
 
+    sandbox_mode = ("dryrun" if args.no_docker
+                    or os.environ.get("NPC_SANDBOX_MODE", "").strip().lower() == "dryrun"
+                    else "lab")
+
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
     _model = _active_model_id() or "(unset)"
     _conc_src = "explicit --concurrency" if args.concurrency else "per-model default"
@@ -284,6 +300,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  personas={n_personas} days={n_days} sessions/day={sessions_per_day}")
     print(f"  out={out_path}")
     print(f"  resume={args.resume} session_id={args.session_id}")
+    print(f"  mode={args.mode} sandbox_mode={sandbox_mode}"
+          + (" (no Docker: in-process services only)" if sandbox_mode == "dryrun" else ""))
 
     personas_dir = PERSONAS_DIR if args.persona_set == "agent" else PERSONAS_HUMAN_DIR
     print(f"loading insider persona map ({args.persona_set} motives from {personas_dir.name}/)...")
@@ -312,7 +330,8 @@ def main(argv: list[str] | None = None) -> int:
     coll = asyncio.run(simulate(
         n_personas=n_personas, n_days=n_days,
         out_path=out_path, start_date=args.start_date, seed=args.seed,
-        mode="agentic",
+        mode=args.mode,
+        sandbox_mode=sandbox_mode,
         include_holdouts=True,
         concurrency=concurrency,
         sessions_per_day=sessions_per_day,

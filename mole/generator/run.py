@@ -120,6 +120,16 @@ logger = logging.getLogger(__name__)
 
 # Rule-based workflows only touch in-process data managers (fast, no containers).
 NPC_ENVS: tuple[str, ...] = ("org", "model_registry", "eval_server", "secrets_store")
+# Every manager that runs inside this Python process (no Docker service behind
+# it). The Docker-free agentic runner (sandbox_mode="dryrun") and rules mode use
+# exactly this set.
+INPROCESS_ENVS: tuple[str, ...] = (
+    "org", "plane", "model_registry", "eval_server", "secrets_store",
+)
+# simulate(sandbox_mode=...): "lab" starts the Docker LabSandbox in agentic mode
+# (the full 9-service surface); "dryrun" uses DryRunSandbox + INPROCESS_ENVS only.
+SANDBOX_MODES: tuple[str, ...] = ("lab", "dryrun")
+DEFAULT_START_DATE = "2026-04-06"
 # Agentic background accounts exercise the full service surface (like the agent), so they
 # need the container-backed managers too — same env set the threats use.
 # Override with $NPC_AGENTIC_ENVS (comma-separated) to run against a reduced set —
@@ -202,6 +212,69 @@ async def build_context(
     return ctx
 
 
+def _dryrun_envs() -> tuple[str, ...]:
+    """Env set for a Docker-free agentic run: INPROCESS_ENVS unless
+    $NPC_AGENTIC_ENVS (comma-separated) is set, which is honoured as-is."""
+    raw = os.environ.get("NPC_AGENTIC_ENVS", "")
+    envs = tuple(e.strip() for e in raw.split(",") if e.strip())
+    return envs or INPROCESS_ENVS
+
+
+async def _start_sandbox(sandbox_mode: str, *, session_id: str,
+                         restore_rec: dict[str, Any] | None = None) -> Any:
+    """Start the sandbox an agentic run acts in. "dryrun" → a DryRunSandbox (no
+    Docker). "lab" → a LabSandbox under `session_id`; with `restore_rec` the
+    docker volumes are first restored in place from that day's snapshot."""
+    if sandbox_mode == "dryrun":
+        return DryRunSandbox()
+    from ..sandbox.lab import LabSandbox
+    from ..run_task import _default_lab_compose
+    if restore_rec is not None:
+        from ..sandbox.snapshot import restore_volumes_in_place
+        logger.info("--restore-world: restoring docker volumes in-place from "
+                    "%s into project %s", restore_rec["snapshot_dir"], session_id)
+        await restore_volumes_in_place(restore_rec["snapshot_dir"])
+    sandbox = LabSandbox(session_id=session_id, compose_files=[_default_lab_compose()])
+    await sandbox.start()
+    return sandbox
+
+
+def _import_resume_managers(ctx: Any, manifest: dict[str, Any]) -> None:
+    """On a plain --resume, overlay the last committed day's managers.json onto
+    the in-process managers (org/model_registry/eval_server/secrets_store/plane).
+
+    They live in THIS python process, not the docker lab, so a cross-process
+    resume would otherwise leave them at day-0 and multi-day arcs that accumulate
+    model/eval/plane/secret state would silently reset. Path resolution:
+    NPC_RESUME_MANAGERS_PATH wins (lets the file live on durable storage, e.g. a
+    shared volume); else the manifest's recorded managers_path. Loud if the state
+    can't be found."""
+    _mp = os.environ.get("NPC_RESUME_MANAGERS_PATH", "").strip()
+    if not _mp:
+        _rec = resume_state.last_completed_record(manifest)
+        if _rec and _rec.get("managers_ok"):
+            _mp = (_rec.get("managers_path") or "").strip()
+    if _mp and Path(_mp).exists():
+        from ..sandbox.state_export import import_manager_state
+        applied = import_manager_state(ctx, Path(_mp))
+        logger.info("--resume: imported in-process manager state from %s: %s", _mp, applied)
+    elif _mp:
+        logger.error("--resume: managers.json %s not found; in-process managers "
+                     "(org/model_registry/eval_server/secrets_store/plane) start at day-0", _mp)
+    else:
+        logger.warning("--resume: no managers.json (NPC_RESUME_MANAGERS_PATH unset and no "
+                       "manifest managers_path); in-process managers start at day-0 base")
+
+
+def _last_managers_record(manifest: dict[str, Any]) -> dict[str, Any] | None:
+    """Most recent committed day with an in-process managers.json. The Docker-free
+    analogue of resume_state.last_restorable_record (there is no docker snapshot)."""
+    for rec in reversed(manifest.get("days") or []):
+        if rec.get("managers_ok") and rec.get("managers_path"):
+            return rec
+    return None
+
+
 def _weekday_dates(start: date, n_days: int) -> list[str]:
     """`n_days` consecutive working days (skip Sat/Sun) from `start`."""
     out: list[str] = []
@@ -248,7 +321,7 @@ async def simulate(
     n_personas: int,
     n_days: int,
     out_path: str | Path,
-    start_date: str = "2026-04-06",
+    start_date: str = DEFAULT_START_DATE,
     seed: int | None = 0,
     sessions_per_day: int = 8,        # generation default; ~8 × 0.95 loaf ≈ 7.6/day
     config: NPCConfig | None = None,
@@ -275,6 +348,7 @@ async def simulate(
     campaign_days: int = 4,   # K; calibrated to the v1 ar05 base rate (~3.2%)
     auth_failure_limit: int = 25,
     absent_probability: float = 0.01,
+    sandbox_mode: str = "lab",
 ) -> AuditCollector:
     """Generate a benign background-account audit corpus.
 
@@ -296,7 +370,15 @@ async def simulate(
     clock is carried via a contextvar (see `audit/collector.py::set_task_clock`),
     so concurrent sessions don't race on the shared `_clock_fn`. At the 150 × 7
     scale, concurrency=1 takes ~4 weeks wall time; concurrency=25 reduces to ~28h.
+
+    `sandbox_mode="dryrun"` runs agentic mode without Docker: a DryRunSandbox, the
+    in-process managers only (INPROCESS_ENVS, or $NPC_AGENTIC_ENVS), the seeded
+    world on a fresh run, the in-process benign task bank, and no docker
+    snapshot (managers.json is still exported each day). In rules mode it also
+    seeds the world on a fresh run.
     """
+    if sandbox_mode not in SANDBOX_MODES:
+        raise ValueError(f"sandbox_mode must be one of {SANDBOX_MODES}, got {sandbox_mode!r}")
     config = config or NPCConfig(sessions_per_day=sessions_per_day,
                                  absent_probability=absent_probability)
     personas = load_personas(include_holdouts=include_holdouts)
@@ -351,7 +433,11 @@ async def simulate(
                 # lines up with the (truncated) audit/transcript.
                 target_rec = resume_state.last_completed_record(manifest)
                 if restore_world:
-                    restore_rec = resume_state.last_restorable_record(manifest)
+                    # dryrun has no docker snapshot: the managers.json alone is
+                    # the complete world boundary.
+                    restore_rec = (resume_state.last_restorable_record(manifest)
+                                   if sandbox_mode == "lab"
+                                   else _last_managers_record(manifest))
                     if restore_rec is not None:
                         target_rec = restore_rec
                     else:
@@ -374,6 +460,7 @@ async def simulate(
         manifest = resume_state.new_manifest(
             audit_path=out_path, transcript_path=transcript_path,
             start_date=start_date, n_days=n_days, seed=seed, session_id=session_id)
+    manifest["sandbox_mode"] = sandbox_mode
 
     collector = AuditCollector(jsonl_path=out_path, append=resume)
     tmp_dir = out_path.resolve().parent
@@ -410,29 +497,25 @@ async def simulate(
         if llm is None:
             from ..llm.factory import build_llm
             llm = build_llm(None)
-        from ..sandbox.lab import LabSandbox
-        from ..run_task import _default_lab_compose
         from uuid import uuid4
+        envs = AGENTIC_ENVS if sandbox_mode == "lab" else _dryrun_envs()
         # Resume sandbox policy:
         #  - --restore-world (restore_rec set): recreate the world from the last
-        #    complete day-boundary snapshot. Restore the docker volumes in-place
-        #    under the ORIGINAL project name, bring that project up, and overlay
-        #    the in-process manager state from the same boundary. Crash-safe: does
-        #    NOT assume the old containers survived.
+        #    complete day boundary. In "lab" mode restore the docker volumes
+        #    in-place under the ORIGINAL project name and bring that project up;
+        #    in both modes overlay the in-process manager state from the same
+        #    boundary. Crash-safe: does NOT assume the old containers survived.
         #  - plain --resume: reuse the prior session_id so compose reattaches to
         #    a still-running lab (works only if the containers outlived the crash,
         #    e.g. a python-only kill / the auth-breaker halt). No re-seed.
         #  - fresh run: new session id, seed the world.
+        # "dryrun" mode never touches Docker: the sandbox is a DryRunSandbox and
+        # the in-process managers are the whole world.
         if restore_rec is not None:
             sb_session = manifest.get("session_id") or session_id or f"itb-npc-{uuid4().hex[:8]}"
-            from ..sandbox.snapshot import restore_volumes_in_place
-            logger.info("--restore-world: restoring docker volumes in-place from "
-                        "%s into project %s", restore_rec["snapshot_dir"], sb_session)
-            await restore_volumes_in_place(restore_rec["snapshot_dir"])
-            sandbox = LabSandbox(session_id=sb_session,
-                                 compose_files=[_default_lab_compose()])
-            await sandbox.start()
-            ctx = await build_context(collector, tmp_dir=tmp_dir, envs=AGENTIC_ENVS,
+            sandbox = await _start_sandbox(sandbox_mode, session_id=sb_session,
+                                           restore_rec=restore_rec)
+            ctx = await build_context(collector, tmp_dir=tmp_dir, envs=envs,
                                       sandbox=sandbox, seed_world=False)
             from ..sandbox.state_export import import_manager_state
             applied = import_manager_state(ctx, Path(restore_rec["managers_path"]))
@@ -444,37 +527,16 @@ async def simulate(
             if manifest.get("session_id") != sb_session:
                 manifest["session_id"] = sb_session
                 resume_state.write_atomic(manifest, out_path)
-            sandbox = LabSandbox(session_id=sb_session,
-                                 compose_files=[_default_lab_compose()])
-            await sandbox.start()
+            sandbox = await _start_sandbox(sandbox_mode, session_id=sb_session)
             # On plain resume, the seeded world is assumed already in the live
             # containers — don't re-seed (would duplicate or fail on existing rows).
-            ctx = await build_context(collector, tmp_dir=tmp_dir, envs=AGENTIC_ENVS,
+            ctx = await build_context(collector, tmp_dir=tmp_dir, envs=envs,
                                       sandbox=sandbox, seed_world=((not resume) or os.environ.get("NPC_RESEED_ON_RESUME","").lower() in ("1","true","yes")))
-            # The 5 in-process managers (org/model_registry/eval_server/secrets_store/plane) live in
-            # THIS python process, not the docker lab, so restoring the lab alone leaves them at day-0
-            # on a cross-process resume (seed_world=False base-seeds them; unlike --restore-world this
-            # path does no import) -- multi-day arcs that accumulate model/eval/plane/secret state would
-            # silently reset. Overlay the last committed day's managers.json. Path resolution:
-            # NPC_RESUME_MANAGERS_PATH wins (lets the file live on durable storage, e.g. a shared volume);
-            # else fall back to the manifest's recorded managers_path (self-describing, e.g. a restored
-            # /tmp/.snapshots tree). Same import --restore-world uses; loud if the state can't be found.
+            # The in-process managers live in THIS python process, not the docker
+            # lab, so a cross-process resume must overlay the last committed day's
+            # managers.json (see _import_resume_managers).
             if resume:
-                _mp = os.environ.get("NPC_RESUME_MANAGERS_PATH", "").strip()
-                if not _mp:
-                    _rec = resume_state.last_completed_record(manifest)
-                    if _rec and _rec.get("managers_ok"):
-                        _mp = (_rec.get("managers_path") or "").strip()
-                if _mp and Path(_mp).exists():
-                    from ..sandbox.state_export import import_manager_state
-                    applied = import_manager_state(ctx, Path(_mp))
-                    logger.info("--resume: imported in-process manager state from %s: %s", _mp, applied)
-                elif _mp:
-                    logger.error("--resume: managers.json %s not found; in-process managers "
-                                 "(org/model_registry/eval_server/secrets_store/plane) start at day-0", _mp)
-                else:
-                    logger.warning("--resume: no managers.json (NPC_RESUME_MANAGERS_PATH unset and no "
-                                   "manifest managers_path); in-process managers start at day-0 base")
+                _import_resume_managers(ctx, manifest)
         from .agentic_member import AgenticMember, load_task_bank, load_arc_bank
         transcript_mode = "a" if resume else "w"
         transcript_fh = open(transcript_path, transcript_mode, encoding="utf-8")
@@ -586,7 +648,16 @@ async def simulate(
             for i, p in enumerate(personas)
         ]
     else:
-        ctx = await build_context(collector, tmp_dir=tmp_dir)
+        # Rules mode acts on the in-process managers only (plane included). A
+        # dryrun fresh run seeds the shared world like agentic mode.
+        ctx = await build_context(
+            collector, tmp_dir=tmp_dir, envs=INPROCESS_ENVS,
+            seed_world=(not resume) and sandbox_mode == "dryrun")
+        if restore_rec is not None:
+            from ..sandbox.state_export import import_manager_state
+            import_manager_state(ctx, Path(restore_rec["managers_path"]))
+        elif resume:
+            _import_resume_managers(ctx, manifest)
         members = [
             Member(p, config=config, rng_seed=(None if seed is None else seed + i))
             for i, p in enumerate(personas)
@@ -709,7 +780,7 @@ async def simulate(
                         f"{breaker['consecutive']} consecutive auth failures; "
                         f"halted mid-day {day_iso}. Token is stale/dead — refresh "
                         f"it, then re-run with --resume --session-id "
-                        f"{sandbox.session_id if sandbox else session_id}.")
+                        f"{getattr(sandbox, 'session_id', None) or session_id}.")
 
                 # Session-level (bucket-granular) checkpoint. Placed AFTER the gather
                 # (the bucket is quiescent — no session in flight, so the audit log is
@@ -755,11 +826,13 @@ async def simulate(
             # managers.json export above). snapshot_ok stays False → manifest
             # records no snapshot_dir, consistent with the --resume-only path.
             _skip_snap = os.environ.get("NPC_SKIP_DOCKER_SNAPSHOT", "").lower() in ("1", "true", "yes")
-            if sandbox is not None and _skip_snap:
+            # Only a real LabSandbox has docker volumes; dryrun skips this block.
+            _docker = sandbox is not None and sandbox_mode == "lab"
+            if _docker and _skip_snap:
                 logger.info("day-boundary docker snapshot SKIPPED for %s "
                             "(NPC_SKIP_DOCKER_SNAPSHOT) — plain --resume reattaches "
                             "the live lab, volume backups are redundant", day_iso)
-            elif sandbox is not None:
+            elif _docker:
                 try:
                     from ..sandbox.snapshot import snapshot_sandbox
                     await snapshot_sandbox(
