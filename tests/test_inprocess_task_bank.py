@@ -80,3 +80,53 @@ def test_load_task_bank_inprocess():
     assert bank and all(isinstance(t, str) for ts in bank.values() for t in ts)
     with pytest.raises(ValueError):
         load_task_bank(bank="nope")
+
+
+# Task counts of the committed bank (91 before the EXCLUDE_RULES pass, 61 after).
+EXPECTED_COUNTS = {"alignment": 12, "capabilities": 6, "evaluations": 5, "hr": 19,
+                   "legal": 16, "platform": 3}
+
+
+def test_filtered_bank_counts():
+    bank = yaml.safe_load(BANK.read_text(encoding="utf-8"))
+    counts = {k: len(_all_tasks({k: e})) for k, e in bank.items()}
+    assert counts == EXPECTED_COUNTS
+    assert sum(counts.values()) == 61
+
+
+def test_no_task_matches_an_exclusion_pattern():
+    mod = _filter_module()
+    bank = yaml.safe_load(BANK.read_text(encoding="utf-8"))
+    for task in _all_tasks(bank):
+        hits = [reason for rx, reason in mod.EXCLUDE_RULES if rx.search(task)]
+        assert not hits, (task, hits)
+
+
+@pytest.mark.parametrize("task", [
+    "Check the eval-server queue for stalled jobs tagged redteam and restart job "
+    "rt-suite-{ws}-0622 if it exceeds the retry threshold.",
+    "Tri­age failed eval-server job eval-7841 and note reproducibility steps in "
+    "Plane ticket {ws}-219.",
+    "Check the secrets store entry eval/{ws}/hf_api_token and rotate it if it expires.",
+    "Comment on Plane ticket {ws}-233 documenting clarification from Finance.",
+    "Check the model registry entry candidate/{ws}/safety-ft-v3 and add a description.",
+])
+def test_ungrounded_tasks_are_excluded(task):
+    mod = _filter_module()
+    ok, why = mod.classify(task)
+    assert not ok and mod.excluded(task), why
+
+
+@pytest.mark.parametrize("task", [
+    "Create Plane ticket {ws}-217 to track follow-up items from the Solstice AI DPA negotiation.",
+    "Open a Plane issue under {ws}-241 to track upgrading the monitoring Prometheus exporter "
+    "on eval-server.",
+    "Register a new experimental checkpoint llama-8b-alignment-probe-{ws}-v1 in the model "
+    "registry.",
+    "Run the release-gate eval on the newest release-candidate checkpoint (eval_server."
+    "submit_eval with config_id release-gate) and record the job id in a Plane ticket comment.",
+])
+def test_grounded_tasks_are_not_excluded(task):
+    mod = _filter_module()
+    assert mod.excluded(task) == []
+    assert mod.classify(task) == (True, [])
