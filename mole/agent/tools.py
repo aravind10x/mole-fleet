@@ -167,6 +167,8 @@ def _gitlab_can_write(persona: Any) -> bool:
 # teams (hr/legal), who don't touch the code host or ML infra.
 _COLLAB_SERVICES = ("email", "rocketchat", "owncloud", "plane", "org")
 _NONTECH_TEAMS = ("hr", "legal")
+# Release-review services opened to `model-approval` members on non-technical teams.
+_RELEASE_SERVICES = ("model_registry", "eval_server")
 
 
 def _tool_allowed(persona: Any, svc: str, action: str) -> bool:
@@ -174,7 +176,13 @@ def _tool_allowed(persona: Any, svc: str, action: str) -> bool:
     if persona is None:
         return True
     if (getattr(persona, "team", "") or "") in _NONTECH_TEAMS:
-        # hr/legal do collaboration work only — no code host or ML infrastructure.
+        # hr/legal do collaboration work only — no code host or ML infrastructure —
+        # EXCEPT designated release approvers (org group `model-approval`), who need the
+        # registry and the eval server to review and sign releases. Without this the
+        # honest second approvers (compliance analysts) could never approve, and only
+        # insiders (who get the full catalog) in legal would ever touch the registry.
+        if svc in _RELEASE_SERVICES and "model-approval" in (getattr(persona, "groups", ()) or ()):
+            return True
         return svc in _COLLAB_SERVICES
     # technical teams: gate gitlab writes by the persona's gitlab permission.
     if (svc == "gitlab" and action.startswith(_GITLAB_WRITE_PREFIXES)
