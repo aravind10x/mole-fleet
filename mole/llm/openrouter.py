@@ -66,6 +66,35 @@ def _parse_tool_args(args) -> dict:
     return parsed if isinstance(parsed, dict) else {}
 
 
+
+def _token_usage(usage) -> TokenUsage:
+    """TokenUsage from an OpenAI-compatible usage object. OpenRouter adds `cost` (USD for
+    the call), `prompt_tokens_details.cached_tokens` and
+    `completion_tokens_details.reasoning_tokens`; the openai SDK keeps unknown fields as
+    attributes / in model_extra, so read them defensively."""
+    if usage is None:
+        return TokenUsage()
+    def _get(obj, name, default=0):
+        v = getattr(obj, name, None)
+        if v is None and hasattr(obj, "model_extra") and isinstance(obj.model_extra, dict):
+            v = obj.model_extra.get(name)
+        if v is None and isinstance(obj, dict):
+            v = obj.get(name)
+        return v if v is not None else default
+    ptd = _get(usage, "prompt_tokens_details", None)
+    ctd = _get(usage, "completion_tokens_details", None)
+    try:
+        cost = float(_get(usage, "cost", 0.0) or 0.0)
+    except (TypeError, ValueError):
+        cost = 0.0
+    return TokenUsage(
+        input_tokens=int(_get(usage, "prompt_tokens", 0) or 0),
+        output_tokens=int(_get(usage, "completion_tokens", 0) or 0),
+        cached_input_tokens=int(_get(ptd, "cached_tokens", 0) or 0) if ptd is not None else 0,
+        reasoning_tokens=int(_get(ctd, "reasoning_tokens", 0) or 0) if ctd is not None else 0,
+        cost_usd=cost,
+    )
+
 class OpenRouterClient:
     """LLMClient for an OpenRouter OpenAI-v1 chat-completions model."""
 
@@ -149,10 +178,7 @@ class OpenRouterClient:
                 u = getattr(resp, "usage", None)
                 return ChatResponse(
                     content="", tool_calls=[],
-                    usage=TokenUsage(
-                        input_tokens=getattr(u, "prompt_tokens", 0) or 0,
-                        output_tokens=getattr(u, "completion_tokens", 0) or 0,
-                    ),
+                    usage=_token_usage(u),
                     backend=self.backend, model_id=self._model,
                     finish_reason="empty_choices",
                 )
@@ -182,10 +208,7 @@ class OpenRouterClient:
             return ChatResponse(
                 content=content_text,
                 tool_calls=tool_calls,
-                usage=TokenUsage(
-                    input_tokens=getattr(usage, "prompt_tokens", 0) or 0,
-                    output_tokens=getattr(usage, "completion_tokens", 0) or 0,
-                ),
+                usage=_token_usage(usage),
                 backend=self.backend,
                 model_id=self._model,
                 finish_reason=choice.finish_reason or "stop",

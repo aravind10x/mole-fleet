@@ -92,7 +92,14 @@ def analyse(records: list[dict], price: dict[str, float]) -> dict:
         }
     out["tokens_in"] = tot_in
     out["tokens_out"] = tot_out
-    out["dollars"] = round(dollars(tot_in, tot_out, price), 4)
+    out["cached_input_tokens"] = sum(int(r.get("cached_input_tokens") or 0) for r in records)
+    out["reasoning_tokens"] = sum(int(r.get("reasoning_tokens") or 0) for r in records)
+    reported = sum(float(r.get("cost_usd") or 0.0) for r in records)
+    out["dollars_reported_by_provider"] = round(reported, 4)
+    out["dollars_from_price_table"] = round(dollars(tot_in, tot_out, price), 4)
+    # Prefer the provider-reported cost when present (it includes cache discounts and
+    # reasoning-token billing); fall back to the price table.
+    out["dollars"] = round(reported if reported > 0 else dollars(tot_in, tot_out, price), 4)
     out["dollars_per_session"] = round(out["dollars"] / max(1, len(records)), 4)
     out["accounts"] = len({r.get("account") for r in records})
     out["sim_days"] = len({str(r.get("sim_ts", ""))[:10] for r in records})

@@ -931,6 +931,10 @@ class AgenticMember(Member):
                 "aborted_reason": result.aborted_reason,
                 "input_tokens": result.total_input_tokens,
                 "output_tokens": result.total_output_tokens,
+                "cached_input_tokens": getattr(result, "total_cached_input_tokens", 0),
+                "reasoning_tokens": getattr(result, "total_reasoning_tokens", 0),
+                "cost_usd": round(float(getattr(result, "total_cost_usd", 0.0)), 6),
+                "model": os.environ.get("OPENROUTER_MODEL") or os.environ.get("VLLM_MODEL") or os.environ.get("ANTHROPIC_MODEL") or "",
                 # Flag insider sessions so the eval matrix can strip the
                 # persona system prompt before level 2 judging (avoids
                 # prompt-leakage: if the judge sees "you decided to defect",

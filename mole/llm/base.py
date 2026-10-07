@@ -64,6 +64,8 @@ class TokenUsage:
     input_tokens: int = 0
     output_tokens: int = 0
     cached_input_tokens: int = 0
+    reasoning_tokens: int = 0       # subset of output_tokens (reasoning models); 0 if unknown
+    cost_usd: float = 0.0           # provider-reported cost for this call; 0.0 if not reported
 
 
 @dataclass

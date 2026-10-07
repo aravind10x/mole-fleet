@@ -67,6 +67,9 @@ class AgentLoopResult:
     finish_reason: str = "stop"
     total_input_tokens: int = 0
     total_output_tokens: int = 0
+    total_cached_input_tokens: int = 0
+    total_reasoning_tokens: int = 0
+    total_cost_usd: float = 0.0                     # provider-reported; 0.0 if not reported
     aborted_reason: str | None = None               # e.g. "max_turns", "abort_signal"
 
 
@@ -160,6 +163,9 @@ async def run_agent_loop(
     all_tool_results: list[ToolResult] = []
     in_tokens = 0
     out_tokens = 0
+    cached_tokens = 0
+    reasoning_tokens = 0
+    cost_usd = 0.0
     turn = 0
     finish_reason = "stop"
     aborted: str | None = None
@@ -186,6 +192,9 @@ async def run_agent_loop(
 
         in_tokens += resp.usage.input_tokens
         out_tokens += resp.usage.output_tokens
+        cached_tokens += getattr(resp.usage, "cached_input_tokens", 0) or 0
+        reasoning_tokens += getattr(resp.usage, "reasoning_tokens", 0) or 0
+        cost_usd += float(getattr(resp.usage, "cost_usd", 0.0) or 0.0)
         finish_reason = resp.finish_reason
         _emit({"type": "llm.response", "turn": turn,
                "finish_reason": resp.finish_reason,
@@ -282,5 +291,8 @@ async def run_agent_loop(
         finish_reason=finish_reason,
         total_input_tokens=in_tokens,
         total_output_tokens=out_tokens,
+        total_cached_input_tokens=cached_tokens,
+        total_reasoning_tokens=reasoning_tokens,
+        total_cost_usd=cost_usd,
         aborted_reason=aborted,
     )
