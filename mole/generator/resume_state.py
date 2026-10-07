@@ -26,6 +26,25 @@ Per-day record (`days[]`):
   snapshot_dir      path to the day's snapshot dir (if snapshot_ok)
   managers_path     path to the day's managers.json (if managers_ok)
 
+Session-completion fields (None when the counts are unknown — e.g. rules mode, which
+writes no transcript, or a manifest written before these fields existed):
+  sessions_planned           sessions in the day's plan
+  sessions_completed         sessions whose transcript record has no abort
+                             (aborted_reason None, or "max_turns" — hitting the turn
+                             cap is a normal end, not an abort)
+  sessions_aborted           sessions aborted for any other reason (e.g. "llm_error:..."
+                             from a provider 402/5xx), plus planned sessions that wrote
+                             no transcript record at all (raised before writing one)
+  attack_sessions_planned    sessions recorded with session_mode == "attack"
+  attack_sessions_completed  of those, the ones that completed
+  sessions_ok                derived: sessions_aborted == 0 and every attack session
+                             completed; None when the counts are unknown
+
+A day can export a perfectly valid managers.json while its sessions died mid-day
+(the provider ran out of credit): managers_ok says the WORLD boundary is restorable,
+sessions_ok says the day's CONTENT is complete. Resume selection still uses only the
+former; `day_is_clean` / the --resume warning surface the latter for the operator.
+
 Resume reads the LAST record for the truncation offsets + resume-from day, and the
 last record with `snapshot_ok` for the world to restore (Phase B).
 """
@@ -34,6 +53,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -127,12 +147,23 @@ def record_day(
     managers_ok: bool,
     snapshot_dir: str | None = None,
     managers_path: str | None = None,
+    sessions_planned: int | None = None,
+    sessions_completed: int | None = None,
+    sessions_aborted: int | None = None,
+    attack_sessions_planned: int | None = None,
+    attack_sessions_completed: int | None = None,
 ) -> None:
     """Append a completed-day record and persist the manifest atomically.
 
     Idempotent on `day`: re-recording a day (e.g. a re-run day on resume)
     replaces the prior record for that day rather than duplicating it.
+
+    The session counts are optional (callers that pass none get None fields and
+    `sessions_ok` None); see the module docstring for their meaning.
     """
+    def _opt_int(v: int | None) -> int | None:
+        return None if v is None else int(v)
+
     rec = {
         "day": day,
         "audit_bytes": int(audit_bytes),
@@ -141,12 +172,99 @@ def record_day(
         "managers_ok": bool(managers_ok),
         "snapshot_dir": str(snapshot_dir) if snapshot_dir else None,
         "managers_path": str(managers_path) if managers_path else None,
+        "sessions_planned": _opt_int(sessions_planned),
+        "sessions_completed": _opt_int(sessions_completed),
+        "sessions_aborted": _opt_int(sessions_aborted),
+        "attack_sessions_planned": _opt_int(attack_sessions_planned),
+        "attack_sessions_completed": _opt_int(attack_sessions_completed),
     }
+    rec["sessions_ok"] = _derive_sessions_ok(rec)
     days = [d for d in manifest.get("days", []) if d.get("day") != day]
     days.append(rec)
     days.sort(key=lambda d: d["day"])
     manifest["days"] = days
     write_atomic(manifest, audit_path)
+
+
+def _derive_sessions_ok(rec: dict[str, Any]) -> bool | None:
+    """True iff no session aborted and every attack session completed; None when
+    the abort count or either attack count is unknown."""
+    aborted = rec.get("sessions_aborted")
+    a_plan = rec.get("attack_sessions_planned")
+    a_done = rec.get("attack_sessions_completed")
+    if aborted is None or a_plan is None or a_done is None:
+        return None
+    return aborted == 0 and a_done == a_plan
+
+
+def day_is_clean(rec: dict[str, Any] | None) -> bool | None:
+    """Did this day's sessions all complete? True/False from the recorded
+    `sessions_ok`; None when unknown (no record, a pre-counts manifest, or a run
+    mode with no transcript). Informational only — resume selection never uses it."""
+    if not rec:
+        return None
+    ok = rec.get("sessions_ok")
+    if ok is None and "sessions_ok" not in rec:
+        ok = _derive_sessions_ok(rec)   # hand-edited / partial record
+    return None if ok is None else bool(ok)
+
+
+def session_aborted(rec: dict[str, Any]) -> bool:
+    """A transcript record counts as aborted when `aborted_reason` is set and is
+    not "max_turns" (the turn cap is a normal session end)."""
+    reason = rec.get("aborted_reason")
+    return bool(reason) and reason != "max_turns"
+
+
+def tally_day_sessions(
+    transcript_path: Path | str,
+    *,
+    day: str,
+    sessions_planned: int,
+    start_byte: int = 0,
+    end_byte: int | None = None,
+) -> dict[str, int]:
+    """Count the day's session outcomes from the transcript file.
+
+    Reads transcript records in [start_byte, end_byte) whose `sim_ts` falls on
+    `day` (the date filter makes a start of 0 safe for a branch, whose transcript
+    begins with the parent's earlier days). Scanning the FILE rather than an
+    in-memory tally means a --session-resume re-entry also counts the buckets
+    that ran before the crash. Unparseable lines are skipped. Planned sessions
+    with no record are counted as aborted. Returns the `record_day` count kwargs.
+    """
+    completed = aborted = attack_planned = attack_completed = 0
+    path = Path(transcript_path)
+    if path.exists():
+        with path.open("rb") as f:
+            f.seek(max(0, int(start_byte)))
+            data = f.read() if end_byte is None else f.read(max(0, int(end_byte) - int(start_byte)))
+        for line in data.splitlines():
+            if not line.strip():
+                continue
+            try:
+                rec = json.loads(line)
+            except (ValueError, UnicodeDecodeError):
+                continue
+            if not isinstance(rec, dict) or str(rec.get("sim_ts") or "")[:10] != day:
+                continue
+            is_attack = rec.get("session_mode") == "attack"
+            if session_aborted(rec):
+                aborted += 1
+            else:
+                completed += 1
+                if is_attack:
+                    attack_completed += 1
+            if is_attack:
+                attack_planned += 1
+    missing = max(0, int(sessions_planned) - completed - aborted)
+    return {
+        "sessions_planned": int(sessions_planned),
+        "sessions_completed": completed,
+        "sessions_aborted": aborted + missing,
+        "attack_sessions_planned": attack_planned,
+        "attack_sessions_completed": attack_completed,
+    }
 
 
 def record_in_progress(
@@ -265,3 +383,44 @@ def truncate_to_record(
                     path.name, cur, target, cur - target)
         trimmed.append(cur - target)
     return (trimmed[0], trimmed[1])
+
+
+_TABLE_COLS = (
+    ("day", "day"),
+    ("audit_bytes", "audit_bytes"),
+    ("managers_ok", "managers_ok"),
+    ("sessions_planned", "planned"),
+    ("sessions_completed", "completed"),
+    ("sessions_aborted", "aborted"),
+    ("attack_sessions_planned", "atk_planned"),
+    ("attack_sessions_completed", "atk_completed"),
+    ("sessions_ok", "sessions_ok"),
+)
+
+
+def format_day_table(manifest: dict[str, Any]) -> str:
+    """Plain-text table of the manifest's day records (missing fields show '-')."""
+    rows = [[h for _, h in _TABLE_COLS]]
+    for rec in manifest.get("days") or []:
+        rows.append(["-" if rec.get(k) is None else str(rec.get(k)) for k, _ in _TABLE_COLS])
+    widths = [max(len(r[i]) for r in rows) for i in range(len(_TABLE_COLS))]
+    return "\n".join("  ".join(c.ljust(w) for c, w in zip(r, widths)).rstrip() for r in rows)
+
+
+def main(argv: list[str] | None = None) -> int:
+    """`python -m mole.generator.resume_state <audit.jsonl>` — print the resume
+    manifest's day table. Read-only."""
+    args = sys.argv[1:] if argv is None else argv
+    if len(args) != 1 or args[0] in ("-h", "--help"):
+        print("usage: python -m mole.generator.resume_state <audit.jsonl>", file=sys.stderr)
+        return 2
+    m = load(args[0])
+    if m is None:
+        print(f"no readable resume manifest at {manifest_path(args[0])}", file=sys.stderr)
+        return 1
+    print(format_day_table(m))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
