@@ -105,12 +105,15 @@ def _is_auth_error(exc: BaseException) -> bool:
         # token needs a re-mint, not a wait.
         if name in ("AuthenticationError", "PermissionDeniedError"):
             return True
-        if getattr(cur, "status_code", None) in (401, 403):
+        if getattr(cur, "status_code", None) in (401, 402, 403):
             return True
         msg = str(cur)
         if any(tok in msg for tok in (
             "invalid_token", "invalid_api_key", "Access token has expired",
             "401 Unauthorized", "Unauthorized",
+            # OpenRouter: key or account out of credit. Without this the run marches
+            # on writing empty sessions (observed 2026-10-07 on the benign-day run).
+            "Error code: 402", "requires more credits", "Insufficient credits",
         )):
             return True
         cur = cur.__cause__ or cur.__context__

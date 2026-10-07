@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 
 from openai import OpenAI
@@ -65,6 +66,9 @@ def _parse_tool_args(args) -> dict:
                 break
     return parsed if isinstance(parsed, dict) else {}
 
+
+
+logger = logging.getLogger(__name__)
 
 
 def _token_usage(usage) -> TokenUsage:
@@ -129,6 +133,28 @@ class OpenRouterClient:
             api_key=key,
             default_headers=headers or None,
         )
+        # Fallback keys: OPENROUTER_API_KEY_2, _3, ... On a 401/402 (dead key or
+        # key/account out of credit) the client rotates to the next key once and
+        # retries the call, so a long run survives a key hitting its spend cap.
+        self._headers = headers
+        self._fallback_keys: list[str] = [
+            os.environ[k] for k in sorted(os.environ)
+            if k.startswith("OPENROUTER_API_KEY_") and k[len("OPENROUTER_API_KEY_"):].isdigit()
+            and os.environ[k] and os.environ[k] != key
+        ]
+        self._key_index = 0
+
+    def _rotate_key(self) -> bool:
+        """Switch to the next fallback key. Returns False when none is left."""
+        if self._key_index >= len(self._fallback_keys):
+            return False
+        new_key = self._fallback_keys[self._key_index]
+        self._key_index += 1
+        self._client = OpenAI(base_url=self._base_url, api_key=new_key,
+                              default_headers=self._headers or None)
+        logger.warning("openrouter: switched to fallback API key #%d after a credit/auth error",
+                       self._key_index + 1)
+        return True
 
     async def complete(
         self,
@@ -168,9 +194,18 @@ class OpenRouterClient:
             if seed is not None and self._send_seed:
                 body["seed"] = seed
 
-            resp = self._client.post(
-                "/chat/completions", cast_to=ChatCompletion, body=body,
-            )
+            try:
+                resp = self._client.post(
+                    "/chat/completions", cast_to=ChatCompletion, body=body,
+                )
+            except Exception as exc:                                  # noqa: BLE001
+                status = getattr(exc, "status_code", None)
+                if status in (401, 402) and self._rotate_key():
+                    resp = self._client.post(
+                        "/chat/completions", cast_to=ChatCompletion, body=body,
+                    )
+                else:
+                    raise
             # OpenAI-compatible 200 with empty `choices` (oversized prompt / flap):
             # degrade to an empty completion so the retry layer's empty-200 path
             # handles it instead of an IndexError surfacing.
