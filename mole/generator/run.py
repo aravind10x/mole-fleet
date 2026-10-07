@@ -833,6 +833,21 @@ async def simulate(
         for day_iso in _weekday_dates(date.fromisoformat(start_date), n_days):
             if resume_after_day is not None and day_iso <= resume_after_day:
                 logger.info("--resume: skipping completed sim-day %s", day_iso)
+                # Surface (never act on) a kept day whose sessions did not all
+                # complete — e.g. a provider 402 aborted the day's only attack
+                # session while managers.json still exported fine. Rolling back
+                # further is the operator's call.
+                _kept = next((d for d in (manifest.get("days") or [])
+                              if d.get("day") == day_iso), None)
+                if resume_state.day_is_clean(_kept) is False:
+                    logger.warning(
+                        "--resume: kept sim-day %s has sessions_ok=False: "
+                        "%s/%s sessions aborted, %s/%s attack sessions completed. "
+                        "Its content is incomplete; roll back past it if that matters.",
+                        day_iso, _kept.get("sessions_aborted"),
+                        _kept.get("sessions_planned"),
+                        _kept.get("attack_sessions_completed"),
+                        _kept.get("attack_sessions_planned"))
                 continue
             # Causal sim-time interleaving across all members for the day.
             # Old loop (`for m in members: await m.run_day`) ran each member's full
@@ -974,21 +989,54 @@ async def simulate(
             # partial/garbage tail back to this boundary. The manifest only ever
             # names a day whose outputs are durable — so resume can trust it.
             audit_bytes, transcript_bytes = _flush_durable()
+            # Per-day session outcome counts, from this day's transcript records
+            # (agentic mode only — rules mode writes no transcript, so counts stay
+            # None). The day's slice starts at the previous committed day's offset;
+            # tally_day_sessions also filters by sim_ts date. Best-effort: a tally
+            # failure must never block the day commit.
+            session_counts: dict[str, int] = {}
+            if transcript_fh is not None:
+                try:
+                    _prev = [d for d in (manifest.get("days") or [])
+                             if d.get("day", "") < day_iso]
+                    session_counts = resume_state.tally_day_sessions(
+                        transcript_path, day=day_iso, sessions_planned=len(day_plan),
+                        start_byte=int(_prev[-1]["transcript_bytes"]) if _prev else 0,
+                        end_byte=transcript_bytes)
+                except Exception:                                   # noqa: BLE001
+                    logger.exception("session tally failed for %s; recording no "
+                                     "session counts", day_iso)
+                    session_counts = {}
             resume_state.record_day(
                 manifest, out_path, day=day_iso,
                 audit_bytes=audit_bytes, transcript_bytes=transcript_bytes,
                 snapshot_ok=snapshot_ok, managers_ok=managers_ok,
                 snapshot_dir=str(snap_out) if snapshot_ok else None,
                 managers_path=str(snap_out / "managers.json") if managers_ok else None,
+                **session_counts,
             )
             # The committed day supersedes any mid-day (bucket) checkpoint for it, so
             # drop it — a later resume must land on this day boundary, not re-enter the
             # finished day. No-op when --session-resume wasn't used.
             if session_resume:
                 resume_state.clear_in_progress(manifest, out_path)
+            _day_rec = next((d for d in manifest["days"] if d.get("day") == day_iso), {})
             logger.info("day-boundary manifest committed: day=%s audit=%dB "
-                        "transcript=%dB snapshot_ok=%s",
-                        day_iso, audit_bytes, transcript_bytes, snapshot_ok)
+                        "transcript=%dB snapshot_ok=%s sessions planned=%s "
+                        "completed=%s aborted=%s attack=%s/%s sessions_ok=%s",
+                        day_iso, audit_bytes, transcript_bytes, snapshot_ok,
+                        _day_rec.get("sessions_planned"), _day_rec.get("sessions_completed"),
+                        _day_rec.get("sessions_aborted"),
+                        _day_rec.get("attack_sessions_completed"),
+                        _day_rec.get("attack_sessions_planned"),
+                        _day_rec.get("sessions_ok"))
+            if resume_state.day_is_clean(_day_rec) is False:
+                logger.warning("day %s committed with incomplete sessions: %s/%s "
+                               "aborted, %s/%s attack sessions completed",
+                               day_iso, _day_rec.get("sessions_aborted"),
+                               _day_rec.get("sessions_planned"),
+                               _day_rec.get("attack_sessions_completed"),
+                               _day_rec.get("attack_sessions_planned"))
     finally:
         collector.close()
         if transcript_fh is not None:
