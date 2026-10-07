@@ -40,7 +40,7 @@ def test_client_rotates_key_on_402(monkeypatch):
 
     client._client = _FakeOpenAI("key-one")
     import mole.llm.openrouter as mod
-    monkeypatch.setattr(mod, "OpenAI", lambda base_url, api_key, default_headers=None: _FakeOpenAI(api_key))
+    monkeypatch.setattr(mod, "OpenAI", lambda base_url, api_key, default_headers=None, **kw: _FakeOpenAI(api_key))
     resp = asyncio.run(client.complete([ChatMessage(role="user", content="hi")]))
     assert resp.content == "ok"
     assert calls == ["key-one", "key-two"]
@@ -63,3 +63,26 @@ def test_reasoning_effort_env_adds_body_param(monkeypatch):
     client._client = _FakeOpenAI()
     asyncio.run(client.complete([ChatMessage(role="user", content="hi")]))
     assert seen.get("reasoning") == {"effort": "low"}
+
+
+def test_client_sets_short_timeout_and_no_sdk_retries(monkeypatch):
+    """A hung upstream request must surface as APITimeoutError to mole/llm/retry.py within
+    minutes, not be swallowed by the SDK's 600 s x 3 default (observed: one hung call froze a
+    generated day for 15 minutes)."""
+    import httpx
+    from mole.llm import openrouter as mod
+    monkeypatch.setenv("OPENROUTER_API_KEY", "key-one")
+    seen = {}
+
+    class _FakeOpenAI:
+        def __init__(self, **kw):
+            seen.update(kw)
+    monkeypatch.setattr(mod, "OpenAI", lambda **kw: _FakeOpenAI(**kw))
+    mod.OpenRouterClient(model="m")
+    assert seen["max_retries"] == 0
+    assert isinstance(seen["timeout"], httpx.Timeout)
+    assert seen["timeout"].read == 300.0 and seen["timeout"].connect == 10.0
+    monkeypatch.setenv("OPENROUTER_READ_TIMEOUT", "45")
+    mod.OpenRouterClient(model="m")
+    assert seen["timeout"].read == 45.0
+

@@ -28,6 +28,7 @@ import json
 import logging
 import os
 
+import httpx
 from openai import OpenAI
 from openai.types.chat import ChatCompletion
 
@@ -35,6 +36,8 @@ from .base import ChatMessage, ChatResponse, TokenUsage, ToolCall, ToolSchema
 from .toolcalls import _parse_xml_function_calls, _strip_xml_function_calls
 
 DEFAULT_BASE_URL = "https://openrouter.ai/api/v1"
+DEFAULT_READ_TIMEOUT_S = 300.0  # seconds; see OpenRouterClient._make_client
+
 DEFAULT_MODEL = "deepseek/deepseek-v4-pro"
 
 
@@ -104,6 +107,22 @@ class OpenRouterClient:
 
     backend = "openrouter"
 
+    def _make_client(self, key: str, headers: dict[str, str] | None) -> OpenAI:
+        """One OpenAI-v1 client. Timeouts are OURS, not the SDK's: the SDK default is a
+        600 s read timeout with 2 silent retries, so a single upstream request that never
+        answers can hold a session (and, because sessions run in ordered sim-time buckets,
+        a whole generated day) for 30 minutes. Read timeout 300 s (long reasoning turns
+        exist), SDK retries off; mole/llm/retry.py owns retries and already treats
+        APITimeoutError / ReadTimeout as retryable. Override with OPENROUTER_READ_TIMEOUT."""
+        read_s = float(os.environ.get("OPENROUTER_READ_TIMEOUT", DEFAULT_READ_TIMEOUT_S))
+        return OpenAI(
+            base_url=self._base_url,
+            api_key=key,
+            default_headers=headers or None,
+            timeout=httpx.Timeout(connect=10.0, read=read_s, write=60.0, pool=60.0),
+            max_retries=0,
+        )
+
     def __init__(
         self,
         model: str = DEFAULT_MODEL,
@@ -128,11 +147,7 @@ class OpenRouterClient:
             headers["X-Title"] = os.environ["OPENROUTER_TITLE"]
         # Static API key (OpenRouter keys don't expire hourly like short-lived cloud tokens),
         # so set once at construction. One client; the connection pool is reused.
-        self._client = OpenAI(
-            base_url=self._base_url,
-            api_key=key,
-            default_headers=headers or None,
-        )
+        self._client = self._make_client(key, headers)
         # Fallback keys: OPENROUTER_API_KEY_2, _3, ... On a 401/402 (dead key or
         # key/account out of credit) the client rotates to the next key once and
         # retries the call, so a long run survives a key hitting its spend cap.
@@ -150,8 +165,7 @@ class OpenRouterClient:
             return False
         new_key = self._fallback_keys[self._key_index]
         self._key_index += 1
-        self._client = OpenAI(base_url=self._base_url, api_key=new_key,
-                              default_headers=self._headers or None)
+        self._client = self._make_client(new_key, self._headers)
         logger.warning("openrouter: switched to fallback API key #%d after a credit/auth error",
                        self._key_index + 1)
         return True
