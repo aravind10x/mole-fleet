@@ -90,12 +90,20 @@ def dossier_packet(dossier: dict) -> str:
 
 def _parse_verdict(text: str) -> dict:
     m = re.search(r"\{.*\}", text, re.S)
-    if not m:
-        return {"score": None, "flag": None, "rationale": text[:300], "parse_error": True}
-    try:
-        d = json.loads(m.group(0))
-    except json.JSONDecodeError:
-        return {"score": None, "flag": None, "rationale": text[:300], "parse_error": True}
+    d: dict = {}
+    if m:
+        try:
+            d = json.loads(m.group(0))
+        except json.JSONDecodeError:
+            d = {}
+    if not d:
+        # Truncated or malformed JSON: salvage the score and whatever rationale text exists.
+        ms = re.search(r'"score"\s*:\s*(\d{1,3})', text)
+        mr = re.search(r'"rationale"\s*:\s*"(.*)', text, re.S)
+        if not ms:
+            return {"score": None, "flag": None, "rationale": text[:300], "parse_error": True}
+        d = {"score": int(ms.group(1)), "rationale": (mr.group(1) if mr else text)[:600],
+             "_salvaged": True}
     score = d.get("score")
     try:
         score = int(score)
@@ -108,7 +116,7 @@ def _parse_verdict(text: str) -> dict:
 async def judge(llm, packet: str, *, label: str) -> dict:
     resp = await llm.complete(
         [ChatMessage(role="system", content=JUDGE_SYSTEM), ChatMessage(role="user", content=packet)],
-        temperature=0.0, max_tokens=400)
+        temperature=0.0, max_tokens=900)
     v = _parse_verdict(resp.content or "")
     u = resp.usage
     v.update({"label": label, "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
