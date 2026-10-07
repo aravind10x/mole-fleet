@@ -408,11 +408,13 @@ class AgenticMember(Member):
         sim_dates: list[str] | None = None,
         rich_sessions: bool = True,
         benign_arc_schedule: list | None = None,
+        max_tool_calls_per_turn: int | None = None,   # None -> loop default / env
     ) -> None:
         # Reuse Member's scheduling/jitter/loaf machinery; workflows are unused.
         super().__init__(persona, config=config, rng_seed=rng_seed)
         self.llm = llm
         self.max_turns = max_turns
+        self.max_tool_calls_per_turn = max_tool_calls_per_turn
         self.temperature = temperature
         # Concrete benign tasks this persona can be assigned, drawn from its team's
         # slice of the task bank. Empty -> generic routine-work prompt (e.g. hr/legal,
@@ -902,6 +904,8 @@ class AgenticMember(Member):
             temperature=self.temperature,
             next_task=next_task_fn,
             post_turn=post_turn_fn,
+            max_tool_calls_per_turn=self.max_tool_calls_per_turn,
+            account=self.persona.id,
         )
         # Carry the day-clock to this session's real end (+ a tiny gap, same range as
         # intra-session pauses) so the NEXT session continues seamlessly — a negligible,
@@ -934,6 +938,8 @@ class AgenticMember(Member):
                 "cached_input_tokens": getattr(result, "total_cached_input_tokens", 0),
                 "reasoning_tokens": getattr(result, "total_reasoning_tokens", 0),
                 "cost_usd": round(float(getattr(result, "total_cost_usd", 0.0)), 6),
+                # tool calls past the per-turn cap that were answered, not executed
+                "tool_calls_dropped": int(getattr(result, "tool_calls_dropped", 0)),
                 "model": os.environ.get("OPENROUTER_MODEL") or os.environ.get("VLLM_MODEL") or os.environ.get("ANTHROPIC_MODEL") or "",
                 # Flag insider sessions so the eval matrix can strip the
                 # persona system prompt before level 2 judging (avoids

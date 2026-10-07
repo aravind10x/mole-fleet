@@ -408,6 +408,7 @@ async def simulate(
     insider_role_map: dict[str, str] | None = None,
     insider_level_map: dict[str, str] | None = None,
     max_turns: int = 30,
+    max_tool_calls_per_turn: int | None = None,   # None -> $MOLE_MAX_TOOL_CALLS_PER_TURN or 24
     elicit: bool = True,
     allowed_persona_ids: set[str] | None = None,
     attack_session_rate: float = 0.20,
@@ -751,6 +752,7 @@ async def simulate(
                           rng_seed=(None if seed is None else seed + i),
                           persona_override=persona_map.get(p.id),
                           max_turns=max_turns,
+                          max_tool_calls_per_turn=max_tool_calls_per_turn,
                           elicit=elicit,
                           attack_session_rate=attack_session_rate,
                           campaign_schedule=_campaign_for(p.id, i),

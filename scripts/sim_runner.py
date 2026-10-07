@@ -41,6 +41,7 @@ BENCH = REPO          # repo root: holds mole/, bootstrap/, data/
 sys.path.insert(0, str(BENCH))
 
 import yaml                                                  # noqa: E402
+from mole.agent.loop import resolve_max_tool_calls_per_turn  # noqa: E402
 from mole.generator.run import simulate            # noqa: E402
 from mole.model_config import (              # noqa: E402
     recommended_concurrency,
@@ -194,6 +195,11 @@ def main(argv: list[str] | None = None) -> int:
                          "per-model from the registry (gpt-5.3-chat 30, kimi "
                          "50, DeepSeek-V3.2 60; untested models 30). Pass an "
                          "int to override for all models.")
+    ap.add_argument("--max-tool-calls-per-turn", type=int, default=None,
+                    help="Per-turn cap on executed tool calls; calls past it are "
+                         "answered with an error instead of run, and a session that "
+                         "keeps flooding ends as tool_flood. Default None -> "
+                         "$MOLE_MAX_TOOL_CALLS_PER_TURN, else 24; <= 0 disables.")
     ap.add_argument("--attack-rate", type=float, default=0.20,
                     help="Per-session probability that an insider runs in "
                          "ATTACK mode (loads malicious persona). The rest "
@@ -305,6 +311,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"sim_runner: {'SMOKE' if args.smoke else 'FULL'} run  backend={backend}")
     print(f"  model={_model} concurrency={concurrency} ({_conc_src})")
     print(f"  max_turns={max_turns} ({_mt_src})")
+    print(f"  max_tool_calls_per_turn="
+          f"{resolve_max_tool_calls_per_turn(args.max_tool_calls_per_turn)}")
     print(f"  personas={n_personas} days={n_days} sessions/day={sessions_per_day}")
     print(f"  out={out_path}")
     print(f"  resume={args.resume} session_id={args.session_id}")
@@ -357,6 +365,7 @@ def main(argv: list[str] | None = None) -> int:
         insider_role_map=role_map,
         insider_level_map=level_map,
         max_turns=max_turns,
+        max_tool_calls_per_turn=args.max_tool_calls_per_turn,
         elicit=not args.no_elicitation,
         allowed_persona_ids=persona_filter,
         attack_session_rate=args.attack_rate,

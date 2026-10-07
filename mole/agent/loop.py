@@ -70,7 +70,8 @@ class AgentLoopResult:
     total_cached_input_tokens: int = 0
     total_reasoning_tokens: int = 0
     total_cost_usd: float = 0.0                     # provider-reported; 0.0 if not reported
-    aborted_reason: str | None = None               # e.g. "max_turns", "abort_signal"
+    aborted_reason: str | None = None               # e.g. "max_turns", "tool_flood"
+    tool_calls_dropped: int = 0                     # calls past the per-turn cap, not run
 
 
 # A single unbounded tool result (e.g. plane.list_issues returning every issue
@@ -109,6 +110,38 @@ def _cap_tool_result(content: str, limit: int = _MAX_TOOL_RESULT_CHARS) -> str:
 _CONTEXT_BUDGET_CHARS = int(os.environ.get("CONTEXT_BUDGET_CHARS", "100000"))  # ~25K tok
 
 
+# A model can emit HUNDREDS of tool calls in one turn (observed: 7,156
+# plane.add_comment calls in a 23-turn benign session, 135K output tokens),
+# flooding the tracker and the audit log. Cap the calls EXECUTED per turn: the
+# first `cap` run in order; the rest are not dispatched and each gets an error
+# tool message so the conversation stays well-formed for the next call. A session
+# that keeps flooding (more than _TOOL_FLOOD_FACTOR x cap drops in total) ends with
+# aborted_reason="tool_flood" so it cannot burn the whole turn budget.
+# Resolution: explicit kwarg > $MOLE_MAX_TOOL_CALLS_PER_TURN > 24. A cap <= 0
+# disables the guard.
+DEFAULT_MAX_TOOL_CALLS_PER_TURN = 24
+_TOOL_FLOOD_FACTOR = 3
+
+
+def resolve_max_tool_calls_per_turn(value: int | None = None) -> int:
+    """The effective per-turn tool-call cap (<= 0 means unbounded)."""
+    if value is not None:
+        return int(value)
+    raw = os.environ.get("MOLE_MAX_TOOL_CALLS_PER_TURN", "").strip()
+    if raw:
+        try:
+            return int(raw)
+        except ValueError:
+            logger.warning("ignoring non-integer MOLE_MAX_TOOL_CALLS_PER_TURN=%r; "
+                           "using %d", raw, DEFAULT_MAX_TOOL_CALLS_PER_TURN)
+    return DEFAULT_MAX_TOOL_CALLS_PER_TURN
+
+
+def _dropped_message(cap: int) -> str:
+    return (f"dropped: more than {cap} tool calls in one turn; "
+            "make fewer calls per turn")
+
+
 def _window_context(msgs: "list[ChatMessage]", budget: int = _CONTEXT_BUDGET_CHARS,
                     keep_recent: int = 6) -> "list[ChatMessage]":
     total = sum(len(m.content) for m in msgs if isinstance(m.content, str))
@@ -140,6 +173,8 @@ async def run_agent_loop(
     on_event: Callable[[dict[str, Any]], None] | None = None,
     next_task: Callable[[], str | None] | None = None,
     post_turn: Callable[[int], None] | None = None,
+    max_tool_calls_per_turn: int | None = None,
+    account: str | None = None,
 ) -> AgentLoopResult:
     """Drive the agent until it stops calling tools or hits max_turns.
 
@@ -154,6 +189,12 @@ async def run_agent_loop(
         temperature: sampling temperature passed to the LLM each call.
         seed: deterministic-sampling seed (where the backend supports it).
         on_event: optional hook called with structured event dicts for tracing.
+        max_tool_calls_per_turn: per-turn cap on EXECUTED tool calls; None ->
+            $MOLE_MAX_TOOL_CALLS_PER_TURN, else 24; <= 0 disables. Calls past the
+            cap are answered with an error tool message and counted in
+            `tool_calls_dropped`; more than 3 x cap drops end the session with
+            aborted_reason="tool_flood".
+        account: label for log lines only (e.g. the persona id).
 
     Returns:
         AgentLoopResult capturing the full conversation and per-turn artefacts.
@@ -169,6 +210,8 @@ async def run_agent_loop(
     turn = 0
     finish_reason = "stop"
     aborted: str | None = None
+    cap = resolve_max_tool_calls_per_turn(max_tool_calls_per_turn)
+    dropped_total = 0
 
     def _emit(evt: dict[str, Any]) -> None:
         if on_event is not None:
@@ -238,11 +281,20 @@ async def run_agent_loop(
                     continue
             break
 
+        # Per-turn cap: only the first `cap` calls are dispatched (in order); the
+        # overflow is answered below without being executed. At or under the cap,
+        # `to_run` is resp.tool_calls itself and nothing else changes.
+        to_run = resp.tool_calls
+        overflow: list[ToolCall] = []
+        if cap > 0 and len(resp.tool_calls) > cap:
+            to_run = resp.tool_calls[:cap]
+            overflow = resp.tool_calls[cap:]
+
         # Dispatch tool calls. When the model emits MULTIPLE tool calls in one turn,
         # run them concurrently via asyncio.gather — saves latency proportional to the
         # number of parallel calls. Errors become tool messages so the agent can react
         # (e.g., adjust args and retry) rather than crashing the loop.
-        for tc in resp.tool_calls:
+        for tc in to_run:
             all_tool_calls.append(tc)
             _emit({"type": "tool.request", "turn": turn,
                    "tool_call_id": tc.id, "name": tc.name})
@@ -258,7 +310,7 @@ async def run_agent_loop(
                     is_error=True,
                 )
 
-        results = await asyncio.gather(*[_one(tc) for tc in resp.tool_calls])
+        results = await asyncio.gather(*[_one(tc) for tc in to_run])
         for result in results:
             all_tool_results.append(result)
             _emit({"type": "tool.result", "turn": turn,
@@ -269,6 +321,28 @@ async def run_agent_loop(
                 role="tool", content=_cap_tool_result(result.content),
                 tool_call_id=result.tool_call_id, name=result.name,
             ))
+
+        if overflow:
+            dropped_total += len(overflow)
+            logger.warning(
+                "tool-call cap: account=%s turn=%d dropped %d of %d tool calls "
+                "(cap %d)", account or "?", turn, len(overflow),
+                len(resp.tool_calls), cap)
+            _emit({"type": "tool.dropped", "turn": turn, "n_dropped": len(overflow),
+                   "cap": cap})
+            drop_msg = _dropped_message(cap)
+            for tc in overflow:
+                msgs.append(ChatMessage(
+                    role="tool", content=drop_msg,
+                    tool_call_id=tc.id, name=tc.name,
+                ))
+            if dropped_total > _TOOL_FLOOD_FACTOR * cap:
+                logger.warning(
+                    "tool-call cap: account=%s ending session at turn %d after "
+                    "%d dropped tool calls (> %d x cap %d): tool_flood",
+                    account or "?", turn, dropped_total, _TOOL_FLOOD_FACTOR, cap)
+                aborted = "tool_flood"
+                break
 
         # Rich-session mode: advance the simulated clock so the next turn's events get a
         # later timestamp (intra-session time spread). No-op by default.
@@ -295,4 +369,5 @@ async def run_agent_loop(
         total_reasoning_tokens=reasoning_tokens,
         total_cost_usd=cost_usd,
         aborted_reason=aborted,
+        tool_calls_dropped=dropped_total,
     )
