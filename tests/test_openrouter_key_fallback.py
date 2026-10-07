@@ -45,3 +45,21 @@ def test_client_rotates_key_on_402(monkeypatch):
     assert resp.content == "ok"
     assert calls == ["key-one", "key-two"]
     assert client._fallback_keys == ["key-two"]
+
+
+def test_reasoning_effort_env_adds_body_param(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY", "key-one")
+    monkeypatch.setenv("OPENROUTER_REASONING_EFFORT", "low")
+    client = OpenRouterClient(model="x/y", api_key="key-one")
+    seen = {}
+
+    class _FakeOpenAI:
+        def post(self, path, *, cast_to, body):
+            seen.update(body)
+            msg = SimpleNamespace(content="ok", tool_calls=[])
+            return SimpleNamespace(choices=[SimpleNamespace(message=msg, finish_reason="stop")],
+                                   usage=SimpleNamespace(prompt_tokens=1, completion_tokens=1))
+
+    client._client = _FakeOpenAI()
+    asyncio.run(client.complete([ChatMessage(role="user", content="hi")]))
+    assert seen.get("reasoning") == {"effort": "low"}

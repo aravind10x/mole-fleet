@@ -193,6 +193,13 @@ class OpenRouterClient:
                 body["max_tokens"] = max_tokens
             if seed is not None and self._send_seed:
                 body["seed"] = seed
+            # Optional reasoning-effort control (OpenRouter `reasoning` param) for
+            # reasoning models. Env OPENROUTER_REASONING_EFFORT in {low, medium, high};
+            # unset = provider default. Used only for the measured cost/quality
+            # comparison; the generator default is unset.
+            effort = os.environ.get("OPENROUTER_REASONING_EFFORT", "").strip().lower()
+            if effort in ("low", "medium", "high"):
+                body["reasoning"] = {"effort": effort}
 
             try:
                 resp = self._client.post(
