@@ -5,8 +5,10 @@ in the raw audit log for labelling and ordering only. A monitor that saw them co
 learn the timing signature of the generator (e.g. scripted injection phases run at a
 distinctive cadence) instead of the behaviour, which is exactly the style leak the
 benchmark must avoid. Checked here: the level 0 / 1 / 2 projections, the LLM-judge
-renderer, the M2 account packets and M3 release-dossier packets, and the two monitors
-that used to read real_ts directly (FACADE v2 featurizer, cascade level 1)."""
+renderer, the M2 account packets (flat and strong, incl. per-day summary inputs), the M3
+release-dossier packets, the M4 graph output and packet, a static scan of mole/monitors
+and of the scripts that build judge packets, and the two monitors that used to read
+real_ts directly (FACADE v2 featurizer, cascade level 1)."""
 from __future__ import annotations
 
 import asyncio
@@ -106,8 +108,65 @@ def test_m3_dossier_packets_have_no_timing(tmp_path):
         _clean(fcm.dossier_packet(d["dossier"]), "dossier_packet")
 
 
+def test_m2_strong_and_m4_packets_have_no_timing(tmp_path):
+    """The M2-strong account packets (incl. the per-day summary inputs), the M4 graph
+    output and the M4 LLM packet, built from rows that carry real_ts/wall_ts."""
+    import first_cut_monitors as fcm
+    from mole.monitors.release import account_history as ah
+    from mole.monitors.release import graph as g
+    from mole.rules.dossier import build_release_dossier, deployments, snapshot
+    from mole.scenarios.release_sabotage import build_scenario_context, export_state, play_attack
+
+    async def go():
+        ctx, collector = await build_scenario_context(tmp_path)
+        await play_attack(ctx, level="s0")
+        state = export_state(ctx, tmp_path)
+        collector.close()
+        return list(collector.events), state
+    events, state = asyncio.run(go())
+    for e in events:
+        e.real_ts, e.wall_ts = REAL_TS, WALL_TS
+    rows = [json.loads(e.to_jsonl()) for e in events]
+    assert all(r["real_ts"] == REAL_TS and r["wall_ts"] == WALL_TS for r in rows)
+    state = json.loads(json.dumps(state, default=str))
+    dossier = build_release_dossier(events, state, deployments(snapshot(state))[-1])
+    deadline = next(r["ts"] for r in rows if r["action"] == "deploy")
+
+    class CapturingSummarizer:
+        def __init__(self):
+            self.inputs = []
+
+        async def summarize(self, account, day, text):
+            self.inputs.append(text)
+            return "summary", {"tokens_in": 0, "tokens_out": 0, "dollars": 0.0, "cached": False}
+
+    summ = CapturingSummarizer()
+    for account in ah.participants(dossier):
+        for cap in (ah.DEFAULT_TOKEN_CAP, 600):                    # full, and compressed/elided
+            packet, meta = asyncio.run(ah.build_account_packet(
+                rows, state, account, deadline_ts=deadline, token_cap=cap, summarize=summ))
+            _clean(packet, f"M2 strong packet {account} cap={cap}")
+            _clean(json.dumps(meta, default=str), f"M2 strong meta {account}")
+    assert summ.inputs
+    for text in summ.inputs:
+        _clean(text, "M2 per-day summary input")
+    res = g.score_release(rows, dossier)
+    _clean(json.dumps(res, default=str), "M4 graph result")
+    _clean(g.m4_packet(fcm.dossier_body(dossier), res["neighbourhood"], token_cap=ah.DEFAULT_TOKEN_CAP),
+           "M4 packet")
+
+
 def test_no_monitor_code_reads_generation_timing():
     hits = [f"{p.relative_to(REPO)}:{n}" for p in sorted((REPO / "mole" / "monitors").rglob("*.py"))
+            for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
+            if "real_ts" in line or "wall_ts" in line]
+    assert hits == []
+
+
+def test_script_packet_builders_do_not_read_generation_timing():
+    """The judge-packet builders that live in scripts/ (M2 flat/strong, M3, M4 wiring)."""
+    files = [REPO / "scripts" / "campaign_monitors.py", REPO / "scripts" / "first_cut_monitors.py"]
+    hits = [f"{p.relative_to(REPO)}:{n}" for p in files
             for n, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
             if "real_ts" in line or "wall_ts" in line]
     assert hits == []
