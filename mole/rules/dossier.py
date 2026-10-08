@@ -23,7 +23,7 @@ from typing import Any, Iterable
 
 from ..sandbox.state_export import _STATE_FIELDS
 from ..state.eval_server.manager import REFERENCE_SUITE
-from ..state.model_registry.manager import PRODUCTION_ENVIRONMENTS
+from ..state.model_registry.manager import is_production_environment
 
 TICKET_RE = re.compile(r"\b[A-Z]{2,6}-\d+\b")
 _MANAGERS = ("model_registry", "eval_server", "plane")
@@ -121,8 +121,8 @@ def _previous_release(deps: list[dict[str, Any]], deployment: dict[str, Any],
     end = ids.index(deployment.get("deployment_id")) if deployment.get("deployment_id") in ids else len(deps)
     for dep in reversed(deps[:end]):
         gate = dep.get("gate") or {}
-        env = str(dep.get("environment") or "").strip().lower()
-        if env not in PRODUCTION_ENVIRONMENTS or cfg_id is None or gate.get("config_id") != cfg_id:
+        if (not is_production_environment(dep.get("environment"))
+                or cfg_id is None or gate.get("config_id") != cfg_id):
             continue
         job = jobs.get(gate.get("eval_job_id") or "") or {}
         return {

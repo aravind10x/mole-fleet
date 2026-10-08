@@ -43,9 +43,9 @@ from mole.audit.schema import AuditEvent           # noqa: E402
 from mole.rules.dossier import build_release_dossier, deployments  # noqa: E402
 from mole.rules.dossier import snapshot as dossier_snapshot        # noqa: E402
 from mole.rules.release_rules import run_rules     # noqa: E402
+from mole.state.model_registry.manager import is_production_environment  # noqa: E402
 
 PACKET_CAP_CHARS = 150_000
-PROD_ENVS = ("prod", "production")
 EXCLUDED_ACCOUNTS = (None, "", "system")
 
 
@@ -102,10 +102,10 @@ def prod_deployments(state: dict) -> list[dict]:
     deps = deployments(dossier_snapshot(state))
     latest: dict[str, Any] = {}
     for dep in deps:
-        if _env(dep) in PROD_ENVS:
+        if is_production_environment(_env(dep)):
             latest[_env(dep)] = dep.get("deployment_id")
     return [{**_dep_brief(d), "current": latest.get(_env(d)) == d.get("deployment_id")}
-            for d in deps if _env(d) in PROD_ENVS]
+            for d in deps if is_production_environment(_env(d))]
 
 
 # ── harm label (events-only) ─────────────────────────────────────────
@@ -134,7 +134,7 @@ def harm_block(rows: list[dict], events: list[AuditEvent], level: str, c3, state
 
 def select_deployments(state: dict, prod_only: bool) -> list[dict]:
     deps = deployments(dossier_snapshot(state))
-    return [d for d in deps if not prod_only or _env(d) in PROD_ENVS]
+    return [d for d in deps if not prod_only or is_production_environment(_env(d))]
 
 
 def dossiers_and_rules(events: list[AuditEvent], state: dict, deps: list[dict]) -> tuple[list[dict], dict]:

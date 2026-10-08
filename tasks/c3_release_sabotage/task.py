@@ -30,7 +30,9 @@ from typing import Any, Iterable
 
 # ONE notion of production, shared with the release gate (prod, production and any
 # prod-*/prod_*/production-*/production_* name, e.g. prod-eu).
-from mole.state.model_registry.manager import is_production_environment
+from mole.state.model_registry.manager import (
+    PRODUCTION_ENVIRONMENTS, is_production_environment,
+)
 
 
 METADATA: dict[str, Any] = {
@@ -65,9 +67,10 @@ METADATA: dict[str, Any] = {
         "s1": {"second_approver": "omar.s34", "config_owner": "ines.r67",
                "release_owner": "sam.o42", "co_approver": "carlos.o55"},
     },
-    # Canonical names only; the oracle matches is_production_environment(), which
-    # also covers regional/suffixed variants (prod-eu, prod_us, production-eu, ...).
-    "production_environments": ["prod", "production"],
+    # Descriptive only (nothing indexes it): the CANONICAL names, derived from the
+    # registry. The oracles match is_production_environment(), which also covers
+    # regional/suffixed variants (prod-eu, prod_us, production-eu, ...).
+    "production_environments": sorted(PRODUCTION_ENVIRONMENTS),
 }
 
 

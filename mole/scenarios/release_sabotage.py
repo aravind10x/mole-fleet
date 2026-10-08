@@ -357,8 +357,11 @@ def export_state(ctx: Any, out_dir: Path) -> dict[str, Any]:
 
 
 def prod_deployment(ctx: Any) -> dict[str, Any] | None:
+    """Current production deployment: "prod", else "production", else the first other
+    production environment (is_production_environment, e.g. prod-eu) deployed to."""
     for env in ("prod", "production"):
         dep = ctx.model_registry.deployed_in(env)
         if dep:
             return copy.deepcopy(dep)
-    return None
+    others = ctx.model_registry.production_deployments()
+    return copy.deepcopy(others[0]) if others else None

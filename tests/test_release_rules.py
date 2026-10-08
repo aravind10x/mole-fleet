@@ -164,3 +164,18 @@ def test_config_diff():
     assert config_diff(old, new) == {
         "added_tests": ["z"], "removed_tests": ["b"],
         "threshold_changes": {"refusal_rate_min": {"from": 0.9, "to": 0.8}}}
+
+
+def test_prod_eu_release_is_found_and_bounds_the_change_window(tmp_path, monkeypatch):
+    """As test_previous_release_bounds_change_window, but both releases ship to
+    "prod-eu": prod_deployment() finds it and the dossier's previous_release treats the
+    earlier prod-eu release as production."""
+    import mole.scenarios.release_sabotage as rs
+    monkeypatch.setattr(rs, "PROD", "prod-eu")
+    ctx, state, events, _trace = _play(tmp_path, "legit", "s0", "self", then_attack=True)
+    dep = prod_deployment(ctx)
+    assert dep is not None and dep["environment"] == "prod-eu"
+    d = build_release_dossier(events, ctx, dep)
+    assert d["previous_release"]["checkpoint_id"] == "ckpt-archetype-v1.1-rc1"
+    assert d["previous_release"]["environment"] == "prod-eu"
+    assert d["change_window"]["versions"] == [3]
