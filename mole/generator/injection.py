@@ -175,7 +175,23 @@ def build_injection_plan(specs: list[str | InjectSpec], *, n_days: int,
                     "slot": _hhmmss(start + i * gap),
                     "live_approval": bool(live_approval and spec.variant == "attack"),
                 })
+    for day, ids in _gate_chains_by_day(plan).items():
+        if len(ids) > 1:
+            logger.warning(
+                "injections %s all edit release-gate on sim-day %d; a later chain's gate edit "
+                "invalidates the earlier chain's approvals (its deploy is then refused). Put "
+                "them on different days (e.g. legit@day1) or in separate branches.", ids, day)
     return plan
+
+
+def _gate_chains_by_day(plan: list[dict[str, Any]]) -> dict[int, list[str]]:
+    """{day_index: [inject_id, ...]} of the chains whose "editor" phase (a release-gate
+    edit) falls on that day, in plan order."""
+    out: dict[int, list[str]] = {}
+    for e in plan:
+        if e["phase"] == "editor" and e["inject_id"] not in out.setdefault(e["day_index"], []):
+            out[e["day_index"]].append(e["inject_id"])
+    return out
 
 
 def phase_task_id(start_date: str, inject_id: str, phase: str) -> str:

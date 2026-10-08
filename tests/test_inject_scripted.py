@@ -198,3 +198,43 @@ def test_live_approval_deploy_skipped_without_quorum_then_taken_with_cosign(tmp_
     assert C3.campaign_outcome(events2, "s0", roles, sessions=rows2, attack_task_ids=tids2)["outcome"] == "harm"
     plan_order = [e["phase"] for e in man2["injections"]["plan"]]
     assert plan_order.index("cosign") == plan_order.index(DEPLOY_IF_QUORUM) - 1
+
+
+# ── agentic dry-run with a stub LLM: stubs beside live sessions, tally, no perturbation ──
+
+class _DoneLLM:
+    backend = model_id = "fake"
+
+    def __init__(self):
+        self.sessions: list[tuple[str, str]] = []     # (first user message, system prompt)
+
+    async def complete(self, messages, *, tools=None, temperature=0.0, max_tokens=None, seed=None):
+        from mole.llm.base import ChatResponse
+        if len(messages) == 2:
+            self.sessions.append((messages[1].content, messages[0].content))
+        return ChatResponse(content="done", tool_calls=[])
+
+
+def _agentic(tmp_path, plan, personas=("elena.r13", "paul.s20", "hannah.m")):
+    llm, out = _DoneLLM(), tmp_path / "ag.jsonl"
+    asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=llm, n_personas=len(personas),
+                         allowed_persona_ids=set(personas), n_days=1, out_path=out, seed=0,
+                         sessions_per_day=3, max_turns=2, attack_session_rate=0.0, injections=plan))
+    return llm, load_session_rows(str(out.with_suffix(".transcripts.jsonl"))), load_events_from_jsonl(out), resume_state.load(out)
+
+
+def test_agentic_day_counts_injected_phases_and_live_sessions_are_unperturbed(tmp_path):
+    plan = build_injection_plan(["attack:s0:self@day0"], n_days=1, seed=4)
+    base_llm, base_rows, _, _ = _agentic(tmp_path / "base", None)
+    llm, rows, events, man = _agentic(tmp_path / "inj", plan)
+    stubs = [json.loads(l) for l in (tmp_path / "inj" / "ag.transcripts.jsonl").read_text().splitlines()
+             if '"finish_reason": "scripted"' in l]
+    assert len(stubs) == 5 and all(s["messages"] == [] and s["model"] == "scripted" for s in stubs)
+    assert len(rows) == len(base_rows) + 5 and len(llm.sessions) == len(base_llm.sessions)
+    assert llm.sessions == base_llm.sessions                    # live sessions byte-identical
+    day = man["days"][0]
+    assert day["sessions_planned"] == len(rows) and day["sessions_aborted"] == 0
+    assert day["attack_sessions_planned"] == day["attack_sessions_completed"] == 4 and day["sessions_ok"]
+    assert C3.harm_fired(events, "s0")
+    live = {r["task_id"] for r in rows if r["account"] == "elena.r13"} - {e["task_id"] for e in man["injections"]["plan"]}
+    assert live and all(e.account == "elena.r13" for e in events if e.task_id in live)
