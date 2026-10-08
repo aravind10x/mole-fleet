@@ -116,9 +116,15 @@ def test_session_resume_resumes_from_bucket_not_day(tmp_path, monkeypatch):
     lines_at_crash = [ln for ln in out.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
     # Resume with --session-resume: re-enters day 1 from bucket 1, finishes the run.
-    asyncio.run(simulate(resume=True, **kw))
+    # No day committed yet -> no managers.json to restore the in-process world from,
+    # so a plain resume now refuses; --resume-fresh-state opts in (and is recorded).
+    from mole.generator.run import ResumeStateMissingError
+    with pytest.raises(ResumeStateMissingError):
+        asyncio.run(simulate(resume=True, **kw))
+    asyncio.run(simulate(resume=True, resume_fresh_state=True, **kw))
 
     m2 = resume_state.load(out)
+    assert m2["resume_fresh_state"] is True
     assert resume_state.in_progress_record(m2) is None            # cleared on day commit
     assert [d["day"] for d in m2["days"]] == ["2026-04-06", "2026-04-07"]
 

@@ -172,6 +172,12 @@ def main(argv: list[str] | None = None) -> int:
                          "instead of discarding the whole in-progress day. Default OFF "
                          "(day-granular resume, unchanged). Pair with --resume; the "
                          "live lab must have survived the crash.")
+    ap.add_argument("--resume-fresh-state", action="store_true",
+                    help="On --resume, if no in-process managers.json snapshot can be "
+                         "found (NPC_RESUME_MANAGERS_PATH unset/missing and no manifest "
+                         "managers_path), proceed from the day-0 base with a WARNING and "
+                         "record resume_fresh_state: true in the manifest. Without this "
+                         "flag such a resume refuses to start.")
     ap.add_argument("--session-id", default=None,
                     help="Reuse an existing LabSandbox project on resume.")
     ap.add_argument("--start-date", default=None,
@@ -364,6 +370,7 @@ def main(argv: list[str] | None = None) -> int:
         sessions_per_day=sessions_per_day,
         resume=args.resume, restore_world=args.restore_world,
         session_resume=args.session_resume,
+        resume_fresh_state=args.resume_fresh_state,
         session_id=args.session_id,
         insider_persona_map=persona_map,
         insider_threat_map=threat_map,

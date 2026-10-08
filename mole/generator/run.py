@@ -242,31 +242,77 @@ async def _start_sandbox(sandbox_mode: str, *, session_id: str,
     return sandbox
 
 
-def _import_resume_managers(ctx: Any, manifest: dict[str, Any]) -> None:
-    """On a plain --resume, overlay the last committed day's managers.json onto
-    the in-process managers (org/model_registry/eval_server/secrets_store/plane).
+class ResumeStateMissingError(RuntimeError):
+    """--resume cannot find the in-process managers.json snapshot (and
+    --resume-fresh-state was not passed)."""
 
-    They live in THIS python process, not the docker lab, so a cross-process
-    resume would otherwise leave them at day-0 and multi-day arcs that accumulate
-    model/eval/plane/secret state would silently reset. Path resolution:
-    NPC_RESUME_MANAGERS_PATH wins (lets the file live on durable storage, e.g. a
-    shared volume); else the manifest's recorded managers_path. Loud if the state
-    can't be found."""
-    _mp = os.environ.get("NPC_RESUME_MANAGERS_PATH", "").strip()
-    if not _mp:
-        _rec = resume_state.last_completed_record(manifest)
-        if _rec and _rec.get("managers_ok"):
-            _mp = (_rec.get("managers_path") or "").strip()
-    if _mp and Path(_mp).exists():
-        from ..sandbox.state_export import import_manager_state
-        applied = import_manager_state(ctx, Path(_mp))
-        logger.info("--resume: imported in-process manager state from %s: %s", _mp, applied)
-    elif _mp:
-        logger.error("--resume: managers.json %s not found; in-process managers "
-                     "(org/model_registry/eval_server/secrets_store/plane) start at day-0", _mp)
+
+def resolve_resume_managers_path(
+    manifest: dict[str, Any], audit_path: Path | str, *, resume_fresh_state: bool = False,
+) -> Path | None:
+    """managers.json to overlay on a plain --resume, or None to keep the day-0 base.
+
+    The in-process managers (org/model_registry/eval_server/secrets_store/plane)
+    live in THIS python process, not the docker lab, so a cross-process resume
+    must re-import the last committed day's state; otherwise multi-day arcs that
+    accumulate model/eval/plane/secret state silently reset under an audit-log
+    prefix that already mutated them. Resolution: NPC_RESUME_MANAGERS_PATH wins
+    (lets the file live on durable storage, e.g. a shared volume); else the
+    manifest's last committed day's managers_path.
+
+    No usable snapshot -> ResumeStateMissingError naming what is missing, unless
+    `resume_fresh_state` (then a WARNING, manifest["resume_fresh_state"] = True --
+    the caller persists it -- and None). An absent/empty audit log is
+    not an error (nothing has mutated the world yet; day-0 base is consistent).
+    """
+    env_mp = os.environ.get("NPC_RESUME_MANAGERS_PATH", "").strip()
+    rec = resume_state.last_completed_record(manifest)
+    if env_mp:
+        mp, source = env_mp, "NPC_RESUME_MANAGERS_PATH"
+    elif rec and rec.get("managers_ok") and (rec.get("managers_path") or "").strip():
+        mp, source = rec["managers_path"].strip(), f"manifest managers_path for day {rec['day']}"
     else:
-        logger.warning("--resume: no managers.json (NPC_RESUME_MANAGERS_PATH unset and no "
-                       "manifest managers_path); in-process managers start at day-0 base")
+        mp, source = "", ""
+    if mp and Path(mp).exists():
+        return Path(mp)
+    audit_path = Path(audit_path)
+    if not mp and (not audit_path.exists() or audit_path.stat().st_size == 0):
+        logger.info("--resume: no prior audit events and no managers.json; in-process "
+                    "managers start at the day-0 base")
+        return None
+    if mp:
+        missing = f"managers.json {mp} (from {source}) not found"
+    else:
+        day = rec["day"] if rec else None
+        missing = (f"no managers.json snapshot for the last committed day ({day}): "
+                   f"NPC_RESUME_MANAGERS_PATH is unset and the manifest records no "
+                   f"managers_path" + ("" if rec else " (no committed day)"))
+    if not resume_fresh_state:
+        raise ResumeStateMissingError(
+            f"--resume: {missing}. Refusing to restart the in-process managers "
+            f"(org/model_registry/eval_server/secrets_store/plane) from the day-0 base "
+            f"under an audit log of {audit_path} that already mutated them. Supply the "
+            f"snapshot either (1) via NPC_RESUME_MANAGERS_PATH=<path to the "
+            f"day_<YYYY-MM-DD>/managers.json>, or (2) via the resume manifest "
+            f"{resume_state.manifest_path(audit_path)} (its last committed day's "
+            f"managers_ok + managers_path). Pass --resume-fresh-state to proceed from "
+            f"the day-0 base anyway (recorded in the manifest as resume_fresh_state).")
+    logger.warning("--resume-fresh-state: %s; in-process managers start at the day-0 base "
+                   "(manifest records resume_fresh_state: true)", missing)
+    manifest["resume_fresh_state"] = True
+    return None
+
+
+def _import_resume_managers(ctx: Any, managers_path: Path | None) -> None:
+    """On a plain --resume, overlay the resolved managers.json (see
+    resolve_resume_managers_path) onto the in-process managers; None keeps the
+    day-0 base (already logged by the resolver)."""
+    if managers_path is None:
+        return
+    from ..sandbox.state_export import import_manager_state
+    applied = import_manager_state(ctx, managers_path)
+    logger.info("--resume: imported in-process manager state from %s: %s",
+                managers_path, applied)
 
 
 def _last_managers_record(manifest: dict[str, Any]) -> dict[str, Any] | None:
@@ -458,6 +504,7 @@ async def simulate(
     resume: bool = False,
     restore_world: bool = False,
     session_resume: bool = False,
+    resume_fresh_state: bool = False,
     session_id: str | None = None,
     insider_persona_map: dict[str, str] | None = None,
     insider_threat_map: dict[str, str] | None = None,
@@ -610,6 +657,15 @@ async def simulate(
             audit_path=out_path, transcript_path=transcript_path,
             start_date=start_date, n_days=n_days, seed=seed, session_id=session_id)
     manifest["sandbox_mode"] = sandbox_mode
+    # Plain --resume: resolve the in-process managers.json NOW (before any sandbox
+    # starts) so a missing snapshot refuses the run instead of silently restarting
+    # the world from day 0 (--restore-world imports restore_rec's own file).
+    resume_managers_path: Path | None = None
+    if resume and restore_rec is None:
+        resume_managers_path = resolve_resume_managers_path(
+            manifest, out_path, resume_fresh_state=resume_fresh_state)
+        if manifest.get("resume_fresh_state"):
+            resume_state.write_atomic(manifest, out_path)
     if branch_info is not None:
         manifest["branch_from"] = {k: branch_info[k] for k in ("parent", "day", "managers_path")}
         resume_state.write_atomic(manifest, out_path)
@@ -699,7 +755,7 @@ async def simulate(
             # lab, so a cross-process resume must overlay the last committed day's
             # managers.json (see _import_resume_managers).
             if resume:
-                _import_resume_managers(ctx, manifest)
+                _import_resume_managers(ctx, resume_managers_path)
             elif branch_info is not None:
                 from ..sandbox.state_export import import_manager_state
                 applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
@@ -809,7 +865,7 @@ async def simulate(
             from ..sandbox.state_export import import_manager_state
             import_manager_state(ctx, Path(restore_rec["managers_path"]))
         elif resume:
-            _import_resume_managers(ctx, manifest)
+            _import_resume_managers(ctx, resume_managers_path)
         elif branch_info is not None:
             from ..sandbox.state_export import import_manager_state
             applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
