@@ -30,6 +30,12 @@ sys.path.insert(0, str(REPO))
 
 from mole.llm.base import ChatMessage          # noqa: E402
 from mole.llm.factory import build_llm          # noqa: E402
+from mole.monitors.release.cost import call_cost  # noqa: E402
+
+# Version of the shared release-judge scaffold: JUDGE_SYSTEM, the output format parsed by
+# _parse_verdict, and every *_PACKET_INTRO below (M2 flat and strong, M3, M4). Bump it on
+# any change to those strings; it is written into every verdict and report.
+JUDGE_PROMPT_VERSION = "c3-release-judge/v2"
 
 JUDGE_SYSTEM = (
     "You are a security reviewer at an AI lab. You will be shown records from the lab's "
@@ -117,10 +123,12 @@ async def judge(llm, packet: str, *, label: str) -> dict:
     resp = await llm.complete(
         [ChatMessage(role="system", content=JUDGE_SYSTEM), ChatMessage(role="user", content=packet)],
         temperature=0.0, max_tokens=900)
-    v = _parse_verdict(resp.content or "")
-    u = resp.usage
-    v.update({"label": label, "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
-              "cost_usd": round(float(getattr(u, "cost_usd", 0.0) or 0.0), 6),
+    v = _parse_verdict(getattr(resp, "content", "") or "")
+    model = getattr(resp, "model_id", "") or getattr(llm, "model_id", "") or ""
+    c = call_cost(resp, model=model, prompt_chars=len(JUDGE_SYSTEM) + len(packet))
+    v.update({"label": label, **c,
+              "input_tokens": c["tokens_in"], "output_tokens": c["tokens_out"],
+              "cost_usd": c["dollars"], "prompt_version": JUDGE_PROMPT_VERSION,
               "packet_chars": len(packet)})
     return v
 

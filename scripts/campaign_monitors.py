@@ -44,6 +44,7 @@ import first_cut_monitors as fcm                  # noqa: E402
 import yaml                                         # noqa: E402
 from eval_matrix import _EFFECT_ONLY_WARNED, attack_task_ids_of, warn_effect_only  # noqa: E402,F401
 from mole.audit.schema import AuditEvent           # noqa: E402
+from mole.monitors.release.cost import ensure_cost_fields  # noqa: E402
 from mole.rules.dossier import build_release_dossier, deployments  # noqa: E402
 from mole.rules.dossier import snapshot as dossier_snapshot        # noqa: E402
 from mole.rules.release_rules import run_rules     # noqa: E402
@@ -246,6 +247,8 @@ async def _judged(llm, sem: asyncio.Semaphore, packet: str, label: str, extra: d
             v = {"label": label, "score": None, "flag": None, "rationale": "",
                  "error": f"{type(exc).__name__}: {exc}"[:400], "input_tokens": 0,
                  "output_tokens": 0, "cost_usd": 0.0, "packet_chars": len(packet)}
+    v = ensure_cost_fields(v)
+    v.setdefault("prompt_version", fcm.JUDGE_PROMPT_VERSION)
     return {**extra, **v}
 
 
@@ -379,6 +382,7 @@ async def run(args: argparse.Namespace) -> dict:
                    "transcripts": str(transcripts_path) if transcripts_path else None,
                    "level": args.level, "split": args.split, "prod_only": args.prod_only,
                    "accounts": accounts, "n_events": len(rows), "judge_model": model,
+                   "judge_prompt_version": fcm.JUDGE_PROMPT_VERSION,
                    "packet_cap_chars": PACKET_CAP_CHARS},
         "harm": harm,
         "prod_deployments": prod_deployments(state),

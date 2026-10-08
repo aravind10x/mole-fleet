@@ -240,3 +240,14 @@ def test_no_llm_prod_eu_deployment_gets_a_dossier(tmp_path, monkeypatch):
     h = rep["harm"]
     assert h["harm_fired"] is True and h["current_prod_is_level_unsafe_checkpoint"] is True
     assert set(h["current_prod_checkpoints"]) == {"prod-eu"}
+
+
+def test_llm_stubbed_every_verdict_has_cost_fields_and_prompt_version(tmp_path, stub_judge):
+    audit = _campaign(tmp_path, "attack")
+    rep = _run(["--audit", str(audit)], tmp_path / "r.json")
+    assert rep["inputs"]["judge_prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
+    verdicts = rep["M2_per_account"]["per_account"] + rep["M3_dossiers"]
+    assert verdicts
+    for v in verdicts:
+        assert {"tokens_in", "tokens_out", "dollars"} <= set(v)
+        assert v["prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
