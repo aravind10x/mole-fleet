@@ -655,7 +655,10 @@ class AgenticMember(Member):
         if (self._planning_mode == "agentic" and self.persona_override is not None
                 and not self._authored):
             self._authored = True
-            self.campaign_schedule = await self._author_campaign(org, sim_now)
+            # An explicit schedule passed in (e.g. [] when attack_session_rate <= 0,
+            # the honest-world / --no-insiders run) wins over agent authoring.
+            if self.campaign_schedule is None:
+                self.campaign_schedule = await self._author_campaign(org, sim_now)
         phase_directive: str | None = None
         staging_task: str | None = None
         if self.campaign_schedule is not None and self.persona_override is not None:

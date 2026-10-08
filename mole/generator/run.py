@@ -354,6 +354,62 @@ def _weekday_dates(start: date, n_days: int) -> list[str]:
     return out
 
 
+def campaign_schedule_for(
+    account_id: str,
+    i: int,
+    *,
+    planning: str,
+    persona_map: dict[str, str],
+    threat_map: dict[str, str],
+    role_map: dict[str, str],
+    level_map: dict[str, str],
+    sim_dates: list[str],
+    seed: int | None,
+    campaign_days: int,
+    attack_session_rate: float,
+) -> list[dict] | None:
+    """Per-insider attack schedule handed to AgenticMember(campaign_schedule=...).
+
+    Built from a per-member RNG over the working days: "scripted" -> stage->trigger
+    campaign; "single" -> K self-contained attack-days. "agentic" -> None (the agent
+    authors at runtime in its first session); "coinflip" (legacy) and benign members
+    -> None (the member's per-session i.i.d. path).
+
+    attack_session_rate <= 0 (--attack-rate 0.0 / --no-insiders) is an HONEST world:
+    every insider gets an explicit empty schedule [] in EVERY planning mode, so no
+    attack session is ever planned (the deterministic planners otherwise ignore the
+    rate, and an explicit [] also stops the agentic member from authoring one).
+    """
+    if account_id not in persona_map:
+        return None
+    if attack_session_rate <= 0:
+        return []
+    import random as _r
+    rng = _r.Random((seed or 0) + i)
+    if planning == "scripted":
+        from .campaign import build_campaign
+        return build_campaign(threat_map.get(account_id, ""), sim_dates, rng,
+                              role=role_map.get(account_id),
+                              stealth_level=level_map.get(account_id)) or None
+    if planning == "single":
+        # Collusion is inherently multi-day (the requester->co-signer handoff needs
+        # >=2 days); single-day can't coordinate it, so collusion insiders run BENIGN
+        # in single-day mode rather than emitting degenerate (uncoordinated) "collusion"
+        # cells. Collusion is evaluated only on the multi-day path.
+        if role_map.get(account_id) is not None:
+            # Return an EXPLICIT empty schedule -- [] NOT None. None routes the member
+            # to its legacy i.i.d. attack coin-flip (agentic_member: the
+            # `campaign_schedule is None` branch), which re-emits the (uncoordinated)
+            # collusion attack anyway -- that bug put ~40% no-op collusion sessions
+            # into the single_K4 corpus. An empty list is "not None", so the member
+            # takes the schedule branch, matches no attack-day on any date, and stays
+            # benign the whole run.
+            return []
+        from .campaign import build_single_day
+        return build_single_day(sim_dates, rng, k=campaign_days) or None
+    return None
+
+
 def _last_completed_day(audit_jsonl: Path) -> str | None:
     """Read an existing audit jsonl and return the max date prefix (YYYY-MM-DD)
     found in any event's `ts`, or None if the file is empty / missing.
@@ -696,38 +752,18 @@ async def simulate(
         _sim_dates = (_weekday_dates(date.fromisoformat(start_date), n_days)
                       if planning != "coinflip" else [])
 
+        if attack_session_rate <= 0 and persona_map:
+            logger.info("attack_session_rate=%s <= 0: all %d insiders running BENIGN "
+                        "(explicit empty attack schedule, planning=%s)",
+                        attack_session_rate, len(persona_map), planning)
+
         def _campaign_for(account_id: str, i: int):
-            # Per-insider schedules from a per-member RNG over the working days:
-            # "scripted" -> stage->trigger campaign; "single" -> K self-contained
-            # attack-days. "agentic" -> None here (the agent authors at runtime in its
-            # first session); "coinflip" (legacy) and benign members -> None (the
-            # member's per-session i.i.d. path).
-            if account_id not in persona_map:
-                return None
-            import random as _r
-            rng = _r.Random((seed or 0) + i)
-            if planning == "scripted":
-                from .campaign import build_campaign
-                return build_campaign(threat_map.get(account_id, ""), _sim_dates, rng,
-                                      role=role_map.get(account_id),
-                                      stealth_level=level_map.get(account_id)) or None
-            if planning == "single":
-                # Collusion is inherently multi-day (the requester->co-signer handoff needs
-                # >=2 days); single-day can't coordinate it, so collusion insiders run BENIGN
-                # in single-day mode rather than emitting degenerate (uncoordinated) "collusion"
-                # cells. Collusion is evaluated only on the multi-day path.
-                if role_map.get(account_id) is not None:
-                    # Return an EXPLICIT empty schedule -- [] NOT None. None routes the member
-                    # to its legacy i.i.d. attack coin-flip (agentic_member: the
-                    # `campaign_schedule is None` branch), which re-emits the (uncoordinated)
-                    # collusion attack anyway -- that bug put ~40% no-op collusion sessions
-                    # into the single_K4 corpus. An empty list is "not None", so the member
-                    # takes the schedule branch, matches no attack-day on any date, and stays
-                    # benign the whole run.
-                    return []
-                from .campaign import build_single_day
-                return build_single_day(_sim_dates, rng, k=campaign_days) or None
-            return None
+            # See campaign_schedule_for (module level, unit-tested).
+            return campaign_schedule_for(
+                account_id, i, planning=planning, persona_map=persona_map,
+                threat_map=threat_map, role_map=role_map, level_map=level_map,
+                sim_dates=_sim_dates, seed=seed, campaign_days=campaign_days,
+                attack_session_rate=attack_session_rate)
 
         def _arc_for(persona, i: int):
             # Benign multi-day arc for a NON-INSIDER -- the benign analog of _campaign_for. Off by

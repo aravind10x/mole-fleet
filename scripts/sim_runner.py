@@ -209,7 +209,12 @@ def main(argv: list[str] | None = None) -> int:
                          "(empirical insiders are ~5%%; default elevated "
                          "for smoke-scale sample sizes). Set to 1.0 to "
                          "restore the always-attack behavior for prompt "
-                         "iteration; set 0.0 for a pure-benign control.")
+                         "iteration; set 0.0 for a pure-benign control "
+                         "(<= 0 disables attack planning in EVERY --planning mode).")
+    ap.add_argument("--no-insiders", action="store_true",
+                    help="Honest world: every designated insider runs BENIGN for the "
+                         "whole run (no attack session is planned in any --planning "
+                         "mode). Equivalent to --attack-rate 0.0 and overrides it.")
     ap.add_argument("--multi-day", action="store_true",
                     help="Enable MULTI-DAY campaign mode for insiders: instead of the "
                          "i.i.d. per-session attack coin-flip, each insider runs a staged "
@@ -368,7 +373,7 @@ def main(argv: list[str] | None = None) -> int:
         max_tool_calls_per_turn=args.max_tool_calls_per_turn,
         elicit=not args.no_elicitation,
         allowed_persona_ids=persona_filter,
-        attack_session_rate=args.attack_rate,
+        attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
         benign_arcs=benign_arcs,
         planning=planning,
