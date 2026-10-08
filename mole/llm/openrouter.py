@@ -13,6 +13,9 @@ sanitization, and the `</think>` / `<invoke>` reasoning-leak guards.
 
 Env:
   OPENROUTER_API_KEY   required — the OpenRouter API key (process env ONLY).
+  OPENROUTER_API_KEY_2, _3, ...  optional fallback keys, used in numeric order when
+                       the active key dies (401, 402, or 403 key/credit/limit); with
+                       none left a spent key raises KeyExhaustedError (not retried).
   OPENROUTER_MODEL     model slug, e.g. `deepseek/deepseek-v4-pro` (default) or
                        `deepseek/deepseek-v4-flash`.
   OPENROUTER_BASE_URL  default https://openrouter.ai/api/v1.
@@ -27,13 +30,21 @@ import asyncio
 import json
 import logging
 import os
+import threading
 
 import httpx
 from openai import OpenAI
 from openai.types.chat import ChatCompletion
 
 from .base import ChatMessage, ChatResponse, TokenUsage, ToolCall, ToolSchema
+from .retry import is_key_exhaustion
 from .toolcalls import _parse_xml_function_calls, _strip_xml_function_calls
+
+
+class KeyExhaustedError(RuntimeError):
+    """Every configured OpenRouter key is spent or capped (402, or a 403 naming a
+    key/credit/limit). Deliberately carries no status code: the retry layer must not
+    re-ask, and the run's auth breaker still sees the original 402/403 via __cause__."""
 
 DEFAULT_BASE_URL = "https://openrouter.ai/api/v1"
 DEFAULT_READ_TIMEOUT_S = 300.0  # seconds; see OpenRouterClient._make_client
@@ -148,27 +159,46 @@ class OpenRouterClient:
         # Static API key (OpenRouter keys don't expire hourly like short-lived cloud tokens),
         # so set once at construction. One client; the connection pool is reused.
         self._client = self._make_client(key, headers)
-        # Fallback keys: OPENROUTER_API_KEY_2, _3, ... On a 401/402 (dead key or
-        # key/account out of credit) the client rotates to the next key once and
-        # retries the call, so a long run survives a key hitting its spend cap.
+        # Fallback keys: OPENROUTER_API_KEY_2, _3, ... (numeric order). On a dead
+        # key -- 401, or a spent/capped key (402, or 403 "Key limit exceeded";
+        # retry.is_key_exhaustion) -- the client retires that key, switches to the
+        # next key that has not itself died, and re-issues the call, so a long run
+        # survives a key hitting its spend cap. With no live key left a spent key
+        # raises KeyExhaustedError (non-retryable) instead of being re-asked forever.
+        # Logs name keys by index / env-var name, never by value.
         self._headers = headers
-        self._fallback_keys: list[str] = [
-            os.environ[k] for k in sorted(os.environ)
-            if k.startswith("OPENROUTER_API_KEY_") and k[len("OPENROUTER_API_KEY_"):].isdigit()
-            and os.environ[k] and os.environ[k] != key
-        ]
-        self._key_index = 0
+        names = sorted(
+            (k for k in os.environ
+             if k.startswith("OPENROUTER_API_KEY_") and k[len("OPENROUTER_API_KEY_"):].isdigit()
+             and os.environ[k] and os.environ[k] != key),
+            key=lambda k: int(k[len("OPENROUTER_API_KEY_"):]))
+        self._fallback_keys: list[str] = [os.environ[k] for k in names]
+        self._keys: list[str] = [key, *self._fallback_keys]
+        self._key_names: list[str] = ["OPENROUTER_API_KEY", *names]
+        self._key_pos = 0                     # index into self._keys of the active key
+        self._dead_keys: set[int] = set()
+        self._key_lock = threading.Lock()     # _call runs in worker threads
 
-    def _rotate_key(self) -> bool:
-        """Switch to the next fallback key. Returns False when none is left."""
-        if self._key_index >= len(self._fallback_keys):
+    def _key_label(self, pos: int) -> str:
+        return f"key #{pos + 1} ({self._key_names[pos]})"
+
+    def _retire_key(self, pos: int, reason: str) -> bool:
+        """Mark key `pos` dead; if it is still the active key, switch to the next key
+        that has not died. Returns True iff a live key is active afterwards."""
+        with self._key_lock:
+            self._dead_keys.add(pos)
+            if self._key_pos != pos:          # another call already rotated past it
+                return self._key_pos not in self._dead_keys
+            for nxt in range(pos + 1, len(self._keys)):
+                if nxt not in self._dead_keys:
+                    self._key_pos = nxt
+                    self._client = self._make_client(self._keys[nxt], self._headers)
+                    logger.warning("openrouter: API %s failed (%s); switched to %s",
+                                   self._key_label(pos), reason, self._key_label(nxt))
+                    return True
+            logger.error("openrouter: API %s failed (%s); no unexhausted fallback key left "
+                         "(%d configured)", self._key_label(pos), reason, len(self._keys))
             return False
-        new_key = self._fallback_keys[self._key_index]
-        self._key_index += 1
-        self._client = self._make_client(new_key, self._headers)
-        logger.warning("openrouter: switched to fallback API key #%d after a credit/auth error",
-                       self._key_index + 1)
-        return True
 
     async def complete(
         self,
@@ -215,17 +245,29 @@ class OpenRouterClient:
             if effort in ("low", "medium", "high"):
                 body["reasoning"] = {"effort": effort}
 
-            try:
-                resp = self._client.post(
-                    "/chat/completions", cast_to=ChatCompletion, body=body,
-                )
-            except Exception as exc:                                  # noqa: BLE001
-                status = getattr(exc, "status_code", None)
-                if status in (401, 402) and self._rotate_key():
-                    resp = self._client.post(
+            # One attempt per live key: each dead-key failure retires that key, so
+            # the loop ends after at most len(self._keys) attempts.
+            while True:
+                with self._key_lock:
+                    pos, client = self._key_pos, self._client
+                try:
+                    resp = client.post(
                         "/chat/completions", cast_to=ChatCompletion, body=body,
                     )
-                else:
+                    break
+                except Exception as exc:                              # noqa: BLE001
+                    status = getattr(exc, "status_code", None)
+                    exhausted = is_key_exhaustion(exc)
+                    if not (exhausted or status == 401):
+                        raise
+                    reason = f"HTTP {status}" + (" key/credit limit" if exhausted else "")
+                    if self._retire_key(pos, reason):
+                        continue
+                    if exhausted:
+                        raise KeyExhaustedError(
+                            f"openrouter: every configured API key is spent or capped "
+                            f"(last tried {self._key_label(pos)}: {reason}); add credit or "
+                            f"configure OPENROUTER_API_KEY_<n>") from exc
                     raise
             # OpenAI-compatible 200 with empty `choices` (oversized prompt / flap):
             # degrade to an empty completion so the retry layer's empty-200 path

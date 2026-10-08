@@ -22,7 +22,10 @@ What this catches that the OpenAI SDK's built-in retry does NOT:
     generation runs (every session in the dead window fails closed → empty
     days), so we wait the grant back like a 503. A genuinely revoked grant
     just retries until an operator notices — the same trade we already accept
-    for a long 503 outage.
+    for a long 503 outage. EXCEPT a 403 whose message mentions a key/credit/limit
+    ("Key limit exceeded (weekly limit)") and any 402: a spent key never recovers
+    by re-asking, so those are NOT retried (`is_key_exhaustion`); the OpenRouter
+    client rotates to a fallback key instead.
   - An **empty-body 200**. The same grant flap can also surface as a 200
     whose body has no content and no tool call — a "successful" call that
     returned nothing. Status-based retry can't see it (200 == success), so
@@ -141,8 +144,36 @@ def policy_from_env(default: RetryPolicy | None = None) -> RetryPolicy:
     )
 
 
+_KEY_EXHAUSTION_TOKENS = ("key", "credit", "limit")
+
+
+def _status_of(exc: BaseException) -> int | None:
+    status = getattr(exc, "status_code", None)
+    if not isinstance(status, int):
+        status = getattr(getattr(exc, "response", None), "status_code", None)
+    return status if isinstance(status, int) else None
+
+
+def is_key_exhaustion(exc: BaseException) -> bool:
+    """True for a spent / capped API key: HTTP 402, or a 403 whose message mentions a
+    key, credit or limit (OpenRouter: "403 Key limit exceeded (weekly limit)").
+
+    Unlike the empty-body 403 grant flap, re-asking on the same key never fixes it,
+    so it is NOT retryable here; the OpenRouter client rotates to a fallback key
+    instead (mole/llm/openrouter.py)."""
+    status = _status_of(exc)
+    if status == 402:
+        return True
+    if status == 403:
+        msg = str(exc).lower()
+        return any(tok in msg for tok in _KEY_EXHAUSTION_TOKENS)
+    return False
+
+
 def is_retryable(exc: BaseException, policy: RetryPolicy) -> bool:
     """Decide whether `exc` should be retried under `policy`."""
+    if is_key_exhaustion(exc):
+        return False
     cls = type(exc).__name__
     if cls in policy.retry_on_exception_names:
         return True
