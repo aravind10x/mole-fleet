@@ -6,6 +6,9 @@ Pipeline:
      pair, slice the audit log to that insider's events, run the threat's
      `malicious_event_indices(events, stealth_level)` matcher, mark the
      matched events `is_malicious=True`. Write a labeled audit log alongside.
+     Stream-labelled threats (C3: the task module has `label_stream`) are matched
+     once over the FULL stream (stateful effect AND attack-session intent from
+     --transcripts) and also get a per-campaign outcome (`campaign_outcomes`).
   3. Apply eval-time splits: time (days 1-5 train / day 6 val / day 7 test)
      and cohort (training vs shadow per insider_assignment).
   4. Train monitors on the days 1-5 benign portion; score days 6-7.
@@ -247,15 +250,31 @@ def _cohort_of(account_id: str, assignment: dict) -> str:
     return "training"
 
 
+def _is_stream_labelled(threat: str) -> bool:
+    """True for threats whose task module labels STATEFULLY over the full event
+    stream (it exposes `label_stream`, e.g. C3: whether a gate update weakens the
+    gate depends on the gate's state, which other accounts change too)."""
+    mod = _load_task_module(threat)
+    return mod is not None and callable(getattr(mod, "label_stream", None))
+
+
 def label_events(
     events: list[Any],
     assignment: dict,
+    attack_tids: set[str] | None = None,
 ) -> tuple[list[Any], dict[str, int]]:
     """Run the harm-oracle matcher for every insider and tag matching events.
 
     Returns the events list (mutated in place) plus a per-threat count of
     events labeled malicious. Persona-encoded malice means is_malicious is
     NOT set at generation time; this pass sets it post-sim.
+
+    Per-account threats: the matcher runs over each designated insider's slice of
+    successful events. Stream-labelled threats (`_is_stream_labelled`, e.g. C3):
+    `malicious_event_indices` runs ONCE per (threat, level) over the FULL stream,
+    with `attack_task_ids=attack_tids` (effect AND intent; effect only when
+    `attack_tids` is None, i.e. no transcripts), and only the hits on that
+    campaign's designated insiders are marked is_malicious.
     """
     assignments = _collect_insider_assignments(assignment)
     labeled_per_threat: dict[str, int] = defaultdict(int)
@@ -264,7 +283,20 @@ def label_events(
     for i, e in enumerate(events):
         by_account[getattr(e, "account", "")].append((i, e))
 
+    stream_cells: dict[tuple[str, str], set[str]] = defaultdict(set)
     for threat, stealth_level, _role, account_id in assignments:
+        if _is_stream_labelled(threat):
+            stream_cells[(threat, stealth_level)].add(account_id)
+    for (threat, stealth_level), accounts in stream_cells.items():
+        matcher = _resolve_matcher(threat)
+        for i in matcher(events, stealth_level=stealth_level, attack_task_ids=attack_tids):
+            if getattr(events[i], "account", "") in accounts:
+                events[i].is_malicious = True
+                labeled_per_threat[threat] += 1
+
+    for threat, stealth_level, _role, account_id in assignments:
+        if (threat, stealth_level) in stream_cells:
+            continue
         slice_ = by_account.get(account_id, [])
         if not slice_:
             continue
@@ -299,11 +331,15 @@ def label_events(
 # session's mode lives in the transcripts (the per-session attack coin-flip),
 # so we read it back and expose an intent-aware label alongside is_malicious.
 
-def attack_session_task_ids(transcripts_path: str | None) -> set[str]:
-    """task_ids of attack-mode sessions, from the sim transcripts."""
-    tids: set[str] = set()
+_SESSION_KEYS = ("account", "task_id", "session_mode", "aborted_reason")
+
+
+def load_session_rows(transcripts_path: str | None) -> list[dict[str, Any]]:
+    """One slim row per session from the sim transcripts ({account, task_id,
+    session_mode, aborted_reason}; messages dropped). [] if no path / missing file."""
+    rows: list[dict[str, Any]] = []
     if not transcripts_path or not Path(transcripts_path).exists():
-        return tids
+        return rows
     with Path(transcripts_path).open(encoding="utf-8") as f:
         for line in f:
             line = line.strip()
@@ -313,9 +349,41 @@ def attack_session_task_ids(transcripts_path: str | None) -> set[str]:
                 r = json.loads(line)
             except json.JSONDecodeError:
                 continue
-            if r.get("session_mode") == "attack" and r.get("task_id"):
-                tids.add(r["task_id"])
-    return tids
+            rows.append({k: r.get(k) for k in _SESSION_KEYS})
+    return rows
+
+
+def attack_task_ids_of(rows: list[dict[str, Any]]) -> set[str]:
+    return {r["task_id"] for r in rows if r.get("session_mode") == "attack" and r.get("task_id")}
+
+
+def attack_session_task_ids(transcripts_path: str | None) -> set[str]:
+    """task_ids of attack-mode sessions, from the sim transcripts."""
+    return attack_task_ids_of(load_session_rows(transcripts_path))
+
+
+def campaign_outcomes(
+    events: list[Any], assignment: dict, *,
+    sessions: list[dict[str, Any]] | None = None,
+    attack_tids: set[str] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Per-campaign labels for collusion threats whose task module exposes
+    `campaign_outcome` (C3): {threat: {level: {outcome, deploy_attempted,
+    harm_deadline, counts{effect, intent, true_positive, drift, carry, restore,
+    payload_positive}, weak_windows, colluders, ...}}}, over the FULL stream.
+    `harm_deadline` / `weak_windows` / `colluder_attempt_indices` index `events`."""
+    out: dict[str, dict[str, Any]] = {}
+    for threat, levels in (assignment.get("collusion") or {}).items():
+        mod = _load_task_module(threat)
+        fn = getattr(mod, "campaign_outcome", None) if mod is not None else None
+        if fn is None:
+            continue
+        for level, roles in levels.items():
+            res = fn(events, level, dict(roles), sessions=sessions, attack_task_ids=attack_tids)
+            res = json.loads(json.dumps(res))         # tuples -> lists, JSON-safe
+            res["colluders"] = dict(roles)
+            out.setdefault(threat, {})[level] = res
+    return out
 
 
 def attack_attempt_account_days(
@@ -614,9 +682,26 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  --exclude-collusion: dropped {len(excl)} collusion accounts "
               f"({_n0 - len(events)} events); collusion cells skipped")
 
+    # Session modes (intent axis) are read up front: stream-labelled threats (C3)
+    # label effect AND intent. Without --transcripts they fall back to effect only.
+    sessions = load_session_rows(args.transcripts)
+    attack_tids = attack_task_ids_of(sessions)
+    intent_tids = attack_tids if args.transcripts else None
+
     print("running harm-oracle post-sim labeling pass...")
-    events, labeled = label_events(events, assignment)
+    events, labeled = label_events(events, assignment, attack_tids=intent_tids)
     print(f"  malicious events tagged per threat: {labeled}")
+
+    campaigns = campaign_outcomes(events, assignment,
+                                  sessions=sessions if args.transcripts else None,
+                                  attack_tids=intent_tids)
+    for threat, by_level in campaigns.items():
+        for level, c in by_level.items():
+            k = c["counts"]
+            print(f"  campaign {threat}/{level}: outcome={c['outcome']} "
+                  f"deploy_attempted={c['deploy_attempted']} effect={k['effect']} "
+                  f"intent={k['intent']} tp={k['true_positive']} drift={k['drift']} "
+                  f"carry={k['carry']}")
 
     # Save the labeled audit log (events now carry is_malicious=True on matches).
     labeled_path = out_dir / "labeled_audit.jsonl"
@@ -656,7 +741,7 @@ def main(argv: list[str] | None = None) -> int:
     # Intent axis: attack-ATTEMPT p-days (any attack-mode session, harm or not),
     # read from --transcripts. Superset of malicious p-days; the gap is the
     # refused/failed attempts the harm oracle leaves unlabeled.
-    attack_tids = attack_session_task_ids(args.transcripts)
+    # (attack_tids was loaded with the sessions before the labelling pass.)
     attempt_test = attack_attempt_account_days(test_events, attack_tids)
     mal_tids = {getattr(e, "task_id", None) for e in events if getattr(e, "is_malicious", False)}
     session_taxonomy = {
@@ -707,6 +792,8 @@ def main(argv: list[str] | None = None) -> int:
         "session_taxonomy": session_taxonomy,
         "n_shadow_employees_filtered": n_filtered,
         "labeled_per_threat": labeled,
+        # per-campaign effect/intent/drift/carry counts + outcome (C3); see campaign_outcomes
+        "campaign_outcomes": campaigns,
     }
 
     if args.monitor:
