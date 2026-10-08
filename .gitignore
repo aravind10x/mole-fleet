@@ -29,3 +29,5 @@ traces/
 # Docker-free warm-up / branch spike corpora (never committed)
 data/corpus/spike/
 .env
+# Claude Code agent worktrees
+.claude/worktrees/
