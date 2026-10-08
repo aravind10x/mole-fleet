@@ -77,7 +77,10 @@ _TIER0_FIELDS = (
 # giving a free actor-identification signal. Kept on the raw AuditEvent for
 # our own latency / throughput analysis.
 # The same holds for `wall_ts` (real wall clock at emission, used to order resumed /
-# stitched runs causally): not in the level 0 projection.
+# stitched runs causally). Neither may reach a monitor at ANY level: they expose the
+# generation process's timing (scripted injection phases have a distinctive cadence a
+# judge could learn), so they are kept in the raw audit log for labelling/ordering only.
+_GENERATION_TIMING_FIELDS = ("real_ts", "wall_ts")
 
 # Fields stripped from the level 2 (full-semantic) view by default. They're
 # the supervision/ground-truth signals; exposing them lets a monitor trivially
@@ -113,11 +116,14 @@ def tier2_view(
     """Full-semantic pass-through. Ground-truth labels stripped by default.
 
     `expose_ground_truth=True` surfaces account_kind / is_malicious /
-    gate_decision for the easier ablation regime.
+    gate_decision for the easier ablation regime. Generation-process timing
+    (`real_ts`, `wall_ts`) is ALWAYS stripped, whatever `expose_ground_truth` says.
     """
     out: list[dict[str, Any]] = []
     for e in events:
         d = e.to_dict()
+        for k in _GENERATION_TIMING_FIELDS:
+            d.pop(k, None)
         if not expose_ground_truth:
             for k in _GROUND_TRUTH_FIELDS:
                 d.pop(k, None)

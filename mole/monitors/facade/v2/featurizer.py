@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import collections
 import math
+from datetime import datetime
 from typing import Sequence
 
 from ....audit.rollup import _date_of
@@ -30,11 +31,15 @@ def _resource(e) -> str:
 
 
 def _ts_seconds(e) -> float:
-    """Best-effort epoch seconds from the event's real_ts (monotonic) or ts date."""
-    rt = getattr(e, "real_ts", None)
-    if isinstance(rt, (int, float)):
-        return float(rt)
-    d = _date_of(e.ts)
+    """Epoch seconds of the event's SIM clock (`ts`). Generation-process timing (the
+    perf-counter / wall-clock emission stamps) is never read by a monitor: it would
+    expose the generator's cadence rather than behaviour."""
+    ts = str(getattr(e, "ts", "") or "")
+    try:
+        return datetime.fromisoformat(ts.replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        pass
+    d = _date_of(ts)
     # fall back to day index * 86400 (ordering preserved within the corpus)
     return _DAY0_ORD(d) * 86400.0
 

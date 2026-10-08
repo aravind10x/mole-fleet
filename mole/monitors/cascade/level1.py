@@ -50,14 +50,14 @@ def _is_egress_trigger(e: AuditEvent) -> bool:
     return False
 
 
-def _inspect_priority(e: AuditEvent) -> tuple[int, float]:
+def _inspect_priority(e: AuditEvent) -> tuple[int, str]:
     # Higher first: external boundary > sensitive action > everything else.
     p = 0
     if e.is_external:
         p += 2
     if e.action in _SENSITIVE_ACTIONS:
         p += 1
-    return (p, e.real_ts)
+    return (p, e.ts or "")              # sim clock; never generation-process timing
 
 
 def _metadata_red_flag(e: AuditEvent) -> str | None:
