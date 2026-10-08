@@ -88,6 +88,45 @@ def _restore_day_plan(saved: list[list[str]], members: list[Any]) -> list[tuple[
     return plan
 
 
+def _world_ids(ctx: Any) -> tuple[set[str], set[str]]:
+    """(checkpoint ids, plane ticket ids) already present in the in-process world."""
+    managers = getattr(ctx, "_managers", {}) or {}
+    ckpts = set(getattr(managers.get("model_registry"), "_checkpoints", {}) or {})
+    tickets: set[str] = set()
+    for ws in (getattr(managers.get("plane"), "_state", {}) or {}).values():
+        tickets |= set((ws or {}).get("issues") or {})
+    return ckpts, tickets
+
+
+def _plan_release_arcs_for_run(
+    n_arcs: int, *, ctx: Any, personas: list[Any], manifest: dict[str, Any],
+    resume: bool, out_path: Path, start_date: str, n_days: int, seed: int | None,
+    bucket_minutes: int, insider_ids: set[str],
+) -> list[dict[str, Any]]:
+    """Plan (or, on --resume, reload) the run's release arcs and record them in the
+    manifest under "release_arcs". Every account in bootstrap/insider_assignment.yaml
+    plus `insider_ids` is excluded from casting. Returns [] when n_arcs <= 0."""
+    if resume and manifest.get("release_arcs") is not None:
+        plans = list(manifest["release_arcs"])
+        logger.info("--resume: reusing %d release arc(s) from the manifest", len(plans))
+        return plans
+    if n_arcs <= 0:
+        return []
+    from .release_arcs import load_insider_accounts, plan_release_arcs
+    ckpts, tickets = _world_ids(ctx)
+    plans = plan_release_arcs(
+        n_arcs, personas, _weekday_dates(date.fromisoformat(start_date), n_days),
+        seed=seed, insider_ids=load_insider_accounts() | set(insider_ids),
+        bucket_minutes=bucket_minutes, taken_checkpoint_ids=ckpts, taken_ticket_ids=tickets)
+    for arc in plans:
+        logger.info("release arc %s: %s ticket %s days %s accounts %s",
+                    arc["arc_id"], arc["checkpoint_id"], arc["ticket"],
+                    arc["planned_days"], arc["accounts"])
+    manifest["release_arcs"] = plans
+    resume_state.write_atomic(manifest, out_path)
+    return plans
+
+
 def _is_auth_error(exc: BaseException) -> bool:
     """True if `exc` (or a cause in its chain) looks like an auth/credential
     failure — an expired/absent token, a 401/403, or a rejected credential —
@@ -518,6 +557,7 @@ async def simulate(
     attack_session_rate: float = 0.20,
     multi_day: bool = False,
     benign_arcs: bool = False,
+    release_arcs: int = 0,
     planning: str | None = None,
     campaign_days: int = 4,   # K; calibrated to the v1 ar05 base rate (~3.2%)
     auth_failure_limit: int = 25,
@@ -557,7 +597,15 @@ async def simulate(
     boundary are copied into this run's own files (and preloaded so the recap
     sees the history), its managers.json is imported over a freshly seeded world,
     and `start_date` defaults to the next weekday. The parent is never modified.
+
+    `release_arcs` (agentic mode only; default 0) schedules that many honest release
+    arcs (generator/release_arcs.py): each casts four honest accounts of the cohort and
+    runs register -> gate edit -> gate eval -> two approvals -> prod deploy as their
+    staging tasks over two days. The plan is recorded in the manifest under
+    "release_arcs" (a --resume reuses it).
     """
+    if release_arcs and mode != "agentic":
+        raise ValueError("release_arcs needs mode='agentic' (the steps are LLM agent sessions)")
     if sandbox_mode not in SANDBOX_MODES:
         raise ValueError(f"sandbox_mode must be one of {SANDBOX_MODES}, got {sandbox_mode!r}")
     if branch_from is not None and resume:
@@ -839,6 +887,22 @@ async def simulate(
             from .campaign import build_benign_arc
             return build_benign_arc(rng.choice(arcs), _sim_dates, rng) or None
 
+        # Honest release arcs (default 0 = off). Planned once over the run's working days,
+        # after the world exists so arc ids avoid every checkpoint/ticket already in it
+        # (e.g. a branch parent's arcs); a --resume reuses the manifest's plan verbatim.
+        release_arc_plans = _plan_release_arcs_for_run(
+            release_arcs, ctx=ctx, personas=personas, manifest=manifest, resume=resume,
+            out_path=out_path, start_date=start_date, n_days=n_days, seed=seed,
+            bucket_minutes=bucket_minutes,
+            insider_ids=set(persona_map) | set(threat_map) | set(role_map) | set(level_map))
+        from .release_arcs import arc_schedules_by_account
+        release_sched = arc_schedules_by_account(release_arc_plans)
+
+        def _arc_schedule_for(persona, i: int):
+            # Legacy benign arc (if any) + this account's release-arc steps; None = no arc.
+            steps = list(_arc_for(persona, i) or []) + release_sched.get(persona.id, [])
+            return steps or None
+
         members: list[Any] = [
             AgenticMember(p, llm=llm, config=config, transcript_sink=_sink,
                           task_bank=task_bank,
@@ -849,7 +913,7 @@ async def simulate(
                           elicit=elicit,
                           attack_session_rate=attack_session_rate,
                           campaign_schedule=_campaign_for(p.id, i),
-                          benign_arc_schedule=_arc_for(p, i),
+                          benign_arc_schedule=_arc_schedule_for(p, i),
                           planning_mode=planning,
                           campaign_days=campaign_days,
                           sim_dates=_sim_dates,

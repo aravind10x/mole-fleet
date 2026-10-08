@@ -233,6 +233,16 @@ def main(argv: list[str] | None = None) -> int:
                          "multi-day benign PROJECTS (one step/day from benign_arcs_v1.yaml) so "
                          "cross-day continuity isn't attack-exclusive -- gives multi-day attacks "
                          "benign cover. Only meaningful with --multi-day. Also env NPC_BENIGN_ARCS=1.")
+    ap.add_argument("--release-arcs", type=int, default=0, metavar="N",
+                    help="Schedule N honest RELEASE ARCS (default 0 = off; agentic mode). "
+                         "Each casts 4 distinct honest accounts of the cohort (2 model-approval "
+                         "approvers + an evaluations/alignment config owner and release owner; "
+                         "insiders in insider_assignment.yaml are never cast) and runs, over two "
+                         "days, register checkpoint + Plane ticket -> justified release-gate "
+                         "edit -> gate eval -> two approvals -> prod deploy as their staging "
+                         "tasks (bootstrap/release_arcs_v1.yaml). The plan is recorded in the "
+                         "run manifest under 'release_arcs'. Fails if the cohort is too small: "
+                         "the org has only 4 honest model-approval members, so N <= 2.")
     ap.add_argument("--planning", choices=["single", "scripted", "coinflip", "agentic"], default=None,
                     help="Insider attack-insertion mode. 'single' (no-flag default): K "
                          "self-contained attack-days per insider, evenly spread with "
@@ -347,6 +357,8 @@ def main(argv: list[str] | None = None) -> int:
           + (f", K={args.campaign_days}]" if planning in ("single", "agentic") else "]"))
     if benign_arcs:
         print("  benign multi-day arcs: ENABLED (non-insiders run multi-day benign projects)")
+    if args.release_arcs:
+        print(f"  release arcs: {args.release_arcs} (plan recorded in the run manifest)")
     # In smoke mode, only the first N personas run; report how many of those
     # are designated insiders so the user can see attack activity to expect.
     if args.mode == "rules":
@@ -383,6 +395,7 @@ def main(argv: list[str] | None = None) -> int:
         attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
         benign_arcs=benign_arcs,
+        release_arcs=args.release_arcs,
         planning=planning,
         campaign_days=args.campaign_days,
         auth_failure_limit=args.auth_failure_limit,
