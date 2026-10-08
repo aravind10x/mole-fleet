@@ -194,14 +194,15 @@ def _gate_chains_by_day(plan: list[dict[str, Any]]) -> dict[int, list[str]]:
     return out
 
 
-def phase_task_id(start_date: str, inject_id: str, phase: str) -> str:
-    """Stable per-phase task id: the same plan on the same start date gives the same
-    ids (a resume reuses them); different branches of one parent differ by seed/spec."""
-    return uuid.uuid5(_NS, f"mole-inject:{start_date}:{inject_id}:{phase}").hex
+def phase_task_id(start_date: str, inject_id: str, phase: str, salt: str = "") -> str:
+    """Stable per-phase task id: the same plan in the same corpus (`salt` = the corpus
+    stem) on the same start date gives the same ids, so a --resume reuses them; two
+    branches of one parent with the same spec get different ids."""
+    return uuid.uuid5(_NS, f"mole-inject:{salt}:{start_date}:{inject_id}:{phase}").hex
 
 
 def finalize_injection_plan(plan: list[dict[str, Any]], *, start_date: str,
-                            dates: list[str]) -> list[dict[str, Any]]:
+                            dates: list[str], salt: str = "") -> list[dict[str, Any]]:
     """Copy of `plan` with `date` (from `dates[day_index]`) and `task_id` filled in,
     in run order (date, slot, chain position). Raises if a day index is outside `dates`."""
     out: list[dict[str, Any]] = []
@@ -211,7 +212,7 @@ def finalize_injection_plan(plan: list[dict[str, Any]], *, start_date: str,
             raise ValueError(f"injection {e['inject_id']}/{e['phase']}: day index {d} outside "
                              f"the run's {len(dates)} day(s)")
         out.append({**e, "date": dates[d],
-                    "task_id": phase_task_id(start_date, e["inject_id"], e["phase"]),
+                    "task_id": phase_task_id(start_date, e["inject_id"], e["phase"], salt),
                     "_pos": pos})
     out.sort(key=lambda e: (e["date"], e["slot"], e["_pos"]))
     for e in out:

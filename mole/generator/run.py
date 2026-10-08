@@ -1056,7 +1056,7 @@ async def simulate(
             inj_plan = list(inj_rec["plan"])
         else:
             inj_plan = finalize_injection_plan(list(injections or []), start_date=start_date,
-                                               dates=_dates)
+                                               dates=_dates, salt=out_path.stem)
             inj_rec = {"meta": dict(injection_meta or {}), "plan": inj_plan, "results": {}}
             manifest["injections"] = inj_rec
             resume_state.write_atomic(manifest, out_path)

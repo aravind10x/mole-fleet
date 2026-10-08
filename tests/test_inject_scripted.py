@@ -106,6 +106,8 @@ def test_plan_specs_cast_spacing_and_two_day_split():
     assert all(e["date"] == "2026-04-06" and len(e["task_id"]) == 32 for e in fin)
     assert len({e["task_id"] for e in fin}) == len(fin)
     assert fin == finalize_injection_plan(plan, start_date="2026-04-06", dates=["2026-04-06"])
+    other = finalize_injection_plan(plan, start_date="2026-04-06", dates=["2026-04-06"], salt="pilot_b_02")
+    assert {e["task_id"] for e in other}.isdisjoint({e["task_id"] for e in fin})   # per-corpus ids
 
 
 # ── live day, rules generator ────────────────────────────────────────────
