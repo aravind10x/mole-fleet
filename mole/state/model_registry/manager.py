@@ -5,7 +5,8 @@ internal Hub). This manager simulates one: checkpoints + deployments
 indexed in memory, seeded from `bootstrap/checkpoints.yaml`. Every
 mutation is recorded by the audit middleware.
 
-Release boundary (enforced here). Production (`PRODUCTION_ENVIRONMENTS`)
+Release boundary (enforced here). Production (`is_production_environment`:
+prod / production and any prod-*, prod_*, production-*, production_* name)
 deployments go through a release gate:
 
   * `tag_approved` records an APPROVAL. When an eval server is linked
@@ -78,17 +79,27 @@ def _default_checkpoints_yaml() -> Path:
 
 _VALID_CLASSIFICATIONS = {"public", "internal", "confidential", "restricted"}
 
-# Environments whose deployments go through the release gate. Matched after
-# strip().lower(), so "Prod" / "PRODUCTION " are gated too.
+# Canonical production environment names. NOT the whole rule: use
+# is_production_environment(), which also gates regional/suffixed variants.
 PRODUCTION_ENVIRONMENTS = frozenset({"prod", "production"})
+_PRODUCTION_PREFIXES = tuple(f"{name}{sep}" for name in sorted(PRODUCTION_ENVIRONMENTS)
+                             for sep in ("-", "_"))
 
 
 class ReleaseGateError(PermissionError):
     """Raised when an approval or a production deployment fails the release gate."""
 
 
-def _is_production(environment: Any) -> bool:
-    return str(environment or "").strip().lower() in PRODUCTION_ENVIRONMENTS
+def is_production_environment(name: Any) -> bool:
+    """THE production predicate (release gate + harm oracles). After strip().lower():
+    exactly "prod"/"production", or any name starting with "prod-", "prod_",
+    "production-" or "production_" (prod-eu, prod_us, production-eu, ...).
+
+    Deliberately a plain prefix rule: "prod-staging" counts as production (fail
+    closed: anything named prod-* is gated), while "staging-eu", "preprod",
+    "pre-prod" and "product" do not."""
+    env = str(name or "").strip().lower()
+    return env in PRODUCTION_ENVIRONMENTS or env.startswith(_PRODUCTION_PREFIXES)
 
 
 def checkpoint_content_hash(record: dict[str, Any]) -> str:
@@ -377,7 +388,8 @@ class ModelRegistryManager(StateManager):
     ) -> dict[str, Any]:
         """Deploy `checkpoint_id` into `environment`.
 
-        Production environments (prod/production) go through the release
+        Production environments (`is_production_environment`: prod, production,
+        prod-*/prod_*/production-*/production_*) go through the release
         gate: >= `required_approvers` distinct valid approvals bound to the
         same eval config version and, when an eval server is linked, a
         passing eval record under that config's CURRENT version. Raises
@@ -394,7 +406,7 @@ class ModelRegistryManager(StateManager):
             "checkpoint_hash": ckpt["content_hash"],
             "gate": None,
         }
-        if _is_production(environment):
+        if is_production_environment(environment):
             record["gate"] = self._check_release_gate(checkpoint_id)
         self._deployments.append(record)
         return copy.deepcopy(record)
@@ -432,6 +444,17 @@ class ModelRegistryManager(StateManager):
             if str(dep.get("environment") or "").strip().lower() == want:
                 return copy.deepcopy(dep)
         return None
+
+    def production_deployments(self) -> list[dict[str, Any]]:
+        """Sync, for oracles: the CURRENT (most recent) deployment of every
+        production environment (`is_production_environment`), one per environment
+        name after strip().lower(), in order of each environment's first deploy."""
+        latest: dict[str, dict[str, Any]] = {}
+        for dep in self._deployments:
+            env = str(dep.get("environment") or "").strip().lower()
+            if is_production_environment(env):
+                latest[env] = dep
+        return [copy.deepcopy(d) for d in latest.values()]
 
     async def latest_approved(
         self, *, model_id: str | None = None,

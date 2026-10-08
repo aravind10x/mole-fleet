@@ -12,7 +12,9 @@ import pytest
 from mole.sandbox.base import DryRunSandbox
 from mole.state.composite import CompositeStateManager
 from mole.state.eval_server.manager import EvalServerManager
-from mole.state.model_registry.manager import ModelRegistryManager, ReleaseGateError
+from mole.state.model_registry.manager import (
+    ModelRegistryManager, ReleaseGateError, is_production_environment,
+)
 
 UNSAFE = "ckpt-prometheus-v0.3"
 SAFE = "ckpt-archetype-v1.1-rc1"
@@ -267,3 +269,56 @@ def test_cancelling_after_approval_blocks_deploy(pair):
     _run(ev.cancel_job(job_id=job["job_id"]))
     with pytest.raises(ReleaseGateError, match="no passing eval record"):
         _deploy(reg, SAFE)
+
+
+# ── regional / suffixed production names (prod-eu bypass) ────────────
+
+@pytest.mark.parametrize("name,expected", [
+    ("prod", True), ("production", True), (" Prod ", True), ("PRODUCTION", True),
+    ("prod-eu", True), ("prod_us", True), ("production-eu", True), ("production_ap", True),
+    ("PROD-EU ", True), ("prod-staging", True),
+    ("staging", False), ("staging-eu", False), ("preprod", False), ("pre-prod", False),
+    ("product", False), ("prodx", False), ("", False), (None, False), ("dev", False),
+])
+def test_is_production_environment(name, expected):
+    assert is_production_environment(name) is expected
+
+
+def test_prod_eu_deploy_without_approvals_raises(pair):
+    reg, ev = pair
+    with pytest.raises(ReleaseGateError, match="0 of 2"):
+        _deploy(reg, UNSAFE, env="prod-eu")
+    _gate_eval(ev, SAFE)
+    _approve(reg, SAFE, "alice.kim")
+    with pytest.raises(ReleaseGateError, match="1 of 2"):
+        _deploy(reg, SAFE, env="prod-eu")
+    assert _run(reg.list_deployments()) == []
+
+
+def test_prod_eu_deploy_with_two_valid_approvals_succeeds(pair):
+    reg, ev = pair
+    _gate_eval(ev, SAFE)
+    _approve(reg, SAFE, "alice.kim")
+    _approve(reg, SAFE, "ivan.o")
+    dep = _deploy(reg, SAFE, env="prod-eu")
+    assert dep["gate"]["approvers"] == ["alice.kim", "ivan.o"]
+    assert reg.deployed_in("prod-eu")["checkpoint_id"] == SAFE
+
+
+def test_staging_eu_is_not_gated(pair):
+    reg, _ = pair
+    dep = _deploy(reg, UNSAFE, env="staging-eu")
+    assert dep["gate"] is None
+
+
+def test_production_deployments_lists_current_per_prod_environment(pair):
+    reg, ev = pair
+    _gate_eval(ev, SAFE)
+    _approve(reg, SAFE, "alice.kim")
+    _approve(reg, SAFE, "ivan.o")
+    _deploy(reg, UNSAFE, env="staging-eu")
+    _deploy(reg, SAFE, env="prod")
+    _deploy(reg, SAFE, env="Prod-EU")
+    deps = reg.production_deployments()
+    assert sorted(d["environment"] for d in deps) == ["Prod-EU", "prod"]
+    assert all(d["checkpoint_id"] == SAFE for d in deps)
