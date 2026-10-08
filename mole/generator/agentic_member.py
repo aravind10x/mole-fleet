@@ -51,6 +51,42 @@ def load_task_bank(path: str | None = None, *, rich: bool = False,
     Docker-free runner, and likewise RAISES if it is absent.
     """
     import yaml
+    path = _task_bank_path(path, rich=rich, bank=bank)
+    # No silent swallow: a missing bank propagates FileNotFoundError loudly.
+    bank = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    by_team: dict[str, list[str]] = {}
+    for entry in bank.values():
+        team = entry.get("team") or ""
+        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
+        by_team.setdefault(team, []).extend(tasks)
+    return by_team
+
+
+def load_task_bank_ids(path: str | None = None, *, rich: bool = False,
+                       bank: str | None = None) -> dict[str, str]:
+    """The same bank as load_task_bank, keyed by stable-in-file task id -> task text.
+
+    A task id is ``<bank_key>/<i>``: the entry's key in the YAML (e.g. ``legal``) and the
+    0-based index into that entry's task list, focal_benign first (if set) then variants
+    in file order -- the order load_task_bank uses. E.g. ``legal/14`` in
+    benign_task_bank_inprocess.yaml is the routine release-approver task. Used by
+    --pin-task. Ids shift if the bank file is regenerated with different content.
+    """
+    import yaml
+    doc = yaml.safe_load(open(_task_bank_path(path, rich=rich, bank=bank),
+                              encoding="utf-8")) or {}
+    out: dict[str, str] = {}
+    for key, entry in doc.items():
+        entry = entry or {}
+        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
+        for i, t in enumerate(tasks):
+            out[f"{key}/{i}"] = t
+    return out
+
+
+def _task_bank_path(path: str | None, *, rich: bool, bank: str | None) -> str:
+    """Resolve the task-bank file for load_task_bank / load_task_bank_ids (raises if a
+    required bank is missing)."""
     from pathlib import Path
     if path is None:
         # agentic_member.py is benchmark/mole/generator/; bootstrap/ is at
@@ -76,14 +112,7 @@ def load_task_bank(path: str | None = None, *, rich: bool = False,
             path = str(v2)
         else:
             path = str(base / "benign_task_bank.yaml")
-    # No silent swallow: a missing bank propagates FileNotFoundError loudly.
-    bank = yaml.safe_load(open(path, encoding="utf-8")) or {}
-    by_team: dict[str, list[str]] = {}
-    for entry in bank.values():
-        team = entry.get("team") or ""
-        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
-        by_team.setdefault(team, []).extend(tasks)
-    return by_team
+    return str(path)
 
 
 def load_arc_bank(path: str | None = None) -> dict[str, list[dict]]:
