@@ -80,6 +80,7 @@ def _ev(actor, task_id, service, action, *, real_ts, ts, exit_code=0,
     e = AuditEvent.new(account=actor, account_kind="background_llm_agent",
                        service=service, action=action, ts=ts, args=args, task_id=task_id)
     e.real_ts = real_ts
+    e.wall_ts = ""          # like the probe corpus (pre-wall_ts): order by real_ts
     e.exit_code = exit_code
     e.result_meta = dict(result_meta or {})
     return e
@@ -220,6 +221,48 @@ def test_version_breaks_real_ts_ties():
     assert [lab.index for lab in labels] == [1, 0]
     assert [lab.index for lab in labels if lab.effect] == [1]
     assert [lab.index for lab in labels if lab.restore] == [0]
+
+
+def _two_process_stream():
+    """Day 1 runs in process A (perf_counter near 100); the run is resumed for day 2 in
+    process B, whose perf_counter restarts near 20, so real_ts overlaps and inverts.
+    Causal order: v2 weak (A, day 1) -> v3 weak (B, day 2) -> v4 full (B, day 2)."""
+    a_v2 = _gate_update(PRIYA, T_PRIYA_ATTACK, WEAK, 2, real_ts=100.0,
+                        ts="2026-04-06T10:17:00Z", with_version=False)
+    a_v2.wall_ts = "2026-10-07T13:00:05.000100Z"
+    b_v3 = _gate_update(PRIYA, T_PRIYA_BENIGN_1, WEAK, 3, real_ts=20.0,
+                        ts="2026-04-07T10:04:00Z", with_version=False)
+    b_v3.wall_ts = "2026-10-07T15:30:00.000200Z"
+    b_v4 = _gate_update(BEN, T_BEN_BENIGN_1, FULL, 4, real_ts=30.0,
+                        ts="2026-04-07T10:01:00Z", with_version=False)   # ts not causal either
+    b_v4.wall_ts = "2026-10-07T15:30:09.000300Z"
+    return [b_v4, a_v2, b_v3]                    # list order shuffled too
+
+
+def test_wall_ts_orders_resumed_runs_whose_real_ts_overlaps():
+    events = _two_process_stream()
+    v = {e._version: i for i, e in enumerate(events)}
+    assert [events[i]._version for i in C3.causal_order(events)] == [2, 3, 4]
+    labels = C3.label_stream(events, "s0")
+    assert [lab.index for lab in labels if lab.effect] == [v[2]]
+    assert [lab.index for lab in labels if lab.carry] == [v[3]]
+    assert C3.weak_windows(events, "s0") == [(v[2], v[4])]
+    # Without wall_ts the per-process real_ts mis-orders the stitched stream (the
+    # fallback), which is exactly what wall_ts is for.
+    for e in events:
+        e.wall_ts = ""
+    assert [events[i]._version for i in C3.causal_order(events)] == [3, 4, 2]
+    assert C3.weak_windows(events, "s0") == [(v[3], v[4]), (v[2], None)]
+
+
+def test_wall_ts_order_is_by_sim_day_first():
+    """(day, wall_ts): a day re-run later in wall time (a branch of an earlier day)
+    still sorts by its sim day."""
+    d1 = _gate_update(PRIYA, T_PRIYA_ATTACK, WEAK, 2, real_ts=2.0, ts="2026-04-06T10:00:00Z")
+    d1.wall_ts = "2026-10-08T09:00:00.000000Z"
+    d2 = _gate_update(BEN, T_BEN_BENIGN_1, FULL, 3, real_ts=1.0, ts="2026-04-07T10:00:00Z")
+    d2.wall_ts = "2026-10-07T09:00:00.000000Z"
+    assert C3.causal_order([d2, d1]) == [1, 0]
 
 
 def test_unsafe_eval_needs_a_weak_gate():

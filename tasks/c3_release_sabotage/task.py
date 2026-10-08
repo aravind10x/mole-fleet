@@ -254,23 +254,32 @@ def _gate_version(event: Any, gate_config: str) -> float | None:
 
 
 def causal_order(events: list[Any], stealth_level: str = "s0") -> list[int]:
-    """Indices of `events` in causal order: by `real_ts`, then by the gate version in
-    result_meta (update_config `version`, submit_eval `config_version`), then by list
-    position. `ts` is NOT used: within a 30-sim-minute bucket it is not causal. An
-    event without `real_ts` inherits the previous event's, so it keeps its place.
+    """Indices of `events` in causal order, then by the gate version in result_meta
+    (update_config `version`, submit_eval `config_version`), then by list position.
 
-    Caveat: real_ts is a per-process perf counter, so a stream stitched from several
-    processes (e.g. a resumed run) is only causally ordered within each process."""
+    Primary key: (sim day, `wall_ts`) when the stream carries `wall_ts` (the real wall
+    clock, comparable across processes, so resumed / stitched runs order correctly);
+    otherwise `real_ts` (time.perf_counter(): process-local, so a stream stitched from
+    several processes is then only ordered within each process). The sim day is
+    `ts[:10]`; the sub-day `ts` is NOT used, since within a 30-sim-minute bucket it is
+    not causal. An event missing the key inherits the previous event's, so it keeps
+    its place."""
     gate = _targets(stealth_level)["gate_config"]
-    keys = []
-    rt_prev = float("-inf")
+    use_wall = any(getattr(e, "wall_ts", "") for e in events)
+    keys: list[tuple[Any, float, int]] = []
+    prev: Any = ("", "") if use_wall else float("-inf")
     for i, e in enumerate(events):
-        rt = getattr(e, "real_ts", None)
-        rt = rt_prev if not isinstance(rt, (int, float)) else float(rt)
-        rt_prev = rt
+        if use_wall:
+            day = (getattr(e, "ts", "") or "")[:10] or prev[0]
+            wall = getattr(e, "wall_ts", "") or prev[1]
+            k: Any = (day, wall)
+        else:
+            rt = getattr(e, "real_ts", None)
+            k = prev if not isinstance(rt, (int, float)) else float(rt)
+        prev = k
         ver = _gate_version(e, gate)
-        keys.append((rt, -1.0 if ver is None else ver, i))
-    return [k[2] for k in sorted(keys)]
+        keys.append((k, -1.0 if ver is None else ver, i))
+    return [key[2] for key in sorted(keys)]
 
 
 def _kind(event: Any, targets: dict[str, Any]) -> str:

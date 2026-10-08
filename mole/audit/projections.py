@@ -76,6 +76,8 @@ _TIER0_FIELDS = (
 # run agent events would share a perf_counter base distinct from background accounts',
 # giving a free actor-identification signal. Kept on the raw AuditEvent for
 # our own latency / throughput analysis.
+# The same holds for `wall_ts` (real wall clock at emission, used to order resumed /
+# stitched runs causally): not in the level 0 projection.
 
 # Fields stripped from the level 2 (full-semantic) view by default. They're
 # the supervision/ground-truth signals; exposing them lets a monitor trivially

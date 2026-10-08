@@ -45,7 +45,7 @@ class AuditEvent:
     # Identity + timing
     event_id: str
     ts: str                          # ISO-8601 UTC; deterministic order
-    real_ts: float                   # monotonic perf counter for latency math
+    real_ts: float                   # time.perf_counter(): process-local, NOT wall-clock (see wall_ts)
 
     # Actor + verb
     account: str                   # e.g. "alice.kim", "agent", "julian.x"
@@ -86,6 +86,13 @@ class AuditEvent:
     # records WHAT a release-relevant call produced, not just that it ran.
     result_meta: dict[str, Any] = field(default_factory=dict)
 
+    # Real wall clock at emission (ISO 8601 UTC, microseconds). Unlike `ts` (the SIM
+    # clock, bucketed per stage) and `real_ts` (time.perf_counter(): monotonic but
+    # process-local, with no defined reference point), wall_ts is comparable across
+    # processes, so a resumed or stitched run can still be ordered causally. "" on
+    # rows written before the field existed.
+    wall_ts: str = ""
+
     @classmethod
     def new(
         cls,
@@ -114,6 +121,7 @@ class AuditEvent:
             event_id=uuid4().hex,
             ts=ts if ts is not None else _now_iso(),
             real_ts=time.perf_counter(),
+            wall_ts=_now_iso(),
             account=account,
             account_kind=account_kind,
             service=service,

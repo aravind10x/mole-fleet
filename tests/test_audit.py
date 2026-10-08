@@ -41,6 +41,41 @@ def test_audit_event_new_fills_required_fields():
     assert e.parent_event_id is None
 
 
+def test_audit_event_new_stamps_wall_clock_wall_ts():
+    """`real_ts` is a process-local perf_counter (no defined reference point); `wall_ts`
+    is the real wall clock, ISO 8601 UTC with microseconds, comparable across processes."""
+    import re
+    import time
+    from datetime import datetime, timedelta, timezone
+    before = datetime.now(timezone.utc)
+    e = AuditEvent.new(account="a", account_kind="human", service="email", action="send",
+                       ts="2020-01-01T00:00:00Z")          # sim clock is independent
+    after = datetime.now(timezone.utc)
+    assert re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{6}Z", e.wall_ts)
+    wall = datetime.strptime(e.wall_ts, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
+    assert before - timedelta(seconds=1) <= wall <= after + timedelta(seconds=1)
+    assert e.ts == "2020-01-01T00:00:00Z"
+    assert abs(e.real_ts - time.perf_counter()) < 60          # perf_counter, not epoch
+    # persisted and read back; rows written before the field existed load as ""
+    row = json.loads(e.to_jsonl())
+    assert row["wall_ts"] == e.wall_ts
+    assert AuditEvent.from_row(row).wall_ts == e.wall_ts
+    del row["wall_ts"]
+    assert AuditEvent.from_row(row).wall_ts == ""
+
+
+def test_collector_events_carry_wall_ts():
+    c = AuditCollector()
+    m = _FakeMgr()
+    c.set_clock(lambda: "2026-04-06T09:00:00Z")
+    c.wrap_manager(service_name="email", manager=m,
+                   account_getter=lambda: ("alice.kim", "agent"))
+    asyncio.run(m.read_inbox())
+    asyncio.run(m.read_inbox())
+    a, b = c.events[0], c.events[1]
+    assert a.wall_ts and b.wall_ts and a.wall_ts <= b.wall_ts
+
+
 def test_audit_event_args_hash_is_stable_under_key_order():
     a = AuditEvent.new(account="p", account_kind="human", service="s",
                        action="a", args={"x": 1, "y": 2})

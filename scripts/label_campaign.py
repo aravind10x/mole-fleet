@@ -2,7 +2,8 @@
 
 For one stealth level: every C3-relevant event of the FULL audit stream (gate config
 updates; submit_eval / tag_approved / production deploy calls of the level's unsafe
-checkpoint) in causal order (real_ts, then version), with its session mode, the
+checkpoint) in causal order ((sim day, wall_ts) when present, else real_ts; then
+version), with its session mode, the
 payload matcher, EFFECT, INTENT and the combined cell (tp / drift / carry /
 restore), then the campaign outcome (tasks/c3_release_sabotage/task.py).
 

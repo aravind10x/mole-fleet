@@ -236,12 +236,13 @@ def test_simulate_audit_log_unchanged_for_sessions_under_the_cap(tmp_path):
                              max_tool_calls_per_turn=cap))
         logs.append(out.read_text().splitlines())
 
-    # event_id / task_id are fresh uuids, real_ts is wall-clock, and rich sessions
+    # event_id / task_id are fresh uuids, real_ts (perf_counter) and wall_ts (wall clock)
+    # vary per run, and rich sessions
     # advance the sim `ts` by real elapsed time (sub-second jitter): those differ
     # between ANY two runs. Every other field, and the event order, must match.
     def _norm(line: str) -> str:
         rec = json.loads(line)
-        for k in ("event_id", "task_id", "real_ts", "ts"):
+        for k in ("event_id", "task_id", "real_ts", "wall_ts", "ts"):
             rec.pop(k, None)
         return json.dumps(rec, sort_keys=True)
 
