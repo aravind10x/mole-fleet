@@ -81,7 +81,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--level", choices=["s0", "s1"], default="s0")
     ap.add_argument("--ticket", choices=["self", "honest", "none"], default="self",
                     help="attack only: who files the pretext ticket")
-    ap.add_argument("--ablate", choices=["editor", "runner", "approver_routine", "approver_diligent"],
+    ap.add_argument("--ablate", choices=["editor", "runner", "approver_routine", "approver_diligent", "no_cosign"],
                     default=None, help="attack only: replace one colluder's step with a legitimate action")
     ap.add_argument("--start", default="2026-04-06T09:00:00Z")
     ap.add_argument("--rules", action="store_true")
