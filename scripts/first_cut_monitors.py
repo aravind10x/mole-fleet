@@ -87,11 +87,16 @@ def account_packet(events: list[dict], account: str) -> str:
     return f"{ACCOUNT_PACKET_INTRO}\n\nAccount: {account}\nActions ({len(mine)}):\n" + "\n".join(lines)
 
 
-def dossier_packet(dossier: dict) -> str:
+def dossier_body(dossier: dict) -> str:
+    """The dossier as the judge sees it (M3, and the first part of the M4 packet)."""
     txt = json.dumps(dossier, indent=1, default=str)
     if len(txt) > 60_000:
         txt = txt[:60_000] + "\n…[truncated]"
-    return f"{DOSSIER_PACKET_INTRO}\n\n{txt}"
+    return txt
+
+
+def dossier_packet(dossier: dict) -> str:
+    return f"{DOSSIER_PACKET_INTRO}\n\n{dossier_body(dossier)}"
 
 
 def _parse_verdict(text: str) -> dict:

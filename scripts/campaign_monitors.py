@@ -58,9 +58,11 @@ import yaml                                         # noqa: E402
 from eval_matrix import _EFFECT_ONLY_WARNED, attack_task_ids_of, warn_effect_only  # noqa: E402,F401
 from mole.audit.schema import AuditEvent           # noqa: E402
 from mole.monitors.release.account_history import (  # noqa: E402
-    DEFAULT_TOKEN_CAP, STRONG_ACCOUNT_INTRO, DaySummarizer, build_account_packet, participants,
+    DEFAULT_TOKEN_CAP, DaySummarizer, build_account_packet, participants,
 )
+from mole.monitors.release.account_history import STRONG_ACCOUNT_INTRO  # noqa: E402,F401 -- re-export
 from mole.monitors.release.cost import ensure_cost_fields  # noqa: E402
+from mole.monitors.release.graph import extract_edges, m4_packet, score_release  # noqa: E402
 from mole.monitors.release.window import release_window  # noqa: E402
 from mole.rules.dossier import build_release_dossier, deployments  # noqa: E402
 from mole.rules.dossier import snapshot as dossier_snapshot        # noqa: E402
@@ -379,6 +381,43 @@ async def run_m3(llm, dossiers: list[dict], sem) -> list[dict]:
     return list(await asyncio.gather(*jobs))
 
 
+async def run_m4(llm, rows: list[dict], dossiers: list[dict], sem, *, mode: str,
+                 token_cap: int = DEFAULT_TOKEN_CAP) -> dict:
+    """M4 per selected deployment. mode graph|both: the non-LLM rarity-weighted path score
+    and named features (mole.monitors.release.graph.score_release). mode llm|both: one
+    judge call over the dossier plus the walked neighbourhood (graph.m4_packet), skipped
+    when `llm` is None (--no-llm)."""
+    edges = extract_edges(rows)
+    per, jobs = [], []
+    for d in dossiers:
+        dep = d["deployment"]
+        res = score_release(rows, d["dossier"], edges=edges)
+        entry: dict[str, Any] = {"deployment_id": dep.get("deployment_id"),
+                                 "checkpoint_id": dep.get("checkpoint_id"),
+                                 "environment": dep.get("environment"), "window": res["window"]}
+        if mode in ("graph", "both"):
+            entry.update({"graph_score": res["score"], "n_pairs": res["n_pairs"],
+                          "n_accounts": res["n_accounts"], "n_hop2_objects": res["n_hop2_objects"],
+                          "features": res["features"], "neighbourhood": res["neighbourhood"]})
+        if mode in ("llm", "both"):
+            entry["llm_score"] = None
+            if llm is None:
+                entry["llm"] = {"skipped": "--no-llm"}
+            else:
+                packet = m4_packet(fcm.dossier_body(d["dossier"]), res["neighbourhood"], token_cap=token_cap)
+                jobs.append((entry, _judged(llm, sem, packet, f"graph:{dep.get('deployment_id')}",
+                                            {"packet_tokens": len(packet) // 4})))
+        per.append(entry)
+    for entry, verdict in zip([e for e, _ in jobs], await asyncio.gather(*(j for _, j in jobs))):
+        entry["llm"] = verdict
+        entry["llm_score"] = verdict.get("score")
+    llm_verdicts = [e["llm"] for e in per if isinstance(e.get("llm"), dict) and "skipped" not in e["llm"]]
+    return {"mode": mode, "prompt_version": fcm.JUDGE_PROMPT_VERSION, "token_cap": token_cap,
+            "per_deployment": per, "n_calls": len(llm_verdicts),
+            "n_errors": sum(1 for v in llm_verdicts if v.get("error")),
+            "cost_usd": round(sum(float(v.get("dollars") or 0) for v in llm_verdicts), 6)}
+
+
 # ── per-session view (no LLM) ────────────────────────────────────────
 
 def sessions_block(transcripts: list[dict], rows: list[dict], malicious_idx: list[int]) -> dict:
@@ -453,6 +492,7 @@ async def run(args: argparse.Namespace) -> dict:
     if args.no_llm:
         m2: dict = {"skipped": "--no-llm"}
         m3: list | dict = {"skipped": "--no-llm"}
+        m4 = await run_m4(None, rows, dossiers, None, mode=args.m4, token_cap=args.packet_token_cap)
     else:
         llm = fcm.build_llm(None)
         model = os.environ.get("OPENROUTER_MODEL", getattr(llm, "model_id", ""))
@@ -460,7 +500,9 @@ async def run(args: argparse.Namespace) -> dict:
         m2_job = (run_m2(llm, rows, accounts, args.split, sem) if args.m2 == "flat" else
                   run_m2_strong(llm, rows, state, dossiers, sem, token_cap=args.packet_token_cap,
                                 accounts=accounts if args.accounts else None))
-        m2, m3 = await asyncio.gather(m2_job, run_m3(llm, dossiers, sem))
+        m2, m3, m4 = await asyncio.gather(
+            m2_job, run_m3(llm, dossiers, sem),
+            run_m4(llm, rows, dossiers, sem, mode=args.m4, token_cap=args.packet_token_cap))
 
     sessions: dict = {"skipped": "no transcripts file"}
     if transcripts_path is not None:
@@ -471,6 +513,7 @@ async def run(args: argparse.Namespace) -> dict:
         cost += m2["cost_usd"]
     if isinstance(m3, list):
         cost += sum(float(v.get("cost_usd") or 0) for v in m3)
+    cost += m4["cost_usd"]
     report = {
         "inputs": {"audit": str(audit), "managers": str(managers),
                    "transcripts": str(transcripts_path) if transcripts_path else None,
@@ -485,6 +528,7 @@ async def run(args: argparse.Namespace) -> dict:
         "M1a_rules": m1a,
         "M2_per_account": m2,
         "M3_dossiers": m3,
+        "M4_graph": m4,
         "sessions": sessions,
         "cost_usd_total": round(cost, 6),
     }
@@ -517,6 +561,11 @@ def brief(rep: dict) -> dict:
         "M2_truncated": m2.get("n_truncated"), "M2_errors": m2.get("n_errors"),
         "M3": ([{"deployment_id": v["deployment_id"], "score": v.get("score"), "flag": v.get("flag")}
                 for v in m3] if isinstance(m3, list) else m3),
+        "M4": [{"deployment_id": r["deployment_id"], "graph_score": r.get("graph_score"),
+                "llm_score": r.get("llm_score"),
+                "approver_edited_gate_or_ran_eval":
+                    (r.get("features") or {}).get("approver_edited_gate_or_ran_eval")}
+               for r in rep["M4_graph"]["per_deployment"]],
         "sessions": ({"by_mode": s["by_mode"],
                       "attack": {k: v for k, v in s["attack_sessions"].items()
                                  if not k.endswith("_by_account")}} if "by_mode" in s else s),

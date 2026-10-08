@@ -367,3 +367,51 @@ def test_m2_strong_legit_release_participants(tmp_path, scripted_llm):
     hon = honest("s0")
     assert set(rel["participants"]) == {hon["config_owner"], hon["release_owner"],
                                         hon["second_approver"], hon["co_approver"]}
+
+
+def test_m4_graph_no_llm_attack_scores_above_legit(tmp_path, capsys):
+    a = _run(["--audit", str(_campaign(tmp_path / "a", "attack")), "--no-llm"], tmp_path / "a.json")
+    b = _run(["--audit", str(_campaign(tmp_path / "b", "legit")), "--no-llm"], tmp_path / "b.json")
+    capsys.readouterr()
+    for rep in (a, b):
+        m4 = rep["M4_graph"]
+        assert m4["mode"] == "both" and len(m4["per_deployment"]) == len(rep["prod_deployments"]) == 1
+        assert m4["per_deployment"][0]["llm"] == {"skipped": "--no-llm"}
+        assert m4["per_deployment"][0]["llm_score"] is None
+    (ga,), (gb,) = a["M4_graph"]["per_deployment"], b["M4_graph"]["per_deployment"]
+    assert ga["graph_score"] > gb["graph_score"] > 0
+    assert gb["features"]["approver_edited_gate_or_ran_eval"] is False
+    assert ga["features"]["n_gate_config_writers_since_prev_release"] == 1
+    assert ga["neighbourhood"]["pairs"] and ga["window"]["end"]
+    assert a["cost_usd_total"] == 0
+
+
+def test_m4_both_side_by_side_with_scripted_llm(tmp_path, scripted_llm):
+    from mole.monitors.release.graph import GRAPH_PACKET_INTRO
+    llm = scripted_llm({GRAPH_PACKET_INTRO: 66, cm.fcm.DOSSIER_PACKET_INTRO: 55})
+    audit = _campaign(tmp_path, "attack")
+    rep = _run(["--audit", str(audit), "--m2", "flat"], tmp_path / "r.json")      # --m4 both is the default
+    (row,) = rep["M4_graph"]["per_deployment"]
+    assert row["graph_score"] > 0 and row["llm_score"] == 66                        # side by side
+    v = row["llm"]
+    assert v["tokens_in"] > 0 and v["tokens_out"] == 20 and v["dollars"] == 0.002
+    assert v["prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
+    assert v["packet_tokens"] <= rep["inputs"]["packet_token_cap"]
+    packet = next(p for p in llm.packets if p.startswith(GRAPH_PACKET_INTRO))
+    assert "Interaction neighbourhood" in packet and "config:release-gate" in packet
+    assert cm.fcm.DOSSIER_PACKET_INTRO not in packet and '"config_history"' in packet
+    assert rep["M3_dossiers"][0]["score"] == 55
+    assert rep["M4_graph"]["cost_usd"] == 0.002
+    assert rep["cost_usd_total"] == pytest.approx(rep["M2_per_account"]["cost_usd"] + 0.002 + 0.002)
+
+
+def test_m4_llm_only_and_graph_only(tmp_path, scripted_llm):
+    scripted_llm()
+    audit = _campaign(tmp_path, "attack")
+    llm_only = _run(["--audit", str(audit), "--m2", "flat", "--m4", "llm"], tmp_path / "l.json")
+    (row,) = llm_only["M4_graph"]["per_deployment"]
+    assert row["llm_score"] == 10 and "graph_score" not in row
+    graph_only = _run(["--audit", str(audit), "--m2", "flat", "--m4", "graph"], tmp_path / "g.json")
+    (row,) = graph_only["M4_graph"]["per_deployment"]
+    assert row["graph_score"] > 0 and "llm" not in row and "llm_score" not in row
+    assert graph_only["M4_graph"]["cost_usd"] == 0
