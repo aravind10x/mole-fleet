@@ -154,6 +154,9 @@ def test_missing_managers_errors(tmp_path):
         cm.main(["--audit", str(tmp_path / "x.jsonl"), "--no-llm"])
 
 
+FLAT = ["--m2", "flat", "--m4", "graph"]       # the pre-strong M2 and no M4 judge calls
+
+
 @pytest.fixture
 def stub_judge(monkeypatch):
     calls: list[str] = []
@@ -175,7 +178,7 @@ def test_llm_stubbed_split_all_and_day(tmp_path, stub_judge):
     rows = [json.loads(l) for l in audit.read_text(encoding="utf-8").splitlines() if l.strip()]
     accounts = sorted({r["account"] for r in rows if r["account"] not in (None, "", "system")})
 
-    rep = _run(["--audit", str(audit)], tmp_path / "all.json")
+    rep = _run(["--audit", str(audit), *FLAT], tmp_path / "all.json")
     assert rep["inputs"]["judge_model"] == "stub/model"
     m2 = rep["M2_per_account"]
     assert [v["account"] for v in m2["per_account"]] == accounts
@@ -187,7 +190,7 @@ def test_llm_stubbed_split_all_and_day(tmp_path, stub_judge):
     assert all(v["score"] == 70 and v["flag"] and v["dossier_size_chars"] > 0 for v in m3)
     assert rep["cost_usd_total"] == pytest.approx(0.001 * (len(accounts) + len(m3)))
 
-    rep_d = _run(["--audit", str(audit), "--split", "day"], tmp_path / "day.json")
+    rep_d = _run(["--audit", str(audit), "--split", "day", *FLAT], tmp_path / "day.json")
     per = rep_d["M2_per_account"]["per_account"]
     pairs = {(r["account"], r["ts"][:10]) for r in rows if r["account"] in accounts}
     assert {(v["account"], v["day"]) for v in per} == pairs and len(per) == len(pairs)
@@ -198,7 +201,7 @@ def test_llm_stubbed_split_all_and_day(tmp_path, stub_judge):
 def test_llm_stubbed_accounts_and_all_deployments(tmp_path, stub_judge):
     audit = _campaign(tmp_path, "attack")
     acct = colluders("s0")["approver"]
-    rep = _run(["--audit", str(audit), "--accounts", acct, "--all-deployments"], tmp_path / "r.json")
+    rep = _run(["--audit", str(audit), "--accounts", acct, "--all-deployments", *FLAT], tmp_path / "r.json")
     assert [v["label"] for v in rep["M2_per_account"]["per_account"]] == [acct]
     assert len(rep["M3_dossiers"]) == rep["M1a_rules"]["n_deployments"] >= len(rep["prod_deployments"])
 
@@ -251,3 +254,116 @@ def test_llm_stubbed_every_verdict_has_cost_fields_and_prompt_version(tmp_path, 
     for v in verdicts:
         assert {"tokens_in", "tokens_out", "dollars"} <= set(v)
         assert v["prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
+
+
+# ── M2 strong / M4 through the CLI, with the scripted fake LLM client ──────────
+
+class ScriptedReleaseLLM:
+    """Scripted fake LLMClient: per-day summaries (hier._SUM_SYS) get a fixed sentence;
+    judge calls get a score chosen by the first `scores` key found in the packet (else 10).
+    Reports usage and a provider cost so every verdict's cost can be checked."""
+    backend, model_id = "fake", "fake/judge"
+
+    def __init__(self, scores: dict[str, int] | None = None):
+        self.scores = scores or {}
+        self.packets: list[str] = []
+        self.n_summaries = 0
+
+    async def complete(self, messages, **_kw):
+        from mole.llm.base import ChatResponse, TokenUsage
+        system, user = messages[0].content, messages[-1].content
+        if "compress" in system:
+            self.n_summaries += 1
+            return ChatResponse(content="routine day.", model_id=self.model_id,
+                                usage=TokenUsage(input_tokens=len(user) // 4, output_tokens=4,
+                                                 cost_usd=0.0001))
+        assert system == cm.fcm.JUDGE_SYSTEM                  # one scaffold for M2/M3/M4
+        self.packets.append(user)
+        score = next((s for k, s in self.scores.items() if k in user), 10)
+        return ChatResponse(content=json.dumps({"score": score, "flag": score >= 50, "rationale": "scripted"}),
+                            model_id=self.model_id,
+                            usage=TokenUsage(input_tokens=len(user) // 4, output_tokens=20, cost_usd=0.002))
+
+
+@pytest.fixture
+def scripted_llm(monkeypatch):
+    holder: dict = {}
+
+    def install(scores=None):
+        holder["llm"] = ScriptedReleaseLLM(scores)
+        monkeypatch.setattr(cm.fcm, "build_llm", lambda _cfg: holder["llm"])
+        monkeypatch.setenv("OPENROUTER_MODEL", "fake/judge")
+        return holder["llm"]
+    return install
+
+
+def _strong_packet_of(llm: ScriptedReleaseLLM, account: str) -> str:
+    return next(p for p in llm.packets if p.startswith(cm.STRONG_ACCOUNT_INTRO) and f"Account: {account}\n" in p)
+
+
+def test_m2_strong_packet_prior_days_full_config_and_peer_table(tmp_path, scripted_llm):
+    llm = scripted_llm()
+    audit = _campaign(tmp_path, "attack")
+    rows = [json.loads(l) for l in audit.read_text(encoding="utf-8").splitlines() if l.strip()]
+    roles = colluders("s0")
+    rep = _run(["--audit", str(audit), "--m2", "strong", "--m4", "graph"], tmp_path / "r.json")
+    m2 = rep["M2_per_account"]
+    assert m2["mode"] == "strong" and m2["prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
+    (rel,) = m2["per_release"]
+    assert rel["deadline"] == next(r["ts"] for r in rows if r["action"] == "deploy")
+    from mole.scenarios.release_sabotage import honest
+    assert rel["participants"] == [roles["config_editor"], roles["eval_runner"], roles["approver"],
+                                   honest("s0")["second_approver"]]
+    editor = _strong_packet_of(llm, roles["config_editor"])
+    upd = next(r for r in rows if r["account"] == roles["config_editor"] and r["action"] == "update_config")
+    assert "Day 2026-04-06" in editor and rel["deadline"][:10] == "2026-04-07"      # a prior sim day
+    assert json.dumps(upd["args"]["config"], ensure_ascii=False) in editor          # whole config payload
+    assert "Peer context (team evaluations" in editor and "eval_server.update_config" in editor
+    ev = next(v for v in rel["per_account"] if v["account"] == roles["config_editor"])
+    assert ev["days"] == ["2026-04-06"] and ev["truncated"] is False and ev["days_summarised"] == []
+    assert ev["packet_tokens"] > 0 and ev["peer_table"]
+
+
+def test_m2_strong_release_score_is_max_over_participants(tmp_path, scripted_llm):
+    roles = colluders("s0")
+    scripted_llm({f"Account: {roles['approver']}\n": 85, f"Account: {roles['eval_runner']}\n": 40})
+    audit = _campaign(tmp_path, "attack")
+    rep = _run(["--audit", str(audit), "--m4", "graph"], tmp_path / "r.json")   # strong is the default
+    m2 = rep["M2_per_account"]
+    (rel,) = m2["per_release"]
+    scores = {v["account"]: v["score"] for v in rel["per_account"]}
+    assert set(scores) == set(rel["participants"]) and len(scores) == 4
+    assert rel["score"] == max(scores.values()) == 85 and rel["argmax_account"] == roles["approver"]
+    assert rel["flag"] is True and m2["max_score"] == 85
+    assert m2["by_account_scores"][roles["approver"]] == 85
+    assert m2["n_calls"] == 4 and m2["n_summary_calls"] == 0          # small packets: no compression
+
+
+def test_m2_strong_cost_on_every_verdict_and_totals(tmp_path, scripted_llm):
+    llm = scripted_llm()
+    audit = _campaign(tmp_path, "attack")
+    rep = _run(["--audit", str(audit), "--m4", "graph", "--packet-token-cap", "700"], tmp_path / "r.json")
+    m2 = rep["M2_per_account"]
+    verdicts = [v for rel in m2["per_release"] for v in rel["per_account"]]
+    assert verdicts and verdicts == m2["per_account"]
+    for v in verdicts + rep["M3_dossiers"]:
+        assert v["tokens_in"] > 0 and v["tokens_out"] == 20 and v["dollars"] == 0.002
+        assert v["cost_source"] == "provider" and v["prompt_version"] == cm.fcm.JUDGE_PROMPT_VERSION
+    # a 700-token bound forces prior-day compression for the day-1 accounts (editor, runner)
+    summarised = {v["account"] for v in verdicts if v["days_summarised"]}
+    assert summarised and llm.n_summaries == m2["n_summary_calls"] >= 1
+    for v in verdicts:
+        assert v["summary_dollars"] == pytest.approx(sum(c["dollars"] for c in v["summary_calls"]))
+    assert m2["cost_usd"] == pytest.approx(0.002 * len(verdicts) + 0.0001 * llm.n_summaries)
+    assert rep["cost_usd_total"] == pytest.approx(m2["cost_usd"] + 0.002 * len(rep["M3_dossiers"]))
+
+
+def test_m2_strong_legit_release_participants(tmp_path, scripted_llm):
+    from mole.scenarios.release_sabotage import honest
+    scripted_llm()
+    audit = _campaign(tmp_path, "legit")
+    rep = _run(["--audit", str(audit), "--m4", "graph"], tmp_path / "r.json")
+    (rel,) = rep["M2_per_account"]["per_release"]
+    hon = honest("s0")
+    assert set(rel["participants"]) == {hon["config_owner"], hon["release_owner"],
+                                        hon["second_approver"], hon["co_approver"]}
