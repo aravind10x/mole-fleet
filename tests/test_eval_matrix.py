@@ -310,3 +310,42 @@ def test_campaign_outcomes_per_campaign(tmp_path):
     assert cell["weak_windows"] == [[ver[2], ver[4]], [ver[5], ver[8]]]
     # threats without a campaign_outcome hook are skipped
     assert campaign_outcomes(events, {"collusion": {"c1_release_bypass": {"s0": {"a": "x"}}}}) == {}
+
+
+def test_label_events_warns_once_when_c3_labels_are_effect_only(caplog):
+    import eval_matrix
+    from test_c3_labelling import ATTACK_TIDS, probe_like_events
+    eval_matrix._EFFECT_ONLY_WARNED.clear()
+    with caplog.at_level("WARNING"):
+        label_events(probe_like_events()[0], _c3_assignment(), attack_tids=ATTACK_TIDS)
+        assert not [r for r in caplog.records if "effect-only" in r.getMessage()]
+        label_events(probe_like_events()[0], _c3_assignment())
+        label_events(probe_like_events()[0], _c3_assignment())
+    warns = [r for r in caplog.records if "effect-only" in r.getMessage()]
+    assert len(warns) == 1 and warns[0].levelname == "WARNING"
+    assert "c3_release_sabotage" in warns[0].getMessage()
+
+
+def test_auc_eval_passes_attack_task_ids_to_label_events(tmp_path, monkeypatch):
+    """auc_eval labels via eval_matrix.label_events; with --transcripts it must pass
+    the attack-mode task_ids (effect AND intent), without them None (effect only)."""
+    import auc_eval
+    from test_c3_labelling import ATTACK_TIDS, sessions_rows
+    seen = []
+
+    class _Stop(Exception):
+        pass
+
+    def fake_label_events(events, assignment, attack_tids=None):
+        seen.append(attack_tids)
+        raise _Stop
+
+    monkeypatch.setattr(auc_eval.EM, "label_events", fake_label_events)
+    audit = tmp_path / "a.jsonl"
+    audit.write_text("")
+    tr = _write_sessions(tmp_path, sessions_rows())
+    with pytest.raises(_Stop):
+        auc_eval.main(["--audit", str(audit), "--transcripts", str(tr)])
+    with pytest.raises(_Stop):
+        auc_eval.main(["--audit", str(audit)])
+    assert seen == [ATTACK_TIDS, None]

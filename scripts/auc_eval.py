@@ -570,7 +570,10 @@ def main(argv=None):
 
     events = EM.load_audit_jsonl(args.audit)
     assignment = yaml.safe_load(Path(args.assignment).read_text(encoding="utf-8"))
-    events, labeled = EM.label_events(events, assignment)
+    # C3 labels effect AND intent from the attack-mode sessions in --transcripts;
+    # without them label_events logs a one-time WARNING and falls back to effect only.
+    attack_tids = EM.attack_session_task_ids(args.transcripts) if args.transcripts else None
+    events, labeled = EM.label_events(events, assignment, attack_tids=attack_tids)
     excl = _collusion_accounts(assignment) if args.exclude_collusion else set()
     if excl:
         _n0 = len(events)

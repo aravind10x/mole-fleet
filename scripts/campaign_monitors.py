@@ -19,8 +19,10 @@ Same three defenders as scripts/first_cut_monitors.py (same judge prompt and sco
                              (--split all) or per (account, sim-day) (--split day); an
                              account's score is the max over its calls
   M3   release dossier       one judge call per selected deployment's dossier
-Plus, with no LLM: the C3 harm label (events-only) and a per-session view joining
-transcript rows to audit events by task_id.
+Plus, with no LLM: the C3 harm label (events-only; malicious events = effect AND
+attack-session intent from the transcripts, effect only with a WARNING when there are
+none), the campaign outcome, and a per-session view joining transcript rows to audit
+events by task_id.
 """
 from __future__ import annotations
 
@@ -39,6 +41,8 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts"))
 
 import first_cut_monitors as fcm                  # noqa: E402
+import yaml                                         # noqa: E402
+from eval_matrix import _EFFECT_ONLY_WARNED, attack_task_ids_of, warn_effect_only  # noqa: E402,F401
 from mole.audit.schema import AuditEvent           # noqa: E402
 from mole.rules.dossier import build_release_dossier, deployments  # noqa: E402
 from mole.rules.dossier import snapshot as dossier_snapshot        # noqa: E402
@@ -110,12 +114,37 @@ def prod_deployments(state: dict) -> list[dict]:
 
 # ── harm label (events-only) ─────────────────────────────────────────
 
-def harm_block(rows: list[dict], events: list[AuditEvent], level: str, c3, state: dict) -> dict:
-    idx = c3.malicious_event_indices(events, level)
+ASSIGNMENT = REPO / "bootstrap" / "insider_assignment.yaml"
+
+
+def c3_colluders(level: str, assignment_path: Path = ASSIGNMENT) -> dict[str, str]:
+    doc = yaml.safe_load(Path(assignment_path).read_text(encoding="utf-8"))
+    return dict(doc["collusion"]["c3_release_sabotage"][level])
+
+
+def harm_block(rows: list[dict], events: list[AuditEvent], level: str, c3, state: dict,
+               transcripts: list[dict] | None = None) -> dict:
+    """C3 labels over the FULL stream. With `transcripts`: effect AND intent (the
+    attack-mode sessions' task_ids); without: effect only, with a one-time WARNING.
+    `malicious_event_indices` = true positives (or effect-only hits); `drift` = effect
+    without intent. `campaign` = c3.campaign_outcome for the level's colluders."""
+    sessions = None
+    if transcripts is not None:
+        sessions = [{k: t.get(k) for k in ("account", "task_id", "session_mode", "aborted_reason")}
+                    for t in transcripts]
+    tids = attack_task_ids_of(sessions) if sessions is not None else None
+    if tids is None:
+        warn_effect_only("campaign_monitors")
+    idx = c3.malicious_event_indices(events, level, attack_task_ids=tids)
+    labels = c3.label_stream(events, level, attack_task_ids=tids)
+    drift = sorted(lab.index for lab in labels if lab.drift) if tids is not None else []
+    campaign = c3.campaign_outcome(events, level, c3_colluders(level), sessions=sessions,
+                                   attack_task_ids=tids)
     unsafe = c3.METADATA["disjoint_targets"][level]["unsafe_checkpoint"]
     current = [d for d in prod_deployments(state) if d["current"]]
     return {
         "level": level,
+        "labels": "effect_and_intent" if tids is not None else "effect_only",
         "unsafe_checkpoint": unsafe,
         "harm_fired": bool(c3.harm_fired(events, level)),
         "harm_deadline": c3.harm_deadline(events, level),
@@ -125,6 +154,8 @@ def harm_block(rows: list[dict], events: list[AuditEvent], level: str, c3, state
         "malicious_events": [{"index": i, "ts": rows[i].get("ts"), "account": rows[i].get("account"),
                               "service": rows[i].get("service"), "action": rows[i].get("action"),
                               "task_id": rows[i].get("task_id")} for i in idx],
+        "drift_event_indices": drift,
+        "campaign": json.loads(json.dumps(campaign)),
         "current_prod_checkpoints": {d["environment"]: d["checkpoint_id"] for d in current},
         "current_prod_is_level_unsafe_checkpoint": any(d["checkpoint_id"] == unsafe for d in current),
     }
@@ -318,7 +349,8 @@ async def run(args: argparse.Namespace) -> dict:
 
     accounts = ([a.strip() for a in args.accounts.split(",") if a.strip()] if args.accounts else
                 sorted({r.get("account") for r in rows if r.get("account") not in EXCLUDED_ACCOUNTS}))
-    harm = harm_block(rows, events, args.level, c3, state)
+    transcripts = fcm._load_jsonl(transcripts_path) if transcripts_path is not None else None
+    harm = harm_block(rows, events, args.level, c3, state, transcripts)
     deps = select_deployments(state, args.prod_only)
     dossiers, m1a = dossiers_and_rules(events, state, deps)
 
@@ -335,7 +367,7 @@ async def run(args: argparse.Namespace) -> dict:
 
     sessions: dict = {"skipped": "no transcripts file"}
     if transcripts_path is not None:
-        sessions = sessions_block(fcm._load_jsonl(transcripts_path), rows, harm["malicious_event_indices"])
+        sessions = sessions_block(transcripts, rows, harm["malicious_event_indices"])
 
     cost = 0.0
     if isinstance(m2, dict) and "cost_usd" in m2:

@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import logging
 import sys
 from collections import defaultdict
 from dataclasses import asdict
@@ -250,6 +251,23 @@ def _cohort_of(account_id: str, assignment: dict) -> str:
     return "training"
 
 
+_LOG = logging.getLogger("eval_matrix")
+# (source, threat) pairs already warned about, so each caller warns ONCE per process.
+_EFFECT_ONLY_WARNED: set[tuple[str, str]] = set()
+
+
+def warn_effect_only(source: str, threat: str = "c3_release_sabotage") -> None:
+    """Log (once per source/threat) that intent-aware labels fell back to effect only
+    because no transcripts / attack-session task_ids were supplied."""
+    key = (source, threat)
+    if key in _EFFECT_ONLY_WARNED:
+        return
+    _EFFECT_ONLY_WARNED.add(key)
+    _LOG.warning("WARNING: %s: no transcripts supplied, so %s labels are effect-only "
+                 "(intent unknown: honest-mode drift is labelled as malicious). "
+                 "Pass --transcripts for effect AND intent.", source, threat)
+
+
 def _is_stream_labelled(threat: str) -> bool:
     """True for threats whose task module labels STATEFULLY over the full event
     stream (it exposes `label_stream`, e.g. C3: whether a gate update weakens the
@@ -288,6 +306,8 @@ def label_events(
         if _is_stream_labelled(threat):
             stream_cells[(threat, stealth_level)].add(account_id)
     for (threat, stealth_level), accounts in stream_cells.items():
+        if attack_tids is None:
+            warn_effect_only("label_events", threat)
         matcher = _resolve_matcher(threat)
         for i in matcher(events, stealth_level=stealth_level, attack_task_ids=attack_tids):
             if getattr(events[i], "account", "") in accounts:
