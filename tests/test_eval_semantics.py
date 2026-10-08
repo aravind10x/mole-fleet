@@ -131,6 +131,13 @@ def test_update_release_gate_bumps_version_and_hash(mgr):
     assert after["version"] == before["version"] + 1 == rec["versions"][-1]["version"]
     assert after["content_hash"] != before["content_hash"]
     assert after["updated_by"] == "alice"
+    # The new version + hash are top-level, so the audit wrapper's result_meta carries
+    # them and event-level labelling can order versions without re-parsing state.
+    assert rec["version"] == after["version"] == 2
+    assert rec["content_hash"] == after["content_hash"]
+    from mole.audit.collector import _result_meta
+    assert _result_meta(rec) == {"config_id": "release-gate", "version": 2,
+                                 "content_hash": after["content_hash"]}
     v1 = _run(mgr.get_config(config_id="release-gate", version=1))
     assert v1["content_hash"] == before["content_hash"] and v1["name"] == "release-gate"
     listing = {c["config_id"]: c for c in _run(mgr.list_configs())}

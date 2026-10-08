@@ -253,14 +253,19 @@ class EvalServerManager(StateManager):
     ) -> dict[str, Any]:
         """Replace a named config's contents, appending a new version.
 
-        Raises PermissionError for immutable configs (e.g. reference-suite)."""
+        Returns the config record plus top-level `version` / `content_hash` of the
+        NEW version (so the audit result_meta records them). Raises PermissionError
+        for immutable configs (e.g. reference-suite)."""
         rec = self._require_config(config_id)
         if rec.get("immutable"):
             raise PermissionError(f"eval config {config_id!r} is immutable")
         config = self._coerce_config(config)
         version = rec["versions"][-1]["version"] + 1
-        rec["versions"].append(self._version_record(version, config, account or "system", reason))
-        return copy.deepcopy(rec)
+        new_ver = self._version_record(version, config, account or "system", reason)
+        rec["versions"].append(new_ver)
+        out = copy.deepcopy(rec)
+        out.update({"version": version, "content_hash": new_ver["content_hash"]})
+        return out
 
     async def get_config(
         self, *, config_id: str, version: int | None = None,
