@@ -28,6 +28,10 @@ from .persona_loader import Persona
 logger = logging.getLogger(__name__)
 
 
+# plan_day key prefix of a dedicated slotted arc-step session ("arc:<step_id>").
+ARC_KEY_PREFIX = "arc:"
+
+
 def load_task_bank(path: str | None = None, *, rich: bool = False,
                    bank: str | None = None) -> dict[str, list[str]]:
     """Load the benign task bank → {team: [task, ...]}.
@@ -47,6 +51,42 @@ def load_task_bank(path: str | None = None, *, rich: bool = False,
     Docker-free runner, and likewise RAISES if it is absent.
     """
     import yaml
+    path = _task_bank_path(path, rich=rich, bank=bank)
+    # No silent swallow: a missing bank propagates FileNotFoundError loudly.
+    bank = yaml.safe_load(open(path, encoding="utf-8")) or {}
+    by_team: dict[str, list[str]] = {}
+    for entry in bank.values():
+        team = entry.get("team") or ""
+        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
+        by_team.setdefault(team, []).extend(tasks)
+    return by_team
+
+
+def load_task_bank_ids(path: str | None = None, *, rich: bool = False,
+                       bank: str | None = None) -> dict[str, str]:
+    """The same bank as load_task_bank, keyed by stable-in-file task id -> task text.
+
+    A task id is ``<bank_key>/<i>``: the entry's key in the YAML (e.g. ``legal``) and the
+    0-based index into that entry's task list, focal_benign first (if set) then variants
+    in file order -- the order load_task_bank uses. E.g. ``legal/14`` in
+    benign_task_bank_inprocess.yaml is the routine release-approver task. Used by
+    --pin-task. Ids shift if the bank file is regenerated with different content.
+    """
+    import yaml
+    doc = yaml.safe_load(open(_task_bank_path(path, rich=rich, bank=bank),
+                              encoding="utf-8")) or {}
+    out: dict[str, str] = {}
+    for key, entry in doc.items():
+        entry = entry or {}
+        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
+        for i, t in enumerate(tasks):
+            out[f"{key}/{i}"] = t
+    return out
+
+
+def _task_bank_path(path: str | None, *, rich: bool, bank: str | None) -> str:
+    """Resolve the task-bank file for load_task_bank / load_task_bank_ids (raises if a
+    required bank is missing)."""
     from pathlib import Path
     if path is None:
         # agentic_member.py is benchmark/mole/generator/; bootstrap/ is at
@@ -72,14 +112,7 @@ def load_task_bank(path: str | None = None, *, rich: bool = False,
             path = str(v2)
         else:
             path = str(base / "benign_task_bank.yaml")
-    # No silent swallow: a missing bank propagates FileNotFoundError loudly.
-    bank = yaml.safe_load(open(path, encoding="utf-8")) or {}
-    by_team: dict[str, list[str]] = {}
-    for entry in bank.values():
-        team = entry.get("team") or ""
-        tasks = ([entry["focal_benign"]] if entry.get("focal_benign") else []) + list(entry.get("variants") or [])
-        by_team.setdefault(team, []).extend(tasks)
-    return by_team
+    return str(path)
 
 
 def load_arc_bank(path: str | None = None) -> dict[str, list[dict]]:
@@ -408,6 +441,7 @@ class AgenticMember(Member):
         sim_dates: list[str] | None = None,
         rich_sessions: bool = True,
         benign_arc_schedule: list | None = None,
+        pinned_tasks: dict[str, dict] | None = None,
         max_tool_calls_per_turn: int | None = None,   # None -> loop default / env
     ) -> None:
         # Reuse Member's scheduling/jitter/loaf machinery; workflows are unused.
@@ -497,6 +531,21 @@ class AgenticMember(Member):
         # path (salted independently so arc and attack picks never collide).
         self._arc_key_for_date: str | None = None
         self._arc_key: str | None = None
+        # SLOTTED arc steps (release arcs, generator/release_arcs.py): an entry with a fixed
+        # "slot" (HH:MM:SS) and a "step_id" gets a DEDICATED session at that sim time, keyed
+        # f"{ARC_KEY_PREFIX}{step_id}" (plan_day), instead of riding a hash-picked session. The
+        # fixed slot puts each step in its own sim-time bucket so a multi-account workflow runs
+        # in order. Unslotted entries keep the legacy one-step-per-day path above.
+        self._slotted_arc_steps: dict[str, dict] = {
+            p["step_id"]: p for p in (self.benign_arc_schedule or [])
+            if p.get("slot") and p.get("step_id")}
+        # Pinned bank tasks ({date: {"task_id", "task"}}, from --pin-task): the account's first
+        # benign, non-arc session that day runs the task through the staging-task override,
+        # beating the random draw.
+        self._pinned_tasks: dict[str, dict] = {
+            d: {**v, "task": (v.get("task") or "").replace("{ws}", self._workspace)}
+            for d, v in (pinned_tasks or {}).items()}
+        self._pins_used: set[str] = set()
 
     def plan_day(self, sim_date_iso: str) -> list[tuple[Any, str]]:
         """Plan `sessions_per_day` agent sessions across the working day.
@@ -506,10 +555,15 @@ class AgenticMember(Member):
         and sorts globally by slot_datetime so sim-time causality is preserved across
         the org.
         """
+        day = sim_date_iso[:10]
+        # Slotted arc steps run even on a PTO day and are never loafed (the workflow needs
+        # them); they draw no RNG, so every other draw is unchanged.
+        arc_sessions = self._arc_sessions_for(day)
         if self.config.absent_probability > 0 and self.rng.random() < self.config.absent_probability:
-            logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
-            self._today_keys = []
-            return []
+            if day not in self._pinned_tasks:      # a pinned task keeps the account in that day
+                logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
+                self._today_keys = []
+                return arc_sessions
         base = self._iso_date_to_dt(sim_date_iso)
         sessions = max(1, self.config.sessions_per_day)
         slots = self._slot_times(base, sessions)
@@ -519,7 +573,15 @@ class AgenticMember(Member):
                 continue
             plan.append((t, f"session_{i}"))
         self._today_keys = [k for _, k in plan]   # actual sessions → attack-slot pool
-        return plan
+        return plan + arc_sessions
+
+    def _arc_sessions_for(self, day: str) -> list[tuple[Any, str]]:
+        """Dedicated (slot_datetime, "arc:<step_id>") sessions for the day's slotted arc steps."""
+        if not self._slotted_arc_steps:
+            return []
+        from .release_arcs import slot_datetime
+        return [(slot_datetime(day, e["slot"]), f"{ARC_KEY_PREFIX}{sid}")
+                for sid, e in self._slotted_arc_steps.items() if e["date"] == day]
 
     async def run_at(self, ctx: Any, sim_now: str, action_key: str) -> None:
         """Run one agent session at the given sim_now timestamp."""
@@ -534,8 +596,14 @@ class AgenticMember(Member):
         try:
             await self._run_session(ctx, org, sim_now, action_key)
         except Exception:                                       # noqa: BLE001
-            logger.exception("account %s session raised; continuing",
-                             self.persona.id)
+            if action_key and action_key.startswith(ARC_KEY_PREFIX):
+                # A failed arc step is logged and skipped; later steps still run (and
+                # meet whatever state the world is in, as a real colleague would).
+                logger.exception("release arc step %s FAILED for %s; the run continues",
+                                 action_key[len(ARC_KEY_PREFIX):], self.persona.id)
+            else:
+                logger.exception("account %s session raised; continuing",
+                                 self.persona.id)
 
     async def run_day(self, ctx: Any, sim_date_iso: str) -> int:
         """Backward-compat: plan + run sequentially. `simulate` calls plan_day/run_at
@@ -661,7 +729,14 @@ class AgenticMember(Member):
                 self.campaign_schedule = await self._author_campaign(org, sim_now)
         phase_directive: str | None = None
         staging_task: str | None = None
-        if self.campaign_schedule is not None and self.persona_override is not None:
+        # A dedicated slotted arc-step session (plan_day key "arc:<step_id>"): always benign.
+        arc_entry: dict | None = None
+        if action_key and action_key.startswith(ARC_KEY_PREFIX):
+            arc_entry = self._slotted_arc_steps.get(action_key[len(ARC_KEY_PREFIX):])
+        pinned_task_id: str | None = None
+        if arc_entry is not None:
+            is_attack_session = False
+        elif self.campaign_schedule is not None and self.persona_override is not None:
             today = (sim_now or "")[:10]
             match = next((p for p in self.campaign_schedule if p["date"] == today), None)
             # Exactly ONE attack session per attack-day, at a session picked
@@ -735,10 +810,11 @@ class AgenticMember(Member):
             # step (same deterministic one-session-per-day slot pick as the attack path, salted
             # "arc:" so it's independent). benign_arc_schedule is None for insiders + when the
             # feature is off, so this whole block is skipped on the default path.
-            arc_task: str | None = None
-            if self.benign_arc_schedule:
+            arc_task: str | None = arc_entry["directive"] if arc_entry is not None else None
+            if self.benign_arc_schedule and arc_task is None:
                 today = (sim_now or "")[:10]
-                amatch = next((p for p in self.benign_arc_schedule if p["date"] == today), None)
+                amatch = next((p for p in self.benign_arc_schedule
+                               if p["date"] == today and not p.get("slot")), None)
                 if amatch is not None:
                     if self._arc_key_for_date != today:
                         self._arc_key_for_date = today
@@ -751,6 +827,14 @@ class AgenticMember(Member):
                             self._arc_key = action_key
                     if action_key is not None and action_key == self._arc_key:
                         arc_task = amatch["directive"]
+            # Pinned bank task (--pin-task): the first benign, non-arc session of the pinned
+            # day runs it through the staging-task override, beating the random draw.
+            _today = (sim_now or "")[:10]
+            if (arc_task is None and staging_task is None and _today in self._pinned_tasks
+                    and _today not in self._pins_used):
+                self._pins_used.add(_today)
+                staging_task = self._pinned_tasks[_today]["task"]
+                pinned_task_id = self._pinned_tasks[_today].get("task_id")
             # Benign session shape — SINGLE source of priority (regression guard for the
             # staging-shadow bug): arc > staging > rich > single > generic. An arc step or a STAGE
             # day MUST win over the rich path (rich_sessions is on by default), else the step is
@@ -832,14 +916,19 @@ class AgenticMember(Member):
         except (ValueError, TypeError):
             _slot_dt = None
         _day = sim_now[:10]
-        if getattr(self, "_chain_date", None) != _day:
-            self._chain_date = _day
-            self._chain_anchor = _slot_dt                  # day's first session = modeled START
-            self._chain_break_today = self.rng.random() < self.config.break_probability
-            self._chain_break_used = False
-        elif getattr(self, "_chain_anchor", None) is None:
-            self._chain_anchor = _slot_dt
-        _anchor = getattr(self, "_chain_anchor", None)
+        if arc_entry is not None:
+            # A slotted arc step starts at its own slot so its timestamps follow the
+            # workflow order across accounts; the account's day-chain is left untouched.
+            _anchor = _slot_dt
+        else:
+            if getattr(self, "_chain_date", None) != _day:
+                self._chain_date = _day
+                self._chain_anchor = _slot_dt              # day's first session = modeled START
+                self._chain_break_today = self.rng.random() < self.config.break_probability
+                self._chain_break_used = False
+            elif getattr(self, "_chain_anchor", None) is None:
+                self._chain_anchor = _slot_dt
+            _anchor = getattr(self, "_chain_anchor", None)
 
         # Rich-session hooks (default on). `post_turn` advances the per-task sim clock so
         # events carry ordered intra-session timestamps; `next_task` feeds the remaining
@@ -915,7 +1004,11 @@ class AgenticMember(Member):
         # boundary-hiding inter-session gap. Occasionally (≈break_probability of days,
         # capped at one) add a longer lunch/break, which realistically pushes the rest of
         # the day later.
-        if self.rich_sessions and _clk.get("sim") is not None:
+        if arc_entry is not None:
+            logger.info("release arc step %s by %s: finish=%s aborted=%s turns=%d",
+                        arc_entry.get("step_id"), self.persona.id, result.finish_reason,
+                        result.aborted_reason, result.turn_count)
+        elif self.rich_sessions and _clk.get("sim") is not None:
             _gap = self.rng.uniform(2, 10)
             if (getattr(self, "_chain_break_today", False)
                     and not getattr(self, "_chain_break_used", False)
@@ -924,7 +1017,15 @@ class AgenticMember(Member):
                 self._chain_break_used = True
             self._chain_anchor = _clk["sim"] + _td(seconds=_gap)
         if self.transcript_sink is not None:
+            # Extra keys only when set, so the default record shape is unchanged.
+            extra: dict[str, Any] = {}
+            if arc_entry is not None:
+                extra["release_arc"] = {k: arc_entry.get(k)
+                                        for k in ("arc_id", "step_id", "role", "date", "slot")}
+            if pinned_task_id is not None:
+                extra["pinned_task_id"] = pinned_task_id
             self.transcript_sink({
+                **extra,
                 "account": self.persona.id,
                 "account_kind": "background_llm_agent",
                 # Per-session task UUID — every audit event produced by tool

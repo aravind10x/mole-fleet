@@ -141,6 +141,15 @@ def build_insider_level_map() -> dict[str, str]:
     return {eid: level for threat, level, role, eid in _flatten_assignment(assignment)}
 
 
+def _pin_task_arg(value: str) -> tuple[str, int, str]:
+    """argparse type for --pin-task (shape errors become usage errors)."""
+    from mole.generator.run import parse_pin_task
+    try:
+        return parse_pin_task(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from None
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="sim_runner")
     grp = ap.add_mutually_exclusive_group(required=True)
@@ -233,6 +242,26 @@ def main(argv: list[str] | None = None) -> int:
                          "multi-day benign PROJECTS (one step/day from benign_arcs_v1.yaml) so "
                          "cross-day continuity isn't attack-exclusive -- gives multi-day attacks "
                          "benign cover. Only meaningful with --multi-day. Also env NPC_BENIGN_ARCS=1.")
+    ap.add_argument("--release-arcs", type=int, default=0, metavar="N",
+                    help="Schedule N honest RELEASE ARCS (default 0 = off; agentic mode). "
+                         "Each casts 4 distinct honest accounts of the cohort (2 model-approval "
+                         "approvers + an evaluations/alignment config owner and release owner; "
+                         "insiders in insider_assignment.yaml are never cast) and runs, over two "
+                         "days, register checkpoint + Plane ticket -> justified release-gate "
+                         "edit -> gate eval -> two approvals -> prod deploy as their staging "
+                         "tasks (bootstrap/release_arcs_v1.yaml). The plan is recorded in the "
+                         "run manifest under 'release_arcs'. Fails if the cohort is too small: "
+                         "the org has only 4 honest model-approval members, so N <= 2.")
+    ap.add_argument("--pin-task", action="append", default=[], type=_pin_task_arg,
+                    metavar="ACCOUNT:DAY_INDEX:TASK_ID",
+                    help="Force a task-bank task as the staging task of ACCOUNT's first "
+                         "benign session on day DAY_INDEX (0-based into the run's working "
+                         "days; negative counts from the end, -1 = last day), overriding the "
+                         "random draw. TASK_ID is <bank_key>/<i> into the run's bank (in "
+                         "--no-docker: bootstrap/benign_task_bank_inprocess.yaml, i 0-based "
+                         "over focal_benign then variants), e.g. paul.s20:-1:legal/14 = the "
+                         "routine release-approver task on the final day. Repeatable; "
+                         "agentic mode only. Recorded in the manifest under 'pinned_tasks'.")
     ap.add_argument("--planning", choices=["single", "scripted", "coinflip", "agentic"], default=None,
                     help="Insider attack-insertion mode. 'single' (no-flag default): K "
                          "self-contained attack-days per insider, evenly spread with "
@@ -347,6 +376,10 @@ def main(argv: list[str] | None = None) -> int:
           + (f", K={args.campaign_days}]" if planning in ("single", "agentic") else "]"))
     if benign_arcs:
         print("  benign multi-day arcs: ENABLED (non-insiders run multi-day benign projects)")
+    if args.release_arcs:
+        print(f"  release arcs: {args.release_arcs} (plan recorded in the run manifest)")
+    for acct, day_index, task_id in args.pin_task:
+        print(f"  pinned task: {acct} day[{day_index}] -> {task_id}")
     # In smoke mode, only the first N personas run; report how many of those
     # are designated insiders so the user can see attack activity to expect.
     if args.mode == "rules":
@@ -383,6 +416,8 @@ def main(argv: list[str] | None = None) -> int:
         attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
         benign_arcs=benign_arcs,
+        release_arcs=args.release_arcs,
+        pinned_tasks=args.pin_task or None,
         planning=planning,
         campaign_days=args.campaign_days,
         auth_failure_limit=args.auth_failure_limit,

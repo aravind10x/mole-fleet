@@ -82,9 +82,104 @@ def _restore_day_plan(saved: list[list[str]], members: list[Any]) -> list[tuple[
         keys_by_member.setdefault(id(m), []).append(key)
     plan.sort(key=lambda x: x[0])
     for m in members:
-        keys = keys_by_member.get(id(m), [])
+        # Dedicated arc-step sessions ("arc:<step_id>") are not in plan_day's slot pool.
+        keys = [k for k in keys_by_member.get(id(m), []) if not k.startswith("arc:")]
         m._today_keys = sorted(keys, key=_session_index)   # plan_day order (by slot index)
     return plan
+
+
+def _world_ids(ctx: Any) -> tuple[set[str], set[str]]:
+    """(checkpoint ids, plane ticket ids) already present in the in-process world."""
+    managers = getattr(ctx, "_managers", {}) or {}
+    ckpts = set(getattr(managers.get("model_registry"), "_checkpoints", {}) or {})
+    tickets: set[str] = set()
+    for ws in (getattr(managers.get("plane"), "_state", {}) or {}).values():
+        tickets |= set((ws or {}).get("issues") or {})
+    return ckpts, tickets
+
+
+def _plan_release_arcs_for_run(
+    n_arcs: int, *, ctx: Any, personas: list[Any], manifest: dict[str, Any],
+    resume: bool, out_path: Path, start_date: str, n_days: int, seed: int | None,
+    bucket_minutes: int, insider_ids: set[str],
+) -> list[dict[str, Any]]:
+    """Plan (or, on --resume, reload) the run's release arcs and record them in the
+    manifest under "release_arcs". Every account in bootstrap/insider_assignment.yaml
+    plus `insider_ids` is excluded from casting. Returns [] when n_arcs <= 0."""
+    if resume and manifest.get("release_arcs") is not None:
+        plans = list(manifest["release_arcs"])
+        logger.info("--resume: reusing %d release arc(s) from the manifest", len(plans))
+        return plans
+    if n_arcs <= 0:
+        return []
+    from .release_arcs import load_insider_accounts, plan_release_arcs
+    ckpts, tickets = _world_ids(ctx)
+    plans = plan_release_arcs(
+        n_arcs, personas, _weekday_dates(date.fromisoformat(start_date), n_days),
+        seed=seed, insider_ids=load_insider_accounts() | set(insider_ids),
+        bucket_minutes=bucket_minutes, taken_checkpoint_ids=ckpts, taken_ticket_ids=tickets)
+    for arc in plans:
+        logger.info("release arc %s: %s ticket %s days %s accounts %s",
+                    arc["arc_id"], arc["checkpoint_id"], arc["ticket"],
+                    arc["planned_days"], arc["accounts"])
+    manifest["release_arcs"] = plans
+    resume_state.write_atomic(manifest, out_path)
+    return plans
+
+
+def parse_pin_task(spec: str) -> tuple[str, int, str]:
+    """Parse a --pin-task value ``ACCOUNT:DAY_INDEX:TASK_ID`` -> (account, day, task_id).
+
+    DAY_INDEX is a 0-based index into the run's working days (negative counts from the
+    end: -1 = the last day). TASK_ID is a task-bank id ``<bank_key>/<i>`` (see
+    agentic_member.load_task_bank_ids). Raises ValueError on a malformed value."""
+    parts = str(spec).split(":", 2)
+    if len(parts) != 3 or not all(p.strip() for p in parts):
+        raise ValueError(f"--pin-task wants ACCOUNT:DAY_INDEX:TASK_ID, got {spec!r}")
+    account, day, task_id = (p.strip() for p in parts)
+    try:
+        day_index = int(day)
+    except ValueError:
+        raise ValueError(f"--pin-task DAY_INDEX must be an integer, got {day!r}") from None
+    return account, day_index, task_id
+
+
+def _resolve_pins(
+    pins: list[tuple[str, int, str]] | None, *, personas: list[Any], dates: list[str],
+    sandbox_mode: str,
+) -> tuple[dict[str, dict[str, dict[str, str]]], list[dict[str, Any]]]:
+    """--pin-task specs -> ({account: {date: {"task_id", "task"}}}, manifest records).
+
+    Task ids resolve against the bank the run draws from (the in-process bank in dryrun,
+    the v2 bank in lab mode). Raises ValueError for an account outside the cohort, a day
+    index outside the window, an unknown task id, or two pins on one account-day."""
+    if not pins:
+        return {}, []
+    from .agentic_member import load_task_bank_ids
+    ids = (load_task_bank_ids(bank="inprocess") if sandbox_mode == "dryrun"
+           else load_task_bank_ids(rich=True))
+    cohort = {p.id for p in personas}
+    by_account: dict[str, dict[str, dict[str, str]]] = {}
+    records: list[dict[str, Any]] = []
+    for account, day_index, task_id in pins:
+        if account not in cohort:
+            raise ValueError(f"--pin-task account {account!r} is not in this run's cohort")
+        if not -len(dates) <= day_index < len(dates):
+            raise ValueError(f"--pin-task day index {day_index} is outside the "
+                             f"{len(dates)}-day window")
+        if task_id not in ids:
+            key = task_id.split("/", 1)[0]
+            near = sorted(i for i in ids if i.split("/", 1)[0] == key)
+            raise ValueError(f"--pin-task unknown task id {task_id!r}"
+                             + (f"; ids for {key!r}: {near[0]}..{near[-1]}" if near
+                                else f"; bank keys: {sorted({i.split('/', 1)[0] for i in ids})}"))
+        day = dates[day_index]
+        if day in by_account.get(account, {}):
+            raise ValueError(f"--pin-task: two pins for {account} on {day}")
+        by_account.setdefault(account, {})[day] = {"task_id": task_id, "task": ids[task_id]}
+        records.append({"account": account, "day_index": day_index, "date": day,
+                        "task_id": task_id})
+    return by_account, records
 
 
 def _is_auth_error(exc: BaseException) -> bool:
@@ -517,6 +612,8 @@ async def simulate(
     attack_session_rate: float = 0.20,
     multi_day: bool = False,
     benign_arcs: bool = False,
+    release_arcs: int = 0,
+    pinned_tasks: list[tuple[str, int, str]] | None = None,
     planning: str | None = None,
     campaign_days: int = 4,   # K; calibrated to the v1 ar05 base rate (~3.2%)
     auth_failure_limit: int = 25,
@@ -556,7 +653,22 @@ async def simulate(
     boundary are copied into this run's own files (and preloaded so the recap
     sees the history), its managers.json is imported over a freshly seeded world,
     and `start_date` defaults to the next weekday. The parent is never modified.
+
+    `release_arcs` (agentic mode only; default 0) schedules that many honest release
+    arcs (generator/release_arcs.py): each casts four honest accounts of the cohort and
+    runs register -> gate edit -> gate eval -> two approvals -> prod deploy as their
+    staging tasks over two days. The plan is recorded in the manifest under
+    "release_arcs" (a --resume reuses it).
+
+    `pinned_tasks` (agentic mode only) is a list of (account, day_index, task_id) from
+    --pin-task: that account's first benign session on that day runs the task-bank task
+    `task_id` (agentic_member.load_task_bank_ids) instead of a random draw. Recorded in
+    the manifest under "pinned_tasks".
     """
+    if release_arcs and mode != "agentic":
+        raise ValueError("release_arcs needs mode='agentic' (the steps are LLM agent sessions)")
+    if pinned_tasks and mode != "agentic":
+        raise ValueError("pinned_tasks needs mode='agentic' (rules mode draws no bank tasks)")
     if sandbox_mode not in SANDBOX_MODES:
         raise ValueError(f"sandbox_mode must be one of {SANDBOX_MODES}, got {sandbox_mode!r}")
     if branch_from is not None and resume:
@@ -838,6 +950,33 @@ async def simulate(
             from .campaign import build_benign_arc
             return build_benign_arc(rng.choice(arcs), _sim_dates, rng) or None
 
+        # Honest release arcs (default 0 = off). Planned once over the run's working days,
+        # after the world exists so arc ids avoid every checkpoint/ticket already in it
+        # (e.g. a branch parent's arcs); a --resume reuses the manifest's plan verbatim.
+        release_arc_plans = _plan_release_arcs_for_run(
+            release_arcs, ctx=ctx, personas=personas, manifest=manifest, resume=resume,
+            out_path=out_path, start_date=start_date, n_days=n_days, seed=seed,
+            bucket_minutes=bucket_minutes,
+            insider_ids=set(persona_map) | set(threat_map) | set(role_map) | set(level_map))
+        from .release_arcs import arc_schedules_by_account
+        release_sched = arc_schedules_by_account(release_arc_plans)
+
+        # --pin-task: forced bank tasks per (account, day); validated against the cohort,
+        # the window and the run's task bank before any session runs.
+        pins_by_account, pin_records = _resolve_pins(
+            pinned_tasks, personas=personas,
+            dates=_weekday_dates(date.fromisoformat(start_date), n_days),
+            sandbox_mode=sandbox_mode)
+        if pin_records:
+            manifest["pinned_tasks"] = pin_records
+            resume_state.write_atomic(manifest, out_path)
+            logger.info("pinned tasks: %s", pin_records)
+
+        def _arc_schedule_for(persona, i: int):
+            # Legacy benign arc (if any) + this account's release-arc steps; None = no arc.
+            steps = list(_arc_for(persona, i) or []) + release_sched.get(persona.id, [])
+            return steps or None
+
         members: list[Any] = [
             AgenticMember(p, llm=llm, config=config, transcript_sink=_sink,
                           task_bank=task_bank,
@@ -848,7 +987,8 @@ async def simulate(
                           elicit=elicit,
                           attack_session_rate=attack_session_rate,
                           campaign_schedule=_campaign_for(p.id, i),
-                          benign_arc_schedule=_arc_for(p, i),
+                          benign_arc_schedule=_arc_schedule_for(p, i),
+                          pinned_tasks=pins_by_account.get(p.id),
                           planning_mode=planning,
                           campaign_days=campaign_days,
                           sim_dates=_sim_dates,
