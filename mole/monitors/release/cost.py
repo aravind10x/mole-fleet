@@ -19,7 +19,8 @@ oversight cost. Fill it (or the env var / hook) for backends that do not report 
 from __future__ import annotations
 
 import os
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 PRICE_PER_MTOK: dict[str, tuple[float, float]] = {}
 _PRICE_HOOK: Callable[[str, int, int], float | None] | None = None
