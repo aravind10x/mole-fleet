@@ -82,7 +82,8 @@ def _restore_day_plan(saved: list[list[str]], members: list[Any]) -> list[tuple[
         keys_by_member.setdefault(id(m), []).append(key)
     plan.sort(key=lambda x: x[0])
     for m in members:
-        keys = keys_by_member.get(id(m), [])
+        # Dedicated arc-step sessions ("arc:<step_id>") are not in plan_day's slot pool.
+        keys = [k for k in keys_by_member.get(id(m), []) if not k.startswith("arc:")]
         m._today_keys = sorted(keys, key=_session_index)   # plan_day order (by slot index)
     return plan
 
