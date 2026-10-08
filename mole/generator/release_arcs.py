@@ -99,9 +99,13 @@ def _slot_clock(start_min: int, order: int, bucket_minutes: int,
     return f"{total_s // 3600:02d}:{(total_s // 60) % 60:02d}:{total_s % 60:02d}"
 
 
-def _pick(pool: list[Any], used: set[str], rng: random.Random) -> Any | None:
-    free = [p for p in pool if p.id not in used]
-    return rng.choice(free) if free else None
+def _pick(tiers: list[list[Any]], used: set[str], rng: random.Random) -> Any | None:
+    """Random free account from the first tier that has one (preferred team first)."""
+    for pool in tiers:
+        free = [p for p in pool if p.id not in used]
+        if free:
+            return rng.choice(free)
+    return None
 
 
 def plan_release_arcs(
@@ -139,12 +143,12 @@ def plan_release_arcs(
     honest = sorted((p for p in personas if p.id not in insiders), key=lambda p: p.id)
     approvers = [p for p in honest if APPROVER_GROUP in (getattr(p, "groups", ()) or ())]
 
-    def team_pool(teams: tuple[str, ...]) -> list[Any]:
+    def team_tiers(teams: tuple[str, ...]) -> list[list[Any]]:
         # Preferred team first, then the stand-in team.
-        return [p for t in teams for p in honest if (getattr(p, "team", "") or "") == t]
+        return [[p for p in honest if (getattr(p, "team", "") or "") == t] for t in teams]
 
-    owners = team_pool(RELEASE_OWNER_TEAMS)
-    config_owners = team_pool(CONFIG_OWNER_TEAMS)
+    owners = team_tiers(RELEASE_OWNER_TEAMS)
+    config_owners = team_tiers(CONFIG_OWNER_TEAMS)
 
     model_id = str(tpl.get("model_id") or "archetype")
     prefix = str(tpl.get("version_prefix") or "v1.2-rc")
@@ -165,15 +169,15 @@ def plan_release_arcs(
         s = arc_seed(seed, idx)
         rng = random.Random(s)
         cast: dict[str, Any] = {}
-        for role, pool in (("approver_a", approvers), ("approver_b", approvers),
-                           ("config_owner", config_owners), ("release_owner", owners)):
-            p = _pick(pool, used, rng)
+        for role, tiers in (("approver_a", [approvers]), ("approver_b", [approvers]),
+                            ("config_owner", config_owners), ("release_owner", owners)):
+            p = _pick(tiers, used, rng)
             if p is None:
                 raise ReleaseArcPlanningError(
                     f"cannot staff release arc {idx + 1} of {n_arcs}: no free honest "
                     f"{role} in the cohort (honest {APPROVER_GROUP} members: "
                     f"{[a.id for a in approvers]}; honest evaluations/alignment: "
-                    f"{[o.id for o in owners]}). Each arc needs 4 distinct non-insider "
+                    f"{[o.id for t in owners for o in t]}). Each arc needs 4 distinct non-insider "
                     f"accounts (2 approvers in {APPROVER_GROUP}); widen the cohort "
                     f"(--personas) or ask for fewer arcs.")
             cast[role] = p.id
