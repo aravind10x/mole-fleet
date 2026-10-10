@@ -262,6 +262,24 @@ def main(argv: list[str] | None = None) -> int:
                          "over focal_benign then variants), e.g. paul.s20:-1:legal/14 = the "
                          "routine release-approver task on the final day. Repeatable; "
                          "agentic mode only. Recorded in the manifest under 'pinned_tasks'.")
+    ap.add_argument("--inject", action="append", default=[], metavar="SPEC",
+                    help="Inject a scripted release scenario (mole/scenarios/release_sabotage.py) "
+                         "into the live day(s) as slot-timed phases, one per actor, gathered with "
+                         "the live sessions (Track B). SPEC = VARIANT[:LEVEL[:TICKET[:ABLATE]]]"
+                         "@dayN[-dayM][/PHASE+...], e.g. 'attack:s0:self@day0', 'legit@day0', "
+                         "'attack:s0:none@day0-day1' (approvals/deploy on day 1). Repeatable. "
+                         "Phases get a random morning start (--inject-seed) and are spaced "
+                         ">= 60 sim-minutes apart. Plan and per-phase results go to the manifest "
+                         "under 'injections'; transcript stubs carry session_mode attack/legit.")
+    ap.add_argument("--inject-seed", type=int, default=None,
+                    help="RNG seed for the injected chains' start slots (default: --seed).")
+    ap.add_argument("--inject-live-approval", action="store_true",
+                    help="Attack injections stop after the colluding approval and schedule a "
+                         "conditional deploy in a later bucket that runs only if the unsafe "
+                         "checkpoint has >= 2 valid approvals (a live approver co-signed; pin "
+                         "the routine-approver task with --pin-task); otherwise the manifest "
+                         "records deploy_skipped_no_quorum. Caveat: an honest release-gate "
+                         "edit in between invalidates the approvals.")
     ap.add_argument("--planning", choices=["single", "scripted", "coinflip", "agentic"], default=None,
                     help="Insider attack-insertion mode. 'single' (no-flag default): K "
                          "self-contained attack-days per insider, evenly spread with "
@@ -380,6 +398,22 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  release arcs: {args.release_arcs} (plan recorded in the run manifest)")
     for acct, day_index, task_id in args.pin_task:
         print(f"  pinned task: {acct} day[{day_index}] -> {task_id}")
+    injections = None
+    injection_meta = None
+    if args.inject:
+        from mole.generator.injection import build_injection_plan
+        inject_seed = args.inject_seed if args.inject_seed is not None else args.seed
+        try:
+            injections = build_injection_plan(args.inject, n_days=n_days, seed=inject_seed,
+                                              live_approval=args.inject_live_approval)
+        except ValueError as exc:
+            ap.error(str(exc))
+        injection_meta = {"specs": list(args.inject), "seed": inject_seed,
+                          "live_approval": bool(args.inject_live_approval)}
+        print(f"  injections: {len(injections)} phase(s) from {args.inject} "
+              f"(seed={inject_seed}, live_approval={args.inject_live_approval})")
+        for e in injections:
+            print(f"    day[{e['day_index']}] {e['slot']}  {e['actor']:<12} {e['inject_id']}  {e['phase']}")
     # In smoke mode, only the first N personas run; report how many of those
     # are designated insiders so the user can see attack activity to expect.
     if args.mode == "rules":
@@ -418,6 +452,8 @@ def main(argv: list[str] | None = None) -> int:
         benign_arcs=benign_arcs,
         release_arcs=args.release_arcs,
         pinned_tasks=args.pin_task or None,
+        injections=injections,
+        injection_meta=injection_meta,
         planning=planning,
         campaign_days=args.campaign_days,
         auth_failure_limit=args.auth_failure_limit,

@@ -66,16 +66,20 @@ def _session_index(key: str) -> int:
         return 0
 
 
-def _restore_day_plan(saved: list[list[str]], members: list[Any]) -> list[tuple[Any, Any, str]]:
+def _restore_day_plan(saved: list[list[str]], members: list[Any],
+                      runners: list[Any] = ()) -> list[tuple[Any, Any, str]]:
     """Rebuild [(slot_datetime, member, key)] from a serialized plan and re-set each
     member's `_today_keys` (which plan_day would have set) so the deterministic
     attack-slot selection matches the pre-crash run. Members absent from the plan get
-    an empty `_today_keys` (PTO / fully loafed that day)."""
+    an empty `_today_keys` (PTO / fully loafed that day). "inject:" keys map to the
+    injection `runners` (an injected actor may also be a live member)."""
+    from .injection import INJECT_KEY_PREFIX
     by_id = {getattr(m, "persona", m).id: m for m in members}
+    runner_by_id = {r.persona.id: r for r in runners}
     plan: list[tuple[Any, Any, str]] = []
     keys_by_member: dict[int, list[str]] = {}
     for t_iso, member_id, key in saved:
-        m = by_id.get(member_id)
+        m = (runner_by_id if key.startswith(INJECT_KEY_PREFIX) else by_id).get(member_id)
         if m is None:
             continue                       # roster changed — shouldn't happen on resume
         plan.append((datetime.fromisoformat(t_iso), m, key))
@@ -620,6 +624,8 @@ async def simulate(
     absent_probability: float = 0.01,
     sandbox_mode: str = "lab",
     branch_from: str | Path | None = None,
+    injections: list[dict[str, Any]] | None = None,
+    injection_meta: dict[str, Any] | None = None,
 ) -> AuditCollector:
     """Generate a benign background-account audit corpus.
 
@@ -664,6 +670,17 @@ async def simulate(
     --pin-task: that account's first benign session on that day runs the task-bank task
     `task_id` (agentic_member.load_task_bank_ids) instead of a random draw. Recorded in
     the manifest under "pinned_tasks".
+
+    `injections` (both modes; see generator/injection.py) is a plan of scripted
+    release-scenario PHASES ({inject_id, variant, level, ticket, ablate, phase, actor,
+    day_index, slot, live_approval}, from `build_injection_plan`). Each phase is run as
+    one more session of its actor at that sim slot, gathered with the live sessions of
+    its bucket, under a stable task_id, and leaves a transcript stub row
+    (session_mode "attack" for a colluder's phase, else "legit"). In rules mode a
+    transcript file is opened for these stubs. The plan, `injection_meta` and every
+    phase's result (incl. `deploy_skipped_no_quorum` when --inject-live-approval found
+    < 2 valid approvals) are recorded in the manifest under "injections"; a --resume
+    reuses the manifest's plan and chain state.
     """
     if release_arcs and mode != "agentic":
         raise ValueError("release_arcs needs mode='agentic' (the steps are LLM agent sessions)")
@@ -822,6 +839,23 @@ async def simulate(
             t_bytes = transcript_path.stat().st_size
         return a_bytes, t_bytes
 
+    transcript_mode = "a" if (resume or branch_info is not None) else "w"
+
+    def _sink(rec: dict) -> None:
+        with _t_lock:
+            # write() buffers the line (exactly once); only the disk-touching
+            # flush() is retried on a full disk, so ENOSPC/EDQUOT STALLS the
+            # session instead of crashing it (was: uncaught OSError killed the
+            # whole sim mid-day, losing the in-progress day). If write() itself
+            # hits disk-full via an implicit buffer flush, the bytes stay
+            # buffered and the retried flush below drains them (no dup).
+            try:
+                transcript_fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+            except OSError as exc:
+                if not is_disk_full(exc):
+                    raise
+            retry_on_disk_full(transcript_fh.flush, what="transcript sink")
+
     sandbox = None
     if mode == "agentic":
         if llm is None:
@@ -873,23 +907,7 @@ async def simulate(
                 applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
                 logger.info("branch_from: imported parent in-process state: %s", applied)
         from .agentic_member import AgenticMember, load_task_bank, load_arc_bank
-        transcript_mode = "a" if (resume or branch_info is not None) else "w"
         transcript_fh = open(transcript_path, transcript_mode, encoding="utf-8")
-
-        def _sink(rec: dict) -> None:
-            with _t_lock:
-                # write() buffers the line (exactly once); only the disk-touching
-                # flush() is retried on a full disk, so ENOSPC/EDQUOT STALLS the
-                # session instead of crashing it (was: uncaught OSError killed the
-                # whole sim mid-day, losing the in-progress day). If write() itself
-                # hits disk-full via an implicit buffer flush, the bytes stay
-                # buffered and the retried flush below drains them (no dup).
-                try:
-                    transcript_fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
-                except OSError as exc:
-                    if not is_disk_full(exc):
-                        raise
-                retry_on_disk_full(transcript_fh.flush, what="transcript sink")
 
         if sandbox_mode == "dryrun":
             # Only tasks doable on the in-process services; RAISES if absent.
@@ -1019,6 +1037,47 @@ async def simulate(
                    services=rules_services)
             for i, p in enumerate(personas)
         ]
+        if injections:
+            # Rules mode writes no session transcripts; the injected phases still
+            # need their stub rows (attack ids / intent labels read the transcript).
+            transcript_fh = open(transcript_path, transcript_mode, encoding="utf-8")
+
+    # Scripted scenario injections (generator/injection.py). A --resume reuses the
+    # manifest's plan (dates and task ids are a function of the start date) and the
+    # chain state (job_id / ticket_id) of the phases already recorded.
+    inject_runners: list[Any] = []
+    if injections or (resume and manifest.get("injections")):
+        from .injection import build_runners, finalize_injection_plan, restore_states
+        _dates = _weekday_dates(date.fromisoformat(start_date), n_days)
+        inj_rec = manifest.get("injections") if resume else None
+        if inj_rec and inj_rec.get("plan"):
+            if injections:
+                logger.info("--resume: ignoring the given injections; reusing the manifest's plan")
+            inj_plan = list(inj_rec["plan"])
+        else:
+            inj_plan = finalize_injection_plan(list(injections or []), start_date=start_date,
+                                               dates=_dates, salt=out_path.stem)
+            inj_rec = {"meta": dict(injection_meta or {}), "plan": inj_plan, "results": {}}
+            manifest["injections"] = inj_rec
+            resume_state.write_atomic(manifest, out_path)
+        bad_dates = sorted({e["date"] for e in inj_plan} - set(_dates))
+        if bad_dates:
+            raise ValueError(f"injection plan names sim days outside this run: {bad_dates}")
+        cohort = {p.id for p in personas}
+        for a in sorted({e["actor"] for e in inj_plan} - cohort):
+            logger.warning("injection actor %s is not in this run's cohort; its phases still "
+                           "run as audited calls under that account", a)
+        inj_states = restore_states(inj_rec.get("results") or {}, inj_plan)
+
+        def _record_injection(e: dict[str, Any], result: dict[str, Any]) -> None:
+            inj_rec.setdefault("results", {}).setdefault(e["inject_id"], {})[e["phase"]] = result
+            resume_state.write_atomic(manifest, out_path)
+
+        inject_runners = build_runners(inj_plan, states=inj_states, on_result=_record_injection,
+                                       transcript_sink=_sink)
+        logger.info("injections: %d phase(s) over %d actor(s): %s", len(inj_plan),
+                    len(inject_runners),
+                    [(e["date"], e["slot"], e["actor"], e["inject_id"], e["phase"]) for e in inj_plan])
 
     sem = asyncio.Semaphore(max(1, concurrency))
 
@@ -1105,13 +1164,16 @@ async def simulate(
             day_plan: list[tuple[Any, Any, str]]
             if resume_in_progress is not None and day_iso == resume_in_progress["day"]:
                 resume_bucket_start = int(resume_in_progress["next_bucket_index"])
-                day_plan = _restore_day_plan(resume_in_progress["day_plan"], members)
+                day_plan = _restore_day_plan(resume_in_progress["day_plan"], members,
+                                             inject_runners)
                 logger.info("--session-resume: day %s reusing saved plan (%d sessions); "
                             "resuming at bucket %d", day_iso, len(day_plan), resume_bucket_start)
                 resume_in_progress = None   # consumed; only this one day re-enters mid-way
             else:
                 day_plan = [
                     (t, m, key) for m in members for (t, key) in m.plan_day(day_iso)
+                ] + [
+                    (t, r, key) for r in inject_runners for (t, key) in r.plan_day(day_iso)
                 ]
                 day_plan.sort(key=lambda x: x[0])
 
@@ -1131,10 +1193,12 @@ async def simulate(
                 # The continuous-day schedule packs an account's sessions close in
                 # sim-time, so several can land in one bucket. Run each ACCOUNT's
                 # sessions sequentially (so the cross-session recap/clock stays
-                # causal) while different accounts still run concurrently.
-                by_member: dict[int, list[tuple[Any, Any, str]]] = {}
+                # causal) while different accounts still run concurrently. Keyed by
+                # account so an injected phase joins its actor's live sequence.
+                by_member: dict[Any, list[tuple[Any, Any, str]]] = {}
                 for t, m, key in bucket:
-                    by_member.setdefault(id(m), []).append((t, m, key))
+                    acct = getattr(getattr(m, "persona", None), "id", None) or id(m)
+                    by_member.setdefault(acct, []).append((t, m, key))
 
                 async def _run_member_seq(items: list[tuple[Any, Any, str]]) -> None:
                     for t, m, key in items:
@@ -1229,7 +1293,7 @@ async def simulate(
             # tally_day_sessions also filters by sim_ts date. Best-effort: a tally
             # failure must never block the day commit.
             session_counts: dict[str, int] = {}
-            if transcript_fh is not None:
+            if transcript_fh is not None and mode == "agentic":
                 try:
                     _prev = [d for d in (manifest.get("days") or [])
                              if d.get("day", "") < day_iso]
