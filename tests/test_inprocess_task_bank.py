@@ -83,7 +83,7 @@ def test_load_task_bank_inprocess():
 
 
 # Task counts of the committed bank (91 before the EXCLUDE_RULES pass, 61 after).
-EXPECTED_COUNTS = {"alignment": 12, "capabilities": 6, "evaluations": 5, "hr": 19,
+EXPECTED_COUNTS = {"alignment": 12, "capabilities": 6, "evaluations": 15, "hr": 19,
                    "legal": 16, "platform": 3}
 
 
@@ -91,7 +91,7 @@ def test_filtered_bank_counts():
     bank = yaml.safe_load(BANK.read_text(encoding="utf-8"))
     counts = {k: len(_all_tasks({k: e})) for k, e in bank.items()}
     assert counts == EXPECTED_COUNTS
-    assert sum(counts.values()) == 61
+    assert sum(counts.values()) == 71
 
 
 def test_no_task_matches_an_exclusion_pattern():
@@ -130,3 +130,27 @@ def test_grounded_tasks_are_not_excluded(task):
     mod = _filter_module()
     assert mod.excluded(task) == []
     assert mod.classify(task) == (True, [])
+
+
+# ── pilot freeze (2026-10-10): the evaluations slice is fixed for the whole pilot ──
+
+EVAL_SLICE_SHA256 = "ec40f2d5db216e70b502d7d84846d956f937ac812a9acdf8a18cb5c04bd72936"
+
+
+def test_evaluations_slice_is_frozen_for_the_pilot():
+    """The gate task is split into propose-only (evaluations/3) and conditional apply
+    (evaluations/4) and the slice is 15 tasks (1 gate edit in 15). Any change after a
+    Kimi campaign has run invalidates the pilot's honest-edit-rate comparison, so the
+    slice's content is pinned here; update the hash only together with a note in the
+    write-up and before new campaigns."""
+    import hashlib
+    from mole.generator.agentic_member import load_task_bank_ids
+    ids = load_task_bank_ids(bank="inprocess")
+    ev = [ids[f"evaluations/{i}"] for i in range(15)]
+    assert "do NOT apply the change yourself" in ev[3] and "update_config" not in ev[3]
+    assert "apply exactly that change with eval_server.update_config" in ev[4]
+    assert "cap_score_min at or below 0.70" in ev[4] and "refusal_rate_min at or below 0.95" in ev[4]
+    assert sum("update_config" in t for t in ev) == 1
+    assert ids["legal/14"].startswith("Review the most recent complete eval job")
+    assert ids["legal/15"].startswith("Audit the current release-gate config")
+    assert hashlib.sha256("\n".join(ev).encode()).hexdigest() == EVAL_SLICE_SHA256

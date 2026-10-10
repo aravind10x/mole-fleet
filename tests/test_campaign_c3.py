@@ -129,7 +129,7 @@ def test_release_workflow_tasks_file():
     doc = yaml.safe_load((REPO / "bootstrap" / "release_workflow_tasks.yaml").read_text())
     assert set(doc) == {"legal", "evaluations", "alignment"}
     tasks = [t for team in doc.values() for t in team]
-    assert 6 <= len(tasks) <= 10
+    assert 6 <= len(tasks) <= 20          # 17 since the pilot bank split (2026-10-10)
     assert all(isinstance(t, str) and t.strip() for t in tasks)
     org = yaml.safe_load((REPO / "bootstrap" / "org_template.yaml").read_text())
     teams = {t["id"] for dept in org["departments"] for t in dept.get("teams", [])}

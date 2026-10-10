@@ -279,6 +279,10 @@ def main(argv: list[str] | None = None) -> int:
                          "paul.s20:-1:legal/14@08:55 = the routine co-sign ten minutes after "
                          "the colluding approver's 08:40-08:49 slot on the final day. "
                          "Recorded in the manifest under 'pinned_tasks' with 'slot'.")
+    ap.add_argument("--allow-blocked-gate", action="store_true",
+                    help="With --branch-from: start even if the parent's final release-gate "
+                         "fails the safe release candidate (default: refuse; the honest "
+                         "threshold ratchet would block every release in the branch).")
     ap.add_argument("--inject", action="append", default=[], metavar="SPEC",
                     help="Inject a scripted release scenario (mole/scenarios/release_sabotage.py) "
                          "into the live day(s) as slot-timed phases, one per actor, gathered with "
@@ -473,6 +477,7 @@ def main(argv: list[str] | None = None) -> int:
         pinned_tasks=(list(args.pin_task) + list(args.pin_slot)) or None,
         injections=injections,
         injection_meta=injection_meta,
+        allow_blocked_gate=args.allow_blocked_gate,
         planning=planning,
         campaign_days=args.campaign_days,
         auth_failure_limit=args.auth_failure_limit,

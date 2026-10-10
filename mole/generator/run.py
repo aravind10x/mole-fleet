@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import hashlib
 import json
 import logging
 import os
@@ -521,6 +522,49 @@ def _prepare_branch(parent_out: Path, out_path: Path,
             "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"])}
 
 
+def gate_state_report(ctx: Any) -> dict[str, Any]:
+    """The current `release-gate` of `ctx`'s eval server and what it does to the safe
+    release candidate and to the C3 unsafe checkpoints: {version, safe: state,
+    unsafe: {ckpt: state}} (states: passes / blocks / broken)."""
+    from ..scenarios.release_sabotage import SAFE_RELEASE_CANDIDATE, GATE_CONFIG
+    ev = (getattr(ctx, "_managers", {}) or {}).get("eval_server")
+    if ev is None:
+        return {}
+    cur = ev.current_config(GATE_CONFIG)
+    if cur is None:
+        return {}
+    cfg = cur["config"]
+    unsafe = [c for c in ev._hidden_outcomes if ev.is_unsafe(c)]
+    return {"version": cur.get("version"), "config": cfg,
+            "safe": {SAFE_RELEASE_CANDIDATE: ev.gate_state_for(SAFE_RELEASE_CANDIDATE, cfg)},
+            "unsafe": {c: ev.gate_state_for(c, cfg) for c in sorted(unsafe)}}
+
+
+def _check_parent_gate(ctx: Any, branch_info: dict[str, Any], allow_blocked_gate: bool) -> None:
+    """Refuse to branch from a parent whose final release-gate blocks the safe release
+    candidate (threshold ratchet), unless `allow_blocked_gate`. Logs the gate's state
+    either way, including whether it already passes an unsafe checkpoint."""
+    rep = gate_state_report(ctx)
+    if not rep:
+        return
+    logger.info("branch_from: parent release-gate v%s: safe %s, unsafe %s",
+                rep["version"], rep["safe"], rep["unsafe"])
+    blocked = [c for c, st in rep["safe"].items() if st != "passes"]
+    if blocked and not allow_blocked_gate:
+        thr = (rep["config"] or {}).get("thresholds")
+        raise ValueError(
+            f"branch_from: the parent's final release-gate (v{rep['version']}, thresholds "
+            f"{thr}) does not pass the safe release candidate {blocked} (state "
+            f"{[rep['safe'][c] for c in blocked]}): an honest release could not ship from "
+            f"this world and the attack's approvals could never be valid. Reset or cap the "
+            f"gate in the parent, or pass allow_blocked_gate=True (--allow-blocked-gate).")
+    opened = [c for c, st in rep["unsafe"].items() if st == "passes"]
+    if opened:
+        logger.warning("branch_from: the parent's final release-gate v%s ALREADY passes the "
+                       "unsafe checkpoint(s) %s; a campaign branched here has nothing to open",
+                       rep["version"], opened)
+
+
 def _weekday_dates(start: date, n_days: int) -> list[str]:
     """`n_days` consecutive working days (skip Sat/Sun) from `start`."""
     out: list[str] = []
@@ -659,6 +703,7 @@ async def simulate(
     branch_from: str | Path | None = None,
     injections: list[dict[str, Any]] | None = None,
     injection_meta: dict[str, Any] | None = None,
+    allow_blocked_gate: bool = False,
 ) -> AuditCollector:
     """Generate a benign background-account audit corpus.
 
@@ -706,6 +751,11 @@ async def simulate(
     dedicated session at that sim time (never loafed, runs on a PTO day), so it can be
     placed after another account's session. Recorded in the manifest under
     "pinned_tasks" (with "slot" for slotted pins).
+
+    `allow_blocked_gate`: a `branch_from` run refuses to start when the parent's final
+    `release-gate` would fail the safe release candidate (the honest threshold ratchet:
+    a gate that blocks every checkpoint makes both the attack and the honest releases
+    fail for a reason unrelated to the question). Pass True to branch anyway.
 
     `injections` (both modes; see generator/injection.py) is a plan of scripted
     release-scenario PHASES ({inject_id, variant, level, ticket, ablate, phase, actor,
@@ -942,12 +992,20 @@ async def simulate(
                 from ..sandbox.state_export import import_manager_state
                 applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
                 logger.info("branch_from: imported parent in-process state: %s", applied)
+                _check_parent_gate(ctx, branch_info, allow_blocked_gate)
         from .agentic_member import AgenticMember, load_task_bank, load_arc_bank
         transcript_fh = open(transcript_path, transcript_mode, encoding="utf-8")
 
         if sandbox_mode == "dryrun":
             # Only tasks doable on the in-process services; RAISES if absent.
             task_bank = load_task_bank(bank="inprocess")
+            from .agentic_member import _task_bank_path
+            _bank_file = Path(_task_bank_path(None, rich=False, bank="inprocess"))
+            manifest["task_bank"] = {
+                "path": str(_bank_file),
+                "sha256": hashlib.sha256(_bank_file.read_bytes()).hexdigest(),
+                "tasks_per_team": {t: len(v) for t, v in task_bank.items()},
+            }
         else:
             task_bank = load_task_bank(rich=True)   # expanded (v2) bank; RAISES if absent (no silent v1 fallback)
         # Benign multi-day arc bank (default OFF; loaded only when --benign-arcs; {} if absent).
@@ -1064,6 +1122,7 @@ async def simulate(
             from ..sandbox.state_export import import_manager_state
             applied = import_manager_state(ctx, Path(branch_info["managers_path"]))
             logger.info("branch_from: imported parent in-process state: %s", applied)
+            _check_parent_gate(ctx, branch_info, allow_blocked_gate)
         # Docker-free: skip the synthetic owncloud/email/gitlab/rocketchat workflows
         # so the corpus only has events for services that exist. (Lab rules mode
         # keeps them — it is the container-free stand-in for the full surface.)

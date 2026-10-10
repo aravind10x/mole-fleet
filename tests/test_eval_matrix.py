@@ -263,7 +263,7 @@ def test_load_session_rows_and_attack_ids(tmp_path):
     p = _write_sessions(tmp_path, sessions_rows())
     rows = load_session_rows(str(p))
     assert len(rows) == 8 and "messages" not in rows[0]
-    assert set(rows[0]) == {"account", "task_id", "session_mode", "aborted_reason"}
+    assert set(rows[0]) == {"account", "task_id", "session_mode", "aborted_reason", "post_attack_benign"}
     assert attack_session_task_ids(str(p)) == ATTACK_TIDS
     assert load_session_rows(None) == [] and attack_session_task_ids(None) == set()
 
