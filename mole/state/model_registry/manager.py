@@ -591,6 +591,10 @@ class ModelRegistryManager(StateManager):
                     f"approval bound v{a.get('config_version')}")
         if cur.get("content_hash") != a.get("config_hash"):
             return f"config {cfg_id} content hash changed"
+        job = ev.job_record(a.get("eval_job_id") or "") if ev is not None else None
+        if job is not None and job.get("status") != "complete":
+            return (f"cited eval job {a.get('eval_job_id')} is {job.get('status')}; "
+                    f"re-run eval_server.submit_eval and approve the new job")
         return None
 
     def _check_release_gate(self, checkpoint_id: str) -> dict[str, Any]:

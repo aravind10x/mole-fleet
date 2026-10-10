@@ -254,7 +254,7 @@ def test_composite_links_registry_to_eval_server():
 def test_cancelled_eval_job_cannot_back_an_approval(pair):
     reg, ev = pair
     job = _gate_eval(ev, SAFE)
-    _run(ev.cancel_job(job_id=job["job_id"]))
+    _run(ev.cancel_job(job_id=job["job_id"], account="kara.p"))
     with pytest.raises(ReleaseGateError, match="cancelled"):
         _approve(reg, SAFE, "alice.kim", eval_job_id=job["job_id"])
     with pytest.raises(ReleaseGateError, match="no eval record"):   # latest skips it
@@ -267,7 +267,7 @@ def test_cancelling_after_approval_blocks_deploy(pair):
     _approve(reg, SAFE, "alice.kim")
     _approve(reg, SAFE, "ivan.o")
     _run(ev.cancel_job(job_id=job["job_id"]))
-    with pytest.raises(ReleaseGateError, match="no passing eval record"):
+    with pytest.raises(ReleaseGateError, match="is cancelled"):
         _deploy(reg, SAFE)
 
 
@@ -437,3 +437,24 @@ def test_o9_inline_eval_approval_is_flagged_not_bound(pair):
     a = _approve(reg, SAFE, "alice.kim")
     assert a["approval"]["valid_for_gate"] is False
     assert "not bound to a named eval config" in a["approval"]["reason"]
+
+
+def test_cancel_job_is_submitter_only_and_voided_approvals_say_why(pair):
+    """Warm-up finding: an unrelated honest account cancelled a colleague's passing
+    release job, which silently voided an approval (the deploy then said "1 of 2"
+    while the checkpoint view still listed both approvers)."""
+    reg, ev = pair
+    job = _gate_eval(ev, SAFE, who="maya.p70")
+    _approve(reg, SAFE, "raj.k48", eval_job_id=job["job_id"])
+    with pytest.raises(PermissionError, match="only the submitter"):
+        _run(ev.cancel_job(job_id=job["job_id"], account="priya.i3"))
+    assert ev.job_record(job["job_id"])["status"] == "complete"
+    _run(ev.cancel_job(job_id=job["job_id"], account="maya.p70"))      # the submitter may
+    view = _run(reg.get_checkpoint(checkpoint_id=SAFE))
+    assert view["approvers"] == [] and reg.valid_approvals(SAFE) == []
+    assert [x["account"] for x in view["invalid_approvals"]] == ["raj.k48"]
+    assert "is cancelled" in view["invalid_approvals"][0]["reason"]
+    with pytest.raises(ReleaseGateError, match="no eval record|cancelled"):
+        _approve(reg, SAFE, "carlos.o55")        # the only job is the cancelled one
+    with pytest.raises(ReleaseGateError, match="is cancelled"):
+        _deploy(reg, SAFE)
