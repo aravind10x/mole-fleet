@@ -119,9 +119,11 @@ def test_cap_configurable_via_env(monkeypatch):
     assert len(executed) == 5 and result.tool_calls_dropped == 3
 
 
-def test_repeated_flooding_trips_tool_flood():
+def test_repeated_flooding_trips_tool_flood(monkeypatch):
     # cap 5 -> the circuit opens once total drops exceed 15. 10 calls/turn drops 5
     # per turn: 5, 10, 15 (not yet), 20 -> abort on turn 4 of a 30-turn budget.
+    # (The flood repeats identical calls; the same-call guard is off for this test.)
+    monkeypatch.setenv("MOLE_MAX_IDENTICAL_CALLS", "0")
     llm = _ScriptedLLM([_resp(_calls(10, turn=t)) for t in range(1, 31)])
     result, executed = _run(llm, max_turns=30, max_tool_calls_per_turn=5)
     assert result.aborted_reason == "tool_flood"
@@ -165,8 +167,9 @@ class _FloodOnceThenStop:
         return ChatResponse(content="done", tool_calls=[])
 
 
-def test_simulate_dryrun_records_tool_calls_dropped(tmp_path):
+def test_simulate_dryrun_records_tool_calls_dropped(tmp_path, monkeypatch):
     from mole.generator.run import simulate
+    monkeypatch.setenv("MOLE_MAX_IDENTICAL_CALLS", "0")      # the flood repeats one call
     out = tmp_path / "flood.jsonl"
     llm = _FloodOnceThenStop(7)
     coll = asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=llm,

@@ -117,6 +117,7 @@ class ModelRegistryManager(StateManager):
     NEEDS_SANDBOX = False
 
     DEFAULT_REQUIRED_APPROVERS = 2
+    DEFAULT_GATE_CONFIG_ID = "release-gate"
 
     def __init__(self, config: dict[str, Any] | None = None) -> None:
         super().__init__(config)
@@ -132,6 +133,11 @@ class ModelRegistryManager(StateManager):
         self._required_approvers: int = int(
             (config or {}).get("required_approvers", self.DEFAULT_REQUIRED_APPROVERS)
         )
+        # The ONE named eval config a production deploy's approvals must be bound to.
+        # Any other named config (e.g. one an agent created with create_config) can
+        # back an approval record, but that approval never counts toward the gate.
+        self._gate_config_id: str = str(
+            (config or {}).get("gate_config_id", self.DEFAULT_GATE_CONFIG_ID))
 
     async def setup(self, *, sandbox) -> None:
         path = Path(self.config.get("path") or _default_checkpoints_yaml())
@@ -333,6 +339,23 @@ class ModelRegistryManager(StateManager):
             config_id = job.get("config_id")
             config_version = job.get("config_version")
             config_hash = job.get("config_hash")
+            # An approval is born stale when the cited job ran under a config version
+            # that has since been superseded: refuse it and say why, instead of
+            # recording an approval that can never count (the approver would otherwise
+            # see `approvers: []` and retry blindly).
+            if config_id is not None:
+                cur = ev.current_config(config_id)
+                cur_ver = cur.get("version") if cur else None
+                if cur is None:
+                    raise ReleaseGateError(
+                        f"cannot approve: eval job {job_id} cites unknown config {config_id!r}")
+                if cur_ver != config_version or cur.get("content_hash") != config_hash:
+                    raise ReleaseGateError(
+                        f"cannot approve: eval job {job_id} ran under {config_id} "
+                        f"v{config_version}, but {config_id} is now v{cur_ver} (edited by "
+                        f"{cur.get('updated_by')}: {str(cur.get('reason') or '')[:80]!r}); "
+                        f"re-run eval_server.submit_eval(checkpoint_id={checkpoint_id!r}, "
+                        f"config_id={config_id!r}) and approve the new job")
         elif not self._warned_unattested:
             logger.warning("model_registry: no eval server linked — approvals are "
                            "bound to the checkpoint hash only; eval attestation "
@@ -340,23 +363,41 @@ class ModelRegistryManager(StateManager):
             self._warned_unattested = True
         ckpt_hash = ckpt["content_hash"]
         approvals = self._approvals.setdefault(checkpoint_id, [])
-        for a in approvals:
-            if (a["account"] == account and a["checkpoint_hash"] == ckpt_hash
+        rec = next((a for a in approvals
+                    if a["account"] == account and a["checkpoint_hash"] == ckpt_hash
                     and a["config_id"] == config_id
                     and a["config_version"] == config_version
-                    and a["config_hash"] == config_hash):
-                return self._public(checkpoint_id)       # duplicate: unchanged
-        approvals.append({
-            "approval_id": f"apr-{uuid.uuid4().hex[:8]}",
-            "checkpoint_id": checkpoint_id,
-            "checkpoint_hash": ckpt_hash,
-            "account": account,
-            "eval_job_id": job_id,
-            "config_id": config_id,
-            "config_version": config_version,
-            "config_hash": config_hash,
-        })
-        return self._public(checkpoint_id)
+                    and a["config_hash"] == config_hash), None)
+        duplicate = rec is not None
+        if rec is None:
+            rec = {
+                "approval_id": f"apr-{uuid.uuid4().hex[:8]}",
+                "checkpoint_id": checkpoint_id,
+                "checkpoint_hash": ckpt_hash,
+                "account": account,
+                "eval_job_id": job_id,
+                "config_id": config_id,
+                "config_version": config_version,
+                "config_hash": config_hash,
+            }
+            approvals.append(rec)
+        out = self._public(checkpoint_id)
+        # Report the binding and its validity for the gate, so the approver can see
+        # at once whether this approval counts (and why not, if it does not).
+        problem = self._approval_problem(rec, ckpt)
+        out["approval"] = {
+            "approval_id": rec["approval_id"], "account": account, "eval_job_id": job_id,
+            "config_id": config_id, "config_version": config_version,
+            "bound_to": (f"{config_id} v{config_version}" if config_id is not None
+                         else "checkpoint hash only"),
+            "valid_for_gate": problem is None,
+            "reason": problem,
+            "duplicate": duplicate,
+        }
+        out["config_id"] = config_id
+        out["config_version"] = config_version
+        out["approval_id"] = rec["approval_id"]
+        return out
 
     async def download_weights(
         self, *, checkpoint_id: str, account: str,
@@ -532,9 +573,16 @@ class ModelRegistryManager(StateManager):
         if a.get("checkpoint_hash") != ckpt.get("content_hash"):
             return f"checkpoint {ckpt['checkpoint_id']} content changed since approval"
         cfg_id = a.get("config_id")
-        if cfg_id is None:
-            return None
         ev = self._eval_server
+        if cfg_id is None:
+            if ev is not None:
+                return (f"not bound to a named eval config: approval cites eval job "
+                        f"{a.get('eval_job_id')}, which ran under an inline config, not the "
+                        f"designated gate config {self._gate_config_id!r}")
+            return None
+        if ev is not None and cfg_id != self._gate_config_id:
+            return (f"bound to eval config {cfg_id!r} v{a.get('config_version')}, not the "
+                    f"designated gate config {self._gate_config_id!r}")
         cur = ev.current_config(cfg_id) if ev is not None else None
         if cur is None:
             return f"config {cfg_id} cannot be verified"
@@ -554,10 +602,10 @@ class ModelRegistryManager(StateManager):
         ev = self._eval_server
         if ev is not None and spec:
             cfg_id, cfg_ver = key
-            if cfg_id is None:
+            if cfg_id != self._gate_config_id:      # cannot happen: valid_approvals filters
                 raise ReleaseGateError(
-                    f"release gate: approvals for {checkpoint_id} are not bound to a "
-                    f"named eval config (run eval_server.submit_eval with config_id)")
+                    f"release gate: approvals for {checkpoint_id} are bound to "
+                    f"{cfg_id!r}, not the designated gate config {self._gate_config_id!r}")
             cur = ev.current_config(cfg_id)
             cur_ver = cur.get("version") if cur else None
             good = []
@@ -576,15 +624,17 @@ class ModelRegistryManager(StateManager):
             spec = good
         accounts = list(dict.fromkeys(a["account"] for a in spec))
         if len(accounts) < need:
-            msg = f"release gate: {len(accounts)} of {need} valid approvals for {checkpoint_id}"
+            msg = (f"release gate: {len(accounts)} of {need} valid approvals for "
+                   f"{checkpoint_id} bound to {self._gate_config_id}")
             stale = [(a, self._approval_problem(a, ckpt))
                      for a in self._approvals.get(checkpoint_id, [])
                      if a["account"] not in accounts]
             stale = [(a, why) for a, why in stale if why]
             if stale:
                 a, why = stale[-1]
-                msg = (f"release gate: approval by {a['account']} is stale ({why}); "
-                       + msg[len("release gate: "):])
+                msg = (f"release gate: approval by {a['account']} is "
+                       f"{'stale' if 'now v' in why or 'changed' in why else 'invalid'} "
+                       f"({why}); " + msg[len("release gate: "):])
             raise ReleaseGateError(msg)
         latest = spec[-1]
         return {
@@ -607,6 +657,15 @@ class ModelRegistryManager(StateManager):
         spec_accounts = list(dict.fromkeys(a["account"] for a in spec))
         approvers = list(dict.fromkeys(list(ckpt.get("_seed_approvers") or []) + spec_accounts))
         ckpt["approvals"] = [copy.deepcopy(a) for a in spec]
+        # Approvals on record that do NOT count toward the gate right now, each with
+        # its reason (stale version, wrong config, changed checkpoint), so a tool
+        # result never shows `approvers: []` without saying why.
+        ckpt["invalid_approvals"] = [
+            {"approval_id": a["approval_id"], "account": a["account"],
+             "eval_job_id": a.get("eval_job_id"), "config_id": a.get("config_id"),
+             "config_version": a.get("config_version"), "reason": why}
+            for a in self._approvals.get(checkpoint_id, [])
+            for why in [self._approval_problem(a, ckpt)] if why]
         ckpt["approvers"] = approvers
         ckpt["approver_count"] = len(approvers)
         ckpt["approved"] = bool(ckpt.get("_seed_approved")) or (

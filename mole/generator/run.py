@@ -148,11 +148,37 @@ def parse_pin_task(spec: str) -> tuple[str, int, str]:
     return account, day_index, task_id
 
 
+def parse_pin_slot(spec: str) -> tuple[str, int, str, str]:
+    """Parse a --pin-slot value ``ACCOUNT:DAY_INDEX:TASK_ID@HH:MM`` ->
+    (account, day_index, task_id, "HH:MM:00").
+
+    Like --pin-task, but the task runs in a DEDICATED session at that sim time of the
+    day (the release-arc slot machinery), not in the account's first session, so it can
+    be placed AFTER another account's session (e.g. the routine co-sign ten minutes
+    after the colluding approver's slot). Raises ValueError on a malformed value."""
+    text = str(spec)
+    if "@" not in text:
+        raise ValueError(f"--pin-slot wants ACCOUNT:DAY_INDEX:TASK_ID@HH:MM, got {spec!r}")
+    head, _, clock = text.rpartition("@")
+    account, day_index, task_id = parse_pin_task(head)
+    parts = clock.strip().split(":")
+    if len(parts) not in (2, 3) or not all(x.isdigit() for x in parts):
+        raise ValueError(f"--pin-slot time must be HH:MM, got {clock!r}")
+    hh, mm = int(parts[0]), int(parts[1])
+    ss = int(parts[2]) if len(parts) == 3 else 0
+    if not (0 <= hh < 24 and 0 <= mm < 60 and 0 <= ss < 60):
+        raise ValueError(f"--pin-slot time out of range: {clock!r}")
+    return account, day_index, task_id, f"{hh:02d}:{mm:02d}:{ss:02d}"
+
+
 def _resolve_pins(
-    pins: list[tuple[str, int, str]] | None, *, personas: list[Any], dates: list[str],
+    pins: list[tuple] | None, *, personas: list[Any], dates: list[str],
     sandbox_mode: str,
 ) -> tuple[dict[str, dict[str, dict[str, str]]], list[dict[str, Any]]]:
-    """--pin-task specs -> ({account: {date: {"task_id", "task"}}}, manifest records).
+    """--pin-task / --pin-slot specs -> ({account: {date: {"task_id", "task"[, "slot"]}}},
+    manifest records). A 3-tuple (account, day_index, task_id) pins the account's first
+    benign session that day; a 4-tuple (..., "HH:MM:SS") schedules a dedicated session
+    at that sim time.
 
     Task ids resolve against the bank the run draws from (the in-process bank in dryrun,
     the v2 bank in lab mode). Raises ValueError for an account outside the cohort, a day
@@ -165,24 +191,31 @@ def _resolve_pins(
     cohort = {p.id for p in personas}
     by_account: dict[str, dict[str, dict[str, str]]] = {}
     records: list[dict[str, Any]] = []
-    for account, day_index, task_id in pins:
+    for pin in pins:
+        account, day_index, task_id = pin[0], int(pin[1]), pin[2]
+        slot = pin[3] if len(pin) > 3 else None
+        flag = "--pin-slot" if slot else "--pin-task"
         if account not in cohort:
-            raise ValueError(f"--pin-task account {account!r} is not in this run's cohort")
+            raise ValueError(f"{flag} account {account!r} is not in this run's cohort")
         if not -len(dates) <= day_index < len(dates):
-            raise ValueError(f"--pin-task day index {day_index} is outside the "
+            raise ValueError(f"{flag} day index {day_index} is outside the "
                              f"{len(dates)}-day window")
         if task_id not in ids:
             key = task_id.split("/", 1)[0]
             near = sorted(i for i in ids if i.split("/", 1)[0] == key)
-            raise ValueError(f"--pin-task unknown task id {task_id!r}"
+            raise ValueError(f"{flag} unknown task id {task_id!r}"
                              + (f"; ids for {key!r}: {near[0]}..{near[-1]}" if near
                                 else f"; bank keys: {sorted({i.split('/', 1)[0] for i in ids})}"))
         day = dates[day_index]
         if day in by_account.get(account, {}):
-            raise ValueError(f"--pin-task: two pins for {account} on {day}")
-        by_account.setdefault(account, {})[day] = {"task_id": task_id, "task": ids[task_id]}
-        records.append({"account": account, "day_index": day_index, "date": day,
-                        "task_id": task_id})
+            raise ValueError(f"{flag}: two pins for {account} on {day}")
+        entry: dict[str, str] = {"task_id": task_id, "task": ids[task_id]}
+        rec: dict[str, Any] = {"account": account, "day_index": day_index, "date": day,
+                               "task_id": task_id}
+        if slot:
+            entry["slot"] = rec["slot"] = slot
+        by_account.setdefault(account, {})[day] = entry
+        records.append(rec)
     return by_account, records
 
 
@@ -617,7 +650,7 @@ async def simulate(
     multi_day: bool = False,
     benign_arcs: bool = False,
     release_arcs: int = 0,
-    pinned_tasks: list[tuple[str, int, str]] | None = None,
+    pinned_tasks: list[tuple] | None = None,
     planning: str | None = None,
     campaign_days: int = 4,   # K; calibrated to the v1 ar05 base rate (~3.2%)
     auth_failure_limit: int = 25,
@@ -668,8 +701,11 @@ async def simulate(
 
     `pinned_tasks` (agentic mode only) is a list of (account, day_index, task_id) from
     --pin-task: that account's first benign session on that day runs the task-bank task
-    `task_id` (agentic_member.load_task_bank_ids) instead of a random draw. Recorded in
-    the manifest under "pinned_tasks".
+    `task_id` (agentic_member.load_task_bank_ids) instead of a random draw; a 4-tuple
+    (account, day_index, task_id, "HH:MM:SS") from --pin-slot instead runs it in a
+    dedicated session at that sim time (never loafed, runs on a PTO day), so it can be
+    placed after another account's session. Recorded in the manifest under
+    "pinned_tasks" (with "slot" for slotted pins).
 
     `injections` (both modes; see generator/injection.py) is a plan of scripted
     release-scenario PHASES ({inject_id, variant, level, ticket, ablate, phase, actor,

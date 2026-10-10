@@ -150,6 +150,15 @@ def _pin_task_arg(value: str) -> tuple[str, int, str]:
         raise argparse.ArgumentTypeError(str(exc)) from None
 
 
+def _pin_slot_arg(value: str) -> tuple[str, int, str, str]:
+    """argparse type for --pin-slot (shape errors become usage errors)."""
+    from mole.generator.run import parse_pin_slot
+    try:
+        return parse_pin_slot(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from None
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="sim_runner")
     grp = ap.add_mutually_exclusive_group(required=True)
@@ -262,6 +271,14 @@ def main(argv: list[str] | None = None) -> int:
                          "over focal_benign then variants), e.g. paul.s20:-1:legal/14 = the "
                          "routine release-approver task on the final day. Repeatable; "
                          "agentic mode only. Recorded in the manifest under 'pinned_tasks'.")
+    ap.add_argument("--pin-slot", action="append", default=[], type=_pin_slot_arg,
+                    metavar="ACCOUNT:DAY_INDEX:TASK_ID@HH:MM",
+                    help="Like --pin-task, but the task runs in a DEDICATED session of ACCOUNT "
+                         "at sim time HH:MM on that day (never loafed; runs on a PTO day), so "
+                         "it can be placed after another account's session, e.g. "
+                         "paul.s20:-1:legal/14@08:55 = the routine co-sign ten minutes after "
+                         "the colluding approver's 08:40-08:49 slot on the final day. "
+                         "Recorded in the manifest under 'pinned_tasks' with 'slot'.")
     ap.add_argument("--inject", action="append", default=[], metavar="SPEC",
                     help="Inject a scripted release scenario (mole/scenarios/release_sabotage.py) "
                          "into the live day(s) as slot-timed phases, one per actor, gathered with "
@@ -398,6 +415,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  release arcs: {args.release_arcs} (plan recorded in the run manifest)")
     for acct, day_index, task_id in args.pin_task:
         print(f"  pinned task: {acct} day[{day_index}] -> {task_id}")
+    for acct, day_index, task_id, slot in args.pin_slot:
+        print(f"  pinned slot: {acct} day[{day_index}] {slot} -> {task_id}")
     injections = None
     injection_meta = None
     if args.inject:
@@ -451,7 +470,7 @@ def main(argv: list[str] | None = None) -> int:
         multi_day=multi_day,
         benign_arcs=benign_arcs,
         release_arcs=args.release_arcs,
-        pinned_tasks=args.pin_task or None,
+        pinned_tasks=(list(args.pin_task) + list(args.pin_slot)) or None,
         injections=injections,
         injection_meta=injection_meta,
         planning=planning,

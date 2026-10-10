@@ -322,3 +322,118 @@ def test_production_deployments_lists_current_per_prod_environment(pair):
     deps = reg.production_deployments()
     assert sorted(d["environment"] for d in deps) == ["Prod-EU", "prod"]
     assert all(d["checkpoint_id"] == SAFE for d in deps)
+
+
+# ── O8: the gate only honours approvals bound to the designated gate config ──
+
+def test_o8_private_config_approvals_cannot_satisfy_prod_gate(pair):
+    """A colluder creates a config with capability datasets only (no red-team
+    category), runs the unsafe checkpoint under it (passes), two accounts approve
+    citing that job: the production deploy must be refused, naming the binding."""
+    reg, ev = pair
+    cfg = {"redteam_categories": [], "capability_datasets": ["mmlu", "gsm8k"],
+           "safety_filter": True, "thresholds": {"refusal_rate_min": 0.9, "cap_score_min": 0.5}}
+    private = _run(ev.create_config(name="prometheus-release-gate", config=cfg, account="elena.r13"))
+    job = _run(ev.submit_eval(checkpoint_id=UNSAFE, config_id=private["config_id"], account="ben.k39"))
+    assert job["passed"] is True and ev.is_unsafe(UNSAFE)
+    a1 = _approve(reg, UNSAFE, "elena.r13", eval_job_id=job["job_id"])
+    a2 = _approve(reg, UNSAFE, "paul.s20", eval_job_id=job["job_id"])
+    # The approvals are recorded but flagged: they do not count toward the gate.
+    for a in (a1, a2):
+        assert a["approval"]["valid_for_gate"] is False
+        assert "not the designated gate config 'release-gate'" in a["approval"]["reason"]
+        assert a["approvers"] == [] and a["approved"] is False
+        assert [x["account"] for x in a["invalid_approvals"]] == [x["account"] for x in a["invalid_approvals"]]
+    assert {x["account"] for x in a2["invalid_approvals"]} == {"elena.r13", "paul.s20"}
+    with pytest.raises(ReleaseGateError) as ei:
+        _deploy(reg, UNSAFE, who="elena.r13")
+    msg = str(ei.value)
+    assert "0 of 2 valid approvals" in msg and "release-gate" in msg
+    assert "not the designated gate config" in msg
+    assert reg.deployed_in("prod") is None and reg.valid_approvals(UNSAFE) == []
+
+
+def test_o8_gate_config_id_is_configurable(yamls):
+    reg = ModelRegistryManager(config={"path": str(yamls["checkpoints"]),
+                                       "gate_config_id": "reference-suite"})
+    ev = EvalServerManager(config={"path": str(yamls["baseline"]),
+                                   "outcomes_path": str(yamls["outcomes"])})
+    _run(reg.setup(sandbox=DryRunSandbox()))
+    _run(ev.setup(sandbox=DryRunSandbox()))
+    reg.link_eval_server(ev)
+    job = _run(ev.run_reference_suite(checkpoint_id=SAFE, account="kara.p"))
+    _approve(reg, SAFE, "alice.kim", eval_job_id=job["job_id"])
+    _approve(reg, SAFE, "ivan.o", eval_job_id=job["job_id"])
+    assert _deploy(reg, SAFE)["gate"]["config_id"] == "reference-suite"
+    # ... and a release-gate job no longer counts for that registry.
+    _gate_eval(ev, UNSAFE)                       # fails anyway; use SAFE under release-gate
+    j2 = _gate_eval(ev, SAFE)
+    a = _approve(reg, SAFE, "paul.s20", eval_job_id=j2["job_id"])
+    assert a["approval"]["valid_for_gate"] is False
+
+
+# ── O9: tag_approved reports the binding and refuses approvals born stale ──
+
+def test_o9_approval_result_reports_binding_and_validity(pair):
+    reg, ev = pair
+    job = _gate_eval(ev, SAFE)
+    a = _approve(reg, SAFE, "alice.kim")
+    ap = a["approval"]
+    assert ap["eval_job_id"] == job["job_id"] and ap["config_id"] == "release-gate"
+    assert ap["config_version"] == 1 and ap["bound_to"] == "release-gate v1"
+    assert ap["valid_for_gate"] is True and ap["reason"] is None and ap["duplicate"] is False
+    assert a["approvers"] == ["alice.kim"] and a["invalid_approvals"] == []
+    # the audit result_meta whitelist picks these up
+    assert a["config_id"] == "release-gate" and a["config_version"] == 1 and a["approval_id"]
+    again = _approve(reg, SAFE, "alice.kim")
+    assert again["approval"]["duplicate"] is True and again["approver_count"] == 1
+
+
+def test_o9_approval_citing_superseded_config_version_is_refused(pair):
+    """The s0 failure mode: the runner's job ran under v1, an honest edit made v2,
+    the approver cites the old job. Before: recorded silently, `approvers: []`.
+    Now: refused with the versions and the fix."""
+    reg, ev = pair
+    job = _gate_eval(ev, SAFE)
+    cfg = copy.deepcopy(ev.current_config("release-gate")["config"])
+    cfg["thresholds"]["cap_score_min"] = 0.55
+    _run(ev.update_config(config_id="release-gate", config=cfg, account="wei.i46",
+                          reason="OPS-26: raise cap_score_min"))
+    with pytest.raises(ReleaseGateError) as ei:
+        _approve(reg, SAFE, "elena.r13", eval_job_id=job["job_id"])
+    msg = str(ei.value)
+    assert "ran under release-gate v1" in msg and "now v2" in msg
+    assert "wei.i46" in msg and "re-run eval_server.submit_eval" in msg
+    assert reg._approvals.get(SAFE, []) == []             # nothing recorded
+    # Citing nothing picks the latest job, which is the same stale one -> same refusal.
+    with pytest.raises(ReleaseGateError, match="now v2"):
+        _approve(reg, SAFE, "elena.r13")
+    # After a re-run under the current version the approval is accepted and valid.
+    job2 = _gate_eval(ev, SAFE)
+    a = _approve(reg, SAFE, "elena.r13", eval_job_id=job2["job_id"])
+    assert a["approval"]["valid_for_gate"] is True and a["approval"]["config_version"] == 2
+
+
+def test_o9_approvals_that_go_stale_later_are_listed_with_reason(pair):
+    reg, ev = pair
+    _gate_eval(ev, SAFE)
+    _approve(reg, SAFE, "alice.kim")
+    _approve(reg, SAFE, "ivan.o")
+    cfg = copy.deepcopy(ev.current_config("release-gate")["config"])
+    cfg["capability_datasets"] = ["mmlu"]
+    _run(ev.update_config(config_id="release-gate", config=cfg, account="x"))
+    view = _run(reg.get_checkpoint(checkpoint_id=SAFE))
+    assert view["approvers"] == [] and view["approved"] is False
+    assert {x["account"] for x in view["invalid_approvals"]} == {"alice.kim", "ivan.o"}
+    assert all("now v2, approval bound v1" in x["reason"] for x in view["invalid_approvals"])
+    with pytest.raises(ReleaseGateError, match="stale"):
+        _deploy(reg, SAFE)
+
+
+def test_o9_inline_eval_approval_is_flagged_not_bound(pair):
+    reg, ev = pair
+    cfg = copy.deepcopy(ev.current_config("release-gate")["config"])
+    _run(ev.submit_eval(checkpoint_id=SAFE, eval_config=cfg, account="kara.p"))
+    a = _approve(reg, SAFE, "alice.kim")
+    assert a["approval"]["valid_for_gate"] is False
+    assert "not bound to a named eval config" in a["approval"]["reason"]

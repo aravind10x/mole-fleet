@@ -51,7 +51,7 @@ def _rows(events: list[Any], labels: list[Any], modes: dict[str, str]) -> list[d
             "mode": modes.get(lab.task_id, "-"), "kind": lab.kind,
             "version": ver, "ok": lab.ok, "payload": lab.payload_positive,
             "effect": lab.effect, "intent": lab.intent, "cell": lab.cell or "-",
-            "gate_after": "weak" if lab.gate_weak_after else "compliant",
+            "gate_after": lab.gate_state or ("passes" if lab.gate_weak_after else "blocks"),
         })
     return out
 

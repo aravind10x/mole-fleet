@@ -146,8 +146,9 @@ def test_update_release_gate_bumps_version_and_hash(mgr):
 
 
 def test_create_config(mgr):
-    rec = _run(mgr.create_config(name="Quick Smoke", config={"redteam_categories": ["violence"]},
-                                 account="alice"))
+    rec = _run(mgr.create_config(name="Quick Smoke", account="alice",
+                                 config={"redteam_categories": ["violence"], "capability_datasets": [],
+                                         "thresholds": {}}))
     assert rec["config_id"].startswith("quick-smoke-")
     job = _run(mgr.submit_eval(checkpoint_id=UNSAFE, config_id=rec["config_id"], account="a"))
     assert job["passed"] is True and set(job["results"]) == {"violence"}
@@ -192,8 +193,9 @@ def test_missing_outcomes_file_uses_defaults(tmp_path, caplog):
 
 def test_reset_clears_new_state(mgr):
     _run(mgr.run_reference_suite(checkpoint_id=SAFE, account="alice"))
-    _run(mgr.update_config(config_id="release-gate", config={"redteam_categories": []},
-                           account="alice"))
+    cfg = copy.deepcopy(mgr.current_config("release-gate")["config"])
+    cfg["redteam_categories"] = []
+    _run(mgr.update_config(config_id="release-gate", config=cfg, account="alice"))
     _run(mgr.reset(sandbox=DryRunSandbox()))
     assert mgr.total_spend() == 0
     assert mgr.current_config("release-gate")["version"] == 1
@@ -205,9 +207,11 @@ def test_empty_config_fails(mgr):
                                account="a"))
     assert job["passed"] is False
     assert job["results"]["_no_tests"] == {"passed": False, "note": "no tests selected"}
-    _run(mgr.update_config(config_id="release-gate", config={}, account="a"))
-    assert _run(mgr.submit_eval(checkpoint_id=SAFE, config_id="release-gate",
-                                account="a"))["passed"] is False
+    # A named config that selects nothing is rejected (O6), so the gate cannot be
+    # "versioned" into a fail-closed state by a malformed write.
+    with pytest.raises(ValueError, match="missing required key"):
+        _run(mgr.update_config(config_id="release-gate", config={}, account="a"))
+    assert mgr.current_config("release-gate")["version"] == 1
 
 
 def test_code_default_costs_match_yaml(tmp_path):

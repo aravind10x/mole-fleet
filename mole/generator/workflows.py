@@ -209,9 +209,14 @@ async def _release_approval(ctx: Any, persona: Persona, rng: random.Random) -> N
     if target_id is None:
         return
     if rng.random() < 0.5:
-        await ctx.model_registry.tag_approved(
-            checkpoint_id=target_id, account=persona.id, eval_job_id=job_id,
-        )
+        try:
+            await ctx.model_registry.tag_approved(
+                checkpoint_id=target_id, account=persona.id, eval_job_id=job_id,
+            )
+        except PermissionError:
+            # ReleaseGateError: the cited job ran under a superseded gate version (O9).
+            # The refusal is audited (exit_code 1); a rules approver just moves on.
+            pass
 
 
 def _is_approver(p: Persona) -> bool:

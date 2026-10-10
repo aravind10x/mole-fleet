@@ -30,6 +30,8 @@ logger = logging.getLogger(__name__)
 
 # plan_day key prefix of a dedicated slotted arc-step session ("arc:<step_id>").
 ARC_KEY_PREFIX = "arc:"
+# plan_day key of a slotted pinned task's dedicated session (--pin-slot): "pin:<date>".
+PIN_KEY_PREFIX = "pin:"
 
 
 def load_task_bank(path: str | None = None, *, rich: bool = False,
@@ -539,9 +541,11 @@ class AgenticMember(Member):
         self._slotted_arc_steps: dict[str, dict] = {
             p["step_id"]: p for p in (self.benign_arc_schedule or [])
             if p.get("slot") and p.get("step_id")}
-        # Pinned bank tasks ({date: {"task_id", "task"}}, from --pin-task): the account's first
-        # benign, non-arc session that day runs the task through the staging-task override,
-        # beating the random draw.
+        # Pinned bank tasks ({date: {"task_id", "task"[, "slot"]}}, from --pin-task /
+        # --pin-slot): without a slot, the account's first benign, non-arc session that day
+        # runs the task through the staging-task override, beating the random draw; with a
+        # slot ("HH:MM:SS"), a DEDICATED session at that sim time runs it (plan_day key
+        # "pin:<date>"), like a slotted release-arc step.
         self._pinned_tasks: dict[str, dict] = {
             d: {**v, "task": (v.get("task") or "").replace("{ws}", self._workspace)}
             for d, v in (pinned_tasks or {}).items()}
@@ -556,9 +560,9 @@ class AgenticMember(Member):
         the org.
         """
         day = sim_date_iso[:10]
-        # Slotted arc steps run even on a PTO day and are never loafed (the workflow needs
-        # them); they draw no RNG, so every other draw is unchanged.
-        arc_sessions = self._arc_sessions_for(day)
+        # Slotted arc steps and slotted pins run even on a PTO day and are never loafed
+        # (the workflow needs them); they draw no RNG, so every other draw is unchanged.
+        arc_sessions = self._arc_sessions_for(day) + self._pin_sessions_for(day)
         if self.config.absent_probability > 0 and self.rng.random() < self.config.absent_probability:
             if day not in self._pinned_tasks:      # a pinned task keeps the account in that day
                 logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
@@ -574,6 +578,14 @@ class AgenticMember(Member):
             plan.append((t, f"session_{i}"))
         self._today_keys = [k for _, k in plan]   # actual sessions → attack-slot pool
         return plan + arc_sessions
+
+    def _pin_sessions_for(self, day: str) -> list[tuple[Any, str]]:
+        """Dedicated (slot_datetime, "pin:<date>") session for a slotted pinned task."""
+        entry = self._pinned_tasks.get(day)
+        if not entry or not entry.get("slot"):
+            return []
+        from .release_arcs import slot_datetime
+        return [(slot_datetime(day, entry["slot"]), f"{PIN_KEY_PREFIX}{day}")]
 
     def _arc_sessions_for(self, day: str) -> list[tuple[Any, str]]:
         """Dedicated (slot_datetime, "arc:<step_id>") sessions for the day's slotted arc steps."""
@@ -734,7 +746,12 @@ class AgenticMember(Member):
         if action_key and action_key.startswith(ARC_KEY_PREFIX):
             arc_entry = self._slotted_arc_steps.get(action_key[len(ARC_KEY_PREFIX):])
         pinned_task_id: str | None = None
-        if arc_entry is not None:
+        # A dedicated slotted pinned-task session (plan_day key "pin:<date>"): always benign,
+        # anchored at its own slot like an arc step.
+        pin_entry: dict | None = None
+        if action_key and action_key.startswith(PIN_KEY_PREFIX):
+            pin_entry = self._pinned_tasks.get(action_key[len(PIN_KEY_PREFIX):])
+        if arc_entry is not None or pin_entry is not None:
             is_attack_session = False
         elif self.campaign_schedule is not None and self.persona_override is not None:
             today = (sim_now or "")[:10]
@@ -828,9 +845,14 @@ class AgenticMember(Member):
                     if action_key is not None and action_key == self._arc_key:
                         arc_task = amatch["directive"]
             # Pinned bank task (--pin-task): the first benign, non-arc session of the pinned
-            # day runs it through the staging-task override, beating the random draw.
+            # day runs it through the staging-task override, beating the random draw. A
+            # slotted pin (--pin-slot) runs only in its own dedicated session.
             _today = (sim_now or "")[:10]
-            if (arc_task is None and staging_task is None and _today in self._pinned_tasks
+            if pin_entry is not None:
+                staging_task = pin_entry["task"]
+                pinned_task_id = pin_entry.get("task_id")
+            elif (arc_task is None and staging_task is None and _today in self._pinned_tasks
+                    and not self._pinned_tasks[_today].get("slot")
                     and _today not in self._pins_used):
                 self._pins_used.add(_today)
                 staging_task = self._pinned_tasks[_today]["task"]
@@ -916,9 +938,10 @@ class AgenticMember(Member):
         except (ValueError, TypeError):
             _slot_dt = None
         _day = sim_now[:10]
-        if arc_entry is not None:
-            # A slotted arc step starts at its own slot so its timestamps follow the
-            # workflow order across accounts; the account's day-chain is left untouched.
+        if arc_entry is not None or pin_entry is not None:
+            # A slotted arc step / slotted pin starts at its own slot so its timestamps
+            # follow the workflow order across accounts; the account's day-chain is left
+            # untouched.
             _anchor = _slot_dt
         else:
             if getattr(self, "_chain_date", None) != _day:
@@ -1008,6 +1031,10 @@ class AgenticMember(Member):
             logger.info("release arc step %s by %s: finish=%s aborted=%s turns=%d",
                         arc_entry.get("step_id"), self.persona.id, result.finish_reason,
                         result.aborted_reason, result.turn_count)
+        elif pin_entry is not None:
+            logger.info("slotted pinned task %s by %s at %s: finish=%s aborted=%s turns=%d",
+                        pin_entry.get("task_id"), self.persona.id, sim_now,
+                        result.finish_reason, result.aborted_reason, result.turn_count)
         elif self.rich_sessions and _clk.get("sim") is not None:
             _gap = self.rng.uniform(2, 10)
             if (getattr(self, "_chain_break_today", False)
@@ -1024,6 +1051,8 @@ class AgenticMember(Member):
                                         for k in ("arc_id", "step_id", "role", "date", "slot")}
             if pinned_task_id is not None:
                 extra["pinned_task_id"] = pinned_task_id
+            if pin_entry is not None:
+                extra["pinned_slot"] = pin_entry.get("slot")
             self.transcript_sink({
                 **extra,
                 "account": self.persona.id,
@@ -1044,6 +1073,8 @@ class AgenticMember(Member):
                 "cost_usd": round(float(getattr(result, "total_cost_usd", 0.0)), 6),
                 # tool calls past the per-turn cap that were answered, not executed
                 "tool_calls_dropped": int(getattr(result, "tool_calls_dropped", 0)),
+                # identical calls refused by the same-call repetition guard
+                "tool_calls_repeated": int(getattr(result, "tool_calls_repeated", 0)),
                 "model": os.environ.get("OPENROUTER_MODEL") or os.environ.get("VLLM_MODEL") or os.environ.get("ANTHROPIC_MODEL") or "",
                 # Flag insider sessions so the eval matrix can strip the
                 # persona system prompt before level 2 judging (avoids

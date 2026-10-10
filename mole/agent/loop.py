@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import json
 import os
 from dataclasses import dataclass, field, replace
 from typing import Any, Awaitable, Callable
@@ -72,6 +73,7 @@ class AgentLoopResult:
     total_cost_usd: float = 0.0                     # provider-reported; 0.0 if not reported
     aborted_reason: str | None = None               # e.g. "max_turns", "tool_flood"
     tool_calls_dropped: int = 0                     # calls past the per-turn cap, not run
+    tool_calls_repeated: int = 0                    # identical calls refused by the repetition guard
 
 
 # A single unbounded tool result (e.g. plane.list_issues returning every issue
@@ -137,6 +139,45 @@ def resolve_max_tool_calls_per_turn(value: int | None = None) -> int:
     return DEFAULT_MAX_TOOL_CALLS_PER_TURN
 
 
+# Same-call repetition guard: a session that issues the SAME tool call (name plus
+# normalised arguments) more than this many times gets a tool error instead of a
+# re-execution. Observed: an approver re-issued one `tag_approved` fifteen times
+# because the result hid why the approval did not count; the guard bounds the turn
+# burn and points at the previous result. Override with $MOLE_MAX_IDENTICAL_CALLS;
+# <= 0 disables.
+_DEFAULT_MAX_IDENTICAL_CALLS = 3
+
+
+def resolve_max_identical_calls(value: int | None = None) -> int:
+    if value is not None:
+        return int(value)
+    env = os.environ.get("MOLE_MAX_IDENTICAL_CALLS")
+    if env is not None and env.strip():
+        try:
+            return int(env)
+        except ValueError:
+            logger.warning("MOLE_MAX_IDENTICAL_CALLS=%r is not an int; using %d",
+                           env, _DEFAULT_MAX_IDENTICAL_CALLS)
+    return _DEFAULT_MAX_IDENTICAL_CALLS
+
+
+def _call_signature(tc: "ToolCall") -> str:
+    """Tool name plus canonical JSON of its arguments (key order and whitespace
+    normalised), so two calls that mean the same thing compare equal."""
+    try:
+        args = json.dumps(tc.arguments, sort_keys=True, separators=(",", ":"), default=str)
+    except (TypeError, ValueError):
+        args = repr(tc.arguments)
+    return f"{tc.name}:{args}"
+
+
+def _repeated_message(tc: "ToolCall", n: int, limit: int) -> str:
+    return (f"repeated call refused: {tc.name} has already been called {n} times in this "
+            f"session with exactly these arguments (limit {limit}). Repeating it will not "
+            f"change the outcome: re-read the earlier result for this call (it states the "
+            f"binding, validity or error), then change the arguments or the approach.")
+
+
 def _dropped_message(cap: int) -> str:
     return (f"dropped: more than {cap} tool calls in one turn; "
             "make fewer calls per turn")
@@ -175,6 +216,7 @@ async def run_agent_loop(
     post_turn: Callable[[int], None] | None = None,
     max_tool_calls_per_turn: int | None = None,
     account: str | None = None,
+    max_identical_calls: int | None = None,
 ) -> AgentLoopResult:
     """Drive the agent until it stops calling tools or hits max_turns.
 
@@ -195,6 +237,11 @@ async def run_agent_loop(
             `tool_calls_dropped`; more than 3 x cap drops end the session with
             aborted_reason="tool_flood".
         account: label for log lines only (e.g. the persona id).
+        max_identical_calls: the same-call repetition guard; None ->
+            $MOLE_MAX_IDENTICAL_CALLS, else 3; <= 0 disables. A tool call whose
+            (name, normalised arguments) has already been executed that many times
+            in this session is answered with an error tool message instead of being
+            dispatched, and counted in `tool_calls_repeated`.
 
     Returns:
         AgentLoopResult capturing the full conversation and per-turn artefacts.
@@ -212,6 +259,9 @@ async def run_agent_loop(
     aborted: str | None = None
     cap = resolve_max_tool_calls_per_turn(max_tool_calls_per_turn)
     dropped_total = 0
+    identical_limit = resolve_max_identical_calls(max_identical_calls)
+    seen_calls: dict[str, int] = {}
+    repeated_total = 0
 
     def _emit(evt: dict[str, Any]) -> None:
         if on_event is not None:
@@ -299,7 +349,27 @@ async def run_agent_loop(
             _emit({"type": "tool.request", "turn": turn,
                    "tool_call_id": tc.id, "name": tc.name})
 
+        # Same-call repetition guard (see _DEFAULT_MAX_IDENTICAL_CALLS): decided per
+        # call in order, so the (limit+1)-th identical call in one turn is refused too.
+        refused: dict[str, ToolResult] = {}
+        for tc in to_run:
+            sig = _call_signature(tc)
+            n = seen_calls.get(sig, 0)
+            if identical_limit > 0 and n >= identical_limit:
+                refused[tc.id] = ToolResult(tool_call_id=tc.id, name=tc.name,
+                                            content=_repeated_message(tc, n, identical_limit),
+                                            is_error=True)
+                repeated_total += 1
+                logger.warning("repetition guard: account=%s turn=%d refused %s (%d identical "
+                               "calls already)", account or "?", turn, tc.name, n)
+                _emit({"type": "tool.repeated", "turn": turn, "tool_call_id": tc.id,
+                       "name": tc.name, "count": n})
+            else:
+                seen_calls[sig] = n + 1
+
         async def _one(tc):
+            if tc.id in refused:
+                return refused[tc.id]
             try:
                 return await dispatcher(tc)
             except Exception as exc:                            # noqa: BLE001
@@ -370,4 +440,5 @@ async def run_agent_loop(
         total_cost_usd=cost_usd,
         aborted_reason=aborted,
         tool_calls_dropped=dropped_total,
+        tool_calls_repeated=repeated_total,
     )
