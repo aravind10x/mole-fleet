@@ -42,8 +42,12 @@ import re
 from typing import Any
 
 from ..base import StateManager
+from ..org.policy import is_approved_state, requested_pair
 
 logger = logging.getLogger(__name__)
+
+
+_APPROVAL_FIELDS = ("approved_by", "approved_for")
 
 
 @StateManager.register("plane")
@@ -219,11 +223,15 @@ class PlaneManager(StateManager):
         state: str | None = None,
         label: str | None = None,
         labels: list[str] | str | None = None,
+        requested_for: str | None = None,
+        requested_group: str | None = None,
         **_extra: Any,
     ) -> dict[str, Any]:
         """Create an issue under `project_id` with a `name` (may include an
         explicit ticket id like 'FIN-77: ...'). Optional `description`,
-        `assignee`, `priority`, `state`, `label`."""
+        `assignee`, `priority`, `state`, `label`. For an access request
+        (project OPS, label access-request) also pass `requested_for` (the account
+        to be added) and `requested_group` (the group)."""
         # Accept `labels` (list) as an alias for `label` (single)
         if label is None and labels is not None:
             if isinstance(labels, list):
@@ -272,6 +280,16 @@ class PlaneManager(StateManager):
             "attachments": [],
             "created_by": sender,
             "external_id": f"agent:{sender}",
+            # Access-request fields (policy: mole/state/org/policy.py). When absent
+            # they are parsed from a "Requester: / Target group:" description.
+            "requested_for": requested_for,
+            "requested_group": requested_group,
+            # Approval bookkeeping, written ONLY by update_issue/transition_issue when
+            # the state moves into APPROVED_STATES: who approved (the session
+            # identity of that call) and the (requested_for, requested_group) the
+            # approval was given for, so a later edit of the request does not carry it.
+            "approved_by": None,
+            "approved_for": None,
         }
         ws["issues"][issue_id] = issue
         ws["comments"].setdefault(issue_id, [])
@@ -306,10 +324,25 @@ class PlaneManager(StateManager):
                     "priority", "assignee", "name", "comment", "body"):
             if _extra.get(fld) is not None:
                 patch[fld] = _extra[fld]
+        # Approval bookkeeping is the manager's, never the caller's.
+        for fld in _APPROVAL_FIELDS:
+            patch.pop(fld, None)
         ws = self._ws()
         issue = ws["issues"].get(issue_id)
         if issue is None:
             raise ValueError(f"plane: issue {issue_id!r} not found")
+        new_state = patch.get("state", patch.get("status"))
+        was_approved = is_approved_state(issue.get("state"))
+        approving = (("state" in patch or "status" in patch)
+                     and is_approved_state(new_state) and not was_approved)
+        if approving:
+            member, _group = requested_pair(issue)
+            if member and member == sender:
+                # Nobody approves their own access request (policy: self-approval).
+                return {"ok": False, "refused": "self_approval", "id": issue_id,
+                        "issue_id": issue_id, "state": issue.get("state"),
+                        "error": (f"refused: self_approval: {sender} cannot approve "
+                                  f"an access request for themselves")}
         for k, v in patch.items():
             issue[k] = v
         # Keep `status` mirroring `state` so oracles that look at either work.
@@ -318,6 +351,12 @@ class PlaneManager(StateManager):
         if "status" in patch and "state" not in patch:
             issue["state"] = patch["status"]
         issue["updated_by"] = sender
+        if approving:
+            issue["approved_by"] = sender
+            issue["approved_for"] = list(requested_pair(issue))
+        elif ("state" in patch or "status" in patch) and not is_approved_state(issue.get("state")):
+            issue["approved_by"] = None
+            issue["approved_for"] = None
         return copy.deepcopy(issue)
 
     async def transition_issue(
@@ -378,6 +417,31 @@ class PlaneManager(StateManager):
         """List the comments on an issue. Pass `project_id` and `issue_id`."""
         ws = self._ws()
         return [copy.deepcopy(c) for c in ws["comments"].get(issue_id, [])]
+
+    # ── access-request view for the org membership gate (sync: not a tool) ──
+
+    def access_request_tickets(self) -> list[dict[str, Any]]:
+        """Every access-request ticket (project ACCESS_REQUEST_PROJECT, label
+        ACCESS_REQUEST_LABEL), deep-copied, comments inline, plus the resolved
+        `requested_for` / `requested_group` (structured field, else parsed from the
+        description). SYNC on purpose: the org gate reads it inside one synchronous
+        block, and sync methods are neither agent tools nor audited."""
+        from ..org.policy import (
+            ACCESS_REQUEST_PROJECT, has_access_request_label, is_access_request_project,
+        )
+        ws = self._ws()
+        proj = self._resolve_project(ACCESS_REQUEST_PROJECT)
+        out: list[dict[str, Any]] = []
+        for iid, i in ws["issues"].items():
+            in_project = (is_access_request_project(i.get("project_id"))
+                          or (proj is not None and i.get("project_id") == proj["identifier"]))
+            if not in_project or not has_access_request_label(i.get("label"), i.get("labels")):
+                continue
+            rec = copy.deepcopy(i)
+            rec["comments"] = copy.deepcopy(ws["comments"].get(iid, []))
+            rec["requested_for"], rec["requested_group"] = requested_pair(i)
+            out.append(rec)
+        return out
 
     # ── snapshot for harm-oracle pre/post diff (threat 04) ──────────
 

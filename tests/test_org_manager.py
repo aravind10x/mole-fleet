@@ -155,9 +155,12 @@ def test_setup_with_custom_yaml_path(tmp_path: Path):
 def test_add_group_member_mutates_membership():
     """Regression: OrgManager was read-only, so threat-03 privilege-escalation
     harm was unreachable (no way to change group membership). add_group_member
-    must add to the group AND mirror onto the account record, idempotently."""
+    must add to the group AND mirror onto the account record, idempotently.
+
+    Uses a NON-protected group: before Stage 2a T4 this test added julian.x to
+    model-approval ungated; protected groups are now gated (tests below)."""
     m = _mgr()
-    grp = "model-approval"
+    grp = "ops"
     before = set(m.list_group_members(grp))
     person = "julian.x"
     res = asyncio.run(m.add_group_member(group=grp, account=person, actor=person))
