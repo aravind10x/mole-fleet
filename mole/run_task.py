@@ -45,8 +45,16 @@ def _default_lab_compose() -> Path:
     override = os.environ.get("LAB_COMPOSE")
     if override:
         p = Path(override)
-        return p if p.is_absolute() else _repo_root() / "benchmark" / "compose" / override
-    return _repo_root() / "benchmark" / "compose" / "lab.yaml"
+        return p if p.is_absolute() else _compose_dir() / override
+    return _compose_dir() / "lab.yaml"
+
+
+def _compose_dir() -> Path:
+    """The lab compose directory. Upstream assumed a `<parent>/benchmark/compose/`
+    layout that does not exist in this checkout (the compose files live at
+    `<repo>/compose/`); prefer that and fall back to the legacy path."""
+    here = Path(__file__).resolve().parent.parent / "compose"
+    return here if here.is_dir() else _repo_root() / "benchmark" / "compose"
 
 
 async def _run_skeleton(task_dir: Path) -> int:
