@@ -93,3 +93,8 @@ Disclosed: re-timing breaks multi-day context for C and PACE's yield history; th
 ## 10. Freeze record
 
 The commit hashes of this file and of `work/checks/escalation_sim.py` are recorded in `STATUS.md` under "Track A freeze" before the simulator reads any label row. The scoring scripts read no labels except to write the `is_positive` columns that the simulator joins on.
+
+## Errata (recorded before any label row is read by the simulator)
+
+- 2026-10-14, after the cheap tier was built: the fork's `ZScoreAnomalyMonitor` rollup has 20 numeric features, not 18 (upstream's docstring predates the addition of `public_link_count` and `external_share_count`; the fork's code is identical to `vendor/mole`). Section 2 should read "20-feature rollup". The rollup counts every event of the account-day, failed calls included (upstream's definition); an account-day still needs at least one successful event to exist. Day index is the rank of the date among the corpus's dates (30 weekday dates; day 6 of gpt53 is 2026-04-13). Neither changes a policy or a threshold.
+- 2026-10-14, after the T0 smoke: K1 was evaluated on `anthropic.claude-sonnet-5` (0 refusals of 40 on both corpora, scored 40, errored 0; `work/stage2/judge-smoke.md`). Sonnet 5.5 remains unreachable on this AWS account; the realised judge model for the full run is recorded in the Track A freeze entry.
