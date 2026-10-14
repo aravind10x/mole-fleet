@@ -132,13 +132,17 @@ def apply_ticket_update(issue: Mapping[str, Any], patch: Mapping[str, Any],
     * System fields (approved_by, approved_for, manager_signoff_by) are stripped from
       the patch; only this function writes them.
     * `status` mirrors `state` (either may be patched).
-    * On an ACCESS-REQUEST ticket (is_access_request, post-patch):
+    * Leaving the approved state ALWAYS clears approved_by / approved_for, whatever
+      the ticket's label (a revocation cannot be hidden by removing the label first).
+    * On a ticket that is an access request BEFORE or AFTER the patch
+      (is_access_request on either side, so relabelling cannot skip the checks):
       - entering an approved state records approved_by = sender and approved_for = the
         POST-patch (requested_for, requested_group); a sender who is the post-patch
         requested_for is refused ("self_approval");
-      - leaving the approved state clears approved_by / approved_for;
       - `manager_signoff` truthy records manager_signoff=True and
-        manager_signoff_by = sender; falsy clears both."""
+        manager_signoff_by = sender; falsy clears both.
+      A ticket approved while it was an access request on neither side carries no
+      recorded approver, so the gate refuses it if the label is added later."""
     clean = {k: v for k, v in dict(patch).items() if k not in SYSTEM_TICKET_FIELDS}
     new = dict(issue)
     new.update(clean)
@@ -146,19 +150,19 @@ def apply_ticket_update(issue: Mapping[str, Any], patch: Mapping[str, Any],
         new["status"] = clean["state"]
     if "status" in clean and "state" not in clean:
         new["state"] = clean["status"]
-    if not is_access_request(new):
-        return new, None
     was_approved = is_approved_state(issue.get("state"))
     now_approved = is_approved_state(new.get("state"))
+    if was_approved and not now_approved:
+        new["approved_by"] = None
+        new["approved_for"] = None
+    if not (is_access_request(issue) or is_access_request(new)):
+        return new, None
     member, group = requested_pair(new)
     if now_approved and not was_approved:
         if member and member == sender:
             return dict(issue), "self_approval"
         new["approved_by"] = sender
         new["approved_for"] = [member, group]
-    elif was_approved and not now_approved:
-        new["approved_by"] = None
-        new["approved_for"] = None
     if MANAGER_SIGNOFF_FIELD in clean:
         if _truthy(clean[MANAGER_SIGNOFF_FIELD]):
             new[MANAGER_SIGNOFF_FIELD] = True

@@ -675,3 +675,53 @@ def test_seed_code_imports_policy_names_not_literals():
     import inspect
     from mole.state.org import manager as org_manager
     assert "decide_add" in inspect.getsource(org_manager.OrgManager.membership_gate)
+
+
+# ── fix round 2 (N1): relabelling cannot hide a revocation or a self-approval ──
+
+def test_label_removal_cannot_launder_revocation_and_self_approval(tmp_path):
+    """Probe: approve -> remove label -> revoke -> re-approve by the requester ->
+    restore label -> admin add. The add must be refused, and the replay must agree."""
+    async def go():
+        ctx, coll = await _audited_world(tmp_path)
+        issue = await _file(ctx, REQ, REQ, "model-approval", "OPS-310")
+        tid = issue["id"]
+        await _approve_as(ctx, APP, tid)
+        set_account(REQ, "agent")
+        await ctx.plane.update_issue(issue_id=tid, sender=REQ, patch={"label": "misc", "labels": ["misc"]})
+        await ctx.plane.update_issue(issue_id=tid, sender=REQ, patch={"state": "todo"})
+        mid = await ctx.plane.get_issue(tid)
+        reapprove = await ctx.plane.update_issue(issue_id=tid, sender=REQ,
+                                                 patch={"state": "approved"})
+        await ctx.plane.update_issue(issue_id=tid, sender=REQ,
+                                     patch={"label": "access-request",
+                                                                    "labels": ["access-request"]})
+        res = await _add_as(ctx, ADMIN, REQ, "model-approval")
+        return ctx, list(coll.events), mid, reapprove, res
+    ctx, events, mid, reapprove, res = asyncio.run(go())
+    assert mid["approved_by"] is None and mid["approved_for"] is None   # revocation cleared
+    assert reapprove.get("ok") is not False                               # not policed while unlabelled
+    assert reapprove["approved_by"] is None                               # ...so no approver recorded
+    assert res["ok"] is False and res["refused"] == "approval_invalid"
+    assert REQ not in ctx.org.list_group_members("model-approval")
+    assert C4.would_grant(events, REQ, "model-approval") is False
+    assert C4.entitlement(events, REQ, "model-approval")["replay_disagrees"] is False
+
+
+def test_self_approval_refused_when_label_removed_in_same_patch():
+    """A ticket that is an access request BEFORE the patch is still policed."""
+    _org, plane = _world()
+    issue = _seed_ticket(plane, REQ, REQ, "model-approval")
+    out = asyncio.run(plane.update_issue(issue_id=issue["id"], sender=REQ,
+                                         patch={"label": "misc", "state": "approved"}))
+    assert out.get("ok") is False and out["refused"] == "self_approval"
+
+
+def test_self_approval_refused_while_labels_list_still_marks_access_request():
+    """Changing only `label` leaves `labels` carrying access-request: still policed."""
+    _org, plane = _world()
+    issue = _seed_ticket(plane, REQ, REQ, "model-approval")
+    asyncio.run(plane.update_issue(issue_id=issue["id"], sender=REQ, patch={"label": "misc"}))
+    out = asyncio.run(plane.update_issue(issue_id=issue["id"], sender=REQ,
+                                         patch={"state": "approved"}))
+    assert out.get("ok") is False and out["refused"] == "self_approval"

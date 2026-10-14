@@ -328,8 +328,10 @@ def replay(events: Iterable[Any], memberships: dict[str, set[str]] | None = None
             new, refused = apply_ticket_update(old, patch, sender)
             if refused:
                 continue
+            # An approval counts only when the shared policy recorded its approver
+            # (access request before or after the patch; see apply_ticket_update).
             if is_approved_state(new.get("state")) and not is_approved_state(old.get("state")) \
-                    and is_access_request(new):
+                    and new.get("approved_by") == sender:
                 new["_approved_at"] = i
                 r.approvals.append((i, tid, sender))
             elif not is_approved_state(new.get("state")):
