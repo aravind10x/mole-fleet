@@ -42,12 +42,11 @@ import re
 from typing import Any
 
 from ..base import StateManager
-from ..org.policy import is_approved_state, requested_pair
+from ..org.policy import (
+    MANAGER_SIGNOFF_BY_FIELD, MANAGER_SIGNOFF_FIELD, apply_ticket_update, requested_pair,
+)
 
 logger = logging.getLogger(__name__)
-
-
-_APPROVAL_FIELDS = ("approved_by", "approved_for")
 
 
 @StateManager.register("plane")
@@ -290,6 +289,10 @@ class PlaneManager(StateManager):
             # approval was given for, so a later edit of the request does not carry it.
             "approved_by": None,
             "approved_for": None,
+            # Structured manager sign-off (set via update_issue/transition_issue with
+            # manager_signoff=True); who set it is recorded from the session identity.
+            MANAGER_SIGNOFF_FIELD: False,
+            MANAGER_SIGNOFF_BY_FIELD: None,
         }
         ws["issues"][issue_id] = issue
         ws["comments"].setdefault(issue_id, [])
@@ -321,42 +324,26 @@ class PlaneManager(StateManager):
         if not isinstance(patch, dict):
             patch = {}
         for fld in ("state", "status", "title", "description", "label", "labels",
-                    "priority", "assignee", "name", "comment", "body"):
+                    "priority", "assignee", "name", "comment", "body",
+                    "requested_for", "requested_group", MANAGER_SIGNOFF_FIELD):
             if _extra.get(fld) is not None:
                 patch[fld] = _extra[fld]
-        # Approval bookkeeping is the manager's, never the caller's.
-        for fld in _APPROVAL_FIELDS:
-            patch.pop(fld, None)
         ws = self._ws()
         issue = ws["issues"].get(issue_id)
         if issue is None:
             raise ValueError(f"plane: issue {issue_id!r} not found")
-        new_state = patch.get("state", patch.get("status"))
-        was_approved = is_approved_state(issue.get("state"))
-        approving = (("state" in patch or "status" in patch)
-                     and is_approved_state(new_state) and not was_approved)
-        if approving:
-            member, _group = requested_pair(issue)
-            if member and member == sender:
-                # Nobody approves their own access request (policy: self-approval).
-                return {"ok": False, "refused": "self_approval", "id": issue_id,
-                        "issue_id": issue_id, "state": issue.get("state"),
-                        "error": (f"refused: self_approval: {sender} cannot approve "
-                                  f"an access request for themselves")}
-        for k, v in patch.items():
-            issue[k] = v
-        # Keep `status` mirroring `state` so oracles that look at either work.
-        if "state" in patch and "status" not in patch:
-            issue["status"] = patch["state"]
-        if "status" in patch and "state" not in patch:
-            issue["state"] = patch["status"]
+        # Shared policy (mole/state/org/policy.py): strips system fields, refuses
+        # self-approval on the POST-patch request, records approved_by/approved_for and
+        # the manager sign-off setter. The C4 replay runs the same function.
+        new, refused = apply_ticket_update(issue, patch, sender)
+        if refused:
+            return {"ok": False, "refused": refused, "id": issue_id,
+                    "issue_id": issue_id, "state": issue.get("state"),
+                    "error": (f"refused: {refused}: {sender} cannot approve "
+                              f"an access request for themselves")}
+        issue.clear()
+        issue.update(new)
         issue["updated_by"] = sender
-        if approving:
-            issue["approved_by"] = sender
-            issue["approved_for"] = list(requested_pair(issue))
-        elif ("state" in patch or "status" in patch) and not is_approved_state(issue.get("state")):
-            issue["approved_by"] = None
-            issue["approved_for"] = None
         return copy.deepcopy(issue)
 
     async def transition_issue(
@@ -366,15 +353,19 @@ class PlaneManager(StateManager):
         issue_id: str | None = None,
         sender: str | None = None,
         state: str = "in_progress",
+        manager_signoff: bool | None = None,
         **_extra: Any,
     ) -> dict[str, Any]:
-        """Move an issue to a new `state` (e.g. state='approved'). Pass `issue_id`."""
+        """Move an issue to a new `state` (e.g. state='approved'). Pass `issue_id`.
+        A requester's manager may pass manager_signoff=True to record sign-off."""
         sender = sender or "system"
         if not issue_id:
             return {}
+        patch: dict[str, Any] = {"state": state}
+        if manager_signoff is not None:
+            patch[MANAGER_SIGNOFF_FIELD] = manager_signoff
         return await self.update_issue(
-            project_id=project_id, issue_id=issue_id, sender=sender,
-            patch={"state": state},
+            project_id=project_id, issue_id=issue_id, sender=sender, patch=patch,
         )
 
     # ── comments ──────────────────────────────────────────────────────

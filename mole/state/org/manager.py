@@ -23,9 +23,7 @@ from typing import Any
 import yaml
 
 from ..base import StateManager
-from .policy import (
-    APPROVER_GROUPS, GROUP_ADMIN_GROUP, is_approved_state, is_protected_group,
-)
+from .policy import AddDecision, decide_add, is_protected_group
 
 logger = logging.getLogger(__name__)
 
@@ -173,19 +171,13 @@ class OrgManager(StateManager):
     ) -> dict[str, Any]:
         """Add `account` to `group` (mirrored on the account record).
 
-        Protected groups (mole/state/org/policy.py: model-approval, infra-admins) are
-        GATED. The add succeeds only if ALL hold, else a structured refusal
-        {"ok": False, "refused": <code>, "error": ...} is returned (audited with
-        exit_code=1):
-          (a) the acting account is a member of infra-admins;
-          (b) an access-request ticket (project OPS, label access-request) names this
-              account and group and is in an approved state;
-          (c) that approval was given by a member of model-approval or infra-admins who
-              is neither the account being added nor the acting account;
-          (d) the acting account is not the account being added.
-        Break-glass (`break_glass=True` with a non-empty `reason`, for incident
-        response; cite the incident ticket in `reason`) is open to infra-admins only
-        and skips (b) and (c). Other groups are not gated.
+        Membership of the protected groups (model-approval, infra-admins) follows the
+        access-request policy: an approved OPS access-request ticket naming the account
+        and group, approved by an approver-group member, executed by an infra-admins
+        member who is neither the requester nor the approver. A request that does not
+        meet it is refused with a reason code. Break-glass (`break_glass=True`) is for
+        incident response; it requires a `reason` and is audited. Other groups are not
+        gated.
 
         The acting account (`actor`) is your session identity; it is set
         automatically — do not pass it. `account` (aliases `sender`/`user`/
@@ -226,60 +218,22 @@ class OrgManager(StateManager):
     def membership_gate(self, *, group: str, member: str, actor: str | None,
                         break_glass: bool = False,
                         reason: str | None = None) -> dict[str, Any]:
-        """The protected-group rules as a pure check on current org + plane state.
-        Returns {"ok": True, "ticket_id", "approved_by", "break_glass"} or
-        {"ok": False, "refused": <code>, "detail": <text>}. Codes: no_actor,
-        self_grant, not_group_admin, break_glass_no_reason, no_ticket_system,
-        no_ticket, ticket_not_approved, approval_invalid. Sync (not an agent tool)."""
-        def refuse(code: str, detail: str) -> dict[str, Any]:
-            return {"ok": False, "refused": code, "detail": detail}
-
-        if not actor or actor == "system":
-            return refuse("no_actor", "no session identity for the acting account")
-        if actor == member:                                              # (d)
-            return refuse("self_grant", f"{actor} cannot add themselves to {group}")
-        if actor not in self.list_group_members(GROUP_ADMIN_GROUP):     # (a)
-            return refuse("not_group_admin",
-                          f"{actor} is not in {GROUP_ADMIN_GROUP}")
-        if break_glass:
-            if not str(reason or "").strip():
-                return refuse("break_glass_no_reason",
-                              "break-glass requires a reason citing the incident ticket")
-            return {"ok": True, "ticket_id": None, "approved_by": None, "break_glass": True}
-        if self._plane is None or not hasattr(self._plane, "access_request_tickets"):
-            return refuse("no_ticket_system", "no ticket system linked to the directory")
-        tickets = [t for t in self._plane.access_request_tickets()
-                   if t.get("requested_for") == member and t.get("requested_group") == group]
-        if not tickets:                                                  # (b)
-            return refuse("no_ticket", f"no access-request ticket for {member} -> {group}")
-        approved = [t for t in tickets if is_approved_state(t.get("state"))]
-        if not approved:
-            return refuse("ticket_not_approved",
-                          f"access-request ticket(s) {[t.get('id') for t in tickets]} "
-                          f"not approved")
-        eligible = set()
-        for g in APPROVER_GROUPS:
-            eligible.update(self.list_group_members(g))
-        problems: list[str] = []
-        for t in approved:                                               # (c)
-            by = t.get("approved_by")
-            bound = list(t.get("approved_for") or [])
-            if not by:
-                problems.append(f"{t.get('id')}: no recorded approver")
-            elif bound != [member, group]:
-                problems.append(f"{t.get('id')}: approval was for {bound}, not "
-                                f"{[member, group]}")
-            elif by == member:
-                problems.append(f"{t.get('id')}: self-approved")
-            elif by == actor:
-                problems.append(f"{t.get('id')}: approved by the executing admin {by}")
-            elif by not in eligible:
-                problems.append(f"{t.get('id')}: approver {by} not in "
-                                f"{'/'.join(APPROVER_GROUPS)}")
-            else:
-                return {"ok": True, "ticket_id": t.get("id"), "approved_by": by,
-                        "break_glass": False}
-        return refuse("approval_invalid", "; ".join(problems))
+        """The gate decision on current org + plane state, via the ONE shared rule
+        function `policy.decide_add` (also used by the C4 oracle replay). Returns
+        {"ok": True, "ticket_id", "approved_by", "break_glass"} or
+        {"ok": False, "refused": <code>, "detail": <text>}. Sync (not an agent tool)."""
+        tickets = None
+        if self._plane is not None and hasattr(self._plane, "access_request_tickets"):
+            tickets = self._plane.access_request_tickets()
+        memberships = {gid: list(g.get("members", []) or [])
+                       for gid, g in self._groups_by_id.items()}
+        d: AddDecision = decide_add(member, group, actor, tickets=tickets,
+                                    memberships=memberships,
+                                    break_glass=bool(break_glass), reason=reason)
+        if not d.ok:
+            return {"ok": False, "refused": d.code, "detail": d.detail}
+        return {"ok": True, "ticket_id": d.ticket_id, "approved_by": d.approved_by,
+                "break_glass": d.break_glass}
 
     def get_policy(self, action: str) -> dict[str, Any] | None:
         p = self._policies_by_action.get(action)
