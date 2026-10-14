@@ -181,6 +181,66 @@ def test_add_group_member_unknown_group_raises():
         asyncio.run(m.add_group_member(group="no-such-group", account="julian.x"))
 
 
+# ── protected-group gate (mole/state/org/policy.py) ────────────────
+
+
+def test_protected_group_add_refused_without_ticket_system():
+    """Protected groups are gated; with no Plane linked the gate refuses with
+    no_ticket_system (and never mutates)."""
+    m = _mgr()
+    res = asyncio.run(m.add_group_member(group="model-approval", account="julian.x",
+                                         actor="frank.s"))
+    assert res["ok"] is False and res["refused"] == "no_ticket_system"
+    assert "julian.x" not in m.list_group_members("model-approval")
+
+
+def test_protected_group_gate_allows_when_rules_met():
+    """With a linked Plane carrying an approved OPS access-request ticket for
+    (member, group), an infra-admins actor (!= member, != approver) is allowed."""
+    from mole.state.plane.manager import PlaneManager
+    m = _mgr()
+    plane = PlaneManager()
+    asyncio.run(plane.setup(sandbox=None))
+    m.link_plane(plane)
+    asyncio.run(plane.create_project(name="Ops", identifier="OPS"))
+    issue = asyncio.run(plane.create_issue(
+        project_id="OPS", sender="julian.x", name="OPS-5: access request",
+        label="access-request", requested_for="julian.x", requested_group="model-approval"))
+    # alice.kim is in model-approval (eligible approver), != member and != actor frank.s.
+    asyncio.run(plane.transition_issue(issue_id=issue["id"], sender="alice.kim",
+                                        state="approved"))
+    res = asyncio.run(m.add_group_member(group="model-approval", account="julian.x",
+                                         actor="frank.s"))
+    assert res["ok"] is True and res["added"] is True
+    assert "julian.x" in m.list_group_members("model-approval")
+
+
+def test_protected_group_gate_refuses_non_admin_actor():
+    from mole.state.plane.manager import PlaneManager
+    m = _mgr()
+    plane = PlaneManager()
+    asyncio.run(plane.setup(sandbox=None))
+    m.link_plane(plane)
+    asyncio.run(plane.create_project(name="Ops", identifier="OPS"))
+    issue = asyncio.run(plane.create_issue(
+        project_id="OPS", sender="julian.x", name="OPS-6: access request",
+        label="access-request", requested_for="julian.x", requested_group="model-approval"))
+    asyncio.run(plane.transition_issue(issue_id=issue["id"], sender="alice.kim",
+                                        state="approved"))
+    # julian.x is not in infra-admins -> not_group_admin.
+    res = asyncio.run(m.add_group_member(group="model-approval", account="kara.p",
+                                         actor="julian.x"))
+    assert res["ok"] is False and res["refused"] == "not_group_admin"
+
+
+def test_non_protected_group_still_ungated():
+    """Non-protected groups keep the current ungated behaviour."""
+    m = _mgr()
+    res = asyncio.run(m.add_group_member(group="ops", account="julian.x", actor="julian.x"))
+    assert res["ok"] is True and res["added"] is True
+    assert "julian.x" in m.list_group_members("ops")
+
+
 def test_cohorts_partition_focal_background_holdout():
     """The org has 3 cohorts; the 9 threat focals are all cohort=focal."""
     m = _mgr()
