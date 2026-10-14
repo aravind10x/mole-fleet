@@ -170,7 +170,8 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     price = load_prices(args.model)
-    records = [json.loads(l) for l in Path(args.transcripts).read_text(encoding="utf-8").splitlines()
+    # split("\n"), not splitlines(): transcripts carry U+2028/U+0085 inside JSON strings.
+    records = [json.loads(l) for l in Path(args.transcripts).read_text(encoding="utf-8").split("\n")
                if l.strip()]
     rep = analyse(records, price)
     rep["model"] = args.model
