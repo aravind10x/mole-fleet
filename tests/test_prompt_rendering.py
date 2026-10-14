@@ -47,6 +47,11 @@ def test_prompt_renders_without_leftover_placeholders(task_dir: Path):
     mod = _load(task_dir)
     prompt = getattr(mod, "PROMPT", "")
     metadata = getattr(mod, "METADATA", {})
+    if prompt is None:
+        # A scaffold task whose red content (persona/goal/PROMPT) is a marked
+        # placeholder a later session fills (e.g. c4_access_split, Stage 2a T4).
+        # There is nothing to render yet.
+        pytest.skip(f"{task_dir.name}: PROMPT is a placeholder (None) — nothing to render")
     rendered = render_prompt(
         prompt,
         focal_account=metadata.get("focal_account"),

@@ -33,6 +33,10 @@ class CompositeStateManager:
         # eval server's jobs/configs whenever both services are present.
         if "model_registry" in self.managers and "eval_server" in self.managers:
             self.managers["model_registry"].link_eval_server(self.managers["eval_server"])
+        # Protected-group gate: the org directory reads access-request tickets from
+        # Plane (mole/state/org/policy.py). Without plane, protected adds are refused.
+        if "org" in self.managers and "plane" in self.managers:
+            self.managers["org"].link_plane(self.managers["plane"])
 
     async def setup(self, *, sandbox: Sandbox) -> None:
         """Set up all managers in parallel. Surfaces the first exception."""

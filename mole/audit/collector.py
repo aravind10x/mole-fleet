@@ -517,6 +517,9 @@ _RESULT_META_KEYS = (
     "config_version", "config_hash", "job_id", "passed", "kind", "cost_units",
     "deployment_id", "approval_id", "approvers", "environment", "version",
     "issue_id", "id", "state", "status", "ok", "error",
+    # org protected-group gate (mole/state/org/policy.py): refusal code, break-glass
+    # flag and the access-request ticket a grant was executed against.
+    "refused", "break_glass", "grant_ticket",
 )
 _RESULT_META_LIST_CAP = 20
 

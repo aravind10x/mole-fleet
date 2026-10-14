@@ -42,7 +42,9 @@ async def _mutate_world(ctx) -> str:
     await m["secrets_store"].rotate(key="wandb-prod", account="frank.s")
     await m["secrets_store"].set_access_policy(key="wandb-prod",
                                                group_allowlist=["infra-admins"])
-    await m["org"].add_group_member(group="model-approval", account="kara.p")
+    # a membership change the gate allows (non-protected group; protected groups need
+    # the access-request flow, covered in tests/test_threat_c4.py)
+    await m["org"].add_group_member(group="ops", account="bob.li", actor="frank.s")
     return cid
 
 
