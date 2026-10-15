@@ -294,21 +294,182 @@ def test_manifest_entry(tmp_path):
     json.dumps(rec)   # JSON-serialisable for the manifest
 
 
-# ── runner flags (argument plumbing only; no simulation) ────────────
+# ── runner: coalitions-only semantics (brief 05b) ───────────────────
+#
+# With --coalitions the instance file is the ONLY source of scenario accounts: every
+# cell of insider_assignment.yaml (solo, collusion, shadow) is skipped, not just C4.
+# The committed draw (bootstrap/coalitions_stage2b.yaml) contains accounts that hold a
+# cell for another threat (paul.k53 is C3 config_editor; deepa.t9 is a solo insider);
+# before 05b the runner planned those cells too and refused every branch on the clash.
 
-def test_sim_runner_skips_instance_threats_when_coalitions_given():
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "sim_runner_under_test", Path(__file__).resolve().parents[1] / "scripts" / "sim_runner.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    assignment = {"collusion": {"c4_access_split": {"s0": {"requester": "x", "approver": "y"}},
-                                "c3_release_sabotage": {"s0": {"approver": "z"}}}}
-    assert ("c4_access_split", "s0", "requester", "x") in mod._flatten_assignment(assignment)
-    mod._SKIP_THREATS.update(mod._INSTANCE_THREATS)
-    try:
-        flat = mod._flatten_assignment(assignment)
-        assert all(t != "c4_access_split" for t, *_ in flat)
-        assert ("c3_release_sabotage", "s0", "approver", "z") in flat
-    finally:
-        mod._SKIP_THREATS.clear()
+import sys
+
+REPO = Path(__file__).resolve().parents[1]
+DRAW = REPO / "bootstrap" / "coalitions_stage2b.yaml"
+ASSIGNMENT_ACCOUNTS_IN_PREFIX = {
+    "alice.kim", "ben.c11", "dan.r", "deepa.a7", "deepa.t9", "elena.r13", "frank.s",
+    "julian.x", "kara.p", "nina.l27", "paul.k53", "wei.n2",
+}
+
+
+def _import_sim_runner():
+    for p in (REPO, REPO / "scripts"):
+        if str(p) not in sys.path:
+            sys.path.insert(0, str(p))
+    import sim_runner
+    return sim_runner
+
+
+def _launch_kwargs(monkeypatch, tmp_path, branch_id: str) -> tuple[dict, str]:
+    """Run sim_runner.main with the real launch flags of coalitions_stage2b.yaml
+    (generation.flags, agentic mode, the 50 prefix personas) against a fake simulate;
+    return the kwargs simulate received and the runner's stdout."""
+    sim_runner = _import_sim_runner()
+    gen = yaml.safe_load(DRAW.read_text(encoding="utf-8"))["generation"]
+    seen: dict = {}
+
+    async def _fake_simulate(**kw):
+        seen.update(kw)
+
+        class _C:
+            events: list = []
+        return _C()
+
+    monkeypatch.setattr(sim_runner, "simulate", _fake_simulate)
+    import io
+    import contextlib
+    buf = io.StringIO()
+    with contextlib.redirect_stdout(buf):
+        rc = sim_runner.main([
+            "--smoke", "--personas", gen["personas"], "--no-docker", "--multi-day",
+            "--days", str(gen["days"]), "--sessions-per-day", str(gen["sessions_per_day"]),
+            "--concurrency", str(gen["concurrency"]),
+            "--branch-from", "data/corpus/spike/prefix_v1.jsonl",
+            "--coalitions", str(DRAW), "--branch-id", branch_id,
+            "--seed", str(gen["seeds"][branch_id]),
+            "--out", str(tmp_path / f"branch_{branch_id}.jsonl")])
+    assert rc == 0
+    return seen, buf.getvalue()
+
+
+def _branch_accounts(branch_id: str) -> dict[str, str]:
+    """{account -> role} over the committed draw's instances of one branch."""
+    doc = yaml.safe_load(DRAW.read_text(encoding="utf-8"))
+    out: dict[str, str] = {}
+    for inst in doc["branches"][branch_id]["instances"]:
+        for role, acct in inst["roles"].items():
+            out[acct] = role
+    return out
+
+
+@pytest.mark.parametrize("branch_id, clashing", [
+    ("A", {"paul.k53": "requester"}),
+    ("B", {"deepa.t9": "approver"}),
+    ("C", {"deepa.a7": "requester", "deepa.t9": "approver", "wei.n2": "approver"}),
+])
+def test_runner_coalitions_only_plans_coalition_roles_and_nothing_else(monkeypatch, tmp_path,
+                                                                       branch_id, clashing):
+    kw, out = _launch_kwargs(monkeypatch, tmp_path, branch_id)
+    expected = _branch_accounts(branch_id)
+    assert len(expected) == 10
+    # an account that holds a cell for another threat is planned only as its coalition role
+    for acct, role in clashing.items():
+        assert expected[acct] == role
+        assert kw["insider_threat_map"][acct] == "c4_access_split"
+        assert kw["insider_role_map"][acct] == role
+    # no other prefix account is planned at all
+    assert set(kw["insider_threat_map"]) == set(expected)
+    assert set(kw["insider_role_map"]) == set(expected)
+    assert set(kw["insider_level_map"]) == set(expected)
+    assert set(kw["insider_persona_map"]) <= set(expected)       # no persona files yet
+    assert not (ASSIGNMENT_ACCOUNTS_IN_PREFIX - set(expected)) & set(kw["insider_threat_map"])
+    assert kw["coalition_meta"]["assignment_cells_skipped"] == "all"
+    assert kw["attack_session_rate"] == 0.20                      # launch flags: default rate
+    assert "insider_assignment.yaml: all cells ignored" in out
+    assert out.count("warn: persona file missing") == 10
+
+
+def test_runner_no_insiders_with_coalitions_unchanged(monkeypatch, tmp_path):
+    """--no-insiders still makes every account honest, coalition accounts included."""
+    sim_runner = _import_sim_runner()
+    seen: dict = {}
+
+    async def _fake_simulate(**kw):
+        seen.update(kw)
+
+        class _C:
+            events: list = []
+        return _C()
+
+    monkeypatch.setattr(sim_runner, "simulate", _fake_simulate)
+    rc = sim_runner.main(["--smoke", "--no-docker", "--no-insiders", "--multi-day", "--days", "5",
+                          "--coalitions", str(DRAW), "--branch-id", "A",
+                          "--out", str(tmp_path / "x.jsonl")])
+    assert rc == 0
+    assert seen["attack_session_rate"] == 0.0
+    assert set(seen["insider_threat_map"]) == set(_branch_accounts("A"))
+
+
+def test_runner_without_coalitions_still_loads_every_assignment_cell(monkeypatch, tmp_path):
+    """The coalitions-only flag is per invocation: a plain launch keeps the assignment."""
+    sim_runner = _import_sim_runner()
+    seen: dict = {}
+
+    async def _fake_simulate(**kw):
+        seen.update(kw)
+
+        class _C:
+            events: list = []
+        return _C()
+
+    monkeypatch.setattr(sim_runner, "simulate", _fake_simulate)
+    _launch_kwargs(monkeypatch, tmp_path, "A")                     # sets the flag ...
+    monkeypatch.setattr(sim_runner, "simulate", _fake_simulate)
+    rc = sim_runner.main(["--smoke", "--no-docker", "--mode", "rules", "--days", "1",
+                          "--out", str(tmp_path / "plain.jsonl")])
+    assert rc == 0                                                  # ... and a plain run clears it
+    assert "paul.k53" in seen["insider_threat_map"]
+    assert seen["insider_threat_map"]["paul.k53"] == "c3_release_sabotage"
+    assert seen["coalition_meta"] is None
+
+
+def test_flatten_assignment_returns_nothing_in_coalitions_only_mode(monkeypatch):
+    sim_runner = _import_sim_runner()
+    assignment = {"solo": {"01_ip_theft": {"s1": "a"}},
+                  "collusion": {"c3_release_sabotage": {"s0": {"approver": "z"}},
+                                "c4_access_split": {"s0": {"requester": "x"}}},
+                  "shadow": {"05_sabotage": {"s0": "s"}}}
+    monkeypatch.setattr(sim_runner, "_COALITIONS_ONLY", False)
+    assert len(sim_runner._flatten_assignment(assignment)) == 4
+    monkeypatch.setattr(sim_runner, "_COALITIONS_ONLY", True)
+    assert sim_runner._flatten_assignment(assignment) == []
+
+
+def test_manifest_records_assignment_skip_in_rules_mode(tmp_path):
+    """End to end (rules mode, dryrun, no LLM): the run starts and the manifest's
+    coalitions block records assignment_cells_skipped: all."""
+    from mole.generator import resume_state
+    sim_runner = _import_sim_runner()
+    out = tmp_path / "p3b.jsonl"
+    rc = sim_runner.main(["--smoke", "--no-docker", "--mode", "rules", "--multi-day",
+                          "--days", "2", "--sessions-per-day", "1",
+                          "--personas", "deepa.a1,aisha.n16,marco.s5", "--seed", "1",
+                          "--coalitions", str(REPO / "tests" / "fixtures" / "coalitions_smoke.yaml"),
+                          "--branch-id", "A", "--out", str(out)])
+    assert rc == 0
+    manifest = resume_state.load(out)
+    block = manifest["coalitions"]
+    assert block["assignment_cells_skipped"] == "all"
+    assert block["branch_id"] == "A" and len(block["instances"]) == 1
+    assert [r["account"] for r in block["instances"][0]["roles"]] == ["deepa.a1", "tom.k51"]
+
+
+def test_manifest_entry_carries_assignment_skip(tmp_path):
+    p = _write(tmp_path, _doc())
+    pdir = tmp_path / "personas"
+    pdir.mkdir()
+    inst = load_coalitions(p, "A")
+    maps = coalition_maps(inst, pdir)
+    rec = manifest_entry(p, "A", inst, maps, None, assignment_cells_skipped="all")
+    assert rec["assignment_cells_skipped"] == "all"
+    assert "assignment_cells_skipped" not in manifest_entry(p, "A", inst, maps, None)

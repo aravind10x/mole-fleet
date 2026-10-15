@@ -902,7 +902,8 @@ async def simulate(
         check_windows(coalition_meta["instances"], n_days)
         manifest["coalitions"] = manifest_entry(
             coalition_meta["path"], coalition_meta["branch_id"],
-            coalition_meta["instances"], coalition_meta["maps"], None)
+            coalition_meta["instances"], coalition_meta["maps"], None,
+            assignment_cells_skipped=coalition_meta.get("assignment_cells_skipped"))
         resume_state.write_atomic(manifest, out_path)
 
     # A branch appends to the parent prefix copied into out_path above.
@@ -1077,7 +1078,8 @@ async def simulate(
                         _sched[p.id] = _campaign_for(p.id, i)
             manifest["coalitions"] = manifest_entry(
                 coalition_meta["path"], coalition_meta["branch_id"],
-                coalition_meta["instances"], coalition_meta["maps"], _sched)
+                coalition_meta["instances"], coalition_meta["maps"], _sched,
+                assignment_cells_skipped=coalition_meta.get("assignment_cells_skipped"))
             resume_state.write_atomic(manifest, out_path)
             logger.info("coalitions: %d instance(s) from %s (branch %s)",
                         len(coalition_meta["instances"]), coalition_meta["path"],

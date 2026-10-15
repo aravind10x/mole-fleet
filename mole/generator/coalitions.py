@@ -204,10 +204,13 @@ def coalition_maps(instances: list[Instance], personas_dir: str | Path,
 
 def manifest_entry(path: str | Path, branch_id: str, instances: list[Instance],
                    maps: dict[str, dict[str, Any]],
-                   schedules: dict[str, list[dict]] | None = None) -> dict[str, Any]:
+                   schedules: dict[str, list[dict]] | None = None,
+                   assignment_cells_skipped: str | None = None) -> dict[str, Any]:
     """The `coalitions` block of the run manifest: provenance plus, per instance, the
     roles, accounts, window, persona-file presence and the planned attack dates per role
-    (from `schedules` {account: [{date, phase, directive}, ...]}, when planning ran)."""
+    (from `schedules` {account: [{date, phase, directive}, ...]}, when planning ran).
+    `assignment_cells_skipped` ("all" from the runner's coalitions-only mode) is recorded
+    when given."""
     p = Path(path)
     doc = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
     rec: dict[str, Any] = {
@@ -215,6 +218,8 @@ def manifest_entry(path: str | Path, branch_id: str, instances: list[Instance],
         "branch_id": branch_id, "threat": doc.get("threat"), "variant": doc.get("variant"),
         "draw": doc.get("draw"), "instances": [],
     }
+    if assignment_cells_skipped is not None:
+        rec["assignment_cells_skipped"] = assignment_cells_skipped
     for inst in instances:
         roles = []
         for role, acct in inst.roles.items():

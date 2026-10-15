@@ -63,23 +63,25 @@ def _active_model_id() -> str:
     return os.environ.get(env, "") or os.environ.get("MODEL", "")
 
 
-# Threats whose (level, role) cells in insider_assignment.yaml are IGNORED when a coalition
-# instance file is supplied (--coalitions): their coalitions then come from the instance
-# file only (mole/generator/coalitions.py).
-_INSTANCE_THREATS: frozenset[str] = frozenset({"c4_access_split"})
-_SKIP_THREATS: set[str] = set()
+# Coalitions-only mode (brief 05b): when a coalition instance file is supplied
+# (--coalitions), the instance file is the ONLY source of scenario accounts and EVERY cell
+# of insider_assignment.yaml (solo, collusion, shadow) is ignored, so a branch differs from
+# its honest parent only by the planted coalitions (mole/generator/coalitions.py). Set per
+# invocation in main() from the flag; module-level so the four build_insider_*_map helpers
+# see it without a signature change.
+_COALITIONS_ONLY: bool = False
 
 
 def _flatten_assignment(assignment: dict) -> list[tuple[str, str, str | None, str]]:
     """Return (threat, level, role_label_or_None, account_id) tuples for all
-    solo + collusion + shadow cells (minus _SKIP_THREATS, set by --coalitions)."""
+    solo + collusion + shadow cells; [] in coalitions-only mode (--coalitions)."""
     out: list[tuple[str, str, str | None, str]] = []
+    if _COALITIONS_ONLY:
+        return out
     for sc, levels in (assignment.get("solo") or {}).items():
         for lvl, eid in levels.items():
             out.append((sc, lvl, None, eid))
     for sc, levels in (assignment.get("collusion") or {}).items():
-        if sc in _SKIP_THREATS:
-            continue
         for lvl, roles in levels.items():
             for role, eid in roles.items():
                 out.append((sc, lvl, role, eid))
@@ -340,8 +342,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="Coalition instance file (bootstrap/coalitions_stage2b.yaml, schema "
                          "coalitions-v1): several coalitions of one collusion threat per "
                          "branch, each with its own role->account map, persona files named by "
-                         "instance and a campaign window. Needs --branch-id. The threat's "
-                         "(level, role) cells in insider_assignment.yaml are then ignored. "
+                         "instance and a campaign window. Needs --branch-id. COALITIONS-ONLY: "
+                         "the instance file is then the only source of scenario accounts; "
+                         "EVERY cell of insider_assignment.yaml (solo, collusion, shadow) is "
+                         "ignored (manifest coalitions.assignment_cells_skipped: all). "
                          "Instances are planned only on the scripted path (--multi-day); "
                          "--no-insiders keeps them honest.")
     ap.add_argument("--branch-id", default=None,
@@ -423,12 +427,13 @@ def main(argv: list[str] | None = None) -> int:
     if bool(args.coalitions) != bool(args.branch_id):
         ap.error("--coalitions and --branch-id go together")
     coalition_meta = None
+    global _COALITIONS_ONLY
+    _COALITIONS_ONLY = bool(args.coalitions)
     if args.coalitions:
         if args.persona_set != "agent":
             ap.error("--coalitions supports --persona-set agent only (bootstrap/personas/)")
-        _SKIP_THREATS.update(_INSTANCE_THREATS)
-        print(f"  insider_assignment.yaml cells of {sorted(_INSTANCE_THREATS)} are ignored "
-              f"(coalitions come from {args.coalitions})")
+        print(f"  insider_assignment.yaml: all cells ignored (solo, collusion, shadow); "
+              f"coalitions-only: scenario accounts come from {args.coalitions} alone")
     print(f"loading insider persona map ({args.persona_set} motives from {personas_dir.name}/)...")
     persona_map = build_insider_persona_map(personas_dir)
     threat_map = build_insider_threat_map()
@@ -439,6 +444,7 @@ def main(argv: list[str] | None = None) -> int:
         from mole.generator.coalitions import coalition_maps, load_coalitions
         instances = load_coalitions(args.coalitions, args.branch_id)
         cmaps = coalition_maps(instances, personas_dir)
+        # Guard only: in coalitions-only mode the assignment maps are empty.
         clash = sorted(set(cmaps["threat_map"]) & (set(threat_map) | set(persona_map)))
         if clash:
             ap.error(f"accounts in both insider_assignment.yaml and --coalitions: {clash}")
@@ -449,7 +455,8 @@ def main(argv: list[str] | None = None) -> int:
         coalition_window_map = cmaps["window_map"]
         coalition_role_order_map = cmaps["role_order_map"]
         coalition_meta = {"path": str(args.coalitions), "branch_id": args.branch_id,
-                          "instances": instances, "maps": cmaps}
+                          "instances": instances, "maps": cmaps,
+                          "assignment_cells_skipped": "all"}
         n_found = sum(1 for v in cmaps["found_map"].values() if v)
         print(f"  coalition instances: {len(instances)} in branch {args.branch_id}, "
               f"{len(cmaps['threat_map'])} accounts, {n_found} with a persona file")
