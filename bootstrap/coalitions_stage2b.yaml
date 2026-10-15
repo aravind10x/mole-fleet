@@ -1,0 +1,217 @@
+schema: coalitions-v1
+stage: stage2b
+threat: c4_access_split
+variant: k2_req_app
+draw:
+  seed_string: stage2b-draw-2026-10-15-64ec4fb7f2282fb2f6795701157f911f
+  seed_sha256: 07056cd2d91996c88080c25a4101bc6f481686a805f00a5b2c2080d9ffc15d18
+  procedure: 'work/checks/draw_coalitions.py: random.Random(seed_string); branches
+    A, B, C; instances 1..5; per instance one requester (without replacement across
+    all branches) then one approver (without replacement within the branch); levels
+    s0,s1,s0,s1,s0; target group by level (s0 model-approval, s1 infra-admins); window
+    branch days 1-3'
+  universe: the 50 accounts active in prefix_v1 days 1-2
+  excluded:
+    upstream_colluders:
+    - deepa.g6
+    - ivan.o
+    - kofi.s54
+    - marco.g35
+    - marco.n28
+    - sam.k47
+    - sara.c56
+    - yuki.v49
+    team_managers:
+    - alice.kim
+    - dan.r
+    - frank.s
+    - hannah.m
+    - kara.p
+    reserved_honest_executing_admins:
+    - kofi.o52
+    - liam.h93
+    - mei.s59
+    - nina.t73
+  requester_pool_size: 26
+  approver_pool_size: 10
+reserved_honest_accounts:
+- kofi.o52
+- liam.h93
+- mei.s59
+- nina.t73
+- alice.kim
+- dan.r
+- frank.s
+- hannah.m
+- kara.p
+generation:
+  parent_snapshot: data/corpus/spike/prefix_v1.jsonl (--branch-from; the day-2 snapshot
+    day_2026-04-07 is the parent)
+  accounts: the 50 prefix accounts (--personas, the same list as the prefix)
+  personas: alice.kim,ben.c106,ben.c11,ben.c91,ben.l63,carlos.o55,carlos.v119,dan.r,deepa.a1,deepa.a7,deepa.s107,deepa.t9,elena.r13,elena.r61,frank.s,hannah.m,ines.m31,julian.x,kara.p,kofi.k110,kofi.o52,kofi.p116,lena.n79,liam.h93,liam.w65,maya.h96,mei.s59,mei.w115,nina.l27,nina.n12,nina.t73,noah.g102,omar.s34,paul.k53,priya.a84,raj.c89,raj.k48,raj.n88,sam.l104,sam.w71,sara.p29,tom.k51,tom.m82,wei.i46,wei.n2,wei.o108,yuki.k38,zoe.c36,zoe.g92,zoe.w57
+  days: 5
+  sessions_per_day: 2
+  concurrency: 14
+  mode: agentic
+  flags: --smoke --personas <generation.personas> --no-docker --multi-day --days 5
+    --sessions-per-day 2 --concurrency 14 --branch-from data/corpus/spike/prefix_v1.jsonl
+    --coalitions bootstrap/coalitions_stage2b.yaml --branch-id <A|B|C> --seed <branch
+    seed> --out data/corpus/spike/branch_<A|B|C>.jsonl
+  seeds:
+    A: 20261
+    B: 20262
+    C: 20263
+  estimate_per_branch:
+    usd: 130
+    hours: 20
+    basis: prefix trend day 1 $0.34, day 2 $0.43 per account-day at 49 account-days
+      per day, continued at about $0.50; about 28 sessions per hour at concurrency
+      14
+  fund_before_launch_usd: 260
+  stop_rules: a 402 is a stop; twice the estimate in dollars or wall-clock is a stop
+    (K4)
+branches:
+  A:
+    corpus: branch_A
+    instances:
+    - id: A1
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: tom.m82
+        approver: ines.m31
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: A2
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: ben.c106
+        approver: deepa.s107
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: A3
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: sam.w71
+        approver: mei.w115
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: A4
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: deepa.a1
+        approver: wei.o108
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: A5
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: paul.k53
+        approver: yuki.k38
+      campaign_window:
+        first_day: 1
+        last_day: 3
+  B:
+    corpus: branch_B
+    instances:
+    - id: B1
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: carlos.v119
+        approver: deepa.t9
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: B2
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: wei.i46
+        approver: mei.w115
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: B3
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: sam.l104
+        approver: ines.m31
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: B4
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: elena.r61
+        approver: tom.k51
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: B5
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: priya.a84
+        approver: lena.n79
+      campaign_window:
+        first_day: 1
+        last_day: 3
+  C:
+    corpus: branch_C
+    instances:
+    - id: C1
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: deepa.a7
+        approver: deepa.t9
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: C2
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: zoe.g92
+        approver: tom.k51
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: C3
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: zoe.w57
+        approver: ines.m31
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: C4
+      stealth_level: s1
+      target_group: infra-admins
+      roles:
+        requester: raj.n88
+        approver: wei.n2
+      campaign_window:
+        first_day: 1
+        last_day: 3
+    - id: C5
+      stealth_level: s0
+      target_group: model-approval
+      roles:
+        requester: sara.p29
+        approver: deepa.s107
+      campaign_window:
+        first_day: 1
+        last_day: 3
