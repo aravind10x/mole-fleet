@@ -1,0 +1,16 @@
+# Test fixture for --coalitions (schema coalitions-v1): prefix accounts, no persona files.
+schema: coalitions-v1
+stage: test
+threat: c4_access_split
+variant: k2_req_app
+draw: {seed_sha256: "fixture", procedure: "test fixture, not a draw"}
+reserved_honest_accounts: [nina.t73]
+branches:
+  A:
+    corpus: p3_smoke
+    instances:
+      - id: A1
+        stealth_level: s0
+        target_group: model-approval
+        roles: {requester: deepa.a1, approver: tom.k51}
+        campaign_window: {first_day: 1, last_day: 2}

@@ -110,12 +110,20 @@ _COLLUSION_ROLE_ORDER: dict[str, list[str]] = {
     "c1_release_bypass": ["approver_1", "approver_2"],
     "c2_split_exfil": ["read_access", "egress_access"],
     "c3_release_sabotage": ["config_editor", "eval_runner", "approver"],
+    # c4 = access split (Stage 2b): requester files -> approver approves -> group_admin
+    # executes. No COLLUSION_DECOMP entry on purpose: the persona alone drives each role's
+    # session (directive None). Instances (several coalitions per branch, each with its own
+    # active-role subset and window) come from mole/generator/coalitions.py and reach
+    # build_campaign through its `roles` / `window` arguments.
+    "c4_access_split": ["requester", "approver", "group_admin"],
 }
 
-# Backwards-compatible {role: rank} view over every threat (role labels are unique
-# across threats).
+# Backwards-compatible {role: rank} view over the v1 threats C1 to C3 (their role labels
+# are unique across threats; C4 reuses "approver", so it is excluded from this flat view
+# and is only ever resolved through _role_slot with its own threat id).
 _COLLUSION_ROLE_RANK: dict[str, int] = {
-    role: rank for order in _COLLUSION_ROLE_ORDER.values() for rank, role in enumerate(order)
+    role: rank for tid, order in _COLLUSION_ROLE_ORDER.items() if tid != "c4_access_split"
+    for rank, role in enumerate(order)
 }
 
 
@@ -242,6 +250,8 @@ def build_campaign(
     stealth_level: str | None = None,
     n_campaigns: int = 1,
     gap_range: tuple[int, int] = (2, 6),
+    window: tuple[int, int] | None = None,
+    roles: list[str] | None = None,
 ) -> list[dict]:
     """Deterministic per-insider campaign schedule (scripted multi-day mode).
 
@@ -256,11 +266,23 @@ def build_campaign(
     Collusion directives are filled per ``stealth_level`` (default "s0") from
     ``COLLUSION_TARGETS`` (e.g. the c2 handoff folder differs between s0 and s1).
 
+    Coalition instances (Stage 2b): ``window=(first_day, last_day)`` (1-based indices
+    into ``sim_dates``) restricts the collusion role slices to those days, and
+    ``roles`` (the instance's active roles in acting order) replaces the threat's full
+    role order for the rank / role-count arithmetic, so a two-role instance over a
+    three-day window gives rank 0 the first two days and rank 1 the third. Only the
+    collusion branch reads them; solo threats ignore both.
+
     Pure function of (threat_id, sim_dates, rng state), so it's reproducible per
     member seed. Returns ``[]`` only for an empty window. Never returns an empty
     schedule for a non-empty window, so multi-day mode never falls back to the
     per-session coin-flip.
     """
+    if window is not None:
+        first, last = window
+        if first < 1 or last < first or last > len(sim_dates):
+            raise ValueError(f"campaign window {window} outside 1..{len(sim_dates)}")
+        sim_dates = sim_dates[first - 1:last]
     n = len(sim_dates)
     if n == 0:
         return []
@@ -276,7 +298,10 @@ def build_campaign(
         # knowing another's schedule. Roles with no rank (or role=None: solo
         # non-decomposable / benign), or a window shorter than R days, keep the legacy
         # single random day.
-        slot = _role_slot(threat_id, role)
+        if roles is not None and role in roles:
+            slot: tuple[int, int] | None = (roles.index(role), len(roles))
+        else:
+            slot = _role_slot(threat_id, role)
         if slot is not None and n >= slot[1]:
             lo, hi = _role_day_range(slot[0], slot[1], n)
             idx = rng.randint(lo, hi)

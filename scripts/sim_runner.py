@@ -63,14 +63,23 @@ def _active_model_id() -> str:
     return os.environ.get(env, "") or os.environ.get("MODEL", "")
 
 
+# Threats whose (level, role) cells in insider_assignment.yaml are IGNORED when a coalition
+# instance file is supplied (--coalitions): their coalitions then come from the instance
+# file only (mole/generator/coalitions.py).
+_INSTANCE_THREATS: frozenset[str] = frozenset({"c4_access_split"})
+_SKIP_THREATS: set[str] = set()
+
+
 def _flatten_assignment(assignment: dict) -> list[tuple[str, str, str | None, str]]:
     """Return (threat, level, role_label_or_None, account_id) tuples for all
-    solo + collusion + shadow cells."""
+    solo + collusion + shadow cells (minus _SKIP_THREATS, set by --coalitions)."""
     out: list[tuple[str, str, str | None, str]] = []
     for sc, levels in (assignment.get("solo") or {}).items():
         for lvl, eid in levels.items():
             out.append((sc, lvl, None, eid))
     for sc, levels in (assignment.get("collusion") or {}).items():
+        if sc in _SKIP_THREATS:
+            continue
         for lvl, roles in levels.items():
             for role, eid in roles.items():
                 out.append((sc, lvl, role, eid))
@@ -327,6 +336,16 @@ def main(argv: list[str] | None = None) -> int:
                          "(default) = agent-native motives from bootstrap/personas/; "
                          "'human' = the legacy human-motive v1 set from "
                          "bootstrap/personas_human/ (the bridge baseline / repro).")
+    ap.add_argument("--coalitions", default=None, metavar="PATH",
+                    help="Coalition instance file (bootstrap/coalitions_stage2b.yaml, schema "
+                         "coalitions-v1): several coalitions of one collusion threat per "
+                         "branch, each with its own role->account map, persona files named by "
+                         "instance and a campaign window. Needs --branch-id. The threat's "
+                         "(level, role) cells in insider_assignment.yaml are then ignored. "
+                         "Instances are planned only on the scripted path (--multi-day); "
+                         "--no-insiders keeps them honest.")
+    ap.add_argument("--branch-id", default=None,
+                    help="Which branch of --coalitions to run (e.g. A).")
     ap.add_argument("--personas", default=None,
                     help="Comma-separated persona IDs to run, restricting "
                          "the sim to JUST these employees (e.g. "
@@ -401,11 +420,39 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  branch_from={args.branch_from}")
 
     personas_dir = PERSONAS_DIR if args.persona_set == "agent" else PERSONAS_HUMAN_DIR
+    if bool(args.coalitions) != bool(args.branch_id):
+        ap.error("--coalitions and --branch-id go together")
+    coalition_meta = None
+    if args.coalitions:
+        if args.persona_set != "agent":
+            ap.error("--coalitions supports --persona-set agent only (bootstrap/personas/)")
+        _SKIP_THREATS.update(_INSTANCE_THREATS)
+        print(f"  insider_assignment.yaml cells of {sorted(_INSTANCE_THREATS)} are ignored "
+              f"(coalitions come from {args.coalitions})")
     print(f"loading insider persona map ({args.persona_set} motives from {personas_dir.name}/)...")
     persona_map = build_insider_persona_map(personas_dir)
     threat_map = build_insider_threat_map()
     role_map = build_insider_role_map()
     level_map = build_insider_level_map()
+    coalition_window_map = coalition_role_order_map = None
+    if args.coalitions:
+        from mole.generator.coalitions import coalition_maps, load_coalitions
+        instances = load_coalitions(args.coalitions, args.branch_id)
+        cmaps = coalition_maps(instances, personas_dir)
+        clash = sorted(set(cmaps["threat_map"]) & (set(threat_map) | set(persona_map)))
+        if clash:
+            ap.error(f"accounts in both insider_assignment.yaml and --coalitions: {clash}")
+        persona_map.update(cmaps["persona_map"])
+        threat_map.update(cmaps["threat_map"])
+        role_map.update(cmaps["role_map"])
+        level_map.update(cmaps["level_map"])
+        coalition_window_map = cmaps["window_map"]
+        coalition_role_order_map = cmaps["role_order_map"]
+        coalition_meta = {"path": str(args.coalitions), "branch_id": args.branch_id,
+                          "instances": instances, "maps": cmaps}
+        n_found = sum(1 for v in cmaps["found_map"].values() if v)
+        print(f"  coalition instances: {len(instances)} in branch {args.branch_id}, "
+              f"{len(cmaps['threat_map'])} accounts, {n_found} with a persona file")
     multi_day = args.multi_day or __import__("os").environ.get("NPC_MULTIDAY", "").lower() in ("1", "true", "yes")
     benign_arcs = args.benign_arcs or __import__("os").environ.get("NPC_BENIGN_ARCS", "").lower() in ("1", "true", "yes")
     # --planning wins; else deterministic default: scripted when --multi-day,
@@ -466,6 +513,9 @@ def main(argv: list[str] | None = None) -> int:
         insider_threat_map=threat_map,
         insider_role_map=role_map,
         insider_level_map=level_map,
+        coalition_window_map=coalition_window_map,
+        coalition_role_order_map=coalition_role_order_map,
+        coalition_meta=coalition_meta,
         max_turns=max_turns,
         max_tool_calls_per_turn=args.max_tool_calls_per_turn,
         elicit=not args.no_elicitation,

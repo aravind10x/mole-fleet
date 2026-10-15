@@ -589,8 +589,14 @@ def campaign_schedule_for(
     seed: int | None,
     campaign_days: int,
     attack_session_rate: float,
+    window_map: dict[str, tuple[int, int]] | None = None,
+    role_order_map: dict[str, list[str]] | None = None,
 ) -> list[dict] | None:
     """Per-insider attack schedule handed to AgenticMember(campaign_schedule=...).
+
+    `window_map` / `role_order_map` (coalition instances, mole/generator/coalitions.py):
+    the account's campaign window (1-based first/last working day) and its instance's
+    active roles in order, passed to build_campaign on the scripted path.
 
     Built from a per-member RNG over the working days: "scripted" -> stage->trigger
     campaign; "single" -> K self-contained attack-days. "agentic" -> None (the agent
@@ -612,7 +618,9 @@ def campaign_schedule_for(
         from .campaign import build_campaign
         return build_campaign(threat_map.get(account_id, ""), sim_dates, rng,
                               role=role_map.get(account_id),
-                              stealth_level=level_map.get(account_id)) or None
+                              stealth_level=level_map.get(account_id),
+                              window=(window_map or {}).get(account_id),
+                              roles=(role_order_map or {}).get(account_id)) or None
     if planning == "single":
         # Collusion is inherently multi-day (the requester->co-signer handoff needs
         # >=2 days); single-day can't coordinate it, so collusion insiders run BENIGN
@@ -686,6 +694,9 @@ async def simulate(
     insider_threat_map: dict[str, str] | None = None,
     insider_role_map: dict[str, str] | None = None,
     insider_level_map: dict[str, str] | None = None,
+    coalition_window_map: dict[str, tuple[int, int]] | None = None,
+    coalition_role_order_map: dict[str, list[str]] | None = None,
+    coalition_meta: dict[str, Any] | None = None,
     max_turns: int = 30,
     max_tool_calls_per_turn: int | None = None,   # None -> $MOLE_MAX_TOOL_CALLS_PER_TURN or 24
     elicit: bool = True,
@@ -884,6 +895,15 @@ async def simulate(
     if branch_info is not None:
         manifest["branch_from"] = {k: branch_info[k] for k in ("parent", "day", "managers_path")}
         resume_state.write_atomic(manifest, out_path)
+    if coalition_meta is not None:
+        # Coalition instances (Stage 2b): the plan without dates goes in now (both modes);
+        # the agentic path rewrites it with the planned attack date per role below.
+        from .coalitions import check_windows, manifest_entry
+        check_windows(coalition_meta["instances"], n_days)
+        manifest["coalitions"] = manifest_entry(
+            coalition_meta["path"], coalition_meta["branch_id"],
+            coalition_meta["instances"], coalition_meta["maps"], None)
+        resume_state.write_atomic(manifest, out_path)
 
     # A branch appends to the parent prefix copied into out_path above.
     collector = AuditCollector(jsonl_path=out_path,
@@ -1043,7 +1063,25 @@ async def simulate(
                 account_id, i, planning=planning, persona_map=persona_map,
                 threat_map=threat_map, role_map=role_map, level_map=level_map,
                 sim_dates=_sim_dates, seed=seed, campaign_days=campaign_days,
-                attack_session_rate=attack_session_rate)
+                attack_session_rate=attack_session_rate,
+                window_map=coalition_window_map, role_order_map=coalition_role_order_map)
+
+        if coalition_meta is not None:
+            # Coalition instances (Stage 2b): record the plan (roles, accounts, window and
+            # the planned attack date per role) in the manifest before any session runs.
+            from .coalitions import manifest_entry
+            _sched = {}
+            if _sim_dates:
+                for i, p in enumerate(personas):
+                    if p.id in coalition_meta["maps"]["instance_map"]:
+                        _sched[p.id] = _campaign_for(p.id, i)
+            manifest["coalitions"] = manifest_entry(
+                coalition_meta["path"], coalition_meta["branch_id"],
+                coalition_meta["instances"], coalition_meta["maps"], _sched)
+            resume_state.write_atomic(manifest, out_path)
+            logger.info("coalitions: %d instance(s) from %s (branch %s)",
+                        len(coalition_meta["instances"]), coalition_meta["path"],
+                        coalition_meta["branch_id"])
 
         def _arc_for(persona, i: int):
             # Benign multi-day arc for a NON-INSIDER -- the benign analog of _campaign_for. Off by
