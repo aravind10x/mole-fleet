@@ -252,6 +252,16 @@ class PlaneManager(StateManager):
         m = re.match(rf"^({re.escape(identifier)}-\d+)(?::|\s|$)", name)
         if not m:
             m = re.match(r"^([A-Z][A-Z0-9]*-\d+)(?::|\s|$)", name)
+        # An explicit id that already names a ticket (seeded, created earlier, or
+        # from another project) is NOT honoured: writing it would silently destroy
+        # the existing ticket (seen 2026-10-14: an "OPS-58 follow-up: ..." create
+        # under LLAMA17 overwrote the OPS-58 PTO ticket). The new ticket gets the
+        # project's next free auto id instead, and the result carries
+        # `explicit_id_taken` so the caller sees the id it asked for was in use.
+        explicit_id_taken: str | None = None
+        if m and m.group(1) in ws["issues"]:
+            explicit_id_taken = m.group(1)
+            m = None
         if m:
             issue_id = m.group(1)
         else:
@@ -296,7 +306,10 @@ class PlaneManager(StateManager):
         }
         ws["issues"][issue_id] = issue
         ws["comments"].setdefault(issue_id, [])
-        return copy.deepcopy(issue)
+        out = copy.deepcopy(issue)
+        if explicit_id_taken is not None:
+            out["explicit_id_taken"] = explicit_id_taken
+        return out
 
     async def update_issue(
         self,

@@ -91,11 +91,68 @@ def sens_v1() -> bool:
     return SENSITIVITY["v1"]
 
 
-def create_issue_ids(args: dict) -> list[str]:
-    """Explicit ticket ids of a create_issue (section 1; v1 adds issue_id / identifier)."""
+#: Lower-case ticket ids (TRACK-B part 1 errata item 2; P0 errata 2026-10-15). NOT
+#: pre-registered, NOT bundled with sensitivity v1, default off. Case-insensitive
+#: `<prefix>-<N>` at the start of `name` where the prefix may itself contain hyphens
+#: (released gpt53 per-account ids such as `deepa-a1-214`, which the v1 pattern misses).
+#: The prefix is greedy and the LAST `-<digits>` group before a non-id character is the
+#: number, so a whole hyphenated id is taken (`MEI-S59-241-1` -> `MEI-S59-241-1`, never
+#: the shorter `MEI-S59-241`); an id followed by `-<letters>` (`deepa-a1-214-followup`)
+#: does not match at all.
+TICKET_ID_AT_START_RE_LC = re.compile(r"^\s*([A-Za-z][A-Za-z0-9-]*-[0-9]+)(?![A-Za-z0-9_-])")
+
+#: The lower-case-id switch. RELEASED-CORPUS MODE ONLY: it is ignored on every fork path
+#: (create_issue_ids / rule_values called with fork=True, i.e. under the fork erratum
+#: table, records(fork_erratum=True), and anything run inside `fork_scope()`). Reason: in
+#: fork corpora names such as `raj-c89-201: Onboarding ...` are task labels, the created
+#: ticket id is in result_meta.id (FORK_ERRATUM_RULES), so a case-insensitive name pattern
+#: there would invent ticket artefacts.
+LOWERCASE_IDS: dict[str, bool] = {"on": False}
+_FORK_SCOPE: dict[str, int] = {"depth": 0}
+
+
+def set_lowercase_ids(on: bool) -> None:
+    """Switch the released-corpus lower-case ticket-id pattern on or off (process-wide).
+    Unbundled: independent of `set_sensitivity_v1`; when both are on, this pattern
+    (a superset of the v1 one) is used for the create_issue name."""
+    LOWERCASE_IDS["on"] = bool(on)
+
+
+def lowercase_ids() -> bool:
+    return LOWERCASE_IDS["on"]
+
+
+class fork_scope:
+    """Context manager marking fork-corpus evaluation: inside it the lower-case-id switch
+    is ignored whatever touch table is used (haystack.run_fork enters it, so the fork
+    part 1 table sensitivity `--part1-touch-table` is covered too)."""
+
+    def __enter__(self) -> "fork_scope":
+        _FORK_SCOPE["depth"] += 1
+        return self
+
+    def __exit__(self, *exc: Any) -> None:
+        _FORK_SCOPE["depth"] -= 1
+
+
+def in_fork_scope() -> bool:
+    return _FORK_SCOPE["depth"] > 0
+
+
+def create_issue_id_re(fork: bool = False) -> re.Pattern[str]:
+    """The create_issue name pattern in force: the lower-case-id pattern only on the
+    released path with the switch on; else v1 or the literal pre-registered pattern."""
+    if lowercase_ids() and not fork and not in_fork_scope():
+        return TICKET_ID_AT_START_RE_LC
+    return TICKET_ID_AT_START_RE_V1 if sens_v1() else TICKET_ID_AT_START_RE
+
+
+def create_issue_ids(args: dict, fork: bool = False) -> list[str]:
+    """Explicit ticket ids of a create_issue (section 1; v1 adds issue_id / identifier).
+    `fork=True` (fork erratum table / fork records): the lower-case-id switch is ignored."""
     out: list[str] = []
     name = args.get("name")
-    rx = TICKET_ID_AT_START_RE_V1 if sens_v1() else TICKET_ID_AT_START_RE
+    rx = create_issue_id_re(fork)
     if isinstance(name, str):
         m = rx.match(name)
         if m:
@@ -538,10 +595,12 @@ def _meta_first(meta: dict | None, keys: Sequence[str]) -> list[str]:
     return []
 
 
-def rule_values(rule: TouchRule, args: dict, caller: str, meta: dict | None = None
-                ) -> list[str]:
+def rule_values(rule: TouchRule, args: dict, caller: str, meta: dict | None = None,
+                fork: bool = False) -> list[str]:
     """Artefact values named by one event under one touch rule (section 1; `meta` is the
-    event's `result_meta`, read only by the fork erratum modes `meta` / `first_or_meta`)."""
+    event's `result_meta`, read only by the fork erratum modes `meta` / `first_or_meta`).
+    `fork=True` when evaluated under the fork erratum table (`_touches_fork`): the
+    released-only lower-case-id switch is then ignored by the `name_id` rule."""
     vals: list[str] = []
     keys = rule.keys
     if sens_v1():
@@ -567,7 +626,7 @@ def rule_values(rule: TouchRule, args: dict, caller: str, meta: dict | None = No
                 vals.append(hashlib.sha256(json.dumps(v, sort_keys=True).encode()).hexdigest())
                 break
     elif rule.mode == "name_id":
-        vals.extend(create_issue_ids(args))
+        vals.extend(create_issue_ids(args, fork=fork))
     elif rule.mode == "recipients":
         vals.extend(_recipients(args.get("to")))
     elif rule.mode == "meta":
@@ -664,7 +723,7 @@ def _touches_fork(df: pd.DataFrame, parsed: Sequence[dict] | None) -> pd.DataFra
         for rule in rules_for(svc[i], act[i], fork_erratum=True):
             if not rule.keys and not rule.meta_keys:
                 continue
-            for v in rule_values(rule, parsed[i], acc[i], metas[i]):
+            for v in rule_values(rule, parsed[i], acc[i], metas[i], fork=True):
                 k = (rule.type, rule.sub, rule.kind, v)
                 if k not in seen:
                     seen.add(k)
@@ -826,7 +885,7 @@ def records(df: pd.DataFrame, parsed: Sequence[dict], fork_erratum: bool = False
         project = ""
         if rkind == "ticket":
             if act[i] == "create_issue":
-                ids = create_issue_ids(a)
+                ids = create_issue_ids(a, fork=fork_erratum)
                 ticket = ids[0] if ids else ""
                 if metas is not None:
                     created = _meta_first(metas[i], CREATE_ISSUE_META_KEYS)
@@ -973,8 +1032,9 @@ def load_pairs(path: str | Path) -> list[dict]:
 # ----------------------------------------------------------------------------------
 
 def cache_suffix() -> str:
-    """Cache file-name suffix: empty for the primary run, `.sensv1` for sensitivity v1."""
-    return ".sensv1" if sens_v1() else ""
+    """Cache file-name suffix: empty for the primary run, `.sensv1` for sensitivity v1,
+    `.lcids` appended for the lower-case-id switch (released corpora only)."""
+    return (".sensv1" if sens_v1() else "") + (".lcids" if lowercase_ids() else "")
 
 
 def build_cache(data_dir: str | Path, corpus: str, cache_dir: str | Path,
@@ -997,6 +1057,8 @@ def build_cache(data_dir: str | Path, corpus: str, cache_dir: str | Path,
     meta = {"cache_version": CACHE_VERSION, "sensitivity_v1": sens_v1(), "corpus": corpus, "n_success_events": int(len(df)), "args_parse_failures": fails,
             "real_ts_null": int(df["real_ts"].isna().sum()), "real_ts_max": rt_max,
             "keys": {k: dict(v) for k, v in keys.items()}}
+    if lowercase_ids():
+        meta["lowercase_ids"] = True
     sfx = cache_suffix()
     t.to_parquet(cache / f"{corpus}{sfx}.touches.parquet", index=False)
     r.to_parquet(cache / f"{corpus}{sfx}.records.parquet", index=False)

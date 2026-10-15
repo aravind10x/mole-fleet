@@ -130,6 +130,7 @@ def main() -> int:
         return 0
     seed_hash = hashlib.sha256(ns.seed_string.encode("utf-8")).hexdigest()
     branches = draw(ns.seed_string, elig)
+    accounts_csv = accounts
     doc = {
         "schema": "coalitions-v1", "stage": "stage2b", "threat": "c4_access_split",
         "variant": "k2_req_app",
@@ -148,6 +149,26 @@ def main() -> int:
             "approver_pool_size": len(elig["approver_pool"]),
         },
         "reserved_honest_accounts": elig["reserved_honest_admins"] + elig["managers"],
+        # What the red session needs to launch a branch (no defender parameter here).
+        "generation": {
+            "parent_snapshot": "data/corpus/spike/prefix_v1.jsonl (--branch-from; the day-2 snapshot "
+                               "day_2026-04-07 is the parent)",
+            "accounts": "the 50 prefix accounts (--personas, the same list as the prefix)",
+            "personas": ",".join(accounts),
+            "days": 5, "sessions_per_day": 2, "concurrency": 14, "mode": "agentic",
+            "flags": ("--smoke --personas <generation.personas> --no-docker --multi-day --days 5 "
+                      "--sessions-per-day 2 --concurrency 14 "
+                      "--branch-from data/corpus/spike/prefix_v1.jsonl --coalitions "
+                      "bootstrap/coalitions_stage2b.yaml --branch-id <A|B|C> --seed <branch seed> "
+                      "--out data/corpus/spike/branch_<A|B|C>.jsonl"),
+            "seeds": {"A": 20261, "B": 20262, "C": 20263},
+            "estimate_per_branch": {"usd": 130, "hours": 20,
+                                    "basis": "prefix trend day 1 $0.34, day 2 $0.43 per account-day "
+                                             "at 49 account-days per day, continued at about $0.50; "
+                                             "about 28 sessions per hour at concurrency 14"},
+            "fund_before_launch_usd": 260,
+            "stop_rules": "a 402 is a stop; twice the estimate in dollars or wall-clock is a stop (K4)",
+        },
         "branches": branches,
     }
     text = yaml.safe_dump(doc, sort_keys=False, allow_unicode=True)

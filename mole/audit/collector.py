@@ -520,6 +520,9 @@ _RESULT_META_KEYS = (
     # org protected-group gate (mole/state/org/policy.py): refusal code, break-glass
     # flag and the access-request ticket a grant was executed against.
     "refused", "break_glass", "grant_ticket",
+    # plane.create_issue: the explicit ticket id requested in the name was already
+    # in use, so the ticket was created under the next free auto id instead.
+    "explicit_id_taken",
 )
 _RESULT_META_LIST_CAP = 20
 

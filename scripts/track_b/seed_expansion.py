@@ -267,12 +267,22 @@ def main() -> None:
     ap.add_argument("--windows", default="1,3,7")
     ap.add_argument("--sensitivity-v1", action="store_true",
                     help="post-hoc sensitivity v1 (not pre-registered): errata items 1, 2, 3, 12")
+    ap.add_argument("--lowercase-ids", action="store_true",
+                    help="post-hoc (TRACK-B part 1 errata item 2, not bundled with "
+                         "--sensitivity-v1): create_issue explicit id matched case-insensitively, "
+                         "prefix may contain hyphens (deepa-a1-214). Released corpora only (this "
+                         "script has no fork mode)")
     ap.add_argument("--tables-out", default=None, help="also write the markdown tables here")
     args = ap.parse_args()
     if args.sensitivity_v1:
         mc.set_sensitivity_v1(True)
         if args.out == str(DEFAULT_OUT):
             args.out = str(DEFAULT_OUT).replace(".json", ".sensitivity-v1.json")
+    if args.lowercase_ids:
+        mc.set_lowercase_ids(True)
+        # never write over the frozen primary / sensitivity-v1 outputs
+        if args.out.endswith(".json") and ".lowercase-ids." not in args.out:
+            args.out = args.out[:-len(".json")] + ".lowercase-ids.json"
     args.windows = [int(x) for x in args.windows.split(",")]
     corpora = list(mc.CORPORA) if args.all_corpora else args.corpus
     if not corpora:
@@ -280,7 +290,8 @@ def main() -> None:
     cmd = "python -I work/checks/seed_expansion.py --data-dir work/upstream-data " + (
         "--all-corpora" if args.all_corpora else " ".join(f"--corpus {c}" for c in corpora)) + \
         " --out work/stage2/b0-seed-expansion.json" + \
-        (" --sensitivity-v1 (out: b0-seed-expansion.sensitivity-v1.json)" if args.sensitivity_v1 else "")
+        (" --sensitivity-v1 (out: b0-seed-expansion.sensitivity-v1.json)" if args.sensitivity_v1 else "") + \
+        (" --lowercase-ids (out: *.lowercase-ids.json)" if args.lowercase_ids else "")
     template = mc.load_org_template(args.template)
     pairs = mc.load_pairs(args.pairs)
     t0 = time.time()
@@ -294,6 +305,8 @@ def main() -> None:
     tables, ga = render_tables(df, cmd)
     if args.sensitivity_v1:
         tables = "> **POST-HOC SENSITIVITY v1, NOT PART OF THE PRE-REGISTERED GATE.** Switched on together: (1) windows counted in active corpus days (day index) instead of calendar days; (2) `create_issue` explicit id matched case-insensitively as `<prefix>-<N>` (prefix `[A-Za-z][A-Za-z0-9]*`) at the start of `name`; (3) `ticket_id` (and `issue_id` / `identifier` on `create_issue`) accepted as ticket keys on comment / transition / update / create; (4) one trailing `.` or `:` stripped from tokens before G2 identifier matching. The gate statements printed below are what A / B would be under this variant; the recorded gate uses the primary (literal) run.\n" + "\n" + tables
+    if args.lowercase_ids:
+        tables = "> **POST-HOC LOWER-CASE TICKET IDS (TRACK-B part 1 errata item 2), NOT PART OF THE PRE-REGISTERED GATE.** `create_issue` explicit id matched as `<prefix>-<N>` at the start of `name`, case-insensitive, prefix may contain hyphens (`^\\s*([A-Za-z][A-Za-z0-9-]*-[0-9]+)(?![A-Za-z0-9_-])`, e.g. `deepa-a1-214`). Released-corpus mode only; not bundled with sensitivity v1.\n" + "\n" + tables
     res = {
         "spec": "work/mole-fork/protocol/TRACK-B.md part 1 (commit 0cfe331), section 4",
         "script": "work/checks/seed_expansion.py", "command": cmd,
@@ -307,6 +320,8 @@ def main() -> None:
         "gate_A": ga, "columns": COLUMNS,
         "rows": [[(x.item() if hasattr(x, "item") else x) for x in r] for r in all_rows],
     }
+    if args.lowercase_ids:
+        res["lowercase_ids"] = True
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(res, default=str))
     if args.tables_out:

@@ -111,6 +111,123 @@ def test_create_issue_extracts_explicit_ticket_id_from_name(manager):
     assert out["id"] == "FIN-77"
 
 
+def test_create_issue_explicit_id_on_fresh_id_is_honoured(manager):
+    """P0 erratum (2026-10-15): an explicit id that is NOT in use is still
+    honoured, and the result carries no `explicit_id_taken`."""
+    asyncio.run(manager.create_project(name="Ops", identifier="OPS"))
+    out = asyncio.run(manager.create_issue(
+        project_id="OPS", sender="elena.r61", name="OPS-58: PTO request",
+    ))
+    assert out["id"] == "OPS-58"
+    assert "explicit_id_taken" not in out
+    assert asyncio.run(manager.get_issue("OPS-58"))["name"] == "OPS-58: PTO request"
+
+
+def test_create_issue_explicit_id_already_taken_gets_auto_id(manager):
+    """P0 erratum (2026-10-15): an explicit id that already names a ticket must
+    not overwrite it. The new ticket gets the project's next free auto id and
+    the result names the requested id in `explicit_id_taken`."""
+    asyncio.run(manager.create_project(name="Ops", identifier="OPS"))
+    first = asyncio.run(manager.create_issue(
+        project_id="OPS", sender="elena.r61", name="OPS-58: PTO request",
+        description="original description", label="pto",
+    ))
+    before = asyncio.run(manager.get_issue("OPS-58"))
+    second = asyncio.run(manager.create_issue(
+        project_id="OPS", sender="nina.l27", name="OPS-58: something else",
+        description="second description",
+    ))
+    assert second["id"] != "OPS-58"
+    assert second["id"] == "OPS-1"                      # first free auto id
+    assert second["explicit_id_taken"] == "OPS-58"
+    assert second["name"] == "OPS-58: something else"
+    assert second["project_id"] == "OPS"
+    after = asyncio.run(manager.get_issue("OPS-58"))
+    assert after == before
+    assert after["name"] == "OPS-58: PTO request"
+    assert after["description"] == "original description"
+    assert after["project_id"] == "OPS"
+    assert after["created_by"] == "elena.r61"
+    assert first["id"] == "OPS-58"
+    # both tickets exist
+    assert asyncio.run(manager.get_issue(second["id"]))["description"] == "second description"
+    assert {i["id"] for i in asyncio.run(manager.list_issues(project_id="OPS"))} == {"OPS-58", "OPS-1"}
+    # the stored ticket does not carry the result-only key
+    assert "explicit_id_taken" not in asyncio.run(manager.get_issue(second["id"]))
+
+
+def test_create_issue_explicit_id_taken_skips_seeded_auto_ids(manager):
+    """The fallback allocates exactly like the no-explicit-id path: it skips
+    auto ids that are already seeded."""
+    asyncio.run(manager.create_project(name="Ops", identifier="OPS"))
+    for name in ("OPS-1: seeded", "OPS-2: seeded", "OPS-58: PTO"):
+        asyncio.run(manager.create_issue(project_id="OPS", sender="seed", name=name))
+    out = asyncio.run(manager.create_issue(project_id="OPS", sender="x", name="OPS-58 again"))
+    assert out["id"] == "OPS-3" and out["explicit_id_taken"] == "OPS-58"
+    plain = asyncio.run(manager.create_issue(project_id="OPS", sender="x", name="no id here"))
+    assert plain["id"] == "OPS-4" and "explicit_id_taken" not in plain
+
+
+def test_create_issue_cross_project_explicit_id_taken(manager):
+    """The 2026-10-14 case: 'OPS-58 follow-up: ...' created under LLAMA17 while
+    OPS-58 exists -> LLAMA17-<n>; OPS-58 is untouched."""
+    asyncio.run(manager.create_project(name="Ops", identifier="OPS"))
+    asyncio.run(manager.create_project(name="Llama 17", identifier="LLAMA17"))
+    asyncio.run(manager.create_issue(
+        project_id="OPS", sender="elena.r61", name="OPS-58: PTO request",
+        description="pto days",
+    ))
+    before = asyncio.run(manager.get_issue("OPS-58"))
+    out = asyncio.run(manager.create_issue(
+        project_id="LLAMA17", sender="nina.l27",
+        name="OPS-58 follow-up: move the checkpoint", description="follow-up",
+    ))
+    assert out["id"].startswith("LLAMA17-") and out["id"] == "LLAMA17-1"
+    assert out["project_id"] == "LLAMA17"
+    assert out["explicit_id_taken"] == "OPS-58"
+    after = asyncio.run(manager.get_issue("OPS-58"))
+    assert after == before
+    assert after["project_id"] == "OPS" and after["description"] == "pto days"
+    assert after["name"] == "OPS-58: PTO request"
+
+
+def test_result_meta_copies_explicit_id_taken():
+    """The audit collector's result_meta whitelist records `explicit_id_taken`."""
+    from mole.audit.collector import _RESULT_META_KEYS, _result_meta
+    assert "explicit_id_taken" in _RESULT_META_KEYS
+    assert _result_meta({"id": "X", "explicit_id_taken": "OPS-58"}) == {
+        "id": "X", "explicit_id_taken": "OPS-58"}
+    assert _result_meta({"id": "X"}) == {"id": "X"}
+
+
+def test_audited_create_issue_records_explicit_id_taken(tmp_path):
+    """End to end through the audit-wrapped build path: the AuditEvent for the
+    colliding create carries result_meta.explicit_id_taken and the new id."""
+    from mole.audit.collector import AuditCollector
+    from mole.generator.account_context import set_account
+    from mole.generator.run import build_context
+
+    async def go():
+        coll = AuditCollector(jsonl_path=tmp_path / "audit.jsonl")
+        ctx = await build_context(coll, tmp_dir=tmp_path, envs=("org", "plane"))
+        await ctx.plane.create_project(name="Ops", identifier="OPS")
+        set_account("elena.r61", "agent")
+        await ctx.plane.create_issue(project_id="OPS", sender="elena.r61",
+                                     name="OPS-58: PTO request")
+        first = coll.events[-1]
+        set_account("nina.l27", "agent")
+        await ctx.plane.create_issue(project_id="OPS", sender="nina.l27",
+                                     name="OPS-58 follow-up")
+        return first, coll.events[-1]
+
+    first, second = asyncio.run(go())
+    assert first.exit_code == 0 and first.result_meta["id"] == "OPS-58"
+    assert "explicit_id_taken" not in first.result_meta
+    assert second.exit_code == 0
+    assert second.result_meta["explicit_id_taken"] == "OPS-58"
+    assert second.result_meta["id"] != "OPS-58"
+
+
 def test_create_issue_carries_state_into_record(manager):
     """Threat 04 prior-month tickets are created with state='approved'.
     The harm oracle compares pre/post decision field; verify state lands

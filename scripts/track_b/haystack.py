@@ -607,11 +607,17 @@ def touch_coverage(df: pd.DataFrame, parsed: list[dict], tdf: pd.DataFrame,
 
 def run_fork(path: str, template: mc.OrgTemplate, fork_erratum: bool = True
              ) -> dict[str, Any]:
-    import hashlib
     t0 = time.time()
     p = Path(path)
     label = p.name[:-len(".jsonl")] if p.name.endswith(".jsonl") else p.stem
     df = mc.load_fork_audit(p)
+    with mc.fork_scope():   # fork corpus: the released-only lower-case-id switch is ignored
+        return _run_fork_body(p, label, df, template, fork_erratum, t0)
+
+
+def _run_fork_body(p: Path, label: str, df: pd.DataFrame, template: mc.OrgTemplate,
+                   fork_erratum: bool, t0: float) -> dict[str, Any]:
+    import hashlib
     parsed, fails = mc.parse_args_column(df["args"])
     keys = mc.key_usage_table(df, parsed)
     meta_keys = mc.key_usage_table(df, list(df["result_meta"]))
@@ -839,12 +845,17 @@ def main() -> None:
                     help="comma list of corpora to run N-scaling on, or 'all'")
     ap.add_argument("--sensitivity-v1", action="store_true",
                     help="post-hoc sensitivity v1 (not pre-registered): errata items 1, 2, 3, 12")
+    ap.add_argument("--lowercase-ids", action="store_true",
+                    help="released-corpus mode only, post-hoc (TRACK-B part 1 errata item 2, "
+                         "not bundled with --sensitivity-v1): create_issue explicit id matched "
+                         "case-insensitively, prefix may contain hyphens (deepa-a1-214)")
     ap.add_argument("--tables-out", default=None)
     args = ap.parse_args()
     if args.fork_corpus:
-        if args.data_dir or args.corpus or args.all_corpora or args.sensitivity_v1:
+        if (args.data_dir or args.corpus or args.all_corpora or args.sensitivity_v1
+                or args.lowercase_ids):
             ap.error("--fork-corpus excludes --data-dir / --corpus / --all-corpora / "
-                     "--sensitivity-v1")
+                     "--sensitivity-v1 / --lowercase-ids")
         main_fork(args)
         return
     if not args.data_dir:
@@ -855,6 +866,13 @@ def main() -> None:
             args.out = str(DEFAULT_OUT).replace(".json", ".sensitivity-v1.json")
         if args.fig == str(DEFAULT_FIG):
             args.fig = str(DEFAULT_FIG).replace(".png", ".sensitivity-v1.png")
+    if args.lowercase_ids:
+        mc.set_lowercase_ids(True)
+        # never write over the frozen primary / sensitivity-v1 outputs
+        if args.out.endswith(".json") and ".lowercase-ids." not in args.out:
+            args.out = args.out[:-len(".json")] + ".lowercase-ids.json"
+        if args.fig.endswith(".png") and ".lowercase-ids." not in args.fig:
+            args.fig = args.fig[:-len(".png")] + ".lowercase-ids.png"
     args.windows = [int(x) for x in args.windows.split(",")]
     corpora = list(mc.CORPORA) if args.all_corpora else args.corpus
     if not corpora:
@@ -863,7 +881,8 @@ def main() -> None:
     cmd = "python -I work/checks/haystack.py --data-dir work/upstream-data " + (
         "--all-corpora" if args.all_corpora else " ".join(f"--corpus {c}" for c in corpora)) + \
         " --out work/stage2/b1-haystack.json --fig work/stage2/fig-n-scaling.png" + \
-        (" --sensitivity-v1 (out: *.sensitivity-v1.*)" if args.sensitivity_v1 else "")
+        (" --sensitivity-v1 (out: *.sensitivity-v1.*)" if args.sensitivity_v1 else "") + \
+        (" --lowercase-ids (out: *.lowercase-ids.*)" if args.lowercase_ids else "")
     template = mc.load_org_template(args.template)
     t0 = time.time()
     results: dict[str, Any] = {}
@@ -874,6 +893,8 @@ def main() -> None:
     tables = render(results, gate, cmd, args.windows)
     if args.sensitivity_v1:
         tables = "> **POST-HOC SENSITIVITY v1, NOT PART OF THE PRE-REGISTERED GATE.** Switched on together: (1) windows counted in active corpus days (day index) instead of calendar days; (2) `create_issue` explicit id matched case-insensitively as `<prefix>-<N>` (prefix `[A-Za-z][A-Za-z0-9]*`) at the start of `name`; (3) `ticket_id` (and `issue_id` / `identifier` on `create_issue`) accepted as ticket keys on comment / transition / update / create; (4) one trailing `.` or `:` stripped from tokens before G2 identifier matching. The gate statements printed below are what A / B would be under this variant; the recorded gate uses the primary (literal) run.\n" + "\n" + tables
+    if args.lowercase_ids:
+        tables = "> **POST-HOC LOWER-CASE TICKET IDS (TRACK-B part 1 errata item 2), NOT PART OF THE PRE-REGISTERED GATE.** `create_issue` explicit id matched as `<prefix>-<N>` at the start of `name`, case-insensitive, prefix may contain hyphens (`^\\s*([A-Za-z][A-Za-z0-9-]*-[0-9]+)(?![A-Za-z0-9_-])`, e.g. `deepa-a1-214`). Released-corpus mode only; not bundled with sensitivity v1.\n" + "\n" + tables
     res = {"spec": "work/mole-fork/protocol/TRACK-B.md part 1 (commit 0cfe331), section 5",
            "script": "work/checks/haystack.py", "command": cmd,
            "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -885,6 +906,8 @@ def main() -> None:
            "sensitivity_v1": bool(args.sensitivity_v1),
            "runtime_s_total": round(time.time() - t0, 1), "gate_B": gate,
            "corpora": results}
+    if args.lowercase_ids:
+        res["lowercase_ids"] = True
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(res, default=lambda o: o.item() if hasattr(o, "item")
                                          else str(o)))
