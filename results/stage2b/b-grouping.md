@@ -418,7 +418,7 @@ Branch C:
 
 ### C.1 Post-hoc label variants (outside the pre-registration; verdict unchanged)
 
-The frozen code was run unchanged on two label files derived mechanically from the frozen labels by `work/checks/posthoc_labels.py` (full reports: `b-grouping.posthoc-executed_route.md`, `b-grouping.posthoc-footprint_pair.md`). **Executed route:** members unchanged, every executed coalition counted with the grant day as reference (12 coalitions). **Footprint pair:** members = requester and the actor of the first granting add, whether or not that actor is the drawn approver (12 coalitions; in 4 the admin is honest).
+The frozen code was run unchanged on two label files derived mechanically from the frozen labels by `work/checks/posthoc_labels.py` (full reports: `b-grouping.posthoc-executed_route.md`, `b-grouping.posthoc-footprint_pair.md`). **Executed route:** members unchanged, every executed coalition counted with the grant day as reference (12 coalitions). **Footprint pair:** members = requester and the actor of the first granting add, whether or not that actor is the drawn approver (12 coalitions; in 4 the admin is honest). Reading note: the "Labels (pooled)" row below is the frozen label summary that the code prints (attempted 4); the post-hoc denominators are the 12 coalitions with a grant day. The code's three-way line is printed mechanically (12 ≥ 10 so it no longer says "inconclusive by design"); it is NOT a verdict: K3 is pre-registered on the frozen labels only and stays inconclusive by design.
 
 **Executed route.** Labels (pooled): `| pooled | 15 | 4 | 11 | 11 | 11 | 0.27 |`
 
