@@ -1,0 +1,136 @@
+{
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/branch_C.jsonl",
+ "corpus_stem": "branch_C",
+ "corpus_manifest": {
+  "n_days_planned": 5,
+  "days_completed": [
+   "2026-04-08",
+   "2026-04-09",
+   "2026-04-10",
+   "2026-04-13",
+   "2026-04-14"
+  ],
+  "last_audit_bytes": 42203300,
+  "file_bytes": 42203300,
+  "past_last_boundary": false,
+  "branch_from": {
+   "parent": "data/corpus/spike/prefix_v1.jsonl",
+   "day": "2026-04-07",
+   "managers_path": "data/corpus/spike/.snapshots/prefix_v1/day_2026-04-07/managers.json"
+  }
+ },
+ "n_events": 51891,
+ "n_skipped_lines": 0,
+ "n_dates": 7,
+ "model": "anthropic.claude-sonnet-5",
+ "provider": "bedrock",
+ "region": "us-east-1",
+ "prompt_version": "c3-release-judge/v2+f1-intros/v1",
+ "request_params": {
+  "model": "anthropic.claude-sonnet-5",
+  "max_tokens": 900,
+  "thinking": {
+   "type": "disabled"
+  },
+  "system_sha256": "e7b8657a1e51dce73b9f63dea949391f9ddc101ec691ad2d7b64c6f1a09e77f1",
+  "system_chars": 904
+ },
+ "judge_system_sha256": "e7b8657a1e51dce73b9f63dea949391f9ddc101ec691ad2d7b64c6f1a09e77f1",
+ "p_packet_intro_sha256": "decda433594d123b41ea5fcfba8016c50f45128629e7541c32502dd0dfa20724",
+ "packet_cap_chars": 150000,
+ "view": "P",
+ "label_format": "<corpus stem>:<account>/<date>",
+ "concurrency": 4,
+ "rpm": 40,
+ "spend_cap_usd": 30.0,
+ "cache": "/Users/aravind/KruxAI/tais-project-selection/work/stage2/scores/judge-cache.branch_C.anthropic-claude-sonnet-5.jsonl",
+ "batch_log": "/Users/aravind/KruxAI/tais-project-selection/work/stage2/scores/judge-batches.jsonl",
+ "estimate": {
+  "n_account_days": 344,
+  "packet_chars": 11496093,
+  "system_chars_per_call": 904,
+  "input_chars": 11807069,
+  "est_input_tokens": 5491660,
+  "est_output_tokens": 79120,
+  "est_cost_usd": 11.7745,
+  "chars_per_token": 2.15,
+  "usd_per_mtok_in": 2.0,
+  "usd_per_mtok_out": 10.0,
+  "output_tokens_per_call": 230,
+  "n_truncated": 0
+ },
+ "n_target": 344,
+ "n_rows": 344,
+ "aborted": null,
+ "summary": {
+  "n": 344,
+  "by_outcome": {
+   "scored": 344,
+   "refused": 0,
+   "errored": 0
+  },
+  "dollars_total": 12.547194,
+  "mean_input_tokens": 17048.072674418603,
+  "mean_output_tokens": 237.82558139534885,
+  "mean_cost_usd": 0.036474401162790694,
+  "mean_latency_s": 5.968302325581395,
+  "mean_attempts": 1.0,
+  "n_truncated": 0,
+  "refusal_categories": {}
+ },
+ "score_distribution": {
+  "n_scored": 344,
+  "mean": 24.081,
+  "p50": 10.0,
+  "p90": 72.0,
+  "p95": 85.0,
+  "p99": 92.0,
+  "max": 92.0,
+  "share_ge_50": 0.206395,
+  "n_ge_50": 71,
+  "n_flag_true": 71
+ },
+ "judge_stats": {
+  "calls": 344,
+  "requests": 344,
+  "cached": 0,
+  "scored": 344,
+  "refused": 0,
+  "errored": 0,
+  "input_tokens": 5864537,
+  "output_tokens": 81812,
+  "cache_read_tokens": 0,
+  "cache_write_tokens": 0,
+  "rate_waits": 129,
+  "n_429": 0,
+  "transient_retries": 0,
+  "parse_retries": 0,
+  "refusal_retries": 0,
+  "dollars": 12.547194,
+  "dollars_cached": 0.0,
+  "dollars_total": 12.547194,
+  "aborted": null,
+  "model": "anthropic.claude-sonnet-5",
+  "provider": "bedrock",
+  "region": "us-east-1"
+ },
+ "wall_clock_s": 515.5,
+ "script": "/Users/aravind/KruxAI/tais-project-selection/work/checks/score_fork_corpus.py",
+ "script_sha256": "01bca5c9c512249b5d08ef3d9923d015ce8a33de503bc250ad115e50bab24091",
+ "judge_client_sha256": "440a55e1b4c163663052a0d5c1f0904723846070efa81e87ed6882f4848908b5",
+ "timestamp": "2026-10-18T15:16:15+00:00",
+ "python": "3.12.9",
+ "out": "/Users/aravind/KruxAI/tais-project-selection/work/stage2/scores/branch_C.expensive.parquet",
+ "complete": true,
+ "counts_by_outcome": {
+  "scored": 344,
+  "refused": 0,
+  "errored": 0
+ },
+ "dollars_total": 12.547194,
+ "mean_tokens_per_call": {
+  "input": 17048.072674418603,
+  "output": 237.82558139534885
+ },
+ "n_missing": 0
+}

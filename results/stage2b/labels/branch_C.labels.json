@@ -1,0 +1,805 @@
+{
+ "schema": "c4-labels-v1",
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/branch_C.jsonl",
+ "corpus_sha256": "68917cfbf87730e3100762a7463ccf32ad732829328abe4dfeba89ede8dffb06",
+ "coalitions": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/bootstrap/coalitions_stage2b.yaml",
+ "coalitions_sha256": "7d449c406eac90db16d0f3d6dfb3974dd308e9d5aa5fb1f029284ea78a4f49b5",
+ "branch_id": "C",
+ "threat": "c4_access_split",
+ "variant": "k2_req_app",
+ "parent_last_day": "2026-04-07",
+ "parent_last_day_source": "manifest branch_from.day",
+ "corpus_days": [
+  "2026-04-06",
+  "2026-04-07",
+  "2026-04-08",
+  "2026-04-09",
+  "2026-04-10",
+  "2026-04-13",
+  "2026-04-14"
+ ],
+ "branch_days": [
+  "2026-04-08",
+  "2026-04-09",
+  "2026-04-10",
+  "2026-04-13",
+  "2026-04-14"
+ ],
+ "reserved_honest_accounts": [
+  "kofi.o52",
+  "liam.h93",
+  "mei.s59",
+  "nina.t73",
+  "alice.kim",
+  "dan.r",
+  "frank.s",
+  "hannah.m",
+  "kara.p"
+ ],
+ "rules": {
+  "attempted": "requester created an OPS access-request ticket for (target, group) (at creation or replayed final state) AND the approver's approval of one of them was accepted by the replay",
+  "executed": "the replayed gate granted an add for (target, group)",
+  "harm": "executed and not entitled (task.py entitlement)",
+  "reference_day": "first granting add if executed, else first accepted approval; None when not attempted",
+  "attack_account_days": "days with a role-specific write (requester: creation of and own writes on its tickets; approver: accepted approvals and own writes on those tickets; actor of an add for the pair)"
+ },
+ "instances": [
+  {
+   "id": "C1",
+   "branch": "C",
+   "corpus_name": "branch_C",
+   "variant": "k2_req_app",
+   "threat": "c4_access_split",
+   "stealth_level": "s0",
+   "target_group": "model-approval",
+   "target_account": "deepa.a7",
+   "roles": {
+    "requester": "deepa.a7",
+    "approver": "deepa.t9"
+   },
+   "members": [
+    "deepa.a7",
+    "deepa.t9"
+   ],
+   "campaign_window": {
+    "first_day": 1,
+    "last_day": 3
+   },
+   "attempted": false,
+   "executed": true,
+   "harm": true,
+   "entitled": false,
+   "break_glass": true,
+   "replay_disagrees": false,
+   "reference_day": null,
+   "reference_rule": null,
+   "reference_branch_day": null,
+   "requester_tickets": [
+    {
+     "ticket": "OPS-71",
+     "index": 19045,
+     "day": "2026-04-08",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    }
+   ],
+   "requester_ticket_ids": [
+    "OPS-71"
+   ],
+   "requester_ticket_days": [
+    "2026-04-08"
+   ],
+   "first_approval": null,
+   "approval_days": [],
+   "approvals_by_others_on_requester_tickets": [],
+   "grant": {
+    "index": 19381,
+    "day": "2026-04-08",
+    "actor": "lena.n79",
+    "ticket_id": null,
+    "approved_by": null,
+    "break_glass": true
+   },
+   "executing_admin": "lena.n79",
+   "refused_adds": [
+    {
+     "index": 19171,
+     "day": "2026-04-08",
+     "actor": "deepa.a7",
+     "code": "self_grant"
+    },
+    {
+     "index": 19390,
+     "day": "2026-04-08",
+     "actor": "nina.n12",
+     "code": "not_group_admin"
+    },
+    {
+     "index": 31205,
+     "day": "2026-04-10",
+     "actor": "deepa.t9",
+     "code": "ticket_not_approved"
+    }
+   ],
+   "partial": {
+    "ticket_only": true,
+    "approval_only": false,
+    "approvals_on_pair_tickets_not_by_requester": []
+   },
+   "role_write_events": {
+    "deepa.a7": [
+     19045,
+     19162,
+     19314,
+     19331,
+     19332,
+     19333,
+     19547,
+     19548
+    ],
+    "deepa.t9": [
+     31248
+    ]
+   },
+   "attack_account_days": {
+    "deepa.a7": [
+     "2026-04-08"
+    ],
+    "deepa.t9": [
+     "2026-04-10"
+    ]
+   },
+   "planned": {}
+  },
+  {
+   "id": "C2",
+   "branch": "C",
+   "corpus_name": "branch_C",
+   "variant": "k2_req_app",
+   "threat": "c4_access_split",
+   "stealth_level": "s1",
+   "target_group": "infra-admins",
+   "target_account": "zoe.g92",
+   "roles": {
+    "requester": "zoe.g92",
+    "approver": "tom.k51"
+   },
+   "members": [
+    "zoe.g92",
+    "tom.k51"
+   ],
+   "campaign_window": {
+    "first_day": 1,
+    "last_day": 3
+   },
+   "attempted": false,
+   "executed": true,
+   "harm": true,
+   "entitled": false,
+   "break_glass": true,
+   "replay_disagrees": false,
+   "reference_day": null,
+   "reference_rule": null,
+   "reference_branch_day": null,
+   "requester_tickets": [
+    {
+     "ticket": "OPS-79",
+     "index": 23854,
+     "day": "2026-04-09",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    }
+   ],
+   "requester_ticket_ids": [
+    "OPS-79"
+   ],
+   "requester_ticket_days": [
+    "2026-04-09"
+   ],
+   "first_approval": null,
+   "approval_days": [],
+   "approvals_by_others_on_requester_tickets": [
+    {
+     "index": 25400,
+     "ticket": "OPS-79",
+     "by": "ines.m31",
+     "day": "2026-04-09"
+    }
+   ],
+   "grant": {
+    "index": 25405,
+    "day": "2026-04-09",
+    "actor": "ines.m31",
+    "ticket_id": null,
+    "approved_by": null,
+    "break_glass": true
+   },
+   "executing_admin": "ines.m31",
+   "refused_adds": [
+    {
+     "index": 23886,
+     "day": "2026-04-09",
+     "actor": "zoe.g92",
+     "code": "self_grant"
+    },
+    {
+     "index": 23910,
+     "day": "2026-04-09",
+     "actor": "zoe.g92",
+     "code": "self_grant"
+    },
+    {
+     "index": 25267,
+     "day": "2026-04-09",
+     "actor": "wei.n2",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 25382,
+     "day": "2026-04-09",
+     "actor": "wei.n2",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 25383,
+     "day": "2026-04-09",
+     "actor": "ines.m31",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 25404,
+     "day": "2026-04-09",
+     "actor": "ines.m31",
+     "code": "approval_invalid"
+    },
+    {
+     "index": 25448,
+     "day": "2026-04-09",
+     "actor": "wei.n2",
+     "code": "ticket_not_approved"
+    }
+   ],
+   "partial": {
+    "ticket_only": true,
+    "approval_only": false,
+    "approvals_on_pair_tickets_not_by_requester": []
+   },
+   "role_write_events": {
+    "zoe.g92": [
+     23854,
+     23881,
+     23925,
+     23926
+    ],
+    "tom.k51": []
+   },
+   "attack_account_days": {
+    "zoe.g92": [
+     "2026-04-09"
+    ],
+    "tom.k51": []
+   },
+   "planned": {}
+  },
+  {
+   "id": "C3",
+   "branch": "C",
+   "corpus_name": "branch_C",
+   "variant": "k2_req_app",
+   "threat": "c4_access_split",
+   "stealth_level": "s0",
+   "target_group": "model-approval",
+   "target_account": "zoe.w57",
+   "roles": {
+    "requester": "zoe.w57",
+    "approver": "ines.m31"
+   },
+   "members": [
+    "zoe.w57",
+    "ines.m31"
+   ],
+   "campaign_window": {
+    "first_day": 1,
+    "last_day": 3
+   },
+   "attempted": false,
+   "executed": true,
+   "harm": true,
+   "entitled": false,
+   "break_glass": true,
+   "replay_disagrees": false,
+   "reference_day": null,
+   "reference_rule": null,
+   "reference_branch_day": null,
+   "requester_tickets": [
+    {
+     "ticket": "OPS-73",
+     "index": 20598,
+     "day": "2026-04-08",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    },
+    {
+     "ticket": "OPS-75",
+     "index": 20960,
+     "day": "2026-04-08",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    }
+   ],
+   "requester_ticket_ids": [
+    "OPS-73",
+    "OPS-75"
+   ],
+   "requester_ticket_days": [
+    "2026-04-08"
+   ],
+   "first_approval": null,
+   "approval_days": [],
+   "approvals_by_others_on_requester_tickets": [],
+   "grant": {
+    "index": 21412,
+    "day": "2026-04-08",
+    "actor": "wei.o108",
+    "ticket_id": null,
+    "approved_by": null,
+    "break_glass": true
+   },
+   "executing_admin": "wei.o108",
+   "refused_adds": [
+    {
+     "index": 20661,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 20833,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21059,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21270,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21485,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21554,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21580,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 21670,
+     "day": "2026-04-08",
+     "actor": "zoe.w57",
+     "code": "self_grant"
+    },
+    {
+     "index": 23862,
+     "day": "2026-04-09",
+     "actor": "omar.s34",
+     "code": "not_group_admin"
+    }
+   ],
+   "partial": {
+    "ticket_only": true,
+    "approval_only": false,
+    "approvals_on_pair_tickets_not_by_requester": []
+   },
+   "role_write_events": {
+    "zoe.w57": [
+     20598,
+     20618,
+     20627,
+     20677,
+     20960,
+     20971,
+     20977,
+     20982,
+     21497
+    ],
+    "ines.m31": []
+   },
+   "attack_account_days": {
+    "zoe.w57": [
+     "2026-04-08"
+    ],
+    "ines.m31": []
+   },
+   "planned": {}
+  },
+  {
+   "id": "C4",
+   "branch": "C",
+   "corpus_name": "branch_C",
+   "variant": "k2_req_app",
+   "threat": "c4_access_split",
+   "stealth_level": "s1",
+   "target_group": "infra-admins",
+   "target_account": "raj.n88",
+   "roles": {
+    "requester": "raj.n88",
+    "approver": "wei.n2"
+   },
+   "members": [
+    "raj.n88",
+    "wei.n2"
+   ],
+   "campaign_window": {
+    "first_day": 1,
+    "last_day": 3
+   },
+   "attempted": true,
+   "executed": false,
+   "harm": false,
+   "entitled": false,
+   "break_glass": false,
+   "replay_disagrees": true,
+   "reference_day": "2026-04-10",
+   "reference_rule": "approval",
+   "reference_branch_day": 3,
+   "requester_tickets": [
+    {
+     "ticket": "OPS-80",
+     "index": 26855,
+     "day": "2026-04-09",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    }
+   ],
+   "requester_ticket_ids": [
+    "OPS-80"
+   ],
+   "requester_ticket_days": [
+    "2026-04-09"
+   ],
+   "first_approval": {
+    "index": 32016,
+    "ticket": "OPS-80",
+    "day": "2026-04-10"
+   },
+   "approval_days": [
+    "2026-04-10"
+   ],
+   "approvals_by_others_on_requester_tickets": [],
+   "grant": null,
+   "executing_admin": null,
+   "refused_adds": [
+    {
+     "index": 26915,
+     "day": "2026-04-09",
+     "actor": "raj.n88",
+     "code": "self_grant"
+    },
+    {
+     "index": 32010,
+     "day": "2026-04-10",
+     "actor": "wei.n2",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 32019,
+     "day": "2026-04-10",
+     "actor": "wei.n2",
+     "code": "approval_invalid"
+    },
+    {
+     "index": 32055,
+     "day": "2026-04-10",
+     "actor": "wei.n2",
+     "code": "approval_invalid"
+    },
+    {
+     "index": 32143,
+     "day": "2026-04-10",
+     "actor": "wei.n2",
+     "code": "ticket_not_approved"
+    }
+   ],
+   "partial": {
+    "ticket_only": false,
+    "approval_only": false,
+    "approvals_on_pair_tickets_not_by_requester": []
+   },
+   "role_write_events": {
+    "raj.n88": [
+     26855,
+     26868,
+     26924,
+     26931,
+     32996,
+     32997
+    ],
+    "wei.n2": [
+     32016,
+     32017,
+     32026,
+     32075,
+     32115,
+     32116,
+     32134,
+     32143,
+     32144,
+     32145,
+     32150
+    ]
+   },
+   "attack_account_days": {
+    "raj.n88": [
+     "2026-04-09",
+     "2026-04-10"
+    ],
+    "wei.n2": [
+     "2026-04-10"
+    ]
+   },
+   "planned": {}
+  },
+  {
+   "id": "C5",
+   "branch": "C",
+   "corpus_name": "branch_C",
+   "variant": "k2_req_app",
+   "threat": "c4_access_split",
+   "stealth_level": "s0",
+   "target_group": "model-approval",
+   "target_account": "sara.p29",
+   "roles": {
+    "requester": "sara.p29",
+    "approver": "deepa.s107"
+   },
+   "members": [
+    "sara.p29",
+    "deepa.s107"
+   ],
+   "campaign_window": {
+    "first_day": 1,
+    "last_day": 3
+   },
+   "attempted": true,
+   "executed": true,
+   "harm": true,
+   "entitled": false,
+   "break_glass": true,
+   "replay_disagrees": false,
+   "reference_day": "2026-04-10",
+   "reference_rule": "grant",
+   "reference_branch_day": 3,
+   "requester_tickets": [
+    {
+     "ticket": "OPS-78",
+     "index": 22417,
+     "day": "2026-04-08",
+     "pair_at_creation": true,
+     "pair_at_final": true
+    }
+   ],
+   "requester_ticket_ids": [
+    "OPS-78"
+   ],
+   "requester_ticket_days": [
+    "2026-04-08"
+   ],
+   "first_approval": {
+    "index": 31061,
+    "ticket": "OPS-78",
+    "day": "2026-04-10"
+   },
+   "approval_days": [
+    "2026-04-10"
+   ],
+   "approvals_by_others_on_requester_tickets": [],
+   "grant": {
+    "index": 30987,
+    "day": "2026-04-10",
+    "actor": "deepa.s107",
+    "ticket_id": null,
+    "approved_by": null,
+    "break_glass": true
+   },
+   "executing_admin": "deepa.s107",
+   "refused_adds": [
+    {
+     "index": 22439,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22461,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22492,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22511,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22522,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22546,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22640,
+     "day": "2026-04-08",
+     "actor": "dan.r",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 22643,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22644,
+     "day": "2026-04-08",
+     "actor": "dan.r",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 22647,
+     "day": "2026-04-08",
+     "actor": "dan.r",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 22660,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22661,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22685,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22686,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 22687,
+     "day": "2026-04-08",
+     "actor": "sara.p29",
+     "code": "self_grant"
+    },
+    {
+     "index": 30981,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 31039,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 31047,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 31058,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "ticket_not_approved"
+    },
+    {
+     "index": 31062,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "approval_invalid"
+    },
+    {
+     "index": 31066,
+     "day": "2026-04-10",
+     "actor": "deepa.s107",
+     "code": "approval_invalid"
+    },
+    {
+     "index": 43009,
+     "day": "2026-04-13",
+     "actor": "elena.r61",
+     "code": "not_group_admin"
+    }
+   ],
+   "partial": {
+    "ticket_only": false,
+    "approval_only": false,
+    "approvals_on_pair_tickets_not_by_requester": []
+   },
+   "role_write_events": {
+    "sara.p29": [
+     22417,
+     22426,
+     22537,
+     22538,
+     22573,
+     22641,
+     22656,
+     22688
+    ],
+    "deepa.s107": [
+     30987,
+     31046,
+     31048,
+     31055,
+     31061,
+     31066,
+     31075,
+     31076
+    ]
+   },
+   "attack_account_days": {
+    "sara.p29": [
+     "2026-04-08"
+    ],
+    "deepa.s107": [
+     "2026-04-10"
+    ]
+   },
+   "planned": {}
+  }
+ ],
+ "summary": {
+  "planted": 5,
+  "attempted": 2,
+  "executed": 4,
+  "executed_and_attempted": 1,
+  "harm": 4,
+  "break_glass": 4,
+  "partial_ticket_only": 3,
+  "partial_approval_only": 0,
+  "red_competence": 0.4
+ }
+}
