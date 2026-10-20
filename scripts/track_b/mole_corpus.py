@@ -58,11 +58,61 @@ ALL_ONLY_TYPES: tuple[str, ...] = ("file", "repo", "mail", "chat")
 ALL_TYPES: tuple[str, ...] = LIKE_TYPES + ALL_ONLY_TYPES
 SCOPES: tuple[str, ...] = ("likeforlike", "allservices")
 
+#: Dated amendments to the like-for-like scope (Stage 3 design v4 section 11.6; brief 07b
+#: F2.6). OFF by default, so every Stage 2b reading is reproduced unchanged; switched on by
+#: name (`set_scope_amendment`, `scope_amendment_context`, grouping_measure
+#: `--scope-amendment`). "stage3-shared-documents-2026-10-20": the room statistic and the
+#: co-touch generators (G1, G3, G4, G6 and the prior-touch matrix) must read the shared
+#: document class, which lives in ownCloud files and GitLab repository files, so the
+#: like-for-like scope gains the artefact types `file` and `repo`. Mail and chat stay out.
+#: Record scopes (G2 vocabulary, G5 mentions: `RECORD_SOURCES`) are not amended. The Stage 2b
+#: numbers are not recomputed.
+SCOPE_AMENDMENTS: dict[str, tuple[str, ...]] = {
+    "stage3-shared-documents-2026-10-20": ("file", "repo"),
+}
+_SCOPE_AMENDMENT: str | None = None
+
+
+def set_scope_amendment(name: str | None) -> None:
+    """Switch a dated like-for-like scope amendment on (by name) or off (None)."""
+    global _SCOPE_AMENDMENT
+    if name is not None and name not in SCOPE_AMENDMENTS:
+        raise ValueError(f"unknown scope amendment {name!r}; known: {sorted(SCOPE_AMENDMENTS)}")
+    _SCOPE_AMENDMENT = name
+
+
+def scope_amendment() -> str | None:
+    """The active like-for-like scope amendment, or None (the frozen Stage 2b scope)."""
+    return _SCOPE_AMENDMENT
+
+
+class scope_amendment_context:
+    """`with scope_amendment_context(name): ...` switches the amendment on for the block."""
+
+    def __init__(self, name: str | None) -> None:
+        self.name = name
+        self._prev: str | None = None
+
+    def __enter__(self) -> None:
+        self._prev = _SCOPE_AMENDMENT
+        set_scope_amendment(self.name)
+
+    def __exit__(self, *exc: object) -> None:
+        set_scope_amendment(self._prev)
+
+
+def like_types() -> tuple[str, ...]:
+    """The like-for-like artefact types under the active amendment (LIKE_TYPES when none)."""
+    if _SCOPE_AMENDMENT is None:
+        return LIKE_TYPES
+    return LIKE_TYPES + SCOPE_AMENDMENTS[_SCOPE_AMENDMENT]
+
 
 def scope_types(scope: str) -> tuple[str, ...]:
-    """Artefact types in a scope (TRACK-B section 1)."""
+    """Artefact types in a scope (TRACK-B section 1; like-for-like under the active
+    amendment, see SCOPE_AMENDMENTS)."""
     if scope == "likeforlike":
-        return LIKE_TYPES
+        return like_types()
     if scope == "allservices":
         return ALL_TYPES
     raise ValueError(scope)

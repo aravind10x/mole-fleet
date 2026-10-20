@@ -36,6 +36,14 @@ What is computed (definitions in full in `work/stage2/p4-measurement-notes.md`):
 Blue-side only; label-blind except where the labels define positives. Corpora are untrusted
 data: paths are arguments, run with `python -I`. No network, no API calls.
 
+Dated scope amendment (2026-10-20; Stage 3 design v4 section 11.6, brief 07b F2.6):
+`--scope-amendment stage3-shared-documents-2026-10-20` adds the artefact types `file`
+(ownCloud) and `repo` (GitLab) to the like-for-like scope read by the co-touch generators and
+the prior-touch matrix (mole_corpus.SCOPE_AMENDMENTS), so the room statistic and the
+candidate groups can see the shared document class. Default off: the Stage 2b scope and
+numbers are reproduced unchanged and are not recomputed. The active amendment (or none) is
+recorded in the output meta as `scope_amendment`.
+
     work/mole-fork/.venv/bin/python -I work/checks/grouping_measure.py \\
         --corpus /abs/branch_A.jsonl --branch-id A --scores /abs/branch_A.expensive.parquet \\
         --corpus /abs/branch_B.jsonl --branch-id B --scores /abs/branch_B.expensive.parquet \\
@@ -316,7 +324,7 @@ def touched_before(br: Branch, d: int) -> np.ndarray:
     excluded) the artefact on a day strictly before d (whole corpus history)."""
     if d not in br.before_cache:
         ci = br.ci
-        like = np.isin(ci.t_type, [gen.TYPE_CODES[t] for t in mc.LIKE_TYPES])
+        like = np.isin(ci.t_type, [gen.TYPE_CODES[t] for t in mc.like_types()])   # scope amendment aware
         m = (ci.t_day < d) & like
         M = np.zeros((ci.n, len(ci.art_type)), dtype=bool)
         M[ci.t_acct[m], ci.t_art[m]] = True
@@ -2136,6 +2144,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--seed", type=int, default=SEED)
     ap.add_argument("--out-json", required=True)
     ap.add_argument("--out-md", required=True)
+    ap.add_argument("--scope-amendment", default=None, choices=sorted(mc.SCOPE_AMENDMENTS),
+                    help="dated like-for-like scope amendment (mole_corpus.SCOPE_AMENDMENTS); "
+                         "default none = the frozen Stage 2b scope")
     return ap
 
 
@@ -2151,6 +2162,7 @@ def _per_corpus(vals: list[str] | None, n: int, name: str) -> list[str | None]:
 
 def main(argv: list[str] | None = None) -> int:
     ns = build_parser().parse_args(argv)
+    mc.set_scope_amendment(getattr(ns, "scope_amendment", None))
     n = len(ns.corpus)
     if len(ns.branch_id) != n or len(ns.scores) != n:
         raise SystemExit("--corpus, --branch-id and --scores must be given the same number "
@@ -2181,6 +2193,7 @@ def main(argv: list[str] | None = None) -> int:
                   min_attempted=ns.min_attempted)
     res["meta"] = {
         "version": VERSION, "utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "scope_amendment": mc.scope_amendment(), "like_for_like_types": list(mc.like_types()),
         "command": "python -I work/checks/grouping_measure.py " + " ".join(
             sys.argv[1:] if argv is None else argv),
         "script_sha256": cl.sha256_file(__file__),

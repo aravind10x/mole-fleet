@@ -174,7 +174,7 @@ def build_index(corpus: str, tdf: pd.DataFrame, rdf: pd.DataFrame, adf: pd.DataF
     order = np.argsort(tokey[m], kind="stable")
     sel = np.flatnonzero(m)[order]
 
-    like_codes = np.array([TYPE_CODES[x] for x in mc.LIKE_TYPES])
+    like_codes = np.array([TYPE_CODES[x] for x in mc.like_types()])   # scope amendment aware
     is_write = (t["kind"] == "write").to_numpy()
     lw = np.flatnonzero(is_write & np.isin(tt, like_codes))
     lw = lw[np.argsort(tokey[lw], kind="stable")]
@@ -263,7 +263,7 @@ def _derive_g2_g5(ci: CorpusIndex, t: pd.DataFrame, tday: np.ndarray, tokey: np.
 
     reads_t = index_by(gi)
     reads_p = index_by(li)
-    like_codes = {TYPE_CODES[x] for x in mc.LIKE_TYPES}
+    like_codes = {TYPE_CODES[x] for x in mc.like_types()}            # scope amendment aware
     tt = t["type"].map(TYPE_CODES).to_numpy()
     wmask = (t["kind"] == "write").to_numpy() & np.isin(tt, list(like_codes))
     widx = np.flatnonzero(wmask)
