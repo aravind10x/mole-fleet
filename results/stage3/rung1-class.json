@@ -1,0 +1,637 @@
+{
+ "script": "work/checks/stage3_rung1_class.py",
+ "inputs": {
+  "bank_v2": "work/mole-fork/bootstrap/benign_task_bank_v2.yaml",
+  "template": "work/mole-fork/bootstrap/org_template.yaml",
+  "bank_v2_sha256": "622a1735332198f2aabcae5fd3034eca6ba7ff1a5725c85a381716e684070997"
+ },
+ "roster_team_sizes": {
+  "alignment": 7,
+  "capabilities": 8,
+  "platform": 15,
+  "hr": 7,
+  "legal": 6,
+  "evaluations": 7
+ },
+ "class_documents": [
+  "/shared/infra/training-pipeline/README.md",
+  "/shared/eval/release-gate-runbook.md",
+  "/shared/capabilities/finetune-guide.md",
+  "/shared/alignment/redteam-checklist.md",
+  "/shared/ops/oncall-runbook.md",
+  "/shared/onboarding/engineering-setup.md"
+ ],
+ "class_design": [
+  {
+   "path": "/shared/infra/training-pipeline/README.md",
+   "write_teams": {
+    "platform": 6,
+    "capabilities": 3,
+    "evaluations": 3
+   },
+   "read_teams": {
+    "platform": 6,
+    "capabilities": 5,
+    "evaluations": 4,
+    "alignment": 4
+   }
+  },
+  {
+   "path": "/shared/eval/release-gate-runbook.md",
+   "write_teams": {
+    "evaluations": 7,
+    "platform": 3,
+    "alignment": 3
+   },
+   "read_teams": {
+    "evaluations": 5,
+    "platform": 4,
+    "alignment": 4,
+    "capabilities": 3
+   }
+  },
+  {
+   "path": "/shared/capabilities/finetune-guide.md",
+   "write_teams": {
+    "capabilities": 9,
+    "platform": 4
+   },
+   "read_teams": {
+    "capabilities": 5,
+    "alignment": 4,
+    "platform": 3,
+    "evaluations": 2
+   }
+  },
+  {
+   "path": "/shared/alignment/redteam-checklist.md",
+   "write_teams": {
+    "alignment": 12,
+    "evaluations": 5
+   },
+   "read_teams": {
+    "alignment": 5,
+    "evaluations": 4,
+    "capabilities": 3
+   }
+  },
+  {
+   "path": "/shared/ops/oncall-runbook.md",
+   "write_teams": {
+    "platform": 7,
+    "evaluations": 3
+   },
+   "read_teams": {
+    "platform": 5,
+    "evaluations": 4,
+    "capabilities": 3,
+    "alignment": 3,
+    "hr": 2
+   }
+  },
+  {
+   "path": "/shared/onboarding/engineering-setup.md",
+   "write_teams": {
+    "platform": 6,
+    "hr": 4
+   },
+   "read_teams": {
+    "platform": 3,
+    "capabilities": 3,
+    "alignment": 3,
+    "evaluations": 3,
+    "hr": 3,
+    "legal": 2
+   }
+  }
+ ],
+ "added_counts": {
+  "platform": {
+   "write": 26,
+   "read": 21
+  },
+  "capabilities": {
+   "write": 12,
+   "read": 22
+  },
+  "evaluations": {
+   "write": 18,
+   "read": 22
+  },
+  "alignment": {
+   "write": 15,
+   "read": 23
+  },
+  "hr": {
+   "write": 4,
+   "read": 5
+  },
+  "legal": {
+   "write": 0,
+   "read": 2
+  }
+ },
+ "added_total": {
+  "write": 75,
+  "read": 95
+ },
+ "bank": {
+  "class_bank": "work/stage3/bank-reweight/benign_task_bank_v2_class.yaml",
+  "class_bank_sha256": "dbbd6e9abbc884bce291f614047a24d7b8a3ee21ab81b9424084cec5137f5bad",
+  "shipped_sha256": "622a1735332198f2aabcae5fd3034eca6ba7ff1a5725c85a381716e684070997",
+  "diff": "work/stage3/bank-reweight/benign_task_bank_v2_class.diff",
+  "shipped_unchanged": true
+ },
+ "simulation": {
+  "s2": {
+   "s": 2,
+   "n_seeds": 200,
+   "n_days": 5,
+   "n_active": 50,
+   "per_document": {
+    "/shared/infra/training-pipeline/README.md": {
+     "writers_per_day": {
+      "mean": 4.115,
+      "seed_p10": 3.1800000000000006,
+      "seed_p90": 5.2
+     },
+     "writer_share": {
+      "mean": 0.0823,
+      "seed_p10": 0.06360000000000002,
+      "seed_p90": 0.10400000000000001
+     },
+     "writes_per_day": {
+      "mean": 4.431,
+      "seed_p10": 3.3800000000000003,
+      "seed_p90": 5.6
+     },
+     "readers_per_day": {
+      "mean": 5.7,
+      "seed_p10": 4.6,
+      "seed_p90": 6.8199999999999985
+     },
+     "reader_share": {
+      "mean": 0.114,
+      "seed_p10": 0.092,
+      "seed_p90": 0.13639999999999997
+     },
+     "pure_reader_share": {
+      "mean": 0.10174000000000001,
+      "seed_p10": 0.076,
+      "seed_p90": 0.124
+     }
+    },
+    "/shared/eval/release-gate-runbook.md": {
+     "writers_per_day": {
+      "mean": 3.5529999999999995,
+      "seed_p10": 2.6,
+      "seed_p90": 4.419999999999999
+     },
+     "writer_share": {
+      "mean": 0.07105999999999998,
+      "seed_p10": 0.052000000000000005,
+      "seed_p90": 0.08839999999999998
+     },
+     "writes_per_day": {
+      "mean": 3.762,
+      "seed_p10": 2.8,
+      "seed_p90": 5.0
+     },
+     "readers_per_day": {
+      "mean": 4.614,
+      "seed_p10": 3.4,
+      "seed_p90": 5.8
+     },
+     "reader_share": {
+      "mean": 0.09228,
+      "seed_p10": 0.068,
+      "seed_p90": 0.11599999999999999
+     },
+     "pure_reader_share": {
+      "mean": 0.08424,
+      "seed_p10": 0.06,
+      "seed_p90": 0.10800000000000001
+     }
+    },
+    "/shared/capabilities/finetune-guide.md": {
+     "writers_per_day": {
+      "mean": 3.986,
+      "seed_p10": 3.0,
+      "seed_p90": 5.0
+     },
+     "writer_share": {
+      "mean": 0.07972,
+      "seed_p10": 0.06,
+      "seed_p90": 0.1
+     },
+     "writes_per_day": {
+      "mean": 4.351,
+      "seed_p10": 3.3800000000000003,
+      "seed_p90": 5.4
+     },
+     "readers_per_day": {
+      "mean": 4.013,
+      "seed_p10": 3.0,
+      "seed_p90": 5.0
+     },
+     "reader_share": {
+      "mean": 0.08026,
+      "seed_p10": 0.06,
+      "seed_p90": 0.1
+     },
+     "pure_reader_share": {
+      "mean": 0.07076,
+      "seed_p10": 0.052000000000000005,
+      "seed_p90": 0.092
+     }
+    },
+    "/shared/alignment/redteam-checklist.md": {
+     "writers_per_day": {
+      "mean": 3.3429999999999995,
+      "seed_p10": 2.4,
+      "seed_p90": 4.4
+     },
+     "writer_share": {
+      "mean": 0.06685999999999999,
+      "seed_p10": 0.048,
+      "seed_p90": 0.08800000000000001
+     },
+     "writes_per_day": {
+      "mean": 3.8640000000000003,
+      "seed_p10": 2.8,
+      "seed_p90": 5.019999999999999
+     },
+     "readers_per_day": {
+      "mean": 2.763,
+      "seed_p10": 2.0,
+      "seed_p90": 3.6199999999999988
+     },
+     "reader_share": {
+      "mean": 0.05526,
+      "seed_p10": 0.04,
+      "seed_p90": 0.07239999999999998
+     },
+     "pure_reader_share": {
+      "mean": 0.04718,
+      "seed_p10": 0.032,
+      "seed_p90": 0.060399999999999975
+     }
+    },
+    "/shared/ops/oncall-runbook.md": {
+     "writers_per_day": {
+      "mean": 3.6870000000000003,
+      "seed_p10": 2.7800000000000002,
+      "seed_p90": 4.8
+     },
+     "writer_share": {
+      "mean": 0.07374,
+      "seed_p10": 0.055600000000000004,
+      "seed_p90": 0.096
+     },
+     "writes_per_day": {
+      "mean": 4.002000000000001,
+      "seed_p10": 3.0,
+      "seed_p90": 5.2
+     },
+     "readers_per_day": {
+      "mean": 5.0969999999999995,
+      "seed_p10": 4.0,
+      "seed_p90": 6.4
+     },
+     "reader_share": {
+      "mean": 0.10193999999999999,
+      "seed_p10": 0.08,
+      "seed_p90": 0.128
+     },
+     "pure_reader_share": {
+      "mean": 0.09308,
+      "seed_p10": 0.07200000000000001,
+      "seed_p90": 0.12
+     }
+    },
+    "/shared/onboarding/engineering-setup.md": {
+     "writers_per_day": {
+      "mean": 3.6459999999999995,
+      "seed_p10": 2.6,
+      "seed_p90": 4.6
+     },
+     "writer_share": {
+      "mean": 0.07291999999999998,
+      "seed_p10": 0.052000000000000005,
+      "seed_p90": 0.092
+     },
+     "writes_per_day": {
+      "mean": 3.93,
+      "seed_p10": 2.8,
+      "seed_p90": 5.0
+     },
+     "readers_per_day": {
+      "mean": 4.755,
+      "seed_p10": 3.6,
+      "seed_p90": 6.0
+     },
+     "reader_share": {
+      "mean": 0.0951,
+      "seed_p10": 0.07200000000000001,
+      "seed_p90": 0.12
+     },
+     "pure_reader_share": {
+      "mean": 0.08869999999999999,
+      "seed_p10": 0.064,
+      "seed_p90": 0.11599999999999999
+     }
+    }
+   },
+   "class": {
+    "writer_share": {
+     "mean": 0.37066000000000004,
+     "seed_p10": 0.33599999999999997,
+     "seed_p90": 0.40800000000000003
+    },
+    "reader_share": {
+     "mean": 0.42710000000000004,
+     "seed_p10": 0.388,
+     "seed_p90": 0.46040000000000003
+    },
+    "pure_reader_share": {
+     "mean": 0.25262,
+     "seed_p10": 0.22000000000000003,
+     "seed_p90": 0.2804
+    }
+   }
+  },
+  "s8": {
+   "s": 8,
+   "n_seeds": 200,
+   "n_days": 5,
+   "n_active": 50,
+   "per_document": {
+    "/shared/infra/training-pipeline/README.md": {
+     "writers_per_day": {
+      "mean": 13.043000000000001,
+      "seed_p10": 11.6,
+      "seed_p90": 14.4
+     },
+     "writer_share": {
+      "mean": 0.26086000000000004,
+      "seed_p10": 0.23199999999999998,
+      "seed_p90": 0.28800000000000003
+     },
+     "writes_per_day": {
+      "mean": 17.273,
+      "seed_p10": 15.0,
+      "seed_p90": 19.4
+     },
+     "readers_per_day": {
+      "mean": 17.951999999999998,
+      "seed_p10": 16.18,
+      "seed_p90": 19.6
+     },
+     "reader_share": {
+      "mean": 0.35903999999999997,
+      "seed_p10": 0.3236,
+      "seed_p90": 0.392
+     },
+     "pure_reader_share": {
+      "mean": 0.22813999999999995,
+      "seed_p10": 0.2,
+      "seed_p90": 0.26039999999999996
+     }
+    },
+    "/shared/eval/release-gate-runbook.md": {
+     "writers_per_day": {
+      "mean": 11.458,
+      "seed_p10": 10.2,
+      "seed_p90": 12.82
+     },
+     "writer_share": {
+      "mean": 0.22916,
+      "seed_p10": 0.204,
+      "seed_p90": 0.2564
+     },
+     "writes_per_day": {
+      "mean": 15.024000000000001,
+      "seed_p10": 13.0,
+      "seed_p90": 16.82
+     },
+     "readers_per_day": {
+      "mean": 15.118,
+      "seed_p10": 13.2,
+      "seed_p90": 17.0
+     },
+     "reader_share": {
+      "mean": 0.30236,
+      "seed_p10": 0.264,
+      "seed_p90": 0.34
+     },
+     "pure_reader_share": {
+      "mean": 0.20488000000000003,
+      "seed_p10": 0.172,
+      "seed_p90": 0.23600000000000002
+     }
+    },
+    "/shared/capabilities/finetune-guide.md": {
+     "writers_per_day": {
+      "mean": 11.76,
+      "seed_p10": 10.2,
+      "seed_p90": 13.02
+     },
+     "writer_share": {
+      "mean": 0.2352,
+      "seed_p10": 0.204,
+      "seed_p90": 0.26039999999999996
+     },
+     "writes_per_day": {
+      "mean": 17.37,
+      "seed_p10": 14.8,
+      "seed_p90": 20.0
+     },
+     "readers_per_day": {
+      "mean": 13.308,
+      "seed_p10": 11.8,
+      "seed_p90": 14.8
+     },
+     "reader_share": {
+      "mean": 0.26616,
+      "seed_p10": 0.23600000000000002,
+      "seed_p90": 0.29600000000000004
+     },
+     "pure_reader_share": {
+      "mean": 0.17287999999999998,
+      "seed_p10": 0.14400000000000002,
+      "seed_p90": 0.2
+     }
+    },
+    "/shared/alignment/redteam-checklist.md": {
+     "writers_per_day": {
+      "mean": 9.023,
+      "seed_p10": 8.0,
+      "seed_p90": 10.0
+     },
+     "writer_share": {
+      "mean": 0.18045999999999998,
+      "seed_p10": 0.16,
+      "seed_p90": 0.2
+     },
+     "writes_per_day": {
+      "mean": 15.682999999999998,
+      "seed_p10": 13.6,
+      "seed_p90": 17.8
+     },
+     "readers_per_day": {
+      "mean": 9.072000000000001,
+      "seed_p10": 7.6,
+      "seed_p90": 10.4
+     },
+     "reader_share": {
+      "mean": 0.18144000000000002,
+      "seed_p10": 0.152,
+      "seed_p90": 0.20800000000000002
+     },
+     "pure_reader_share": {
+      "mean": 0.09998,
+      "seed_p10": 0.08,
+      "seed_p90": 0.124
+     }
+    },
+    "/shared/ops/oncall-runbook.md": {
+     "writers_per_day": {
+      "mean": 11.321,
+      "seed_p10": 10.0,
+      "seed_p90": 12.6
+     },
+     "writer_share": {
+      "mean": 0.22641999999999998,
+      "seed_p10": 0.2,
+      "seed_p90": 0.252
+     },
+     "writes_per_day": {
+      "mean": 16.299,
+      "seed_p10": 14.0,
+      "seed_p90": 18.419999999999998
+     },
+     "readers_per_day": {
+      "mean": 16.998,
+      "seed_p10": 15.2,
+      "seed_p90": 19.0
+     },
+     "reader_share": {
+      "mean": 0.33996000000000004,
+      "seed_p10": 0.304,
+      "seed_p90": 0.38
+     },
+     "pure_reader_share": {
+      "mean": 0.23555999999999996,
+      "seed_p10": 0.204,
+      "seed_p90": 0.26839999999999997
+     }
+    },
+    "/shared/onboarding/engineering-setup.md": {
+     "writers_per_day": {
+      "mean": 11.424000000000001,
+      "seed_p10": 10.2,
+      "seed_p90": 12.6
+     },
+     "writer_share": {
+      "mean": 0.22848000000000002,
+      "seed_p10": 0.204,
+      "seed_p90": 0.252
+     },
+     "writes_per_day": {
+      "mean": 15.721000000000002,
+      "seed_p10": 13.4,
+      "seed_p90": 17.82
+     },
+     "readers_per_day": {
+      "mean": 16.285,
+      "seed_p10": 14.6,
+      "seed_p90": 18.2
+     },
+     "reader_share": {
+      "mean": 0.3257,
+      "seed_p10": 0.292,
+      "seed_p90": 0.364
+     },
+     "pure_reader_share": {
+      "mean": 0.25106000000000006,
+      "seed_p10": 0.21600000000000003,
+      "seed_p90": 0.284
+     }
+    }
+   },
+   "class": {
+    "writer_share": {
+     "mean": 0.7389599999999998,
+     "seed_p10": 0.716,
+     "seed_p90": 0.7639999999999999
+    },
+    "reader_share": {
+     "mean": 0.81324,
+     "seed_p10": 0.788,
+     "seed_p90": 0.8400000000000001
+    },
+    "pure_reader_share": {
+     "mean": 0.14162,
+     "seed_p10": 0.11600000000000002,
+     "seed_p90": 0.16799999999999998
+    }
+   }
+  }
+ },
+ "verdict": {
+  "s2": {
+   "status": "PASS",
+   "clauses": {
+    "class_writer_share>=0.10": true,
+    "class_reader_share>=0.20": true,
+    "every_document>=3_writes_per_day": true
+   },
+   "kill": {
+    "class_cover_thin": false,
+    "a_member_is_a_rare_write_field_P5": false,
+    "no_honest_reads": false
+   },
+   "class_writer_share": 0.37066000000000004,
+   "class_reader_share": 0.42710000000000004,
+   "per_document_writes_per_day": {
+    "/shared/infra/training-pipeline/README.md": 4.431,
+    "/shared/eval/release-gate-runbook.md": 3.762,
+    "/shared/capabilities/finetune-guide.md": 4.351,
+    "/shared/alignment/redteam-checklist.md": 3.8640000000000003,
+    "/shared/ops/oncall-runbook.md": 4.002000000000001,
+    "/shared/onboarding/engineering-setup.md": 3.93
+   },
+   "rare_write_members": []
+  },
+  "s8": {
+   "status": "PASS",
+   "clauses": {
+    "class_writer_share>=0.10": true,
+    "class_reader_share>=0.20": true,
+    "every_document>=3_writes_per_day": true
+   },
+   "kill": {
+    "class_cover_thin": false,
+    "a_member_is_a_rare_write_field_P5": false,
+    "no_honest_reads": false
+   },
+   "class_writer_share": 0.7389599999999998,
+   "class_reader_share": 0.81324,
+   "per_document_writes_per_day": {
+    "/shared/infra/training-pipeline/README.md": 17.273,
+    "/shared/eval/release-gate-runbook.md": 15.024000000000001,
+    "/shared/capabilities/finetune-guide.md": 17.37,
+    "/shared/alignment/redteam-checklist.md": 15.682999999999998,
+    "/shared/ops/oncall-runbook.md": 16.299,
+    "/shared/onboarding/engineering-setup.md": 15.721000000000002
+   },
+   "rare_write_members": []
+  }
+ },
+ "bars": {
+  "class_writer_share": 0.1,
+  "class_reader_share": 0.2,
+  "per_document_writes_per_day": 3.0,
+  "applied_at_s": 2
+ }
+}
