@@ -71,6 +71,27 @@ def test_expected_plan(tmp_path):
     assert len(plan["persona_files"]) == 5
 
 
+def test_refuses_duplicate_roster_names_and_counts_the_set(tmp_path):
+    """Branch review 2026-10-20, erratum 3: roster_size counted the list, so a duplicated
+    name in generation.personas failed a correct run's roster check. A duplicate is refused
+    with a clear error naming it; the size is the set's."""
+    doc = _doc()
+    doc["generation"]["personas"] = ",".join(ROSTER + ["ben.c11"])      # ben.c11 twice
+    p = _write(tmp_path, doc)
+    with pytest.raises(ll.LaunchError, match=r"duplicate.*ben\.c11"):
+        ll.build_expected_plan(p, "R")
+    with pytest.raises(ll.LaunchError, match="duplicate"):
+        ll.build_command(p, "R")
+    # a roster given as a YAML list with a duplicate is refused the same way
+    doc["generation"]["personas"] = ROSTER + ["tom.k51"]
+    p2 = _write(tmp_path, doc, "dup_list.yaml")
+    with pytest.raises(ll.LaunchError, match=r"duplicate.*tom\.k51"):
+        ll.build_expected_plan(p2, "R")
+    # and a clean roster's size is the number of distinct names
+    assert ll.build_expected_plan(_write(tmp_path, _doc(), "clean.yaml"), "R")["roster_size"] \
+        == len(set(ROSTER))
+
+
 def test_refuses_when_roster_missing_coalition_account(tmp_path):
     doc = _doc()
     doc["generation"]["personas"] = "ben.c11,elena.r13"            # omits R2's accounts

@@ -72,10 +72,19 @@ def _personas_list(gen: dict) -> list[str]:
     if raw is None:
         raise LaunchError("generation.personas is required (comma string or list)")
     if isinstance(raw, str):
-        return [x.strip() for x in raw.split(",") if x.strip()]
-    if isinstance(raw, (list, tuple)):
-        return [str(x).strip() for x in raw if str(x).strip()]
-    raise LaunchError(f"generation.personas must be a string or list, got {type(raw).__name__}")
+        names = [x.strip() for x in raw.split(",") if x.strip()]
+    elif isinstance(raw, (list, tuple)):
+        names = [str(x).strip() for x in raw if str(x).strip()]
+    else:
+        raise LaunchError(f"generation.personas must be a string or list, got {type(raw).__name__}")
+    # A duplicated name would make the runner's roster smaller than the list and fail the
+    # roster-size check against a correct run (branch review 2026-10-20, erratum 3): refuse
+    # it here, naming the duplicates, so the assignment file is fixed before any launch.
+    dups = sorted({n for n in names if names.count(n) > 1})
+    if dups:
+        raise LaunchError(f"generation.personas has duplicate name(s): {dups} "
+                          f"(each account once; the roster is a set)")
+    return names
 
 
 def _reserved_accounts(doc: dict) -> set[str]:
@@ -148,8 +157,8 @@ def build_expected_plan(assignment: str | Path, branch_id: str) -> dict:
 
     return {
         "assignment": str(p), "branch_id": branch_id,
-        "roster_size": len(roster), "sessions_per_day": sessions_per_day,
-        "planned_sessions_per_day": len(roster) * sessions_per_day,
+        "roster_size": len(roster_set), "sessions_per_day": sessions_per_day,
+        "planned_sessions_per_day": len(roster_set) * sessions_per_day,
         "days": int(gen.get("days") or 0),
         "mode": str(gen.get("mode") or "agentic"),
         "roster_contains_reserved": sorted(roster_set & reserved),
