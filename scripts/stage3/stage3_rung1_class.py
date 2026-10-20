@@ -162,10 +162,12 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
     n_active = len(roster)
     stats = {p: {"writers": [], "writes": [], "readers": [], "pure_readers": []} for p in DOC_PATHS}
     cls = {"writer_share": [], "reader_share": [], "pure_reader_share": []}
+    draw_share: list[float] = []
     for i in range(n_seeds):
         rng = random.Random(seed0 + 7919 * i + s)
         per_seed_doc = {p: {"writers": [], "writes": [], "readers": [], "pure_readers": []} for p in DOC_PATHS}
         per_seed_cls = {"w": [], "r": [], "pr": []}
+        seed_total = seed_class = 0
         for _d in range(n_days):
             dayw = {p: set() for p in DOC_PATHS}
             dayr = {p: set() for p in DOC_PATHS}
@@ -179,8 +181,10 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
                 read_today: set[str] = set()
                 for _sess in range(s):
                     k = min(n, rng.randint(2, 4))
+                    seed_total += k
                     for j in rng.sample(range(n), k):
                         if j < len(classlist):
+                            seed_class += 1
                             role, doc = classlist[j]
                             if role == "write":
                                 dayw[doc].add(acct); daywrites[doc] += 1; wrote_today.add(doc); any_w.add(acct)
@@ -194,6 +198,7 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
             per_seed_cls["w"].append(len(any_w) / n_active)
             per_seed_cls["r"].append(len(any_r) / n_active)
             per_seed_cls["pr"].append(len(any_r - any_w) / n_active)
+        draw_share.append(seed_class / seed_total if seed_total else 0.0)
         for p in DOC_PATHS:
             for key in ("writers", "writes", "readers", "pure_readers"):
                 stats[p][key].append(float(np.mean(per_seed_doc[p][key])))
@@ -218,7 +223,8 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
     return {"s": s, "n_seeds": n_seeds, "n_days": n_days, "n_active": n_active,
             "per_document": doc_out,
             "class": {"writer_share": agg(cls["writer_share"]), "reader_share": agg(cls["reader_share"]),
-                      "pure_reader_share": agg(cls["pure_reader_share"])}}
+                      "pure_reader_share": agg(cls["pure_reader_share"])},
+            "class_task_draw_share": agg(draw_share)}
 
 
 def verdict(sim: dict[str, Any]) -> dict[str, Any]:
@@ -309,6 +315,11 @@ def render_md(res: dict[str, Any]) -> str:
       f"a copy of the v2 bank (shipped bank untouched: {res['bank'].get('class_bank')}). Draw model, roster "
       f"(team sizes {res['roster_team_sizes']}) and frozen like-for-like scope are rung 1's; "
       f"{res['simulation']['s2']['n_seeds']} seeds x {res['simulation']['s2']['n_days']} days.")
+    for s_ in SESSION_RATES:
+        ds = res["simulation"][f"s{s_}"].get("class_task_draw_share", {}).get("mean")
+        if ds is not None:
+            a(f"Share of ALL honest task draws that touch any class document, s = {s_}: "
+              f"**{ds:.3f}** (how much of honest work the re-weighting is; for the paper's disclosure).")
     for s in SESSION_RATES:
         sim = res["simulation"][f"s{s}"]
         a("")

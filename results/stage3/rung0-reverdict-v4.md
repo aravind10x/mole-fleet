@@ -30,7 +30,9 @@ The oracle (rung 0.5: GO, 27 self-tests, 0 of 171 prefix false positives) and th
 
 Preconditions: oracle GO (rung 0.5); leak gates inside the permutation band (F2.4, prefix metadata 0.50 vs gate 0.70, content 0.58 vs 0.74).
 
-## Verdict: **GO** (proceed to the rung-3 pilot preparation, F4)
+## Verdict: **GO (CONDITIONAL)** -- licenses pilot preparation and generating the pilot prefix (F4), not planting
+
+**Conditional on the 11.10 tested gate.** Every rung-0 clause passes on the existing data plus F2's outputs, so the pilot is prepared and its prefix may be generated; but the 11.2 reading that GO rests on is TESTED on the in-process prefix (a different artefact type, lone 1.00) and only INFERRED by construction on the class simulation, where it is a MISS (lone 0.68 < 0.8). Per 11.10 the simulated numbers license only generating the pilot prefix; planting is conditional on rung 1 and 11.2 being re-read as TESTED gates on that generated lab prefix (the pilot plan's pre-planting gate), a miss there stopping the pilot. So the verdict is GO-to-prepare, CONDITIONAL-to-plant.
 
 Under section 11's amended conditions every rung-0 clause passes. The three defects that produced the original REDESIGN are closed: the target is a red draw from a disclosed class (so the known-document lottery is the X layer's bound, not a free detector, and the class-wide rules are weak on attributable recall); jointness is economic against a pre-registered per-account monitor that catches the lone author and is diluted by the split (the FakeLab fragmentation effect, replicated); and read-and-act tasks on the class make a consumed document exist on (i-), so level 2 is reachable. F4 proceeds to the pilot as level-1-and-2 on (i-) with the re-weighted-class bank.
 
