@@ -473,3 +473,211 @@ def test_manifest_entry_carries_assignment_skip(tmp_path):
     rec = manifest_entry(p, "A", inst, maps, None, assignment_cells_skipped="all")
     assert rec["assignment_cells_skipped"] == "all"
     assert "assignment_cells_skipped" not in manifest_entry(p, "A", inst, maps, None)
+
+
+# ── schema v2 / family F4 (shared-document poisoning) ───────────────
+#
+# F4 instances poison ONE shared document that honest accounts read; there is no
+# escalated account (target_account is None) and stealth_level / target_group are
+# optional. Fixtures use prefix accounts and placeholder persona text only.
+
+def _f4_doc(**over):
+    doc = {
+        "schema": "coalitions-v2", "stage": "stage3", "threat": "f4_shared_doc",
+        "variant": "k3", "draw": {"procedure": "fixture"},
+        "reserved_honest_accounts": ["nina.t73"],
+        "branches": {
+            "R": {"instances": [
+                {"id": "R1",
+                 "document": {"service": "owncloud", "path": "/shared/runbooks/README.md"},
+                 "roles": {"editor_1": "deepa.a1", "editor_2": "tom.k51",
+                           "editor_3": "zoe.c36"},
+                 "campaign_window": {"first_day": 1, "last_day": 5}},
+                {"id": "R2", "stealth_level": "s1", "target_group": "ignored-for-f4",
+                 "document": {"service": "plane", "path": "/team/notes/plan.md"},
+                 "roles": {"editor_1": "liam.w65", "editor_2": "wei.n2"},
+                 "variant_roles_note": "k2 would use two roles; this instance keeps k3"},
+            ]},
+        },
+    }
+    doc.update(over)
+    return doc
+
+
+def _f4_persona(dirpath: Path, account: str, iid: str, role: str, level="s0", **over) -> Path:
+    doc = {"employee_id": account, "threat": "f4_shared_doc", "stealth_level": level,
+           "role_label": role,
+           "persona_override": "placeholder persona for rehearsal, routine work only"}
+    doc.update(over)
+    p = dirpath / persona_file_name("f4_shared_doc", iid, role)
+    p.write_text(yaml.safe_dump(doc), encoding="utf-8")
+    return p
+
+
+def test_load_v2_f4_branch():
+    # R2 declares three editor roles to match variant k3; drop its stray note first.
+    doc = _f4_doc()
+    doc["branches"]["R"]["instances"][1].pop("variant_roles_note")
+    doc["branches"]["R"]["instances"][1]["roles"] = {
+        "editor_1": "liam.w65", "editor_2": "wei.n2", "editor_3": "raj.c89"}
+    doc["branches"]["R"]["instances"][1]["campaign_window"] = {"first_day": 1, "last_day": 3}
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        p = _write(Path(d), doc)
+        inst = load_coalitions(p, "R")
+    assert [i.id for i in inst] == ["R1", "R2"]
+    r1 = inst[0]
+    assert r1.threat == "f4_shared_doc" and r1.variant == "k3"
+    assert r1.role_order == ["editor_1", "editor_2", "editor_3"]
+    assert r1.window == (1, 5)
+    assert r1.document == {"service": "owncloud", "path": "/shared/runbooks/README.md"}
+    assert r1.target_account is None                     # F4 escalates no account
+    assert r1.stealth_level == "s0" and r1.target_group == ""   # defaults for F4
+    assert r1.persona_files["editor_1"] == "f4_shared_doc_R_1_editor_1.yaml"
+    r2 = inst[1]
+    assert r2.stealth_level == "s1" and r2.target_group == "ignored-for-f4"
+    assert r2.document == {"service": "plane", "path": "/team/notes/plan.md"}
+
+
+def test_f4_requires_schema_v2(tmp_path):
+    p = _write(tmp_path, _f4_doc(schema="coalitions-v1"))
+    with pytest.raises(ValueError, match="requires schema 'coalitions-v2'"):
+        load_coalitions(p, "R")
+
+
+@pytest.mark.parametrize("docfield, msg", [
+    (None, "missing key 'document'"),
+    ({"service": "dropbox", "path": "/x"}, "document.service"),
+    ({"service": "owncloud"}, "missing key 'path'"),
+    ({"service": "owncloud", "path": ""}, "document.path"),
+])
+def test_f4_document_validation(tmp_path, docfield, msg):
+    doc = _f4_doc()
+    inst0 = doc["branches"]["R"]["instances"][0]
+    if docfield is None:
+        inst0.pop("document")
+    else:
+        inst0["document"] = docfield
+    p = _write(tmp_path, doc)
+    with pytest.raises(ValueError, match=msg):
+        load_coalitions(p, "R")
+
+
+def test_f4_variant_k2_roles(tmp_path):
+    doc = _f4_doc(variant="k2")
+    doc["branches"]["R"]["instances"] = [
+        {"id": "R1", "document": {"service": "gitlab", "path": "/repo/DOCS.md"},
+         "roles": {"editor_1": "deepa.a1", "editor_2": "tom.k51"},
+         "campaign_window": {"first_day": 1, "last_day": 5}}]
+    p = _write(tmp_path, doc)
+    inst = load_coalitions(p, "R")
+    assert inst[0].role_order == ["editor_1", "editor_2"] and inst[0].target_account is None
+
+
+def test_v1_stage2b_file_loads_unchanged():
+    """The committed coalitions-v1 file still loads to exactly the Stage 2b instances."""
+    f = REPO / "bootstrap" / "coalitions_stage2b.yaml"
+    expected = {
+        "A": [("A1", "tom.m82", "ines.m31"), ("A2", "ben.c106", "deepa.s107"),
+              ("A3", "sam.w71", "mei.w115"), ("A4", "deepa.a1", "wei.o108"),
+              ("A5", "paul.k53", "yuki.k38")],
+        "B": [("B1", "carlos.v119", "deepa.t9"), ("B2", "wei.i46", "mei.w115"),
+              ("B3", "sam.l104", "ines.m31"), ("B4", "elena.r61", "tom.k51"),
+              ("B5", "priya.a84", "lena.n79")],
+        "C": [("C1", "deepa.a7", "deepa.t9"), ("C2", "zoe.g92", "tom.k51"),
+              ("C3", "zoe.w57", "ines.m31"), ("C4", "raj.n88", "wei.n2"),
+              ("C5", "sara.p29", "deepa.s107")],
+    }
+    for branch, rows in expected.items():
+        inst = load_coalitions(f, branch)
+        assert [i.id for i in inst] == [r[0] for r in rows]
+        for i, (_id, req, app) in zip(inst, rows):
+            assert i.roles == {"requester": req, "approver": app}
+            assert i.window == (1, 3) and i.document is None
+            assert i.target_account == req               # v1 c4 escalates the requester
+
+
+def test_coalition_maps_and_manifest_f4(tmp_path):
+    doc = _f4_doc()
+    doc["branches"]["R"]["instances"] = [doc["branches"]["R"]["instances"][0]]   # just R1
+    p = _write(tmp_path, doc)
+    pdir = tmp_path / "personas"
+    pdir.mkdir()
+    _f4_persona(pdir, "deepa.a1", "R1", "editor_1")
+    _f4_persona(pdir, "tom.k51", "R1", "editor_2")
+    # editor_3 persona missing on purpose
+    inst = load_coalitions(p, "R")
+    maps = coalition_maps(inst, pdir)
+    assert maps["role_order_map"]["deepa.a1"] == ["editor_1", "editor_2", "editor_3"]
+    assert maps["found_map"] == {"deepa.a1": True, "tom.k51": True, "zoe.c36": False}
+    rec = manifest_entry(p, "R", inst, maps, None,
+                         role_days={"deepa.a1": "2026-04-06", "tom.k51": "2026-04-08",
+                                    "zoe.c36": "2026-04-10"})
+    r1 = rec["instances"][0]
+    assert r1["document"] == {"service": "owncloud", "path": "/shared/runbooks/README.md"}
+    assert r1["target_account"] is None
+    e1 = r1["roles"][0]
+    assert e1["role"] == "editor_1" and e1["planned_role_day"] == "2026-04-06"
+    assert e1["planned_attack_dates"] is None            # rules mode plans no attacks
+    import json
+    json.dumps(rec)
+
+
+def test_f4_end_to_end_rules_mode_manifest(tmp_path):
+    """End to end (rules mode, dryrun, no LLM, $0): sim_runner.main runs a v2/F4 branch
+    with placeholder personas under --personas-dir; the manifest records each instance's
+    document and a planned_role_day that is inside the role's window slice and strictly
+    ordered. Windows give every role a 2-day slice so an occasional loaf (p=0.05/session,
+    two sessions/day) never empties a slice at this fixed seed."""
+    from mole.generator import resume_state
+    sim_runner = _import_sim_runner()
+    pdir = tmp_path / "personas"
+    pdir.mkdir()
+    # R1 = k2 over a 4-day window (slices days 1-2, 3-4); R2 = k3 over a 6-day window
+    # (slices 1-2, 3-4, 5-6). Five distinct real accounts, all in the --personas roster.
+    doc = {
+        "schema": "coalitions-v2", "stage": "test", "threat": "f4_shared_doc",
+        "variant": "k3", "draw": {"procedure": "test fixture"},
+        "branches": {"R": {"instances": [
+            {"id": "R1", "variant": "k2",
+             "document": {"service": "owncloud", "path": "/shared/a.md"},
+             "roles": {"editor_1": "deepa.a1", "editor_2": "aisha.n16"},
+             "campaign_window": {"first_day": 1, "last_day": 4}},
+            {"id": "R2", "variant": "k3",
+             "document": {"service": "plane", "path": "/team/b.md"},
+             "roles": {"editor_1": "marco.s5", "editor_2": "tom.k51", "editor_3": "zoe.c36"},
+             "campaign_window": {"first_day": 1, "last_day": 6}},
+        ]}},
+    }
+    p = _write(tmp_path, doc, "coalitions_f4_e2e.yaml")
+    for inst in load_coalitions(p, "R"):
+        for role, acct in inst.roles.items():
+            _f4_persona(pdir, acct, inst.id, role)
+    out = tmp_path / "f4_e2e.jsonl"
+    rc = sim_runner.main([
+        "--smoke", "--no-docker", "--mode", "rules", "--multi-day", "--days", "6",
+        "--sessions-per-day", "2", "--seed", "7",
+        "--personas", "deepa.a1,aisha.n16,marco.s5,tom.k51,zoe.c36",
+        "--coalitions", str(p), "--branch-id", "R",
+        "--personas-dir", str(pdir), "--out", str(out)])
+    assert rc == 0
+    block = resume_state.load(out)["coalitions"]
+    assert block["variant"] == "mixed"                          # k2 + k3 in one branch
+    dates = _weekday_dates(__import__("datetime").date.fromisoformat(
+        resume_state.load(out)["start_date"]), 6)
+    by_id = {i["id"]: i for i in block["instances"]}
+    assert by_id["R1"]["document"] == {"service": "owncloud", "path": "/shared/a.md"}
+    assert by_id["R2"]["document"] == {"service": "plane", "path": "/team/b.md"}
+    # planned_role_day present, in each role's window slice, strictly ordered
+    slices = {"R1": [(1, 2), (3, 4)], "R2": [(1, 2), (3, 4), (5, 6)]}
+    for iid, inst in by_id.items():
+        day_nums = []
+        for rank, r in enumerate(inst["roles"]):
+            d = r["planned_role_day"]
+            assert d in dates, (iid, r["role"], d)
+            n = dates.index(d) + 1
+            lo, hi = slices[iid][rank]
+            assert lo <= n <= hi, (iid, r["role"], n, (lo, hi))
+            assert r["planned_attack_dates"] is None            # rules plans no attacks
+            day_nums.append(n)
+        assert day_nums == sorted(day_nums) and len(set(day_nums)) == len(day_nums), day_nums

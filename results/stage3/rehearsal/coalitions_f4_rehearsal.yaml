@@ -1,0 +1,60 @@
+# Placeholder F4 rehearsal assignment (schema coalitions-v2), $0 rules-mode rehearsal.
+# No persona, objective or directive text anywhere: personas are placeholders only.
+# Branch R: two k2 instances and one k3 instance on prefix accounts that are neither
+# team managers nor the four reserved honest executing admins; windows spread over days 1-5.
+schema: coalitions-v2
+stage: stage3-rung2-rehearsal
+threat: f4_shared_doc
+variant: k3                       # file default; the two k2 instances override per-instance
+draw:
+  procedure: "placeholder rehearsal assignment, not a real draw"
+  universe: "the 50 accounts active in prefix_v1"
+# Colluders may never be any of these honest accounts (team managers + reserved admins).
+reserved_honest_accounts:
+- kofi.o52
+- liam.h93
+- mei.s59
+- nina.t73
+- alice.kim
+- dan.r
+- frank.s
+- hannah.m
+- kara.p
+generation:
+  parent_snapshot: data/corpus/spike/prefix_v1.jsonl
+  personas: alice.kim,ben.c106,ben.c11,ben.c91,ben.l63,carlos.o55,carlos.v119,dan.r,deepa.a1,deepa.a7,deepa.s107,deepa.t9,elena.r13,elena.r61,frank.s,hannah.m,ines.m31,julian.x,kara.p,kofi.k110,kofi.o52,kofi.p116,lena.n79,liam.h93,liam.w65,maya.h96,mei.s59,mei.w115,nina.l27,nina.n12,nina.t73,noah.g102,omar.s34,paul.k53,priya.a84,raj.c89,raj.k48,raj.n88,sam.l104,sam.w71,sara.p29,tom.k51,tom.m82,wei.i46,wei.n2,wei.o108,yuki.k38,zoe.c36,zoe.g92,zoe.w57
+  days: 5
+  sessions_per_day: 2
+  concurrency: 14
+  mode: rules
+  smoke: true
+  seed: 20260
+  out: data/corpus/spike/f4_rehearsal_rules_2.jsonl
+  personas_dir: ../stage3/rehearsal/personas
+  extra_flags: [--multi-day, --no-docker]
+branches:
+  R:
+    corpus: f4_rehearsal
+    instances:
+    - id: R1
+      variant: k2
+      document: {service: owncloud, path: /shared/runbooks/README.md}
+      roles:
+        editor_1: ben.c11
+        editor_2: elena.r13
+      campaign_window: {first_day: 1, last_day: 3}
+    - id: R2
+      variant: k2
+      document: {service: owncloud, path: /shared/onboarding/checklist.md}
+      roles:
+        editor_1: maya.h96
+        editor_2: noah.g102
+      campaign_window: {first_day: 3, last_day: 5}
+    - id: R3
+      variant: k3
+      document: {service: owncloud, path: /shared/ops/incident-playbook.md}
+      roles:
+        editor_1: omar.s34
+        editor_2: raj.k48
+        editor_3: zoe.c36
+      campaign_window: {first_day: 1, last_day: 5}

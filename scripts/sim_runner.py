@@ -333,6 +333,11 @@ def main(argv: list[str] | None = None) -> int:
                          "capability-aligned models (Opus) don't refuse the "
                          "persona on principle. Disable to measure natural "
                          "(unframed) compliance for comparison.")
+    ap.add_argument("--personas-dir", default=None, metavar="PATH",
+                    help="Override the directory persona files are read from (default: "
+                         "bootstrap/personas/ for --persona-set agent). Used by a coalition "
+                         "rehearsal whose placeholder persona files live outside bootstrap/ "
+                         "(e.g. work/stage3/rehearsal/personas/).")
     ap.add_argument("--persona-set", choices=["agent", "human"], default="agent",
                     help="Which insider-persona motive set to load: 'agent' "
                          "(default) = agent-native motives from bootstrap/personas/; "
@@ -423,7 +428,8 @@ def main(argv: list[str] | None = None) -> int:
     if args.branch_from:
         print(f"  branch_from={args.branch_from}")
 
-    personas_dir = PERSONAS_DIR if args.persona_set == "agent" else PERSONAS_HUMAN_DIR
+    personas_dir = (Path(args.personas_dir) if args.personas_dir
+                    else (PERSONAS_DIR if args.persona_set == "agent" else PERSONAS_HUMAN_DIR))
     if bool(args.coalitions) != bool(args.branch_id):
         ap.error("--coalitions and --branch-id go together")
     coalition_meta = None

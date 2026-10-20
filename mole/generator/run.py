@@ -1470,6 +1470,50 @@ async def simulate(
                                _day_rec.get("sessions_planned"),
                                _day_rec.get("attack_sessions_completed"),
                                _day_rec.get("attack_sessions_planned"))
+
+        # Coalition role-action days (rules mode). Rules mode plans no attack sessions,
+        # so it records each role's PLANNED ACTION DAY instead, for a rehearsal to compare
+        # against a written plan (L15 rule 1). The day is drawn inside the instance window
+        # in rank order (editor_1 first) and, per L15 rule 4, must fall on a day the account
+        # ACTUALLY acted -- taken from the generated corpus, not guessed -- else it is
+        # re-drawn inside the role's own rank slice or the run fails naming the instance
+        # and role. planned_attack_dates stays null (no attacks in rules mode); the days
+        # land in a planned_role_day field. Rules mode only, after generation: the
+        # agentic planner (campaign_schedule_for -> build_campaign without acts_on_day)
+        # is NOT covered here.
+        if coalition_meta is not None and mode != "agentic":
+            import random as _rnd
+            from .campaign import build_campaign
+            from .coalitions import manifest_entry as _manifest_entry
+            _dates_r = _weekday_dates(date.fromisoformat(start_date), n_days)
+            _acted: dict[str, set[str]] = {}
+            for _ev in collector.events:
+                _a, _ts = getattr(_ev, "account", None), getattr(_ev, "ts", "") or ""
+                if _a and len(_ts) >= 10:
+                    _acted.setdefault(_a, set()).add(_ts[:10])
+            _pindex = {p.id: i for i, p in enumerate(personas)}
+            _role_days: dict[str, str | None] = {}
+            for _inst in coalition_meta["instances"]:
+                for _role, _acct in _inst.roles.items():
+                    if _acct not in _pindex:
+                        _role_days[_acct] = None          # not in this run's roster
+                        continue
+                    _rng = _rnd.Random((seed or 0) + _pindex[_acct])
+                    _sched = build_campaign(
+                        _inst.threat, _dates_r, _rng, role=_role,
+                        stealth_level=_inst.stealth_level, window=_inst.window,
+                        roles=_inst.role_order,
+                        acts_on_day=(lambda a, day, _s=_acted: day in _s.get(a, set())),
+                        account=_acct, instance_id=_inst.id)
+                    _role_days[_acct] = _sched[0]["date"] if _sched else None
+            manifest["coalitions"] = _manifest_entry(
+                coalition_meta["path"], coalition_meta["branch_id"],
+                coalition_meta["instances"], coalition_meta["maps"], None,
+                assignment_cells_skipped=coalition_meta.get("assignment_cells_skipped"),
+                role_days=_role_days)
+            resume_state.write_atomic(manifest, out_path)
+            logger.info("coalitions (rules): %d instance(s), role days %s",
+                        len(coalition_meta["instances"]), _role_days)
     finally:
         collector.close()
         if transcript_fh is not None:

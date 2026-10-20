@@ -22,6 +22,7 @@ persona-override block; nothing else about the insider prompt changes.
 from __future__ import annotations
 
 import random
+from typing import Callable
 
 # threat_id -> {"stage": <directive>, "trigger": <directive>}
 PHASE_DECOMP: dict[str, dict[str, str]] = {
@@ -116,13 +117,22 @@ _COLLUSION_ROLE_ORDER: dict[str, list[str]] = {
     # active-role subset and window) come from mole/generator/coalitions.py and reach
     # build_campaign through its `roles` / `window` arguments.
     "c4_access_split": ["requester", "approver", "group_admin"],
+    # f4 = shared-document poisoning (Stage 3, family F4): editor_1 .. editor_3 each edit
+    # the SAME shared document on sequenced days inside the instance window. Like c4 it has
+    # NO COLLUSION_DECOMP entry (directive None; the session carrier is a later task), so
+    # build_campaign returns the role's day only. Up to three roles, sequenced by rank via
+    # _role_day_range (R=3).
+    "f4_shared_doc": ["editor_1", "editor_2", "editor_3"],
 }
 
 # Backwards-compatible {role: rank} view over the v1 threats C1 to C3 (their role labels
 # are unique across threats; C4 reuses "approver", so it is excluded from this flat view
-# and is only ever resolved through _role_slot with its own threat id).
+# and is only ever resolved through _role_slot with its own threat id). F4 is likewise
+# excluded: its instances always pass `roles` to build_campaign, so its editor_* roles
+# are resolved from that explicit order, never this flat view.
 _COLLUSION_ROLE_RANK: dict[str, int] = {
-    role: rank for tid, order in _COLLUSION_ROLE_ORDER.items() if tid != "c4_access_split"
+    role: rank for tid, order in _COLLUSION_ROLE_ORDER.items()
+    if tid not in ("c4_access_split", "f4_shared_doc")
     for rank, role in enumerate(order)
 }
 
@@ -148,6 +158,30 @@ def _role_day_range(rank: int, n_roles: int, n: int) -> tuple[int, int]:
     def ceil_div(a: int, b: int) -> int:
         return -(-a // b)
     return ceil_div(rank * n, n_roles), ceil_div((rank + 1) * n, n_roles) - 1
+
+
+def _acting_day_index(
+    idx: int, lo: int, hi: int, n: int, sim_dates: list[str], rng: random.Random,
+    acts_on_day: Callable[[str | None, str], bool], account: str | None,
+    instance_id: str | None, role: str | None,
+) -> int:
+    """L15 rule 4: a role's drawn day must be a day the account actually acts.
+
+    Keep the drawn day `idx` when the account acts then (so the happy path, where the
+    account acts every slice day, is byte-identical to the legacy draw). Otherwise
+    re-draw inside the role's rank slice [lo, hi] ONLY: rank order is binding, so a
+    re-draw never crosses into another role's slice. If the account acts on no day of
+    its slice, raise naming the instance and role (the operator must widen the window
+    or re-draw the roster). `n` (window length) is kept for the caller's signature."""
+    if acts_on_day(account, sim_dates[idx]):
+        return idx
+    slice_acting = [j for j in range(lo, hi + 1) if acts_on_day(account, sim_dates[j])]
+    if slice_acting:
+        return rng.choice(slice_acting)
+    raise ValueError(
+        f"coalition instance {instance_id!r} role {role!r}: account {account!r} has no "
+        f"session on any day of its rank slice (window days {lo + 1}-{hi + 1}); "
+        f"widen the window or re-draw")
 
 
 # Per-role attack directives for collusion (the analogue of the solo PHASE_DECOMP).
@@ -252,6 +286,9 @@ def build_campaign(
     gap_range: tuple[int, int] = (2, 6),
     window: tuple[int, int] | None = None,
     roles: list[str] | None = None,
+    acts_on_day: Callable[[str | None, str], bool] | None = None,
+    account: str | None = None,
+    instance_id: str | None = None,
 ) -> list[dict]:
     """Deterministic per-insider campaign schedule (scripted multi-day mode).
 
@@ -271,7 +308,11 @@ def build_campaign(
     ``roles`` (the instance's active roles in acting order) replaces the threat's full
     role order for the rank / role-count arithmetic, so a two-role instance over a
     three-day window gives rank 0 the first two days and rank 1 the third. Only the
-    collusion branch reads them; solo threats ignore both.
+    collusion branch reads them; solo threats ignore both. ``acts_on_day`` (with
+    ``account`` / ``instance_id``) enforces L15 rule 4 on the drawn collusion-role day:
+    the day must be one the account acts, else it is re-drawn inside the role's rank
+    slice or the call fails naming the instance and role. Omitted (every legacy caller,
+    including the agentic path via campaign_schedule_for) -> unchanged.
 
     Pure function of (threat_id, sim_dates, rng state), so it's reproducible per
     member seed. Returns ``[]`` only for an empty window. Never returns an empty
@@ -305,6 +346,11 @@ def build_campaign(
         if slot is not None and n >= slot[1]:
             lo, hi = _role_day_range(slot[0], slot[1], n)
             idx = rng.randint(lo, hi)
+            if acts_on_day is not None:
+                # L15 rule 4: re-draw onto a day the account actually acts (or fail loudly
+                # naming the instance). No predicate => legacy behaviour, byte-identical.
+                idx = _acting_day_index(idx, lo, hi, n, sim_dates, rng, acts_on_day,
+                                        account, instance_id, role)
             # phase="act" (NOT "stage") so BOTH roles run as tagged attack sessions with the
             # full persona + directive: the rank-0 role stages the handoff artifact (its
             # persona already scopes it to staging, so it won't run ahead), the rank-1 role
