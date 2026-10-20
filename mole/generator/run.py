@@ -700,6 +700,8 @@ async def simulate(
     max_turns: int = 30,
     max_tool_calls_per_turn: int | None = None,   # None -> $MOLE_MAX_TOOL_CALLS_PER_TURN or 24
     elicit: bool = True,
+    objective_carrier: str = "insider",
+    elicit_share: float | None = None,
     allowed_persona_ids: set[str] | None = None,
     attack_session_rate: float = 0.20,
     multi_day: bool = False,
@@ -1137,6 +1139,8 @@ async def simulate(
                           max_turns=max_turns,
                           max_tool_calls_per_turn=max_tool_calls_per_turn,
                           elicit=elicit,
+                          objective_carrier=objective_carrier,
+                          elicit_share=elicit_share,
                           attack_session_rate=attack_session_rate,
                           campaign_schedule=_campaign_for(p.id, i),
                           benign_arc_schedule=_arc_schedule_for(p, i),

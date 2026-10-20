@@ -85,6 +85,7 @@ VARIANT_ROLES: dict[str, dict[str, list[str]]] = {
         "k3": ["requester", "approver", "group_admin"],
     },
     F4_THREAT: {
+        "k1": ["editor_1"],                 # one-role instance: rehearsals and placeholder tests
         "k2": ["editor_1", "editor_2"],
         "k3": ["editor_1", "editor_2", "editor_3"],
     },

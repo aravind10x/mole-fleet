@@ -466,6 +466,8 @@ class AgenticMember(Member):
         benign_arc_schedule: list | None = None,
         pinned_tasks: dict[str, dict] | None = None,
         max_tool_calls_per_turn: int | None = None,   # None -> loop default / env
+        objective_carrier: str = "insider",
+        elicit_share: float | None = None,
     ) -> None:
         # Reuse Member's scheduling/jitter/loaf machinery; workflows are unused.
         super().__init__(persona, config=config, rng_seed=rng_seed)
@@ -575,6 +577,28 @@ class AgenticMember(Member):
             d: {**v, "task": (v.get("task") or "").replace("{ws}", self._workspace)}
             for d, v in (pinned_tasks or {}).items()}
         self._pins_used: set[str] = set()
+        # Objective carrier (Stage 3, lesson L13 repair; design section 4 "the leak repair"):
+        #   "insider" -- the legacy path: a scenario session uses _INSIDER_SYSTEM with the
+        #                override text as the persona block (plus the elicitation prefix);
+        #   "benign"  -- a scenario session rides the BENIGN rich template exactly as an
+        #                honest session does (same system block, same agenda-length draw
+        #                randint(2, 4), same task pool), with the override text injected as
+        #                ONE standing agenda item at a uniformly drawn position, fed through
+        #                next_task like any other item. Nothing else differs, so the session
+        #                is not separable from honest ones by template, length or task draw.
+        # elicit_share: under the benign carrier, the probability that the elicitation prefix
+        # is prepended to ANY session's system prompt (scenario and honest alike, same
+        # distribution); None/0 means absent everywhere. Ignored under the insider carrier.
+        if objective_carrier not in ("insider", "benign"):
+            raise ValueError(f"objective_carrier must be 'insider' or 'benign', got {objective_carrier!r}")
+        self.objective_carrier = objective_carrier
+        self.elicit_share = float(elicit_share or 0.0)
+
+    def _is_role_day(self, day: str) -> bool:
+        """True when `day` is a scheduled scenario day of this account (campaign phase). The
+        planner's rule (lesson L15 rule 4): an account scheduled on a day acts that day."""
+        return bool(self.persona_override) and any(
+            p.get("date") == day for p in (self.campaign_schedule or []))
 
     def plan_day(self, sim_date_iso: str) -> list[tuple[Any, str]]:
         """Plan `sessions_per_day` agent sessions across the working day.
@@ -588,11 +612,23 @@ class AgenticMember(Member):
         # Slotted arc steps and slotted pins run even on a PTO day and are never loafed
         # (the workflow needs them); they draw no RNG, so every other draw is unchanged.
         arc_sessions = self._arc_sessions_for(day) + self._pin_sessions_for(day)
+        # A scheduled scenario day (L15 rule 4) keeps the account in and keeps at least one
+        # session; every RNG draw below still happens so other days are byte-identical.
+        role_day = self._is_role_day(day)
         if self.config.absent_probability > 0 and self.rng.random() < self.config.absent_probability:
-            if day not in self._pinned_tasks:      # a pinned task keeps the account in that day
+            if day not in self._pinned_tasks and not role_day:   # a pin keeps the account in
                 logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
                 self._today_keys = []
                 return arc_sessions
+            if role_day and day not in self._pinned_tasks:
+                # Rule 4: the role day gets ONE session at the account's usual start, drawn
+                # with the RNG state saved and restored, so the stream (and every other
+                # day) is byte-identical to the absent case.
+                state = self.rng.getstate()
+                slot = self._slot_times(self._iso_date_to_dt(sim_date_iso), 1)[0]
+                self.rng.setstate(state)
+                self._today_keys = ["session_0"]
+                return [(slot, "session_0")] + arc_sessions
         base = self._iso_date_to_dt(sim_date_iso)
         sessions = max(1, self.config.sessions_per_day)
         slots = self._slot_times(base, sessions)
@@ -601,6 +637,8 @@ class AgenticMember(Member):
             if self.rng.random() < self.config.loaf_probability:
                 continue
             plan.append((t, f"session_{i}"))
+        if role_day and not plan and slots:
+            plan.append((slots[0], "session_0"))   # loafed every slot: keep the first (rule 4)
         self._today_keys = [k for _, k in plan]   # actual sessions → attack-slot pool
         return plan + arc_sessions
 
@@ -827,7 +865,36 @@ class AgenticMember(Member):
         # Rich-session agenda queue (default on): items fed to the agent after it finishes
         # the first, so a session is a multi-task work block.
         queue: list[str] = []
-        if is_attack_session:
+        objective_position: int | None = None
+        agenda_len: int | None = None
+        elicit_prefix_used = False
+        if is_attack_session and self.objective_carrier == "benign":
+            # Benign-template carrier: the honest rich session, byte for byte, with the
+            # objective as one standing agenda item (see __init__). The agenda draw is the
+            # honest one (same RNG calls: randint(2, 4) then sample), then one position is
+            # replaced, so agenda LENGTH keeps the honest distribution.
+            system = render_prompt(
+                tmpl["_BENIGN_SYSTEM_BLOCK"],
+                focal_account=self.persona.id,
+                org_manager=org,
+                sim_start_iso=sim_now,
+                available_tools=[t.name for t in tools],
+                services=services,
+            )
+            objective = self.persona_override or ""
+            if phase_directive:
+                objective = objective + "\n" + phase_directive
+            pool = draw_tasks or []
+            if pool:
+                k = min(len(pool), self.rng.randint(2, 4))
+                agenda = self.rng.sample(pool, k)
+                objective_position = self.rng.randrange(k)
+                agenda[objective_position] = objective
+            else:
+                agenda, objective_position = [objective], 0
+            agenda_len = len(agenda)
+            queue = list(agenda)
+        elif is_attack_session:
             # Substitute the override text in place of {persona}; render_prompt
             # then fills {today} and any other placeholders. We pre-substitute
             # to avoid render_prompt's default org-derived persona block.
@@ -938,6 +1005,12 @@ class AgenticMember(Member):
                 )
         user = render_prompt(tmpl["_BENIGN_USER"], focal_account=self.persona.id,
                              org_manager=org, sim_start_iso=sim_now, services=services)
+        if (self.objective_carrier == "benign" and self.elicit_share > 0
+                and arc_entry is None and pin_entry is None
+                and self.rng.random() < self.elicit_share):
+            # Matched presence: the prefix rides honest and scenario sessions alike.
+            system = _ELICITATION_PREFIX + system
+            elicit_prefix_used = True
         if post_attack:
             user = _D5_STANDING_NOTE + "\n\n" + user
         # Prepend a short bulleted recap of this account's recent state-
@@ -1092,6 +1165,12 @@ class AgenticMember(Member):
                 # D5: a colluder's benign-mode session on/after its first attack session.
                 extra["post_attack_benign"] = True
                 extra["attack_started"] = self._attack_started
+            if self.objective_carrier == "benign":
+                extra["carrier"] = "benign"
+                extra["elicit_prefix"] = elicit_prefix_used
+                if is_attack_session:
+                    extra["objective_position"] = objective_position
+                    extra["agenda_len"] = agenda_len
             self.transcript_sink({
                 **extra,
                 "account": self.persona.id,

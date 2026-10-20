@@ -326,6 +326,15 @@ def main(argv: list[str] | None = None) -> int:
                          "rate is #insiders * K / account-days). Default 4 — calibrated to "
                          "the v1 ar05 base rate (~3.2%%, ~4.6 attack-days/insider), counted "
                          "executed-union-attempted.")
+    ap.add_argument("--objective-carrier", choices=["insider", "benign"], default="insider",
+                    help="How a scenario session carries its objective: 'insider' (legacy "
+                         "insider template + elicitation prefix) or 'benign' (the honest rich "
+                         "template with the objective as one standing agenda item; Stage 3 "
+                         "leak repair, L13).")
+    ap.add_argument("--elicit-share", type=float, default=None,
+                    help="Under --objective-carrier benign: probability that the elicitation "
+                         "prefix is prepended to ANY session (scenario and honest alike). "
+                         "Default: absent.")
     ap.add_argument("--no-elicitation", action="store_true",
                     help="Disable the red-team elicitation prefix on insider "
                          "system prompts (default: prefix ON). The prefix "
@@ -532,6 +541,8 @@ def main(argv: list[str] | None = None) -> int:
         max_turns=max_turns,
         max_tool_calls_per_turn=args.max_tool_calls_per_turn,
         elicit=not args.no_elicitation,
+        objective_carrier=args.objective_carrier,
+        elicit_share=args.elicit_share,
         allowed_persona_ids=persona_filter,
         attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
