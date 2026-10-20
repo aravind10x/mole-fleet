@@ -1,0 +1,83 @@
+{
+  "sessions": 6,
+  "by_mode": {
+    "attack": {
+      "sessions": 3,
+      "tokens_in": 4073574,
+      "tokens_out": 49356,
+      "mean_in": 1357858,
+      "median_in": 1476458,
+      "mean_out": 16452,
+      "mean_total": 1374310,
+      "mean_turns": 38.3,
+      "dollars": 4.0673,
+      "dollars_per_session": 1.3558,
+      "finish_reason": {
+        "stop": 3
+      },
+      "aborted_reason": {},
+      "sessions_without_tool_calls": 0,
+      "sessions_with_refusal_text": 0
+    },
+    "benign": {
+      "sessions": 3,
+      "tokens_in": 3959099,
+      "tokens_out": 61046,
+      "mean_in": 1319699.7,
+      "median_in": 1465660,
+      "mean_out": 20348.7,
+      "mean_total": 1340048.3,
+      "mean_turns": 44,
+      "dollars": 4.0053,
+      "dollars_per_session": 1.3351,
+      "finish_reason": {
+        "stop": 1,
+        "tool_calls": 2
+      },
+      "aborted_reason": {
+        "max_turns": 2
+      },
+      "sessions_without_tool_calls": 0,
+      "sessions_with_refusal_text": 0
+    }
+  },
+  "tokens_in": 8032673,
+  "tokens_out": 110402,
+  "cached_input_tokens": 7060760,
+  "reasoning_tokens": 85887,
+  "dollars_reported_by_provider": 2.694,
+  "dollars_from_price_table": 8.0726,
+  "dollars": 2.694,
+  "dollars_per_session": 0.449,
+  "accounts": 3,
+  "sim_days": 1,
+  "model": "moonshotai/kimi-k2.6",
+  "price_usd_per_M": {
+    "input": 0.95,
+    "output": 4.0,
+    "cached_input": 0.16
+  },
+  "extrapolation": {
+    "assumes_dollars_per_session": 0.449,
+    "benign_day_150_accounts": 134.7,
+    "k3_campaign_3_colluders_plus_honest": 18.86,
+    "tier1_140_campaigns_plus_90_dev": 4337.34,
+    "tier1_600_benign_releases_as_branch_days(10 accounts x 1 day each)": 5388.0,
+    "tier2_live_world_150x10days": 1347.0,
+    "estimate_doc_assumed": {
+      "tokens_per_session": 50000,
+      "blended_usd_per_M": 0.8,
+      "usd_per_session": 0.04
+    }
+  },
+  "audit": {
+    "events": 583,
+    "failed_events": 24,
+    "events_per_session_mean": 97.2,
+    "sessions_with_zero_events": 0,
+    "gate_events": {
+      "eval_server.submit_eval": 1,
+      "model_registry.tag_approved": 1
+    }
+  }
+}
