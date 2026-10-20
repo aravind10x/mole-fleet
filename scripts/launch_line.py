@@ -6,8 +6,9 @@ that counts the persona list instead of the roster has already cost a coalition.
 script is the single source of a launch command. It reads an assignment file's
 `generation` block (the launch flags the controller recorded beside the draw) and prints:
 
-  1. the env-export prefix (a PLACEHOLDER for the key, never its value) + the full
-     `sim_runner.py` command for a named branch, in `--mode rules` or `--mode agentic`;
+  1. the env prefix (source .env; export the key selected BY VARIABLE NAME, never a value
+     and never a placeholder; name the model) + the full `sim_runner.py` command for a
+     named branch, in `--mode rules` or `--mode agentic`, runnable verbatim;
   2. the EXPECTED PLAN (roster size, planned sessions/day = roster x sessions/day, the
      coalition instances with each role's allowed day-range inside its window, the shared
      document per F4 instance, and the persona files that must exist) so L15 rule 1's
@@ -38,6 +39,8 @@ The `generation` block this reads:
       out: data/corpus/spike/f4_rehearsal_rules.jsonl
       personas_dir: work/stage3/rehearsal/personas   # optional -> --personas-dir
       extra_flags: [--multi-day, --no-docker]        # optional, verbatim
+      key: 2                     # optional: .env key number, 1 or 2 (default 2)
+      model: moonshotai/kimi-k2.6   # optional: OPENROUTER_MODEL slug (default as shown)
 
 No persona, objective or directive text anywhere.
 """
@@ -58,9 +61,14 @@ from mole.generator.campaign import _role_day_range  # noqa: E402
 from mole.generator.coalitions import load_coalitions  # noqa: E402
 from mole.generator.run import _weekday_dates  # noqa: E402
 
-#: Printed, never a real secret -- the operator substitutes it by sourcing .env.
-KEY_PLACEHOLDER = "OPENROUTER_API_KEY=<from .env key 2>"
-MODEL_PLACEHOLDER = "OPENROUTER_MODEL=<from .env>"
+#: The key is selected by VARIABLE NAME from the sourced .env (never a value, never a
+#: placeholder the operator must edit: L15 rule 2). `generation.key` is 1 or 2 (default 2,
+#: the project account's key). The other key is unset so the OpenRouter client cannot fall
+#: back to another account's key on a 402 (L3: a 402 is a stop, never a retry).
+KEY_ENV_BY_NUMBER = {1: "OPENROUTER_API_KEY", 2: "OPENROUTER_API_KEY_2"}
+DEFAULT_KEY = 2
+#: The generator model slug (`generation.model`); the Stage 2b and Stage 3 generator.
+DEFAULT_MODEL = "moonshotai/kimi-k2.6"
 
 
 class LaunchError(Exception):
@@ -166,13 +174,38 @@ def build_expected_plan(assignment: str | Path, branch_id: str) -> dict:
     }
 
 
+def _key_export(gen: dict) -> str:
+    """`export OPENROUTER_API_KEY="${<var>}" && unset OPENROUTER_API_KEY_2` for the key the
+    assignment names (1 or 2); refuses anything else."""
+    raw = gen.get("key", DEFAULT_KEY)
+    try:
+        num = int(raw)
+    except (TypeError, ValueError):
+        num = None
+    if num not in KEY_ENV_BY_NUMBER:
+        raise LaunchError(f"generation.key must be one of {sorted(KEY_ENV_BY_NUMBER)} "
+                          f"(the .env variable number), got {raw!r}")
+    var = KEY_ENV_BY_NUMBER[num]
+    return f'export OPENROUTER_API_KEY="${{{var}}}" && unset OPENROUTER_API_KEY_2'
+
+
+def _model(gen: dict) -> str:
+    model = str(gen.get("model") or DEFAULT_MODEL)
+    if not model or any(ch in model for ch in " <>\"'$`;&|"):
+        raise LaunchError(f"generation.model must be a plain model slug, got {model!r}")
+    return model
+
+
 def build_command(assignment: str | Path, branch_id: str) -> str:
-    """The exact `sim_runner.py` command (with the env-export placeholder prefix)."""
+    """The exact `sim_runner.py` command, runnable verbatim: sources .env, selects the key by
+    variable name, names the model, then the runner line. No placeholder anywhere."""
     p = Path(assignment)
     doc = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
     gen = doc.get("generation") or {}
     roster = _personas_list(gen)
     mode = str(gen.get("mode") or "agentic")
+    key_line = _key_export(gen)
+    model = _model(gen)
     args: list[str] = [".venv/bin/python", "scripts/sim_runner.py"]
     if gen.get("smoke", True):
         args.append("--smoke")
@@ -202,11 +235,13 @@ def build_command(assignment: str | Path, branch_id: str) -> str:
     # on their own lines, never after a backslash continuation.
     lines = ["# Run from the project root. All paths below are relative to work/mole-fork."]
     if mode == "rules":
-        lines.append("# Rules mode makes no LLM calls; the key placeholder is not consumed.")
-    lines.append("# Substitute the placeholders by sourcing .env; never paste a key here.")
+        lines.append("# Rules mode makes no LLM calls; the exported key is not consumed.")
+    lines.append("# The key is selected by variable name from .env (generation.key); nothing "
+                 "here is edited by hand.")
     lines.append("cd work/mole-fork")
     lines.append("set -a && source .env && set +a")
-    lines.append(f"{KEY_PLACEHOLDER} {MODEL_PLACEHOLDER} \\")
+    lines.append(key_line)
+    lines.append(f"OPENROUTER_MODEL={model} \\")
     lines.append("  " + " ".join(args))
     return "\n".join(lines)
 

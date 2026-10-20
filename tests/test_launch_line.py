@@ -129,9 +129,53 @@ def test_command_has_flags_and_key_placeholder_only(tmp_path):
     assert "--personas-dir ../stage3/rehearsal/personas" in cmd
     assert "--seed 20260" in cmd
     assert ",".join(ROSTER) in cmd                                 # full roster, not a count
-    # the key is a placeholder, never a value
-    assert "OPENROUTER_API_KEY=<from .env key 2>" in cmd
+    # the key is selected by VARIABLE NAME from the sourced .env, never a value
+    assert 'OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}"' in cmd
     assert "sk-" not in cmd
+
+
+def _run_lines(cmd: str) -> list[str]:
+    return [ln for ln in cmd.splitlines() if ln.strip() and not ln.lstrip().startswith("#")]
+
+
+def test_command_is_runnable_verbatim_no_placeholder(tmp_path):
+    """Branch review 2026-10-20, erratum 4 (L15 rule 2): the emitted line had a `<...>`
+    placeholder (a shell redirect) and an assignment that would override the sourced key, so
+    the operator hand-edited it. The emitted text must contain no placeholder, select the key
+    by variable name after sourcing .env, unset the other key so the client cannot fall back
+    to another account's key (L3: a 402 is a stop), name the model, and parse as bash."""
+    import shutil
+    import subprocess
+    p = _write(tmp_path, _doc())
+    cmd = ll.build_command(p, "R")
+    body = "\n".join(_run_lines(cmd))
+    assert "<" not in body and ">" not in body, body
+    assert "set -a && source .env && set +a" in body
+    assert 'export OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}"' in body
+    assert "unset OPENROUTER_API_KEY_2" in body
+    assert "OPENROUTER_MODEL=moonshotai/kimi-k2.6" in body          # the default generator
+    # the key export happens AFTER sourcing and BEFORE the runner line
+    i_src = body.index("source .env"); i_key = body.index("export OPENROUTER_API_KEY")
+    i_run = body.index("scripts/sim_runner.py")
+    assert i_src < i_key < i_run
+    bash = shutil.which("bash")
+    assert bash, "bash needed for the syntax check"
+    r = subprocess.run([bash, "-n"], input=cmd, text=True, capture_output=True)
+    assert r.returncode == 0, r.stderr
+
+
+def test_command_key_and_model_come_from_the_assignment(tmp_path):
+    doc = _doc()
+    doc["generation"]["key"] = 1
+    doc["generation"]["model"] = "moonshotai/kimi-k2.6"
+    p = _write(tmp_path, doc)
+    cmd = ll.build_command(p, "R")
+    assert 'export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}"' in cmd       # key 1 by name
+    assert "unset OPENROUTER_API_KEY_2" in cmd
+    assert "${OPENROUTER_API_KEY_2}" not in cmd
+    doc["generation"]["key"] = 3
+    with pytest.raises(ll.LaunchError, match="key"):
+        ll.build_command(_write(tmp_path, doc, "k3.yaml"), "R")
 
 
 def test_agentic_mode_emits_agentic(tmp_path):
