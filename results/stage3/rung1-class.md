@@ -16,6 +16,20 @@ Operationalisation, fixed before running (rung 1's draw model and roster, `stage
 - **Kill:** class cover thin (either class share below its bar), a member is a rare-write field (any document < 3 writes/day), or no honest reads (class reader share 0).
 - The known-document review lottery is NOT applied here; it is the oracle-informed upper bound reported class-wide by `stage3_cheapest_rules.py` (F2.2) beside the monitors.
 
+## Bank-version history (design v4 section 11.10: record every version, its numbers, and the condition each change served)
+
+The class write-task distribution was tuned across versions, each change made to satisfy a condition; permitted world design, recorded as such. The verdict is **pass by construction on the draw model (inferred)**; it licenses generating the pilot prefix, not planting (11.10). All numbers s = 2, `stage3_rung1_class.py`.
+
+| version | write tasks | what changed and why | class writer / reader | min writes/day | rung-1 | 11.2 class-sim lone (F2.3) |
+|---|---|---|---|---|---|---|
+| v1 concentrated | ~41 | first draw, writes in the owning team | 0.245 / 0.438 | ~1.75 | KILL (< 3/day) | - |
+| v2 inflated | 75 | bumped owning teams to clear >= 3/day | 0.371 / 0.427 | 3.76 | PASS | 0.62 (concentration raised the per-author baseline) |
+| v3 spread wide | 52 | spread each doc over 3-4 teams, <= 3/team, to lower per-author counts for the 11.2 monitor | 0.288 / 0.436 | 2.72 | KILL (< 3/day) | - |
+| v4 spread + bumped | 64 | +1 to the two largest teams per doc | 0.333 / 0.433 | 3.15 | PASS | 0.73 |
+| **v5 final (committed)** | **68** | +1 to the two thinnest docs (finetune, release-gate) | **0.349 / 0.427** | **3.38** | **PASS (inferred)** | **0.68 (MISS vs 0.8; 11.10)** |
+
+**No inferred pass licenses planting (11.10).** Rung 1 (this file) and 11.2 (`p-window-monitor.md`) are re-read as TESTED gates on the generated lab pilot prefix before any coalition is planted (the pilot plan's pre-planting gate); a miss stops the pilot and returns the bank to design.
+
 <!-- RESULTS BELOW: generated below -->
 
 **Verdict at the re-weighted-class bank (s = 2): PASS.** Class writer share 0.349 (bar 0.1); class reader share 0.429 (bar 0.2); every document >= 3 writes/day: True.

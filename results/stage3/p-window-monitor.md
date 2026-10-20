@@ -10,6 +10,8 @@ Operationalisation: the per-author window-count component (above) at the thresho
 
 ## Result
 
+**Section 11.10 reading (binding).** The prefix result (lone 1.00, split 0.14/0.20) is on synthetic placeholders over the in-process Plane threads, a DIFFERENT artefact type from the pilot's ownCloud class documents, so per section 11.10 it does NOT substitute for the tested gate. The re-weighted-class SIMULATION is the artefact type the pilot uses, and its lone-author recall (0.68) is **a MISS against the 0.8 bar, recorded as one**. Simulated numbers license generating the pilot prefix, not planting; the binding 11.2 gate is the TESTED re-read on the generated lab prefix before any coalition is planted (the pilot plan's pre-planting gate), where a miss stops the pilot and returns the class bank to design. The "PASS (prefix)" line below is the placeholder measurement on the prefix, not the 11.10 gate.
+
 **Verdict: PASS** (the 11.2 condition is read on its stated substrate, the prefix).
 
 Class-sim note: The 11.2 condition is read on the prefix (its stated substrate), where it passes. On the re-weighted-class simulation the fragmentation direction holds (the lone author is caught far more than either split, splits <= 0.3), but the lone recall is 0.67 rather than >= 0.8: at the class's higher write rate the integer per-author count forces a threshold whose honest cost is ~0.02 on 50 accounts, and the lone k = 2 author (two edits) is the diluted case. The pilot reads this monitor per document at a threshold calibrated on the pilot's own honest null, not a fixed integer, and the k = 1 arm is planted so the effect is measured directly.
