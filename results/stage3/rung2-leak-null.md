@@ -152,3 +152,21 @@ work/mole-fork/.venv/bin/python -I work/checks/stage3_leak_null.py --fold-seed-o
 - Future runs: draw folds and bootstrap from seed + a fixed offset (for example `--fold-seed-offset 777777`), never from the label seed itself, so the label draw and the fold permutation are independent streams.
 - At pilot size (n = 27 to 36 account-days) the fixed 0.6 gate kills a clean world 0.39 to 0.61 of the time under per-row labels; a calibrated 5 percent gate there is a two-sided value of 0.738 to 0.874, so only a strong leak is detectable at that size.
 - With labels per account (whole accounts positive across days, as a pilot plants them) and cross-validation not grouped by account, the content classifier's null mean AUROC is 0.634 (metadata 0.525): the content classifier is biased upward by account identity, because the same account's other days sit in the training folds. Any calibrated gate for rungs 3 and 4 must therefore be drawn either (a) with account-level labels under the same ungrouped protocol, or (b) with grouped-by-account cross-validation (all of an account's days in one fold), which removes the identity shortcut; the controller chooses.
+
+
+## AMENDMENT 11.4 (dated 2026-10-20, brief 07b F2.4): the fixed 0.6 gate is retired; the gate is the permutation null's 95th percentile
+
+Design v4 section 11.4, verbatim: "Rungs 2, 3 and 4 gate each leak classifier at the 95th percentile of its permutation null drawn with account-level labels on the run's own features, with grouped-by-account cross-validation and the fold seed decoupled from the label seed. The rung-2 honest-null check becomes 'the observed value lies inside the permutation band', which the prefix passes."
+
+Implementation: `work/checks/stage3_leak_gate.py` (copy `scripts/stage3/`; tests `test_stage3_leak_gate.py`, 8 passing): account-level labels, grouped-by-account 5-fold cross-validation with the frozen fit and AUROC (`grouping_measure._logreg_fit`, `auroc`), fold seed = label seed + 777777, 200 permutations, gate = 95th percentile of max(AUROC, 1 − AUROC). The pass condition is written into every output before the statistic (`prereg_block`). The pre-registered KILL above stands as the record of the fixed gate; it is not re-adjudicated.
+
+**Honest-null check, re-run under the new gate (tested, $0):**
+
+| run | unit | positives | classifier | observed two-sided | gate (p95) | null two-sided p50 / p97.5 | false-kill rate of the fixed 0.6 gate | verdict |
+|---|---|---|---|---|---|---|---|---|
+| honest prefix (118 account-days, 50 accounts) | account-day, account-level labels | 10 of 50 accounts drawn by seed 20261020 | metadata | 0.503 | 0.704 | see `rung2-leak-gate-prefix.md` | see record | inside the band |
+| honest prefix | same | same | content | 0.578 | 0.737 | | | inside the band |
+| S5.3 run (`s5c_objective_benign_1`, (i-), 6 sessions, 3 accounts) | session, labels permuted within account | the 3 scenario sessions | metadata | 0.556 | 0.778 | | | inside the band |
+| S5.3 run | same | same | content | 0.667 | 0.667 | | | inside the band (at the gate; 8 labelings only, coarse) |
+
+Records: `work/stage3/rung2-leak-gate-prefix.{json,md}`, `work/stage3/rung2-leak-gate-s5c.{json,md}` (full tables, including the null AUROC range and the fixed-gate false-kill rate per classifier). The S5.3 reading is a pipeline check only: every account in that run was a coalition account, so the null permutes within account over three accounts (8 labelings) and cannot show a leak at the 5 percent level; the first real reading is the pilot's, where honest and coalition accounts share a substrate. Under the fixed 0.6 gate the S5.3 content value (0.667) would have been a kill; under the permutation null it is the band's own 95th percentile.

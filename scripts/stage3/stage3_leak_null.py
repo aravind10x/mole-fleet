@@ -25,6 +25,16 @@ How:
 
 Outputs carry numbers and feature names only; ``assert_no_text`` checks every string written.
 
+SUPERSEDED GATE (dated 2026-10-20; Stage 3 design v4 section 11.4, brief 07b F2.4). The fixed
+two-sided band [0.4, 0.6] this script pre-registered is retired for rungs 2, 3 and 4: it kills
+a clean honest prefix 13 percent of the time at n = 118 and 39 to 61 percent of the time at
+pilot size (the post-hoc permutation bands below). The gate is now the 95th percentile of a
+permutation null with ACCOUNT-level labels on the run's own features, grouped-by-account
+cross-validation and the fold seed decoupled from the label seed, implemented in
+``stage3_leak_gate.py`` (``SUPERSEDED_BY``); the honest-null check becomes "the observed value
+lies inside the permutation band" (records ``work/stage3/rung2-leak-gate-*.md``). This file's
+pre-registered run and its post-hoc sections are kept as the record that motivated the change.
+
     work/mole-fork/.venv/bin/python -I work/checks/stage3_leak_null.py \\
         --out-json /abs/work/stage3/rung2-leak-null.json \\
         --out-md /abs/work/stage3/rung2-leak-null.md
@@ -49,6 +59,7 @@ import mole_corpus as mc  # noqa: E402
 import stage3_leak_content as lc  # noqa: E402
 
 VERSION = "stage3-leak-null-v1"
+SUPERSEDED_BY = "work/checks/stage3_leak_gate.py (permutation gate, 2026-10-20)"
 PROJECT = HERE.parent.parent
 DEFAULT_CORPUS = PROJECT / "work/mole-fork/data/corpus/spike/prefix_v1.jsonl"
 SEED0 = 20261020
