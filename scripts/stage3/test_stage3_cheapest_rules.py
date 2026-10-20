@@ -227,3 +227,32 @@ def test_analyse_synthetic_log(tmp_path):
     assert lot[-1]["recall"] == 1.0
     assert set(res["arms"]) >= {"primary_k23_any", "k23_single_author", "k23_any_dense5", "k23_cover"}
     assert "k23_single_author" in res["window_author_posthoc"]
+
+
+def test_class_wide_verdict_applies_the_bar_classwide_and_reports_the_lottery_as_bound():
+    # a synthetic res shaped like analyse()'s output for one arm
+    def _arm(cw_strong_prereg, cw_strong_attr):
+        strong_bar = {"at_0.05": {"recall": 0.4, "recall_attr": 0.4 if cw_strong_attr else 0.0},
+                      "below_0.20": None, "attr_at_0.05": {"recall_attr": 0.4 if cw_strong_attr else 0.0},
+                      "attr_below_0.20": None}
+        weak_bar = {"at_0.05": {"recall": 0.1, "recall_attr": 0.1}, "below_0.20": None,
+                    "attr_at_0.05": {"recall_attr": 0.1}, "attr_below_0.20": None}
+        return {"class_wide": {"edit freq": {"bar": strong_bar if cw_strong_prereg else weak_bar},
+                               "diff size": {"bar": weak_bar}},
+                "doc_scoped": {"every writer of the target (review lottery)":
+                               {"bar": {"at_0.05": {"recall": 1.0, "recall_attr": 1.0},
+                                        "below_0.20": {"recall": 1.0, "recall_attr": 1.0},
+                                        "attr_at_0.05": {"recall_attr": 1.0},
+                                        "attr_below_0.20": {"recall_attr": 1.0},
+                                        "min_cost_recall_0.5": 0.01}}}}
+    # strong class-wide on pre-registered recall only -> survives on attributable, not prereg
+    res = {"arms": {"primary_k23_any": _arm(True, False)}}
+    v = cr.class_wide_verdict(res)
+    assert v["survives_on_attributable_recall"] is True
+    assert v["survives_on_prereg_recall"] is False
+    assert v["class_wide_strong_prereg_recall"] == ["edit freq"]
+    assert v["class_wide_strong_attributable_recall"] == []
+    assert v["lottery_oracle_informed_bound"]["at_0.05"]["recall"] == 1.0  # reported, not a kill
+    # a class-wide rule strong on attributable recall -> does not survive
+    res2 = {"arms": {"primary_k23_any": _arm(True, True)}}
+    assert cr.class_wide_verdict(res2)["survives_on_attributable_recall"] is False

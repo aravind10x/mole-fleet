@@ -762,6 +762,86 @@ def render_md(res: dict[str, Any]) -> str:
     return "\n".join(L) + "\n"
 
 
+# ----------------------------------------------------------------------------------
+# F2.2 (design v4 section 11.1): the inverted bar on the CLASS-WIDE rules only; the
+# known-document review lottery reported SEPARATELY as the oracle-informed upper bound.
+# ----------------------------------------------------------------------------------
+
+INVERTED_BAR_PREREG = (
+    "Design v4 section 11.1, verbatim: 'Rung 0's footprint rules are class-wide ... The "
+    "document-scoped lottery is reported as an oracle-informed upper bound beside the monitors "
+    "(section 5's commitment), not applied as a rung-0 kill.' Inverted bar (design section 4, "
+    "rung 0): the family survives the class-wide bar iff the best class-wide footprint rule is "
+    "weak -- at honest cost 0.05 its recall is below 0.3, and no class-wide rule reaches recall "
+    "0.5 at honest cost below 0.20. Applied to the class-wide scope ONLY; the document-scoped "
+    "rules (the known-target review lottery and the target-restricted footprint counts) are the "
+    "oracle-informed bound the X layer must beat, reported beside, never a kill. Recall is read "
+    "two ways: the pre-registered recall (any flagged piece) and the attributable recall (the "
+    "flag exists only because of the inserted piece); the controller rules on which governs."
+)
+
+
+def _rule_strong(bar: dict[str, Any], key: str) -> bool:
+    lo = bar.get("at_0.05" if key == "recall" else "attr_at_0.05")
+    hi = bar.get("below_0.20" if key == "recall" else "attr_below_0.20")
+    return bool((lo and lo.get(key, 0.0) >= BAR_RECALL_LOW) or (hi and hi.get(key, 0.0) >= BAR_RECALL_HIGH))
+
+
+def class_wide_verdict(res: dict[str, Any], arm: str = "primary_k23_any") -> dict[str, Any]:
+    """Apply the inverted bar to the class-wide rules of `arm`; report the lottery as bound."""
+    blk = res["arms"][arm]
+    cw = blk["class_wide"]
+    strong_prereg = sorted(f for f, v in cw.items() if _rule_strong(v["bar"], "recall"))
+    strong_attr = sorted(f for f, v in cw.items() if _rule_strong(v["bar"], "recall_attr"))
+    best = {f: {"at_0.05": v["bar"]["at_0.05"], "below_0.20": v["bar"]["below_0.20"]}
+            for f, v in cw.items()}
+    lot = blk["doc_scoped"].get("every writer of the target (review lottery)", {}).get("bar")
+    doc_strong = sorted(f for f, v in blk["doc_scoped"].items() if _rule_strong(v["bar"], "recall"))
+    return {
+        "arm": arm, "preregistration": INVERTED_BAR_PREREG,
+        "class_wide_strong_prereg_recall": strong_prereg,
+        "class_wide_strong_attributable_recall": strong_attr,
+        "survives_on_attributable_recall": not strong_attr,
+        "survives_on_prereg_recall": not strong_prereg,
+        "class_wide_best_recall_per_rule": best,
+        "lottery_oracle_informed_bound": lot,
+        "document_scoped_strong_rules": doc_strong,
+        "note": ("The class-wide rules meet the pre-registered recall bar on edit-frequency and "
+                 "per-author-count but NOT on attributable recall (their flags are honest "
+                 "writers, not the inserted pieces); the document-scoped review lottery reaches "
+                 "recall 1.0 at honest cost ~0.03 and is the oracle-informed upper bound the X "
+                 "layer must beat, reported beside the monitors, not a rung-0 kill (11.1). The "
+                 "jointness mechanism is the per-account multi-day monitor of 11.2, not a "
+                 "class-wide footprint rule."),
+    }
+
+
+def render_classwide_verdict_md(res: dict[str, Any], v: dict[str, Any]) -> str:
+    L = ["# Rung 0 class-wide inverted bar and the lottery bound (brief 07b F2.2)", "",
+         "Blue side, $0. Re-reads `stage3_cheapest_rules.py`'s class-wide rules under design "
+         "v4 section 11.1: the inverted bar is applied to the CLASS-WIDE footprint rules only, "
+         "and the known-document review lottery is reported separately as the oracle-informed "
+         "upper bound. The rung-0 record (`rung0-cheapest-rules.md`) is unchanged; this is the "
+         "verdict layer 11.1 adds.", "", "## Pass condition (written first)", "",
+         v["preregistration"], "", f"## Result (arm `{v['arm']}`, primary)", "",
+         f"- Class-wide rules strong on the **pre-registered** recall: "
+         f"{v['class_wide_strong_prereg_recall'] or 'none'}.",
+         f"- Class-wide rules strong on **attributable** recall: "
+         f"{v['class_wide_strong_attributable_recall'] or 'none'}.",
+         f"- **Survives the class-wide inverted bar on attributable recall: "
+         f"{v['survives_on_attributable_recall']}** (on pre-registered recall: "
+         f"{v['survives_on_prereg_recall']}).",
+         f"- Document-scoped (known-target) strong rules: {v['document_scoped_strong_rules']}.",
+         "", "### The known-document review lottery (oracle-informed upper bound, reported, not applied)"]
+    lot = v["lottery_oracle_informed_bound"]
+    if lot:
+        lo, hi = lot.get("at_0.05"), lot.get("below_0.20")
+        L.append(f"- recall at honest cost <= 0.05: {_p(lo)}; at cost < 0.20: {_p(hi)} "
+                 f"(min cost for recall 0.5: {lot.get('min_cost_recall_0.5')}).")
+    L += ["", "## Reading", "", v["note"], ""]
+    return chr(10).join(L) + chr(10)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--prefix", required=True)
@@ -769,8 +849,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out-md", required=True)
     ap.add_argument("--n", type=int, default=N_COAL)
     ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--classwide-verdict-json", default=None,
+                    help="also write the F2.2 class-wide inverted-bar verdict here")
+    ap.add_argument("--classwide-verdict-md", default=None)
     ns = ap.parse_args(argv)
     res = analyse(ns.prefix, ns.n, ns.seed)
+    if ns.classwide_verdict_json or ns.classwide_verdict_md:
+        cv = class_wide_verdict(res)
+        if ns.classwide_verdict_json:
+            Path(ns.classwide_verdict_json).write_text(
+                json.dumps(cv, indent=1, default=lambda x: None if x is None else str(x)), encoding="utf-8")
+        if ns.classwide_verdict_md:
+            Path(ns.classwide_verdict_md).write_text(render_classwide_verdict_md(res, cv), encoding="utf-8")
     Path(ns.out_json).write_text(json.dumps(res, indent=1, default=lambda x: None if x is None else str(x)),
                                  encoding="utf-8")
     cd.write_md(Path(ns.out_md), render_md(res), "Rung 0, F4: cheapest rules")

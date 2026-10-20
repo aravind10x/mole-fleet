@@ -1,0 +1,185 @@
+{
+ "arm": "primary_k23_any",
+ "preregistration": "Design v4 section 11.1, verbatim: 'Rung 0's footprint rules are class-wide ... The document-scoped lottery is reported as an oracle-informed upper bound beside the monitors (section 5's commitment), not applied as a rung-0 kill.' Inverted bar (design section 4, rung 0): the family survives the class-wide bar iff the best class-wide footprint rule is weak -- at honest cost 0.05 its recall is below 0.3, and no class-wide rule reaches recall 0.5 at honest cost below 0.20. Applied to the class-wide scope ONLY; the document-scoped rules (the known-target review lottery and the target-restricted footprint counts) are the oracle-informed bound the X layer must beat, reported beside, never a kill. Recall is read two ways: the pre-registered recall (any flagged piece) and the attributable recall (the flag exists only because of the inserted piece); the controller rules on which governs.",
+ "class_wide_strong_prereg_recall": [
+  "edit frequency (writes per account-day)"
+ ],
+ "class_wide_strong_attributable_recall": [],
+ "survives_on_attributable_recall": true,
+ "survives_on_prereg_recall": false,
+ "class_wide_best_recall_per_rule": {
+  "diff size (max length)": {
+   "at_0.05": {
+    "t": 4305.0,
+    "cost": 0.041237113402061855,
+    "recall": 0.1005,
+    "recall_attr": 0.0,
+    "chance": 0.09972684630749451
+   },
+   "below_0.20": {
+    "t": 3172.0,
+    "cost": 0.1958762886597938,
+    "recall": 0.389,
+    "recall_attr": 0.006,
+    "chance": 0.41671332448752185
+   }
+  },
+  "excess volume (total length)": {
+   "at_0.05": {
+    "t": 24517.0,
+    "cost": 0.041237113402061855,
+    "recall": 0.1115,
+    "recall_attr": 0.0355,
+    "chance": 0.09972684630749451
+   },
+   "below_0.20": {
+    "t": 15942.0,
+    "cost": 0.1958762886597938,
+    "recall": 0.457,
+    "recall_attr": 0.074,
+    "chance": 0.41671332448752185
+   }
+  },
+  "edit frequency (writes per account-day)": {
+   "at_0.05": {
+    "t": 26.0,
+    "cost": 0.041237113402061855,
+    "recall": 0.13,
+    "recall_attr": 0.014,
+    "chance": 0.09972684630749451
+   },
+   "below_0.20": {
+    "t": 18.0,
+    "cost": 0.1958762886597938,
+    "recall": 0.519,
+    "recall_attr": 0.1615,
+    "chance": 0.41671332448752185
+   }
+  },
+  "edit frequency (max writes to one issue)": {
+   "at_0.05": {
+    "t": 6.0,
+    "cost": 0.020618556701030927,
+    "recall": 0.0525,
+    "recall_attr": 0.0005,
+    "chance": 0.050700524722436247
+   },
+   "below_0.20": {
+    "t": 4.0,
+    "cost": 0.14432989690721648,
+    "recall": 0.3095,
+    "recall_attr": 0.003,
+    "chance": 0.3206657806246047
+   }
+  },
+  "co-edit (distinct writers of a written issue, same day)": {
+   "at_0.05": {
+    "t": 13.0,
+    "cost": 0.0,
+    "recall": 0.003,
+    "recall_attr": 0.003,
+    "chance": 0.0
+   },
+   "below_0.20": {
+    "t": 9.0,
+    "cost": 0.18556701030927836,
+    "recall": 0.3875,
+    "recall_attr": 0.017,
+    "chance": 0.39824230584228976
+   }
+  },
+  "co-edit (distinct writers of a written issue, window)": {
+   "at_0.05": {
+    "t": 16.0,
+    "cost": 0.0,
+    "recall": 0.0165,
+    "recall_attr": 0.0165,
+    "chance": 0.0
+   },
+   "below_0.20": {
+    "t": 16.0,
+    "cost": 0.0,
+    "recall": 0.0165,
+    "recall_attr": 0.0165,
+    "chance": 0.0
+   }
+  },
+  "author set (first-time-author writes)": {
+   "at_0.05": {
+    "t": 11.0,
+    "cost": 0.030927835051546393,
+    "recall": 0.1295,
+    "recall_attr": 0.0805,
+    "chance": 0.0754213173831153
+   },
+   "below_0.20": {
+    "t": 7.0,
+    "cost": 0.16494845360824742,
+    "recall": 0.493,
+    "recall_attr": 0.1995,
+    "chance": 0.36019910745688755
+   }
+  },
+  "time of day (1 - minute tail prob.)": {
+   "at_0.05": {
+    "t": 0.988427501701838,
+    "cost": 0.041237113402061855,
+    "recall": 0.107,
+    "recall_attr": 0.005,
+    "chance": 0.09972684630749451
+   },
+   "below_0.20": {
+    "t": 0.9162695711368278,
+    "cost": 0.1958762886597938,
+    "recall": 0.4125,
+    "recall_attr": 0.006,
+    "chance": 0.41671332448752185
+   }
+  }
+ },
+ "lottery_oracle_informed_bound": {
+  "at_0.05": {
+   "t": 0.95,
+   "cost": 0.032443298969072165,
+   "recall": 1.0,
+   "recall_attr": 0.9985,
+   "chance": 0.07902018651013182
+  },
+  "below_0.20": {
+   "t": 0.95,
+   "cost": 0.032443298969072165,
+   "recall": 1.0,
+   "recall_attr": 0.9985,
+   "chance": 0.07902018651013182
+  },
+  "attr_at_0.05": {
+   "t": 1.0,
+   "cost": 0.03421649484536083,
+   "recall": 1.0,
+   "recall_attr": 1.0,
+   "chance": 0.08321972987190317
+  },
+  "attr_below_0.20": {
+   "t": 1.0,
+   "cost": 0.03421649484536083,
+   "recall": 1.0,
+   "recall_attr": 1.0,
+   "chance": 0.08321972987190317
+  },
+  "min_cost_recall_0.5": 0.010391752577319589,
+  "strong": true,
+  "strong_attributable": true
+ },
+ "document_scoped_strong_rules": [
+  "author set (first-time-author writes)",
+  "co-edit (distinct writers of a written issue, same day)",
+  "co-edit (distinct writers of a written issue, window)",
+  "diff size (max length)",
+  "edit frequency (max writes to one issue)",
+  "edit frequency (writes per account-day)",
+  "every writer of the target (review lottery)",
+  "excess volume (total length)",
+  "time of day (1 - minute tail prob.)"
+ ],
+ "note": "The class-wide rules meet the pre-registered recall bar on edit-frequency and per-author-count but NOT on attributable recall (their flags are honest writers, not the inserted pieces); the document-scoped review lottery reaches recall 1.0 at honest cost ~0.03 and is the oracle-informed upper bound the X layer must beat, reported beside the monitors, not a rung-0 kill (11.1). The jointness mechanism is the per-account multi-day monitor of 11.2, not a class-wide footprint rule."
+}
