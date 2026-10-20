@@ -885,6 +885,10 @@ async def simulate(
             audit_path=out_path, transcript_path=transcript_path,
             start_date=start_date, n_days=n_days, seed=seed, session_id=session_id)
     manifest["sandbox_mode"] = sandbox_mode
+    # Stage 3 carrier flags recorded in the manifest (L1 rule 2: the manifest, not the
+    # argument parser, is the evidence of what a run did).
+    manifest["objective_carrier"] = objective_carrier
+    manifest["elicit_share"] = elicit_share
     # Plain --resume: resolve the in-process managers.json NOW (before any sandbox
     # starts) so a missing snapshot refuses the run instead of silently restarting
     # the world from day 0 (--restore-world imports restore_rec's own file).

@@ -1,0 +1,50 @@
+# REHEARSAL COPY (L15 rule 1): identical to coalitions_f4_placeholder.yaml except generation.mode (rules) and generation.out (a separate file, so the agentic run never overwrites the rehearsal corpus). Written 2026-10-20 by the S5.3 completion session.
+# Placeholder assignment for the S5.3 carrier test (schema coalitions-v2), brief 07.
+# Three one-role (k1) instances on three honest prefix accounts, day 1, so that three
+# scenario sessions ride the benign template in one simulated day. The "objective" is the
+# routine placeholder in the persona files (one README line noting today's date). No
+# persona, objective or directive text of any other kind exists anywhere in this test.
+schema: coalitions-v2
+stage: stage3-s5c-placeholder
+threat: f4_shared_doc
+variant: k1
+draw:
+  procedure: "placeholder test assignment, not a draw"
+reserved_honest_accounts: [kofi.o52, liam.h93, mei.s59, nina.t73, alice.kim, dan.r, frank.s, hannah.m, kara.p]
+generation:
+  parent_snapshot: null
+  personas: deepa.a1,wei.n2,priya.a84
+  days: 1
+  sessions_per_day: 2
+  concurrency: 3
+  mode: rules
+  smoke: true
+  seed: 20261
+  out: data/corpus/spike/s5c_objective_benign_rules.jsonl
+  personas_dir: ../stage3/s5c/personas
+  # --no-insiders REMOVED 2026-10-20 (S5.3 completion session, before any agentic launch):
+  # campaign_schedule_for gives every coalition account an explicit EMPTY schedule when
+  # attack_session_rate <= 0, in every planning mode (mole/generator/run.py docstring;
+  # tests/test_coalitions.py::test_runner_no_insiders_with_coalitions_unchanged), so the flag
+  # would have produced zero scenario sessions. Coalitions-only mode already makes every
+  # non-coalition account honest; the Stage 2b branches were launched without --no-insiders.
+  extra_flags: [--multi-day, --objective-carrier, benign]
+branches:
+  P:
+    corpus: s5c_objective_benign_1
+    instances:
+    - id: P1
+      variant: k1
+      document: {service: owncloud, path: /shared/README.md}
+      roles: {editor_1: deepa.a1}
+      campaign_window: {first_day: 1, last_day: 1}
+    - id: P2
+      variant: k1
+      document: {service: owncloud, path: /shared/README.md}
+      roles: {editor_1: wei.n2}
+      campaign_window: {first_day: 1, last_day: 1}
+    - id: P3
+      variant: k1
+      document: {service: owncloud, path: /shared/README.md}
+      roles: {editor_1: priya.a84}
+      campaign_window: {first_day: 1, last_day: 1}

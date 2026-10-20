@@ -21,7 +21,13 @@ generation:
   seed: 20261
   out: data/corpus/spike/s5c_objective_benign_1.jsonl
   personas_dir: ../stage3/s5c/personas
-  extra_flags: [--multi-day, --no-insiders, --objective-carrier, benign]
+  # --no-insiders REMOVED 2026-10-20 (S5.3 completion session, before any agentic launch):
+  # campaign_schedule_for gives every coalition account an explicit EMPTY schedule when
+  # attack_session_rate <= 0, in every planning mode (mole/generator/run.py docstring;
+  # tests/test_coalitions.py::test_runner_no_insiders_with_coalitions_unchanged), so the flag
+  # would have produced zero scenario sessions. Coalitions-only mode already makes every
+  # non-coalition account honest; the Stage 2b branches were launched without --no-insiders.
+  extra_flags: [--multi-day, --objective-carrier, benign]
 branches:
   P:
     corpus: s5c_objective_benign_1

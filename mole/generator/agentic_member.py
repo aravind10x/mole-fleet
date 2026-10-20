@@ -859,7 +859,12 @@ class AgenticMember(Member):
         if (is_attack_session or staging_task is not None) and self._attack_started is None \
                 and self.persona_override is not None and arc_entry is None and pin_entry is None:
             self._attack_started = sim_now
-        post_attack = (self.persona_override is not None and self._attack_started is not None
+        # Under the benign carrier (Stage 3, L13 repair) the D5 path is OFF: the standing note
+        # is release-gate text and the filtered draw changes the task pool, so a scenario
+        # account's later sessions would differ from honest ones (design section 4: "scenario
+        # accounts draw benign tasks exactly as background accounts do"). Legacy path unchanged.
+        post_attack = (self.objective_carrier != "benign"
+                       and self.persona_override is not None and self._attack_started is not None
                        and not is_attack_session and (sim_now or "") >= self._attack_started)
         draw_tasks = [t for t in self._tasks if not _is_gate_task(t)] if post_attack else self._tasks
         # Rich-session agenda queue (default on): items fed to the agent after it finishes

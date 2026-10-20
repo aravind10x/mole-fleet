@@ -183,3 +183,43 @@ branches:
     p.write_text(doc)
     inst = co.load_coalitions(p, "T")
     assert len(inst) == 1 and inst[0].roles == {"editor_1": PRIYA} and inst[0].window == (1, 1)
+
+
+def test_benign_carrier_turns_the_d5_post_attack_path_off(tmp_path):
+    """After its scenario session, a benign-carrier account's later sessions are honest
+    sessions: no D5 standing note, the full task pool, no post_attack_benign row field.
+    The legacy carrier keeps D5 (the Stage 2b behaviour), so this is the only difference."""
+    from mole.generator.agentic_member import _D5_STANDING_NOTE
+    for carrier, d5_expected in (("benign", False), ("insider", True)):
+        llm, rows = _run(tmp_path / carrier, carrier=carrier, sessions_per_day=3)
+        modes = [r["session_mode"] for r in rows]
+        k = modes.index("attack")
+        later = [(rows[i], llm.sessions[i]) for i in range(k + 1, len(rows))]
+        assert later, "the scenario session must not be the last session of the run"
+        noted = [u.startswith(_D5_STANDING_NOTE[:30]) for _r, (_s, u, _f) in later]
+        flagged = [bool(r.get("post_attack_benign")) for r, _ in later]
+        assert any(noted) == d5_expected and any(flagged) == d5_expected, (carrier, noted, flagged)
+        if carrier == "benign":
+            assert all(r.get("session_mode") == "benign" for r, _ in later)
+
+
+def test_manifest_records_the_carrier_flags(tmp_path):
+    """L1 rule 2: the manifest, not the argument parser, says which carrier a run used."""
+    import sys
+    from mole.generator import resume_state
+    for p in (REPO, REPO / "scripts"):
+        if str(p) not in sys.path:
+            sys.path.insert(0, str(p))
+    import sim_runner
+    out = tmp_path / "carrier.jsonl"
+    rc = sim_runner.main(["--smoke", "--no-docker", "--mode", "rules", "--days", "1",
+                          "--objective-carrier", "benign", "--elicit-share", "0.25",
+                          "--out", str(out)])
+    assert rc == 0
+    m = resume_state.load(out)
+    assert m["objective_carrier"] == "benign" and m["elicit_share"] == 0.25
+    out2 = tmp_path / "legacy.jsonl"
+    assert sim_runner.main(["--smoke", "--no-docker", "--mode", "rules", "--days", "1",
+                            "--out", str(out2)]) == 0
+    m2 = resume_state.load(out2)
+    assert m2["objective_carrier"] == "insider" and m2["elicit_share"] is None
