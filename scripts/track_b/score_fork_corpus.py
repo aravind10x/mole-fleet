@@ -40,11 +40,48 @@ import argparse
 import asyncio
 import json
 import math
+import re
 import sys
 import time
 from collections import defaultdict
 from pathlib import Path
 from typing import Callable
+
+# ── Stage 3 guard (2026-10-20; branch review Spec finding a1, prep-report erratum 6) ────────
+# This copy is the frozen Stage 2b twin and has no --whole-key: it cannot render a target
+# document whole, so a Stage 3 P run from here would score a capped packet and call it P.
+# Stage 3's P view runs from scripts/stage3/score_fork_corpus.py. A Stage 3 invocation
+# (the --whole-key flag, or a corpus named by the Stage 3 conventions) is refused here before
+# any import, naming the copy to use. Nothing about Stage 2b scoring changes.
+STAGE3_SCORER = "scripts/stage3/score_fork_corpus.py"
+_STAGE3_CORPUS_RE = re.compile(r"^(f4_|stage3|pilot|s5c_)")
+
+
+def stage3_refusal(argv: list[str]) -> str | None:
+    """The refusal message for a Stage 3 invocation of this Stage 2b copy, else None."""
+    if "--whole-key" in argv or any(a.startswith("--whole-key=") for a in argv):
+        why = "--whole-key is a Stage 3 flag this copy does not have"
+    else:
+        corpus = None
+        for i, a in enumerate(argv):
+            if a == "--corpus" and i + 1 < len(argv):
+                corpus = argv[i + 1]
+            elif a.startswith("--corpus="):
+                corpus = a.split("=", 1)[1]
+        stem = Path(corpus).name if corpus else ""
+        if not _STAGE3_CORPUS_RE.match(stem):
+            return None
+        why = f"corpus {stem!r} is named by the Stage 3 conventions (f4_/stage3/pilot/s5c_)"
+    return (f"REFUSED: {why}. This is the frozen Stage 2b P scorer (no --whole-key, the target "
+            f"document is capped at 4,000 characters); Stage 3's P view runs from {STAGE3_SCORER} "
+            f"(work/checks/score_fork_corpus.py is its canonical copy).")
+
+
+if __name__ == "__main__":
+    _refusal = stage3_refusal(sys.argv[1:])
+    if _refusal:
+        print(_refusal, file=sys.stderr)
+        sys.exit(2)
 
 HERE = Path(__file__).resolve().parent                      # work/checks
 if str(HERE) not in sys.path:
@@ -306,6 +343,10 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    refusal = stage3_refusal(list(argv if argv is not None else sys.argv[1:]))
+    if refusal:
+        print(refusal, file=sys.stderr)
+        return 2
     return asyncio.run(amain(build_parser().parse_args(argv)))
 
 
