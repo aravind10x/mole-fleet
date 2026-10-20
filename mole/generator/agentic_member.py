@@ -594,51 +594,33 @@ class AgenticMember(Member):
         self.objective_carrier = objective_carrier
         self.elicit_share = float(elicit_share or 0.0)
 
-    def _is_role_day(self, day: str) -> bool:
-        """True when `day` is a scheduled scenario day of this account (campaign phase). The
-        planner's rule (lesson L15 rule 4): an account scheduled on a day acts that day."""
-        return bool(self.persona_override) and any(
-            p.get("date") == day for p in (self.campaign_schedule or []))
-
     def plan_day(self, sim_date_iso: str) -> list[tuple[Any, str]]:
         """Plan `sessions_per_day` agent sessions across the working day.
 
-        Returns (slot_datetime, "session_<i>") pairs, loafed slots dropped. Consumes
-        RNG for jitter + loaf. The caller (`simulate`) merges plans across all members
-        and sorts globally by slot_datetime so sim-time causality is preserved across
-        the org.
+        Returns (slot_datetime, "session_<i>") pairs, loafed slots dropped. Presence
+        (absence, loafing) comes from the shared per-(seed, day) stream in
+        generator/presence.py, the same one the coalition planner reads, so a scheduled
+        role day is a day this member acts BY CONSTRUCTION (L15 rule 4): nothing here
+        forces a session (the pre-07b forced role-day session is gone). Jitter consumes
+        this member's RNG. The caller (`simulate`) merges plans across all members and
+        sorts globally by slot_datetime so sim-time causality is preserved across the org.
         """
+        from .presence import day_presence
         day = sim_date_iso[:10]
         # Slotted arc steps and slotted pins run even on a PTO day and are never loafed
         # (the workflow needs them); they draw no RNG, so every other draw is unchanged.
         arc_sessions = self._arc_sessions_for(day) + self._pin_sessions_for(day)
-        # A scheduled scenario day (L15 rule 4) keeps the account in and keeps at least one
-        # session; every RNG draw below still happens so other days are byte-identical.
-        role_day = self._is_role_day(day)
-        if self.config.absent_probability > 0 and self.rng.random() < self.config.absent_probability:
-            if day not in self._pinned_tasks and not role_day:   # a pin keeps the account in
+        sessions = max(1, self.config.sessions_per_day)
+        keep = day_presence(self._presence_seed, sim_date_iso, self.config, sessions)
+        if keep is None:
+            if day not in self._pinned_tasks:                 # a pin keeps the account in
                 logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
                 self._today_keys = []
                 return arc_sessions
-            if role_day and day not in self._pinned_tasks:
-                # Rule 4: the role day gets ONE session at the account's usual start, drawn
-                # with the RNG state saved and restored, so the stream (and every other
-                # day) is byte-identical to the absent case.
-                state = self.rng.getstate()
-                slot = self._slot_times(self._iso_date_to_dt(sim_date_iso), 1)[0]
-                self.rng.setstate(state)
-                self._today_keys = ["session_0"]
-                return [(slot, "session_0")] + arc_sessions
+            keep = [True] * sessions
         base = self._iso_date_to_dt(sim_date_iso)
-        sessions = max(1, self.config.sessions_per_day)
         slots = self._slot_times(base, sessions)
-        plan: list[tuple[Any, str]] = []
-        for i, t in enumerate(slots):
-            if self.rng.random() < self.config.loaf_probability:
-                continue
-            plan.append((t, f"session_{i}"))
-        if role_day and not plan and slots:
-            plan.append((slots[0], "session_0"))   # loafed every slot: keep the first (rule 4)
+        plan: list[tuple[Any, str]] = [(t, f"session_{i}") for i, (t, k) in enumerate(zip(slots, keep)) if k]
         self._today_keys = [k for _, k in plan]   # actual sessions → attack-slot pool
         return plan + arc_sessions
 

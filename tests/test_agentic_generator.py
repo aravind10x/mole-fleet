@@ -47,8 +47,11 @@ def test_agentic_member_attributes_events_to_persona(tmp_path: Path):
                          if t.name in ("model_registry.list_checkpoints",
                                        "eval_server.baseline", "secrets_store.list_keys"))
         persona = next(p for p in load_personas() if p.id == "bob.li")
+        # Attribution test, not a presence test: presence comes from the per-(seed, day)
+        # stream (generator/presence.py, brief 07b F1.7), so absence and loafing are off here.
         m = AgenticMember(persona, llm=_ScriptedLLM(tool_name),
-                          config=NPCConfig(sessions_per_day=1), rng_seed=0)
+                          config=NPCConfig(sessions_per_day=1, loaf_probability=0.0,
+                                           absent_probability=0.0), rng_seed=0)
         executed = await m.run_day(ctx, "2026-04-06")
         collector.close()
         return executed, collector

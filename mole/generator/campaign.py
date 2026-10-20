@@ -311,8 +311,9 @@ def build_campaign(
     collusion branch reads them; solo threats ignore both. ``acts_on_day`` (with
     ``account`` / ``instance_id``) enforces L15 rule 4 on the drawn collusion-role day:
     the day must be one the account acts, else it is re-drawn inside the role's rank
-    slice or the call fails naming the instance and role. Omitted (every legacy caller,
-    including the agentic path via campaign_schedule_for) -> unchanged.
+    slice or the call fails naming the instance and role. Since brief 07b (F1.7) BOTH the
+    rules-mode rehearsal and the agentic launch pass it (run.simulate's one `_campaign_for`,
+    with the presence predicate of generator/presence.py). Omitted -> the raw draw.
 
     Pure function of (threat_id, sim_dates, rng state), so it's reproducible per
     member seed. Returns ``[]`` only for an empty window. Never returns an empty

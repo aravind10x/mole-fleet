@@ -74,6 +74,10 @@ class Member:
         # reproducibility).
         seed_basis = rng_seed if rng_seed is not None else hash(persona.id) & 0xFFFFFFFF
         self.rng = random.Random(seed_basis)
+        # Presence (absence, loafing) comes from the per-(seed, day) stream in
+        # generator/presence.py, shared with AgenticMember and the coalition planner, so a
+        # role's day can be checked before the run (L15 rule 4; brief 07b F1.7).
+        self._presence_seed: int | None = seed_basis
         applicable = tuple(w for w in workflows if w.applies_to(persona))
         # With `services` (the services present in the ctx), drop workflows that
         # need an absent one. plan_day keeps the day's touch-point count at what
@@ -89,7 +93,8 @@ class Member:
     def plan_day(self, sim_date_iso: str) -> list[tuple[datetime, str]]:
         """Compute this background account's scheduled actions for the day as (slot_time, key) pairs.
 
-        Consumes RNG for jitter + loaf checks (so each call advances the RNG state).
+        Presence (absence, loafing) comes from the shared per-(seed, day) stream
+        (generator/presence.py); jitter still consumes this member's RNG.
         The caller (`simulate`) merges per-member plans across all members and sorts
         by `slot_time`, so events run in causally-correct sim-time order across the
         org — alice's 9 am chat post happens before bob's 10 am inbox read, regardless
@@ -100,18 +105,20 @@ class Member:
         Returns: list of (slot_datetime, action_key) for this day, loafed slots dropped.
         `action_key` is the workflow name for the rules-based Member.
         """
-        if self.config.absent_probability > 0 and self.rng.random() < self.config.absent_probability:
-            logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
-            return []
         base = self._iso_date_to_dt(sim_date_iso)
         sessions = max(1, self.config.sessions_per_day)
         n = sessions * self._touch_points_per_session
         schedule = ([self.workflows[i % len(self.workflows)] for i in range(n)]
                     if self.workflows else [])
+        from .presence import day_presence
+        keep = day_presence(self._presence_seed, sim_date_iso, self.config, len(schedule))
+        if keep is None:
+            logger.debug("account %s absent (PTO) on %s", self.persona.id, sim_date_iso)
+            return []
         slots = self._slot_times(base, len(schedule))
         plan: list[tuple[datetime, str]] = []
-        for wf, t in zip(schedule, slots):
-            if self.rng.random() < self.config.loaf_probability:
+        for wf, t, k in zip(schedule, slots, keep):
+            if not k:
                 logger.debug("account %s loafing on %s", self.persona.id, wf.name)
                 continue
             plan.append((t, wf.name))

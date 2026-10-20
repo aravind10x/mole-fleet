@@ -591,12 +591,19 @@ def campaign_schedule_for(
     attack_session_rate: float,
     window_map: dict[str, tuple[int, int]] | None = None,
     role_order_map: dict[str, list[str]] | None = None,
+    acts_on_day=None,
+    instance_map: dict[str, str] | None = None,
 ) -> list[dict] | None:
     """Per-insider attack schedule handed to AgenticMember(campaign_schedule=...).
 
     `window_map` / `role_order_map` (coalition instances, mole/generator/coalitions.py):
     the account's campaign window (1-based first/last working day) and its instance's
-    active roles in order, passed to build_campaign on the scripted path.
+    active roles in order, passed to build_campaign on the scripted path. `acts_on_day`
+    (account, day) -> bool is the presence predicate (generator/presence.py) that makes
+    this THE ONE planner for a coalition role's day in both rules and agentic mode (L15
+    rule 4; brief 07b F1.7): the drawn day is kept when the account acts, re-drawn inside
+    the role's rank slice otherwise, and the call fails loudly naming the instance
+    (`instance_map`) and role when no slice day works. None keeps the raw draw.
 
     Built from a per-member RNG over the working days: "scripted" -> stage->trigger
     campaign; "single" -> K self-contained attack-days. "agentic" -> None (the agent
@@ -620,7 +627,9 @@ def campaign_schedule_for(
                               role=role_map.get(account_id),
                               stealth_level=level_map.get(account_id),
                               window=(window_map or {}).get(account_id),
-                              roles=(role_order_map or {}).get(account_id)) or None
+                              roles=(role_order_map or {}).get(account_id),
+                              acts_on_day=acts_on_day, account=account_id,
+                              instance_id=(instance_map or {}).get(account_id)) or None
     if planning == "single":
         # Collusion is inherently multi-day (the requester->co-signer handoff needs
         # >=2 days); single-day can't coordinate it, so collusion insiders run BENIGN
@@ -970,6 +979,55 @@ async def simulate(
             retry_on_disk_full(transcript_fh.flush, what="transcript sink")
 
     sandbox = None
+    # ── ONE planner for every mode (brief 07b F1.7; L15 rule 4) ──────────────────────────
+    # Everything a coalition role's day depends on is resolved HERE, before the mode
+    # branch, so rules mode (the rehearsal) and agentic mode (the launch) plan the same
+    # schedule for the same seed and roster: the member seeds (seed + roster index), the
+    # presence predicate (generator/presence.py: the per-(seed, day) stream both member
+    # classes draw their absence and loafing from) and campaign_schedule_for.
+    persona_map = insider_persona_map or {}
+    # Multi-day campaign schedules (flag-gated; default OFF -> campaign_schedule
+    # is None and the member runs the current single-day i.i.d. path). Built per
+    # insider from a deterministic per-member RNG over the sim's working days;
+    # benign members and non-decomposable threats (04/05, collusion) get None.
+    threat_map = insider_threat_map or {}
+    # Collusion role per insider (approver_1/approver_2, read_access/egress_access);
+    # drives requester-before-co-signer day sequencing in build_campaign. Empty for
+    # solo/shadow (role=None there -> legacy single random day).
+    role_map = insider_role_map or {}
+    # Stealth level per insider (s0/s1); selects per-level collusion targets
+    # (e.g. the c2 handoff folder) in build_campaign.
+    level_map = insider_level_map or {}
+    # Resolve the planning mode. Default is DETERMINISTIC: "scripted" (stage->
+    # trigger multi-day campaign) when --multi-day, else "single" (K self-contained
+    # attack-days per insider). "coinflip" is the legacy random single-day path,
+    # kept only for exact v1 reproduction. Both deterministic modes need the window.
+    if planning is None:
+        planning = "scripted" if multi_day else "single"
+    _sim_dates = (_weekday_dates(date.fromisoformat(start_date), n_days)
+                  if planning != "coinflip" else [])
+
+    if attack_session_rate <= 0 and persona_map:
+        logger.info("attack_session_rate=%s <= 0: all %d insiders running BENIGN "
+                    "(explicit empty attack schedule, planning=%s)",
+                    attack_session_rate, len(persona_map), planning)
+
+    from .presence import acts_predicate as _acts_predicate
+    _acts_on_day = _acts_predicate(seed, {p.id: i for i, p in enumerate(personas)}, config,
+                                   config.sessions_per_day)
+    _instance_map = (coalition_meta or {}).get("maps", {}).get("instance_map") if coalition_meta else None
+
+    def _campaign_for(account_id: str, i: int):
+        # See campaign_schedule_for (module level, unit-tested). The one call site's
+        # arguments are identical in both modes.
+        return campaign_schedule_for(
+            account_id, i, planning=planning, persona_map=persona_map,
+            threat_map=threat_map, role_map=role_map, level_map=level_map,
+            sim_dates=_sim_dates, seed=seed, campaign_days=campaign_days,
+            attack_session_rate=attack_session_rate,
+            window_map=coalition_window_map, role_order_map=coalition_role_order_map,
+            acts_on_day=_acts_on_day, instance_map=_instance_map)
+
     if mode == "agentic":
         if llm is None:
             from ..llm.factory import build_llm
@@ -1037,42 +1095,6 @@ async def simulate(
             task_bank = load_task_bank(rich=True)   # expanded (v2) bank; RAISES if absent (no silent v1 fallback)
         # Benign multi-day arc bank (default OFF; loaded only when --benign-arcs; {} if absent).
         arc_bank = load_arc_bank() if benign_arcs else {}
-        persona_map = insider_persona_map or {}
-        # Multi-day campaign schedules (flag-gated; default OFF -> campaign_schedule
-        # is None and the member runs the current single-day i.i.d. path). Built per
-        # insider from a deterministic per-member RNG over the sim's working days;
-        # benign members and non-decomposable threats (04/05, collusion) get None.
-        threat_map = insider_threat_map or {}
-        # Collusion role per insider (approver_1/approver_2, read_access/egress_access);
-        # drives requester-before-co-signer day sequencing in build_campaign. Empty for
-        # solo/shadow (role=None there -> legacy single random day).
-        role_map = insider_role_map or {}
-        # Stealth level per insider (s0/s1); selects per-level collusion targets
-        # (e.g. the c2 handoff folder) in build_campaign.
-        level_map = insider_level_map or {}
-        # Resolve the planning mode. Default is DETERMINISTIC: "scripted" (stage->
-        # trigger multi-day campaign) when --multi-day, else "single" (K self-contained
-        # attack-days per insider). "coinflip" is the legacy random single-day path,
-        # kept only for exact v1 reproduction. Both deterministic modes need the window.
-        if planning is None:
-            planning = "scripted" if multi_day else "single"
-        _sim_dates = (_weekday_dates(date.fromisoformat(start_date), n_days)
-                      if planning != "coinflip" else [])
-
-        if attack_session_rate <= 0 and persona_map:
-            logger.info("attack_session_rate=%s <= 0: all %d insiders running BENIGN "
-                        "(explicit empty attack schedule, planning=%s)",
-                        attack_session_rate, len(persona_map), planning)
-
-        def _campaign_for(account_id: str, i: int):
-            # See campaign_schedule_for (module level, unit-tested).
-            return campaign_schedule_for(
-                account_id, i, planning=planning, persona_map=persona_map,
-                threat_map=threat_map, role_map=role_map, level_map=level_map,
-                sim_dates=_sim_dates, seed=seed, campaign_days=campaign_days,
-                attack_session_rate=attack_session_rate,
-                window_map=coalition_window_map, role_order_map=coalition_role_order_map)
-
         if coalition_meta is not None:
             # Coalition instances (Stage 2b): record the plan (roles, accounts, window and
             # the planned attack date per role) in the manifest before any session runs.
@@ -1481,24 +1503,14 @@ async def simulate(
 
         # Coalition role-action days (rules mode). Rules mode plans no attack sessions,
         # so it records each role's PLANNED ACTION DAY instead, for a rehearsal to compare
-        # against a written plan (L15 rule 1). The day is drawn inside the instance window
-        # in rank order (editor_1 first) and, per L15 rule 4, must fall on a day the account
-        # ACTUALLY acted -- taken from the generated corpus, not guessed -- else it is
-        # re-drawn inside the role's own rank slice or the run fails naming the instance
-        # and role. planned_attack_dates stays null (no attacks in rules mode); the days
-        # land in a planned_role_day field. Rules mode only, after generation: the
-        # agentic planner (campaign_schedule_for -> build_campaign without acts_on_day)
-        # is NOT covered here.
+        # against a written plan (L15 rule 1). Since brief 07b (F1.7) the day comes from
+        # THE SAME planner call the agentic launch makes (_campaign_for above: same seeds,
+        # same presence predicate, same re-draw inside the rank slice, same loud failure
+        # naming the instance and role), so the rehearsed planned_role_day IS the agentic
+        # run's planned_attack_dates for the same seed and roster. planned_attack_dates
+        # stays null here (no attacks in rules mode).
         if coalition_meta is not None and mode != "agentic":
-            import random as _rnd
-            from .campaign import build_campaign
             from .coalitions import manifest_entry as _manifest_entry
-            _dates_r = _weekday_dates(date.fromisoformat(start_date), n_days)
-            _acted: dict[str, set[str]] = {}
-            for _ev in collector.events:
-                _a, _ts = getattr(_ev, "account", None), getattr(_ev, "ts", "") or ""
-                if _a and len(_ts) >= 10:
-                    _acted.setdefault(_a, set()).add(_ts[:10])
             _pindex = {p.id: i for i, p in enumerate(personas)}
             _role_days: dict[str, str | None] = {}
             for _inst in coalition_meta["instances"]:
@@ -1506,13 +1518,7 @@ async def simulate(
                     if _acct not in _pindex:
                         _role_days[_acct] = None          # not in this run's roster
                         continue
-                    _rng = _rnd.Random((seed or 0) + _pindex[_acct])
-                    _sched = build_campaign(
-                        _inst.threat, _dates_r, _rng, role=_role,
-                        stealth_level=_inst.stealth_level, window=_inst.window,
-                        roles=_inst.role_order,
-                        acts_on_day=(lambda a, day, _s=_acted: day in _s.get(a, set())),
-                        account=_acct, instance_id=_inst.id)
+                    _sched = _campaign_for(_acct, _pindex[_acct])
                     _role_days[_acct] = _sched[0]["date"] if _sched else None
             manifest["coalitions"] = _manifest_entry(
                 coalition_meta["path"], coalition_meta["branch_id"],

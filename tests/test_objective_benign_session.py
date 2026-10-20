@@ -141,11 +141,17 @@ def test_elicit_share_is_matched_between_scenario_and_honest_sessions(tmp_path):
         assert 0.2 <= share <= 0.8, (attack, share, n)        # both populations draw at p = 0.5
 
 
-def test_rule_4_role_day_keeps_at_least_one_session_and_leaves_other_days_unchanged():
+def test_rule_4_is_the_planners_job_the_member_never_forces_a_role_day_session():
+    """Brief 07b F1.7 (one planner): a role day is a day the account acts BY CONSTRUCTION,
+    because the planner draws it against the same presence stream plan_day reads
+    (mole.generator.presence). The member forces nothing: with and without a schedule the
+    plan is byte-identical on every day, and the planner's predicate says exactly on which
+    days the member has a session."""
+    from mole.generator.presence import acts_on_day
     persona = next(p for p in load_personas(include_holdouts=True) if p.id == PRIYA)
     cfg = NPCConfig(sessions_per_day=2, loaf_probability=0.9, absent_probability=0.5)
     schedule = [{"date": "2026-04-07", "phase": "act", "directive": ""}]
-    kept = 0
+    absent_role_days = 0
     for seed in range(300):
         with_role = AgenticMember(persona, llm=_Capture(), rng_seed=seed, config=cfg,
                                   persona_override=PLACEHOLDER, campaign_schedule=schedule,
@@ -153,15 +159,15 @@ def test_rule_4_role_day_keeps_at_least_one_session_and_leaves_other_days_unchan
         without = AgenticMember(persona, llm=_Capture(), rng_seed=seed, config=cfg,
                                 persona_override=PLACEHOLDER, campaign_schedule=[],
                                 planning_mode="scripted", sim_dates=DAYS)
-        day1_a, day1_b = with_role.plan_day("2026-04-06"), without.plan_day("2026-04-06")
-        day2_a, day2_b = with_role.plan_day("2026-04-07"), without.plan_day("2026-04-07")
-        assert day1_a == day1_b                       # a non-role day is byte-identical
-        assert len(day2_a) >= 1                       # the role day always has a session
-        assert day2_a == day2_b or len(day2_b) == 0   # it differs only where rule 4 bit
-        kept += len(day2_b) == 0
-        # the RNG stream after both days is identical, so later days stay unchanged
-        assert with_role.rng.random() == without.rng.random()
-    assert kept > 50                                  # the exemption was exercised
+        plans = {}
+        for day in DAYS:
+            a, b = with_role.plan_day(day), without.plan_day(day)
+            assert a == b, (seed, day)                                   # nothing is forced
+            assert bool(a) == acts_on_day(seed, day, cfg, cfg.sessions_per_day), (seed, day)
+            plans[day] = a
+        absent_role_days += not plans["2026-04-07"]
+        assert with_role.rng.random() == without.rng.random()            # same stream after
+    assert absent_role_days > 50       # such a schedule is exactly what the planner refuses to draw
 
 
 def test_k1_variant_loads_and_plans_one_role(tmp_path):

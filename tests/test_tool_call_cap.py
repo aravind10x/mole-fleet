@@ -7,6 +7,8 @@ executed; the overflow is answered with error tool messages, counted in
 from __future__ import annotations
 
 import asyncio
+
+from mole.generator.member import NPCConfig
 import json
 import logging
 import sys
@@ -172,10 +174,14 @@ def test_simulate_dryrun_records_tool_calls_dropped(tmp_path, monkeypatch):
     monkeypatch.setenv("MOLE_MAX_IDENTICAL_CALLS", "0")      # the flood repeats one call
     out = tmp_path / "flood.jsonl"
     llm = _FloodOnceThenStop(7)
+    # A tool-cap test, not a presence test: presence comes from the per-(seed, day) stream
+    # (generator/presence.py, brief 07b F1.7), so absence and loafing are off here.
     coll = asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=llm,
                                 n_personas=1, n_days=1, out_path=out, seed=0,
                                 sessions_per_day=1, max_turns=4,
-                                max_tool_calls_per_turn=3))
+                                max_tool_calls_per_turn=3,
+                                config=NPCConfig(sessions_per_day=1, loaf_probability=0.0,
+                                                 absent_probability=0.0)))
     recs = [json.loads(line) for line in
             out.with_suffix(".transcripts.jsonl").read_text().splitlines() if line]
     assert recs and llm.floods >= 1
@@ -193,7 +199,9 @@ def test_simulate_dryrun_normal_session_records_zero_dropped(tmp_path):
     out = tmp_path / "normal.jsonl"
     asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=_FloodOnceThenStop(2),
                          n_personas=1, n_days=1, out_path=out, seed=0,
-                         sessions_per_day=1, max_turns=4))
+                         sessions_per_day=1, max_turns=4,
+                         config=NPCConfig(sessions_per_day=1, loaf_probability=0.0,
+                                          absent_probability=0.0)))
     recs = [json.loads(line) for line in
             out.with_suffix(".transcripts.jsonl").read_text().splitlines() if line]
     assert recs and all(r["tool_calls_dropped"] == 0 for r in recs)
