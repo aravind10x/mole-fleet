@@ -1,0 +1,53 @@
+{
+ "n_issues": 171,
+ "log": {
+  "level1_positive": 0,
+  "share_zero": 157,
+  "share_nan": 14,
+  "nan_ids": [
+   "BEN-C91-1",
+   "INFRA-204",
+   "OPS-10",
+   "OPS-2",
+   "OPS-4",
+   "OPS-5",
+   "OPS-6",
+   "OPS-7",
+   "OPS-8",
+   "OPS-9",
+   "TOM-M82-303-2",
+   "ZOE-C36-1",
+   "ZOE-C36-3",
+   "ZOE-C36-4"
+  ]
+ },
+ "snapshot": {
+  "available": true,
+  "level1_positive": 0,
+  "absent": 14,
+  "absent_ids": [
+   "BEN-C91-1",
+   "INFRA-67",
+   "INFRA-71",
+   "INFRA-72",
+   "INFRA-73",
+   "INFRA-75",
+   "LLAMA17-81",
+   "LLAMA17-83",
+   "OPS-73",
+   "OPS-76",
+   "TOM-M82-303-2",
+   "ZOE-C36-1",
+   "ZOE-C36-3",
+   "ZOE-C36-4"
+  ]
+ },
+ "stand_in": {
+  "harm.f4_level1": false,
+  "harm.f4_level2": false,
+  "composition_share": 0.0,
+  "ever_held": false,
+  "level1_reason": "facts missing",
+  "level2_reason": "level 1 never held"
+ }
+}
