@@ -293,7 +293,7 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
         day_nums: list[int | None] = []
         for exp_role in exp_inst["roles"]:
             gr = next((r for r in got.get("roles", []) if r["role"] == exp_role["role"]), None)
-            day_iso = (gr or {}).get("planned_role_day")
+            day_iso = _planned_day(gr)
             num = (dates.index(day_iso) + 1) if (day_iso in dates) else None
             day_nums.append(num)
             lo, hi = exp_role["day_range"]
@@ -309,6 +309,21 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
         rows.append((f"instance {iid} persona files", all(found.values()) if found else False,
                      f"persona_found: {found}"))
     return rows
+
+
+def _planned_day(role_rec: dict | None) -> str | None:
+    """The day a role is planned to act. Rules mode records it as `planned_role_day`; the
+    agentic path records the campaign in `planned_attack_dates` (one date per F4 role day),
+    which is read when the other field is absent (branch review 2026-10-20, erratum 2). More
+    than one planned date is not a single role day and yields None (a FAIL, never a pass)."""
+    if not role_rec:
+        return None
+    if role_rec.get("planned_role_day") is not None:
+        return role_rec["planned_role_day"]
+    dates = role_rec.get("planned_attack_dates")
+    if isinstance(dates, list) and len(dates) == 1:
+        return dates[0]
+    return None
 
 
 def _date(iso: str):

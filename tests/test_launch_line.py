@@ -170,6 +170,30 @@ def test_check_manifest_all_pass(tmp_path):
     assert rc == 0                                       # SKIP does not fail the run
 
 
+def test_check_manifest_reads_planned_attack_dates_on_an_agentic_manifest(tmp_path):
+    """Branch review 2026-10-20, erratum 2: the agentic path writes planned_attack_dates (no
+    planned_role_day); a correct agentic run must PASS every role-day item."""
+    from mole.generator.coalitions import coalition_maps, load_coalitions, manifest_entry
+    p = _write(tmp_path, _doc())
+    instances = load_coalitions(p, "R")
+    maps = coalition_maps(instances, tmp_path)           # no persona files: found=False is fine here
+    sched = {"ben.c11": [{"date": "2026-04-09", "phase": "act", "directive": None}],
+             "elena.r13": [{"date": "2026-04-10", "phase": "act", "directive": None}],
+             "omar.s34": [{"date": "2026-04-08", "phase": "act", "directive": None}],
+             "raj.k48": [{"date": "2026-04-13", "phase": "act", "directive": None}],
+             "zoe.c36": [{"date": "2026-04-14", "phase": "act", "directive": None}]}
+    block = manifest_entry(p, "R", instances, maps, sched, assignment_cells_skipped="all")
+    assert all("planned_role_day" not in r for i in block["instances"] for r in i["roles"])
+    manifest = {"schema_version": 1, "audit_path": str(tmp_path / "none.jsonl"),
+                "start_date": "2026-04-08", "n_days": 5, "coalitions": block}
+    rj = tmp_path / "agentic.resume.json"
+    rj.write_text(json.dumps(manifest), encoding="utf-8")
+    plan = ll.build_expected_plan(p, "R")
+    rows = ll.check_manifest(plan, rj)
+    day_rows = [(i, o) for i, o, _ in rows if i.endswith(" day") or "role order" in i]
+    assert day_rows and all(o is True for _, o in day_rows), [r for r in rows if r[1] is False]
+
+
 def test_check_manifest_fails_on_out_of_window_day(tmp_path):
     # editor_2 of R1 (slice day 3) placed on day 1 -> out of window AND breaks order
     p, rj = _manifest(tmp_path, {"ben.c11": "2026-04-09", "elena.r13": "2026-04-08",
