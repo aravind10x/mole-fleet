@@ -290,3 +290,98 @@ def test_cli_refusal_exit_code(tmp_path, capsys):
     p = _write(tmp_path, doc)
     assert ll.main([str(p), "--branch-id", "R"]) == 2
     assert "REFUSED" in capsys.readouterr().err
+
+
+# ── honest generations, env exports and the agentic manifest items (brief 07c) ──────────
+
+
+def _honest(tmp_path, **gen_over):
+    gen = {"personas": "deepa.a1,wei.n2,zoe.c36", "days": 1, "sessions_per_day": 1,
+           "concurrency": 3, "mode": "agentic", "seed": 7,
+           "out": "data/corpus/spike/h.jsonl", "key": 2,
+           "extra_flags": ["--multi-day", "--no-insiders", "--task-bank", "bank.yaml",
+                           "--class-documents"],
+           "env": {"LAB_COMPOSE": "$PWD/data/corpus/spike/lab.nogitlab.yaml",
+                   "LLM_RETRY_MAX_ATTEMPTS": 40}}
+    gen.update(gen_over)
+    p = tmp_path / "honest.yaml"
+    p.write_text(yaml.safe_dump({"schema": "generation-v1", "generation": gen}))
+    return p
+
+
+def test_honest_generation_has_no_coalition_flags_and_exports_env(tmp_path):
+    p = _honest(tmp_path)
+    cmd = ll.build_command(p, None)
+    assert "--coalitions" not in cmd and "--branch-id" not in cmd
+    assert 'export LAB_COMPOSE="$PWD/data/corpus/spike/lab.nogitlab.yaml"' in cmd
+    assert 'export LLM_RETRY_MAX_ATTEMPTS="40"' in cmd
+    plan = ll.build_expected_plan(p, None)
+    assert plan["honest"] and plan["instances"] == [] and plan["class_documents"]
+    assert plan["task_bank"] == "bank.yaml"
+
+
+def test_env_values_with_shell_syntax_are_refused(tmp_path):
+    p = _honest(tmp_path, env={"X": "a;rm"})
+    with pytest.raises(ll.LaunchError, match="shell syntax"):
+        ll.build_command(p, None)
+
+
+def test_coalition_file_still_needs_a_branch_id(tmp_path):
+    p = tmp_path / "a.yaml"
+    p.write_text(yaml.safe_dump(_doc()))
+    with pytest.raises(ll.LaunchError, match="--branch-id is required"):
+        ll.build_expected_plan(p, None)
+
+
+def _agentic_manifest(tmp_path, bank: Path, **day_over):
+    import hashlib
+    audit = tmp_path / "h.jsonl"
+    audit.write_text("".join(json.dumps({"account": a, "ts": "2026-04-06T09:00:00Z"}) + "\n"
+                             for a in ("deepa.a1", "wei.n2", "zoe.c36")))
+    day = {"day": "2026-04-06", "sessions_planned": 3, "sessions_completed": 3,
+           "sessions_aborted": 0, "attack_sessions_planned": 0, "snapshot_ok": True,
+           "managers_ok": True}
+    day.update(day_over)
+    man = {"audit_path": str(audit), "start_date": "2026-04-06", "n_days": 1,
+           "sandbox_mode": "lab", "days": [day],
+           "task_bank": {"sha256": hashlib.sha256(bank.read_bytes()).hexdigest()},
+           "class_documents": [{"path": f"/d{i}"} for i in range(6)]}
+    mp = tmp_path / "h.jsonl.resume.json"
+    mp.write_text(json.dumps(man))
+    return mp
+
+
+def test_check_manifest_reads_the_agentic_items(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    bank = tmp_path / "bank.yaml"
+    bank.write_text("x: 1\n")
+    plan = ll.build_expected_plan(_honest(tmp_path), None)
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, _agentic_manifest(tmp_path, bank))}
+    assert all(ok is not False for ok in rows.values()), rows
+    assert rows["task bank"] and rows["class documents seeded"]
+    assert rows["no coalitions block (honest generation)"]
+    bad = {r[0]: r[1] for r in ll.check_manifest(
+        plan, _agentic_manifest(tmp_path, bank, sessions_aborted=1, attack_sessions_planned=2))}
+    assert bad["day 2026-04-06 sessions aborted"] is False
+    assert bad["day 2026-04-06 attack sessions planned"] is False
+
+
+def test_check_manifest_reads_the_lab_branch_lineage(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    bank = tmp_path / "bank.yaml"
+    bank.write_text("x: 1\n")
+    plan = ll.build_expected_plan(_honest(tmp_path, parent_snapshot="p.jsonl",
+                                          extra_flags=["--no-insiders"]), None)
+    mp = _agentic_manifest(tmp_path, bank)
+    man = json.loads(mp.read_text())
+    man["branch_from"] = {"parent": "p.jsonl", "snapshot_dir": "/s",
+                          "volumes": [{"key": "owncloud-data", "restored_as": "b_owncloud-data"}],
+                          "class_documents_at_start": [{"present": True}] * 6}
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["branch parent"] and rows["branch volumes restored"]
+    assert rows["branch class documents at start"]
+    man["branch_from"]["class_documents_at_start"][0] = {"present": False}
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["branch class documents at start"] is False

@@ -266,10 +266,74 @@ async def restore_volumes_in_place(snapshot_dir: str | Path) -> dict[str, Any]:
     }
 
 
+def compose_project_name(session_id: str) -> str:
+    """The project name compose derives from `-p <session_id>` (lower-cased, only
+    [a-z0-9_-] kept), i.e. the prefix of the volumes `up` creates for it."""
+    return re.sub(r"[^a-z0-9_-]", "", session_id.lower())
+
+
+def compose_volume_keys(compose_files: "list[Path]") -> set[str]:
+    """The project-owned named volumes of a compose stack: the top-level `volumes:`
+    keys of every file, minus `external` ones (compose names each
+    `<project>_<key>`)."""
+    import yaml
+    keys: set[str] = set()
+    for f in compose_files:
+        doc = yaml.safe_load(Path(f).read_text(encoding="utf-8")) or {}
+        for key, spec in (doc.get("volumes") or {}).items():
+            if isinstance(spec, dict) and (spec.get("external") or spec.get("name")):
+                continue
+            keys.add(key)
+    return keys
+
+
+def branch_volume_set(snapshot_dir: str | Path,
+                      compose_files: "list[Path]") -> list[dict[str, Any]]:
+    """Check a day snapshot holds a COMPLETE volume set for `compose_files` and
+    return it as [{key, volume_name, tarball, bytes}] sorted by key.
+
+    Complete = every project-owned named volume of the compose stack has a record
+    `<source_session_id>_<key>` in the snapshot manifest and a non-empty tarball on
+    disk. Raises FileNotFoundError / ValueError naming what is missing; a lab
+    branch must never start on a partly restored world."""
+    snap = Path(snapshot_dir).resolve()
+    mpath = snap / "manifest.json"
+    if not mpath.exists():
+        raise FileNotFoundError(f"branch volume set: no snapshot manifest at {mpath}")
+    manifest = json.loads(mpath.read_text(encoding="utf-8"))
+    source = manifest.get("source_session_id") or ""
+    prefix = f"{compose_project_name(source)}_" if source else ""
+    found: dict[str, dict[str, Any]] = {}
+    for svc in manifest.get("services", []):
+        for v in svc.get("volumes", []):
+            name = v.get("volume_name") or ""
+            if not prefix or not name.startswith(prefix):
+                continue
+            found[name[len(prefix):]] = v
+    expected = compose_volume_keys(compose_files)
+    missing = sorted(expected - set(found))
+    if missing:
+        raise ValueError(
+            f"branch volume set: snapshot {snap} (source project {source!r}) has no "
+            f"volume record for {missing}; the compose stack "
+            f"{[str(f) for f in compose_files]} needs {sorted(expected)}")
+    out: list[dict[str, Any]] = []
+    for key in sorted(expected):
+        v = found[key]
+        tarball = snap / "volumes" / v["tarball"]
+        if not tarball.exists() or tarball.stat().st_size == 0:
+            raise FileNotFoundError(
+                f"branch volume set: tarball for volume {key!r} missing or empty: {tarball}")
+        out.append({"key": key, "volume_name": v["volume_name"], "tarball": v["tarball"],
+                    "bytes": tarball.stat().st_size})
+    return out
+
+
 async def restore_sandbox(
     snapshot_dir: str | Path,
     *,
     new_session_id: str,
+    compose_project: bool = False,
 ) -> dict[str, Any]:
     """Restore a snapshot's volumes under fresh project-prefixed names. Returns a
     mapping {original_volume: new_volume} suitable for wiring into a compose override.
@@ -279,11 +343,19 @@ async def restore_sandbox(
     those restored volumes is the next step — typically done by a compose override
     that maps each service's volume to the restored one. That wiring lives in the
     caller (e.g. an adversary-grid runner that generates the override per-cell).
+
+    `compose_project=True` (the lab branch path) instead names each volume exactly
+    as `docker compose -p <new_session_id> up` would (`<project>_<key>`, the
+    snapshot's source-project prefix replaced) and labels it for that project, so
+    the fresh lab adopts the restored volumes with no override. It refuses when a
+    target volume already exists rather than overwrite it.
     """
     snap = Path(snapshot_dir).resolve()
     manifest = json.loads((snap / "manifest.json").read_text(encoding="utf-8"))
     vols_dir = snap / "volumes"
     mapping: dict[str, str] = {}
+    src_prefix = f"{compose_project_name(manifest.get('source_session_id') or '')}_"
+    project = compose_project_name(new_session_id)
 
     for svc in manifest.get("services", []):
         for v in svc.get("volumes", []):
@@ -293,9 +365,27 @@ async def restore_sandbox(
             tarball = vols_dir / v["tarball"]
             if not tarball.exists():
                 raise FileNotFoundError(f"restore: tarball missing: {tarball}")
-            new_name = _safe(f"{new_session_id}_{orig}")
-            logger.info("restore: create volume %s and restore %s", new_name, tarball.name)
-            await _async_run(f"docker volume create {shlex.quote(new_name)}", timeout_s=30)
+            if compose_project:
+                if not orig.startswith(src_prefix):
+                    raise ValueError(f"restore: volume {orig!r} is not owned by the "
+                                     f"snapshot's source project {src_prefix[:-1]!r}")
+                key = orig[len(src_prefix):]
+                new_name = f"{project}_{key}"
+                exists = await _async_run(f"docker volume inspect {shlex.quote(new_name)}",
+                                          timeout_s=30, check=False)
+                if exists.return_code == 0:
+                    raise RuntimeError(f"restore: target volume {new_name} already exists; "
+                                       f"refusing to overwrite it")
+                logger.info("restore: create volume %s and restore %s", new_name, tarball.name)
+                await _async_run(
+                    f"docker volume create"
+                    f" --label com.docker.compose.project={shlex.quote(project)}"
+                    f" --label com.docker.compose.volume={shlex.quote(key)}"
+                    f" {shlex.quote(new_name)}", timeout_s=30, check=True)
+            else:
+                new_name = _safe(f"{new_session_id}_{orig}")
+                logger.info("restore: create volume %s and restore %s", new_name, tarball.name)
+                await _async_run(f"docker volume create {shlex.quote(new_name)}", timeout_s=30)
             helper = (
                 f"docker run --rm "
                 f"-v {shlex.quote(new_name)}:/dest "
@@ -303,7 +393,9 @@ async def restore_sandbox(
                 f"busybox sh -c "
                 + shlex.quote(f"cd /dest && tar xzf /backup/{v['tarball']}")
             )
-            await _async_run(helper, timeout_s=1800)
+            # The branch path fails loudly on a failed extract (check=True); the
+            # legacy sweep path keeps its best-effort behaviour.
+            await _async_run(helper, timeout_s=1800, check=compose_project)
             mapping[orig] = new_name
 
     return {

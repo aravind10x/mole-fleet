@@ -41,6 +41,20 @@ The `generation` block this reads:
       extra_flags: [--multi-day, --no-docker]        # optional, verbatim
       key: 2                     # optional: .env key number, 1 or 2 (default 2)
       model: moonshotai/kimi-k2.6   # optional: OPENROUTER_MODEL slug (default as shown)
+      env:                       # optional: exported before the runner, verbatim
+        LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
+        LLM_RETRY_MAX_ATTEMPTS: 40
+
+A file with a `generation` block and NO `branches` block is an honest generation (a
+prefix or a branch parent): the command has no `--coalitions` / `--branch-id`, the expected
+plan has no instances, and `--branch-id` may be omitted.
+
+`--check-manifest` on an AGENTIC manifest also checks, per day, sessions planned (at most
+roster x sessions/day; the presence draw loafs a few), none aborted, the attack sessions
+planned (0 for an honest run), the day's snapshot and managers export; the task bank's
+sha256 against `--task-bank`; the six class documents under `--class-documents`; and, for a
+lab branch, the lineage (snapshot directory, every volume restored, the class documents
+present at start). Rules-mode manifests SKIP these (rules mode records none of them).
 
 No persona, objective or directive text anywhere.
 """
@@ -120,16 +134,33 @@ def _seed_for(gen: dict, branch_id: str) -> int | None:
     return gen.get("seed")
 
 
-def build_expected_plan(assignment: str | Path, branch_id: str) -> dict:
+def _is_honest(doc: dict) -> bool:
+    """A generation with no coalition branches (a prefix or a branch parent)."""
+    return not doc.get("branches")
+
+
+def _flag_value(gen: dict, flag: str) -> str | None:
+    flags = [str(f) for f in (gen.get("extra_flags") or [])]
+    if flag in flags and flags.index(flag) + 1 < len(flags):
+        return flags[flags.index(flag) + 1]
+    return None
+
+
+def build_expected_plan(assignment: str | Path, branch_id: str | None) -> dict:
     """The expected plan for a branch: roster, sessions, and per-instance role-day
     windows + document + persona files. Raises LaunchError on an unlaunchable roster."""
     p = Path(assignment)
     doc = yaml.safe_load(p.read_text(encoding="utf-8")) or {}
     gen = doc.get("generation") or {}
-    try:
-        instances = load_coalitions(p, branch_id)    # already refuses a reserved colluder
-    except ValueError as exc:
-        raise LaunchError(str(exc)) from None
+    if _is_honest(doc):
+        instances = []
+    elif branch_id is None:
+        raise LaunchError("this assignment has coalition branches; --branch-id is required")
+    else:
+        try:
+            instances = load_coalitions(p, branch_id)    # already refuses a reserved colluder
+        except ValueError as exc:
+            raise LaunchError(str(exc)) from None
     roster = _personas_list(gen)
     roster_set = set(roster)
     reserved = _reserved_accounts(doc)
@@ -171,6 +202,10 @@ def build_expected_plan(assignment: str | Path, branch_id: str) -> dict:
         "mode": str(gen.get("mode") or "agentic"),
         "roster_contains_reserved": sorted(roster_set & reserved),
         "instances": inst_plan, "persona_files": persona_files,
+        "honest": _is_honest(doc),
+        "task_bank": _flag_value(gen, "--task-bank"),
+        "class_documents": "--class-documents" in [str(f) for f in gen.get("extra_flags") or []],
+        "parent": gen.get("parent_snapshot"),
     }
 
 
@@ -196,7 +231,21 @@ def _model(gen: dict) -> str:
     return model
 
 
-def build_command(assignment: str | Path, branch_id: str) -> str:
+def _env_exports(gen: dict) -> list[str]:
+    """`export NAME="value"` per `generation.env` entry; names are shell identifiers and
+    values may use $VAR but no placeholder or command syntax."""
+    out = []
+    for name, value in (gen.get("env") or {}).items():
+        name, value = str(name), str(value)
+        if not name.replace("_", "").isalnum() or not name[0].isalpha():
+            raise LaunchError(f"generation.env name {name!r} is not a shell identifier")
+        if any(ch in value for ch in "<>\"'`;&|"):
+            raise LaunchError(f"generation.env {name} value {value!r} has shell syntax")
+        out.append(f'export {name}="{value}"')
+    return out
+
+
+def build_command(assignment: str | Path, branch_id: str | None) -> str:
     """The exact `sim_runner.py` command, runnable verbatim: sources .env, selects the key by
     variable name, names the model, then the runner line. No placeholder anywhere."""
     p = Path(assignment)
@@ -221,7 +270,8 @@ def build_command(assignment: str | Path, branch_id: str) -> str:
     if gen.get("concurrency") is not None:
         args += ["--concurrency", str(gen["concurrency"])]
     args += ["--mode", mode]
-    args += ["--coalitions", str(p), "--branch-id", branch_id]
+    if not _is_honest(doc):
+        args += ["--coalitions", str(p), "--branch-id", branch_id]
     seed = _seed_for(gen, branch_id)
     if seed is not None:
         args += ["--seed", str(seed)]
@@ -241,6 +291,7 @@ def build_command(assignment: str | Path, branch_id: str) -> str:
     lines.append("cd work/mole-fork")
     lines.append("set -a && source .env && set +a")
     lines.append(key_line)
+    lines.extend(_env_exports(gen))
     lines.append(f"OPENROUTER_MODEL={model} \\")
     lines.append("  " + " ".join(args))
     return "\n".join(lines)
@@ -308,8 +359,14 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
                  f"(= roster {exp_n} x sessions/day {expected['sessions_per_day']}); not "
                  f"verifiable from a rules-mode manifest (per-action task_id, no transcript)"))
 
-    # 3. coalition block present for this branch.
+    rows.extend(_agentic_rows(expected, manifest))
+
+    # 3. coalition block present for this branch (absent for an honest generation).
     block = manifest.get("coalitions")
+    if expected.get("honest"):
+        rows.append(("no coalitions block (honest generation)", not block,
+                     "absent" if not block else f"present: {sorted(block)}"))
+        return rows
     if not block:
         rows.append(("coalitions_block", False, "manifest has no coalitions block"))
         return rows
@@ -352,6 +409,60 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
         found = {r["persona_file"]: r.get("persona_found") for r in got.get("roles", [])}
         rows.append((f"instance {iid} persona files", all(found.values()) if found else False,
                      f"persona_found: {found}"))
+    return rows
+
+
+def _agentic_rows(expected: dict, manifest: dict) -> list[tuple[str, bool | None, str]]:
+    """The agentic-only items (SKIP on a rules-mode manifest, which records none of them)."""
+    rows: list[tuple[str, bool | None, str]] = []
+    days = manifest.get("days") or []
+    agentic = any(d.get("sessions_planned") is not None for d in days)
+    if not agentic:
+        rows.append(("agentic day records", None,
+                     "rules-mode manifest: no per-day session counts recorded"))
+        return rows
+    cap = expected["planned_sessions_per_day"]
+    for d in days:
+        day = d.get("day")
+        planned = d.get("sessions_planned")
+        rows.append((f"day {day} sessions planned", planned is not None and 0 < planned <= cap,
+                     f"{planned} planned (at most roster x sessions/day = {cap})"))
+        rows.append((f"day {day} sessions aborted", d.get("sessions_aborted") == 0,
+                     f"{d.get('sessions_aborted')} aborted of {planned}; "
+                     f"{d.get('sessions_completed')} completed"))
+        if expected.get("honest"):
+            rows.append((f"day {day} attack sessions planned",
+                         d.get("attack_sessions_planned") == 0,
+                         f"{d.get('attack_sessions_planned')} (honest generation: 0)"))
+        rows.append((f"day {day} snapshot and managers", bool(d.get("snapshot_ok"))
+                     and bool(d.get("managers_ok")),
+                     f"snapshot_ok {d.get('snapshot_ok')}, managers_ok {d.get('managers_ok')}"))
+    if expected.get("task_bank"):
+        import hashlib
+        bank = Path(expected["task_bank"])
+        want = hashlib.sha256(bank.read_bytes()).hexdigest() if bank.exists() else None
+        got = (manifest.get("task_bank") or {}).get("sha256")
+        rows.append(("task bank", want is not None and got == want,
+                     f"manifest sha256 {got} vs {bank} {want}"))
+    if expected.get("class_documents"):
+        docs = manifest.get("class_documents") or []
+        rows.append(("class documents seeded", len(docs) == 6,
+                     f"{len(docs)} recorded: {[d.get('path') for d in docs]}"))
+    if expected.get("parent"):
+        lin = manifest.get("branch_from") or {}
+        rows.append(("branch parent", lin.get("parent") == str(expected["parent"]),
+                     f"{lin.get('parent')} vs {expected['parent']}"))
+        if manifest.get("sandbox_mode") == "lab":
+            vols = lin.get("volumes") or []
+            rows.append(("branch volumes restored", bool(vols) and bool(lin.get("snapshot_dir"))
+                         and all(v.get("restored_as") for v in vols),
+                         f"snapshot_dir {lin.get('snapshot_dir')}; "
+                         f"{[(v.get('key'), v.get('restored_as')) for v in vols]}"))
+            at_start = lin.get("class_documents_at_start") or []
+            rows.append(("branch class documents at start",
+                         len(at_start) == 6 and all(r.get("present") for r in at_start),
+                         f"{sum(bool(r.get('present')) for r in at_start)} of "
+                         f"{len(at_start)} present before the first session"))
     return rows
 
 
@@ -400,7 +511,9 @@ def main(argv: list[str] | None = None) -> int:
                                  description="Generate a coalition launch line from an "
                                              "assignment file (L15 rule 2).")
     ap.add_argument("assignment", help="Coalition assignment YAML (schema v1 or v2).")
-    ap.add_argument("--branch-id", required=True, help="Which branch to launch (e.g. R).")
+    ap.add_argument("--branch-id", default=None,
+                    help="Which branch to launch (e.g. R); omitted for an honest generation "
+                         "(a file with no branches block).")
     ap.add_argument("--check-manifest", default=None, metavar="RESUME_JSON",
                     help="Compare a produced run manifest (<out>.resume.json) with the "
                          "expected plan and print PASS/FAIL per item.")

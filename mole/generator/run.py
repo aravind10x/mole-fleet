@@ -174,7 +174,7 @@ def parse_pin_slot(spec: str) -> tuple[str, int, str, str]:
 
 def _resolve_pins(
     pins: list[tuple] | None, *, personas: list[Any], dates: list[str],
-    sandbox_mode: str,
+    sandbox_mode: str, task_bank_path: str | None = None,
 ) -> tuple[dict[str, dict[str, dict[str, str]]], list[dict[str, Any]]]:
     """--pin-task / --pin-slot specs -> ({account: {date: {"task_id", "task"[, "slot"]}}},
     manifest records). A 3-tuple (account, day_index, task_id) pins the account's first
@@ -188,7 +188,7 @@ def _resolve_pins(
         return {}, []
     from .agentic_member import load_task_bank_ids
     ids = (load_task_bank_ids(bank="inprocess") if sandbox_mode == "dryrun"
-           else load_task_bank_ids(rich=True))
+           else load_task_bank_ids(task_bank_path, rich=True))
     cohort = {p.id for p in personas}
     by_account: dict[str, dict[str, dict[str, str]]] = {}
     records: list[dict[str, Any]] = []
@@ -287,13 +287,15 @@ async def build_context(
     envs: tuple[str, ...] = NPC_ENVS,
     sandbox: Any | None = None,
     seed_world: bool = False,
+    class_documents: bool = False,
 ) -> Any:
     """Build the canonical TaskContext (same path the orchestrator + generator tests
     use): audit-wrapped managers + a mutable account box the Member/AgenticMember
     writes before each session so events attribute to the background account. With `sandbox=None`
     a DryRunSandbox is used (in-process); pass a LabSandbox for full-service
     agentic runs. `seed_world=True` runs seed_org so agentic background accounts act on a
-    populated world."""
+    populated world. `class_documents=True` (with `seed_world`) also seeds the six Stage 3
+    class documents in ownCloud (seeders/seed_class_docs.py)."""
     composite = CompositeStateManager(environments=list(envs))
     sandbox = sandbox or DryRunSandbox()
     await composite.setup(sandbox=sandbox)
@@ -309,6 +311,10 @@ async def build_context(
             logger.info("generator build_context: seeded shared company world: %s", counts)
         except Exception:                                       # noqa: BLE001
             logger.exception("generator build_context: seed_company failed; continuing")
+        if class_documents:
+            # No try/except: a run that asked for the class must not start without it.
+            from ..seeders.seed_class_docs import seed_class_documents
+            await seed_class_documents(SimpleNamespace(**composite.managers))
 
     # Per-task account via ContextVar (see generator/account_context.py) — the
     # earlier mutable-dict box race-corrupted attribution under concurrency.
@@ -357,10 +363,13 @@ def _dryrun_envs() -> tuple[str, ...]:
 
 
 async def _start_sandbox(sandbox_mode: str, *, session_id: str,
-                         restore_rec: dict[str, Any] | None = None) -> Any:
+                         restore_rec: dict[str, Any] | None = None,
+                         branch_info: dict[str, Any] | None = None) -> Any:
     """Start the sandbox an agentic run acts in. "dryrun" → a DryRunSandbox (no
     Docker). "lab" → a LabSandbox under `session_id`; with `restore_rec` the
-    docker volumes are first restored in place from that day's snapshot."""
+    docker volumes are first restored in place from that day's snapshot; with a
+    lab `branch_info` (one carrying "snapshot_dir") the parent day's volumes are
+    restored into this run's own fresh project before it is brought up."""
     if sandbox_mode == "dryrun":
         return DryRunSandbox()
     from ..sandbox.lab import LabSandbox
@@ -370,6 +379,23 @@ async def _start_sandbox(sandbox_mode: str, *, session_id: str,
         logger.info("--restore-world: restoring docker volumes in-place from "
                     "%s into project %s", restore_rec["snapshot_dir"], session_id)
         await restore_volumes_in_place(restore_rec["snapshot_dir"])
+    elif branch_info is not None and branch_info.get("snapshot_dir"):
+        from ..sandbox.snapshot import restore_sandbox
+        logger.info("branch_from: restoring the parent's docker volumes from %s into "
+                    "the fresh project %s", branch_info["snapshot_dir"], session_id)
+        res = await restore_sandbox(branch_info["snapshot_dir"], new_session_id=session_id,
+                                    compose_project=True)
+        restored = {v["volume_name"]: res["volume_remap"].get(v["volume_name"])
+                    for v in branch_info["volumes"]}
+        if any(new is None for new in restored.values()):
+            raise RuntimeError(f"branch_from: volumes not restored: "
+                               f"{[k for k, new in restored.items() if new is None]}")
+        for v in branch_info["volumes"]:
+            v["restored_as"] = restored[v["volume_name"]]
+        sandbox = LabSandbox(session_id=session_id, compose_files=[_default_lab_compose()])
+        await sandbox.start()
+        branch_info["class_documents_at_start"] = await _class_documents_at_start(sandbox)
+        return sandbox
     sandbox = LabSandbox(session_id=session_id, compose_files=[_default_lab_compose()])
     await sandbox.start()
     return sandbox
@@ -481,14 +507,20 @@ def _copy_prefix(src: Path, dst: Path, n_bytes: int) -> None:
 
 
 def _prepare_branch(parent_out: Path, out_path: Path,
-                    transcript_path: Path) -> dict[str, Any]:
+                    transcript_path: Path,
+                    lab_compose_files: list[Path] | None = None) -> dict[str, Any]:
     """Seed a branch run's outputs from a parent corpus.
 
     Takes the parent's last COMPLETED day boundary (which must have a
     managers.json), copies the parent audit log / transcript truncated to that
     boundary's byte offsets into this run's own paths, and returns the lineage
     record {parent, day, managers_path, next_day}. The parent's files are only
-    read, never modified."""
+    read, never modified.
+
+    `lab_compose_files` (an agentic lab branch): that same day must also have a
+    docker snapshot holding a complete volume set for the compose stack
+    (snapshot.branch_volume_set), checked BEFORE anything is copied; the record
+    then also carries {snapshot_dir, source_session_id, volumes}."""
     parent_out = Path(parent_out)
     if parent_out.resolve() == out_path.resolve():
         raise ValueError("branch_from must name a different corpus than out_path")
@@ -513,13 +545,79 @@ def _prepare_branch(parent_out: Path, out_path: Path,
             raise FileNotFoundError(f"branch_from: managers.json not found at "
                                     f"{managers_path} or {alt}")
         managers_path = alt
+    lab: dict[str, Any] = {}
+    if lab_compose_files is not None:
+        lab = _lab_branch_snapshot(parent_out, rec, lab_compose_files)
     _copy_prefix(parent_out, out_path, int(rec["audit_bytes"]))
     parent_transcript = Path(parent_manifest.get("transcript_path")
                              or parent_out.with_suffix(".transcripts.jsonl"))
     if parent_transcript.exists():
         _copy_prefix(parent_transcript, transcript_path, int(rec["transcript_bytes"]))
     return {"parent": str(parent_out), "day": rec["day"],
-            "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"])}
+            "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"]),
+            **lab}
+
+
+def _lab_branch_snapshot(parent_out: Path, rec: dict[str, Any],
+                         compose_files: list[Path]) -> dict[str, Any]:
+    """The parent's docker snapshot for the branch day `rec` (the day
+    _prepare_branch selected), with its volume set checked complete for
+    `compose_files`. Raises naming what is missing; never falls back to another
+    day, since the audit prefix is cut at this one."""
+    from ..sandbox.snapshot import branch_volume_set
+    if not rec.get("snapshot_ok"):
+        raise ValueError(f"branch_from: parent day {rec['day']} has no docker snapshot "
+                         f"(snapshot_ok={rec.get('snapshot_ok')}); a lab branch needs the "
+                         f"parent's volumes for that day (was NPC_SKIP_DOCKER_SNAPSHOT set?)")
+    canonical = parent_out.parent / ".snapshots" / parent_out.stem / f"day_{rec['day']}"
+    snap = Path(rec.get("snapshot_dir") or canonical)
+    if not (snap / "manifest.json").exists():
+        snap = canonical
+    volumes = branch_volume_set(snap, list(compose_files))
+    source = json.loads((snap / "manifest.json").read_text(encoding="utf-8")).get(
+        "source_session_id")
+    return {"snapshot_dir": str(snap.resolve()), "source_session_id": source,
+            "volumes": volumes}
+
+
+def _branch_lineage(branch_info: dict[str, Any]) -> dict[str, Any]:
+    """The manifest's branch_from record: {parent, day, managers_path}, plus, for a
+    lab branch, {snapshot_dir, source_session_id, volumes} (each volume's key,
+    parent volume name, tarball, bytes and, once restored, restored_as) and, once the
+    lab is up, class_documents_at_start."""
+    keys = ("parent", "day", "managers_path")
+    if branch_info.get("snapshot_dir"):
+        keys += ("snapshot_dir", "source_session_id", "volumes")
+    if "class_documents_at_start" in branch_info:
+        keys += ("class_documents_at_start",)
+    return {k: branch_info[k] for k in keys}
+
+
+async def _class_documents_at_start(sandbox: Any) -> list[dict[str, Any]]:
+    """[{path, present, bytes, sha256}] of the Stage 3 class documents in a freshly
+    restored lab's ownCloud, read BEFORE any session (and before the audit collector
+    wraps a manager, so the reads are not audit events): the evidence that a lab branch
+    starts on its parent's documents. A lab without ownCloud records []."""
+    from ..seeders.seed_class_docs import CLASS_DOCUMENTS
+    from ..state.owncloud.manager import OwnCloudManager
+    if "owncloud" not in AGENTIC_ENVS:
+        return []
+    oc = OwnCloudManager()
+    await oc.setup(sandbox=sandbox)
+    out: list[dict[str, Any]] = []
+    try:
+        for path in CLASS_DOCUMENTS:
+            if not await oc.exists(path=path):
+                out.append({"path": path, "present": False, "bytes": 0, "sha256": None})
+                continue
+            data = await oc.read_bytes(path=path)
+            out.append({"path": path, "present": True, "bytes": len(data),
+                        "sha256": hashlib.sha256(data).hexdigest()})
+    finally:
+        await oc.cleanup()
+    logger.info("branch_from: class documents at start: %d of %d present",
+                sum(r["present"] for r in out), len(out))
+    return out
 
 
 def gate_state_report(ctx: Any) -> dict[str, Any]:
@@ -711,6 +809,8 @@ async def simulate(
     elicit: bool = True,
     objective_carrier: str = "insider",
     elicit_share: float | None = None,
+    task_bank_path: str | Path | None = None,
+    class_documents: bool = False,
     allowed_persona_ids: set[str] | None = None,
     attack_session_rate: float = 0.20,
     multi_day: bool = False,
@@ -774,6 +874,13 @@ async def simulate(
     placed after another account's session. Recorded in the manifest under
     "pinned_tasks" (with "slot" for slotted pins).
 
+    `task_bank_path` (agentic lab mode; rules mode ignores it): draw honest tasks from this bank file instead of
+    the shipped v2 bank (Stage 3: the class bank); recorded in the manifest as
+    task_bank {path, sha256, tasks_per_team}. `class_documents` (a fresh agentic lab run):
+    seed the six class documents in ownCloud at world start, recorded as
+    class_documents [{service, path, sha256}]; a lab branch inherits them from the
+    parent's volumes instead, so the two are refused together.
+
     `allow_blocked_gate`: a `branch_from` run refuses to start when the parent's final
     `release-gate` would fail the safe release candidate (the honest threshold ratchet:
     a gate that blocks every checkpoint makes both the attack and the honest releases
@@ -798,10 +905,18 @@ async def simulate(
         raise ValueError(f"sandbox_mode must be one of {SANDBOX_MODES}, got {sandbox_mode!r}")
     if branch_from is not None and resume:
         raise ValueError("branch_from starts a fresh run; it cannot be combined with resume")
-    if branch_from is not None and mode == "agentic" and sandbox_mode == "lab":
-        # A lab branch would also need the parent's docker volumes restored; only
-        # the in-process world is branchable today.
-        raise ValueError("branch_from requires sandbox_mode='dryrun' in agentic mode")
+    # An agentic lab branch also restores the parent day's docker volumes, so it
+    # checks (in _prepare_branch, before anything is copied) that the parent's
+    # snapshot for that day holds a complete volume set for the compose stack.
+    lab_branch = branch_from is not None and mode == "agentic" and sandbox_mode == "lab"
+    # Rules mode accepts both (the L15 rehearsal runs the agentic flags verbatim) and
+    # ignores them: it draws no bank tasks and has no ownCloud.
+    if (task_bank_path is not None or class_documents) and sandbox_mode == "dryrun":
+        raise ValueError("task_bank_path / class_documents need sandbox_mode='lab' "
+                         "(the class documents live in ownCloud)")
+    if class_documents and mode == "agentic" and (branch_from is not None or resume):
+        raise ValueError("class_documents seeds a fresh world; a branch or resume "
+                         "inherits the parent's documents")
     config = config or NPCConfig(sessions_per_day=sessions_per_day,
                                  absent_probability=absent_probability)
     personas = load_personas(include_holdouts=include_holdouts)
@@ -821,7 +936,12 @@ async def simulate(
 
     branch_info: dict[str, Any] | None = None
     if branch_from is not None:
-        branch_info = _prepare_branch(Path(branch_from), out_path, transcript_path)
+        if lab_branch:
+            from ..run_task import _default_lab_compose
+            branch_info = _prepare_branch(Path(branch_from), out_path, transcript_path,
+                                          lab_compose_files=[_default_lab_compose()])
+        else:
+            branch_info = _prepare_branch(Path(branch_from), out_path, transcript_path)
         if start_date is None:
             start_date = branch_info["next_day"]
         logger.info("branch_from: %s day %s -> %s (start_date=%s)",
@@ -908,7 +1028,7 @@ async def simulate(
         if manifest.get("resume_fresh_state"):
             resume_state.write_atomic(manifest, out_path)
     if branch_info is not None:
-        manifest["branch_from"] = {k: branch_info[k] for k in ("parent", "day", "managers_path")}
+        manifest["branch_from"] = _branch_lineage(branch_info)
         resume_state.write_atomic(manifest, out_path)
     if coalition_meta is not None:
         # Coalition instances (Stage 2b): the plan without dates goes in now (both modes);
@@ -1063,11 +1183,24 @@ async def simulate(
             if manifest.get("session_id") != sb_session:
                 manifest["session_id"] = sb_session
                 resume_state.write_atomic(manifest, out_path)
-            sandbox = await _start_sandbox(sandbox_mode, session_id=sb_session)
+            sandbox = await _start_sandbox(
+                sandbox_mode, session_id=sb_session,
+                branch_info=branch_info if lab_branch else None)
+            if lab_branch:
+                # The restored volumes are the parent's container world: record which
+                # volumes landed where, and do not seed over them (the parent's
+                # managers.json is imported below, as on a --restore-world resume).
+                manifest["branch_from"] = _branch_lineage(branch_info)
+                resume_state.write_atomic(manifest, out_path)
             # On plain resume, the seeded world is assumed already in the live
             # containers — don't re-seed (would duplicate or fail on existing rows).
             ctx = await build_context(collector, tmp_dir=tmp_dir, envs=envs,
-                                      sandbox=sandbox, seed_world=((not resume) or os.environ.get("NPC_RESEED_ON_RESUME","").lower() in ("1","true","yes")))
+                                      sandbox=sandbox, seed_world=(not lab_branch) and ((not resume) or os.environ.get("NPC_RESEED_ON_RESUME","").lower() in ("1","true","yes")),
+                                      class_documents=class_documents)
+            if class_documents:
+                from ..seeders.seed_class_docs import class_documents_record
+                manifest["class_documents"] = class_documents_record()
+                resume_state.write_atomic(manifest, out_path)
             # The in-process managers live in THIS python process, not the docker
             # lab, so a cross-process resume must overlay the last committed day's
             # managers.json (see _import_resume_managers).
@@ -1086,6 +1219,14 @@ async def simulate(
             task_bank = load_task_bank(bank="inprocess")
             from .agentic_member import _task_bank_path
             _bank_file = Path(_task_bank_path(None, rich=False, bank="inprocess"))
+            manifest["task_bank"] = {
+                "path": str(_bank_file),
+                "sha256": hashlib.sha256(_bank_file.read_bytes()).hexdigest(),
+                "tasks_per_team": {t: len(v) for t, v in task_bank.items()},
+            }
+        elif task_bank_path is not None:
+            _bank_file = Path(task_bank_path)
+            task_bank = load_task_bank(str(_bank_file), rich=True)   # RAISES if absent
             manifest["task_bank"] = {
                 "path": str(_bank_file),
                 "sha256": hashlib.sha256(_bank_file.read_bytes()).hexdigest(),
@@ -1146,7 +1287,8 @@ async def simulate(
         pins_by_account, pin_records = _resolve_pins(
             pinned_tasks, personas=personas,
             dates=_weekday_dates(date.fromisoformat(start_date), n_days),
-            sandbox_mode=sandbox_mode)
+            sandbox_mode=sandbox_mode, task_bank_path=(
+                None if task_bank_path is None else str(task_bank_path)))
         if pin_records:
             manifest["pinned_tasks"] = pin_records
             resume_state.write_atomic(manifest, out_path)

@@ -223,7 +223,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--branch-from", default=None,
                     help="Parent audit jsonl to branch from: start this (fresh) run "
                          "from the parent's last completed day (its audit prefix + "
-                         "in-process managers.json). The parent is not modified.")
+                         "in-process managers.json; in agentic lab mode also that day's "
+                         "docker volumes, restored into this run's own fresh project, "
+                         "refused unless the snapshot holds a complete volume set). "
+                         "The parent is not modified.")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--max-turns", type=int, default=None,
                     help="Per-session LLM-call cap. Default None → resolve "
@@ -331,6 +334,15 @@ def main(argv: list[str] | None = None) -> int:
                          "insider template + elicitation prefix) or 'benign' (the honest rich "
                          "template with the objective as one standing agenda item; Stage 3 "
                          "leak repair, L13).")
+    ap.add_argument("--task-bank", default=None,
+                    help="Agentic lab mode: draw honest tasks from this bank file instead "
+                         "of bootstrap/benign_task_bank_v2.yaml (Stage 3: the class bank, "
+                         "results/stage3/bank-reweight/benign_task_bank_v2_class.yaml). "
+                         "Recorded in the manifest with its sha256.")
+    ap.add_argument("--class-documents", action="store_true",
+                    help="Fresh agentic lab run: seed the six Stage 3 class documents in "
+                         "ownCloud at world start (mole/seeders/seed_class_docs.py); "
+                         "recorded in the manifest. A branch inherits them from its parent.")
     ap.add_argument("--elicit-share", type=float, default=None,
                     help="Under --objective-carrier benign: probability that the elicitation "
                          "prefix is prepended to ANY session (scenario and honest alike). "
@@ -543,6 +555,8 @@ def main(argv: list[str] | None = None) -> int:
         elicit=not args.no_elicitation,
         objective_carrier=args.objective_carrier,
         elicit_share=args.elicit_share,
+        task_bank_path=args.task_bank,
+        class_documents=args.class_documents,
         allowed_persona_ids=persona_filter,
         attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
