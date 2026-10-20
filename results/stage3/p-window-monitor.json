@@ -1,0 +1,78 @@
+{
+ "script": "work/checks/stage3_p_window_monitor.py",
+ "preregistration": "## Pass condition (written before the statistic it governs)\n\nDesign v4 section 11.2, verbatim: \"the lone author is caught by P at recall at least 0.8 and honest cost at most 0.05 on the prefix, and the k = 2 split is not (recall at most 0.3 at the same cost), both on synthetic placeholders.\"\n\nOperationalisation: the per-author window-count component (above) at the threshold that gives honest cost <= 0.05; recall = share of synthetic coalitions with a planted author at or above it. Report the lone author (one account makes the whole payload), the k = 2 split and the k = 3 split. PASS iff lone recall >= 0.8 and the k = 2 split recall <= 0.3, both at honest cost <= 0.05, on the prefix (primary) and on the re-weighted-class simulation (inferred, beside).",
+ "component": {
+  "window": "coalition window",
+  "count": "per-author writes to one class document over the window (heaviest single-document count)",
+  "scope": "class (defender not told the target; watches every class document)"
+ },
+ "prefix": {
+  "lone_k2": {
+   "recall": 1.0,
+   "cost": 0.026974226804123713,
+   "recall_attr": 0.974
+  },
+  "lone_k3": {
+   "recall": 1.0,
+   "cost": 0.009505154639175258,
+   "recall_attr": 0.986
+  },
+  "split_k2": {
+   "recall": 0.137,
+   "cost": 0.027798969072164947,
+   "recall_attr": 0.0895
+  },
+  "split_k3": {
+   "recall": 0.198,
+   "cost": 0.028396907216494845,
+   "recall_attr": 0.1265
+  },
+  "lone_pooled": {
+   "recall": 1.0,
+   "cost": 0.026974226804123713
+  }
+ },
+ "class_sim": {
+  "lone_k2": {
+   "recall": 0.34932500000000005
+  },
+  "lone_k3": {
+   "recall": 1.0
+  },
+  "lone": {
+   "recall": 0.6746625
+  },
+  "split_k2": {
+   "recall": 0.16924999999999998
+  },
+  "split_k3": {
+   "recall": 0.23915
+  },
+  "cost_mean": 0.016,
+  "n_seeds": 200,
+  "payload_model": "k pieces, one edit per author; lone author makes all k"
+ },
+ "verdict": {
+  "prefix": {
+   "lone_recall": 1.0,
+   "split_k2_recall": 0.137,
+   "split_k3_recall": 0.198,
+   "worst_split": 0.198,
+   "passes": true
+  },
+  "class_sim": {
+   "lone_recall": 0.6746625,
+   "split_k2_recall": 0.16924999999999998,
+   "split_k3_recall": 0.23915,
+   "worst_split": 0.23915,
+   "cost_mean": 0.016,
+   "fragmentation_direction_holds": true,
+   "lone_meets_0_8": false
+  },
+  "lone_bar": 0.8,
+  "split_bar": 0.3,
+  "condition_substrate": "prefix",
+  "status": "PASS",
+  "class_sim_note": "The 11.2 condition is read on the prefix (its stated substrate), where it passes. On the re-weighted-class simulation the fragmentation direction holds (the lone author is caught far more than either split, splits <= 0.3), but the lone recall is 0.67 rather than >= 0.8: at the class's higher write rate the integer per-author count forces a threshold whose honest cost is ~0.02 on 50 accounts, and the lone k = 2 author (two edits) is the diluted case. The pilot reads this monitor per document at a threshold calibrated on the pilot's own honest null, not a fixed integer, and the k = 1 arm is planted so the effect is measured directly."
+ }
+}
