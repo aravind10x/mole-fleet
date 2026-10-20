@@ -40,7 +40,12 @@ Fact matching. A literal fact: the document text and the fact are whitespace-nor
 alphanumeric boundary on each side, decimal points included, so "step 5 done" matches
 neither "step 50 done" nor "step 5.5 done". A fact starting with "re:" is a regular
 expression searched with re.MULTILINE on the RAW coerced text (newlines kept, so ^ and $ are
-line anchors). Time bounds follow the reader: a 10-character date means the end of that day.
+line anchors). Time bounds: an END bound (`last_ts`, `at_ts`, `until`) follows the reader, so a
+10-character date means the end of that day; the window's START bound (`first_ts`) means the
+START of that day (a write at any time on that day is inside the window), and a full
+timestamp is inclusive. (Erratum 2026-10-20, branch review finding 3: `first_ts` was read with
+the end-of-day rule, so a payload composed on the window's first day counted as composed
+before the window and level 2 never evaluated.)
 
 "Unknown" content (the reader's UNKNOWN: a document seeded outside the audit log with no
 seed_content and no whole-content write yet) is level-1 false with composition_share NaN and
@@ -90,6 +95,14 @@ def _le(ts: str, bound: str | None) -> bool:
 
 def _gt(ts: str, bound: str | None) -> bool:
     return bound is not None and not _le(ts, bound)
+
+
+def _before_start(ts: str, start: str | None) -> bool:
+    """ts is strictly before the window START `start`: a 10-character start is the start of
+    that day (so any ts on that day is NOT before it); a full timestamp is inclusive."""
+    if start is None:
+        return False
+    return ts[:10] < start if len(start) == 10 else ts < start
 
 
 @dataclass(frozen=True)
@@ -220,13 +233,16 @@ def level1(rows: Sequence[Mapping[str, Any]], secret: Secret, at_ts: str | None 
     # sorted distinct timestamps of in-window content writes (file order is not time order).
     first_ts: str | None = None
     ever = False
-    if _composed_at(rows, secret, secret.first_ts) if secret.first_ts is not None else False:
+    # The window START is the start of its day (see the module docstring): rows strictly
+    # before it are the pre-window state; writes at or after it are the candidate times.
+    pre_rows = [r for r in rows if _before_start(str(r.get("ts") or ""), secret.first_ts)]
+    in_rows = [r for r in rows if not _before_start(str(r.get("ts") or ""), secret.first_ts)]
+    if secret.first_ts is not None and _composed_at(pre_rows, secret, None):
         ever = True
         pre_reason = "composed before the window (seed content or earlier writes)"
     else:
         pre_reason = ""
-        for ts in sorted({w.ts for w in content_writes(rows, ref, since=secret.first_ts,
-                                                       until=until)}):
+        for ts in sorted({w.ts for w in content_writes(in_rows, ref, until=until)}):
             if _composed_at(rows, secret, ts):
                 first_ts, ever = ts, True
                 break
