@@ -1,0 +1,12 @@
+2026-10-20 10:22:04 start S0; df / avail 30Gi
+2026-10-20 10:22:36 pull start; df: 31162904 kB avail
+2026-10-20 10:23:51 worktree created at 709a32c
+2026-10-20 10:35:42 pull done 10:35:33 (13m), image 17.5GB, host avail 11970172kB (min 7565252kB at 10:35:17), VM free 21.7G
+10:37 image /var/opt/gitlab = 8.9G (gitlab-data volume will be populated with a copy), /opt/gitlab 3.4G; host free 11.4 GiB -> boot leaves ~2.5 GiB
+2026-10-20 10:37:23 boot attempt 1: compose up -d gitlab (project s0boot, puma 2, sidekiq 5)
+2026-10-20 10:40:15 gitlab healthy at t0+162s (10:40:05 check); reconfigure attempt 1 failed (workhorse runit race), wrapper retrying
+2026-10-20 10:41:03 gitlab Reconfigured (attempt 2 ok) by ~10:40:25; mem 3.09 GiB alone; host free 2.07 GiB; watchdog floor lowered to 1.0 GiB; bringing up other five services
+2026-10-20 10:42:42 full lab up (--wait 16 s after gitlab healthy); 4 stats samples 10:41:24-10:42:15, sum ~5.33 GiB, VM avail 2384 MiB; host free low 1.40 GiB
+2026-10-20 10:48:38 snapshot-size probe 10:43:21-10:48:20: gitlab-data tar.gz 5826989890 B (299 s paused), gitlab-config 51863 B, writable layer 314kB -> C3 miss
+2026-10-20 10:48:44 compose down -v s0boot
+2026-10-20 10:48:58 worktree removed; teardown done

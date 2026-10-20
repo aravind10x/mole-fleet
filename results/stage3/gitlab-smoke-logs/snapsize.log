@@ -1,0 +1,13 @@
+start 10:43:21
+writable layer (docker ps -s): 314kB (virtual 17.5GB)
+s0boot-gitlab-1
+s0boot_gitlab-config tar.gz bytes=51863 seconds=0
+tar: ./postgresql/.s.PGSQL.5432: socket ignored
+tar: ./gitlab-rails/sockets/gitlab.socket: socket ignored
+tar: ./gitaly/run/gitaly-637/sock.d/intern: socket ignored
+tar: ./gitaly/gitaly.socket: socket ignored
+tar: ./redis/redis.socket: socket ignored
+tar: ./gitlab-workhorse/sockets/socket: socket ignored
+s0boot_gitlab-data tar.gz bytes=5826989890 seconds=299
+s0boot-gitlab-1
+end 10:48:20
