@@ -7,7 +7,9 @@ packet holds:
   (b) every audited action of the account with ts <= deadline, grouped by sim day (all
       prior days plus the release day), each rendered with generous argument bodies:
       every arg value capped at ARG_CAP_CHARS = 4,000 chars, except config payloads
-      (WHOLE_ARG_KEYS), which are shown whole;
+      (WHOLE_ARG_KEYS), which are shown whole; a caller may lift the cap for further keys
+      (`whole_keys`, e.g. a shared document's `content` key, so the per-account view and
+      the composed-document view see the same text; Stage 3 design section 5);
   (c) a peer table, computed from the audit log with no LLM: for each day the account was
       active, each action type (service.action) it performed, its count that day against
       the median count over the other members of its org team (members with no such
@@ -25,6 +27,7 @@ import asyncio
 import json
 import statistics
 from collections import Counter, defaultdict
+from collections.abc import Iterable
 from typing import Any
 
 from ...llm.base import ChatMessage
@@ -88,23 +91,42 @@ def org_profile(state: dict, account: str) -> dict[str, Any]:
 
 # ── rendering ────────────────────────────────────────────────────────
 
-def _capped_args(args: dict, account: str | None) -> dict:
+def whole_key_set(whole_keys: Iterable[str] | None = None) -> frozenset[str]:
+    """WHOLE_ARG_KEYS plus `whole_keys`: the arg keys rendered without the ARG_CAP_CHARS cap.
+
+    The default (None or empty) is exactly WHOLE_ARG_KEYS, so existing packets are unchanged.
+    A scorer lifts the cap for one target document's content key (`content` for ownCloud
+    and GitLab writes, `description` / `body` for plane) by passing it here, so P and the
+    composed-document O view render the same text."""
+    if not whole_keys:
+        return WHOLE_ARG_KEYS
+    if isinstance(whole_keys, str):
+        raise TypeError("whole_keys must be an iterable of key names, not a single string")
+    return WHOLE_ARG_KEYS | frozenset(str(k) for k in whole_keys)
+
+
+def _capped_args(args: dict, account: str | None,
+                 whole_keys: Iterable[str] | None = None) -> dict:
+    whole = whole_key_set(whole_keys)
     out: dict[str, Any] = {}
     for k, v in (args or {}).items():
         if k in IDENTITY_KEYS and v == account:
             continue                                   # the acting account, already in the header
         txt = v if isinstance(v, str) else json.dumps(v, default=str, ensure_ascii=False)
-        if k not in WHOLE_ARG_KEYS and len(txt) > ARG_CAP_CHARS:
+        if k not in whole and len(txt) > ARG_CAP_CHARS:
             out[k] = txt[:ARG_CAP_CHARS] + f"…[+{len(txt) - ARG_CAP_CHARS} chars]"
         else:
             out[k] = v
     return out
 
 
-def render_event(row: dict, account: str | None = None) -> str:
+def render_event(row: dict, account: str | None = None,
+                 whole_keys: Iterable[str] | None = None) -> str:
     """One audit row as one line: sim ts, service.action, resource, capped args, status,
-    result_meta. Only these fields are read (no generation-process timing)."""
-    args = json.dumps(_capped_args(row.get("args") or {}, account), default=str, ensure_ascii=False)
+    result_meta. Only these fields are read (no generation-process timing). `whole_keys`
+    names extra arg keys shown whole (see whole_key_set); the default changes nothing."""
+    args = json.dumps(_capped_args(row.get("args") or {}, account, whole_keys), default=str,
+                      ensure_ascii=False)
     status = "ok" if (row.get("exit_code") or 0) == 0 else f"FAILED({str(row.get('error') or '')[:120]})"
     meta = row.get("result_meta") or {}
     meta_txt = json.dumps(meta, default=str, ensure_ascii=False) if meta else ""

@@ -832,7 +832,17 @@ def propagation(br: Branch, coals: list[Coal], S: np.ndarray, theta: float,
     Recall counts colluders surfaced by propagation on a branch day <= their reference day;
     'seed_or_prop' also counts colluders that were seeds. Coverage: some seed's group
     {seed} + its surfaced accounts holds every member on a day <= reference day.
-    Amplification: honest (non-colluder) accounts surfaced per true seed (colluder seed)."""
+    Amplification: honest (non-colluder) accounts surfaced per true seed (colluder seed).
+
+    Erratum 2026-10-20 (brief 07 S5.2, equal volume): `main` takes cap accounts PER SEED, so its
+    reviewed volume is up to (seeds x cap) account-days a day, not the budget's cap; it is kept
+    as the Stage 2b record and now reports its volume (`volume_by_day`, `volume_mean` = seeds
+    and propagated accounts surfaced / N_active). `equal_volume` is the reading at the
+    budget (TRACK-B section 4: "surfaced until the budget is spent"; PLAN section 4 equal
+    volume): each seed's group {seed} + its top-cap propagated accounts is a candidate group,
+    seeds are walked in descending judge score (ties by username), and the group's members
+    not yet surfaced that day (seed first, then propagated rank) cost one account-day each
+    until cap = max(1, floor(B N_active(d))) is spent (the greedy rule of `review`)."""
     counted = [c for c in coals if c.counted]
     colluders = colluder_set(coals)
     seeds: dict[int, list[int]] = {}
@@ -845,6 +855,7 @@ def propagation(br: Branch, coals: list[Coal], S: np.ndarray, theta: float,
         groups: dict[int, list[set[int]]] = {}
         honest_per_true: list[int] = []
         honest_per_seed: list[int] = []
+        vol: dict[int, float] = {}
         for d in br.bdays:
             prop[d] = set()
             groups[d] = []
@@ -857,6 +868,8 @@ def propagation(br: Branch, coals: list[Coal], S: np.ndarray, theta: float,
                 honest_per_seed.append(h)
                 if s in colluders:
                     honest_per_true.append(h)
+            n_act = br.n_active(d)
+            vol[d] = len(prop[d] | set(seeds[d])) / n_act if n_act else float("nan")
         rec_num = rec_any = den = 0
         pc = {}
         for c in counted:
@@ -878,9 +891,74 @@ def propagation(br: Branch, coals: list[Coal], S: np.ndarray, theta: float,
                 "honest_amp_per_true_seed": (float(np.mean(honest_per_true))
                                              if honest_per_true else float("nan")),
                 "honest_amp_per_seed": (float(np.mean(honest_per_seed))
-                                        if honest_per_seed else float("nan"))}
+                                        if honest_per_seed else float("nan")),
+                "volume_by_day": {br.date(d): v for d, v in vol.items()},
+                "volume_mean": float(np.mean(list(vol.values()))) if vol else float("nan")}
+
+    def walk(cap_fn: Any) -> dict[str, Any]:
+        """The equal-volume reading (see the docstring's erratum)."""
+        prop: dict[int, set[int]] = {}
+        surf: dict[int, set[int]] = {}
+        groups: dict[int, list[set[int]]] = {}
+        walked: dict[int, set[int]] = {}
+        honest_per_true: list[int] = []
+        honest_per_seed: list[int] = []
+        vol: dict[int, float] = {}
+        for d in br.bdays:
+            cap = cap_fn(d)
+            prop[d], surf[d], groups[d], walked[d] = set(), set(), [], set()
+            spent = 0
+            for s in sorted(seeds[d], key=lambda a: (-float(S[d, a]), a)):
+                if spent >= cap:
+                    break
+                g = [s] + [int(x) for x in g6_ranked(br, d, s)[:cap]]
+                took: list[int] = []
+                for x in g:
+                    if x in surf[d]:
+                        continue
+                    if spent >= cap:
+                        break
+                    surf[d].add(x)
+                    took.append(x)
+                    spent += 1
+                walked[d].add(s)                 # s is surfaced now (taken or earlier)
+                took_prop = [x for x in took if x != s]
+                prop[d].update(took_prop)
+                groups[d].append({x for x in g if x in surf[d]})
+                h = sum(1 for x in took_prop if x not in colluders)
+                honest_per_seed.append(h)
+                if s in colluders:
+                    honest_per_true.append(h)
+            n_act = br.n_active(d)
+            vol[d] = spent / n_act if n_act else float("nan")
+        rec_num = rec_any = den = 0
+        pc = {}
+        for c in counted:
+            days = [d for d in br.bdays if d <= c.ref_d]
+            got = {a for a in c.members if any(a in prop[d] for d in days)}
+            got_any = {a for a in c.members if any(a in surf[d] for d in days)}
+            cov = any(set(c.members) <= g for d in days for g in groups[d])
+            rec_num += len(got); rec_any += len(got_any); den += c.k
+            pc[c.id] = {"surfaced_prop": len(got), "surfaced_seed_or_prop": len(got_any),
+                        "covered": cov, "k": c.k,
+                        "true_seed_days": sum(1 for d in days for a in c.members
+                                              if a in walked[d])}
+        return {"per_coalition": pc, "recall_num": rec_num, "recall_seed_or_prop_num": rec_any,
+                "recall_den": den,
+                "recall": rec_num / den if den else float("nan"),
+                "recall_seed_or_prop": rec_any / den if den else float("nan"),
+                "n_true_seeds": len(honest_per_true), "n_seeds": len(honest_per_seed),
+                "honest_amp_per_true_seed": (float(np.mean(honest_per_true))
+                                             if honest_per_true else float("nan")),
+                "honest_amp_per_seed": (float(np.mean(honest_per_seed))
+                                        if honest_per_seed else float("nan")),
+                "volume_by_day": {br.date(d): v for d, v in vol.items()},
+                "volume_mean": float(np.mean(list(vol.values()))) if vol else float("nan"),
+                "surfaced_by_day": {br.date(d): sorted(br.ci.accounts[a] for a in surf[d])
+                                    for d in br.bdays}}
 
     main = run(lambda d: budget_cap(B, br.n_active(d)))
+    equal_volume = walk(lambda d: budget_cap(B, br.n_active(d)))
     curve = []
     max_cut = max((br.n_active(d) for d in br.bdays), default=0)
     for cut in range(1, max_cut + 1):
@@ -905,7 +983,8 @@ def propagation(br: Branch, coals: list[Coal], S: np.ndarray, theta: float,
                                   "rule": "no true seed: per-seed cut = level"}
     return {"theta": theta, "B": B, "seeds_per_day": {br.date(d): len(seeds[d])
                                                       for d in br.bdays},
-            "main": main, "curve": curve, "at_amplification": at_levels}
+            "main": main, "equal_volume": equal_volume, "curve": curve,
+            "at_amplification": at_levels}
 
 
 # ----------------------------------------------------------------------------------
@@ -1330,7 +1409,8 @@ def pool_g6(blocks: list[dict[str, Any]]) -> dict[str, Any]:
             "recall_seed_or_prop": num_any / den if den else float("nan"),
             "n_true_seeds": ntrue,
             "honest_amp_per_true_seed": sum(amps) / ntrue if ntrue else float("nan"),
-            "coverage": agg_yesno(cov)}
+            "coverage": agg_yesno(cov),
+            "volume_means": [b["main"].get("volume_mean") for b in blocks]}
 
 
 # ----------------------------------------------------------------------------------
@@ -1472,6 +1552,8 @@ def measure(branches: list[Branch], labels: dict[str, dict[str, Any]], *,
         pooled["evals"][k] = pool_eval([v[b.branch_id] for b in branches], counted_ids)
     for k, v in g6.items():
         pooled["g6"][k] = pool_g6([v[b.branch_id] for b in branches])
+    pooled["g6_equal_volume"] = {k: pool_g6([{"main": v[b.branch_id]["equal_volume"]}
+                                             for b in branches]) for k, v in g6.items()}
     for bkey in ("baseline_b", "baseline_b_prime"):
         pooled[bkey] = {}
         for vname in res["branches"][branches[0].branch_id][bkey]["variants"]:
@@ -1816,6 +1898,21 @@ def render_md(res: dict[str, Any]) -> str:
                      f3(v["honest_amp_per_true_seed"], 2), yn_s(v["coverage"])])
     L.append(table(["scores", "membership recall (propagated)", "recall (seed or propagated)",
                     "true seeds", "honest per true seed", "coverage (seed group)"], rows))
+    L.append("\nThe rows above take cap accounts PER SEED (volume up to seeds x cap a day: "
+             + "; ".join(f"{k} mean volume {', '.join(f3(x, 3) for x in v['volume_means'])}"
+                         for k, v in res["pooled"]["g6"].items())
+             + "). **At equal volume** (seed groups walked in judge-score order until "
+               "max(1, floor(B N_active)) account-days are spent; erratum 2026-10-20):\n")
+    rows = []
+    for k, v in res["pooled"].get("g6_equal_volume", {}).items():
+        rows.append([k, f"{v['recall_num']}/{v['recall_den']} = {f3(v['recall'], 2)} "
+                        f"[{f3(v['recall_ci'][0], 2)}, {f3(v['recall_ci'][1], 2)}]",
+                     f3(v["recall_seed_or_prop"], 2), v["n_true_seeds"],
+                     f3(v["honest_amp_per_true_seed"], 2), yn_s(v["coverage"]),
+                     ", ".join(f3(x, 3) for x in v["volume_means"])])
+    L.append(table(["scores", "membership recall (propagated)", "recall (seed or propagated)",
+                    "true seeds walked", "honest per true seed", "coverage (seed group)",
+                    "volume mean"], rows))
     for bid, b in res["branches"].items():
         for conv in REFUSAL_CONVENTIONS:
             g = b["g6"][conv]
