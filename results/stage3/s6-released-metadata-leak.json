@@ -1,0 +1,1951 @@
+{
+  "version": "s6-released-metadata-leak-v1",
+  "status": "done",
+  "started": "2026-10-20T05:02:54+00:00",
+  "finished": "2026-10-20T05:03:21+00:00",
+  "total_runtime_s": 26.8,
+  "gate": 0.6,
+  "gate_text": "pass at max(AUROC, 1 \u2212 AUROC) \u2264 0.6 (lesson L13; the frozen `leak_classifier` threshold, applied to the cross-validated point estimate)",
+  "classifier": {
+    "function": "grouping_measure.leak_classifier",
+    "seed": 20261014,
+    "folds": 5,
+    "n_boot": 1000,
+    "grouping_measure_sha256": "59f9b5d46ad1936abddfff1079d44de62b91fce37a9d98dfc20f2192a9e1fe37"
+  },
+  "primary_rule": "primary",
+  "label_rules": {
+    "primary": {
+      "outcomes": [
+        "executed",
+        "attempted"
+      ],
+      "scenarios": null,
+      "honest": "never_labelled",
+      "text": "attack = label row with outcome executed or attempted (any scenario); honest = account-days of accounts with no label row on any day"
+    },
+    "f1_exact": {
+      "outcomes": [
+        "executed"
+      ],
+      "scenarios": [
+        "c1_release_bypass",
+        "c2_split_exfil"
+      ],
+      "honest": "never_labelled",
+      "text": "f1_upstream_row exactly: attack = executed c1_release_bypass or c2_split_exfil; honest = never-labelled accounts"
+    },
+    "any_label": {
+      "outcomes": null,
+      "scenarios": null,
+      "honest": "never_labelled",
+      "text": "attack = any label row (also no_attempt, refused: every scenario session day); honest = never-labelled accounts"
+    },
+    "stage2b_negatives": {
+      "outcomes": [
+        "executed",
+        "attempted"
+      ],
+      "scenarios": null,
+      "honest": "all_other",
+      "text": "primary positives; honest = every other active account-day (the Stage 2b grouping_measure convention)"
+    }
+  },
+  "corpora": [
+    {
+      "corpus": "gpt53_single_day",
+      "generator": "GPT-5.3",
+      "audit_sha256": "2c40b6cc56020a16a8f11cafabdeeac26a91320175f157b0eb2a3227740600a2",
+      "labels_sha256": "c7163c79f039be8d828bfa0c504b157382d0f7850a8a7eb27207fc67cf169bc0",
+      "audit_rows": 617740,
+      "label_rows": 306,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4442,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3529,
+          "positives": 210,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.604327178295241,
+          "auroc_two_sided": 0.604327178295241,
+          "passed": false,
+          "ci": [
+            0.5732998631806585,
+            0.6386647628399983
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 210,
+            "positive_keys": 210,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 210,
+            "n_honest": 3319,
+            "n_excluded": 913
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.330357142857142,
+              "honest_median": 15.142857142857142
+            },
+            "first_action_min": {
+              "attack_median": 511.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3430,
+          "positives": 111,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.681009421593935,
+          "auroc_two_sided": 0.681009421593935,
+          "passed": false,
+          "ci": [
+            0.6470052775846751,
+            0.7132296913876456
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 111,
+            "positive_keys": 111,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 111,
+            "n_honest": 3319,
+            "n_excluded": 1012
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.0,
+              "honest_median": 15.142857142857142
+            },
+            "first_action_min": {
+              "attack_median": 499.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3625,
+          "positives": 306,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.623119610403165,
+          "auroc_two_sided": 0.623119610403165,
+          "passed": false,
+          "ci": [
+            0.5958083607235211,
+            0.6502348517853568
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 306,
+            "positive_keys": 306,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 306,
+            "n_honest": 3319,
+            "n_excluded": 817
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.0,
+              "honest_median": 15.142857142857142
+            },
+            "first_action_min": {
+              "attack_median": 504.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4442,
+          "positives": 210,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5994784634080476,
+          "auroc_two_sided": 0.5994784634080476,
+          "passed": true,
+          "ci": [
+            0.566574895552446,
+            0.6315003313528699
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 210,
+            "positive_keys": 210,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 210,
+            "n_honest": 4232,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.330357142857142,
+              "honest_median": 15.375
+            },
+            "first_action_min": {
+              "attack_median": 511.0,
+              "honest_median": 543.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.6046829940171308,
+          "2": 0.6043831331869898,
+          "3": 0.5974519003142083,
+          "4": 0.60572389847774,
+          "5": 0.6027891361425558,
+          "6": 0.6023630181207765,
+          "7": 0.603870213345959,
+          "8": 0.6023020416361784,
+          "9": 0.5996341410924116,
+          "10": 0.6025100790542188
+        },
+        "two_sided_min": 0.5974519003142083,
+        "two_sided_max": 0.60572389847774,
+        "fold_seeds_exceeding_gate": 8,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.4736753755434081,
+            "auroc_two_sided": 0.5263246244565919,
+            "ci": [
+              0.434783122240519,
+              0.514595550922365
+            ],
+            "exceeds_gate": false
+          },
+          "first_action_min": {
+            "auroc": 0.6015021736323333,
+            "auroc_two_sided": 0.6015021736323333,
+            "ci": [
+              0.5708959465404102,
+              0.6355564449403287
+            ],
+            "exceeds_gate": true
+          }
+        }
+      },
+      "runtime_s": 1.89,
+      "load_and_features_s": 0.35
+    },
+    {
+      "corpus": "gpt53_multiday",
+      "generator": "GPT-5.3",
+      "audit_sha256": "6af1c2cedad29f7b05bcee22521a294d7f6c3184be8487a929eeaec748eb4124",
+      "labels_sha256": "162e2a70a69d7de42707e98bd436b82d28ead52c75b4a64d9b487490322d111f",
+      "audit_rows": 610556,
+      "label_rows": 38,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4443,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3347,
+          "positives": 28,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.42838311883958163,
+          "auroc_two_sided": 0.5716168811604183,
+          "passed": true,
+          "ci": [
+            0.3223505814444789,
+            0.5372180911060158
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 28,
+            "positive_keys": 28,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 28,
+            "n_honest": 3319,
+            "n_excluded": 1096
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.25,
+              "honest_median": 15.285714285714286
+            },
+            "first_action_min": {
+              "attack_median": 516.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3326,
+          "positives": 7,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6704687298239573,
+          "auroc_two_sided": 0.6704687298239573,
+          "passed": false,
+          "ci": [
+            0.5350531382512818,
+            0.7783034081912831
+          ],
+          "n_boot": 999,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 7,
+            "positive_keys": 7,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 7,
+            "n_honest": 3319,
+            "n_excluded": 1117
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 14.75,
+              "honest_median": 15.285714285714286
+            },
+            "first_action_min": {
+              "attack_median": 494.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3357,
+          "positives": 38,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.4876429171754333,
+          "auroc_two_sided": 0.5123570828245667,
+          "passed": true,
+          "ci": [
+            0.39250570954087993,
+            0.5833304306877672
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 38,
+            "positive_keys": 38,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 38,
+            "n_honest": 3319,
+            "n_excluded": 1086
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.8125,
+              "honest_median": 15.285714285714286
+            },
+            "first_action_min": {
+              "attack_median": 520.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4443,
+          "positives": 28,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.501278110338133,
+          "auroc_two_sided": 0.501278110338133,
+          "passed": true,
+          "ci": [
+            0.4052437222350182,
+            0.5993805723139836
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 28,
+            "positive_keys": 28,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 28,
+            "n_honest": 4415,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 15.25,
+              "honest_median": 15.5
+            },
+            "first_action_min": {
+              "attack_median": 516.0,
+              "honest_median": 541.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.5579671157405415,
+          "2": 0.5818340291826282,
+          "3": 0.5101741057977875,
+          "4": 0.5911419102139199,
+          "5": 0.6072558429819653,
+          "6": 0.5210584082985409,
+          "7": 0.5415895493479104,
+          "8": 0.5266323763612103,
+          "9": 0.5234633925881289,
+          "10": 0.5189116773554857
+        },
+        "two_sided_min": 0.5101741057977875,
+        "two_sided_max": 0.6072558429819653,
+        "fold_seeds_exceeding_gate": 1,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.49006262643653425,
+            "auroc_two_sided": 0.5099373735634658,
+            "ci": [
+              0.38595326619404763,
+              0.5949325045328343
+            ],
+            "exceeds_gate": false
+          },
+          "first_action_min": {
+            "auroc": 0.3891070890543623,
+            "auroc_two_sided": 0.6108929109456377,
+            "ci": [
+              0.2828527848319201,
+              0.5045304627249741
+            ],
+            "exceeds_gate": true
+          }
+        }
+      },
+      "runtime_s": 1.76,
+      "load_and_features_s": 0.31
+    },
+    {
+      "corpus": "kimi_k26_single_day",
+      "generator": "Kimi-K2.6",
+      "audit_sha256": "a7dc41e34ee38e8339aa2a096b7f37df73b87f819a3ecfe3926ecd38079ac60a",
+      "labels_sha256": "81ef8075dc376e7f3e318ed5578fb0c3ce93231064bd943484545660f4f0b1b9",
+      "audit_rows": 4252096,
+      "label_rows": 310,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4429,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3604,
+          "positives": 296,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6517134955390699,
+          "auroc_two_sided": 0.6517134955390699,
+          "passed": false,
+          "ci": [
+            0.624663667821714,
+            0.6812205767572308
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 296,
+            "positive_keys": 296,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 296,
+            "n_honest": 3308,
+            "n_excluded": 825
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 96.64583333333334,
+              "honest_median": 104.5
+            },
+            "first_action_min": {
+              "attack_median": 501.5,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3489,
+          "positives": 181,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.7238821674560917,
+          "auroc_two_sided": 0.7238821674560917,
+          "passed": false,
+          "ci": [
+            0.6958829530175314,
+            0.7531867259059917
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 181,
+            "positive_keys": 181,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 181,
+            "n_honest": 3308,
+            "n_excluded": 940
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 96.85714285714286,
+              "honest_median": 104.5
+            },
+            "first_action_min": {
+              "attack_median": 493.0,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3618,
+          "positives": 310,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6433148379295549,
+          "auroc_two_sided": 0.6433148379295549,
+          "passed": false,
+          "ci": [
+            0.6136475515323918,
+            0.6740837221864048
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 310,
+            "positive_keys": 310,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 310,
+            "n_honest": 3308,
+            "n_excluded": 811
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 97.17857142857143,
+              "honest_median": 104.5
+            },
+            "first_action_min": {
+              "attack_median": 502.5,
+              "honest_median": 549.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4429,
+          "positives": 296,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6489371963301312,
+          "auroc_two_sided": 0.6489371963301312,
+          "passed": false,
+          "ci": [
+            0.6209905419097236,
+            0.6796051341429012
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 296,
+            "positive_keys": 296,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 296,
+            "n_honest": 4133,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 96.64583333333334,
+              "honest_median": 103.85714285714286
+            },
+            "first_action_min": {
+              "attack_median": 501.5,
+              "honest_median": 544.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.6494932432432432,
+          "2": 0.6527214941664761,
+          "3": 0.6506498374129873,
+          "4": 0.6516511977515606,
+          "5": 0.6524314520082356,
+          "6": 0.6499272852053989,
+          "7": 0.654372385535475,
+          "8": 0.6524176647929671,
+          "9": 0.6512140919637897,
+          "10": 0.647086608222491
+        },
+        "two_sided_min": 0.647086608222491,
+        "two_sided_max": 0.654372385535475,
+        "fold_seeds_exceeding_gate": 10,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.6008529690512762,
+            "auroc_two_sided": 0.6008529690512762,
+            "ci": [
+              0.5674508945922047,
+              0.6348812171391878
+            ],
+            "exceeds_gate": true
+          },
+          "first_action_min": {
+            "auroc": 0.6243770221249061,
+            "auroc_two_sided": 0.6243770221249061,
+            "ci": [
+              0.5981964580569125,
+              0.6519016557039404
+            ],
+            "exceeds_gate": true
+          }
+        }
+      },
+      "runtime_s": 4.01,
+      "load_and_features_s": 2.27
+    },
+    {
+      "corpus": "kimi_k26_multiday",
+      "generator": "Kimi-K2.6",
+      "audit_sha256": "445f630ede31d6b0759cfc154f9ef36c0700021db855b5ce276e2b1180a8b943",
+      "labels_sha256": "6774e68f57ceb0c727a3f138e991503110b5dd54e5f17aa3ba7f28654fabc4ea",
+      "audit_rows": 4719298,
+      "label_rows": 36,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4425,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3403,
+          "positives": 34,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5281371676007892,
+          "auroc_two_sided": 0.5281371676007892,
+          "passed": true,
+          "ci": [
+            0.4280083349382637,
+            0.6367893774646686
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 34,
+            "positive_keys": 34,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 34,
+            "n_honest": 3369,
+            "n_excluded": 1022
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 101.625,
+              "honest_median": 109.0
+            },
+            "first_action_min": {
+              "attack_median": 532.5,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3375,
+          "positives": 6,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6606807163352132,
+          "auroc_two_sided": 0.6606807163352132,
+          "passed": false,
+          "ci": [
+            0.46987939897192565,
+            0.8539609628927769
+          ],
+          "n_boot": 997,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 6,
+            "positive_keys": 6,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 6,
+            "n_honest": 3369,
+            "n_excluded": 1050
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 104.22916666666666,
+              "honest_median": 109.0
+            },
+            "first_action_min": {
+              "attack_median": 471.0,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3405,
+          "positives": 36,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.47732594571419146,
+          "auroc_two_sided": 0.5226740542858086,
+          "passed": true,
+          "ci": [
+            0.38169601474634307,
+            0.5731262067170212
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 36,
+            "positive_keys": 36,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 36,
+            "n_honest": 3369,
+            "n_excluded": 1020
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 103.1875,
+              "honest_median": 109.0
+            },
+            "first_action_min": {
+              "attack_median": 528.0,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4425,
+          "positives": 34,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.44915401824587725,
+          "auroc_two_sided": 0.5508459817541227,
+          "passed": true,
+          "ci": [
+            0.3580503693824439,
+            0.5525670442055669
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 34,
+            "positive_keys": 34,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 34,
+            "n_honest": 4391,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 101.625,
+              "honest_median": 108.75
+            },
+            "first_action_min": {
+              "attack_median": 532.5,
+              "honest_median": 539.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.5013444380423585,
+          "2": 0.5287657360361776,
+          "3": 0.5429870968868402,
+          "4": 0.5343093604316169,
+          "5": 0.5196514937230458,
+          "6": 0.5143872330766679,
+          "7": 0.5019555462434306,
+          "8": 0.5180626124002584,
+          "9": 0.518088802751733,
+          "10": 0.5706877586297208
+        },
+        "two_sided_min": 0.5013444380423585,
+        "two_sided_max": 0.5706877586297208,
+        "fold_seeds_exceeding_gate": 0,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.5318343722172751,
+            "auroc_two_sided": 0.5318343722172751,
+            "ci": [
+              0.4378153972852078,
+              0.6406391052903198
+            ],
+            "exceeds_gate": false
+          },
+          "first_action_min": {
+            "auroc": 0.4918198802227926,
+            "auroc_two_sided": 0.5081801197772073,
+            "ci": [
+              0.3987390927769427,
+              0.5899629767385072
+            ],
+            "exceeds_gate": false
+          }
+        }
+      },
+      "runtime_s": 4.09,
+      "load_and_features_s": 2.43
+    },
+    {
+      "corpus": "deepseek_v4_flash_single_day",
+      "generator": "DeepSeek-V4-Flash",
+      "audit_sha256": "c498ad7348b7db5b0e6e9bfa9363508da8db89111f0dc5135a71a493b121b854",
+      "labels_sha256": "ea5b8059b2ebac14ad449262e7d5394991595b1bde6b49c0ce205b5cf71d56a6",
+      "audit_rows": 3709398,
+      "label_rows": 257,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4442,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3553,
+          "positives": 229,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6822960183710897,
+          "auroc_two_sided": 0.6822960183710897,
+          "passed": false,
+          "ci": [
+            0.6480765798987633,
+            0.7165324611178461
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 229,
+            "positive_keys": 229,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 229,
+            "n_honest": 3324,
+            "n_excluded": 889
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 85.625,
+              "honest_median": 91.0
+            },
+            "first_action_min": {
+              "attack_median": 505.0,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3430,
+          "positives": 106,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.7685188338669028,
+          "auroc_two_sided": 0.7685188338669028,
+          "passed": false,
+          "ci": [
+            0.7387541684248866,
+            0.7991461685694743
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 106,
+            "positive_keys": 106,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 106,
+            "n_honest": 3324,
+            "n_excluded": 1012
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 86.42857142857143,
+              "honest_median": 91.0
+            },
+            "first_action_min": {
+              "attack_median": 496.5,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3581,
+          "positives": 257,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6771540078757486,
+          "auroc_two_sided": 0.6771540078757486,
+          "passed": false,
+          "ci": [
+            0.645060578341333,
+            0.7098231072865253
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 257,
+            "positive_keys": 257,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 257,
+            "n_honest": 3324,
+            "n_excluded": 861
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 86.28571428571429,
+              "honest_median": 91.0
+            },
+            "first_action_min": {
+              "attack_median": 505.0,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4442,
+          "positives": 229,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6725429814350881,
+          "auroc_two_sided": 0.6725429814350881,
+          "passed": false,
+          "ci": [
+            0.6382586159429675,
+            0.70748515620577
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 229,
+            "positive_keys": 229,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 229,
+            "n_honest": 4213,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 85.625,
+              "honest_median": 90.625
+            },
+            "first_action_min": {
+              "attack_median": 505.0,
+              "honest_median": 542.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.6837424263921513,
+          "2": 0.6810473255245693,
+          "3": 0.686915722100484,
+          "4": 0.6792350459014498,
+          "5": 0.6807878654117994,
+          "6": 0.677137031723761,
+          "7": 0.6851487658894687,
+          "8": 0.6860558909925959,
+          "9": 0.6835834660192645,
+          "10": 0.6795437705925937
+        },
+        "two_sided_min": 0.677137031723761,
+        "two_sided_max": 0.686915722100484,
+        "fold_seeds_exceeding_gate": 10,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.6469463843740639,
+            "auroc_two_sided": 0.6469463843740639,
+            "ci": [
+              0.6111083575102078,
+              0.6821670672693988
+            ],
+            "exceeds_gate": true
+          },
+          "first_action_min": {
+            "auroc": 0.6025767345072754,
+            "auroc_two_sided": 0.6025767345072754,
+            "ci": [
+              0.5691073708126887,
+              0.6340695968184401
+            ],
+            "exceeds_gate": true
+          }
+        }
+      },
+      "runtime_s": 3.71,
+      "load_and_features_s": 1.97
+    },
+    {
+      "corpus": "deepseek_v4_flash_multiday",
+      "generator": "DeepSeek-V4-Flash",
+      "audit_sha256": "5b70056582b99fb08ba519fbccb278e8fe95b01a6be3354e0616c1f33b9518c7",
+      "labels_sha256": "0388d4b3027194a212401b38e26eedbb399333d04d51ce40e4afa3b9cecc1c60",
+      "audit_rows": 4624169,
+      "label_rows": 36,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4445,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3417,
+          "positives": 35,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5709385824110839,
+          "auroc_two_sided": 0.5709385824110839,
+          "passed": true,
+          "ci": [
+            0.475836394019043,
+            0.6537879672988022
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 35,
+            "positive_keys": 35,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 35,
+            "n_honest": 3382,
+            "n_excluded": 1028
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 90.875,
+              "honest_median": 98.57142857142857
+            },
+            "first_action_min": {
+              "attack_median": 530.0,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3389,
+          "positives": 7,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.617048238573963,
+          "auroc_two_sided": 0.617048238573963,
+          "passed": false,
+          "ci": [
+            0.42027695716395863,
+            0.7943541840302714
+          ],
+          "n_boot": 999,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 7,
+            "positive_keys": 7,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 7,
+            "n_honest": 3382,
+            "n_excluded": 1056
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 87.71428571428571,
+              "honest_median": 98.57142857142857
+            },
+            "first_action_min": {
+              "attack_median": 486.0,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3418,
+          "positives": 36,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5665533215060122,
+          "auroc_two_sided": 0.5665533215060122,
+          "passed": true,
+          "ci": [
+            0.4774437718259356,
+            0.647664625375318
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 36,
+            "positive_keys": 36,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 36,
+            "n_honest": 3382,
+            "n_excluded": 1027
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 91.0,
+              "honest_median": 98.57142857142857
+            },
+            "first_action_min": {
+              "attack_median": 530.0,
+              "honest_median": 548.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4445,
+          "positives": 35,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5612309685779073,
+          "auroc_two_sided": 0.5612309685779073,
+          "passed": true,
+          "ci": [
+            0.470356969286415,
+            0.6480039580103182
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 35,
+            "positive_keys": 35,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 36,
+            "n_attack": 35,
+            "n_honest": 4410,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 90.875,
+              "honest_median": 97.625
+            },
+            "first_action_min": {
+              "attack_median": 530.0,
+              "honest_median": 541.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.5946185688941454,
+          "2": 0.5231815493790657,
+          "3": 0.5911633015122075,
+          "4": 0.5524372729576751,
+          "5": 0.5667229872433893,
+          "6": 0.5536369012418687,
+          "7": 0.5744783306581059,
+          "8": 0.5746557404747825,
+          "9": 0.5493452732955986,
+          "10": 0.5966461096561628
+        },
+        "two_sided_min": 0.5231815493790657,
+        "two_sided_max": 0.5966461096561628,
+        "fold_seeds_exceeding_gate": 0,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.6130016051364366,
+            "auroc_two_sided": 0.6130016051364366,
+            "ci": [
+              0.517108769722672,
+              0.6966221161182101
+            ],
+            "exceeds_gate": true
+          },
+          "first_action_min": {
+            "auroc": 0.46566275238658444,
+            "auroc_two_sided": 0.5343372476134156,
+            "ci": [
+              0.36482810278140726,
+              0.567807531154556
+            ],
+            "exceeds_gate": false
+          }
+        }
+      },
+      "runtime_s": 4.15,
+      "load_and_features_s": 2.42
+    },
+    {
+      "corpus": "qwen36_27b_single_day",
+      "generator": "Qwen3.6-27B",
+      "audit_sha256": "a13b2cce7e639ec5c5de32517c761b9ca75a46030431859ef7a1ce3b93329a22",
+      "labels_sha256": "ca0f5449c66474615099052cd96f4bdcd171a164495549a1dc5086c63c57a901",
+      "audit_rows": 3091086,
+      "label_rows": 179,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4448,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3495,
+          "positives": 169,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5522119076168754,
+          "auroc_two_sided": 0.5522119076168754,
+          "passed": true,
+          "ci": [
+            0.51122696590684,
+            0.5937820527359141
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 169,
+            "positive_keys": 169,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 169,
+            "n_honest": 3326,
+            "n_excluded": 953
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 62.0,
+              "honest_median": 61.42857142857143
+            },
+            "first_action_min": {
+              "attack_median": 518.0333333333333,
+              "honest_median": 549.5
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3377,
+          "positives": 51,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.7167179559737304,
+          "auroc_two_sided": 0.7167179559737304,
+          "passed": false,
+          "ci": [
+            0.6683140696613566,
+            0.7664983032279029
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 51,
+            "positive_keys": 51,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 51,
+            "n_honest": 3326,
+            "n_excluded": 1071
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 61.625,
+              "honest_median": 61.42857142857143
+            },
+            "first_action_min": {
+              "attack_median": 493.0,
+              "honest_median": 549.5
+            }
+          }
+        },
+        "any_label": {
+          "n": 3505,
+          "positives": 179,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5555929749359205,
+          "auroc_two_sided": 0.5555929749359205,
+          "passed": true,
+          "ci": [
+            0.5123432734948687,
+            0.5992536845447755
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 179,
+            "positive_keys": 179,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 179,
+            "n_honest": 3326,
+            "n_excluded": 943
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 61.75,
+              "honest_median": 61.42857142857143
+            },
+            "first_action_min": {
+              "attack_median": 518.0,
+              "honest_median": 549.5
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4448,
+          "positives": 169,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5446345230802419,
+          "auroc_two_sided": 0.5446345230802419,
+          "passed": true,
+          "ci": [
+            0.5020789043182644,
+            0.5861674784506304
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 169,
+            "positive_keys": 169,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 38,
+            "n_attack": 169,
+            "n_honest": 4279,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 62.0,
+              "honest_median": 61.875
+            },
+            "first_action_min": {
+              "attack_median": 518.0333333333333,
+              "honest_median": 541.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.5367429646998545,
+          "2": 0.5618517543329051,
+          "3": 0.5483504538386818,
+          "4": 0.5429901404391436,
+          "5": 0.5657452312246706,
+          "6": 0.5535880119695282,
+          "7": 0.556509231552018,
+          "8": 0.5465055666845758,
+          "9": 0.5646012944454131,
+          "10": 0.5513650741690892
+        },
+        "two_sided_min": 0.5367429646998545,
+        "two_sided_max": 0.5657452312246706,
+        "fold_seeds_exceeding_gate": 0,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.4921080815664284,
+            "auroc_two_sided": 0.5078919184335716,
+            "ci": [
+              0.4499378026506152,
+              0.5354881302874318
+            ],
+            "exceeds_gate": false
+          },
+          "first_action_min": {
+            "auroc": 0.5618553124566353,
+            "auroc_two_sided": 0.5618553124566353,
+            "ci": [
+              0.5204082619610768,
+              0.6032083236960383
+            ],
+            "exceeds_gate": false
+          }
+        }
+      },
+      "runtime_s": 3.25,
+      "load_and_features_s": 1.54
+    },
+    {
+      "corpus": "qwen36_27b_multiday",
+      "generator": "Qwen3.6-27B",
+      "audit_sha256": "bdb949b594d5b04ebb770b4e4dc12e825ec1214d77b8f1a178e7cb298d65e485",
+      "labels_sha256": "e92f246abbf246a7469be48c3a8c56f367336fcaceb0d103e15dce23a7d64752",
+      "audit_rows": 3013623,
+      "label_rows": 37,
+      "days": 30,
+      "accounts": 150,
+      "active_account_days": 4454,
+      "features": [
+        "events_per_session",
+        "first_action_min"
+      ],
+      "features_missing": [
+        "session_length",
+        "turn_cap_rate"
+      ],
+      "features_note": "no transcripts and no turn field in the released audit schema: session_length and turn_cap_rate not computable; sessions = distinct task_id per account-day",
+      "task_id_null_share": 0.0,
+      "rules": {
+        "primary": {
+          "n": 3395,
+          "positives": 36,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.4609837583937018,
+          "auroc_two_sided": 0.5390162416062982,
+          "passed": true,
+          "ci": [
+            0.3581555234935597,
+            0.572330984464241
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 36,
+            "positive_keys": 36,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 37,
+            "n_attack": 36,
+            "n_honest": 3359,
+            "n_excluded": 1059
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 61.14285714285714,
+              "honest_median": 60.875
+            },
+            "first_action_min": {
+              "attack_median": 528.5,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "f1_exact": {
+          "n": 3365,
+          "positives": 6,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.6287585590949687,
+          "auroc_two_sided": 0.6287585590949687,
+          "passed": false,
+          "ci": [
+            0.4980623790729572,
+            0.7674321946106446
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": true,
+          "labels": {
+            "label_rows_selected": 6,
+            "positive_keys": 6,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 37,
+            "n_attack": 6,
+            "n_honest": 3359,
+            "n_excluded": 1089
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 59.89285714285714,
+              "honest_median": 60.875
+            },
+            "first_action_min": {
+              "attack_median": 491.5,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "any_label": {
+          "n": 3396,
+          "positives": 37,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.5038742225404923,
+          "auroc_two_sided": 0.5038742225404923,
+          "passed": true,
+          "ci": [
+            0.41380046686147764,
+            0.5908064050927047
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 37,
+            "positive_keys": 37,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 37,
+            "n_attack": 37,
+            "n_honest": 3359,
+            "n_excluded": 1058
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 61.0,
+              "honest_median": 60.875
+            },
+            "first_action_min": {
+              "attack_median": 527.0,
+              "honest_median": 550.0
+            }
+          }
+        },
+        "stage2b_negatives": {
+          "n": 4454,
+          "positives": 36,
+          "folds": 5,
+          "threshold": 0.6,
+          "auroc": 0.4552116342236306,
+          "auroc_two_sided": 0.5447883657763695,
+          "passed": true,
+          "ci": [
+            0.36109284882466774,
+            0.5575489034897024
+          ],
+          "n_boot": 1000,
+          "status": "ok",
+          "features": [
+            "events_per_session",
+            "first_action_min"
+          ],
+          "exceeds_gate": false,
+          "labels": {
+            "label_rows_selected": 36,
+            "positive_keys": 36,
+            "positive_keys_not_active": 0,
+            "labelled_accounts": 37,
+            "n_attack": 36,
+            "n_honest": 4418,
+            "n_excluded": 0
+          },
+          "medians": {
+            "events_per_session": {
+              "attack_median": 61.14285714285714,
+              "honest_median": 61.35416666666667
+            },
+            "first_action_min": {
+              "attack_median": 528.5,
+              "honest_median": 541.0
+            }
+          }
+        }
+      },
+      "posthoc": {
+        "fold_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "two_sided_by_fold_seed": {
+          "1": 0.5584995534385233,
+          "2": 0.5681998610697628,
+          "3": 0.5131322152757103,
+          "4": 0.5064792762396215,
+          "5": 0.5708957692434917,
+          "6": 0.5484684595282987,
+          "7": 0.5342611888458867,
+          "8": 0.591892428302074,
+          "9": 0.5449042373722338,
+          "10": 0.519375806291555
+        },
+        "two_sided_min": 0.5064792762396215,
+        "two_sided_max": 0.591892428302074,
+        "fold_seeds_exceeding_gate": 0,
+        "single_feature": {
+          "events_per_session": {
+            "auroc": 0.5079140617247196,
+            "auroc_two_sided": 0.5079140617247196,
+            "ci": [
+              0.39629479084576397,
+              0.6102115694619594
+            ],
+            "exceeds_gate": false
+          },
+          "first_action_min": {
+            "auroc": 0.4833986636234329,
+            "auroc_two_sided": 0.5166013363765671,
+            "ci": [
+              0.3758420213138029,
+              0.5914366971952238
+            ],
+            "exceeds_gate": false
+          }
+        }
+      },
+      "runtime_s": 3.25,
+      "load_and_features_s": 1.5
+    }
+  ],
+  "shuffle_sanity": {
+    "corpus": "gpt53_single_day",
+    "rule": "primary",
+    "shuffle_seed": 20261020,
+    "features": [
+      "events_per_session",
+      "first_action_min"
+    ],
+    "n_attack": 210,
+    "n_honest": 3319,
+    "result": {
+      "n": 3529,
+      "positives": 210,
+      "folds": 5,
+      "threshold": 0.6,
+      "auroc": 0.5180397136257335,
+      "auroc_two_sided": 0.5180397136257335,
+      "passed": true,
+      "ci": [
+        0.47401465456509995,
+        0.5580143705797352
+      ],
+      "n_boot": 1000,
+      "status": "ok"
+    },
+    "condition": "the shuffled-label AUROC's 95 percent interval contains 0.5 and its two-sided value is at most 0.6",
+    "passed": true,
+    "repeats": 20,
+    "repeat_aurocs": [
+      0.5180397136257335,
+      0.47911089111751964,
+      0.501055969239157,
+      0.5174256445573108,
+      0.4620719092096013,
+      0.47033386418743456,
+      0.5287435974691173,
+      0.5021635891476205,
+      0.47582461728288783,
+      0.44099700139169856,
+      0.5065273533336203,
+      0.5234486864947847,
+      0.4703969927832537,
+      0.4628136702104765,
+      0.47001893857874577,
+      0.4678158940587383,
+      0.490925264350995,
+      0.5207743296173546,
+      0.5049075309545331,
+      0.4482962452832896
+    ],
+    "repeat_mean": 0.48808458514469366,
+    "repeat_min": 0.44099700139169856,
+    "repeat_max": 0.5287435974691173,
+    "runtime_s": 0.71
+  }
+}
