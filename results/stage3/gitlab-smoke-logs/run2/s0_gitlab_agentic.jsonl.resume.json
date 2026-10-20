@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "audit_path": "data/corpus/spike/s0_gitlab_agentic.jsonl",
+  "transcript_path": "data/corpus/spike/s0_gitlab_agentic.transcripts.jsonl",
+  "start_date": "2026-04-06",
+  "n_days": 2,
+  "seed": 1,
+  "session_id": "itb-npc-b737445d",
+  "days": [
+    {
+      "day": "2026-04-06",
+      "audit_bytes": 521781,
+      "transcript_bytes": 1317650,
+      "snapshot_ok": true,
+      "managers_ok": true,
+      "snapshot_dir": "data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-06",
+      "managers_path": "data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-06/managers.json",
+      "sessions_planned": 10,
+      "sessions_completed": 10,
+      "sessions_aborted": 0,
+      "attack_sessions_planned": 0,
+      "attack_sessions_completed": 0,
+      "sessions_ok": true
+    },
+    {
+      "day": "2026-04-07",
+      "audit_bytes": 1103585,
+      "transcript_bytes": 3093551,
+      "snapshot_ok": true,
+      "managers_ok": true,
+      "snapshot_dir": "data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-07",
+      "managers_path": "data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-07/managers.json",
+      "sessions_planned": 9,
+      "sessions_completed": 9,
+      "sessions_aborted": 0,
+      "attack_sessions_planned": 0,
+      "attack_sessions_completed": 0,
+      "sessions_ok": true
+    }
+  ],
+  "sandbox_mode": "lab"
+}

@@ -1,0 +1,149 @@
+audit rows: 1324 (with exit_code: 1324)
+C4 failed-event share: 47/1324 = 0.0355
+session rows: 1324; wall span 2026-10-20 08:50:55.048224+00:00 -> 2026-10-20 10:40:18.093493+00:00 = 1.823 h
+gitlab events: 403
+gitlab action/exit counts: [(('list_files', 0), 96), (('read_file', 0), 95), (('list_mrs', 0), 72), (('list_projects', 0), 37), (('get_mr', 0), 32), (('commit', 0), 26), (('approve_mr', 0), 21), (('open_mr', 0), 7), (('merge_mr', 0), 7), (('read_file', 1), 2), (('commit', 1), 2), (('list_mrs', 1), 2), (('project_exists', 0), 1), (('create_project', 0), 1), (('merge_mr', 1), 1), (('list_projects', 1), 1)]
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-06T07:25:00Z args={"state": "opened"}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-06T07:27:03.267063Z args={"state": "opened"}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-06T07:27:40.596786Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-06T07:27:40.596786Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-06T07:27:40.596786Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-06T07:44:00Z args={"state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-06T07:44:22.937398Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-06T07:44:22.937398Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR priya.a84 open_mr exit=0 ts=2026-04-06T07:46:00Z args={"project": "eval/red-team-suite", "source": "priya/eval-logger-refactor", "target": "main", "title": "refactor: eval_logger structured logging + aligned categories", "description"
+  MR priya.a84 list_mrs exit=0 ts=2026-04-06T07:46:09.207204Z args={"state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:21:00Z args={"state": "opened"}
+  MR alice.kim get_mr exit=0 ts=2026-04-06T08:21:14.600633Z args={"project": "eval/red-team-suite", "mr_iid": 1}
+  MR alice.kim approve_mr exit=0 ts=2026-04-06T08:21:20.069559Z args={"project": "eval/red-team-suite", "mr_iid": 1}
+  MR alice.kim merge_mr exit=0 ts=2026-04-06T08:21:27.094718Z args={"project": "eval/red-team-suite", "mr_iid": 1}
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:22:06.387253Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:22:08.068142Z args={"state": "opened"}
+  MR alice.kim open_mr exit=0 ts=2026-04-06T08:22:15.195951Z args={"project": "eval/red-team-suite", "source": "alice-kim/persona-leakage-prompts", "target": "main", "title": "feat(scenarios): add persona-leakage jailbreak prompt set", "descripti
+  MR alice.kim open_mr exit=0 ts=2026-04-06T08:22:32.164028Z args={"project": "models/llama-finetune", "source": "alice-kim/loss-probe-refusal-gradients", "target": "main", "title": "feat(sandbox): add loss_probe.py for refusal-token gradient log
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:23:08.686121Z args={"state": "opened"}
+  MR alice.kim get_mr exit=0 ts=2026-04-06T08:23:26.350866Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR alice.kim get_mr exit=0 ts=2026-04-06T08:23:26.350866Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR alice.kim open_mr exit=0 ts=2026-04-06T08:25:08.686121Z args={"project": "eval/red-team-suite", "source": "alice-kim/fix-eval-category", "target": "main", "title": "fix(evaluator): preserve category field in eval result", "description": "Fix
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:25:08.686121Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-06T08:25:08.686121Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim open_mr exit=0 ts=2026-04-06T08:25:08.686121Z args={"project": "eval/red-team-suite", "source": "alice-kim/template-generator-refactor", "target": "main", "title": "feat(tools): refactor template generator with variable system-role
+  MR wei.n2 list_mrs exit=0 ts=2026-04-06T08:57:00Z args={"state": "opened"}
+  MR wei.n2 get_mr exit=0 ts=2026-04-06T08:57:06.891844Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR wei.n2 get_mr exit=0 ts=2026-04-06T08:57:06.891844Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR wei.n2 get_mr exit=0 ts=2026-04-06T08:57:06.891844Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR wei.n2 get_mr exit=0 ts=2026-04-06T08:57:06.891844Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-06T08:57:45.451905Z args={"state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-06T08:58:00.486917Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-06T08:58:00.486917Z args={"project": "infra/monitoring", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-06T08:58:00.486917Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR wei.n2 open_mr exit=0 ts=2026-04-06T08:59:45.451905Z args={"project": "infra/audit-collector", "source": "feature/wei-n2-143-collector-probe", "target": "main", "title": "INFRA-3 / wei-n2-143: Add health-check logging to collector_probe.p
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:05:00Z args={"state": "opened"}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:05:07.149808Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:05:07.149808Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:05:07.149808Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:05:07.149808Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:05:11.026778Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:05:11.026778Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:05:11.026778Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:05:53.272002Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:05:54.864910Z args={"project": "models/llama-finetune", "state": "merged"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:06:03.498980Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:06:21.432858Z args={"state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:06:31.073845Z args={"project": "infra/training-pipeline", "state": "merged"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:06:58.067264Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:07:00Z args={"state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:07:00Z args={"project": "models/llama-finetune", "state": "all"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:07:04.213461Z args={"state": "opened"}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:07:15.348592Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:07:15.348592Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:07:15.348592Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:07:33.504450Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:07:33.504450Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:07:33.504450Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-06T09:07:45.515435Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:07:51.166579Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR deepa.a7 approve_mr exit=0 ts=2026-04-06T09:07:51.166579Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:09:04.213461Z args={"state": "merged"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-06T09:09:04.213461Z args={"state": "opened"}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-07T07:13:00Z args={"state": "opened"}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:13:11.376629Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:13:11.376629Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:13:11.376629Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:13:22.888780Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:13:22.888780Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:13:22.888780Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a1 list_mrs exit=0 ts=2026-04-07T07:15:03.888987Z args={"state": "opened"}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:15:12.498839Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:15:12.498839Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR deepa.a1 get_mr exit=0 ts=2026-04-07T07:15:12.498839Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:15:34.366711Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:15:34.366711Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR deepa.a1 approve_mr exit=0 ts=2026-04-07T07:15:34.366711Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:33:03.556615Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:33:06.989267Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:33:06.989267Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR priya.a84 approve_mr exit=0 ts=2026-04-07T07:33:18.751636Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR priya.a84 merge_mr exit=0 ts=2026-04-07T07:33:18.751636Z args={"project": "eval/red-team-suite", "mr_iid": 3}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:34:03.416459Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR priya.a84 approve_mr exit=0 ts=2026-04-07T07:34:17.751123Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:34:24.162798Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 merge_mr exit=0 ts=2026-04-07T07:34:24.162798Z args={"project": "models/llama-finetune", "mr_iid": 1}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:34:29.289498Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR priya.a84 approve_mr exit=0 ts=2026-04-07T07:34:31.704476Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR priya.a84 approve_mr exit=0 ts=2026-04-07T07:34:31.704476Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 merge_mr exit=1 ts=2026-04-07T07:34:34.803684Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 merge_mr exit=0 ts=2026-04-07T07:34:34.803684Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:34:39.722372Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:35:05.558685Z args={"state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:35:19.597627Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:35:19.597627Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR priya.a84 get_mr exit=0 ts=2026-04-07T07:37:05.558685Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 merge_mr exit=0 ts=2026-04-07T07:37:05.558685Z args={"project": "eval/red-team-suite", "mr_iid": 4}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:37:05.558685Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR priya.a84 list_mrs exit=0 ts=2026-04-07T07:37:05.558685Z args={"state": "opened"}
+  MR priya.a84 open_mr exit=0 ts=2026-04-07T07:37:05.558685Z args={"project": "eval/red-team-suite", "source": "priya-a84/update-readme", "target": "main", "title": "docs: update README with project structure and usage", "description": "Expands t
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:06:00Z args={"state": "opened"}
+  MR alice.kim get_mr exit=0 ts=2026-04-07T08:06:07.856523Z args={"project": "eval/red-team-suite", "mr_iid": 5}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:06:31.085371Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim approve_mr exit=0 ts=2026-04-07T08:06:35.543995Z args={"project": "eval/red-team-suite", "mr_iid": 5}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:06:38.999107Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:06:38.999107Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim approve_mr exit=0 ts=2026-04-07T08:06:41.589270Z args={"project": "eval/red-team-suite", "mr_iid": 5, "approver": "alice.kim"}
+  MR alice.kim merge_mr exit=0 ts=2026-04-07T08:06:46.756602Z args={"project": "eval/red-team-suite", "mr_iid": 5}
+  MR alice.kim list_mrs exit=1 ts=2026-04-07T08:06:52.046677Z args={"project": "alignment", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:06:52.046677Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:07:03.257898Z args={"project": "eval/red-team-suite", "author": "alice.kim", "state": "merged"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:08:09.963096Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:08:09.963096Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR alice.kim get_mr exit=0 ts=2026-04-07T08:08:15.175976Z args={"project": "eval/red-team-suite", "mr_iid": 5}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:09:31.025743Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:09:31.025743Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:09:31.025743Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR alice.kim approve_mr exit=0 ts=2026-04-07T08:10:08.109608Z args={"project": "infra/audit-collector", "mr_iid": 1}
+  MR alice.kim merge_mr exit=0 ts=2026-04-07T08:10:08.109608Z args={"project": "infra/audit-collector", "mr_iid": 1}
+  MR alice.kim list_mrs exit=0 ts=2026-04-07T08:10:08.109608Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:52:00Z args={"state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:52:07.193834Z args={"project": "infra/monitoring", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:52:07.193834Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR wei.n2 get_mr exit=0 ts=2026-04-07T08:52:09.818608Z args={"project": "infra/audit-collector", "mr_iid": 1}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/audit-collector", "state": "merged"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/audit-collector", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/audit-collector", "state": "all"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/monitoring", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/training-pipeline", "state": "opened"}
+  MR wei.n2 list_mrs exit=0 ts=2026-04-07T08:54:00Z args={"project": "infra/audit-collector", "state": "all"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-07T09:18:00Z args={"state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-07T09:18:07.392057Z args={"project": "eval/red-team-suite", "state": "opened"}
+  MR deepa.a7 list_mrs exit=1 ts=2026-04-07T09:18:25.559293Z args={"project": "alignment", "state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-07T09:18:29.570298Z args={"project": "models/llama-finetune", "state": "opened"}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-07T09:20:03.422321Z args={"author": "", "reviewer": "", "state": "opened"}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-07T09:20:14.543003Z args={"project": "eval/red-team-suite", "mr_iid": 2}
+  MR deepa.a7 get_mr exit=0 ts=2026-04-07T09:20:14.543003Z args={"project": "eval/red-team-suite", "mr_iid": 5}
+  MR deepa.a7 list_mrs exit=0 ts=2026-04-07T09:20:47.881687Z args={"project": "eval/red-team-suite", "state": "opened"}
+snapshot data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-06: 5,974,630,328 bytes = 5.97 GB
+snapshot data/corpus/spike/.snapshots/s0_gitlab_agentic/day_2026-04-07: 5,967,066,645 bytes = 5.97 GB

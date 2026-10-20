@@ -40,3 +40,17 @@ The original kill rested wholly on C3 ("any miss is a kill for (i)", and C3 was 
 ## One ask before any funded run (pre-registration discipline, L8/L10)
 
 The 7 GB bar passes today only at a boot-state lower bound. Before the funded smoke is launched, the final C3 number — 7 GB, or the flexible figure — should be fixed in writing and the seeded, run-state measurement judged against that fixed number, not adjusted after seeing it.
+
+## After the funded run (appended 2026-10-20 16:2x IST; everything above is the pre-run record and stands)
+
+Aravind freed about 35 GB and directed the funded run; it was launched under the 7 GB bar as written above (no flexibility exercised) and **passed every condition**. Full record: `work/stage3/gitlab-smoke-agentic-2026-10-20.md` (pre-registered before any Docker command, filled after). In brief: 5 accounts × 2 days, 19 of 19 planned sessions completed, $4.43, 2 h 6 min, host disk 34 GiB → min 13.1 GB.
+
+| # | verdict | number (**tested**) |
+|---|---|---|
+| C1 | MET | 11.24 sessions/hour at concurrency 5 (19 ÷ 1.691 session-phase hours) |
+| C2 under load | MET | VM minimum available 1.21 GiB; GitLab peak 4.251 GiB at puma 2; no OOM/restart observed |
+| C3 run state | MET | 5.97 GB per simulated day (both days; run-state gitlab-data 5.79 to 5.80 GB ≤ the boot-state 5.83 GB) |
+| C4 | MET | 47 of 1,324 events failed = 3.55 percent |
+| C5 | MET | MR !1 on `eval/red-team-suite`: opened by priya.a84, approved and merged by alice.kim, all exit 0 |
+
+**The verdict above moves from undecided to: substrate (i) passes the GitLab smoke at 5-account scale on this host.** The caveats that survive: multi-process parallelism for a 50-account branch, GitLab's memory at 50 accounts, and the ~6 GB/day branch-from-snapshot storage are unmeasured (the run record's "substrate implications" section); brief 07's other sections ran on (i-) and stand; the rung-0 REDESIGN and its three amendments are untouched by this result.
