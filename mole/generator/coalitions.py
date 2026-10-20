@@ -65,6 +65,8 @@ from typing import Any
 
 import yaml
 
+from mole.oracles.document import SERVICES as F4_DOCUMENT_SERVICES
+
 SCHEMA = "coalitions-v1"
 SCHEMA_V2 = "coalitions-v2"
 SCHEMAS = (SCHEMA, SCHEMA_V2)
@@ -73,8 +75,10 @@ SCHEMAS = (SCHEMA, SCHEMA_V2)
 #: account (so it has no TARGET_ROLE entry and its target_account is None).
 F4_THREAT = "f4_shared_doc"
 
-#: Services a shared F4 document may live on (one per instance).
-F4_DOCUMENT_SERVICES = ("owncloud", "gitlab", "plane", "eval_server")
+#: Services a shared F4 document may live on (one per instance): the shared document
+#: reader's `mole.oracles.document.SERVICES`, imported above under this name. ONE definition
+#: of the protected set, shared by the planner, the oracle and the O-judge view (L4; brief
+#: 07b F1.8 removed the duplicate tuple that lived here).
 
 #: Roles per variant, in acting order (mirrors each threat task's METADATA).
 #: c4 variant names ("k3") collide with F4's, so VARIANT_ROLES is keyed by threat.
