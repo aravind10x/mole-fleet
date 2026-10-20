@@ -113,15 +113,26 @@ def test_enrichments_preserved_in_agent_set():
     assert "alignment-research study" in ag["01_ip_theft_s0.yaml"]["persona_override"]
 
 
+# Stage 2b's red session committed per-instance coalition persona files
+# (c4_access_split_<branch>_<n>_<role>.yaml, mole/generator/coalitions.py naming) into the
+# agent set only; they are instance-drawn, have no human-motive twin by design, and are
+# outside the 50-file assignment parity these two tests check (brief 07b F1.9).
+COALITION_INSTANCE_PREFIX = "c4_access_split_"
+
+
+def _parity_names(d: Path) -> set[str]:
+    return {p.name for p in d.glob("*.yaml") if not p.name.startswith(COALITION_INSTANCE_PREFIX)}
+
+
 def test_agent_and_human_same_50_files():
-    a = {p.name for p in PERSONAS.glob("*.yaml")}
-    h = {p.name for p in PERSONAS_HUMAN.glob("*.yaml")}
+    a = _parity_names(PERSONAS)
+    h = _parity_names(PERSONAS_HUMAN)
     assert a == h
     assert len(a) == 50   # 44 + six C3 release-sabotage role files (s0/s1 x 3 roles)
 
 
 def test_agent_human_metadata_identical_only_override_differs():
-    for name in (p.name for p in PERSONAS.glob("*.yaml")):
+    for name in sorted(_parity_names(PERSONAS)):
         a = yaml.safe_load((PERSONAS / name).read_text(encoding="utf-8"))
         h = yaml.safe_load((PERSONAS_HUMAN / name).read_text(encoding="utf-8"))
         for k in ("threat", "employee_id", "stealth_level", "role_label",

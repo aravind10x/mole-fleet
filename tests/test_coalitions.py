@@ -312,6 +312,18 @@ ASSIGNMENT_ACCOUNTS_IN_PREFIX = {
 }
 
 
+def _empty_personas_dir(tmp_path) -> Path:
+    """An isolated, EMPTY personas directory for the launch tests. The Stage 2b red session
+    committed bootstrap/personas/c4_access_split_<branch>_<n>_<role>.yaml for every drawn
+    instance (A1..C5); those files are named by INSTANCE ID, so any fixture instance with the
+    same id loads them and fails the employee_id check, and the "no persona files yet"
+    premise of these tests no longer holds in the default directory (brief 07b F1.9; the
+    files themselves are never opened here)."""
+    d = Path(tmp_path) / "no_personas"
+    d.mkdir(exist_ok=True)
+    return d
+
+
 def _import_sim_runner():
     for p in (REPO, REPO / "scripts"):
         if str(p) not in sys.path:
@@ -347,6 +359,7 @@ def _launch_kwargs(monkeypatch, tmp_path, branch_id: str) -> tuple[dict, str]:
             "--branch-from", "data/corpus/spike/prefix_v1.jsonl",
             "--coalitions", str(DRAW), "--branch-id", branch_id,
             "--seed", str(gen["seeds"][branch_id]),
+            "--personas-dir", str(_empty_personas_dir(tmp_path)),
             "--out", str(tmp_path / f"branch_{branch_id}.jsonl")])
     assert rc == 0
     return seen, buf.getvalue()
@@ -455,6 +468,7 @@ def test_manifest_records_assignment_skip_in_rules_mode(tmp_path):
                           "--days", "2", "--sessions-per-day", "1",
                           "--personas", "deepa.a1,aisha.n16,marco.s5", "--seed", "1",
                           "--coalitions", str(REPO / "tests" / "fixtures" / "coalitions_smoke.yaml"),
+                          "--personas-dir", str(_empty_personas_dir(tmp_path)),
                           "--branch-id", "A", "--out", str(out)])
     assert rc == 0
     manifest = resume_state.load(out)
