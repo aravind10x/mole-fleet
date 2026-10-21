@@ -315,7 +315,7 @@ def test_setup_waits_at_least_five_minutes_for_rocketchat_admin_login(monkeypatc
         seen.update(max_attempts=max_attempts, retry_sleep_s=retry_sleep_s, retry_on_401=retry_on_401)
         return {"X-Auth-Token": "t", "X-User-Id": "u"}
     monkeypatch.setattr(RocketChatManager, "_login", fake_login)
-    mgr = RocketChatManager(config={"endpoint": "http://127.0.0.1:1"})
+    mgr = RocketChatManager(config={"port": 13000})
     asyncio.run(mgr.setup(sandbox=None))
     assert seen["retry_on_401"] is True
     assert seen["max_attempts"] * seen["retry_sleep_s"] >= 300
