@@ -105,11 +105,14 @@ class RocketChatManager(StateManager):
         # Admin login during setup() races RocketChat's admin-user
         # materialisation AND its API warmup (which can disconnect mid-handshake
         # for a while after the container reports healthy). Give it a generous
-        # budget — ~90s — so a slow boot doesn't abort the whole sim; the default
-        # 8×3s≈24s lost the race under load. Once RC is ready this returns at once.
+        # budget — ~5 min — so a slow boot doesn't abort the whole sim; the default
+        # 8×3s≈24s lost the race under load, and ~90s (30×3s) lost it on a cold
+        # start that printed SERVER RUNNING 115 s after the container started
+        # (brief 07e E4 lab rehearsal, attempt 1). Once RC is ready this returns
+        # at once, so the budget costs nothing on a fast boot.
         self._admin_token = await asyncio.to_thread(
             self._login, admin_user, admin_pass,
-            retry_on_401=True, max_attempts=30, retry_sleep_s=3.0,
+            retry_on_401=True, max_attempts=100, retry_sleep_s=3.0,
         )
         logger.info("rocketchat manager up at %s; admin logged in", self._base_url)
 

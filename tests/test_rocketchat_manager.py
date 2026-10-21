@@ -301,3 +301,21 @@ def test_real_rocketchat_round_trip():
     ))
     msgs = asyncio.run(mgr.channel_history(channel="general", limit=5))
     assert any("itb-smoke" in m.get("msg", "") for m in msgs)
+
+
+def test_setup_waits_at_least_five_minutes_for_rocketchat_admin_login(monkeypatch):
+    """Brief 07e E4: the lab rehearsal's first launch died at bring-up because Rocket.Chat 5.3
+    printed SERVER RUNNING 115 s after start and the admin-login budget was about 95 s (30 x 3 s).
+    The budget is a harness bring-up timeout (before any session), raised to at least 100 x 3 s."""
+    import asyncio
+    from mole.state.rocketchat.manager import RocketChatManager
+    seen = {}
+
+    def fake_login(self, user, password, *, max_attempts=8, retry_sleep_s=3.0, retry_on_401=False):
+        seen.update(max_attempts=max_attempts, retry_sleep_s=retry_sleep_s, retry_on_401=retry_on_401)
+        return {"X-Auth-Token": "t", "X-User-Id": "u"}
+    monkeypatch.setattr(RocketChatManager, "_login", fake_login)
+    mgr = RocketChatManager(config={"endpoint": "http://127.0.0.1:1"})
+    asyncio.run(mgr.setup(sandbox=None))
+    assert seen["retry_on_401"] is True
+    assert seen["max_attempts"] * seen["retry_sleep_s"] >= 300
