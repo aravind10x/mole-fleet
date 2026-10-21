@@ -49,8 +49,15 @@ A file with a `generation` block and NO `branches` block is an honest generation
 prefix or a branch parent): the command has no `--coalitions` / `--branch-id`, the expected
 plan has no instances, and `--branch-id` may be omitted.
 
+The roster check is PRESENCE-AWARE (brief 07d): the runner's presence draw
+(mole/generator/presence.py; member seed = run seed + roster index in load_personas order)
+absents or loafs an account on a day, so each branch day is expected to show exactly the
+accounts the predicate says act (agentic) or the accounts not absent (rules mode, whose
+members draw more slots); the all-present reading stays as an informational line, and the
+manifest's seed must equal the plan's.
+
 `--check-manifest` on an AGENTIC manifest also checks, per day, sessions planned (at most
-roster x sessions/day; the presence draw loafs a few), none aborted, the attack sessions
+roster x sessions/day, and exactly the presence draw's kept slots), none aborted, the attack sessions
 planned (0 for an honest run), the day's snapshot and managers export; the task bank's
 sha256 against `--task-bank`; the six class documents under `--class-documents`; and, for a
 lab branch, the lineage (snapshot directory, every volume restored, the class documents
@@ -206,6 +213,9 @@ def build_expected_plan(assignment: str | Path, branch_id: str | None) -> dict:
         "task_bank": _flag_value(gen, "--task-bank"),
         "class_documents": "--class-documents" in [str(f) for f in gen.get("extra_flags") or []],
         "parent": gen.get("parent_snapshot"),
+        "roster": roster,
+        "seed": _seed_for(gen, branch_id),
+        "absent_probability": float(_flag_value(gen, "--absent-prob") or 0.01),
     }
 
 
@@ -329,26 +339,96 @@ def _branch_day_accounts(manifest: dict) -> dict[str, set[str]] | None:
     return by_day
 
 
+def expected_presence(expected: dict, seed: int | None, dates: list[str]) -> dict[str, dict]:
+    """Per branch day, what the runner's presence draw plans for this roster and seed
+    (mole/generator/presence.py, the one stream the members and the coalition planner read):
+    `acts` = accounts with at least one kept session that day (the agentic member's slots),
+    `present` = accounts not absent (PTO) that day, `planned_sessions` = the kept slots
+    summed over the roster (= the manifest's sessions_planned on an agentic run). Member i's
+    presence seed is `seed + i` with i the account's index in load_personas order restricted
+    to the roster (`run.simulate`); a None seed is unseeded and nothing can be expected."""
+    from mole.generator.member import NPCConfig
+    from mole.generator.persona_loader import load_personas
+    from mole.generator.presence import day_presence
+    roster = set(expected["roster"])
+    sessions = max(1, int(expected["sessions_per_day"] or 0))
+    config = NPCConfig(sessions_per_day=sessions,
+                       absent_probability=float(expected.get("absent_probability", 0.01)))
+    order = [p.id for p in load_personas() if p.id in roster]
+    out: dict[str, dict] = {}
+    for d in dates:
+        acts, present, planned = set(), set(), 0
+        if seed is not None:
+            for i, acct in enumerate(order):
+                mask = day_presence(int(seed) + i, d, config, sessions)
+                if mask is None:
+                    continue
+                present.add(acct)
+                kept = sum(1 for k in mask if k)
+                planned += kept
+                if kept:
+                    acts.add(acct)
+        out[d] = {"acts": acts, "present": present, "planned_sessions": planned}
+    return out
+
+
 def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str, bool | None, str]]:
     """Compare a produced manifest with the expected plan. Returns (item, PASS/FAIL/None,
-    detail) rows; None = SKIP (could not be checked)."""
+    detail) rows; None = SKIP (could not be checked) or an informational line."""
     manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
     rows: list[tuple[str, bool | None, str]] = []
 
-    # 1. roster size, counted per BRANCH day (not over the whole log, which also holds the
-    #    parent prefix copied in by --branch-from): every branch day must show the full
-    #    roster of distinct accounts.
+    # 0. the seed the run used is the seed the plan names (the presence expectation below
+    #    is computed from the plan's seed and is meaningless if the run drew another).
+    plan_seed, man_seed = expected.get("seed"), manifest.get("seed")
+    if plan_seed is None or man_seed is None:
+        rows.append(("seed", None, f"plan seed {plan_seed}, manifest seed {man_seed}; "
+                                   f"presence expectation uses the plan's seed"))
+    else:
+        rows.append(("seed", int(plan_seed) == int(man_seed),
+                     f"manifest seed {man_seed} vs plan seed {plan_seed}"))
+
+    # 1. roster per BRANCH day (not over the whole log, which also holds the parent prefix
+    #    copied in by --branch-from), against the presence draw: an agentic day must show
+    #    exactly the accounts the draw lets act; a rules-mode day (members draw more slots,
+    #    so loafing differs) must show every account not absent and no absent one. The
+    #    all-present count is kept as information: it is what the roster size would be if
+    #    nobody loafed, never a pass or a fail by itself.
     by_day = _branch_day_accounts(manifest)
     exp_n = expected["roster_size"]
+    presence = None
     if by_day is None:
         rows.append(("roster_size", None, "audit log not found; cannot count the roster"))
     elif not by_day:
         rows.append(("roster_size", None, "no branch dates (start_date/n_days missing)"))
     else:
         counts = {d: len(a) for d, a in sorted(by_day.items())}
-        ok = all(c == exp_n for c in counts.values())
-        rows.append(("roster_size per branch day", ok,
-                     f"distinct accounts/day {counts} vs expected {exp_n} each"))
+        rows.append(("roster all-present reading (informational)", None,
+                     f"distinct accounts/day {counts} vs expected {exp_n} each if nobody "
+                     f"loafed or was absent (the presence draw decides; see the next row)"))
+        if plan_seed is None:
+            rows.append(("roster_size per branch day", None,
+                         "no seed in the plan: the presence draw cannot be reproduced"))
+        else:
+            presence = expected_presence(expected, plan_seed, sorted(by_day))
+            # Rules mode is read from the MANIFEST (no per-day session records), not from
+            # the assignment: the L15 rehearsal runs the agentic assignment's line with
+            # `--mode rules`, so the plan says agentic while the run was rules.
+            rules = (str(expected.get("mode") or "agentic") == "rules"
+                     or not any(d.get("sessions_planned") is not None
+                                for d in (manifest.get("days") or [])))
+            detail, ok = [], True
+            for d in sorted(by_day):
+                want = presence[d]["present"] if rules else presence[d]["acts"]
+                got = by_day[d]
+                extra, missing = sorted(got - want), sorted(want - got)
+                ok = ok and not extra and not missing
+                detail.append(f"{d}: {len(got)} acting vs {len(want)} expected"
+                              + (f", unexpected {extra}" if extra else "")
+                              + (f", missing {missing}" if missing else ""))
+            rows.append(("roster_size per branch day", ok,
+                         ("rules mode, absence-aware" if rules else "presence-aware")
+                         + ": " + "; ".join(detail)))
 
     # 2. planned sessions per day = roster x sessions/day. Rules-mode audit rows carry a
     #    per-ACTION task_id (not a session id) and rules mode writes no transcript, so the
@@ -359,7 +439,7 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
                  f"(= roster {exp_n} x sessions/day {expected['sessions_per_day']}); not "
                  f"verifiable from a rules-mode manifest (per-action task_id, no transcript)"))
 
-    rows.extend(_agentic_rows(expected, manifest))
+    rows.extend(_agentic_rows(expected, manifest, presence))
 
     # 3. coalition block present for this branch (absent for an honest generation).
     block = manifest.get("coalitions")
@@ -412,8 +492,11 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
     return rows
 
 
-def _agentic_rows(expected: dict, manifest: dict) -> list[tuple[str, bool | None, str]]:
-    """The agentic-only items (SKIP on a rules-mode manifest, which records none of them)."""
+def _agentic_rows(expected: dict, manifest: dict,
+                  presence: dict[str, dict] | None = None) -> list[tuple[str, bool | None, str]]:
+    """The agentic-only items (SKIP on a rules-mode manifest, which records none of them).
+    `presence` (from expected_presence, keyed by branch day) makes the planned-session count
+    exact: the draw's kept slots summed over the roster."""
     rows: list[tuple[str, bool | None, str]] = []
     days = manifest.get("days") or []
     agentic = any(d.get("sessions_planned") is not None for d in days)
@@ -427,6 +510,11 @@ def _agentic_rows(expected: dict, manifest: dict) -> list[tuple[str, bool | None
         planned = d.get("sessions_planned")
         rows.append((f"day {day} sessions planned", planned is not None and 0 < planned <= cap,
                      f"{planned} planned (at most roster x sessions/day = {cap})"))
+        if presence is not None and day in presence:
+            want = presence[day]["planned_sessions"]
+            rows.append((f"day {day} sessions planned (presence-aware)", planned == want,
+                         f"{planned} planned vs {want} kept slots in the presence draw for "
+                         f"seed {expected.get('seed')}"))
         rows.append((f"day {day} sessions aborted", d.get("sessions_aborted") == 0,
                      f"{d.get('sessions_aborted')} aborted of {planned}; "
                      f"{d.get('sessions_completed')} completed"))

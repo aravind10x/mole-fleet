@@ -385,3 +385,138 @@ def test_check_manifest_reads_the_lab_branch_lineage(tmp_path, monkeypatch):
     mp.write_text(json.dumps(man))
     rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
     assert rows["branch class documents at start"] is False
+
+
+# ── presence-aware roster (brief 07d, C1 close-out) ──────────────────────────────────────
+# The runner's presence draw (mole/generator/presence.py) loafs or absents an account on a
+# day, so "every roster account appears every branch day" is the wrong expectation: the C1
+# rehearsal's parent planned 1 session for 3 accounts and its branch 2 then 3, all correct.
+# The check now expects, per day, exactly the accounts the presence predicate says act
+# (member seed = run seed + roster index in load_personas order), and reports the
+# all-present reading as an informational line.
+
+def _presence_roster(seed, roster, sessions, days):
+    from mole.generator.member import NPCConfig
+    from mole.generator.persona_loader import load_personas
+    from mole.generator.presence import acts_predicate
+    order = [p.id for p in load_personas() if p.id in set(roster)]
+    pred = acts_predicate(seed, {a: i for i, a in enumerate(order)}, NPCConfig(
+        sessions_per_day=sessions), sessions)
+    return {d: {a for a in roster if pred(a, d)} for d in days}
+
+
+def _seed_with_a_loafer(roster, sessions, days):
+    for seed in range(1, 500):
+        acting = _presence_roster(seed, roster, sessions, days)
+        if any(len(acting[d]) < len(roster) for d in days):
+            return seed, acting
+    raise AssertionError("no seed under 500 loafs an account; presence defaults changed?")
+
+
+def _presence_manifest(tmp_path, roster, run_seed, sessions, days, acting, **man_over):
+    audit = tmp_path / "pr.jsonl"
+    with audit.open("w", encoding="utf-8") as f:
+        for d in days:
+            for a in sorted(acting[d]):
+                f.write(json.dumps({"account": a, "ts": f"{d}T10:00:00Z"}) + "\n")
+    man = {"schema_version": 1, "audit_path": str(audit), "start_date": days[0],
+           "n_days": len(days), "seed": run_seed, "sandbox_mode": "lab",
+           "days": [{"day": d, "sessions_planned": len(acting[d]) * sessions,
+                     "sessions_completed": len(acting[d]) * sessions, "sessions_aborted": 0,
+                     "attack_sessions_planned": 0, "snapshot_ok": True, "managers_ok": True}
+                    for d in days]}
+    man.update(man_over)
+    mp = tmp_path / "pr.jsonl.resume.json"
+    mp.write_text(json.dumps(man), encoding="utf-8")
+    return mp
+
+
+def test_roster_check_expects_the_presence_aware_roster_per_day(tmp_path):
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06", "2026-04-07"]
+    seed, acting = _seed_with_a_loafer(roster, 1, days)
+    p = _honest(tmp_path, personas=",".join(roster), days=2, sessions_per_day=1, seed=seed,
+                extra_flags=["--multi-day", "--no-insiders"])
+    plan = ll.build_expected_plan(p, None)
+    assert plan["seed"] == seed
+    rows = {r[0]: r for r in ll.check_manifest(plan, _presence_manifest(
+        tmp_path, roster, seed, 1, days, acting))}
+    assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
+    # the all-present reading survives as information (never a FAIL)
+    info = rows["roster all-present reading (informational)"]
+    assert info[1] is None and "expected 3 each" in info[2]
+    assert rows["seed"][1] is True
+    # the exact per-day planned-session count follows the same draw
+    for d in days:
+        assert rows[f"day {d} sessions planned (presence-aware)"][1] is True
+
+
+def test_roster_check_fails_when_a_loafed_account_acts_or_an_acting_one_is_missing(tmp_path):
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06", "2026-04-07"]
+    seed, acting = _seed_with_a_loafer(roster, 1, days)
+    p = _honest(tmp_path, personas=",".join(roster), days=2, sessions_per_day=1, seed=seed,
+                extra_flags=["--multi-day", "--no-insiders"])
+    plan = ll.build_expected_plan(p, None)
+    # every account every day (the old expectation) is now a FAIL on a loafing seed
+    everyone = {d: set(roster) for d in days}
+    rows = {r[0]: r for r in ll.check_manifest(plan, _presence_manifest(
+        tmp_path, roster, seed, 1, days, everyone))}
+    assert rows["roster_size per branch day"][1] is False
+    # an acting account missing from the log is a FAIL too
+    short = {d: set(list(sorted(acting[d]))[1:]) for d in days}
+    rows = {r[0]: r for r in ll.check_manifest(plan, _presence_manifest(
+        tmp_path, roster, seed, 1, days, short))}
+    assert rows["roster_size per branch day"][1] is False
+    # a manifest seed that differs from the plan's is a FAIL
+    rows = {r[0]: r for r in ll.check_manifest(plan, _presence_manifest(
+        tmp_path, roster, seed, 1, days, acting, **{"seed": seed + 1}))}
+    assert rows["seed"][1] is False
+
+
+def test_rules_mode_roster_check_is_absence_aware_only(tmp_path):
+    """Rules-mode members draw more slots than the agentic member (sessions x touch-points),
+    so an account the agentic draw loafs can still appear in a rules log: rules manifests
+    are checked against the absence draw (PTO) only: every present account, no absent one."""
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06"]
+    for seed in range(1, 500):                        # a seed with a present-but-loafed account
+        p = _honest(tmp_path, personas=",".join(roster), days=1, sessions_per_day=1, seed=seed,
+                    mode="rules", extra_flags=["--multi-day", "--no-insiders"])
+        plan = ll.build_expected_plan(p, None)
+        pres = ll.expected_presence(plan, seed, days)[days[0]]
+        if pres["acts"] < pres["present"]:
+            break
+    else:
+        raise AssertionError("no seed under 500 loafs a present account")
+    mp = _presence_manifest(tmp_path, roster, seed, 1, days, {days[0]: pres["present"]})
+    man = json.loads(mp.read_text())
+    del man["days"]                                   # rules manifests carry no day records
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
+    assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
+    assert rows["agentic day records"][1] is None
+    # a present account missing from the rules log is still a FAIL
+    mp = _presence_manifest(tmp_path, roster, seed, 1, days, {days[0]: pres["acts"]})
+    man = json.loads(mp.read_text()); del man["days"]; mp.write_text(json.dumps(man))
+    rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
+    assert rows["roster_size per branch day"][1] is False
+
+
+def test_rules_mode_is_read_from_the_manifest_not_the_assignment(tmp_path):
+    """The L15 rehearsal runs the AGENTIC assignment's line with --mode rules: the manifest
+    (no per-day session records) decides the absence-aware reading, not the plan's mode."""
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06"]
+    for seed in range(1, 500):
+        p = _honest(tmp_path, personas=",".join(roster), days=1, sessions_per_day=1, seed=seed,
+                    extra_flags=["--multi-day", "--no-insiders"])      # mode: agentic
+        plan = ll.build_expected_plan(p, None)
+        pres = ll.expected_presence(plan, seed, days)[days[0]]
+        if pres["acts"] < pres["present"]:
+            break
+    mp = _presence_manifest(tmp_path, roster, seed, 1, days, {days[0]: pres["present"]})
+    man = json.loads(mp.read_text()); del man["days"]; mp.write_text(json.dumps(man))
+    rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
+    assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
+    assert "rules mode" in rows["roster_size per branch day"][2]
