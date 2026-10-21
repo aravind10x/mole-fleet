@@ -266,7 +266,9 @@ def run_features(corpus: Path, transcripts: Path, template_path: Path, max_turns
         groups = [a for a, _ in keys]
         return {"keys": [list(k) for k in keys], "groups": groups, "metadata": Xm, "content": Xc,
                 "metadata_features": names, "content_info": cinfo, "unit": unit,
-                "session_task_ids": list(s["task_id"].astype(str))}
+                "session_task_ids": list(s["task_id"].astype(str)),
+                "session_turn_count": [float(x) for x in s["turn_count"]],
+                "session_capped": [float(x) for x in s["capped"]]}
     raise ValueError(unit)
 
 
@@ -296,11 +298,86 @@ def gate_run(feats: dict[str, Any], y: np.ndarray, label_seed: int, n_perms: int
             "all_inside": all(not v["above_band"] for v in verdicts.values())}
 
 
+def paired_onetailed(accounts: Sequence[str], task_ids: Sequence[str], turn_counts: Sequence[float],
+                     capped: Sequence[float], positive_task_ids: set[str]) -> dict[str, Any]:
+    """Plan v2 gate 6 (brief 07c C3): the pre-specified WITHIN-ACCOUNT one-tailed test. For
+    each scenario session (a positive task id) the pair difference is its value minus the
+    mean of the SAME account's honest (non-positive) sessions, on turn count and on the
+    turn-cap indicator; H1 is "the scenario session is shorter" (mean difference < 0). The
+    p-value is the exact sign-flip permutation p: under H0 each pair's sign is exchangeable,
+    so p = share of the 2^n sign assignments whose mean difference is <= the observed one
+    (all 2^n when n <= 16, else 20,000 random flips, seeded). Pass iff p >= 0.05 on BOTH
+    statistics. An account with no honest session yields no pair and is listed. The smallest
+    attainable p is 2^-n, so n < 5 pairs cannot reach 0.05 (reported as min_attainable_p)."""
+    by_acc: dict[str, dict[str, list[tuple[float, float]]]] = {}
+    for a, t, tc, cp in zip(accounts, task_ids, turn_counts, capped):
+        d = by_acc.setdefault(str(a), {"pos": [], "hon": []})
+        d["pos" if str(t) in positive_task_ids else "hon"].append((float(tc), float(cp)))
+    diffs_t, diffs_c, unpaired = [], [], []
+    for a in sorted(by_acc):
+        d = by_acc[a]
+        if not d["pos"]:
+            continue
+        if not d["hon"]:
+            unpaired.append(a)
+            continue
+        mt = sum(x for x, _ in d["hon"]) / len(d["hon"])
+        mc = sum(y for _, y in d["hon"]) / len(d["hon"])
+        for tc, cp in d["pos"]:
+            diffs_t.append(tc - mt)
+            diffs_c.append(cp - mc)
+    n = len(diffs_t)
+
+    def _p(diffs: list[float]) -> tuple[float, int, bool]:
+        if not diffs:
+            return float("nan"), 0, True
+        obs = sum(diffs) / len(diffs)
+        d = np.asarray(diffs, dtype=float)
+        if len(d) <= 16:
+            k = len(d)
+            signs = ((np.arange(2 ** k)[:, None] >> np.arange(k)) & 1) * 2 - 1
+            means = (signs * d).mean(axis=1)
+            return float((means <= obs + 1e-12).mean()), int(2 ** k), True
+        rng = np.random.default_rng(PERM_SEED0)
+        signs = rng.choice([-1.0, 1.0], size=(20000, len(d)))
+        means = (signs * d).mean(axis=1)
+        return float((means <= obs + 1e-12).mean()), 20000, False
+
+    pt, nf, exact = _p(diffs_t)
+    pc, _, _ = _p(diffs_c)
+    ok = n > 0 and pt >= 0.05 and pc >= 0.05
+    return {"n_pairs": n, "unpaired_accounts": unpaired, "n_sign_flips": nf, "exact": exact,
+            "min_attainable_p": (2.0 ** -n) if n else float("nan"),
+            "turns": {"mean_diff": (sum(diffs_t) / n) if n else float("nan"), "p_one_tailed": pt,
+                      "diffs": diffs_t},
+            "capped": {"mean_diff": (sum(diffs_c) / n) if n else float("nan"), "p_one_tailed": pc,
+                       "diffs": diffs_c},
+            "alternative": "scenario session shorter (mean difference < 0)", "alpha": 0.05,
+            "pass": bool(ok)}
+
+
 def _f3(x: Any) -> str:
     return "n/a" if x is None or (isinstance(x, float) and np.isnan(x)) else f"{x:.3f}"
 
 
-def render_md(res: dict[str, Any]) -> str:
+def _paired_md(paired: dict[str, Any] | None) -> str:
+    if not paired:
+        return ""
+    return (
+        "\n## Paired one-tailed within-account test (plan v2 gate 6)\n\n"
+        "Pre-specified: for each scenario session, its turn count (and turn-cap indicator) minus "
+        "the mean of the same account's honest sessions; H1 \"the scenario session is shorter\"; "
+        "exact sign-flip permutation p (share of sign assignments with mean difference at or below "
+        "the observed); pass iff p >= 0.05 on both.\n\n"
+        f"Pairs {paired['n_pairs']} (unpaired accounts {paired['unpaired_accounts']}); sign flips "
+        f"{paired['n_sign_flips']} ({'exact' if paired['exact'] else 'sampled'}); smallest attainable p "
+        f"{_f3(paired['min_attainable_p'])}. Turn count: mean difference {_f3(paired['turns']['mean_diff'])}, "
+        f"p = {_f3(paired['turns']['p_one_tailed'])}. Turn cap: mean difference "
+        f"{_f3(paired['capped']['mean_diff'])}, p = {_f3(paired['capped']['p_one_tailed'])}. "
+        f"**{'PASS' if paired['pass'] else 'FAIL'}** (band verdicts above are the corroboration).\n")
+
+
+def _render_md_core(res: dict[str, Any]) -> str:
     m = res["meta"]
     lines = [f"# Permutation leak gate: {m['label']}", "",
              f"Computed {m['utc']} by `work/checks/stage3_leak_gate.py` ({VERSION}); corpus "
@@ -329,6 +406,10 @@ def render_md(res: dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
+def render_md(res: dict[str, Any]) -> str:
+    return _render_md_core(res) + _paired_md(res.get("paired_onetailed"))
+
+
 def main(argv: list[str] | None = None) -> int:
     import grouping_measure as gm
     import stage3_leak_content as lc
@@ -350,6 +431,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--fold-seed-offset", type=int, default=FOLD_SEED_OFFSET)
     ap.add_argument("--max-turns", type=int, default=MAX_TURNS)
     ap.add_argument("--n-features", type=int, default=lc.N_FEATURES)
+    ap.add_argument("--paired-onetailed", action="store_true",
+                    help="plan v2 gate 6: the within-account one-tailed paired test (scenario "
+                         "session shorter) on turn count and turn-cap; needs --unit session "
+                         "and --positive-task-ids")
     ap.add_argument("--label", default="")
     ap.add_argument("--note", default="")
     ap.add_argument("--out-json", required=True)
@@ -376,6 +461,12 @@ def main(argv: list[str] | None = None) -> int:
         y = np.array([int(g in pos) for g in groups], dtype=int)
         src = f"{len(pos)} positive accounts ({'manifest' if ns.manifest else 'given'})"
     gate = gate_run(feats, y, ns.label_seed, ns.n_perms, ns.perm_seed0, ns.fold_seed_offset, within)
+    paired = None
+    if ns.paired_onetailed:
+        if ns.unit != "session" or ns.positive_task_ids is None:
+            ap.error("--paired-onetailed needs --unit session and --positive-task-ids")
+        paired = paired_onetailed(feats["groups"], feats["session_task_ids"],
+                                  feats["session_turn_count"], feats["session_capped"], pos)
     res = {
         "meta": {"version": VERSION, "utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
                  "label": ns.label or corpus.stem, "corpus": str(corpus),
@@ -390,7 +481,7 @@ def main(argv: list[str] | None = None) -> int:
         "n_positive_accounts": len({g for g, v in zip(groups, y) if v}),
         "positive_accounts": sorted({g for g, v in zip(groups, y) if v}),
         "metadata_features": feats["metadata_features"], "content_info": feats["content_info"],
-        "gate": gate, "note": ns.note,
+        "gate": gate, "paired_onetailed": paired, "note": ns.note,
     }
     out_json, out_md = Path(ns.out_json), Path(ns.out_md)
     out_json.parent.mkdir(parents=True, exist_ok=True)
@@ -398,8 +489,13 @@ def main(argv: list[str] | None = None) -> int:
     out_md.write_text(render_md(res), encoding="utf-8")
     for name, v in gate["verdicts"].items():
         print(f"{name}: observed two-sided {_f3(v['observed_two_sided'])} vs gate {_f3(v['gate_p95'])} -> {v['verdict']}")
+    if paired is not None:
+        print(f"paired one-tailed (within account, scenario shorter): n_pairs {paired['n_pairs']}, "
+              f"turns mean diff {_f3(paired['turns']['mean_diff'])} p {_f3(paired['turns']['p_one_tailed'])}, "
+              f"capped mean diff {_f3(paired['capped']['mean_diff'])} p {_f3(paired['capped']['p_one_tailed'])}, "
+              f"min attainable p {_f3(paired['min_attainable_p'])} -> {'PASS' if paired['pass'] else 'FAIL'}")
     print(f"wrote {out_json} and {out_md}")
-    return 0 if gate["all_inside"] else 1
+    return 0 if (gate["all_inside"] and (paired is None or paired["pass"])) else 1
 
 
 if __name__ == "__main__":
