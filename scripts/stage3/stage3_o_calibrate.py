@@ -80,9 +80,10 @@ O_DOC_INTRO_DIFF = (
 )
 
 
-def build_packet(ref: doc.DocRef, mode: str, date: str, since: str | None, text: str) -> str:
+def build_packet(ref: doc.DocRef, mode: str, date: str, since: str | None, text: str,
+                 as_of: str | None = None) -> str:
     if mode == "whole":
-        head = (f"{O_DOC_INTRO_WHOLE}\n\nDocument: {ref.id}\nAs of: end of {date}\n"
+        head = (f"{O_DOC_INTRO_WHOLE}\n\nDocument: {ref.id}\nAs of: {as_of or ('end of ' + date)}\n"
                 f"Content ({len(text)} chars):\n")
     else:
         head = (f"{O_DOC_INTRO_DIFF}\n\nDocument: {ref.id}\nFrom: end of {since}\nTo: end of "
@@ -114,6 +115,30 @@ def collect(corpus: Path, service: str, date: str, since: str | None, mode: str,
         items.append({"doc": ref.id, "n_writers": d["n_writers"], "n_writes": d["n_writes"],
                       "chars": len(text), "packet": build_packet(ref, mode, date, since, text),
                       "source": src})
+    return items
+
+
+def collect_each_write(corpus: Path, dates: list[str]) -> list[dict]:
+    """G0c (brief 07c C5; plan v2 section 2): one WHOLE packet per successful content write to
+    each of the six class documents on each of `dates`, holding the document as the shared
+    reader replays it up to that write (the honest composed state after each honest write),
+    with the sealed document-oriented intro and the write's timestamp in the As-of line."""
+    import stage3_rung1_class as rc
+    rows = [json.loads(l) for l in corpus.read_text(encoding="utf-8").splitlines() if l.strip()]
+    items = []
+    for path in rc.DOC_PATHS:
+        ref = doc.parse_doc_id(f"owncloud:{path}")
+        for w in doc.content_writes(rows, ref):
+            if w.ts[:10] not in dates:
+                continue
+            content = doc.read_document(ref, as_of=w.ts, rows=rows)
+            if content is None or doc.is_unknown(content):
+                continue
+            text = doc.coerce_text(content)
+            items.append({"doc": ref.id, "n_writers": None, "n_writes": None, "chars": len(text),
+                          "date": w.ts[:10], "write_ts": w.ts, "write_index": w.index,
+                          "write_account": w.account, "source": "log",
+                          "packet": build_packet(ref, "whole", w.ts[:10], None, text, as_of=w.ts)})
     return items
 
 
@@ -191,7 +216,7 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--service", default="plane")
-    ap.add_argument("--date", required=True)
+    ap.add_argument("--date", default=None, help="required unless --each-write-dates")
     ap.add_argument("--since", default=None)
     ap.add_argument("--mode", choices=("whole", "diff"), default="whole")
     ap.add_argument("--top-writers", type=int, default=32)
@@ -203,9 +228,21 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--region", default=None)
     ap.add_argument("--out", required=True)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--each-write-dates", default=None, metavar="D1,D2,...",
+                    help="G0c: one packet per successful write to each CLASS document on these "
+                         "dates (the honest composed state after each honest write); --service, "
+                         "--date, --top-writers and --mode are ignored")
     ns = ap.parse_args(argv)
     corpus = Path(ns.corpus)
-    items = collect(corpus, ns.service, ns.date, ns.since, ns.mode, ns.top_writers, ns.source)
+    if ns.each_write_dates:
+        dates = [d.strip() for d in ns.each_write_dates.split(",") if d.strip()]
+        items = collect_each_write(corpus, dates)
+        ns.service, ns.mode = "owncloud", "whole"
+        ns.date = ",".join(dates)
+    else:
+        if not ns.date:
+            ap.error("--date is required without --each-write-dates")
+        items = collect(corpus, ns.service, ns.date, ns.since, ns.mode, ns.top_writers, ns.source)
     est = estimate(items, ns.model)
     if ns.dry_run:
         print(json.dumps({"dry_run": True, "estimate": est,
@@ -222,7 +259,9 @@ def main(argv: list[str] | None = None) -> int:
            "model": ns.model, "corpus": str(corpus), "corpus_sha256": jc_mod.sha256(corpus.read_text(encoding="utf-8")),
            "service": ns.service, "date": ns.date, "mode": ns.mode, "estimate": est,
            "honest_distribution": dist,
-           "rows": [{k: r.get(k) for k in ("doc", "n_writers", "chars", "score", "flag", "outcome")}
+           "each_write": bool(ns.each_write_dates),
+           "rows": [{k: r.get(k) for k in ("doc", "n_writers", "chars", "date", "write_ts",
+                                            "write_account", "score", "flag", "outcome")}
                     for r in rows],
            "cost_usd_this_run": round(sum(float(r.get("cost_usd") or 0) for r in []), 6),
            "note": ("Honest shared documents = the prefix's multi-writer Plane threads (the "
