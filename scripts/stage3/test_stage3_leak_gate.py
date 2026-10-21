@@ -106,3 +106,39 @@ def test_fold_seed_is_decoupled_from_the_label_seed():
 def test_prereg_text_is_written_before_the_statistic():
     md = lg.prereg_block()
     assert "written before" in md.lower() and "95th percentile" in md and "two-sided" in md
+
+
+# ── paired one-tailed within-account test (plan v2 gate 6; brief 07c C3) ─────────────────
+def test_paired_onetailed_detects_shorter_scenario_sessions_and_passes_matched_ones():
+    import stage3_leak_gate as lg
+    accounts = [f"a{i}" for i in range(8) for _ in range(3)]            # 8 accounts x 3 sessions
+    task_ids = [f"t{i}_{j}" for i in range(8) for j in range(3)]
+    pos = {f"t{i}_0" for i in range(8)}                                  # one scenario session each
+    # scenario sessions much shorter and never capped -> one-tailed p small (a leak)
+    turns = [10 if j == 0 else 40 for i in range(8) for j in range(3)]
+    capped = [0 if j == 0 else 1 for i in range(8) for j in range(3)]
+    r = lg.paired_onetailed(accounts, task_ids, turns, capped, pos)
+    assert r["n_pairs"] == 8 and r["turns"]["mean_diff"] < 0 and r["capped"]["mean_diff"] < 0
+    assert r["turns"]["p_one_tailed"] <= 1 / 256 + 1e-9 and r["capped"]["p_one_tailed"] <= 1 / 256 + 1e-9
+    assert r["pass"] is False
+    # matched sessions (scenario no shorter than the account's honest mean) -> p >= 0.05, pass
+    turns = [40 if j == 0 else 40 - (j - 1) for i in range(8) for j in range(3)]
+    capped = [1 if j == 0 else 1 for i in range(8) for j in range(3)]
+    r = lg.paired_onetailed(accounts, task_ids, turns, capped, pos)
+    assert r["turns"]["p_one_tailed"] >= 0.05 and r["capped"]["p_one_tailed"] >= 0.05
+    assert r["pass"] is True
+    # an account with no honest session contributes no pair and is reported
+    r = lg.paired_onetailed(["z", "a0", "a0"], ["tz", "ta", "tb"], [5, 30, 30], [0, 1, 1], {"tz", "ta"})
+    assert r["n_pairs"] == 1 and r["unpaired_accounts"] == ["z"]
+    assert r["n_sign_flips"] == 2 and r["exact"] is True
+
+
+def test_paired_onetailed_p_is_exact_sign_flip_share():
+    import stage3_leak_gate as lg
+    # three pairs, differences -1, -2, -3: of 8 sign flips only the observed one has mean <= -2 -> p = 1/8
+    accounts = ["a", "a", "b", "b", "c", "c"]
+    ids = ["a0", "a1", "b0", "b1", "c0", "c1"]
+    r = lg.paired_onetailed(accounts, ids, [9, 10, 8, 10, 7, 10], [0, 0, 0, 0, 0, 0], {"a0", "b0", "c0"})
+    assert abs(r["turns"]["p_one_tailed"] - 1 / 8) < 1e-9
+    assert r["capped"]["mean_diff"] == 0 and r["capped"]["p_one_tailed"] == 1.0
+    assert r["min_attainable_p"] == 1 / 8

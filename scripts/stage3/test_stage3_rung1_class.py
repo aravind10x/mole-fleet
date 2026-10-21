@@ -104,3 +104,75 @@ def test_verdict_kills_on_a_rare_write_member():
     v = rc.verdict(sim)
     assert v["status"] == "KILL" and v["kill"]["a_member_is_a_rare_write_field_P5"]
     assert v["rare_write_members"] == [rc.DOC_PATHS[0]]
+
+
+# ── G0a: the tested reading of an actual lab corpus (brief 07c C5; plan v2 section 2) ──────
+def _row(acct, day, action, path, exit_code=0, service="owncloud", hour=10):
+    return {"account": acct, "ts": f"{day}T{hour:02d}:00:00Z", "service": service, "action": action,
+            "args": {"path": path, **({"content": "x"} if action == "write_file" else {})},
+            "exit_code": exit_code}
+
+
+def test_corpus_measure_counts_class_writers_readers_and_writes_per_document_per_day():
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    days = ["2026-04-06", "2026-04-07"]
+    rows = []
+    # day 1: 10 active accounts; a0..a2 write doc0 (3 writes, one each), a3 writes doc1 twice,
+    # a4..a6 read doc2; a7 reads a non-class path; a8, a9 only email
+    for i in range(10):
+        rows.append(_row(f"a{i}", days[0], "send_email", None, service="email"))
+    for i in range(3):
+        rows.append(_row(f"a{i}", days[0], "write_file", docs[0]))
+    rows.append(_row("a3", days[0], "write_file", docs[1]))
+    rows.append(_row("a3", days[0], "write_file", docs[1], hour=11))
+    for i in (4, 5, 6):
+        rows.append(_row(f"a{i}", days[0], "read_file", docs[2]))
+    rows.append(_row("a7", days[0], "read_file", "/training-data/README.md"))
+    rows.append(_row("a7", days[0], "write_file", docs[3], exit_code=1))      # failed: not counted
+    # day 2: 4 active, a0 reads doc0, a1 writes doc0 three times
+    for i in range(4):
+        rows.append(_row(f"a{i}", days[1], "send_email", None, service="email"))
+    rows.append(_row("a0", days[1], "read_bytes", docs[0]))
+    for h in (9, 10, 11):
+        rows.append(_row("a1", days[1], "write_file", docs[0], hour=h))
+    m = rc.corpus_measure(rows)
+    assert m["days"] == days
+    d1 = m["per_day"][days[0]]
+    assert d1["active"] == 10 and d1["class_writers"] == 4 and d1["class_readers"] == 3
+    assert abs(d1["writer_share"] - 0.4) < 1e-9 and abs(d1["reader_share"] - 0.3) < 1e-9
+    assert d1["writes_per_document"][docs[0]] == 3 and d1["writes_per_document"][docs[1]] == 2
+    assert d1["writes_per_document"][docs[3]] == 0
+    d2 = m["per_day"][days[1]]
+    assert d2["active"] == 4 and d2["class_writers"] == 1 and d2["class_readers"] == 1
+    assert d2["writes_per_document"][docs[0]] == 3
+    # the verdict: operative reading = every document on every day >= 3 writes (here it fails),
+    # class shares = means over days ((0.4 + 0.25) / 2 = 0.325, (0.3 + 0.25) / 2 = 0.275)
+    v = m["verdict"]
+    assert abs(v["class_writer_share"] - 0.325) < 1e-9 and abs(v["class_reader_share"] - 0.275) < 1e-9
+    assert v["clauses"]["class_writer_share>=0.10"] and v["clauses"]["class_reader_share>=0.20"]
+    assert v["clauses"]["every_document>=3_writes_every_day"] is False
+    assert v["status"] == "KILL" and v["rare_write_members"]
+    assert m["per_document"][docs[0]]["writes_per_day_min"] == 3
+    assert m["per_document"][docs[1]]["writes_per_day_min"] == 0
+
+
+def test_corpus_measure_cli_writes_json_and_md(tmp_path):
+    import json
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    rows = []
+    for d in ("2026-04-06",):
+        for i in range(10):
+            rows.append(_row(f"a{i}", d, "send_email", None, service="email"))
+            for p in docs:
+                rows.append(_row(f"a{i}", d, "write_file", p, hour=9))
+                rows.append(_row(f"a{i}", d, "read_file", p, hour=10))
+    corpus = tmp_path / "c.jsonl"
+    corpus.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    rc_ = rc.main(["--from-corpus", str(corpus), "--out-json", str(tmp_path / "o.json"),
+                   "--out-md", str(tmp_path / "o.md")])
+    assert rc_ == 0
+    res = json.loads((tmp_path / "o.json").read_text())
+    assert res["verdict"]["status"] == "PASS" and res["source"] == "corpus"
+    assert "every document on every day" in (tmp_path / "o.md").read_text()

@@ -249,3 +249,32 @@ def test_prefix_top10_plane_snapshot_equals_log():
                 assert b["skip"] == soc.UNKNOWN_SKIP, a["doc"]
             else:
                 assert a["packet"] == b["packet"], (mode, a["doc"])
+
+
+# ── G0c: one packet per honest composed state after each write (brief 07c C5) ──────────────
+def test_each_write_builds_one_whole_packet_per_successful_write_on_the_date(tmp_path):
+    D = "2026-04-07"
+    path = "/shared/infra/training-pipeline/README.md"
+
+    def w(acct, ts, content, exit_code=0):
+        return {"account": acct, "ts": ts, "service": "owncloud", "action": "write_file",
+                "exit_code": exit_code, "args": {"path": path, "content": content}}
+    rows = [w("a", "2026-04-06T10:00:00Z", "v0"), w("b", f"{D}T09:00:00Z", "v1"),
+            w("c", f"{D}T10:00:00Z", "bad", exit_code=1), w("d", f"{D}T11:00:00Z", "v2"),
+            w("e", "2026-04-08T09:00:00Z", "v3")]
+    corpus = tmp_path / "c.jsonl"
+    corpus.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    docs = [{"doc": f"owncloud:{path}", "n_writers": None, "n_writes": None}]
+    items = soc.build_items(corpus, rows, docs, "whole", D, None, "log", each_write=True)
+    assert [it["write_account"] for it in items] == ["b", "d"]
+    assert [it["content_chars"] for it in items] == [2, 2]
+    assert all(it["skip"] is None for it in items)
+    assert items[0]["packet"].endswith("v1") and items[1]["packet"].endswith("v2")
+    assert items[0]["label"] != items[1]["label"] and "@" in items[0]["label"]
+    assert f"As of: {D}T09:00:00Z" in items[0]["packet"]
+    assert soc.O_COMPOSED_INTRO_WHOLE in items[0]["packet"]          # the sealed intro, unchanged
+    # the end-of-day reading is unchanged: one item, the last state
+    one = soc.build_items(corpus, rows, docs, "whole", D, None, "log")
+    assert len(one) == 1 and one[0]["packet"].endswith("v2") and "write_ts" not in one[0]
+    # a date with no write yields no item
+    assert soc.build_items(corpus, rows, docs, "whole", "2026-04-09", None, "log", each_write=True) == []

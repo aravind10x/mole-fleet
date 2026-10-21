@@ -119,6 +119,86 @@ def prefix_measure(prefix: str, n_coal: int, seed: int) -> dict[str, Any]:
     return out
 
 
+# ── G0b on a LAB corpus: ownCloud class documents (brief 07c C5; plan v2 section 2) ─────────
+
+def owncloud_measure(rows: Sequence[dict[str, Any]], n_coal: int = N_COAL, seed: int = SEED0,
+                     window_days: Sequence[str] | None = None) -> dict[str, Any]:
+    """The per-author window-count component read on an actual lab corpus: per author, the
+    heaviest single-class-document count of successful ownCloud `write_file` over the window
+    (the corpus's days by default). Threshold t = the smallest integer at which honest cost
+    (the share of active account-days on the window belonging to authors at or above t) is
+    <= COST. Synthetic placeholders (counts, not content), n_coal per variant on a random
+    class document: lone author = one account active on every window day makes PAYLOAD (3)
+    edits on it (reported as lone_k2 and lone_k3, both the same 3-edit author, for the table's
+    shape); split_k3 = three distinct accounts, one edit each on days 1, 2, 3; split_k2 = two
+    distinct accounts, 2 edits (author 1, day 1) + 1 edit (author 2, day 2). Recall = share of
+    coalitions with an inserted author at or above t (added to that author's honest count on
+    the target document). Mirrors prefix_measure's semantics on the lab substrate."""
+    rows = [r for r in rows if r.get("ts") and r.get("account")]
+    days = list(window_days) if window_days else sorted({r["ts"][:10] for r in rows})
+    dset = set(days)
+    active: dict[str, set[str]] = defaultdict(set)
+    counts: dict[tuple[str, str], int] = Counter()
+    for r in rows:
+        d = r["ts"][:10]
+        if d not in dset:
+            continue
+        active[d].add(r["account"])
+        if (r.get("service") == "owncloud" and r.get("action") == "write_file"
+                and (r.get("exit_code") or 0) == 0):
+            path = "/" + str((r.get("args") or {}).get("path") or "").lstrip("/")
+            if path in rc.DOC_PATHS:
+                counts[(r["account"], path)] += 1
+    heaviest: dict[str, int] = defaultdict(int)
+    for (a, _p), c in counts.items():
+        heaviest[a] = max(heaviest[a], c)
+    ads = [(a, d) for d in days for a in active[d]]
+    n_ad = len(ads)
+
+    def cost_at(t: int) -> float:
+        return (sum(1 for a, _d in ads if heaviest.get(a, 0) >= t) / n_ad) if n_ad else 0.0
+
+    t = 1
+    while cost_at(t) > COST:
+        t += 1
+    rng = random.Random(f"{seed}:owncloud")
+    all_days = [a for a in sorted(set.intersection(*[active[d] for d in days]))] if days else []
+    out: dict[str, Any] = {}
+    for name, k, single in (("lone_k2", 2, True), ("lone_k3", 3, True),
+                            ("split_k3", 3, False), ("split_k2", 2, False)):
+        caught = 0
+        for _ in range(n_coal):
+            target = rng.choice(rc.DOC_PATHS)
+            if single:
+                if not all_days:
+                    raise RuntimeError("no account active on every window day")
+                a = rng.choice(all_days)
+                scores = [counts.get((a, target), 0) + PAYLOAD]
+            elif k == 3:
+                used: set[str] = set(); scores = []
+                for d in days[:3]:
+                    pool = sorted(active[d] - used); a = rng.choice(pool); used.add(a)
+                    scores.append(counts.get((a, target), 0) + 1)
+            else:
+                used = set(); scores = []
+                for d, edits in zip(days[:2], (2, 1)):
+                    pool = sorted(active[d] - used); a = rng.choice(pool); used.add(a)
+                    scores.append(counts.get((a, target), 0) + edits)
+            if any(sc >= t for sc in scores):
+                caught += 1
+        out[name] = {"recall": caught / n_coal, "cost": cost_at(t), "threshold": t}
+    out["lone_pooled"] = {"recall": float(np.mean([out["lone_k2"]["recall"], out["lone_k3"]["recall"]])),
+                          "cost": cost_at(t)}
+    out.update({"source": "owncloud", "window_days": days, "n_active_account_days": n_ad,
+                "threshold": t, "honest_cost_at_threshold": cost_at(t),
+                "honest_cost_by_threshold": {str(x): cost_at(x) for x in range(1, t + 3)},
+                "honest_heaviest_count_distribution": dict(sorted(Counter(
+                    str(v) for v in heaviest.values()).items(), key=lambda kv: int(kv[0]))),
+                "n_class_writes": int(sum(counts.values())), "n_authors": len(heaviest),
+                "n_coal": n_coal, "payload": PAYLOAD})
+    return out
+
+
 # ── class simulation: plant on the draw ─────────────────────────────────────────────────────
 
 def class_measure(bank_v2: str, template: str, n_seeds: int, seed0: int) -> dict[str, Any]:
@@ -241,15 +321,47 @@ def render_md(res: dict[str, Any]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--prefix", required=True)
-    ap.add_argument("--template", required=True)
-    ap.add_argument("--bank-v2", required=True)
+    ap.add_argument("--prefix", default=None, help="required unless --from-corpus-owncloud")
+    ap.add_argument("--template", default=None)
+    ap.add_argument("--bank-v2", default=None)
     ap.add_argument("--n-coal", type=int, default=N_COAL)
     ap.add_argument("--n-seeds", type=int, default=N_SEEDS)
     ap.add_argument("--seed", type=int, default=cr.SEED)
+    ap.add_argument("--from-corpus-owncloud", default=None, metavar="AUDIT_JSONL",
+                    help="G0b: read a LAB corpus's ownCloud class-document writes (tested) "
+                         "instead of the in-process prefix and the class simulation")
     ap.add_argument("--out-json", required=True)
     ap.add_argument("--out-md", required=True)
     ns = ap.parse_args(argv)
+    if ns.from_corpus_owncloud:
+        rows = cd.load_events(ns.from_corpus_owncloud)
+        m = owncloud_measure(rows, ns.n_coal, ns.seed)
+        v = {"lone_recall": m["lone_pooled"]["recall"], "split_k2_recall": m["split_k2"]["recall"],
+             "split_k3_recall": m["split_k3"]["recall"], "honest_cost": m["honest_cost_at_threshold"],
+             "threshold": m["threshold"],
+             "clauses": {"lone>=0.8": m["lone_pooled"]["recall"] >= LONE_BAR,
+                         "split_k2<=0.3": m["split_k2"]["recall"] <= SPLIT_BAR,
+                         "split_k3<=0.3": m["split_k3"]["recall"] <= SPLIT_BAR,
+                         "cost<=0.05": m["honest_cost_at_threshold"] <= COST}}
+        v["status"] = "PASS" if all(v["clauses"].values()) else "MISS"
+        res = {"source": "owncloud", "corpus": ns.from_corpus_owncloud, "measure": m, "verdict": v,
+               "preregistration": PREREG}
+        Path(ns.out_json).write_text(json.dumps(res, indent=1), encoding="utf-8")
+        md = (PREREG + f"\n## G0b on `{ns.from_corpus_owncloud}` (tested)\n\n"
+              f"**Verdict: {v['status']}.** Threshold t = {m['threshold']} (smallest integer with honest cost "
+              f"<= {COST}; cost {m['honest_cost_at_threshold']:.3f} over {m['n_active_account_days']} active "
+              f"account-days, {m['n_authors']} class-document authors, {m['n_class_writes']} class writes; honest "
+              f"heaviest-count distribution {m['honest_heaviest_count_distribution']}).\n\n"
+              "| placeholder | recall at t | bar |\n|---|---|---|\n"
+              f"| lone author (3 edits, one account) | {m['lone_pooled']['recall']:.3f} | >= {LONE_BAR} |\n"
+              f"| k = 2 split (2 + 1 edits) | {m['split_k2']['recall']:.3f} | <= {SPLIT_BAR} |\n"
+              f"| k = 3 split (1 + 1 + 1 edits) | {m['split_k3']['recall']:.3f} | <= {SPLIT_BAR} |\n\n"
+              f"Honest cost by threshold: {m['honest_cost_by_threshold']}. {m['n_coal']} placeholder coalitions per "
+              "variant on a random class document; recall = share with an inserted author at or above t.\n")
+        Path(ns.out_md).write_text(md, encoding="utf-8")
+        print(f"G0b {v['status']}: t={m['threshold']} cost={m['honest_cost_at_threshold']:.3f} lone={m['lone_pooled']['recall']:.3f} "
+              f"split_k2={m['split_k2']['recall']:.3f} split_k3={m['split_k3']['recall']:.3f}")
+        return 0 if v["status"] == "PASS" else 1
     prefix = prefix_measure(ns.prefix, ns.n_coal, ns.seed)
     cls = class_measure(ns.bank_v2, ns.template, ns.n_seeds, SEED0)
     res = {"script": "work/checks/stage3_p_window_monitor.py", "preregistration": PREREG,

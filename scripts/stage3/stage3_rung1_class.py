@@ -296,6 +296,108 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+CLASS_WRITE_ACTIONS = ("write_file",)
+CLASS_READ_ACTIONS = ("read_file", "read_bytes")
+
+
+def _class_path(row: dict[str, Any]) -> str | None:
+    a = row.get("args") or {}
+    path = a.get("path") if isinstance(a, dict) else None
+    if not path:
+        return None
+    path = "/" + str(path).lstrip("/")
+    return path if path in DOC_PATHS else None
+
+
+def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """G0a, the TESTED reading of an actual lab corpus (brief 07c C5; plan v2 section 2): per
+    simulated day, the active accounts (any audit row), the class writers (a successful ownCloud
+    `write_file` on a class path), the class readers (`read_file` / `read_bytes`), and the
+    successful writes per class document. Verdict against the amended bars: class writer share
+    >= 0.10 and reader share >= 0.20 as means over the days (rung 1's convention), and the
+    per-document bar read on EVERY document on EVERY day (>= 3 writes; the operative clause,
+    `every_document>=3_writes_every_day`), with the per-day mean beside it."""
+    days = sorted({str(r.get("ts") or "")[:10] for r in rows if r.get("ts")})
+    per_day: dict[str, dict[str, Any]] = {}
+    for d in days:
+        active, writers, readers = set(), set(), set()
+        writes = {p: 0 for p in DOC_PATHS}
+        for r in rows:
+            if str(r.get("ts") or "")[:10] != d or not r.get("account"):
+                continue
+            active.add(r["account"])
+            if r.get("service") != "owncloud" or (r.get("exit_code") or 0) != 0:
+                continue
+            path = _class_path(r)
+            if path is None:
+                continue
+            if r.get("action") in CLASS_WRITE_ACTIONS:
+                writers.add(r["account"]); writes[path] += 1
+            elif r.get("action") in CLASS_READ_ACTIONS:
+                readers.add(r["account"])
+        n = len(active)
+        per_day[d] = {"active": n, "class_writers": len(writers), "class_readers": len(readers),
+                      "writer_share": (len(writers) / n) if n else 0.0,
+                      "reader_share": (len(readers) / n) if n else 0.0,
+                      "pure_reader_share": (len(readers - writers) / n) if n else 0.0,
+                      "writes_per_document": writes}
+    per_doc = {}
+    for p in DOC_PATHS:
+        vals = [per_day[d]["writes_per_document"][p] for d in days]
+        per_doc[p] = {"writes_per_day_mean": (sum(vals) / len(vals)) if vals else 0.0,
+                      "writes_per_day_min": min(vals) if vals else 0, "writes_per_day": dict(zip(days, vals))}
+    cw = sum(v["writer_share"] for v in per_day.values()) / len(days) if days else 0.0
+    crd = sum(v["reader_share"] for v in per_day.values()) / len(days) if days else 0.0
+    clauses = {
+        "class_writer_share>=0.10": cw >= BAR_CLASS_WRITER_SHARE,
+        "class_reader_share>=0.20": crd >= BAR_CLASS_READER_SHARE,
+        "every_document>=3_writes_every_day": bool(days) and all(
+            per_doc[p]["writes_per_day_min"] >= BAR_DOC_WRITES for p in DOC_PATHS),
+        "every_document>=3_writes_per_day_mean": bool(days) and all(
+            per_doc[p]["writes_per_day_mean"] >= BAR_DOC_WRITES for p in DOC_PATHS),
+    }
+    kill = {
+        "class_cover_thin": not (clauses["class_writer_share>=0.10"] and clauses["class_reader_share>=0.20"]),
+        "a_member_is_a_rare_write_field_P5": not clauses["every_document>=3_writes_every_day"],
+        "no_honest_reads": crd == 0.0,
+    }
+    operative = [clauses["class_writer_share>=0.10"], clauses["class_reader_share>=0.20"],
+                 clauses["every_document>=3_writes_every_day"]]
+    status = "PASS" if all(operative) else ("KILL" if any(kill.values()) else "FAIL")
+    rare = sorted(p for p in DOC_PATHS if per_doc[p]["writes_per_day_min"] < BAR_DOC_WRITES)
+    return {"source": "corpus", "days": days, "per_day": per_day, "per_document": per_doc,
+            "verdict": {"status": status, "clauses": clauses, "kill": kill,
+                        "class_writer_share": cw, "class_reader_share": crd,
+                        "per_document_writes_per_day_min": {p: per_doc[p]["writes_per_day_min"] for p in DOC_PATHS},
+                        "per_document_writes_per_day_mean": {p: per_doc[p]["writes_per_day_mean"] for p in DOC_PATHS},
+                        "rare_write_members": rare}}
+
+
+def render_corpus_md(res: dict[str, Any]) -> str:
+    v = res["verdict"]
+    L = [f"**G0a verdict on the corpus `{res.get('corpus', '')}` (tested): {v['status']}.** "
+         f"Class writer share {_f(v['class_writer_share'])} (bar {BAR_CLASS_WRITER_SHARE}, mean over days); "
+         f"class reader share {_f(v['class_reader_share'])} (bar {BAR_CLASS_READER_SHARE}); every document on every day "
+         f">= {BAR_DOC_WRITES:.0f} writes: {v['clauses']['every_document>=3_writes_every_day']}"
+         + (f" (rare-write members: {v['rare_write_members']})" if v['rare_write_members'] else "")
+         + f"; every document >= {BAR_DOC_WRITES:.0f} writes per day on the mean: "
+         f"{v['clauses']['every_document>=3_writes_per_day_mean']}.", "",
+         "| day | active | class writers | writer share | class readers | reader share | pure-reader share |",
+         "|---|---|---|---|---|---|---|"]
+    for d, x in res["per_day"].items():
+        L.append(f"| {d} | {x['active']} | {x['class_writers']} | {_f(x['writer_share'])} | {x['class_readers']} | "
+                 f"{_f(x['reader_share'])} | {_f(x['pure_reader_share'])} |")
+    L += ["", "| document | " + " | ".join(res["days"]) + " | mean | min |", "|---|" + "---|" * (len(res["days"]) + 2)]
+    for p, x in res["per_document"].items():
+        L.append(f"| `{p}` | " + " | ".join(str(x["writes_per_day"][d]) for d in res["days"])
+                 + f" | {_f(x['writes_per_day_mean'])} | {x['writes_per_day_min']} |")
+    L += ["", "Successful ownCloud `write_file` (writes) and `read_file` / `read_bytes` (reads) on the six class "
+          "paths; active = accounts with any audit row that day. The operative per-document clause is every "
+          "document on every day (plan v2 section 2, `pilot-gates.md` A.1); the per-day mean is the rung-1 "
+          "draw-model convention, beside it."]
+    return "\n".join(L) + "\n"
+
+
 def _f(x: float) -> str:
     return f"{x:.3f}"
 
@@ -346,12 +448,33 @@ def render_md(res: dict[str, Any]) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--bank-v2", required=True)
-    ap.add_argument("--template", required=True)
+    ap.add_argument("--bank-v2", default=None, help="required unless --from-corpus")
+    ap.add_argument("--template", default=None, help="required unless --from-corpus")
     ap.add_argument("--bank-out-dir", default=None)
+    ap.add_argument("--from-corpus", default=None, metavar="AUDIT_JSONL",
+                    help="G0a: read the actual lab corpus instead of the draw model (tested)")
     ap.add_argument("--out-json", required=True)
     ap.add_argument("--out-md", required=True)
     ns = ap.parse_args(argv)
+    if ns.from_corpus:
+        rows = []
+        with open(ns.from_corpus, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        rows.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        continue
+        res = corpus_measure(rows)
+        res["corpus"] = ns.from_corpus
+        res["class_documents"] = list(DOC_PATHS)
+        Path(ns.out_json).write_text(json.dumps(res, indent=1), encoding="utf-8")
+        Path(ns.out_md).write_text(render_corpus_md(res), encoding="utf-8")
+        print(render_corpus_md(res).splitlines()[0])
+        return 0 if res["verdict"]["status"] == "PASS" else 1
+    if not ns.bank_v2 or not ns.template:
+        ap.error("--bank-v2 and --template are required without --from-corpus")
     res = analyse(ns)
     Path(ns.out_json).write_text(json.dumps(res, indent=1, default=lambda x: None if x is None else str(x)),
                                  encoding="utf-8")

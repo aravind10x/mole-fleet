@@ -138,10 +138,12 @@ class Reader:
 
 
 def build_packet(ref: doc.DocRef, mode: str, date: str, since: str | None,
-                 text: str) -> tuple[str, bool]:
-    """(packet, truncated). `text` is the whole content (whole) or the unified diff (diff)."""
+                 text: str, as_of: str | None = None) -> tuple[str, bool]:
+    """(packet, truncated). `text` is the whole content (whole) or the unified diff (diff).
+    `as_of` (each-write items) replaces "end of <date>" with the write's timestamp; the
+    sealed intro text is unchanged."""
     if mode == "whole":
-        head = (f"{O_COMPOSED_INTRO_WHOLE}\n\nDocument: {ref.id}\nAs of: end of {date}\n"
+        head = (f"{O_COMPOSED_INTRO_WHOLE}\n\nDocument: {ref.id}\nAs of: {as_of or ('end of ' + date)}\n"
                 f"Content ({len(text)} chars):\n")
     else:
         head = (f"{O_COMPOSED_INTRO_DIFF}\n\nDocument: {ref.id}\nFrom: end of {since}\n"
@@ -155,9 +157,44 @@ def label_for(stem: str, ref: doc.DocRef, mode: str, date: str, since: str | Non
             else f"{stem}:Ocomp:{ref.id}/{since}..{date}")
 
 
+def each_write_items(corpus: Path, rows: list[dict], docs: list[dict], date: str) -> list[dict]:
+    """G0c (brief 07c C5): one WHOLE item per successful content write to each document ON
+    `date`, holding the document as the shared reader replays it up to that write's timestamp
+    (inclusive; two writes at one timestamp both read the later state). Labels carry the
+    write's index in the log so every state is its own cache key; the sealed intro is the
+    whole-mode intro, with the write's timestamp in the As-of line."""
+    stem = corpus.name[:-len(".jsonl")] if corpus.name.endswith(".jsonl") else corpus.stem
+    items = []
+    for d in docs:
+        ref = doc.parse_doc_id(d["doc"])
+        for w in doc.content_writes(rows, ref):
+            if w.ts[:10] != date:
+                continue
+            after = doc.read_document(ref, as_of=w.ts, rows=rows)
+            it: dict[str, Any] = {**d, "service": ref.service, "mode": "whole", "date": date,
+                                  "since": None, "source": "log", "write_ts": w.ts,
+                                  "write_index": w.index, "write_account": w.account,
+                                  "content_chars": len(after) if isinstance(after, str) else None,
+                                  "label": f"{stem}:Ocomp:{ref.id}/{date}@{w.index}"}
+            skip = (UNKNOWN_SKIP if doc.is_unknown(after) else "absent at write" if after is None else None)
+            if skip:
+                it.update({"skip": skip, "packet": None, "truncated": False, "key": None})
+            else:
+                pk, trunc = build_packet(ref, "whole", date, None, after, as_of=w.ts)
+                it.update({"skip": None, "packet": pk, "truncated": bool(trunc),
+                           "text_chars": len(after), "key": cache_key(VIEW, it["label"], pk)})
+            items.append(it)
+    return items
+
+
 def build_items(corpus: Path, rows: list[dict], docs: list[dict], mode: str, date: str,
-                since: str | None, source: str = "auto") -> list[dict]:
-    """One item per document: packet, label, key, or a skip reason (absent / unchanged)."""
+                since: str | None, source: str = "auto", each_write: bool = False) -> list[dict]:
+    """One item per document: packet, label, key, or a skip reason (absent / unchanged).
+    `each_write` (whole mode only): one item per successful write on `date` instead."""
+    if each_write:
+        if mode != "whole":
+            raise ValueError("each_write needs mode 'whole'")
+        return each_write_items(corpus, rows, docs, date)
     stem = corpus.name[:-len(".jsonl")] if corpus.name.endswith(".jsonl") else corpus.stem
     rd = Reader(corpus, rows, source)
     items = []
@@ -214,7 +251,8 @@ def estimate(items: list[dict]) -> dict:
 # ── rows and summary ─────────────────────────────────────────────────
 
 ROW_KEYS = ("doc", "service", "mode", "date", "since", "source", "label", "n_writers",
-            "n_writes", "content_chars", "text_chars", "truncated", "skip")
+            "n_writes", "content_chars", "text_chars", "truncated", "skip",
+            "write_ts", "write_index", "write_account")
 
 
 def to_row(it: dict, r: dict | None) -> dict:
@@ -274,7 +312,10 @@ async def amain(ns, client_factory: Callable[..., JudgeClient] = JudgeClient) ->
     else:
         docs = [{"doc": doc.parse_doc_id(d).id, "n_writers": None, "n_writes": None}
                 for d in ns.doc]
-    items = build_items(corpus, rows, docs, ns.mode, ns.date, ns.since, ns.source)
+    if ns.each_write and ns.mode != "whole":
+        raise SystemExit("--each-write needs --mode whole")
+    items = build_items(corpus, rows, docs, ns.mode, ns.date, ns.since, ns.source,
+                        each_write=ns.each_write)
     est = estimate(items)
     cache_path = Path(ns.cache)
     n_cache = set_.check_cache(cache_path, model)
@@ -317,6 +358,7 @@ async def amain(ns, client_factory: Callable[..., JudgeClient] = JudgeClient) ->
     meta = {
         "corpus": str(corpus), "n_events": len(rows), "n_skipped_lines": skipped,
         "mode": ns.mode, "date": ns.date, "since": ns.since, "source": ns.source,
+        "each_write": bool(ns.each_write),
         "selection": ({"top_writers": ns.top_writers, "service": ns.service,
                        "writers_day": ns.writers_day or ns.date,
                        "rule": "most distinct content writers on the day; ties: more writes, "
@@ -370,6 +412,9 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--rpm", type=int, default=20)
     ap.add_argument("--spend-cap-usd", type=float, default=2.0)
     ap.add_argument("--batch-log", default=None, help="default <out dir>/judge-batches.jsonl")
+    ap.add_argument("--each-write", action="store_true",
+                    help="G0c: one whole packet per successful write to each --doc on --date "
+                         "(the honest composed state after each honest write), from the log")
     ap.add_argument("--dry-run", action="store_true", help="build and print packets; no calls")
     ap.add_argument("--quiet", action="store_true", help="with --dry-run: do not print packets")
     return ap
