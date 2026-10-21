@@ -433,9 +433,12 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
             # Rules mode is read from the MANIFEST (no per-day session records), not from
             # the assignment: the L15 rehearsal runs the agentic assignment's line with
             # `--mode rules`, so the plan says agentic while the run was rules.
+            # Rules mode: the plan says so, or the manifest has no sandbox session id and no
+            # per-day session records (an agentic lab run has a session id from its start).
             rules = (str(expected.get("mode") or "agentic") == "rules"
-                     or not any(d.get("sessions_planned") is not None
-                                for d in (manifest.get("days") or [])))
+                     or (not manifest.get("session_id")
+                         and not any(d.get("sessions_planned") is not None
+                                     for d in (manifest.get("days") or []))))
             detail, ok = [], True
             recorded = {d.get("day") for d in (manifest.get("days") or [])}
             for d in sorted(by_day):
@@ -444,6 +447,14 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
                 if not got and d not in recorded:
                     # a mid-run check: this day has no audit row and no day record yet
                     detail.append(f"{d}: not run yet ({len(want)} expected)")
+                    continue
+                if d not in recorded and not rules:
+                    # the day is in progress: rows so far, no day record yet (read again at
+                    # its boundary); an account outside the draw would still be unexpected
+                    extra = sorted(got - want)
+                    ok = ok and not extra
+                    detail.append(f"{d}: in progress, {len(got)} of {len(want)} expected acting so far"
+                                  + (f", unexpected {extra}" if extra else ""))
                     continue
                 extra, missing = sorted(got - want), sorted(want - got)
                 ok = ok and not extra and not missing

@@ -580,3 +580,22 @@ def test_roster_check_skips_days_the_run_has_not_reached(tmp_path):
     assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
     assert "not run yet" in rows["roster_size per branch day"][2]
     assert "2026-04-07" in rows["roster_size per branch day"][2]
+
+
+def test_roster_check_reports_a_day_in_progress_and_reads_agentic_from_the_session_id(tmp_path):
+    """An agentic lab run checked mid-day (plan v2 section 5) has audit rows for the day but
+    no day record yet: the day is 'in progress', not a FAIL, and the run is read as agentic
+    (it has a sandbox session id), not as rules mode."""
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06", "2026-04-07"]
+    seed, acting = _seed_with_a_loafer(roster, 1, days)
+    p = _honest(tmp_path, personas=",".join(roster), days=2, sessions_per_day=1, seed=seed,
+                extra_flags=["--multi-day", "--no-insiders"])
+    plan = ll.build_expected_plan(p, None)
+    partial = {days[0]: set(list(sorted(acting[days[0]]))[:1]), days[1]: set()}
+    mp = _presence_manifest(tmp_path, roster, seed, 1, days, partial, **{"session_id": "itb-npc-abc"})
+    man = json.loads(mp.read_text()); man["days"] = []; mp.write_text(json.dumps(man))
+    rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
+    row = rows["roster_size per branch day"]
+    assert row[1] is True, row
+    assert "in progress" in row[2] and "not run yet" in row[2] and "rules mode" not in row[2]

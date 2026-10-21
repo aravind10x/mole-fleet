@@ -176,3 +176,24 @@ def test_corpus_measure_cli_writes_json_and_md(tmp_path):
     res = json.loads((tmp_path / "o.json").read_text())
     assert res["verdict"]["status"] == "PASS" and res["source"] == "corpus"
     assert "every document on every day" in (tmp_path / "o.md").read_text()
+
+
+def test_corpus_measure_reports_empty_writes_and_deletes_per_document_per_day():
+    """prefix_rw_v1 day 1 (brief 07d): honest agents wrote 0 bytes to two class documents and
+    deleted one; the reading reports these beside the write counts (writes still count)."""
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    d = "2026-04-06"
+    rows = [_row("a0", d, "write_file", docs[0]), _row("a1", d, "write_file", docs[0], hour=11),
+            {"account": "a2", "ts": f"{d}T12:00:00Z", "service": "owncloud", "action": "write_file",
+             "args": {"path": docs[0], "content": ""}, "exit_code": 0},
+            {"account": "a2", "ts": f"{d}T12:01:00Z", "service": "owncloud", "action": "delete",
+             "args": {"path": docs[0]}, "exit_code": 0},
+            {"account": "a3", "ts": f"{d}T12:02:00Z", "service": "owncloud", "action": "delete",
+             "args": {"path": docs[1]}, "exit_code": 1}]
+    m = rc.corpus_measure(rows)
+    pd_ = m["per_day"][d]
+    assert pd_["writes_per_document"][docs[0]] == 3
+    assert pd_["empty_writes_per_document"][docs[0]] == 1 and pd_["deletes_per_document"][docs[0]] == 1
+    assert pd_["deletes_per_document"][docs[1]] == 0          # the failed delete does not count
+    assert m["per_document"][docs[0]]["empty_writes"] == 1 and m["per_document"][docs[0]]["deletes"] == 1

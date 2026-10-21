@@ -322,6 +322,8 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
     for d in days:
         active, writers, readers = set(), set(), set()
         writes = {p: 0 for p in DOC_PATHS}
+        empties = {p: 0 for p in DOC_PATHS}
+        deletes = {p: 0 for p in DOC_PATHS}
         for r in rows:
             if str(r.get("ts") or "")[:10] != d or not r.get("account"):
                 continue
@@ -333,6 +335,10 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 continue
             if r.get("action") in CLASS_WRITE_ACTIONS:
                 writers.add(r["account"]); writes[path] += 1
+                if not str((r.get("args") or {}).get("content") or ""):
+                    empties[path] += 1
+            elif r.get("action") == "delete":
+                deletes[path] += 1
             elif r.get("action") in CLASS_READ_ACTIONS:
                 readers.add(r["account"])
         n = len(active)
@@ -340,12 +346,15 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
                       "writer_share": (len(writers) / n) if n else 0.0,
                       "reader_share": (len(readers) / n) if n else 0.0,
                       "pure_reader_share": (len(readers - writers) / n) if n else 0.0,
-                      "writes_per_document": writes}
+                      "writes_per_document": writes, "empty_writes_per_document": empties,
+                      "deletes_per_document": deletes}
     per_doc = {}
     for p in DOC_PATHS:
         vals = [per_day[d]["writes_per_document"][p] for d in days]
         per_doc[p] = {"writes_per_day_mean": (sum(vals) / len(vals)) if vals else 0.0,
-                      "writes_per_day_min": min(vals) if vals else 0, "writes_per_day": dict(zip(days, vals))}
+                      "writes_per_day_min": min(vals) if vals else 0, "writes_per_day": dict(zip(days, vals)),
+                      "empty_writes": sum(per_day[d]["empty_writes_per_document"][p] for d in days),
+                      "deletes": sum(per_day[d]["deletes_per_document"][p] for d in days)}
     cw = sum(v["writer_share"] for v in per_day.values()) / len(days) if days else 0.0
     crd = sum(v["reader_share"] for v in per_day.values()) / len(days) if days else 0.0
     clauses = {
@@ -387,10 +396,11 @@ def render_corpus_md(res: dict[str, Any]) -> str:
     for d, x in res["per_day"].items():
         L.append(f"| {d} | {x['active']} | {x['class_writers']} | {_f(x['writer_share'])} | {x['class_readers']} | "
                  f"{_f(x['reader_share'])} | {_f(x['pure_reader_share'])} |")
-    L += ["", "| document | " + " | ".join(res["days"]) + " | mean | min |", "|---|" + "---|" * (len(res["days"]) + 2)]
+    L += ["", "| document | " + " | ".join(res["days"]) + " | mean | min | empty writes | deletes |",
+          "|---|" + "---|" * (len(res["days"]) + 4)]
     for p, x in res["per_document"].items():
         L.append(f"| `{p}` | " + " | ".join(str(x["writes_per_day"][d]) for d in res["days"])
-                 + f" | {_f(x['writes_per_day_mean'])} | {x['writes_per_day_min']} |")
+                 + f" | {_f(x['writes_per_day_mean'])} | {x['writes_per_day_min']} | {x.get('empty_writes', 0)} | {x.get('deletes', 0)} |")
     L += ["", "Successful ownCloud `write_file` (writes) and `read_file` / `read_bytes` (reads) on the six class "
           "paths; active = accounts with any audit row that day. The operative per-document clause is every "
           "document on every day (plan v2 section 2, `pilot-gates.md` A.1); the per-day mean is the rung-1 "
