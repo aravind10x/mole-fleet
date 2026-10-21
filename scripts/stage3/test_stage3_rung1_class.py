@@ -239,3 +239,29 @@ def test_corpus_measure_counts_edit_tool_rows_as_writes_and_reports_edit_share_a
     assert m["verdict"]["edit_tool_share"] == 3 / 4 and m["verdict"]["refusals"] == 2
     md = rc.render_corpus_md(m)
     assert "edit-tool share" in md and "refus" in md
+
+
+def test_every_write_variant_is_phrased_as_a_line_level_change_naming_an_edit_tool():
+    """Brief 07e E3: write variants ask for one line (add a line / replace the value of X),
+    never a rewrite of the document, and name the edit tool the account should use."""
+    import stage3_rung1_class as rc
+    for team, tasks in rc.class_tasks().items():
+        for role, doc, text in tasks:
+            if role != "write":
+                continue
+            low = text.lower()
+            assert ("add a line" in low or "replac" in low or "one-line" in low), text
+            assert ("append_to_file" in text or "replace_in_file" in text), text
+            assert "write_file" not in text, text
+
+
+def test_v6_write_counts_match_the_measured_yield_proposal():
+    """The CLASS write counts are the stage3_write_yield proposal on prefix_rw_v1 day 1
+    (write-yield-v1-day1.json), so the version table's basis is mechanical."""
+    import json
+    import stage3_rung1_class as rc
+    rec = json.loads((HERE.parent / "stage3" / "bank-reweight" / "write-yield-v1-day1.json").read_text())
+    proposed = {d["path"]: d["write_teams"] for d in rec["design_proposed"]}
+    for d in rc.CLASS:
+        assert d["write_teams"] == proposed[d["path"]], d["path"]
+        assert all(v["expected"] >= rec["target"] for v in rec["expected_proposed"].values())

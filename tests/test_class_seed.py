@@ -16,7 +16,8 @@ from mole.seeders.seed_class_docs import (CLASS_DOCUMENTS, class_documents_recor
                                           class_seed_mapping, seed_class_documents)
 
 ROOT = Path(__file__).resolve().parents[1]
-CLASS_BANK = ROOT / "results/stage3/bank-reweight/benign_task_bank_v2_class.yaml"
+CLASS_BANK = ROOT / "results/stage3/bank-reweight/benign_task_bank_v2_class.yaml"      # v5 (prefix_rw_v1)
+CLASS_BANK_V6 = ROOT / "results/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml"  # v6 (brief 07e E3)
 SHIPPED_BANK = ROOT / "bootstrap/benign_task_bank_v2.yaml"
 
 
@@ -67,9 +68,10 @@ def test_the_document_reader_sees_the_seed_as_day_zero_content():
     assert all(len(r["sha256"]) == 64 for r in rec)
 
 
-def test_the_class_bank_loads_by_path_and_adds_only_class_tasks():
+@pytest.mark.parametrize("bank", [CLASS_BANK, CLASS_BANK_V6])
+def test_the_class_bank_loads_by_path_and_adds_only_class_tasks(bank):
     shipped, klass = load_task_bank(str(SHIPPED_BANK), rich=True), load_task_bank(
-        str(CLASS_BANK), rich=True)
+        str(bank), rich=True)
     assert set(shipped) == set(klass)
     for team, tasks in shipped.items():
         assert klass[team][: len(tasks)] == tasks            # additions only
