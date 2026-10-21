@@ -437,9 +437,14 @@ def check_manifest(expected: dict, manifest_path: str | Path) -> list[tuple[str,
                      or not any(d.get("sessions_planned") is not None
                                 for d in (manifest.get("days") or [])))
             detail, ok = [], True
+            recorded = {d.get("day") for d in (manifest.get("days") or [])}
             for d in sorted(by_day):
                 want = presence[d]["present"] if rules else presence[d]["acts"]
                 got = by_day[d]
+                if not got and d not in recorded:
+                    # a mid-run check: this day has no audit row and no day record yet
+                    detail.append(f"{d}: not run yet ({len(want)} expected)")
+                    continue
                 extra, missing = sorted(got - want), sorted(want - got)
                 ok = ok and not extra and not missing
                 detail.append(f"{d}: {len(got)} acting vs {len(want)} expected"

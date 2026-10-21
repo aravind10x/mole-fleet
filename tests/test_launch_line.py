@@ -561,3 +561,22 @@ def test_declared_fallback_key_keeps_key_2_set_and_only_from_key_1(tmp_path):
     assert "unset OPENROUTER_API_KEY_2" in cmd
     with pytest.raises(ll.LaunchError, match="fallback_key"):
         ll.build_command(_honest(tmp_path, key=2, fallback_key=1), None)
+
+
+def test_roster_check_skips_days_the_run_has_not_reached(tmp_path):
+    """A mid-run check (plan v2 section 5: within minutes of launch, and at each day boundary)
+    must not FAIL on the days still to come: a day with no audit row and no day record is
+    'not run yet' and is reported, not failed."""
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-06", "2026-04-07", "2026-04-08"]
+    seed, acting = _seed_with_a_loafer(roster, 1, days)
+    p = _honest(tmp_path, personas=",".join(roster), days=3, sessions_per_day=1, seed=seed,
+                extra_flags=["--multi-day", "--no-insiders"])
+    plan = ll.build_expected_plan(p, None)
+    only_day1 = {days[0]: acting[days[0]], days[1]: set(), days[2]: set()}
+    mp = _presence_manifest(tmp_path, roster, seed, 1, days, only_day1)
+    man = json.loads(mp.read_text()); man["days"] = man["days"][:1]; mp.write_text(json.dumps(man))
+    rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
+    assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
+    assert "not run yet" in rows["roster_size per branch day"][2]
+    assert "2026-04-07" in rows["roster_size per branch day"][2]
