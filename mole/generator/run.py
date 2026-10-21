@@ -1234,6 +1234,11 @@ async def simulate(
             }
         else:
             task_bank = load_task_bank(rich=True)   # expanded (v2) bank; RAISES if absent (no silent v1 fallback)
+        if manifest.get("task_bank"):
+            # Persist the bank record NOW (brief 07d): a manifest read before the first day
+            # boundary must already name the bank and its sha256 (L1 rule 2: the manifest,
+            # not the flag, is the evidence); prefix_rw_v1's start-time manifest read None.
+            resume_state.write_atomic(manifest, out_path)
         # Benign multi-day arc bank (default OFF; loaded only when --benign-arcs; {} if absent).
         arc_bank = load_arc_bank() if benign_arcs else {}
         if coalition_meta is not None:

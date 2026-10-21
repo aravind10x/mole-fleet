@@ -72,3 +72,25 @@ def test_agentic_manifest_fingerprints_the_task_bank(tmp_path):
     assert bank.name == "benign_task_bank_inprocess.yaml"
     assert tb["sha256"] == hashlib.sha256(bank.read_bytes()).hexdigest()
     assert tb["tasks_per_team"]["evaluations"] == 15 and tb["tasks_per_team"]["legal"] == 16
+
+
+def test_task_bank_record_is_persisted_before_the_first_day_record(tmp_path, monkeypatch):
+    """Brief 07d (coordinator check of prefix_rw_v1, 2026-10-21): the manifest set task_bank
+    in memory but did not persist it until the first day boundary, so a start-time manifest
+    read `task_bank: None` for a run launched with --task-bank (L1 rule 2: the manifest is
+    the evidence). The record must reach the disk before any day record does."""
+    import copy
+    writes: list[dict] = []
+    real = resume_state.write_atomic
+
+    def spy(manifest, out_path):
+        writes.append(copy.deepcopy(manifest))
+        return real(manifest, out_path)
+    monkeypatch.setattr(resume_state, "write_atomic", spy)
+    out = tmp_path / "ag2.jsonl"
+    asyncio.run(simulate(mode="agentic", sandbox_mode="dryrun", llm=_Done(), n_personas=2,
+                         n_days=1, out_path=out, seed=0, sessions_per_day=1, max_turns=2,
+                         attack_session_rate=0.0))
+    first_with_bank = next((w for w in writes if w.get("task_bank")), None)
+    assert first_with_bank is not None
+    assert not first_with_bank.get("days"), "task_bank must be on disk before the first day record"
