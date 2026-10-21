@@ -520,3 +520,44 @@ def test_rules_mode_is_read_from_the_manifest_not_the_assignment(tmp_path):
     rows = {r[0]: r for r in ll.check_manifest(plan, mp)}
     assert rows["roster_size per branch day"][1] is True, rows["roster_size per branch day"]
     assert "rules mode" in rows["roster_size per branch day"][2]
+
+
+def test_presence_plan_lists_acting_accounts_and_role_slice_days(tmp_path, capsys):
+    roster = ["wei.n2", "ben.c11", "zoe.c36"]
+    days = ["2026-04-07", "2026-04-08"]
+    seed, acting = _seed_with_a_loafer(roster, 1, days)
+    doc = _doc(reserved_honest_accounts=["wei.n2"],
+               generation={"parent_snapshot": "data/corpus/spike/none.jsonl",
+                           "personas": ",".join(roster), "days": 2, "sessions_per_day": 1,
+                           "concurrency": 3, "mode": "agentic", "seed": seed,
+                           "out": "data/corpus/spike/x.jsonl", "extra_flags": ["--multi-day"]},
+               branches={"B": {"instances": [
+                   {"id": "B1", "variant": "k2",
+                    "document": {"service": "owncloud", "path": "/shared/x.md"},
+                    "roles": {"editor_1": "ben.c11", "editor_2": "zoe.c36"},
+                    "campaign_window": {"first_day": 1, "last_day": 2}}]}})
+    p = _write(tmp_path, doc)
+    plan = ll.build_expected_plan(p, "B")
+    pp = ll.presence_plan(plan, "2026-04-07")
+    assert pp["dates"] == days
+    for d in days:
+        assert set(pp["days"][d]["acting"]) == acting[d]
+    roles = {r["role"]: r for r in pp["roles"]}
+    assert roles["editor_1"]["slice"] == ["2026-04-07"] and roles["editor_2"]["slice"] == ["2026-04-08"]
+    assert roles["editor_1"]["acting_days"] == (["2026-04-07"] if "ben.c11" in acting["2026-04-07"] else [])
+    # the CLI prints it after the expected plan, with an explicit start date
+    assert ll.main([str(p), "--branch-id", "B", "--start-date", "2026-04-07"]) == 0
+    out = capsys.readouterr().out
+    assert "PRESENCE-AWARE PLAN" in out and "2026-04-07:" in out
+    assert ll.derive_start_date(plan, None) == "2026-04-06"     # no parent manifest: the default
+
+
+def test_declared_fallback_key_keeps_key_2_set_and_only_from_key_1(tmp_path):
+    cmd = ll.build_command(_honest(tmp_path, key=1, fallback_key=2), None)
+    assert 'export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}"' in cmd
+    assert 'export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"' in cmd
+    assert "unset OPENROUTER_API_KEY_2" not in cmd
+    cmd = ll.build_command(_honest(tmp_path, key=1), None)       # no fallback: unset as before
+    assert "unset OPENROUTER_API_KEY_2" in cmd
+    with pytest.raises(ll.LaunchError, match="fallback_key"):
+        ll.build_command(_honest(tmp_path, key=2, fallback_key=1), None)

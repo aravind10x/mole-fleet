@@ -40,6 +40,8 @@ The `generation` block this reads:
       personas_dir: work/stage3/rehearsal/personas   # optional -> --personas-dir
       extra_flags: [--multi-day, --no-docker]        # optional, verbatim
       key: 2                     # optional: .env key number, 1 or 2 (default 2)
+      fallback_key: 2            # optional, only with key 1: keep key 2 set as the client's
+                                 # rotation target on a 402 / key-limit 403 (never unset)
       model: moonshotai/kimi-k2.6   # optional: OPENROUTER_MODEL slug (default as shown)
       env:                       # optional: exported before the runner, verbatim
         LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
@@ -231,7 +233,24 @@ def _key_export(gen: dict) -> str:
         raise LaunchError(f"generation.key must be one of {sorted(KEY_ENV_BY_NUMBER)} "
                           f"(the .env variable number), got {raw!r}")
     var = KEY_ENV_BY_NUMBER[num]
-    return f'export OPENROUTER_API_KEY="${{{var}}}" && unset OPENROUTER_API_KEY_2'
+    fb = gen.get("fallback_key")
+    if fb is None:
+        return f'export OPENROUTER_API_KEY="${{{var}}}" && unset OPENROUTER_API_KEY_2'
+    # A declared fallback (Aravind, 2026-10-21, for the world-one prefix: key 1 first, key 2
+    # as it exhausts): the client rotates to OPENROUTER_API_KEY_2 on a 402 or a key-limit 403
+    # and re-issues the call (mole/llm/openrouter.py _retire_key; tests
+    # test_openrouter_key_fallback.py), so no session dies at key 1's weekly cap. Only key 2
+    # may be the fallback of key 1; a 402 on the last key is still a stop (L3, L7).
+    try:
+        fbn = int(fb)
+    except (TypeError, ValueError):
+        fbn = None
+    if num != 1 or fbn != 2:
+        raise LaunchError(f"generation.fallback_key must be 2 with generation.key 1, got "
+                          f"key {raw!r} fallback {fb!r}")
+    return ('export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}" && '
+            'export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"   '
+            '# key 1 active, key 2 the declared fallback (client rotation on 402)')
 
 
 def _model(gen: dict) -> str:
@@ -574,7 +593,64 @@ def _date(iso: str):
     return date.fromisoformat(iso)
 
 
-def _print_expected(plan: dict) -> None:
+def derive_start_date(plan: dict, start_date: str | None = None) -> str:
+    """The run's first working day: `--start-date` if given; else the next weekday after the
+    parent's last complete day (the branch rule, `run._prepare_branch`); else the runner's
+    DEFAULT_START_DATE."""
+    from mole.generator.run import DEFAULT_START_DATE, _next_weekday
+    if start_date:
+        return start_date
+    parent = plan.get("parent")
+    if parent and Path(f"{parent}.resume.json").exists():
+        from mole.generator import resume_state
+        rec = resume_state.last_completed_record(resume_state.load(Path(parent)))
+        if rec and rec.get("managers_ok"):      # the branch rule of run._prepare_branch
+            return _next_weekday(rec["day"])
+    return DEFAULT_START_DATE
+
+
+def presence_plan(plan: dict, start_date: str) -> dict:
+    """The presence-aware expected plan: per day the acting accounts and the planned session
+    count, and per coalition role the slice days on which its account acts (the planner
+    keeps the drawn day when the account acts, re-draws inside the slice otherwise, and
+    fails loudly when no slice day works, L15 rule 4). An empty `acting_days` for a role is
+    the loud failure predicted before the run."""
+    dates = _weekday_dates(_date(start_date), int(plan.get("days") or 0))
+    pres = expected_presence(plan, plan.get("seed"), dates)
+    days = {d: {"acting": sorted(pres[d]["acts"]), "absent": sorted(set(plan["roster"]) - pres[d]["present"]),
+                "planned_sessions": pres[d]["planned_sessions"]} for d in dates}
+    roles = []
+    for inst in plan["instances"]:
+        for r in inst["roles"]:
+            lo, hi = r["day_range"]
+            slice_dates = dates[lo - 1: hi]
+            roles.append({"instance": inst["id"], "role": r["role"], "account": r["account"],
+                          "slice": slice_dates,
+                          "acting_days": [d for d in slice_dates if r["account"] in pres[d]["acts"]]})
+    return {"start_date": start_date, "dates": dates, "days": days, "roles": roles,
+            "total_planned_sessions": sum(v["planned_sessions"] for v in days.values())}
+
+
+def _print_presence(plan: dict, start_date: str) -> None:
+    if plan.get("seed") is None:
+        print("  presence-aware plan: no seed in the assignment; cannot be computed")
+        return
+    pp = presence_plan(plan, start_date)
+    print(f"  PRESENCE-AWARE PLAN (seed {plan['seed']}, start {start_date}; the presence draw "
+          f"of mole/generator/presence.py): {pp['total_planned_sessions']} sessions in all")
+    for d, v in pp["days"].items():
+        print(f"    {d}: {len(v['acting'])} of {plan['roster_size']} accounts act, "
+              f"{v['planned_sessions']} sessions planned"
+              + (f"; absent {v['absent']}" if v["absent"] else "")
+              + (f"; loafed {sorted(set(plan['roster']) - set(v['acting']) - set(v['absent']))}"
+                 if len(v["acting"]) + len(v["absent"]) < plan["roster_size"] else ""))
+    for r in pp["roles"]:
+        tag = "OK" if r["acting_days"] else "NO ACTING DAY IN SLICE: the planner will refuse"
+        print(f"    {r['instance']} {r['role']:<9} {r['account']:<12} slice {r['slice']} "
+              f"acts on {r['acting_days']}  [{tag}]")
+
+
+def _print_expected(plan: dict, start_date: str | None = None) -> None:
     print("EXPECTED PLAN")
     print(f"  assignment       : {plan['assignment']}")
     print(f"  branch           : {plan['branch_id']}   mode: {plan['mode']}   days: {plan['days']}")
@@ -592,6 +668,7 @@ def _print_expected(plan: dict) -> None:
             print(f"      {r['role']:<9} {r['account']:<14} day {r['day_range'][0]}-"
                   f"{r['day_range'][1]}   persona: {r['persona_file']}")
     print(f"  persona files that must exist: {len(plan['persona_files'])}")
+    _print_presence(plan, derive_start_date(plan, start_date))
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -605,6 +682,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--check-manifest", default=None, metavar="RESUME_JSON",
                     help="Compare a produced run manifest (<out>.resume.json) with the "
                          "expected plan and print PASS/FAIL per item.")
+    ap.add_argument("--start-date", default=None, metavar="YYYY-MM-DD",
+                    help="First working day for the presence-aware expected plan (default: "
+                         "the day after the parent's last complete day, else the runner's).")
     args = ap.parse_args(argv)
 
     try:
@@ -628,7 +708,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(build_command(args.assignment, args.branch_id))
     print()
-    _print_expected(plan)
+    _print_expected(plan, args.start_date)
     return 0
 
 
