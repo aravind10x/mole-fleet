@@ -24,7 +24,8 @@ Public interface (small and stable; the F4 oracle imports exactly these):
   content, as `DocWrite` records (who, when, which document); the writer set of a document.
 * `content_at(rows, ref, as_of, *, base=None, base_as_of=None)` -- the document's content at
   `as_of`, replayed from the audit log: the last successful write at or before `as_of` for
-  whole-content writes (ownCloud `write_file`, GitLab `commit`, eval-server `create_config` /
+  whole-content writes (ownCloud `write_file`, and `append_to_file` / `replace_in_file`, whose
+  rows carry the full resulting `content` (brief 07e E1); GitLab `commit`; eval-server `create_config` /
   `update_config`), and for plane the fold of `create_issue`, `update_issue` (title or
   description) and `add_comment`. `base` is either a managers snapshot holding the state at
   `base_as_of` (rows at or before `base_as_of` are then skipped) or a SEED mapping
@@ -46,7 +47,8 @@ empty replay cannot tell "absent" from "seeded and never rewritten". The rule:
     state for every service that appears among its keys).
   - `UNKNOWN` means the reader cannot know: no base covers the document's service AND, at or
     before `as_of`, no whole-content write fixes its content. Whole-content writes: ownCloud
-    `write_file` / `delete`, GitLab `commit`, eval `create_config` / `update_config`, plane
+    `write_file` / `append_to_file` / `replace_in_file` / `delete`, GitLab `commit`, eval
+    `create_config` / `update_config`, plane
     `create_issue`. A plane `update_issue` or `add_comment` on an issue not created in the log
     is partial (title, description or earlier comments unknown), so it stays `UNKNOWN`.
   - A seed value is the content (str; an eval config may be a dict or a JSON string; a plane
@@ -116,6 +118,7 @@ CONTENT_KEYS: dict[str, tuple[str, ...]] = {
 #: (service, action) pairs that can change a document's content.
 WRITE_ACTIONS: frozenset[tuple[str, str]] = frozenset({
     ("owncloud", "write_file"), ("owncloud", "delete"),
+    ("owncloud", "append_to_file"), ("owncloud", "replace_in_file"),   # E1: full content in args
     ("gitlab", "commit"),
     ("eval_server", "create_config"), ("eval_server", "update_config"),
     ("plane", "create_issue"), ("plane", "update_issue"), ("plane", "add_comment"),
@@ -423,6 +426,7 @@ def content_from_managers(managers: Mapping[str, Any], ref: DocRef) -> str | Non
 
 _FULL_WRITES = frozenset({
     ("owncloud", "write_file"), ("owncloud", "delete"), ("gitlab", "commit"),
+    ("owncloud", "append_to_file"), ("owncloud", "replace_in_file"),   # E1: full content in args
     ("eval_server", "create_config"), ("eval_server", "update_config"),
     ("plane", "create_issue"),
 })

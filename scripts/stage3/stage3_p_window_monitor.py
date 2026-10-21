@@ -124,7 +124,8 @@ def prefix_measure(prefix: str, n_coal: int, seed: int) -> dict[str, Any]:
 def owncloud_measure(rows: Sequence[dict[str, Any]], n_coal: int = N_COAL, seed: int = SEED0,
                      window_days: Sequence[str] | None = None) -> dict[str, Any]:
     """The per-author window-count component read on an actual lab corpus: per author, the
-    heaviest single-class-document count of successful ownCloud `write_file` over the window
+    heaviest single-class-document count of successful ownCloud content writes (`write_file`,
+    `append_to_file`, `replace_in_file`; rc.CLASS_WRITE_ACTIONS, brief 07e E1) over the window
     (the corpus's days by default). Threshold t = the smallest integer at which honest cost
     (the share of active account-days on the window belonging to authors at or above t) is
     <= COST. Synthetic placeholders (counts, not content), n_coal per variant on a random
@@ -144,7 +145,7 @@ def owncloud_measure(rows: Sequence[dict[str, Any]], n_coal: int = N_COAL, seed:
         if d not in dset:
             continue
         active[d].add(r["account"])
-        if (r.get("service") == "owncloud" and r.get("action") == "write_file"
+        if (r.get("service") == "owncloud" and r.get("action") in rc.CLASS_WRITE_ACTIONS
                 and (r.get("exit_code") or 0) == 0):
             path = "/" + str((r.get("args") or {}).get("path") or "").lstrip("/")
             if path in rc.DOC_PATHS:

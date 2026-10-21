@@ -103,6 +103,23 @@ def get_current_sim_time() -> str | None:
 AccountGetter = Callable[[], tuple[str, str]]   # () → (account, account_kind)
 
 
+# Per-call amendment of the RECORDED args (brief 07e E1). A manager method that derives
+# what the log should show from what it was passed (ownCloud append_to_file / replace_in_file:
+# the full resulting `content`, the `edit` metadata; a retention refusal's `refused` reason)
+# calls `amend_audit_args(...)` INSIDE the audited call; the wrapper merges the fields into the
+# event's args (success or failure) after the call returns and re-hashes them. Outside an
+# audited call the amendment is dropped. The value the tool received is unchanged.
+_ARGS_AMENDMENT: contextvars.ContextVar[dict[str, Any] | None] = contextvars.ContextVar(
+    "mole_audit_args_amendment", default=None)
+
+
+def amend_audit_args(**fields: Any) -> None:
+    """Add `fields` to the args the audit log records for the audited call in progress."""
+    cur = dict(_ARGS_AMENDMENT.get() or {})
+    cur.update(fields)
+    _ARGS_AMENDMENT.set(cur)
+
+
 class AuditCollector:
     """Per-task append-only event collector."""
 
@@ -419,6 +436,7 @@ class AuditCollector:
             # request never reached the service, so a retry is side-effect-free.
             # Read-timeouts are NOT retried (the call may have partially run).
             # Still exactly one emit per logical call.
+            amend_token = _ARGS_AMENDMENT.set(None)
             for _attempt in range(4):
                 try:
                     result = await bound_method(*args, **kwargs)
@@ -434,10 +452,12 @@ class AuditCollector:
                     if transient and _attempt < 3:
                         await asyncio.sleep(0.4 * (2 ** _attempt))
                         continue
+                    _apply_amendment(event, amend_token)
                     event.exit_code = 1
                     event.error = f"{type(exc).__name__}: {exc}"
                     collector.emit(event)
                     raise
+            _apply_amendment(event, amend_token)
             event.exit_code = 0
             try:
                 event.bytes = _estimate_bytes(result)
@@ -530,6 +550,17 @@ _RESULT_META_LIST_CAP = 20
 # non-empty "error" key (so it must not be marked failed). None today: a
 # grep of mole/state finds "error" only in {"ok": False, ...} envelopes.
 _ERROR_KEY_EXEMPT: frozenset[tuple[str, str]] = frozenset()
+
+
+def _apply_amendment(event: AuditEvent, token: contextvars.Token) -> None:
+    """Merge the call's `amend_audit_args` fields (if any) into event.args and re-hash."""
+    fields = _ARGS_AMENDMENT.get()
+    _ARGS_AMENDMENT.reset(token)
+    if not fields:
+        return
+    from .schema import _stable_hash
+    event.args = {**(event.args or {}), **_safe_serialise(dict(fields))}
+    event.args_hash = _stable_hash(event.args)
 
 
 def _result_meta(result: dict[str, Any]) -> dict[str, Any]:

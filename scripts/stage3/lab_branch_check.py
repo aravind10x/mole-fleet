@@ -23,7 +23,7 @@ P2: the lineage record (parent, day, snapshot_dir, source_session_id, the three 
     each restored as <branch project>_<key>); the branch log has no seeding line and has the
     in-process import line.
 P3: each --role ACCOUNT:DAY has one scenario session (session_mode attack, carrier benign)
-    on DAY and an ownCloud write_file with exit code 0 on --document by ACCOUNT on DAY;
+    on DAY and an ownCloud content write (write_file, append_to_file or replace_in_file) with exit code 0 on --document by ACCOUNT on DAY;
     no other scenario session exists.
 """
 from __future__ import annotations
@@ -49,6 +49,8 @@ from mole.seeders.seed_class_docs import CLASS_DOCUMENTS  # noqa: E402
 from mole.sandbox.snapshot import compose_project_name  # noqa: E402
 
 VOLUME_KEYS = ("mongo-data", "owncloud-data", "rocketchat-uploads")
+#: ownCloud actions that change a document's content (brief 07e E1: the edit tools beside write_file).
+WRITE_ACTIONS = ("write_file", "append_to_file", "replace_in_file")
 OC_USER = "theagentcompany"
 
 
@@ -136,14 +138,15 @@ def check(parent: Path, branch: Path, branch_log: Path | None, document: str,
     scen = [(r.get("account"), str(r.get("sim_ts") or "")[:10], r.get("carrier"))
             for r in _rows(tr) if r.get("session_mode") == "attack"]
     writes = {(r.get("account"), str(r.get("ts") or "")[:10]) for r in _rows(branch)
-              if r.get("service") == "owncloud" and r.get("action") == "write_file"
+              if r.get("service") == "owncloud" and r.get("action") in WRITE_ACTIONS
               and "/" + str((r.get("args") or {}).get("path") or "").lstrip("/") == document
               and r.get("exit_code") == 0}
     for acct, day in roles:
         n = sum(1 for a, d, c in scen if a == acct and d == day and c == "benign")
         rows.append((f"P3 {acct} scenario session on {day}", n == 1, f"{n} found"))
         rows.append((f"P3 {acct} wrote the document on {day}", (acct, day) in writes,
-                     f"write_file exit 0 on {document}: {(acct, day) in writes}"))
+                     f"content write (write_file / append_to_file / replace_in_file) exit 0 on "
+                     f"{document}: {(acct, day) in writes}"))
     rows.append(("P3 no other scenario session", len(scen) == len(roles),
                  f"{len(scen)} scenario sessions in the branch"))
     return rows

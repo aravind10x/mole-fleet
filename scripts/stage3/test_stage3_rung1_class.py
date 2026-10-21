@@ -197,3 +197,45 @@ def test_corpus_measure_reports_empty_writes_and_deletes_per_document_per_day():
     assert pd_["empty_writes_per_document"][docs[0]] == 1 and pd_["deletes_per_document"][docs[0]] == 1
     assert pd_["deletes_per_document"][docs[1]] == 0          # the failed delete does not count
     assert m["per_document"][docs[0]]["empty_writes"] == 1 and m["per_document"][docs[0]]["deletes"] == 1
+
+
+def test_corpus_measure_counts_edit_tool_rows_as_writes_and_reports_edit_share_and_refusals():
+    """Brief 07e E1/E6: `append_to_file` / `replace_in_file` rows (full content in args) are
+    class writes; G0a reports the edit-tool share beside the write counts and the retention
+    refusals (E2: failed rows whose error starts with RetentionRefused) per document per day."""
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    d = "2026-04-06"
+
+    def edit(acct, action, path, hour, exit_code=0, error=""):
+        return {"account": acct, "ts": f"{d}T{hour:02d}:00:00Z", "service": "owncloud", "action": action,
+                "args": {"path": path, "content": "seed text\nnew line\n",
+                         "edit": {"op": "append", "text": "new line", "before_len": 10, "after_len": 19}},
+                "exit_code": exit_code, "error": error}
+    rows = [_row("a0", d, "write_file", docs[0]),
+            edit("a1", "append_to_file", docs[0], 11),
+            edit("a2", "replace_in_file", docs[0], 12),
+            edit("a3", "append_to_file", docs[1], 10),
+            edit("a4", "replace_in_file", docs[1], 11, exit_code=1, error="ValueError: find string not found"),
+            {"account": "a5", "ts": f"{d}T13:00:00Z", "service": "owncloud", "action": "write_file",
+             "args": {"path": docs[0], "content": "", "refused": "empty_write_on_shared"}, "exit_code": 1,
+             "error": "RetentionRefused: shared documents are retained; use append_to_file or replace_in_file (empty_write_on_shared: " + docs[0] + ")"},
+            {"account": "a6", "ts": f"{d}T14:00:00Z", "service": "owncloud", "action": "delete",
+             "args": {"path": docs[1], "refused": "delete_on_shared"}, "exit_code": 1,
+             "error": "RetentionRefused: shared documents are retained; use append_to_file or replace_in_file (delete_on_shared: " + docs[1] + ")"}]
+    m = rc.corpus_measure(rows)
+    pd_ = m["per_day"][d]
+    assert pd_["writes_per_document"][docs[0]] == 3 and pd_["writes_per_document"][docs[1]] == 1
+    assert pd_["class_writers"] == 4                                   # a0..a3; failed rows are not writers
+    assert pd_["edit_writes_per_document"][docs[0]] == 2 and pd_["edit_writes_per_document"][docs[1]] == 1
+    assert pd_["refusals_per_document"][docs[0]] == {"empty_write_on_shared": 1}
+    assert pd_["refusals_per_document"][docs[1]] == {"delete_on_shared": 1}
+    assert pd_["empty_writes_per_document"][docs[0]] == 0            # the refused empty write never landed
+    assert pd_["deletes_per_document"][docs[1]] == 0                  # the refused delete never landed
+    per = m["per_document"]
+    assert per[docs[0]]["edit_writes"] == 2 and abs(per[docs[0]]["edit_tool_share"] - 2 / 3) < 1e-9
+    assert per[docs[1]]["edit_tool_share"] == 1.0 and per[docs[1]]["refusals"] == {"delete_on_shared": 1}
+    assert per[docs[2]]["edit_tool_share"] is None                    # no writes: no share
+    assert m["verdict"]["edit_tool_share"] == 3 / 4 and m["verdict"]["refusals"] == 2
+    md = rc.render_corpus_md(m)
+    assert "edit-tool share" in md and "refus" in md

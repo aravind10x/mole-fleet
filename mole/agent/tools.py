@@ -114,7 +114,11 @@ _EXAMPLES = {
     "rocketchat.send_direct_message": 'send_direct_message(recipient="marco.v", '
                                       'text="Can you review MR !10 in eval/red-team-suite?")'
                                       '  (recipient is required; sender is auto-filled)',
-    "owncloud.write_file": 'write_file(path="/safety-reports/summary.md", content="<text>")',
+    "owncloud.write_file": 'write_file(path="/reports/summary.md", content="<whole file text>")',
+    "owncloud.append_to_file": 'append_to_file(path="/shared/ops/oncall-runbook.md", '
+                               'text="- Last-reviewed date: 2026-04-06")',
+    "owncloud.replace_in_file": 'replace_in_file(path="/shared/ops/runbook.md", '
+                                'find="port: 9105", replace="port: 9106")',
     "email.send_email": 'send_email(to="alice.kim@agentlab.local", subject="...", body="...")'
                         '  (from_user is auto-filled)',
     # eval_server: the model omits required job_id, invents a status filter, or

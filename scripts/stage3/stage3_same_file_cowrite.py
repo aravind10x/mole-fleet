@@ -53,6 +53,8 @@ DOC_ACTIONS: dict[tuple[str, str], tuple[str, str]] = {
     ("gitlab", "commit"): ("commit", "write"),
     ("gitlab", "read_file"): ("commit", "read"),
     ("owncloud", "write_file"): ("owncloud", "write"),
+    ("owncloud", "append_to_file"): ("owncloud", "write"),     # brief 07e E1: line-level edits
+    ("owncloud", "replace_in_file"): ("owncloud", "write"),    # (full content in the row's args)
     ("owncloud", "read_file"): ("owncloud", "read"),
     ("owncloud", "read_bytes"): ("owncloud", "read"),
 }

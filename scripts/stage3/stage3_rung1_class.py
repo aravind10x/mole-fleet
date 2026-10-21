@@ -296,8 +296,14 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
     }
 
 
-CLASS_WRITE_ACTIONS = ("write_file",)
+#: ownCloud actions that change a class document's content: the whole write and, from brief
+#: 07e E1, the two line-level edit tools (their rows carry the full resulting `content`).
+CLASS_WRITE_ACTIONS = ("write_file", "append_to_file", "replace_in_file")
+CLASS_EDIT_ACTIONS = ("append_to_file", "replace_in_file")
 CLASS_READ_ACTIONS = ("read_file", "read_bytes")
+#: E2: a retention refusal is a FAILED ownCloud row whose error starts with this; the reason is
+#: args.refused (empty_write_on_shared, delete_on_shared, replace_empties_shared).
+REFUSAL_PREFIX = "RetentionRefused"
 
 
 def _class_path(row: dict[str, Any]) -> str | None:
@@ -322,19 +328,28 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
     for d in days:
         active, writers, readers = set(), set(), set()
         writes = {p: 0 for p in DOC_PATHS}
+        edits = {p: 0 for p in DOC_PATHS}
         empties = {p: 0 for p in DOC_PATHS}
         deletes = {p: 0 for p in DOC_PATHS}
+        refusals: dict[str, dict[str, int]] = {p: {} for p in DOC_PATHS}
         for r in rows:
             if str(r.get("ts") or "")[:10] != d or not r.get("account"):
                 continue
             active.add(r["account"])
-            if r.get("service") != "owncloud" or (r.get("exit_code") or 0) != 0:
+            if r.get("service") != "owncloud":
                 continue
             path = _class_path(r)
             if path is None:
                 continue
+            if (r.get("exit_code") or 0) != 0:
+                if str(r.get("error") or "").startswith(REFUSAL_PREFIX):
+                    reason = str((r.get("args") or {}).get("refused") or "unknown")
+                    refusals[path][reason] = refusals[path].get(reason, 0) + 1
+                continue
             if r.get("action") in CLASS_WRITE_ACTIONS:
                 writers.add(r["account"]); writes[path] += 1
+                if r.get("action") in CLASS_EDIT_ACTIONS:
+                    edits[path] += 1
                 if not str((r.get("args") or {}).get("content") or ""):
                     empties[path] += 1
             elif r.get("action") == "delete":
@@ -346,15 +361,27 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
                       "writer_share": (len(writers) / n) if n else 0.0,
                       "reader_share": (len(readers) / n) if n else 0.0,
                       "pure_reader_share": (len(readers - writers) / n) if n else 0.0,
-                      "writes_per_document": writes, "empty_writes_per_document": empties,
-                      "deletes_per_document": deletes}
+                      "writes_per_document": writes, "edit_writes_per_document": edits,
+                      "empty_writes_per_document": empties,
+                      "deletes_per_document": deletes, "refusals_per_document": refusals}
     per_doc = {}
     for p in DOC_PATHS:
         vals = [per_day[d]["writes_per_document"][p] for d in days]
+        n_w = sum(vals)
+        n_e = sum(per_day[d]["edit_writes_per_document"][p] for d in days)
+        ref: dict[str, int] = {}
+        for d in days:
+            for k, v in per_day[d]["refusals_per_document"][p].items():
+                ref[k] = ref.get(k, 0) + v
         per_doc[p] = {"writes_per_day_mean": (sum(vals) / len(vals)) if vals else 0.0,
                       "writes_per_day_min": min(vals) if vals else 0, "writes_per_day": dict(zip(days, vals)),
+                      "edit_writes": n_e, "edit_tool_share": (n_e / n_w) if n_w else None,
                       "empty_writes": sum(per_day[d]["empty_writes_per_document"][p] for d in days),
-                      "deletes": sum(per_day[d]["deletes_per_document"][p] for d in days)}
+                      "deletes": sum(per_day[d]["deletes_per_document"][p] for d in days),
+                      "refusals": ref}
+    total_w = sum(per_day[d]["writes_per_document"][p] for d in days for p in DOC_PATHS)
+    total_e = sum(per_doc[p]["edit_writes"] for p in DOC_PATHS)
+    total_ref = sum(sum(per_doc[p]["refusals"].values()) for p in DOC_PATHS)
     cw = sum(v["writer_share"] for v in per_day.values()) / len(days) if days else 0.0
     crd = sum(v["reader_share"] for v in per_day.values()) / len(days) if days else 0.0
     clauses = {
@@ -379,7 +406,9 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
                         "class_writer_share": cw, "class_reader_share": crd,
                         "per_document_writes_per_day_min": {p: per_doc[p]["writes_per_day_min"] for p in DOC_PATHS},
                         "per_document_writes_per_day_mean": {p: per_doc[p]["writes_per_day_mean"] for p in DOC_PATHS},
-                        "rare_write_members": rare}}
+                        "rare_write_members": rare,
+                        "edit_tool_share": (total_e / total_w) if total_w else None,
+                        "refusals": total_ref}}
 
 
 def render_corpus_md(res: dict[str, Any]) -> str:
@@ -396,15 +425,23 @@ def render_corpus_md(res: dict[str, Any]) -> str:
     for d, x in res["per_day"].items():
         L.append(f"| {d} | {x['active']} | {x['class_writers']} | {_f(x['writer_share'])} | {x['class_readers']} | "
                  f"{_f(x['reader_share'])} | {_f(x['pure_reader_share'])} |")
-    L += ["", "| document | " + " | ".join(res["days"]) + " | mean | min | empty writes | deletes |",
-          "|---|" + "---|" * (len(res["days"]) + 4)]
+    L += ["", "| document | " + " | ".join(res["days"]) + " | mean | min | edit-tool share | empty writes | deletes | refusals |",
+          "|---|" + "---|" * (len(res["days"]) + 6)]
     for p, x in res["per_document"].items():
+        sh = x.get("edit_tool_share")
         L.append(f"| `{p}` | " + " | ".join(str(x["writes_per_day"][d]) for d in res["days"])
-                 + f" | {_f(x['writes_per_day_mean'])} | {x['writes_per_day_min']} | {x.get('empty_writes', 0)} | {x.get('deletes', 0)} |")
-    L += ["", "Successful ownCloud `write_file` (writes) and `read_file` / `read_bytes` (reads) on the six class "
-          "paths; active = accounts with any audit row that day. The operative per-document clause is every "
-          "document on every day (plan v2 section 2, `pilot-gates.md` A.1); the per-day mean is the rung-1 "
-          "draw-model convention, beside it."]
+                 + f" | {_f(x['writes_per_day_mean'])} | {x['writes_per_day_min']} | "
+                 + ("-" if sh is None else f"{_f(sh)} ({x.get('edit_writes', 0)})")
+                 + f" | {x.get('empty_writes', 0)} | {x.get('deletes', 0)} | "
+                 + (", ".join(f"{k} {n}" for k, n in sorted(x.get("refusals", {}).items())) or "0") + " |")
+    sh = v.get("edit_tool_share")
+    L += ["", f"Edit-tool share over all class writes: {'-' if sh is None else _f(sh)}; retention refusals on "
+          f"class documents: {v.get('refusals', 0)} (brief 07e E1, E2).",
+          "", "Successful ownCloud content writes (`write_file`, `append_to_file`, `replace_in_file`) and "
+          "`read_file` / `read_bytes` (reads) on the six class paths; active = accounts with any audit row that "
+          "day; edit-tool share = edits / writes; refusals = failed rows with a RetentionRefused error, by "
+          "reason. The operative per-document clause is every document on every day (plan v2 section 2, "
+          "`pilot-gates.md` A.1); the per-day mean is the rung-1 draw-model convention, beside it."]
     return "\n".join(L) + "\n"
 
 

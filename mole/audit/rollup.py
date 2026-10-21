@@ -40,6 +40,10 @@ _WORKHOURS_START = time(9, 0)
 _WORKHOURS_END = time(17, 0)
 
 
+# ownCloud actions that write a file: the whole write and the line-level edit tools (brief 07e E1).
+_FILE_WRITE_ACTIONS = ("write", "write_file", "append_to_file", "replace_in_file")
+
+
 @dataclass
 class UserDayFeatures:
     """One (account, date) row of the per-user-day rollup."""
@@ -203,7 +207,7 @@ def _compute_features(
         if svc in ("owncloud", "fs", "filesystem"):
             if act in ("read", "read_file", "read_bytes", "list_dir"):
                 row.file_read_count += 1
-            elif act in ("write", "write_file"):
+            elif act in _FILE_WRITE_ACTIONS:
                 row.file_write_count += 1
             elif act in ("delete",):
                 row.file_delete_count += 1

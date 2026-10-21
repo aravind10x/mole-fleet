@@ -59,6 +59,8 @@ _ACTION_KIND: dict[tuple[str, str], tuple[str, str]] = {
     ("email", "read_inbox"): ("email_read", "read"),
     ("email", "find_emails"): ("email_read", "read"),
     ("owncloud", "write_file"): ("file_write", "write"),
+    ("owncloud", "append_to_file"): ("file_write", "write"),   # brief 07e E1
+    ("owncloud", "replace_in_file"): ("file_write", "write"),
     ("owncloud", "read_file"): ("file_read", "read"),
     ("owncloud", "share"): ("file_share", "share"),
     ("owncloud", "unshare"): ("file_share", "share"),

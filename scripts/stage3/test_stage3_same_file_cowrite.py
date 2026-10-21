@@ -78,3 +78,12 @@ def test_analyse_corpus_honest_filter_and_types(tmp_path):
     assert abs(cm["median_daily_max_reader_share"] - 1 / 3) < 1e-12
     assert pooled["median_files_with_2plus_writers"] == 1
     assert out["doc_events"] == {"commit.write": 1, "commit.read": 1, "owncloud.write": 2, "owncloud.read": 0}
+
+
+def test_edit_tool_rows_are_owncloud_writes_in_the_scope():
+    """Brief 07e E1: the amended like-for-like scope sees append_to_file / replace_in_file as
+    ownCloud writes by path, beside write_file."""
+    import stage3_same_file_cowrite as sf
+    for action in ("write_file", "append_to_file", "replace_in_file"):
+        assert sf.DOC_ACTIONS[("owncloud", action)] == ("owncloud", "write")
+    assert sf.file_key("owncloud", {"path": "/shared/x.md"}) == "/shared/x.md"

@@ -116,3 +116,32 @@ def test_owncloud_measure_threshold_respects_the_honest_cost_bar():
     # 3 edits reach 4 only when the drawn lone author is a heavy honest author on the drawn
     # target (a0 on doc0, a1 on doc1: about 2 of 20 x 1 of 6 of the draws), so recall is small
     assert 0.0 <= m["lone_k3"]["recall"] < 0.2
+
+
+def test_owncloud_measure_counts_edit_tool_rows_like_whole_writes():
+    """Brief 07e E1: a class-document edit through append_to_file / replace_in_file is a write
+    of that document for the per-author window count, exactly as a write_file row."""
+    import stage3_p_window_monitor as pm
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    days = ["2026-04-06", "2026-04-07", "2026-04-08"]
+
+    def base(action):
+        rows = []
+        for i in range(20):
+            for d in days:
+                rows.append({"account": f"a{i}", "ts": f"{d}T09:00:00Z", "service": "email",
+                             "action": "send_email", "exit_code": 0, "args": {}})
+        for h in range(5):
+            r = _oc("a0", days[h % 3], docs[0], hour=10 + h)
+            r["action"] = action
+            rows.append(r)
+        for i in range(1, 20):
+            rows.append(_oc(f"a{i}", days[0], docs[i % 6]))
+        return rows
+    whole = pm.owncloud_measure(base("write_file"), n_coal=50, seed=3)
+    edits = pm.owncloud_measure(base("append_to_file"), n_coal=50, seed=3)
+    replaced = pm.owncloud_measure(base("replace_in_file"), n_coal=50, seed=3)
+    for m in (edits, replaced):
+        assert m["threshold"] == whole["threshold"]
+        assert m["honest_heaviest_count_distribution"] == whole["honest_heaviest_count_distribution"]

@@ -121,3 +121,18 @@ def test_json_output_and_hash_mismatch(tmp_path):
     assert rc == 1
     rows = {r["item"]: r["pass"] for r in json.loads(out.read_text())}
     assert sum(1 for i, ok in rows.items() if i.startswith("P1 ") and not ok) == 1
+
+
+def test_p3_accepts_an_edit_tool_write_of_the_document(tmp_path):
+    """Brief 07e E1: a scenario session that changed the document with append_to_file or
+    replace_in_file wrote it (P3), as a write_file did before."""
+    parent, branch = _lay_out(tmp_path)
+    lines = branch.read_text().splitlines()
+    rows = [json.loads(l) for l in lines]
+    rows[0]["action"] = "append_to_file"
+    rows[1]["action"] = "replace_in_file"
+    branch.write_text("".join(json.dumps(r) + "\n" for r in rows))
+    out = _rows(parent, branch)
+    for acct, day in ROLES:
+        ok, detail = out[f"P3 {acct} wrote the document on {day}"]
+        assert ok, detail

@@ -74,6 +74,8 @@ _SERVICE_ACTION_TO_CSV: dict[tuple[str, str], str] = {
     # message *receipts* not API reads. Drop unless the orchestrator
     # explicitly emits per-message receive events.
     ("owncloud", "write_file"): "file",
+    ("owncloud", "append_to_file"): "file",                 # brief 07e E1
+    ("owncloud", "replace_in_file"): "file",
     ("owncloud", "read_file"): "file",
     ("owncloud", "share"): "file",
     ("owncloud", "unshare"): "file",
@@ -106,6 +108,8 @@ _ACTIVITY_BY_ACTION: dict[tuple[str, str], str] = {
     ("email", "send_email"): "Send",
     ("email", "forward_email"): "Send",
     ("owncloud", "write_file"): "Write",
+    ("owncloud", "append_to_file"): "Write",
+    ("owncloud", "replace_in_file"): "Write",
     ("owncloud", "read_file"): "Open",
     ("owncloud", "share"): "Copy",
     ("owncloud", "unshare"): "Copy",
