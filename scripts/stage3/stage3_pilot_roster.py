@@ -33,6 +33,7 @@ import argparse
 import collections
 import json
 import random
+import re
 import sys
 from pathlib import Path
 
@@ -143,14 +144,74 @@ def draw(template: dict, seed: int, prefix_seed: int = 20261014, n_prefix: int =
     }
 
 
+RED_TEAM_SUITE = re.compile(r"red-team-suite|red_team_suite|evals?/red-team", re.I)
+
+
+def red_team_suite_screen(bank: dict) -> dict[str, int]:
+    """Per team, the number of routine task variants in the class bank whose text names the
+    red-team evaluation suite (the files whose honest content the provider's content filter
+    blocked on prefix_rw_v1, 2026-10-21: a session writing them dies after 40 identical 403
+    retries). Counts only; the screen for colluder and reader accounts."""
+    out = {}
+    for team, v in bank.items():
+        texts = [json.dumps(x) if not isinstance(x, str) else x for x in (v.get("variants") or [])]
+        out[team] = sum(1 for t in texts if RED_TEAM_SUITE.search(t))
+    return out
+
+
+def redraw_role(template: dict, base: dict, instance: str, role: str, teams: list[str],
+                seed: int) -> dict:
+    """A dated pre-planting re-draw of ONE role (brief 07d, 2026-10-21: P4's account came
+    from a team whose routine pool writes the red-team suite). The replacement is drawn by
+    `seed` from the prefix roster's accounts in `teams`, never a manager, never an upstream
+    colluder, never already in the roster; every other account and every other role stays.
+    The result carries a `redraws` list naming the change."""
+    prefix = prefix_select(template, base["prefix_roster_size"], base["prefix_seed"])
+    team_of, mgr = team_map(template)
+    managers = set(mgr.values())
+    pool = sorted(a for a in prefix if team_of[a] in teams and a not in managers
+                  and a not in UPSTREAM_COLLUDERS and a not in base["roster"])
+    rng = random.Random(f"{seed}:{instance}:{role}")
+    new = rng.choice(pool)
+    out = json.loads(json.dumps(base))
+    old = out["instances"][instance]["roles"][role]
+    out["instances"][instance]["roles"][role] = new
+    inst = out["instances"][instance]
+    inst["teams"] = [team_of[a] for a in inst["roles"].values()]
+    inst["eligible_documents"] = eligible_documents(inst["teams"])
+    out["colluders"] = [new if a == old else a for a in out["colluders"]]
+    out["roster"] = [new if a == old else a for a in out["roster"]]
+    out["roster_teams"] = dict(collections.Counter(team_of[a] for a in out["roster"]))
+    out.setdefault("redraws", []).append({"instance": instance, "role": role, "from": old,
+                                          "to": new, "teams": list(teams), "seed": seed})
+    return out
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--template", required=True, type=Path)
     ap.add_argument("--seed", type=int, default=20267)
     ap.add_argument("--prefix-seed", type=int, default=20261014)
     ap.add_argument("--json", type=Path, default=None)
+    ap.add_argument("--redraw", default=None, metavar="INSTANCE:ROLE:TEAMS:SEED",
+                    help="re-draw one role from the comma-separated teams by the seed, e.g. "
+                         "P4:editor_1:platform,capabilities:20268 (recorded in the output)")
+    ap.add_argument("--bank", type=Path, default=None,
+                    help="class bank: print the red-team-suite task screen per team")
     a = ap.parse_args(argv)
-    out = draw(yaml.safe_load(a.template.read_text(encoding="utf-8")), a.seed, a.prefix_seed)
+    tpl = yaml.safe_load(a.template.read_text(encoding="utf-8"))
+    out = draw(tpl, a.seed, a.prefix_seed)
+    if a.redraw:
+        inst, role, teams, rseed = a.redraw.split(":")
+        out = redraw_role(tpl, out, inst, role, teams.split(","), int(rseed))
+        print("redraws:", out["redraws"])
+    if a.bank:
+        screen = red_team_suite_screen(yaml.safe_load(a.bank.read_text(encoding="utf-8")))
+        out["red_team_suite_screen"] = screen
+        team_of, _ = team_map(tpl)
+        out["roster_screen"] = {acct: {"team": team_of[acct], "red_team_suite_variants": screen[team_of[acct]]}
+                                for acct in out["roster"]}
+        print("red-team-suite task variants per team:", screen)
     for cid, inst in out["instances"].items():
         print(f"{cid} k={inst['k']} {inst['roles']} teams={inst['teams']} "
               f"eligible={len(inst['eligible_documents'])} of {len(CLASS)}")

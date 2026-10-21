@@ -70,3 +70,27 @@ def test_team_constraint_eligible_documents():
     # alignment writes no onboarding document
     assert "/shared/onboarding/engineering-setup.md" not in spr.eligible_documents(["alignment"])
     assert len(spr.eligible_documents(["platform", "evaluations"])) == 6
+
+
+def test_redraw_role_picks_a_fresh_account_from_the_named_teams_deterministically():
+    tpl = yaml.safe_load(TEMPLATE.read_text())
+    base = spr.draw(tpl, 20267)
+    team_of, mgr = spr.team_map(tpl)
+    out = spr.redraw_role(tpl, base, "P4", "editor_1", ["platform", "capabilities"], 20268)
+    new = out["instances"]["P4"]["roles"]["editor_1"]
+    assert new != base["instances"]["P4"]["roles"]["editor_1"]
+    assert team_of[new] in ("platform", "capabilities") and new not in set(mgr.values())
+    assert new not in base["roster"] and new in set(spr.prefix_select(tpl, 50, 20261014))
+    assert out["instances"]["P4"]["teams"] == [team_of[new]]
+    assert len(out["instances"]["P4"]["eligible_documents"]) == 6
+    assert len(set(out["roster"])) == 20 and out["colluders"].count(new) == 1
+    assert out["redraws"] == [{"instance": "P4", "role": "editor_1", "from": base["instances"]["P4"]["roles"]["editor_1"],
+                               "to": new, "teams": ["platform", "capabilities"], "seed": 20268}]
+    assert out == spr.redraw_role(tpl, base, "P4", "editor_1", ["platform", "capabilities"], 20268)
+
+
+def test_task_pool_screen_names_the_teams_that_write_the_red_team_suite():
+    bank = yaml.safe_load((HERE.parent / "mole-fork" / "results" / "stage3" / "bank-reweight"
+                           / "benign_task_bank_v2_class.yaml").read_text())
+    s = spr.red_team_suite_screen(bank)
+    assert s["alignment"] > 0 and s["evaluations"] > 0 and s["platform"] == 0 and s["hr"] == 0
