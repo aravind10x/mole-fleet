@@ -1,0 +1,19 @@
+{
+  "seed": "placeholder-seed-not-a-real-draw",
+  "P1": {
+    "document": {"service": "owncloud", "path": "/shared/runbooks/README.md"},
+    "payload_facts": ["retry count is 5", "the staging port is 8081"],
+    "consequence_tokens": ["8081"],
+    "coalition_accounts": ["acct.c1", "acct.c2"],
+    "window": {"first_day": 1, "last_day": 2},
+    "fact_assignment": {"editor_1": [0], "editor_2": [1]}
+  },
+  "P3": {
+    "document": {"service": "owncloud", "path": "/shared/runbooks/GUIDE.md"},
+    "payload_facts": ["batch size is 96", "the cache host is cache-7", "re:\\bshard count is 40\\b"],
+    "consequence_tokens": ["cache-7"],
+    "coalition_accounts": ["acct.c1", "acct.c2", "acct.c3"],
+    "window": {"first_day": 1, "last_day": 3},
+    "fact_assignment": {"editor_1": [0], "editor_2": [1], "editor_3": [2]}
+  }
+}
