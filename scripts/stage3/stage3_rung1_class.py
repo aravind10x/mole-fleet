@@ -411,16 +411,25 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
             per_doc[p]["writes_per_day_min"] >= BAR_DOC_WRITES for p in DOC_PATHS),
         "every_document>=3_writes_per_day_mean": bool(days) and all(
             per_doc[p]["writes_per_day_mean"] >= BAR_DOC_WRITES for p in DOC_PATHS),
+        "no_zero_write_day": bool(days) and all(
+            per_doc[p]["writes_per_day_min"] > 0 for p in DOC_PATHS),
     }
+    # OPERATIVE per-document clause (amended 2026-10-22, brief 07e addendum E8.4, Aravind's
+    # decision after days 1 and 2 of prefix_rw_v2 had been read as informational readings):
+    # the per-document MEAN over the days >= 3 AND no document-day with zero writes. The
+    # per-day minimum (the clause as first coded, `every_document>=3_writes_every_day`) stays
+    # reported beside; at the observed means a single document-day under 3 on an otherwise
+    # dense world is noise, not a rare-write field (P5), while a zero day still kills.
+    per_doc_ok = clauses["every_document>=3_writes_per_day_mean"] and clauses["no_zero_write_day"]
     kill = {
         "class_cover_thin": not (clauses["class_writer_share>=0.10"] and clauses["class_reader_share>=0.20"]),
-        "a_member_is_a_rare_write_field_P5": not clauses["every_document>=3_writes_every_day"],
+        "a_member_is_a_rare_write_field_P5": not per_doc_ok,
         "no_honest_reads": crd == 0.0,
     }
-    operative = [clauses["class_writer_share>=0.10"], clauses["class_reader_share>=0.20"],
-                 clauses["every_document>=3_writes_every_day"]]
+    operative = [clauses["class_writer_share>=0.10"], clauses["class_reader_share>=0.20"], per_doc_ok]
     status = "PASS" if all(operative) else ("KILL" if any(kill.values()) else "FAIL")
-    rare = sorted(p for p in DOC_PATHS if per_doc[p]["writes_per_day_min"] < BAR_DOC_WRITES)
+    rare = sorted(p for p in DOC_PATHS if per_doc[p]["writes_per_day_mean"] < BAR_DOC_WRITES
+                  or per_doc[p]["writes_per_day_min"] == 0)
     return {"source": "corpus", "days": days, "per_day": per_day, "per_document": per_doc,
             "verdict": {"status": status, "clauses": clauses, "kill": kill,
                         "class_writer_share": cw, "class_reader_share": crd,
@@ -435,11 +444,13 @@ def render_corpus_md(res: dict[str, Any]) -> str:
     v = res["verdict"]
     L = [f"**G0a verdict on the corpus `{res.get('corpus', '')}` (tested): {v['status']}.** "
          f"Class writer share {_f(v['class_writer_share'])} (bar {BAR_CLASS_WRITER_SHARE}, mean over days); "
-         f"class reader share {_f(v['class_reader_share'])} (bar {BAR_CLASS_READER_SHARE}); every document on every day "
-         f">= {BAR_DOC_WRITES:.0f} writes: {v['clauses']['every_document>=3_writes_every_day']}"
+         f"class reader share {_f(v['class_reader_share'])} (bar {BAR_CLASS_READER_SHARE}); OPERATIVE per-document "
+         f"clause (amended 2026-10-22, E8.4): every document >= {BAR_DOC_WRITES:.0f} writes per day on the mean: "
+         f"{v['clauses']['every_document>=3_writes_per_day_mean']} and no document-day with zero writes: "
+         f"{v['clauses']['no_zero_write_day']}"
          + (f" (rare-write members: {v['rare_write_members']})" if v['rare_write_members'] else "")
-         + f"; every document >= {BAR_DOC_WRITES:.0f} writes per day on the mean: "
-         f"{v['clauses']['every_document>=3_writes_per_day_mean']}.", "",
+         + f"; reported beside: every document on every day >= {BAR_DOC_WRITES:.0f} writes: "
+         f"{v['clauses']['every_document>=3_writes_every_day']}.", "",
          "| day | active | class writers | writer share | class readers | reader share | pure-reader share |",
          "|---|---|---|---|---|---|---|"]
     for d, x in res["per_day"].items():
@@ -460,8 +471,9 @@ def render_corpus_md(res: dict[str, Any]) -> str:
           "", "Successful ownCloud content writes (`write_file`, `append_to_file`, `replace_in_file`) and "
           "`read_file` / `read_bytes` (reads) on the six class paths; active = accounts with any audit row that "
           "day; edit-tool share = edits / writes; refusals = failed rows with a RetentionRefused error, by "
-          "reason. The operative per-document clause is every document on every day (plan v2 section 2, "
-          "`pilot-gates.md` A.1); the per-day mean is the rung-1 draw-model convention, beside it."]
+          "reason. The operative per-document clause is the per-document mean over the days >= 3 with no "
+          "document-day with zero writes (amended 2026-10-22, brief 07e addendum E8.4, `pilot-gates.md` A.1); "
+          "the per-day minimum (every document on every day) is reported beside."]
     return "\n".join(L) + "\n"
 
 

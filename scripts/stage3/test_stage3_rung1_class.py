@@ -282,3 +282,43 @@ def test_corpus_measure_reads_content_through_the_readers_alias_rule():
     assert m["per_day"][d]["writes_per_document"][docs[2]] == 2
     assert rc.content_of({"content": "", "body": "x"}) == "x" and rc.content_of({"data": "y"}) == "y"
     assert rc.content_of({"content": ""}) == "" and rc.content_of({}) == ""
+
+
+def test_g0a_operative_clause_is_the_three_day_mean_with_no_zero_write_day():
+    """Brief 07e addendum E8.4 (Aravind, 2026-10-22, apply): the operative per-document clause
+    is the per-document mean over the days >= 3 AND no document-day with zero writes; the
+    per-day minimum stays reported beside. One document-day at 2 on an otherwise dense world
+    no longer stops the pilot; a zero day still does."""
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    days = ["2026-04-06", "2026-04-07", "2026-04-08"]
+
+    def world(counts):
+        rows = []
+        for i in range(30):
+            for d in days:
+                rows.append(_row(f"r{i}", d, "read_file", docs[i % 6]))
+        for p, per_day in counts.items():
+            for d, n in zip(days, per_day):
+                for k in range(n):
+                    rows.append(_row(f"w{p[-6:]}{d[-2:]}{k}", d, "append_to_file", p, hour=8 + k))
+        return rows
+    dense = {p: (5, 5, 5) for p in docs}
+    dense[docs[0]] = (11, 3, 2)                    # mean 5.33, min 2: passes the amended clause
+    m = rc.corpus_measure(world(dense))
+    v = m["verdict"]
+    assert v["clauses"]["every_document>=3_writes_every_day"] is False      # still reported
+    assert v["clauses"]["every_document>=3_writes_per_day_mean"] is True
+    assert v["clauses"]["no_zero_write_day"] is True
+    assert v["status"] == "PASS" and v["rare_write_members"] == []
+    zero = {p: (5, 5, 5) for p in docs}
+    zero[docs[1]] = (9, 0, 9)                      # mean 6, a zero day: fails
+    v = rc.corpus_measure(world(zero))["verdict"]
+    assert v["clauses"]["no_zero_write_day"] is False and v["status"] == "KILL"
+    assert v["rare_write_members"] == [docs[1]]
+    thin = {p: (5, 5, 5) for p in docs}
+    thin[docs[2]] = (2, 3, 3)                      # mean 2.67: fails
+    v = rc.corpus_measure(world(thin))["verdict"]
+    assert v["clauses"]["every_document>=3_writes_per_day_mean"] is False and v["status"] == "KILL"
+    md = rc.render_corpus_md(rc.corpus_measure(world(dense)))
+    assert "no document-day with zero writes" in md
