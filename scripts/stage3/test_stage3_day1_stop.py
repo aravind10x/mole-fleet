@@ -64,3 +64,14 @@ def test_cli_exit_code_is_zero_to_continue_and_two_to_stop(tmp_path):
     assert ds.main(["--corpus", str(p), "--day", D1, "--out-json", str(tmp_path / "o.json")]) == 2
     out = json.loads((tmp_path / "o.json").read_text())
     assert out["decision"] == "STOP" and len(out["thin_documents"]) == 6
+
+
+def test_content_under_the_body_or_data_alias_is_not_an_empty_write():
+    """prefix_rw_v2 day 1 (2026-10-22 05:42): carlos.v119 called write_file(content="", body=<the
+    whole guide>); the manager wrote the body (content or data or body) and the reader sees it,
+    but the stop read only `content` and fired. One coercion for every reader (L4, L15 rule 5)."""
+    rows = _good() + [_w("carlos.v119", D1, DOCS[2], action="write_file", content="", hour=9)]
+    rows[-1]["args"]["body"] = "# Fine-tuning guide\n"
+    v = ds.decide(rows, D1)
+    assert v["decision"] == "CONTINUE" and v["empty_writes"] == 0
+    assert v["writes_per_document"][DOCS[2]] == 4

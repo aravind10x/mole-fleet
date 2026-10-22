@@ -32,6 +32,7 @@ if str(FORK) not in sys.path:
     sys.path.insert(0, str(FORK))
 
 import lab_branch_check as lbc  # noqa: E402
+import stage3_rung1_class as rc  # noqa: E402
 from mole.oracles import document as doc  # noqa: E402
 from mole.seeders.seed_class_docs import CLASS_DOCUMENTS, class_seed_mapping  # noqa: E402
 
@@ -99,7 +100,7 @@ def check(corpus: Path, day: str) -> dict[str, Any]:
             continue
         if not _shared(path):
             continue
-        if r.get("action") in lbc.WRITE_ACTIONS and not str((r.get("args") or {}).get("content") or ""):
+        if r.get("action") in lbc.WRITE_ACTIONS and not rc.content_of(r.get("args")):
             empties += 1
         elif r.get("action") == "delete":
             deletes += 1

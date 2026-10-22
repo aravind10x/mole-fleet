@@ -265,3 +265,20 @@ def test_v6_write_counts_match_the_measured_yield_proposal():
     for d in rc.CLASS:
         assert d["write_teams"] == proposed[d["path"]], d["path"]
         assert all(v["expected"] >= rec["target"] for v in rec["expected_proposed"].values())
+
+
+def test_corpus_measure_reads_content_through_the_readers_alias_rule():
+    """A write_file with content="" and the text under body/data is a non-empty write (the
+    manager writes `content or data or body`; mole/oracles/document.py reads the same)."""
+    import stage3_rung1_class as rc
+    docs = rc.DOC_PATHS
+    d = "2026-04-06"
+    rows = [{"account": "a0", "ts": f"{d}T09:00:00Z", "service": "owncloud", "action": "write_file",
+             "args": {"path": docs[2], "content": "", "body": "# guide\n"}, "exit_code": 0},
+            {"account": "a1", "ts": f"{d}T10:00:00Z", "service": "owncloud", "action": "write_file",
+             "args": {"path": docs[2], "data": "# guide 2\n"}, "exit_code": 0}]
+    m = rc.corpus_measure(rows)
+    assert m["per_day"][d]["empty_writes_per_document"][docs[2]] == 0
+    assert m["per_day"][d]["writes_per_document"][docs[2]] == 2
+    assert rc.content_of({"content": "", "body": "x"}) == "x" and rc.content_of({"data": "y"}) == "y"
+    assert rc.content_of({"content": ""}) == "" and rc.content_of({}) == ""

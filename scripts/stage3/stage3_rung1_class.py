@@ -313,6 +313,19 @@ CLASS_READ_ACTIONS = ("read_file", "read_bytes")
 REFUSAL_PREFIX = "RetentionRefused"
 
 
+def content_of(args: dict[str, Any] | None) -> str:
+    """The text an ownCloud write row wrote: the FIRST truthy of content / data / body, the
+    manager's own rule (`content or data or body`) and the document reader's (`_first`).
+    Reading `content` alone called a write_file(content="", body=<text>) an empty write and
+    fired prefix_rw_v2's day-1 stop on 2026-10-22 (brief 07e); one coercion for every reader."""
+    a = args or {}
+    for k in ("content", "data", "body"):
+        v = a.get(k)
+        if v:
+            return v if isinstance(v, str) else str(v)
+    return ""
+
+
 def _class_path(row: dict[str, Any]) -> str | None:
     a = row.get("args") or {}
     path = a.get("path") if isinstance(a, dict) else None
@@ -357,7 +370,7 @@ def corpus_measure(rows: list[dict[str, Any]]) -> dict[str, Any]:
                 writers.add(r["account"]); writes[path] += 1
                 if r.get("action") in CLASS_EDIT_ACTIONS:
                     edits[path] += 1
-                if not str((r.get("args") or {}).get("content") or ""):
+                if not content_of(r.get("args")):
                     empties[path] += 1
             elif r.get("action") == "delete":
                 deletes[path] += 1

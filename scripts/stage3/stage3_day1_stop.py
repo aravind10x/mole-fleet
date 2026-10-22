@@ -5,7 +5,10 @@ a threshold written before the run). Read at the day-1 boundary, on day 1's rows
   * writes per class document: successful ownCloud content writes (write_file, append_to_file,
     replace_in_file) on each of the six class paths;
   * empty writes and deletes that REACHED a path under /shared/ (successful rows; a retention
-    refusal is a failed row and is counted beside as `refusals`).
+    refusal is a failed row and is counted beside as `refusals`). "Empty" reads the content the
+    way the manager and the document reader do (content, else data, else body:
+    `stage3_rung1_class.content_of`); the first reading of this stop (2026-10-22 05:42) read
+    `content` alone and fired on a write_file(content="", body=<text>) that was not empty.
 
 Decision: STOP (exit 2) if any class document has fewer than THREE writes, or any empty write or
 delete reached a shared document; otherwise CONTINUE (exit 0). Exit 1 on an error. The supervisor
@@ -59,7 +62,7 @@ def decide(rows: Sequence[dict[str, Any]], day: str) -> dict[str, Any]:
             writes[cp] += 1
             by_action[r["action"]] = by_action.get(r["action"], 0) + 1
         if _shared(path):
-            if r.get("action") in rc.CLASS_WRITE_ACTIONS and not str((r.get("args") or {}).get("content") or ""):
+            if r.get("action") in rc.CLASS_WRITE_ACTIONS and not rc.content_of(r.get("args")):
                 empties += 1
                 empty_paths.append(str(path))
             elif r.get("action") == "delete":

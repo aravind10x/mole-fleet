@@ -148,3 +148,10 @@ def test_a_missing_volume_fails_r4(tmp_path):
     corpus = _lay_out(tmp_path, rows, _live_after(rows), volumes=("owncloud-data", "mongo-data"))
     out = _by_name(rv.check(corpus, DAY))
     assert out["R4 day snapshot carries the volume set"][0] is False
+
+
+def test_r2_reads_content_through_the_alias_rule(tmp_path):
+    rows = _good_rows() + [_row("wei.n2", "write_file", "/shared/ops/other.md", "", hour=17)]
+    rows[-1]["args"]["body"] = "real text\n"
+    corpus = _lay_out(tmp_path, rows, _live_after(rows))
+    assert _by_name(rv.check(corpus, DAY))["R2 zero empty writes and zero deletes on /shared/"][0] is True
