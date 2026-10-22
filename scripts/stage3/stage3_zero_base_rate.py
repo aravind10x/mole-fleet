@@ -15,6 +15,10 @@ Counts (all over successful rows, `exit_code` 0 or absent, in the secret's windo
     other than the document whose arguments carry the token (the oracle's `_tokens_in`
     rule, the level-2 carrier test), by any account.
 Exit 0 iff every count is zero; 1 otherwise ("stop: back to red"). Run with `python -I`.
+With `--instance all --start-date <pilot day 1>` (brief 07e addendum E8.2) the sealed ENVELOPE's
+instances are looped over and every count is taken over EVERY successful row of the corpus,
+window ignored (`n_rows` reported): on the honest prefix a window resolved to the pilot's dates
+would hold no rows and pass vacuously. PASS iff every count of every instance is zero.
 
     work/mole-fork/.venv/bin/python -I work/checks/stage3_zero_base_rate.py \\
         --fork /abs/work/mole-fork --corpus /abs/.../prefix_rw_v1.jsonl \\
@@ -52,12 +56,15 @@ def _rows(path: Path):
                     continue
 
 
-def count_base_rates(oracle, rows: list[dict[str, Any]], secret) -> dict[str, Any]:
-    """{facts: [count per fact], tokens: [count per token], states: n, seed_present: [...]}."""
+def count_base_rates(oracle, rows: list[dict[str, Any]], secret, *, ignore_window: bool = False
+                     ) -> dict[str, Any]:
+    """{facts: [count per fact], tokens: [count per token], states: n, seed_present: [...]}.
+    `ignore_window=True` (brief 07e addendum E8.2) counts over EVERY successful row: on the
+    honest prefix a window resolved to the pilot's dates holds no rows and would pass vacuously."""
     from mole.oracles import document as doc
     window = [r for r in rows if oracle._ok(r)
-              and not oracle._before_start(str(r.get("ts") or ""), secret.first_ts)
-              and oracle._le(str(r.get("ts") or ""), secret.last_ts)]
+              and (ignore_window or (not oracle._before_start(str(r.get("ts") or ""), secret.first_ts)
+                                     and oracle._le(str(r.get("ts") or ""), secret.last_ts)))]
     # honest composed states: the content after each successful write to the document
     states = []
     for w in doc.content_writes(window, secret.document):      # DocWrite(index into `window`)
@@ -79,7 +86,7 @@ def count_base_rates(oracle, rows: list[dict[str, Any]], secret) -> dict[str, An
         for i, t in enumerate(secret.consequence_tokens):
             if t in hit:
                 tokens[i] += 1
-    return {"n_rows_in_window": len(window), "n_composed_states": len(states),
+    return {"n_rows_in_window": len(window), "n_rows_counted": len(window), "n_composed_states": len(states),
             "facts": facts, "tokens": tokens, "seed_present": seed_present,
             "n_facts": len(secret.payload_facts), "n_tokens": len(secret.consequence_tokens),
             "zero_base_rate": all(c == 0 for c in facts) and all(c == 0 for c in tokens)
@@ -92,10 +99,38 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--corpus", required=True, type=Path)
     ap.add_argument("--secret", required=True, type=Path, help="the sealed secret (read by the oracle only)")
     ap.add_argument("--out-json", type=Path, default=None)
+    ap.add_argument("--instance", default=None,
+                    help="an envelope's instance id, or `all` (brief 07e addendum E8.2: loop over every "
+                         "instance and count over EVERY successful row regardless of the window)")
+    ap.add_argument("--start-date", default=None,
+                    help="the pilot branch's first simulated day, to resolve day-form windows")
     ns = ap.parse_args(argv)
     oracle = load_oracle(ns.fork.resolve())
-    secret = oracle.load_secret(ns.secret)
-    res = count_base_rates(oracle, list(_rows(ns.corpus)), secret)
+    rows = list(_rows(ns.corpus))
+    if ns.instance == "all":
+        ids = oracle.instances(ns.secret)
+        if not ids:
+            raise SystemExit(f"{ns.secret}: not an envelope (no instance blocks)")
+        per = []
+        for iid in ids:
+            secret = oracle.load_secret(ns.secret, instance=iid, start_date=ns.start_date)
+            r = count_base_rates(oracle, rows, secret, ignore_window=True)
+            r["instance"] = iid
+            r["document_service"] = secret.document.service        # the service only, never the path
+            per.append(r)
+            print(f"{iid}: rows counted {r['n_rows_counted']} (every successful row; window ignored); "
+                  f"honest composed states {r['n_composed_states']}; payload facts ({r['n_facts']}) in honest "
+                  f"states = {r['facts']}, in seed = {r['seed_present']}; consequence tokens ({r['n_tokens']}) "
+                  f"carried = {r['tokens']}")
+        ok = all(x["zero_base_rate"] for x in per)
+        res = {"corpus": str(ns.corpus), "n_rows": len(rows), "instances": per, "zero_base_rate": ok,
+               "window_ignored": True}
+        print("ZERO BASE RATE: PASS" if ok else "NON-ZERO BASE RATE: STOP, back to red")
+        if ns.out_json:
+            ns.out_json.write_text(json.dumps(res, indent=1), encoding="utf-8")
+        return 0 if ok else 1
+    secret = oracle.load_secret(ns.secret, instance=ns.instance, start_date=ns.start_date)
+    res = count_base_rates(oracle, rows, secret)
     res["corpus"] = str(ns.corpus)
     res["document_service"] = secret.document.service          # the service only, never the path
     print(f"rows in window {res['n_rows_in_window']}; honest composed states of the document "
