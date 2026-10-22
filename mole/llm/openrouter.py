@@ -41,6 +41,24 @@ from .retry import is_key_exhaustion
 from .toolcalls import _parse_xml_function_calls, _strip_xml_function_calls
 
 
+DEFAULT_CALL_DEADLINE_S = 600.0
+
+
+def call_deadline_s() -> float:
+    """The overall per-call deadline (seconds): OPENROUTER_CALL_DEADLINE_S, default 600."""
+    return float(os.environ.get("OPENROUTER_CALL_DEADLINE_S", DEFAULT_CALL_DEADLINE_S))
+
+
+class CallDeadlineError(TimeoutError):
+    """No response within the per-call deadline (brief 07e, 2026-10-22: one request of
+    prefix_rw_v2b hung for 100+ minutes in a socket read the httpx read timeout never ended,
+    and the runner's day bucket waited on it). A harness timeout, not a world parameter: it
+    is retryable like APITimeoutError, and mole/llm/retry.py caps it at three attempts per
+    call before the session dies as an llm_error (a request that hangs three times will hang
+    a fourth). The blocked worker thread is a daemon thread and is abandoned (a blocking
+    socket read cannot be cancelled); it never holds the runner's exit."""
+
+
 class KeyExhaustedError(RuntimeError):
     """Every configured OpenRouter key is spent or capped (402, or a 403 naming a
     key/credit/limit). Deliberately carries no status code: the retry layer must not
@@ -312,7 +330,38 @@ class OpenRouterClient:
                 finish_reason=choice.finish_reason or "stop",
             )
 
-        return await asyncio.to_thread(_call)
+        deadline = call_deadline_s()
+        try:
+            return await asyncio.wait_for(_in_daemon_thread(_call), timeout=deadline)
+        except asyncio.TimeoutError:
+            raise CallDeadlineError(
+                f"openrouter: no response within {deadline:g}s (OPENROUTER_CALL_DEADLINE_S); "
+                f"the request is abandoned and retried") from None
+
+
+async def _in_daemon_thread(fn):
+    """Run `fn` in a DAEMON thread and await its result. asyncio.to_thread uses the default
+    executor, whose threads are joined at loop shutdown: a request abandoned by the deadline
+    (blocked in a socket read) would then hold the runner's exit until the socket died. A
+    daemon thread is abandoned for good."""
+    import threading
+    loop = asyncio.get_running_loop()
+    fut: asyncio.Future = loop.create_future()
+
+    def _deliver(setter, value):
+        if not fut.done():
+            setter(value)
+
+    def _runner():
+        try:
+            result = fn()
+        except BaseException as exc:                                   # noqa: BLE001
+            loop.call_soon_threadsafe(_deliver, fut.set_exception, exc)
+        else:
+            loop.call_soon_threadsafe(_deliver, fut.set_result, result)
+
+    threading.Thread(target=_runner, name="openrouter-call", daemon=True).start()
+    return await fut
 
 
 def from_env() -> OpenRouterClient:

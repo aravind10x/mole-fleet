@@ -61,6 +61,9 @@ Tuning surface (env vars, all optional):
   LLM_RETRY_JITTER               default 0.3 (±30 %)
   LLM_RETRY_ON_EMPTY             "0" to disable the empty-body-200 retry;
                                  anything else (default) leaves it on.
+  LLM_RETRY_MAX_DEADLINE_ATTEMPTS default 3: the OpenRouter per-call deadline error
+                                 (CallDeadlineError) is retried at most this many times
+                                 per call regardless of LLM_RETRY_MAX_ATTEMPTS.
 """
 from __future__ import annotations
 
@@ -96,6 +99,11 @@ class RetryPolicy:
     # so the emptiness check (see `_is_empty_completion`) also requires no tool
     # call, else we'd retry every tool-calling turn forever.
     retry_on_empty: bool = True
+    # The per-call deadline error (CallDeadlineError, OpenRouter client) is retried at most
+    # this many times per call, whatever max_attempts says: a request that hung three times
+    # will hang a fourth, and an unlimited (or 40 x 10 min) wait on it would hold a whole
+    # generated day. The session then dies as an llm_error. Env LLM_RETRY_MAX_DEADLINE_ATTEMPTS.
+    max_deadline_attempts: int = 3
     # HTTP status codes that signal "try again later". 403 is included
     # because some providers' per-instance completion grant
     # *flaps* — empty-body 403 for a stretch, then it recovers, token still
@@ -113,6 +121,7 @@ class RetryPolicy:
     retry_on_exception_names: tuple[str, ...] = (
         "APIConnectionError",
         "APITimeoutError",
+        "CallDeadlineError",      # mole/llm/openrouter.py: the per-call deadline (capped below)
         "ConnectionError",
         "ReadTimeout",
         "ConnectTimeout",
@@ -133,6 +142,7 @@ def policy_from_env(default: RetryPolicy | None = None) -> RetryPolicy:
             os.environ.get("LLM_RETRY_MAX_BACKOFF_S", d.max_backoff_s),
         ),
         jitter=float(os.environ.get("LLM_RETRY_JITTER", d.jitter)),
+        max_deadline_attempts=int(os.environ.get("LLM_RETRY_MAX_DEADLINE_ATTEMPTS", d.max_deadline_attempts)),
         retry_on_status=d.retry_on_status,
         retry_on_codes=d.retry_on_codes,
         retry_on_exception_names=d.retry_on_exception_names,
@@ -264,6 +274,7 @@ class RetryingLLMClient:
         cap = "unlimited" if unlimited else str(self._policy.max_attempts)
         attempts = itertools.count() if unlimited else range(self._policy.max_attempts)
         last_exc: BaseException | None = None
+        deadline_hits = 0
         for attempt in attempts:
             try:
                 resp = await self._inner.complete(
@@ -274,6 +285,13 @@ class RetryingLLMClient:
                 last_exc = exc
                 if not is_retryable(exc, self._policy):
                     raise
+                if type(exc).__name__ == "CallDeadlineError":
+                    deadline_hits += 1
+                    if deadline_hits >= max(1, self._policy.max_deadline_attempts):
+                        logger.warning(
+                            "LLM complete() hit the per-call deadline %d times; giving up on "
+                            "this call (the session dies as an llm_error): %r", deadline_hits, exc)
+                        raise
                 # Bounded policy on its last attempt? re-raise the original.
                 # Unlimited never gives up on a *retryable* failure.
                 if not unlimited and attempt + 1 >= self._policy.max_attempts:
