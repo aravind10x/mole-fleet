@@ -90,7 +90,7 @@ reserved_honest_accounts:
 - yuki.k38
 
 generation:
-  parent_snapshot: data/corpus/spike/prefix_rw_v2b.jsonl   # world-one honest prefix day 3 (2026-04-08): prefix_rw_v2b continues prefix_rw_v2 from its day 1 (days 2 and 3 branched after the day-1 instrument stop fired on a check defect; prefix-rw-v2.md) (brief 07e E5: the restart of prefix_rw_v1 on the world with E1 edit tools, E2 retention and bank v6; prefix-rw-v2.md); a dependency, not produced here. Re-pointed from prefix_rw_v1b by brief 07e E6 on 2026-10-22.
+  parent_snapshot: data/corpus/spike/prefix_rw_v2c.jsonl   # world-one honest prefix day 3 (2026-04-08): prefix_rw_v2c is day 3, branched from prefix_rw_v2b day 2 after v2b hung on one provider request; v2b continues prefix_rw_v2 from its day 1 (prefix-rw-v2.md) (brief 07e E5: the restart of prefix_rw_v1 on the world with E1 edit tools, E2 retention and bank v6; prefix-rw-v2.md); a dependency, not produced here. Re-pointed from prefix_rw_v1b by brief 07e E6 on 2026-10-22.
   personas: nina.t73,wei.o108,ben.c11,zoe.c36,deepa.a1,wei.n2,julian.x,liam.h93,deepa.a7,priya.a84,alice.kim,sam.w71,dan.r,zoe.w57,noah.g102,wei.i46,paul.k53,tom.k51,kofi.o52,yuki.k38
   days: 5
   sessions_per_day: 2
