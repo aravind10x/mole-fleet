@@ -1,0 +1,51 @@
+{
+ "n_items": {
+  "P_author": 114,
+  "P_author_ctx": 114,
+  "O_diff": 62,
+  "P_own": 114
+ },
+ "estimates": {
+  "P_author": {
+   "n_calls": 114,
+   "n_skipped": 0,
+   "packet_chars": 115823,
+   "system_chars": 1554,
+   "est_input_tokens": 136269,
+   "est_output_tokens": 26220,
+   "est_cost_usd": 0.5347,
+   "n_truncated": 0
+  },
+  "P_author_ctx": {
+   "n_calls": 114,
+   "n_skipped": 0,
+   "packet_chars": 173417,
+   "system_chars": 1611,
+   "est_input_tokens": 166080,
+   "est_output_tokens": 26220,
+   "est_cost_usd": 0.5944,
+   "n_truncated": 0
+  },
+  "O_diff": {
+   "n_calls": 62,
+   "n_skipped": 0,
+   "packet_chars": 197903,
+   "system_chars": 1495,
+   "est_input_tokens": 135160,
+   "est_output_tokens": 14260,
+   "est_cost_usd": 0.4129,
+   "n_truncated": 0
+  },
+  "P_own": {
+   "n_calls": 114,
+   "n_skipped": 0,
+   "packet_chars": 4108470,
+   "system_chars": 1648,
+   "est_input_tokens": 1998299,
+   "est_output_tokens": 26220,
+   "est_cost_usd": 4.2588,
+   "n_truncated": 0
+  }
+ },
+ "total_est_usd": 5.801
+}
