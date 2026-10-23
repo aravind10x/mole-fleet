@@ -12,7 +12,8 @@ FORK = HERE.parent / "mole-fork" / "scripts" / "stage3"
 FILES = ["stage3_views.py", "test_stage3_views.py", "stage3_thresholds.py", "test_stage3_thresholds.py",
          "stage3_t1.py", "test_stage3_t1.py", "stage3_t1_score.py", "test_stage3_t1_score.py",
          "stage3_views_seal.py", "score_fork_corpus.py", "score_o_composed.py", "test_score_o_composed.py",
-         "test_scope_amendment_f26.py", "test_fork_copies_identical.py"]
+         "test_scope_amendment_f26.py", "test_fork_copies_identical.py",
+         "stage3_t1v2_checks.py", "test_stage3_t1v2_checks.py"]
 
 
 @pytest.mark.parametrize("name", FILES)
