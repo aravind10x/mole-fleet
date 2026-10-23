@@ -104,7 +104,8 @@ generation:
   fallback_key: 2                  # key 2 stays set as the client's rotation target on a 402 / key-limit 403 (Aravind's rule, 21 Oct)
   model: moonshotai/kimi-k2.6
   extra_flags: [--multi-day, --objective-carrier, benign, --task-bank,
-                results/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml]
+                results/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml,
+                --redundant-role-sessions]   # dated change 2026-10-23 (design 11.12(g), brief 07f B7): both sessions of a role's day carry the role's objective (the scenario side answered yes through the barrier on 2026-10-23, red-pilot-questions.md); role order, windows, draw and roster unchanged; sixteen scenario sessions expected over the pilot (eight role-days x two sessions, presence permitting)
   env:
     LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
     NPC_AGENTIC_ENVS: org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store

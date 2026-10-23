@@ -334,6 +334,11 @@ def main(argv: list[str] | None = None) -> int:
                          "insider template + elicitation prefix) or 'benign' (the honest rich "
                          "template with the objective as one standing agenda item; Stage 3 "
                          "leak repair, L13).")
+    ap.add_argument("--redundant-role-sessions", action="store_true",
+                    help="Stage 3 design 11.12(g) (brief 07f B7): every session of a coalition "
+                         "role's scheduled day carries the role's objective (both sessions of the "
+                         "day), instead of exactly one; role order, windows and the day draw are "
+                         "unchanged. Recorded in the manifest.")
     ap.add_argument("--task-bank", default=None,
                     help="Agentic lab mode: draw honest tasks from this bank file instead "
                          "of bootstrap/benign_task_bank_v2.yaml (Stage 3: the class bank, "
@@ -555,6 +560,7 @@ def main(argv: list[str] | None = None) -> int:
         elicit=not args.no_elicitation,
         objective_carrier=args.objective_carrier,
         elicit_share=args.elicit_share,
+        redundant_role_sessions=args.redundant_role_sessions,
         task_bank_path=args.task_bank,
         class_documents=args.class_documents,
         allowed_persona_ids=persona_filter,

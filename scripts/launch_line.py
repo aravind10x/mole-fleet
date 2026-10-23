@@ -214,6 +214,9 @@ def build_expected_plan(assignment: str | Path, branch_id: str | None) -> dict:
         "honest": _is_honest(doc),
         "task_bank": _flag_value(gen, "--task-bank"),
         "class_documents": "--class-documents" in [str(f) for f in gen.get("extra_flags") or []],
+        # 11.12(g) redundancy (brief 07f B7): scenario sessions per role-day = every kept slot of
+        # the account on its day when the flag is on, else exactly one.
+        "redundant_role_sessions": "--redundant-role-sessions" in [str(f) for f in gen.get("extra_flags") or []],
         "parent": gen.get("parent_snapshot"),
         "roster": roster,
         "seed": _seed_for(gen, branch_id),
@@ -377,6 +380,7 @@ def expected_presence(expected: dict, seed: int | None, dates: list[str]) -> dic
     out: dict[str, dict] = {}
     for d in dates:
         acts, present, planned = set(), set(), 0
+        slots: dict[str, int] = {}
         if seed is not None:
             for i, acct in enumerate(order):
                 mask = day_presence(int(seed) + i, d, config, sessions)
@@ -387,7 +391,8 @@ def expected_presence(expected: dict, seed: int | None, dates: list[str]) -> dic
                 planned += kept
                 if kept:
                     acts.add(acct)
-        out[d] = {"acts": acts, "present": present, "planned_sessions": planned}
+                    slots[acct] = kept
+        out[d] = {"acts": acts, "present": present, "planned_sessions": planned, "slots": slots}
     return out
 
 
@@ -557,6 +562,19 @@ def _agentic_rows(expected: dict, manifest: dict,
             rows.append((f"day {day} attack sessions planned",
                          d.get("attack_sessions_planned") == 0,
                          f"{d.get('attack_sessions_planned')} (honest generation: 0)"))
+        elif presence is not None and day in presence:
+            # 11.12(g) redundancy (brief 07f B7): the scenario sessions the day carries are the
+            # kept slots of every role whose planned day it is (one per role without the flag).
+            want_atk = 0
+            for inst in (manifest.get("coalitions") or {}).get("instances") or []:
+                for rr in inst.get("roles") or []:
+                    if _planned_day(rr) == day:
+                        want_atk += (presence[day].get("slots", {}).get(rr.get("account"), 1)
+                                     if expected.get("redundant_role_sessions") else 1)
+            rows.append((f"day {day} attack sessions planned (scenario sessions)",
+                         d.get("attack_sessions_planned") == want_atk,
+                         f"{d.get('attack_sessions_planned')} vs {want_atk} expected "
+                         f"({'redundancy: every kept slot of a role on its day' if expected.get('redundant_role_sessions') else 'one per role-day'})"))
         rows.append((f"day {day} snapshot and managers", bool(d.get("snapshot_ok"))
                      and bool(d.get("managers_ok")),
                      f"snapshot_ok {d.get('snapshot_ok')}, managers_ok {d.get('managers_ok')}"))
@@ -636,15 +654,27 @@ def presence_plan(plan: dict, start_date: str) -> dict:
     days = {d: {"acting": sorted(pres[d]["acts"]), "absent": sorted(set(plan["roster"]) - pres[d]["present"]),
                 "planned_sessions": pres[d]["planned_sessions"]} for d in dates}
     roles = []
+    redundant = bool(plan.get("redundant_role_sessions"))
     for inst in plan["instances"]:
         for r in inst["roles"]:
             lo, hi = r["day_range"]
             slice_dates = dates[lo - 1: hi]
+            acting = [d for d in slice_dates if r["account"] in pres[d]["acts"]]
+            # scenario sessions the role's day carries: with redundancy every kept slot of the
+            # account that day (11.12(g)); without it exactly one. Per acting day, since the
+            # planner draws one of them.
+            per_day = {d: (pres[d]["slots"].get(r["account"], 1) if redundant else 1) for d in acting}
             roles.append({"instance": inst["id"], "role": r["role"], "account": r["account"],
-                          "slice": slice_dates,
-                          "acting_days": [d for d in slice_dates if r["account"] in pres[d]["acts"]]})
+                          "slice": slice_dates, "acting_days": acting,
+                          "scenario_sessions_per_acting_day": per_day})
+    # Expected scenario sessions over the run: one acting day per role; the planner's draw picks
+    # which, so the total is a range when redundancy makes the per-day counts differ.
+    lo_total = sum(min(r["scenario_sessions_per_acting_day"].values(), default=0) for r in roles)
+    hi_total = sum(max(r["scenario_sessions_per_acting_day"].values(), default=0) for r in roles)
     return {"start_date": start_date, "dates": dates, "days": days, "roles": roles,
-            "total_planned_sessions": sum(v["planned_sessions"] for v in days.values())}
+            "total_planned_sessions": sum(v["planned_sessions"] for v in days.values()),
+            "redundant_role_sessions": redundant,
+            "scenario_sessions_expected": [lo_total, hi_total]}
 
 
 def _print_presence(plan: dict, start_date: str) -> None:
@@ -663,7 +693,12 @@ def _print_presence(plan: dict, start_date: str) -> None:
     for r in pp["roles"]:
         tag = "OK" if r["acting_days"] else "NO ACTING DAY IN SLICE: the planner will refuse"
         print(f"    {r['instance']} {r['role']:<9} {r['account']:<12} slice {r['slice']} "
-              f"acts on {r['acting_days']}  [{tag}]")
+              f"acts on {r['acting_days']}  [{tag}]"
+              + (f"  scenario sessions on its day: {r['scenario_sessions_per_acting_day']}"
+                 if pp["redundant_role_sessions"] else ""))
+    lo, hi = pp["scenario_sessions_expected"]
+    print(f"    scenario sessions expected over the run: {lo if lo == hi else f'{lo} to {hi}'} "
+          f"({'redundancy on: every kept slot of a role on its day' if pp['redundant_role_sessions'] else 'one per role-day'})")
 
 
 def _print_expected(plan: dict, start_date: str | None = None) -> None:

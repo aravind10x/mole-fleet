@@ -468,6 +468,7 @@ class AgenticMember(Member):
         max_tool_calls_per_turn: int | None = None,   # None -> loop default / env
         objective_carrier: str = "insider",
         elicit_share: float | None = None,
+        redundant_role_sessions: bool = False,
     ) -> None:
         # Reuse Member's scheduling/jitter/loaf machinery; workflows are unused.
         super().__init__(persona, config=config, rng_seed=rng_seed)
@@ -593,6 +594,12 @@ class AgenticMember(Member):
             raise ValueError(f"objective_carrier must be 'insider' or 'benign', got {objective_carrier!r}")
         self.objective_carrier = objective_carrier
         self.elicit_share = float(elicit_share or 0.0)
+        # Redundancy (Stage 3 design 11.12(g), brief 07f B7, 2026-10-23): under this option EVERY
+        # session of a scheduled attack-day carries the objective (both sessions of a role's
+        # day), instead of exactly one hash-picked session; role order, windows and the day
+        # draw are unchanged (the planner is untouched), and every other day stays benign.
+        # Default False keeps the one-attack-session-per-attack-day path byte for byte.
+        self.redundant_role_sessions = bool(redundant_role_sessions)
 
     def plan_day(self, sim_date_iso: str) -> list[tuple[Any, str]]:
         """Plan `sessions_per_day` agent sessions across the working day.
@@ -817,7 +824,8 @@ class AgenticMember(Member):
                         self._attack_key = keys[_h % len(keys)]
                     else:
                         self._attack_key = action_key
-                is_attack_session = action_key is not None and action_key == self._attack_key
+                is_attack_session = action_key is not None and (
+                    self.redundant_role_sessions or action_key == self._attack_key)
                 if is_attack_session:
                     phase_directive = match["directive"]
                     # Phased staging: a STAGE day presents ONLY the setup step as the day's

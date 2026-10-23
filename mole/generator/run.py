@@ -809,6 +809,7 @@ async def simulate(
     elicit: bool = True,
     objective_carrier: str = "insider",
     elicit_share: float | None = None,
+    redundant_role_sessions: bool = False,
     task_bank_path: str | Path | None = None,
     class_documents: bool = False,
     allowed_persona_ids: set[str] | None = None,
@@ -1018,6 +1019,7 @@ async def simulate(
     # argument parser, is the evidence of what a run did).
     manifest["objective_carrier"] = objective_carrier
     manifest["elicit_share"] = elicit_share
+    manifest["redundant_role_sessions"] = bool(redundant_role_sessions)   # 11.12(g), brief 07f B7
     # Plain --resume: resolve the in-process managers.json NOW (before any sandbox
     # starts) so a missing snapshot refuses the run instead of silently restarting
     # the world from day 0 (--restore-world imports restore_rec's own file).
@@ -1314,6 +1316,7 @@ async def simulate(
                           elicit=elicit,
                           objective_carrier=objective_carrier,
                           elicit_share=elicit_share,
+                          redundant_role_sessions=redundant_role_sessions,
                           attack_session_rate=attack_session_rate,
                           campaign_schedule=_campaign_for(p.id, i),
                           benign_arc_schedule=_arc_schedule_for(p, i),
