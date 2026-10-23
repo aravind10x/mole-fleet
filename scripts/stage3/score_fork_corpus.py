@@ -27,6 +27,18 @@ writes <out minus .parquet>.smoke.json with the extrapolation and NO parquet.
 --dry-run builds every packet and prints the count, chars and a cost estimate; no client is
 built and nothing is called or written.
 
+--view VIEW (Stage 3 design 11.12(b), brief 07f B2; default P_legacy = this script as G0e ran it,
+byte-identical packets). P_own / P_ctx: the account-day packet under the SHARED harm text
+(stage3_views.py), each ownCloud edit rendered as the account sent it, the audit layer's `edit`
+block dropped and, for P_own, the whole-document `content` dropped too; parquet + meta as for
+P_legacy, labels "<stem>:<view>:<account>/<date>", one judge cache per view (the cache file
+name must carry the view). P_author: one packet per (author, class document) over the corpus
+days (`--author-unit author-day` for the robustness units), the author's own changes as diff
+hunks with `--context N` lines (0 = none); writes --out as JSON {meta, summary, rows}.
+`--base seed|<parent corpus .jsonl>` is the documents' day-0 state (the class seeder's content,
+or the parent's end state for a branched corpus); `--authors a,b` restricts P_author to those
+accounts.
+
 --whole-key KEY (repeatable; Stage 3 S5.1) lifts the renderer's 4,000-char per-argument cap for
 KEY (account_history.whole_key_set), e.g. `--whole-key content` for an ownCloud/GitLab target
 document or `--whole-key description --whole-key body` for plane, so P renders the target
@@ -63,6 +75,7 @@ from judge_client import (  # noqa: E402
     JudgeClient, cache_key, get_render_event, p_packet,
 )
 import score_expensive_tier as set_  # noqa: E402  (shared table/cache helpers)
+import stage3_views as sv  # noqa: E402  (the shared-harm views, brief 07f B2)
 
 VIEW = set_.VIEW                                    # "P"
 PARQUET_COLUMNS = set_.PARQUET_COLUMNS + ["n_events"]
@@ -194,6 +207,8 @@ def score_distribution(rows: list[dict]) -> dict:
 # ── run ──────────────────────────────────────────────────────────────────
 
 async def amain(ns, client_factory: Callable[..., JudgeClient] = JudgeClient) -> int:
+    if getattr(ns, "view", "P_legacy") != "P_legacy":
+        return await amain_view(ns, client_factory)
     t_start = time.time()
     corpus = Path(ns.corpus)
     if not corpus.is_absolute() or not corpus.exists():
@@ -301,6 +316,115 @@ async def amain(ns, client_factory: Callable[..., JudgeClient] = JudgeClient) ->
     return 0
 
 
+# ── the shared-harm views (brief 07f B2) ─────────────────────────────────
+
+def view_base(ns, rows: list[dict]) -> dict:
+    """`--base seed` -> the class seeder's day-0 content; a parent corpus path -> its class
+    documents' state at the end of its last day (a branched corpus), through the reader."""
+    b = getattr(ns, "base", None) or "seed"
+    if b == "seed":
+        return sv.seed_base()
+    parent = Path(b)
+    if not parent.is_absolute() or not parent.exists():
+        raise SystemExit(f"--base must be 'seed' or an existing absolute parent corpus: {b}")
+    prow = sv.read_jsonl(parent)
+    return sv.corpus_end_base(prow, sv.corpus_days(prow)[-1])
+
+
+def build_view_items(view: str, stem: str, keys, day_idx, rows, render_event=None) -> list[dict]:
+    """P_own / P_ctx account-day items (same units as the legacy view)."""
+    render_event = render_event or get_render_event()
+    items = []
+    for a, d in keys:
+        r = rows[(a, d)]
+        pk, trunc = sv.p_packet(view, render_event, a, d, r)
+        label = f"{stem}:{view}:{a}/{d}"
+        items.append({"account": a, "date": d, "day_index": day_idx[d], "label": label,
+                      "packet": pk, "truncated": bool(trunc), "n_events": len(r),
+                      "key": cache_key(view, label, pk)})
+    return items
+
+
+async def amain_view(ns, client_factory: Callable[..., JudgeClient] = JudgeClient) -> int:
+    t_start = time.time()
+    view, context = ns.view, int(getattr(ns, "context", 0) or 0)
+    if view not in ("P_own", "P_ctx", "P_author"):
+        raise SystemExit(f"--view must be P_legacy, P_own, P_ctx or P_author, got {view!r}")
+    if context and view != "P_author":
+        raise SystemExit("--context applies to --view P_author only")
+    corpus = Path(ns.corpus)
+    if not corpus.is_absolute() or not corpus.exists():
+        raise SystemExit(f"--corpus must be an existing absolute path: {corpus}")
+    stem = sv.stem_of(corpus)
+    model = set_.resolve_model(ns.model)
+    if model not in PRICES:
+        raise SystemExit(f"no price for model {model!r}")
+    out, cache_path = Path(ns.out), Path(ns.cache)
+    batch_log_path = Path(ns.batch_log) if ns.batch_log else out.parent / "judge-batches.jsonl"
+    events, skipped = read_jsonl(corpus)
+    days = sv.corpus_days(events)
+    mstat = manifest_status(corpus)
+    if view == "P_author":
+        base = view_base(ns, events)
+        paths = sv.class_doc_paths()
+        authors = [a for a in (getattr(ns, "authors", None) or "").split(",") if a] or None
+        units = sv.author_units(events, paths, days, base, getattr(ns, "author_unit", "pair") or "pair",
+                                authors=authors)
+        items = sv.author_items(stem, units, context)
+    else:
+        keys, day_idx, rows_by_key = account_days(events)
+        items = build_view_items(view, stem, keys, day_idx, rows_by_key, getattr(ns, "render_event", None))
+    system = sv.system_prompt(view, context)
+    est = sv.estimate(items, system, model)
+    print(f"view={sv.view_key(view, context)} model={model} corpus={corpus} units={len(items)} "
+          f"days={days} packet_chars={est['packet_chars']:,} truncated={est['n_truncated']} "
+          f"estimate ${est['est_cost_usd']:.2f}", file=sys.stderr)
+    if ns.dry_run:
+        print(json.dumps({"dry_run": True, "corpus": str(corpus), "model": model, "view": view,
+                          "context": context, "n_units": len(items), "n_dates": len(days),
+                          **sv.prompt_record(view, context), **est}))
+        return 0
+    jc = sv.make_client(view, cache_path, model, context=context, concurrency=ns.concurrency,
+                        rpm=ns.rpm, spend_cap_usd=ns.spend_cap_usd, client_factory=client_factory)
+    recs, aborted = await sv.score_items(jc, items, view, context)
+    jc.batch_log(batch_log_path, note=f"score_fork_corpus {sv.view_key(view, context)} {stem}"
+                                      + (" ABORTED" if aborted else ""))
+    rows = [sv.to_row(it, recs.get(it["key"])) for it in items]
+    summ = sv.summarise(rows)
+    meta = {**sv.meta_common(view, context, model, jc),
+            "corpus": str(corpus), "corpus_stem": stem, "corpus_manifest": mstat,
+            "corpus_sha256": sv.file_sha256(corpus), "n_events": len(events),
+            "n_skipped_lines": skipped, "n_dates": len(days), "days": days,
+            "base": getattr(ns, "base", None) or "seed",
+            "author_unit": getattr(ns, "author_unit", None) if view == "P_author" else None,
+            "cache": str(cache_path), "batch_log": str(batch_log_path), "estimate": est,
+            "n_units": len(items), "n_rows": len(rows), "aborted": aborted,
+            "complete": aborted is None and all(r["outcome"] == "scored" for r in rows),
+            "summary": summ, "defect_check": sv.defect_check(summ, packets_ok=est["n_truncated"] == 0),
+            "script": str(Path(__file__).resolve()),
+            "script_sha256": set_.sha256_file(Path(__file__).resolve()),
+            "wall_clock_s": round(time.time() - t_start, 1)}
+    out.parent.mkdir(parents=True, exist_ok=True)
+    if view == "P_author":
+        out.write_text(json.dumps({"meta": meta, "summary": summ, "rows": rows}, indent=1, default=str),
+                       encoding="utf-8")
+    else:
+        frame_rows = [{**r, "packet_truncated": bool(r.get("truncated")), "cache_read_tokens": 0,
+                       "provider": PROVIDER, "region": jc.region, "score": (math.nan if r.get("score") is None else float(r["score"]))}
+                      for r in rows]
+        make_frame(frame_rows).to_parquet(out, index=False)
+        meta["view"] = view
+        meta["out"] = str(out)
+        set_.sibling(out, ".meta.json").write_text(json.dumps(meta, indent=1, default=str), encoding="utf-8")
+    print(f"wrote {out}: {summ['by_outcome']}, ${summ['dollars_total']:.2f} in records; "
+          f"scores min/median/p95/max = {summ.get('min')}/{summ.get('median')}/{summ.get('p95')}/{summ.get('max')}",
+          file=sys.stderr)
+    if aborted:
+        print(f"ABORTED: {aborted}", file=sys.stderr)
+        return 1
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--corpus", required=True, help="absolute path to the fork audit .jsonl")
@@ -316,6 +440,15 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--batch-log", default=None, help="default <out dir>/judge-batches.jsonl")
     ap.add_argument("--whole-key", action="append", default=[], metavar="KEY",
                     help="arg key rendered without the 4,000-char cap (repeatable), e.g. content")
+    ap.add_argument("--view", choices=("P_legacy", "P_own", "P_ctx", "P_author"), default="P_legacy",
+                    help="Stage 3 11.12(b) view (default: the legacy release judge, unchanged)")
+    ap.add_argument("--context", type=int, default=0,
+                    help="P_author: surrounding lines per change (0 = the instrument, 3 = the variant)")
+    ap.add_argument("--author-unit", choices=("pair", "author-day"), default="pair",
+                    help="P_author unit: (author, document) over the corpus days, or per day")
+    ap.add_argument("--authors", default=None, help="P_author: comma-separated accounts to restrict to")
+    ap.add_argument("--base", default="seed",
+                    help="documents' day-0 state: 'seed' (the class seeder) or a parent corpus path")
     return ap
 
 
