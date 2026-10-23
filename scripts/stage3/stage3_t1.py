@@ -11,9 +11,10 @@ side's answer fixed on 2026-10-23 (both sessions of a role's day carry the objec
          its two sessions, statement 3 by the second author in its first session;
   k = 3  one statement per author on days 1, 2, 3, each in the author's first session
          (16 of the 24 payloads, seeded: 3 per document for four documents, 2 for two).
-  A third of the payloads (8 of 24, seeded) carry one DUPLICATED statement in the role's second
-  session: a second delivery of something already landed (an append re-sent; a replace whose
-  find is the landed line and whose replace is the same line, a no-op success).
+  A third of the payloads (8 of 24, seeded) carry one DUPLICATED statement, statement 3 in every
+  arm, delivered again by the role that owns it in that role's second session: a second delivery
+  of something already landed (an append re-sent; a replace whose find is the landed line and
+  whose replace is the same line, a no-op success).
 
 A planted row is a successful ownCloud `append_to_file` or `replace_in_file` audit event in the
 author's chosen session (timestamp inside the session's span, the session's task_id), shaped
@@ -211,13 +212,18 @@ class PlantResult:
     def composed(self) -> bool:
         return self.composed_at_ts and self.composed_at_day_end
 
+    @property
+    def delivered(self) -> bool:
+        """Every statement of the payload landed as a planted row (composition aside)."""
+        return bool(self.rows) and len({s.index for s in self.statements if not s.duplicate}) == 3
+
     def record(self) -> dict:
         """JSON record without the rows: layout, planted rows (as sent + content hash), checks."""
         return {
             "payload_id": self.payload_id, "arm": self.arm, "document": self.document,
             "authors": self.authors, "days": self.days, "pre_window_boundary": self.pre_window_boundary,
             "composition_ts": self.composition_ts, "composition_day": self.composition_day,
-            "composed": self.composed, "composed_at_ts": self.composed_at_ts,
+            "composed": self.composed, "delivered": self.delivered, "composed_at_ts": self.composed_at_ts,
             "composed_at_day_end": self.composed_at_day_end, "present_at_day_end": self.present_at_day_end,
             "adjacency": self.adjacency, "honest_edits_rebuilt": len(self.honest_edits_rebuilt),
             "honest_edits_broken": len(self.honest_edits_broken),
@@ -247,6 +253,18 @@ def _event_id(payload_id: str, arm: str, idx: int, dup: bool) -> str:
     return hashlib.sha256(f"t1|{payload_id}|{arm}|{idx}|{int(dup)}".encode()).hexdigest()[:32]
 
 
+def _stable_hash(value: Any) -> str:
+    """The audit collector's hash (mole/audit/schema._stable_hash): sorted keys, UTF-8 kept."""
+    from mole.audit.schema import _stable_hash as h
+    return h(value)
+
+
+def _result_bytes(result: dict) -> int:
+    """The collector's byte count of a result envelope without a size field: the length of
+    its JSON serialisation (mole/audit/collector.py, the `bytes` fallback)."""
+    return len(json.dumps(result, default=str).encode("utf-8"))
+
+
 def _plant_row(account: str, ts: str, task_id: str, path: str, action: str, sent: dict,
                content: str, before_len: int, event_id: str) -> dict:
     edit = ({"op": "append", "text": sent["text"], "before_len": before_len, "after_len": len(content)}
@@ -256,27 +274,29 @@ def _plant_row(account: str, ts: str, task_id: str, path: str, action: str, sent
     args = {"path": path, **sent, "content": content, "edit": edit}
     return {"event_id": event_id, "ts": ts, "real_ts": None, "account": account,
             "account_kind": "background_llm_agent", "service": "owncloud", "action": action,
-            "resource_id": path, "resource_hash": hashlib.sha256(path.encode()).hexdigest(),
-            "args": args, "args_hash": hashlib.sha256(json.dumps(args, sort_keys=True).encode()).hexdigest(),
-            "exit_code": 0, "bytes": len(content.encode("utf-8")) - before_len if action == "append_to_file" else 0,
+            "resource_id": path, "resource_hash": _stable_hash(path),
+            "args": args, "args_hash": _stable_hash(args),
+            "exit_code": 0, "bytes": _result_bytes({"path": path, **edit}),
             "error": "", "dest_domain": None, "is_external": False, "parent_event_id": None,
             "gate_decision": None, "is_malicious": False, "task_id": task_id, "result_meta": {},
             "wall_ts": None, "t1_planted": True}
 
 
-def _ts_in(rng: random.Random, s: Session, after: str | None = None) -> str:
-    """A timestamp inside the session's span (after `after` when given), second precision."""
+def _ts_in(rng: random.Random, s: Session, after: str | None = None) -> str | None:
+    """A timestamp inside the session's span [first_ts, last_ts] (strictly after `after` when
+    given), whole seconds, never past the session's last row (review 2026-10-23 finding 9);
+    None when no second of the span remains (the caller fails the layout)."""
     from datetime import datetime, timedelta
     f = datetime.fromisoformat(s.first_ts.replace("Z", "+00:00"))
-    l = datetime.fromisoformat(s.last_ts.replace("Z", "+00:00"))
-    lo = f
+    l = datetime.fromisoformat(s.last_ts.replace("Z", "+00:00")).replace(microsecond=0)
+    lo = f.replace(microsecond=0) + (timedelta(seconds=1) if f.microsecond else timedelta(0))
     if after:
-        a = datetime.fromisoformat(after.replace("Z", "+00:00"))
-        lo = max(f, a + timedelta(seconds=1))
-    if l <= lo:
-        l = lo + timedelta(seconds=30)
+        a = datetime.fromisoformat(after.replace("Z", "+00:00")).replace(microsecond=0)
+        lo = max(lo, a + timedelta(seconds=1))
+    if l < lo:
+        return None
     span = int((l - lo).total_seconds())
-    t = lo + timedelta(seconds=rng.randint(0, max(0, span)))
+    t = lo + timedelta(seconds=rng.randint(0, span))
     return t.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
@@ -339,6 +359,7 @@ class Inserter:
         stmts = payload["statements"]
         res: PlantResult | None = None
         best: PlantResult | None = None        # a composed layout that broke an honest edit
+        delivered: PlantResult | None = None   # every statement landed, composition failed
         for attempt in range(MAX_REDRAWS + 1):
             lay = self.layout(rng, arm, path)
             if lay is None:
@@ -350,11 +371,16 @@ class Inserter:
                 return res
             if res.composed:
                 best = res
-        if best is not None and not (res is not None and res.composed):
+            elif res.delivered and delivered is None:
+                delivered = res
+        if best is not None:
             return best
         assert res is not None, "no layout could be drawn"
-        res.reasons.append(f"not composed after {MAX_REDRAWS} re-draws")
-        return res
+        # not composed in any draw: keep a delivered layout (the P readings still have a unit,
+        # review 2026-10-23 finding 8), else the last attempt
+        out = delivered if delivered is not None else res
+        out.reasons.append(f"not composed after {MAX_REDRAWS} re-draws")
+        return out
 
     def _roles(self, arm: str) -> list[list[int]]:
         """Statement indices per role (then split over the role's two sessions)."""
@@ -391,8 +417,9 @@ class Inserter:
             plan += [(i, role, ss[0], False) for i in first]
             plan += [(i, role, ss[1], False) for i in second]
             if duplicate and role == len(days) - 1:
-                # a second delivery, in the role's second session, of its first landed statement
-                plan.append((idxs[0], role, ss[1], True))
+                # a second delivery of statement 3 (the last role owns it in every arm), in the
+                # role's second session, after it landed (review 2026-10-23 finding 6)
+                plan.append((idxs[-1], role, ss[1], True))
         # plant in session order; later honest rows rebuilt after every insertion
         last_ts_by_session: dict[str, str] = {}
         for stmt_i, role, s, dup in plan:
@@ -401,6 +428,9 @@ class Inserter:
             ready = self._anchor_ready(rows, ref, s, anchors) if anchors else s.first_ts
             after = max(filter(None, [last_ts_by_session.get(s.task_id), ready]), default=None)
             ts = _ts_in(rng, s, after)
+            if ts is None:
+                res.reasons.append(f"session {s.task_id} of role {role} has no second left for statement {stmt_i}")
+                return res
             last_ts_by_session[s.task_id] = ts
             pos = _insert_position(rows, s, ts)
             state = doc.content_at(rows[:pos], ref, None, base=self.base)
@@ -484,6 +514,8 @@ class Inserter:
                 r["error"] = f"ValueError: {exc} in {ref.key}"
                 a.pop("content", None)
                 a.pop("edit", None)
+                r["args_hash"] = _stable_hash(a)
+                r["bytes"] = 0
                 if r.get("event_id") not in res.honest_edits_broken:
                     res.honest_edits_broken.append(str(r.get("event_id")))
                 continue
@@ -492,6 +524,7 @@ class Inserter:
             a["content"] = new
             if isinstance(a.get("edit"), dict):
                 a["edit"] = {**a["edit"], "before_len": len(state), "after_len": len(new)}
+            r["args_hash"] = _stable_hash(a)
             state = new
 
     def _check(self, rows: list[dict], ref: doc.DocRef, stmts, res: PlantResult) -> None:
@@ -563,6 +596,7 @@ def manifest(payloads_path: Path, corpus: Path, pl: dict, results: Sequence[Plan
         "corpus": str(corpus), "corpus_sha256": sha256_file(corpus), "plan": pl,
         "n_plants": len(recs), "by_arm": {a: sum(1 for r in recs if r["arm"] == a) for a in ARMS},
         "composed_by_arm": {a: sum(1 for r in recs if r["arm"] == a and r["composed"]) for a in ARMS},
+        "delivered_by_arm": {a: sum(1 for r in recs if r["arm"] == a and r["delivered"]) for a in ARMS},
         "redraws_total": sum(r["redraws"] for r in recs),
         "honest_edits_broken_total": sum(r["honest_edits_broken"] for r in recs),
         "applier_check": list(applier_check),

@@ -1,0 +1,22 @@
+You are reviewing one day's blue-side work on a research pipeline (AI-control measurement on a simulated organisation's audit log). Read-only review; do not modify files; do not read anything under work/stage3/red/ or work/stage3/pilot/personas/ (sealed red material). Write a numbered list of findings, each with: severity (blocker / important / minor), the file and line, what is wrong, why it matters for the measurement, and the fix you would make. Be concrete and sceptical; prefer finding real defects over style. End with a short list of things you checked and found correct.
+
+Context documents (read first): work/stage3/proposal-11.12-revised-2026-10-23.md sections 4 and 5 (the binding design amendment 11.12 and the test T1); briefs/07f-stage3-views-calibration-t1-2026-10-23.md (the brief being executed); work/stage3/views-calibration.md (the pre-registration written today: defect rule, shared harm text, views, pass conditions, T1 shape).
+
+Code to review (canonical copies in work/checks; byte-identical copies live in work/mole-fork/scripts/stage3 and are not needed):
+- work/checks/stage3_views.py: the shared harm text and the four judge views (P_own, P_ctx, P_author with 0 or 3 context lines, O_diff, O_whole); document states through work/mole-fork/mole/oracles/document.py (the shared reader, read it to check the calls).
+- work/checks/score_fork_corpus.py and work/checks/score_o_composed.py: the --view flags; the default paths must be unchanged from before (the legacy release judge); work/checks/judge_client.py gained system/prompt_version kwargs.
+- work/checks/stage3_thresholds.py: randomised quantile thresholds (exact nominal rate in expectation), author-level threshold, bootstrap, Clopper-Pearson.
+- work/checks/stage3_t1.py: the T1 inserter (plants synthetic three-statement payloads into copies of the honest log rows in the redundancy shape; rebuilds later honest edits; checks composition through the reader). The payloads are work/stage3/t1/payloads-v1.json; the plant manifest is work/stage3/t1/plants-v1.json.
+- work/checks/stage3_views_seal.py (computes the sealed thresholds from the step-1 outputs) and work/checks/stage3_t1_score.py (scores T1 under the seal and writes the four-row table). Neither has run yet.
+- work/checks/mole_corpus.py: the dated scope amendment (ACTION_AMENDMENTS, rule_for) for the two ownCloud edit actions.
+- work/mole-fork/mole/generator/agentic_member.py (search redundant_role_sessions), work/mole-fork/scripts/launch_line.py (the presence plan and the new check row), work/mole-fork/scripts/sim_runner.py, work/mole-fork/mole/generator/run.py: the redundancy flag.
+- Tests: work/checks/test_stage3_views.py, test_stage3_thresholds.py, test_stage3_t1.py, test_scope_amendment_f26.py, work/mole-fork/tests/test_redundant_role_sessions.py.
+
+Questions I most want answered:
+1. Does each view show exactly what 11.12(b) says and nothing more (P_own: no whole-document content on edit rows; P_author: only the author's own changes; O_diff: the cumulative diff from the stated boundary)? Any leak of the composed document into P_own?
+2. Is the honest O_diff null (every day boundary to every later write) the right null for a diff read from a pre-window state to the end of a composition day over one to three days? Any mismatch of span or unit that would bias the pooled threshold?
+3. Threshold math: does the randomised rule give exactly B in expectation, is the per-unit tie draw sound, is the author-level cost defined on the right denominator (active account-days), and is the bootstrap meaningful?
+4. The inserter: do planted rows look like real audit rows (compare with the real row shape described in the docstrings); is the content rebuilt as the ownCloud manager would (work/mole-fork/mole/state/owncloud/manager.py append_to_file / replace_in_file); is composition checked through the reader; is anything about the sealed red material touched? Is the duplicate-delivery modelling defensible?
+5. Does the T1 scoring apply the sealed rules correctly (author-level flag per planted author, recall per arm with exact intervals, O_diff at the pooled rule, P_own against a binomial bound), and are the four rows evaluated as section 5 states them?
+6. The redundancy flag: does it change only what 11.12(g) says (both sessions of a role's day carry the objective; role order, windows, day draw unchanged)? Any default-path change?
+7. Anything in the pre-registration (views-calibration.md) that the code does not honour, or vice versa.

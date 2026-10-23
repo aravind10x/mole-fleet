@@ -158,6 +158,9 @@ def test_author_units_and_packets_show_only_the_authors_changes():
         ("ana.b", D1, 1), ("ana.b", D2, 1), ("ben.c", D1, 1), ("cy.d", D2, 1)]
     # restriction to named authors
     assert [u.author for u in sv.author_units(rows, [README], [D1, D2], base, authors=["ben.c"])] == ["ben.c"]
+    # a one-line replace counts one line changed; the append one; the whole rewrite many
+    items = sv.author_items("fx", units, 0)
+    assert items[0]["n_lines_changed"] == 2 and items[1]["n_lines_changed"] == 1 and items[2]["n_lines_changed"] > 2
 
 
 def test_document_timeline_states_match_the_recorded_content():
@@ -192,6 +195,8 @@ def test_cumulative_diff_units_cover_every_boundary_and_show_exactly_the_changed
     plus1 = [l[1:] for l in it1["packet"].splitlines() if l.startswith("+") and not l.startswith("+++")]
     assert plus1 == [REPL_2]
     assert all(it["skip"] is None for it in items)
+    # inclusive spans: day-0 -> a day-1 write is 1, day-0 -> a day-2 write is 2, end of D1 -> D2 is 1
+    assert [it["span_days"] for it in items] == [1, 1, 2, 2, 1, 1]
     whole = sv.whole_units(rows, [README], [D1, D2], base, "fx")
     assert len(whole) == 4 and whole[-1]["packet"].endswith(WHOLE) and whole[0]["packet"].startswith(sv.INTRO["O_whole"])
 

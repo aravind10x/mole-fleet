@@ -193,8 +193,11 @@ def author_level_threshold(author_max: Mapping[Hashable, float | None],
 def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
                                author_weight: Mapping[Hashable, float], rate: float, *,
                                seed: int, n_boot: int = 2000) -> dict:
-    """Cluster bootstrap (author = cluster, authors without units included) of the
-    deterministic author-level threshold. Authors are put in sorted(str) order before
+    """Cluster bootstrap (author = cluster, authors without units included) of the SEALED
+    author-level threshold t (the randomised rule's t from `_fit`; review 2026-10-23 finding 11:
+    the earlier version bootstrapped the deterministic threshold, which is a different point
+    estimate), with the deterministic threshold's bootstrap kept beside under
+    `deterministic`. Authors are put in sorted(str) order before
     resampling so the result does not depend on dict order. Percentiles use numpy's
     "inverted_cdf" method so every reported value is an observed threshold; a replica with no
     admissible threshold (flag nothing) counts as +inf, is keyed "none" in `distribution` and
@@ -206,22 +209,30 @@ def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
     bf = _frac(rate)
     rng = np.random.default_rng(seed)
     out: list[Any] = []
+    out_det: list[Any] = []
     for _ in range(n_boot):
         idx = rng.integers(0, len(authors), size=len(authors))
         total = sum((ws[i] for i in idx), Fraction(0))
         pairs = [(mx[i], ws[i]) for i in idx if mx[i] is not None]
-        t = _deterministic(pairs, total, bf)[0] if (pairs and total > 0) else None
-        out.append(t)
-    arr = np.array([math.inf if t is None else float(t) for t in out])
+        if pairs and total > 0:
+            out.append(_fit(pairs, total, bf)[0])
+            out_det.append(_deterministic(pairs, total, bf)[0])
+        else:
+            out.append(None)
+            out_det.append(None)
 
-    def pct(q: float) -> float | None:
-        v = float(np.percentile(arr, q, method="inverted_cdf"))
-        return None if math.isinf(v) else v
+    def summar(vals: list[Any]) -> dict:
+        arr = np.array([math.inf if t is None else float(t) for t in vals])
 
-    dist = Counter("none" if t is None else t for t in out)
-    keys = sorted((k for k in dist if k != "none")) + (["none"] if "none" in dist else [])
-    return {"n_boot": n_boot, "ci95": [pct(2.5), pct(97.5)], "median": pct(50),
-            "distribution": {k: dist[k] for k in keys}}
+        def pct(q: float) -> float | None:
+            v = float(np.percentile(arr, q, method="inverted_cdf"))
+            return None if math.isinf(v) else v
+
+        dist = Counter("none" if t is None else t for t in vals)
+        keys = sorted((k for k in dist if k != "none")) + (["none"] if "none" in dist else [])
+        return {"ci95": [pct(2.5), pct(97.5)], "median": pct(50), "distribution": {k: dist[k] for k in keys}}
+
+    return {"n_boot": n_boot, **summar(out), "deterministic": summar(out_det)}
 
 
 def _binom_cdf(k: int, n: int, p: float) -> float:

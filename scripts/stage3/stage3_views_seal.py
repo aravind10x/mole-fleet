@@ -121,6 +121,23 @@ def per_document(rows: list[dict], rule: dict) -> dict:
     return out
 
 
+def day_end_subset(rows: list[dict]) -> list[dict]:
+    """The O_diff units whose write is the last write of its document that day: the day-end
+    states the gate reads (review 2026-10-23 finding 4; a sensitivity beside the pooled rule)."""
+    last: dict[tuple[str, str], int] = {}
+    for r in scored(rows):
+        k = (r["path"], r["write_day"])
+        last[k] = max(last.get(k, -1), int(r["write_index"]))
+    return [r for r in scored(rows) if int(r["write_index"]) == last[(r["path"], r["write_day"])]]
+
+
+def view_status(rec: dict, resolution: str | None) -> str:
+    """ok | defective | repaired | broken (the recorded resolution of a defective view)."""
+    if not rec.get("defect_check", {}).get("any_defect"):
+        return "ok"
+    return resolution or "defective"
+
+
 def truncation_check(view_rows: list[dict], view: str, corpus_rows: list[dict]) -> dict:
     """D3 for the P views: for each truncated packet, whether the elided middle removed a class
     document edit of that account-day (the renderer's cap elides the middle of the block; we
@@ -153,7 +170,14 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--views-dir", required=True)
     ap.add_argument("--corpus", required=True)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--model", default="anthropic.claude-sonnet-5")
+    ap.add_argument("--resolve", action="append", default=[], metavar="VIEW=repaired|broken",
+                    help="the disclosed resolution of a defective view (11.12(d)); without one the seal is refused")
     ns = ap.parse_args(argv)
+    resolutions = dict(x.split("=", 1) for x in ns.resolve)
+    for v in resolutions.values():
+        if v not in ("repaired", "broken"):
+            raise SystemExit(f"--resolve value must be repaired or broken, got {v!r}")
     V = Path(ns.views_dir)
     corpus_rows = sv.read_jsonl(Path(ns.corpus))
     import score_fork_corpus as sfc
@@ -219,8 +243,48 @@ def main(argv: list[str] | None = None) -> int:
             rec["units_by_span_days"] = dict(sorted((str(k), v) for k, v in spans.items()))
             rec["units_by_boundary"] = dict(sorted(Counter(r.get("boundary") for r in scored(rows)).items()))
             rec["uninformative_documents"] = sorted(p for p, v in rec["per_document"].items() if v["uninformative"])
+            sub = day_end_subset(rows)
+            sub_rule = unit_rule(sub, "O_diff_dayend", RATES["O_diff"])
+            rec["day_end_subset"] = {"n_units": len(sub), "rule": sub_rule, "per_document": per_document(sub, sub_rule),
+                                     "pooled_rule_expected_rate_on_subset": round(th.expected_flag_rate([float(r["score"]) for r in sub], rule), 4) if sub else None}
         seal["views"][view] = rec
     seal["dollars_total"] = round(sum(float(v.get("dollars") or 0) for v in seal["views"].values()), 4)
+    # completeness, status, instruments (review 2026-10-23 finding 2)
+    problems = []
+    for k, v in seal["views"].items():
+        if v.get("missing"):
+            problems.append(f"{k}: missing")
+            continue
+        s_ = v["summary"]
+        if s_["n_scored"] != v["n_units"]:
+            problems.append(f"{k}: {s_['n_scored']} of {v['n_units']} units scored")
+        v["status"] = view_status(v, resolutions.get(k))
+        if v["status"] == "defective":
+            problems.append(f"{k}: defective ({[d for d, b in v['defect_check'].items() if b and d != 'any_defect']}) with no --resolve")
+    def pick(primary: str, alternative: str) -> str | None:
+        st = seal["views"].get(primary, {}).get("status")
+        if st in ("ok", "repaired"):
+            return primary
+        st2 = seal["views"].get(alternative, {}).get("status")
+        return alternative if st2 in ("ok", "repaired") else None
+    seal["instruments"] = {"gate3_per_account": pick("P_own", "P_ctx"), "gate4_jointness": pick("P_author", "P_author_ctx"),
+                           "gate5_composed": pick("O_diff", "O_whole"),
+                           "rule": "the primary view unless it is broken, then the named alternative (11.12(d))"}
+    for g, v in seal["instruments"].items():
+        if g != "rule" and v is None:
+            problems.append(f"{g}: neither the primary view nor its alternative is usable")
+    # the binding (finding 7): what step 2 must match before any call
+    seal["binding"] = {"model": ns.model,
+                       "prompt_records": {k: v["prompt"] for k, v in seal["views"].items() if v.get("prompt")},
+                       "views_module_sha256": sv.file_sha256(Path(sv.__file__).resolve()),
+                       "document_module_sha256": sv.file_sha256(Path(sv.doc.__file__).resolve()),
+                       "judge_client_sha256": sv.file_sha256(Path(sv.jc_mod.__file__).resolve()),
+                       "corpus_sha256": seal["corpus_sha256"], "days": sv.corpus_days(corpus_rows),
+                       "n_active_account_days": n_ad}
+    if problems:
+        print("SEAL REFUSED:\n  " + "\n  ".join(problems), file=sys.stderr)
+        Path(ns.out).with_suffix(".refused.json").write_text(json.dumps(seal, indent=1, default=str), encoding="utf-8")
+        return 2
     Path(ns.out).write_text(json.dumps(seal, indent=1, default=str), encoding="utf-8")
     # a short Markdown table
     lines = ["| view | units | refused/errored | median | p90 | p95 | max | distinct > median | top share | t | p_tie | expected rate | deterministic (>=) | defect |",
@@ -246,7 +310,13 @@ def main(argv: list[str] | None = None) -> int:
             h = v.get("headroom_three_or_fewer_one_line_changes")
             if h:
                 lines.append(f"Headroom (pairs with <= 3 one-line changes, n = {h['n_pairs']}): max {h['max']}, median {h['median']}, histogram {h['histogram']}.")
+    lines.append(f"\nStatus per view: { {k: v.get('status') for k, v in seal['views'].items()} }; instruments: {seal['instruments']}")
     od = seal["views"].get("O_diff") or {}
+    if od.get("day_end_subset"):
+        ds = od["day_end_subset"]
+        lines.append(f"O_diff day-end subset (sensitivity): {ds['n_units']} units, own rule t = {ds['rule']['threshold']} (p_tie {round(ds['rule']['p_tie'], 3)}); "
+                     f"the pooled rule's expected rate on the subset {ds['pooled_rule_expected_rate_on_subset']}; per document: "
+                     + "; ".join(f"{p.split('/')[-1]} {v['expected_exceedance_under_pooled_rule']}" for p, v in ds["per_document"].items()))
     if od.get("per_document"):
         lines.append("\n| document | O_diff units | median | max | expected exceedance (pooled rule) | own q threshold | class |")
         lines.append("|---|---|---|---|---|---|---|")

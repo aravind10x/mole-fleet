@@ -409,9 +409,12 @@ def author_items(stem: str, units: Sequence[AuthorUnit], context: int) -> list[d
 
 
 def _lines_changed(c: DocChange) -> int:
+    """Lines a change touches: max(added, removed) in the zero-context diff, so a one-line
+    replace counts 1 (one line removed, one added) and an n-line append counts n."""
     d = diff_n(c.before, c.after, "x", 0) if c.before is not None or c.after is not None else ""
-    return sum(1 for ln in d.splitlines() if (ln.startswith("+") or ln.startswith("-"))
-               and not ln.startswith("+++") and not ln.startswith("---"))
+    adds = sum(1 for ln in d.splitlines() if ln.startswith("+") and not ln.startswith("+++"))
+    rems = sum(1 for ln in d.splitlines() if ln.startswith("-") and not ln.startswith("---"))
+    return max(adds, rems)
 
 
 # ── O_diff / O_whole ──────────────────────────────────────────────────────
@@ -458,7 +461,9 @@ def cumulative_diff_units(rows: Sequence[Mapping[str, Any]], paths: Iterable[str
                 text = doc.unified_diff(bstate, c.after, p)
                 it = {"doc": f"owncloud:{p}", "path": p, "boundary": bname, "boundary_index": bi,
                       "boundary_day": bday, "write_ts": c.ts, "write_index": c.index,
-                      "write_account": c.account, "write_day": d, "span_days": days.index(d) - (bi - 1 if bi > 0 else 0),
+                      "write_account": c.account, "write_day": d,
+                      # inclusive span in days from the boundary's day (the day-0 boundary is day 1's start)
+                      "span_days": days.index(d) - bi + 1,
                       "label": f"{stem}:O_diff:owncloud:{p}/b{bi}..@{c.index}"}
                 if not text:
                     it.update({"skip": "unchanged", "packet": None, "truncated": False, "key": None})
