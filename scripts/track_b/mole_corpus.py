@@ -13,7 +13,9 @@ Implements `work/mole-fork/protocol/TRACK-B.md` part 1 (commit 0cfe331):
   `work/stage2/b1-haystack.md` prints;
 - the fork audit loader (`load_fork_audit`, TRACK-B part 2 draft section 2): a fork
   JSONL in the parquet loader's columns, ordered by (day, file order); see
-  `FORK_ORDERING_RULE`. Call `touches(df, include_fork_only=True)` on it.
+  `FORK_ORDERING_RULE`. Call `touches(df, include_fork_only=True)` on it;
+- the dated scope amendment (`SCOPE_AMENDMENTS`, 2026-10-20) and, under the same name, its
+  action addendum (`ACTION_AMENDMENTS`, 2026-10-23): off by default (Stage 2b).
 
 The data directory is untrusted: nothing here executes anything from it; paths are
 arguments, and the parquet files are read as data only. Pure functions except the
@@ -67,6 +69,11 @@ SCOPES: tuple[str, ...] = ("likeforlike", "allservices")
 #: like-for-like scope gains the artefact types `file` and `repo`. Mail and chat stay out.
 #: Record scopes (G2 vocabulary, G5 mentions: `RECORD_SOURCES`) are not amended. The Stage 2b
 #: numbers are not recomputed.
+#: Dated addendum 2026-10-23 (brief 07f B4; design v4 section 11.6 F2.6): the same amendment
+#: name also admits the two ownCloud line-level edit actions the fork added on 2026-10-22,
+#: `append_to_file(path, text)` and `replace_in_file(path, find, replace)`, as file write
+#: touches on `path` exactly like `write_file` (`ACTION_AMENDMENTS`, consulted only through
+#: `rule_for`). With the amendment off they are not touches at all, as in Stage 2b.
 SCOPE_AMENDMENTS: dict[str, tuple[str, ...]] = {
     "stage3-shared-documents-2026-10-20": ("file", "repo"),
 }
@@ -348,6 +355,28 @@ TOUCH_RULES: tuple[TouchRule, ...] = (
 
 RULES_BY_ACTION: dict[tuple[str, str], TouchRule] = {(r.service, r.action): r for r in TOUCH_RULES}
 
+#: Touch rules a dated scope amendment adds (addendum 2026-10-23 to SCOPE_AMENDMENTS, same
+#: name; see the note there). Actions only; never consulted unless the amendment is on.
+ACTION_AMENDMENTS: dict[str, dict[tuple[str, str], TouchRule]] = {
+    "stage3-shared-documents-2026-10-20": {
+        ("owncloud", "append_to_file"): _r("owncloud", "append_to_file", "write", ["path"],
+                                           "file", fork_only=True),
+        ("owncloud", "replace_in_file"): _r("owncloud", "replace_in_file", "write", ["path"],
+                                            "file", fork_only=True),
+    },
+}
+assert set(ACTION_AMENDMENTS) <= set(SCOPE_AMENDMENTS)
+assert not any(k in RULES_BY_ACTION for t in ACTION_AMENDMENTS.values() for k in t)
+
+
+def rule_for(service: str, action: str) -> TouchRule | None:
+    """The part 1 rule of one action (RULES_BY_ACTION), else the active amendment's
+    (ACTION_AMENDMENTS; none when the amendment is off). The one place both are read."""
+    r = RULES_BY_ACTION.get((service, action))
+    if r is None and _SCOPE_AMENDMENT is not None:
+        r = ACTION_AMENDMENTS.get(_SCOPE_AMENDMENT, {}).get((service, action))
+    return r
+
 #: `create_issue`'s created ticket in the fork's `result_meta`. The part 2 draft erratum
 #: names `result_meta.issue_id`; the fork corpora (warmup_clean, pilot_a_01, prefix_v1)
 #: carry the created ticket only under `result_meta.id` on create_issue (`issue_id`
@@ -394,7 +423,7 @@ def rules_for(service: str, action: str, fork_erratum: bool = False) -> tuple[To
     """Touch rules of one action: part 1, or the fork erratum list in fork mode."""
     if fork_erratum and (service, action) in FORK_ERRATUM_RULES:
         return FORK_ERRATUM_RULES[(service, action)]
-    r = RULES_BY_ACTION.get((service, action))
+    r = rule_for(service, action)
     return (r,) if r is not None else ()
 
 
@@ -733,7 +762,7 @@ def touches(df: pd.DataFrame, parsed: Sequence[dict] | None = None,
     for i in range(len(df)):
         if not ok[i]:
             continue
-        rule = RULES_BY_ACTION.get((svc[i], act[i]))
+        rule = rule_for(svc[i], act[i])
         if rule is None or not rule.keys or (rule.fork_only and not include_fork_only):
             continue
         for v in rule_values(rule, parsed[i], acc[i]):
