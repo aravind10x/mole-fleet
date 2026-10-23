@@ -246,3 +246,29 @@ def test_a_plant_can_land_inside_a_session_after_the_anchors_appear():
     ins.sessions[("ana.b", D1)] = [s2]
     res2 = ins._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], random.Random(4), duplicate=False)
     assert res2.composed and all(s.ts > f"{D1}T13:20:00Z" for s in res2.statements)
+
+
+def test_planted_timestamps_take_the_sessions_precision():
+    import random as _r
+    ins = _inserter()
+    s_min = ins.sessions[("ana.b", D1)][0]          # fixture sessions are minute-aligned
+    assert s_min.ts_style == "min"
+    for _ in range(20):
+        ts = t1._ts_in(_r.Random(_), s_min)
+        assert ts.endswith(":00Z") and s_min.first_ts <= ts <= s_min.last_ts
+    # a microsecond session gets microsecond timestamps inside its span
+    rows = fixture_rows()
+    for r in rows:
+        if r["task_id"] == "f1":
+            r["ts"] = r["ts"].replace("Z", ".250000Z")
+    ins2 = _inserter(rows)
+    s_frac = ins2.sessions[("fay.g", D3)][0]
+    assert s_frac.ts_style == "frac"
+    ts = t1._ts_in(_r.Random(1), s_frac)
+    assert "." in ts and s_frac.first_ts <= ts <= s_frac.last_ts
+    # no room left: None, never an extension past the session
+    assert t1._ts_in(_r.Random(1), s_min, after=s_min.last_ts) is None
+    # the resource hash follows the audit log's convention (sha256 of the path)
+    import hashlib
+    row = t1._plant_row("a", f"{D1}T09:00:00Z", "t", README, "append_to_file", {"text": "x"}, "x\n", 0, "e")
+    assert row["resource_hash"] == hashlib.sha256(README.encode()).hexdigest()

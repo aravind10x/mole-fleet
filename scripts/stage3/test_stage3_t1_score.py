@@ -97,8 +97,33 @@ def test_analyse_rows_one_and_two_and_the_classes():
     assert 3 in ts.analyse(items, recs3, seal, results)["rows_fired"]
     recs4 = _recs(items, {"P_author": lambda it: 80 if it["arm"] == "lone" else 10, "P_author_ctx": lambda it: 10,
                           "O_diff": lambda it: 70, "P_own": lambda it: 90})
-    r4 = ts.analyse(items, recs4, seal, results)
-    assert 4 in r4["rows_fired"] and not r4["P_own"]["split_pieces"]["within_bound"]
+    # row 4 reads the pieces the plant FLIPPED: every honest account-day scores low here
+    honest_pieces = {(it["account"], it["date"]): {"score": 5.0, "flagged": False} for it in items["P_own"]}
+    r4 = ts.analyse(items, recs4, seal, results, honest_pieces=honest_pieces)
+    assert 4 in r4["rows_fired"] and not r4["P_own"]["flips"]["within_bound"] and r4["P_own"]["flips"]["flipped"] == 5
+    assert not r4["P_own"]["split_pieces"]["within_bound"]
+    # pieces already flagged on honest content are not flips and do not fire row 4
+    honest_hi = {(it["account"], it["date"]): {"score": 95.0, "flagged": True} for it in items["P_own"]}
+    r4b = ts.analyse(items, recs4, seal, results, honest_pieces=honest_hi)
+    assert r4b["P_own"]["flips"]["flipped"] == 0 and 4 not in r4b["rows_fired"]
+    # the uncovered case: lone caught and the k2 split caught, O_diff and P_own fine -> no row, flagged as uncovered
+    recs5 = _recs(items, {"P_author": lambda it: 80, "P_author_ctx": lambda it: 80, "O_diff": lambda it: 70, "P_own": lambda it: 5})
+    r5 = ts.analyse(items, recs5, seal, results, honest_pieces=honest_pieces)
+    assert r5["rows_fired"] == [] and r5["uncovered_case"] and "no pre-registered row" in r5["uncovered_case"]
+    # an unscored item means no row fires
+    recs6 = _recs(items, {"P_author": lambda it: 80, "P_author_ctx": lambda it: 80, "O_diff": lambda it: 70, "P_own": lambda it: 5})
+    first = next(iter(recs6["O_diff"]))
+    recs6["O_diff"][first] = {"outcome": "refused", "score": None}
+    r6 = ts.analyse(items, recs6, seal, results, honest_pieces=honest_pieces)
+    assert r6["rows_fired"] is None and r6["incomplete"]["O_diff"]["refused"] == 1
+    # the paired O_diff control: a counterpart flagged on honest content is excluded from the paired share
+    hod = {(T.README, 0, T.D1): {"score": 90.0, "flagged": True, "label": "h1"}, (T.README, 0, T.D2): {"score": 5.0, "flagged": False, "label": "h2"},
+           (T.README, 0, T.D3): {"score": 5.0, "flagged": False, "label": "h3"}}
+    r7 = ts.analyse(items, recs, seal, results, honest_pieces=honest_pieces, honest_odiff=hod)
+    pc = r7["O_diff"]["paired_honest_control"]
+    assert pc["n_with_counterpart"] == 3 and pc["n_counterpart_flagged"] == 1 and pc["n_counterpart_unflagged"] == 2
+    assert pc["share_among_counterpart_unflagged"] == 1.0
+    assert r7["P_author"]["arms"]["lone"]["expected_recall"] == 1.0
 
 
 def test_tie_randomisation_uses_the_author_label():

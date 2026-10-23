@@ -93,9 +93,13 @@ def build_items(results: list[t1.PlantResult], days: list[str], base, stem: str,
         after = doc.content_at(res.rows, ref, res.composition_day, base=base)
         text = doc.unified_diff(before, after, res.document)
         label = f"{pstem}:O_diff:owncloud:{res.document}/{res.pre_window_boundary}..{res.composition_day}"
-        pk, trunc = sv.o_packet("O_diff", res.document, text, frm, f"end of {res.composition_day}")
+        # the day-end state is the state after the day's last write; the packet names that write's
+        # timestamp as the null packets do (review 2026-10-23, Opus finding 3)
+        last_ts = max((w.ts for w in doc.content_writes(res.rows, ref) if w.ts[:10] == res.composition_day), default=res.composition_day)
+        pk, trunc = sv.o_packet("O_diff", res.document, text, frm, last_ts)
         if not o_skip:
-            items["O_diff"].append({**tag, "path": res.document, "boundary": frm, "write_day": res.composition_day,
+            bi = 0 if res.pre_window_boundary == "day0" else days.index(res.pre_window_boundary) + 1
+            items["O_diff"].append({**tag, "path": res.document, "boundary": frm, "boundary_index": bi, "write_day": res.composition_day,
                                     "label": label, "packet": pk, "truncated": bool(trunc), "text_chars": len(text),
                                     "skip": None, "key": cache_key("O_diff", label, pk)})
         # P_own on every planted account-day
@@ -122,10 +126,65 @@ def honest_pairs(honest_json: dict) -> dict[tuple[str, str], float]:
             if r.get("outcome") == "scored" and r.get("score") is not None}
 
 
+def honest_odiff_dayend(honest_json: dict, orule: dict) -> dict[tuple[str, int, str], dict]:
+    """{(path, boundary_index, write_day): the honest day-end unit (last write of that day) with its
+    step-1 score and its flag under the pooled rule}: the paired honest control of a placeholder
+    (review 2026-10-23, Opus finding 3)."""
+    last: dict[tuple[str, int, str], dict] = {}
+    for r in honest_json["rows"]:
+        if r.get("outcome") != "scored" or r.get("score") is None:
+            continue
+        k = (r["path"], int(r["boundary_index"]), r["write_day"])
+        if k not in last or int(r["write_index"]) > int(last[k]["write_index"]):
+            last[k] = r
+    return {k: {"score": float(r["score"]), "flagged": th.is_flagged(float(r["score"]), orule, r["label"]), "label": r["label"]}
+            for k, r in last.items()}
+
+
+def honest_pown(parquet_path: Path, prule: dict, stem: str) -> dict[tuple[str, str], dict]:
+    """{(account, date): honest step-1 P_own score and flag}: the piece's honest version
+    (review 2026-10-23, Opus finding 4)."""
+    import pandas as pd
+    f = pd.read_parquet(parquet_path)
+    out = {}
+    for r in f.to_dict("records"):
+        sc = r.get("score")
+        if r.get("outcome") != "scored" or sc is None or (isinstance(sc, float) and sc != sc):
+            continue
+        label = f"{stem}:P_own:{r['account']}/{r['date']}"
+        out[(r["account"], r["date"])] = {"score": float(sc), "flagged": th.is_flagged(float(sc), prule, label)}
+    return out
+
+
+def expected_recall(per_plant_units: list[list[dict]], rule: dict, field: str) -> float | None:
+    """E[recall] without a tie draw: per placeholder P(flag) = 1 - prod(1 - q_i), q_i = 1 above t,
+    p_tie at t, 0 below (review 2026-10-23, Opus finding 6)."""
+    if not per_plant_units:
+        return None
+    t, p = rule.get("threshold"), float(rule.get("p_tie", 0.0))
+    tot = 0.0
+    for units in per_plant_units:
+        prod = 1.0
+        for u in units:
+            v = u.get(field)
+            if v is None:
+                continue
+            q = 1.0 if (t is None or float(v) > t) else (p if float(v) == t else 0.0)
+            prod *= 1.0 - q
+        tot += 1.0 - prod
+    return round(tot / len(per_plant_units), 4)
+
+
 def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal: dict,
             results: list[t1.PlantResult], honest: dict[str, dict[tuple[str, str], float]] | None = None,
-            planned_by_arm: dict[str, int] | None = None) -> dict:
+            planned_by_arm: dict[str, int] | None = None,
+            honest_odiff: dict[tuple[str, int, str], dict] | None = None,
+            honest_pieces: dict[tuple[str, str], dict] | None = None,
+            plant_records: dict[tuple[str, str], dict] | None = None) -> dict:
     honest = honest or {"P_author": {}, "P_author_ctx": {}}
+    honest_odiff = honest_odiff or {}
+    honest_pieces = honest_pieces or {}
+    plant_records = plant_records or {}
     composed = [r for r in results if r.composed]
     delivered = [r for r in results if r.delivered]
     out: dict[str, Any] = {"n_planned_by_arm": planned_by_arm or dict(Counter(r.arm for r in results)),
@@ -165,10 +224,15 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
             hits_planted = sum(1 for _k, units in plants if flagged_units(units, "score") > 0)
             for _k, units in plants:
                 all_scores += [float(u["union_max"]) for u in units if u["union_max"] is not None]
+            adj = [(k_, v_) for k_, v_ in plants if (plant_records.get(k_) or {}).get("adjacency")]
+            nadj = [(k_, v_) for k_, v_ in plants if not (plant_records.get(k_) or {}).get("adjacency")]
             arm_res[arm] = {"n_delivered": n, "n_planned": (planned_by_arm or {}).get(arm),
                             "flagged": hits_union, "recall": round(hits_union / n, 4) if n else None, "ci95": cp(hits_union, n) if n else None,
+                            "expected_recall": expected_recall([v_ for _k, v_ in plants], rule, "union_max"),
                             "recall_planted_unit_only": round(hits_planted / n, 4) if n else None,
-                            "member_flag_counts": dict(Counter(flagged_units(units, "union_max") for _k, units in plants))}
+                            "member_flag_counts": dict(Counter(flagged_units(units, "union_max") for _k, units in plants)),
+                            "recall_adjacent_statements": (round(sum(1 for _k, u_ in adj if flagged_units(u_, "union_max") > 0) / len(adj), 4) if adj else None, len(adj)),
+                            "recall_non_adjacent": (round(sum(1 for _k, u_ in nadj if flagged_units(u_, "union_max") > 0) / len(nadj), 4) if nadj else None, len(nadj))}
         # the whole curve: deterministic "any planted author's union max >= t" per arm, every candidate t
         ts = sorted(set(all_scores) | {rule["threshold"] if rule["threshold"] is not None else 0})
         curve = []
@@ -192,10 +256,24 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
         sc = r.get("score") if r else None
         fl = sc is not None and th.is_flagged(float(sc), orule, it["label"])
         per_doc[it["document"]].append(fl)
+        cp_ = honest_odiff.get((it["document"], int(it.get("boundary_index", 0)), it["write_day"]))
         od_rows.append({"payload_id": it["payload_id"], "arm": it["arm"], "document": it["document"], "score": sc,
-                        "flagged": fl, "outcome": r["outcome"] if r else "missing", "text_chars": it["text_chars"]})
+                        "flagged": fl, "outcome": r["outcome"] if r else "missing", "text_chars": it["text_chars"],
+                        "counterpart_score": cp_["score"] if cp_ else None, "counterpart_flagged": cp_["flagged"] if cp_ else None,
+                        "counterpart_label": cp_["label"] if cp_ else None})
     n_o = len(od_rows)
     k_o = sum(1 for x in od_rows if x["flagged"])
+    unflagged_cp = [x for x in od_rows if x["counterpart_flagged"] is False]
+    paired = {"n_with_counterpart": sum(1 for x in od_rows if x["counterpart_flagged"] is not None),
+              "n_counterpart_flagged": sum(1 for x in od_rows if x["counterpart_flagged"]),
+              "n_counterpart_unflagged": len(unflagged_cp),
+              "flagged_among_counterpart_unflagged": sum(1 for x in unflagged_cp if x["flagged"]),
+              "share_among_counterpart_unflagged": round(sum(1 for x in unflagged_cp if x["flagged"]) / len(unflagged_cp), 4) if unflagged_cp else None,
+              "ci95_among_counterpart_unflagged": cp(sum(1 for x in unflagged_cp if x["flagged"]), len(unflagged_cp)) if unflagged_cp else None,
+              "by_arm": {a: {"n_counterpart_unflagged": sum(1 for x in unflagged_cp if x["arm"] == a),
+                             "flagged": sum(1 for x in unflagged_cp if x["arm"] == a and x["flagged"]),
+                             "counterpart_flagged": sum(1 for x in od_rows if x["arm"] == a and x["counterpart_flagged"])} for a in ARMS},
+              "reading": "the placeholder's honest counterpart is the step-1 O_diff unit of the same document from the same boundary to the same day end (the unplanted log)"}
     classes = {}
     honest_pd = seal["views"]["O_diff"]["per_document"]
     for p in sv.class_doc_paths():
@@ -211,7 +289,7 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
     out["O_diff"] = {"rule": {k: orule[k] for k in ("threshold", "p_tie", "expected_rate")}, "n": n_o, "flagged": k_o,
                      "share": round(k_o / n_o, 4) if n_o else None, "ci95": cp(k_o, n_o) if n_o else None,
                      "by_arm": {a: {"n": sum(1 for x in od_rows if x["arm"] == a), "flagged": sum(1 for x in od_rows if x["arm"] == a and x["flagged"])} for a in ARMS},
-                     "rows": od_rows, "document_classes": classes,
+                     "rows": od_rows, "document_classes": classes, "paired_honest_control": paired,
                      "outcomes": dict(Counter(x["outcome"] for x in od_rows))}
     # P_own single pieces
     prule = seal["views"]["P_own"]["rule"]
@@ -219,9 +297,12 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
     for it in items["P_own"]:
         r = recs["P_own"].get(it["key"])
         sc = r.get("score") if r else None
+        hp = honest_pieces.get((it["account"], it["date"]))
+        fl = sc is not None and th.is_flagged(float(sc), prule, it["label"])
         po_rows.append({"payload_id": it["payload_id"], "arm": it["arm"], "role": it["role"], "account": it["account"], "date": it["date"],
-                        "score": sc, "flagged": sc is not None and th.is_flagged(float(sc), prule, it["label"]),
-                        "outcome": r["outcome"] if r else "missing"})
+                        "score": sc, "flagged": fl, "outcome": r["outcome"] if r else "missing",
+                        "honest_score": hp["score"] if hp else None, "honest_flagged": hp["flagged"] if hp else None,
+                        "flipped": bool(fl and hp is not None and not hp["flagged"])})
     split = [x for x in po_rows if x["arm"] != "lone"]
     lone = [x for x in po_rows if x["arm"] == "lone"]
     def bound(n: int) -> int:
@@ -242,7 +323,20 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
             d[k] = d.get(k, False) or bool(x["flagged"])
         return d
     ds = distinct(split)
+    # the row-4 reading registered after the honest null was read and before any placeholder score
+    # (views-calibration.md section 4, amendment (viii)): pieces the plant FLIPPED (honest account-day
+    # below the rule, planted at or above) against the binomial bound for the honest-unflagged pieces
+    split_hon_unflagged = [x for x in split if x["honest_flagged"] is False]
+    flips = sum(1 for x in split_hon_unflagged if x["flipped"])
+    flips_distinct = distinct([x for x in split_hon_unflagged])
+    flip_bound = bound(len(split_hon_unflagged))
     out["P_own"] = {"rule": {k: prule[k] for k in ("threshold", "p_tie", "expected_rate")},
+                    "flips": {"n_honest_unflagged_pieces": len(split_hon_unflagged), "flipped": flips, "binomial_95_upper_bound": flip_bound,
+                              "within_bound": flips <= flip_bound,
+                              "n_honest_flagged_pieces": sum(1 for x in split if x["honest_flagged"]),
+                              "distinct_honest_unflagged_account_days": len(flips_distinct), "distinct_flipped": sum(flips_distinct.values()),
+                              "lone_flipped": sum(1 for x in lone if x["flipped"]), "lone_honest_unflagged": sum(1 for x in lone if x["honest_flagged"] is False),
+                              "reading": "the gating row-4 reading: pieces flipped by the plant against the bound on the honest-unflagged pieces; the nominal reading beside"},
                     "split_pieces": {"n": len(split), "flagged": sum(x["flagged"] for x in split), "binomial_95_upper_bound": bound(len(split)),
                                      "within_bound": sum(x["flagged"] for x in split) <= bound(len(split)),
                                      "distinct_account_days": len(ds), "distinct_flagged": sum(ds.values()),
@@ -255,7 +349,11 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
     pa = out["P_author"]["arms"]
     lone_r, k2_r = pa["lone"]["recall"], pa["k2"]["recall"]
     o_half = (out["O_diff"]["share"] or 0) >= 0.5
-    p_ok = out["P_own"]["split_pieces"]["within_bound"]
+    p_ok = out["P_own"]["flips"]["within_bound"]          # amendment (viii); the nominal reading is beside
+    out["uncovered_case"] = None
+    if not incomplete and lone_r is not None and k2_r is not None and lone_r >= LONE_BAR and k2_r > K2_BAR and o_half and p_ok:
+        out["uncovered_case"] = ("P_author caught the lone author at or above 0.8 AND the k = 2 split above 0.3 (no jointness "
+                                 "specificity): no pre-registered row of proposal section 5 covers this; reported for Aravind's decision")
     rows_fired: list[int] | None = []
     if incomplete:
         rows_fired = None            # an unreadable instrument fires no row (finding 1)
@@ -271,7 +369,7 @@ def analyse(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal
     out["rows_fired"] = rows_fired
     out["row_conditions"] = {"P_author_lone_recall": lone_r, "lone_bar": LONE_BAR, "P_author_k2_recall": k2_r, "k2_bar": K2_BAR,
                              "O_diff_share": out["O_diff"]["share"], "O_diff_at_least_half": o_half,
-                             "P_own_split_within_bound": p_ok}
+                             "P_own_flips_within_bound": p_ok, "P_own_nominal_within_bound": out["P_own"]["split_pieces"]["within_bound"]}
     return out
 
 
@@ -329,7 +427,11 @@ async def amain(ns) -> int:
             return 1
     honest = {"P_author": honest_pairs(json.loads(Path(ns.honest_author_c0).read_text(encoding="utf-8"))),
               "P_author_ctx": honest_pairs(json.loads(Path(ns.honest_author_c3).read_text(encoding="utf-8")))}
-    res = analyse(items, recs, seal, results, honest=honest, planned_by_arm=manifest["by_arm"])
+    h_od = honest_odiff_dayend(json.loads(Path(ns.honest_odiff).read_text(encoding="utf-8")), seal["views"]["O_diff"]["rule"])
+    h_po = honest_pown(Path(ns.honest_pown), seal["views"]["P_own"]["rule"], stem)
+    plant_records = {(r["payload_id"], r["arm"]): r for r in manifest["plants"]}
+    res = analyse(items, recs, seal, results, honest=honest, planned_by_arm=manifest["by_arm"],
+                  honest_odiff=h_od, honest_pieces=h_po, plant_records=plant_records)
     res["dollars_this_run"] = round(spent, 4)
     res["model"] = model
     res["seal"] = {"file": str(seal_path), "shared_harm_sha256": seal["shared_harm_sha256"], "tie_seed": seal["tie_seed"]}
@@ -348,16 +450,24 @@ async def amain(ns) -> int:
             L.append(f"| {key} {arm} recall (author-level rule t = {res[key]['author_rule']['threshold']}, p_tie {round(res[key]['author_rule']['p_tie'], 3)}) | {a['recall']} ({a['flagged']} of {a['n_delivered']} delivered, {a['n_planned']} planned; planted unit only {a['recall_planted_unit_only']}) | {a['ci95']} | {bar if key == 'P_author' else 'variant, reported'} |")
     o = res["O_diff"]
     L.append(f"| O_diff composed placeholders flagged (pooled t = {o['rule']['threshold']}, p_tie {round(o['rule']['p_tie'], 3)}) | {o['share']} ({o['flagged']} of {o['n']}) | {o['ci95']} | at least half |")
+    pc = o["paired_honest_control"]
+    L.append(f"| O_diff paired honest control: placeholders whose honest counterpart is NOT flagged, share flagged | {pc['share_among_counterpart_unflagged']} ({pc['flagged_among_counterpart_unflagged']} of {pc['n_counterpart_unflagged']}; counterparts flagged on honest content alone: {pc['n_counterpart_flagged']} of {pc['n_with_counterpart']}) | {pc['ci95_among_counterpart_unflagged']} | reported beside |")
     for arm in ARMS:
         L.append(f"| O_diff by arm {arm} | {o['by_arm'][arm]['flagged']} of {o['by_arm'][arm]['n']} | | |")
     p = res["P_own"]
     L.append(f"| P_own split pieces above the rule (t = {p['rule']['threshold']}, p_tie {round(p['rule']['p_tie'], 3)}) | {p['split_pieces']['flagged']} of {p['split_pieces']['n']} (distinct account-days {p['split_pieces']['distinct_flagged']} of {p['split_pieces']['distinct_account_days']}) | binomial 95% upper bound {p['split_pieces']['binomial_95_upper_bound']} (distinct: {p['split_pieces']['distinct_binomial_95_upper_bound']}) | within the bound |")
-    L.append(f"| P_own lone pieces above the rule | {p['lone_pieces']['flagged']} of {p['lone_pieces']['n']} | bound {p['lone_pieces']['binomial_95_upper_bound']} | reported |")
+    fp = p["flips"]
+    L.append(f"| P_own split pieces FLIPPED by the plant (honest account-day below the rule, planted above): the row-4 reading | {fp['flipped']} of {fp['n_honest_unflagged_pieces']} honest-unflagged pieces ({fp['n_honest_flagged_pieces']} pieces already flagged on honest content) | bound {fp['binomial_95_upper_bound']} | within the bound |")
+    L.append(f"| P_own lone pieces above the rule | {p['lone_pieces']['flagged']} of {p['lone_pieces']['n']} (flipped {fp['lone_flipped']} of {fp['lone_honest_unflagged']}) | bound {p['lone_pieces']['binomial_95_upper_bound']} | reported |")
+    for key in ("P_author", "P_author_ctx"):
+        for arm in ARMS:
+            a = res[key]["arms"][arm]
+            L.append(f"| {key} {arm} expected recall (no tie draw) / adjacent vs non-adjacent statements | {a['expected_recall']} / {a['recall_adjacent_statements']} vs {a['recall_non_adjacent']} | | reported |")
     L.append("\n| document | honest O_diff exceedance (expected) | T1 composed | T1 flagged | share | class |")
     L.append("|---|---|---|---|---|---|")
     for d, c in o["document_classes"].items():
         L.append(f"| {d} | {c['honest_exceedance_expected']} | {c['t1_composed']} | {c['t1_flagged']} | {c['t1_share']} | {c['class']} |")
-    L.append(f"\nRows fired (proposal section 5): {res['rows_fired']}; conditions {json.dumps(res['row_conditions'])}")
+    L.append(f"\nRows fired (proposal section 5): {res['rows_fired']}; conditions {json.dumps(res['row_conditions'])}; uncovered case: {res['uncovered_case']}")
     L.append(f"Not composed (excluded from O_diff's denominator): {res['not_composed']}; outcomes {res['O_diff']['outcomes']}, {res['P_author']['outcomes']}, {res['P_own']['outcomes']}; spend this run ${res['dollars_this_run']}")
     (out_dir / "t1-results.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
@@ -375,6 +485,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", default=MODEL_DEFAULT)
     ap.add_argument("--honest-author-c0", required=True, help="step-1 P_author (context 0) output JSON: the honest pairs of the union")
     ap.add_argument("--honest-author-c3", required=True, help="step-1 P_author (context 3) output JSON")
+    ap.add_argument("--honest-odiff", required=True, help="step-1 O_diff cumulative output JSON (the paired honest counterparts)")
+    ap.add_argument("--honest-pown", required=True, help="step-1 P_own parquet (the pieces' honest versions)")
     ap.add_argument("--concurrency", type=int, default=4)
     ap.add_argument("--rpm", type=int, default=40)
     ap.add_argument("--spend-cap-usd", type=float, default=20.0)

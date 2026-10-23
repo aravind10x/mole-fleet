@@ -192,7 +192,7 @@ def author_level_threshold(author_max: Mapping[Hashable, float | None],
 
 def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
                                author_weight: Mapping[Hashable, float], rate: float, *,
-                               seed: int, n_boot: int = 2000) -> dict:
+                               seed: int, n_boot: int = 2000, rule: Mapping[str, Any] | None = None) -> dict:
     """Cluster bootstrap (author = cluster, authors without units included) of the SEALED
     author-level threshold t (the randomised rule's t from `_fit`; review 2026-10-23 finding 11:
     the earlier version bootstrapped the deterministic threshold, which is a different point
@@ -210,6 +210,7 @@ def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
     rng = np.random.default_rng(seed)
     out: list[Any] = []
     out_det: list[Any] = []
+    costs: list[float] = []            # the sealed rule's expected honest cost in each resample
     for _ in range(n_boot):
         idx = rng.integers(0, len(authors), size=len(authors))
         total = sum((ws[i] for i in idx), Fraction(0))
@@ -217,6 +218,17 @@ def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
         if pairs and total > 0:
             out.append(_fit(pairs, total, bf)[0])
             out_det.append(_deterministic(pairs, total, bf)[0])
+            if rule is not None:
+                t_, p_ = rule.get("threshold"), float(rule.get("p_tie", 0.0))
+                c = Fraction(0)
+                for m, w in pairs:
+                    if t_ is None:
+                        c += w * Fraction(repr(p_))
+                    elif m > t_:
+                        c += w
+                    elif m == t_:
+                        c += w * Fraction(repr(p_))
+                costs.append(float(c / total))
         else:
             out.append(None)
             out_det.append(None)
@@ -232,7 +244,13 @@ def bootstrap_author_threshold(author_max: Mapping[Hashable, float | None],
         keys = sorted((k for k in dist if k != "none")) + (["none"] if "none" in dist else [])
         return {"ci95": [pct(2.5), pct(97.5)], "median": pct(50), "distribution": {k: dist[k] for k in keys}}
 
-    return {"n_boot": n_boot, **summar(out), "deterministic": summar(out_det)}
+    res = {"n_boot": n_boot, **summar(out), "deterministic": summar(out_det)}
+    if rule is not None and costs:
+        arr = np.array(costs)
+        res["expected_cost_of_sealed_rule"] = {"ci95": [round(float(np.percentile(arr, 2.5)), 4),
+                                                        round(float(np.percentile(arr, 97.5)), 4)],
+                                               "median": round(float(np.median(arr)), 4), "n": len(costs)}
+    return res
 
 
 def _binom_cdf(k: int, n: int, p: float) -> float:

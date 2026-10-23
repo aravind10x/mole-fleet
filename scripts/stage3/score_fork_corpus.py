@@ -409,7 +409,10 @@ async def amain_view(ns, client_factory: Callable[..., JudgeClient] = JudgeClien
         out.write_text(json.dumps({"meta": meta, "summary": summ, "rows": rows}, indent=1, default=str),
                        encoding="utf-8")
     else:
-        frame_rows = [{**r, "packet_truncated": bool(r.get("truncated")), "cache_read_tokens": 0,
+        defaults = {"flag": None, "stop_reason": None, "stop_category": None, "input_tokens": 0, "output_tokens": 0,
+                    "cost_usd": 0.0, "model": model, "model_served": None, "prompt_version": sv.prompt_version(view),
+                    "attempts": 0, "latency_s": 0.0}          # an aborted run still writes its rows (missing ones scored NaN)
+        frame_rows = [{**defaults, **r, "packet_truncated": bool(r.get("truncated")), "cache_read_tokens": 0,
                        "provider": PROVIDER, "region": jc.region, "score": (math.nan if r.get("score") is None else float(r["score"]))}
                       for r in rows]
         make_frame(frame_rows).to_parquet(out, index=False)

@@ -63,7 +63,6 @@ def unit_rule(rows: list[dict], view_key: str, rate: float) -> dict:
     rule["view"] = view_key
     rule["n_flagged_expected"] = round(th.expected_flag_rate(s, rule) * len(s), 3)
     rule["n_flagged_realised"] = sum(1 for r in scored(rows) if th.is_flagged(float(r["score"]), rule, r["label"]))
-    det = th.randomised_threshold(s, rate, seed=TIE_SEED)      # deterministic reading: strictly above t, or at-or-above the next value
     # the "at most B" deterministic threshold: smallest t with share(score >= t) <= B
     vals = sorted(set(s))
     det_t = None
@@ -91,14 +90,14 @@ def author_rule(rows: list[dict], account_days: Counter, view_key: str, rate: fl
     flagged = [a for a, v in amax.items() if v is not None and th.is_flagged(v, rule, a)]
     rule["flagged_honest_authors"] = sorted(flagged)
     rule["realised_cost"] = round(sum(weights[a] for a in flagged) / sum(weights.values()), 4)
-    rule["bootstrap"] = th.bootstrap_author_threshold(amax, weights, rate, seed=BOOT_SEED, n_boot=N_BOOT)
+    rule["bootstrap"] = th.bootstrap_author_threshold(amax, weights, rate, seed=BOOT_SEED, n_boot=N_BOOT, rule=rule)
     return rule
 
 
 def headroom(rows: list[dict]) -> dict:
     """Scores of the honest pairs whose window holds three or fewer one-line changes: what a lone
     three-statement author competes with (11.12(c))."""
-    small = [r for r in scored(rows) if r.get("n_changes", 0) <= 3 and r.get("n_lines_changed", 0) <= r.get("n_changes", 0)]
+    small = [r for r in scored(rows) if r.get("n_changes", 0) <= 3 and r.get("all_one_line") is True]
     s = sorted(float(r["score"]) for r in small)
     return {"n_pairs": len(small), "scores": s, "max": s[-1] if s else None,
             "median": (s[len(s) // 2] if s else None), "histogram": dict(sorted(Counter(s).items()))}
@@ -156,12 +155,46 @@ def truncation_check(view_rows: list[dict], view: str, corpus_rows: list[dict]) 
         edits = [x for x in rows if sv.is_class_write(x, paths)]
         missing = 0
         for x in edits:
-            a = x.get("args") or {}
-            txt = a.get("text") if x["action"] == "append_to_file" else a.get("replace") if x["action"] == "replace_in_file" else None
-            if txt and txt.strip()[:60] not in pk:
+            line = render(sv.view_row(x, view), r["account"], whole_keys=sv.P_WHOLE_KEYS)
+            if line not in pk:                  # the whole rendered row, as the packet carries it
                 missing += 1
         out["truncated_units"].append({"account": r["account"], "date": r["date"], "class_edits": len(edits), "elided": missing})
         out["class_edits_elided"] += missing
+    return out
+
+
+def cache_keys(views_dir: Path, view_key: str, model_slug: str) -> set[str]:
+    p = views_dir / f"judge-cache.{view_key}.{model_slug}.jsonl"
+    if not p.exists():
+        return set()
+    return {json.loads(l)["cache_key"] for l in p.read_text(encoding="utf-8").splitlines() if l.strip()}
+
+
+def reproduction_check(views_dir: Path, corpus: Path, corpus_rows: list[dict], model_slug: str) -> dict:
+    """Every step-1 unit's packet, rebuilt with the CURRENT code, must be the packet the cache
+    scored (the cache key carries sha256(packet)): the seal is then about the instrument as it
+    is now (review 2026-10-23, Opus finding 2)."""
+    import score_fork_corpus as sfc
+    stem = sv.stem_of(corpus)
+    days = sv.corpus_days(corpus_rows)
+    base = sv.seed_base()
+    paths = sv.class_doc_paths()
+    render = sv.jc_mod.get_render_event()
+    keys, day_idx, by_key = sfc.account_days(corpus_rows)
+    out = {}
+    def check(view_key: str, items: list[dict]) -> None:
+        ck = cache_keys(views_dir, view_key, model_slug)
+        live = [it for it in items if it.get("packet") is not None]
+        out[view_key] = {"units": len(live), "reproduced": sum(1 for it in live if it["key"] in ck)}
+    for view in ("P_own", "P_ctx"):
+        check(view, sfc.build_view_items(view, stem, keys, day_idx, by_key, render))
+    tl = {p: sv.document_timeline(corpus_rows, p, base) for p in paths}
+    units = sv.author_units(corpus_rows, paths, days, base, "pair", tl)
+    check("P_author", sv.author_items(stem, units, 0))
+    check("P_author_ctx", sv.author_items(stem, units, 3))
+    check("O_diff", sv.cumulative_diff_units(corpus_rows, paths, days, base, stem, tl))
+    check("O_whole", sv.whole_units(corpus_rows, paths, days, base, stem, tl))
+    out["all_reproduced"] = all(v["reproduced"] == v["units"] for k, v in out.items() if k != "all_reproduced")
     return out
 
 
@@ -250,8 +283,21 @@ def main(argv: list[str] | None = None) -> int:
                                      "pooled_rule_expected_rate_on_subset": round(th.expected_flag_rate([float(r["score"]) for r in sub], rule), 4) if sub else None}
         seal["views"][view] = rec
     seal["dollars_total"] = round(sum(float(v.get("dollars") or 0) for v in seal["views"].values()), 4)
+    # the step-1 outputs' own module hashes (metadata-only edits after the run are allowed when
+    # every packet reproduces; Opus finding 2)
+    step1_hashes = {}
+    for stem, name in (("p_own", "p_own.meta.json"), ("p_ctx", "p_ctx.meta.json"), ("p_author_c0", "p_author_c0.json"),
+                       ("p_author_c3", "p_author_c3.json"), ("o_diff", "o_diff_cumulative.json"), ("o_whole", "o_whole_eachwrite.json")):
+        if (V / name).exists():
+            d = json.loads((V / name).read_text(encoding="utf-8"))
+            meta = d.get("meta", d)
+            step1_hashes[stem] = {"views_module_sha256": meta.get("views_module_sha256"), "timestamp": meta.get("timestamp")}
+    seal["step1_outputs"] = step1_hashes
+    seal["packet_reproduction"] = reproduction_check(V, Path(ns.corpus), corpus_rows, ns.model.replace(".", "-"))
     # completeness, status, instruments (review 2026-10-23 finding 2)
     problems = []
+    if not seal["packet_reproduction"]["all_reproduced"]:
+        problems.append(f"packets do not reproduce under the current code: {seal['packet_reproduction']}")
     for k, v in seal["views"].items():
         if v.get("missing"):
             problems.append(f"{k}: missing")
@@ -306,12 +352,14 @@ def main(argv: list[str] | None = None) -> int:
         if ar:
             lines.append(f"\n**{k} author level:** t = {ar['threshold']}, p_tie = {round(ar['p_tie'], 4)}, expected cost {ar['expected_cost']}, "
                          f"realised cost {ar['realised_cost']} (flagged honest authors {len(ar['flagged_honest_authors'])}); deterministic t = {ar['deterministic_threshold']} "
-                         f"(cost {ar['deterministic_cost']}); bootstrap 95% {ar['bootstrap']['ci95']} (median {ar['bootstrap']['median']}, {N_BOOT} replicates); "
+                         f"(cost {ar['deterministic_cost']}); bootstrap 95% {ar['bootstrap']['ci95']} (median {ar['bootstrap']['median']}, {N_BOOT} replicates; "
+                         f"expected honest cost of the sealed rule {ar['bootstrap'].get('expected_cost_of_sealed_rule')}); "
                          f"author-max distribution {ar['author_max_distribution']}.")
             h = v.get("headroom_three_or_fewer_one_line_changes")
             if h:
                 lines.append(f"Headroom (pairs with <= 3 one-line changes, n = {h['n_pairs']}): max {h['max']}, median {h['median']}, histogram {h['histogram']}.")
     lines.append(f"\nStatus per view: { {k: v.get('status') for k, v in seal['views'].items()} }; instruments: {seal['instruments']}")
+    lines.append(f"Packet reproduction under the current code: {seal['packet_reproduction']}")
     od = seal["views"].get("O_diff") or {}
     if od.get("day_end_subset"):
         ds = od["day_end_subset"]

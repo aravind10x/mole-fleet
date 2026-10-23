@@ -138,6 +138,7 @@ class Session:
     first_ts: str
     last_ts: str
     last_index: int           # file position of the session's last row
+    ts_style: str = "frac"    # the session's timestamp precision: "frac" (microseconds) or "min" (HH:MM:00Z)
 
 
 def sessions_by_account_day(rows: Sequence[Mapping[str, Any]]) -> dict[tuple[str, str], list[Session]]:
@@ -148,7 +149,12 @@ def sessions_by_account_day(rows: Sequence[Mapping[str, Any]]) -> dict[tuple[str
     out: dict[tuple[str, str], list[Session]] = defaultdict(list)
     for (a, d, t), lst in agg.items():
         tss = sorted(x[0] for x in lst)
-        out[(a, d)].append(Session(a, d, t, tss[0], tss[-1], max(x[1] for x in lst)))
+        # the session's own precision: the honest log writes microsecond timestamps or
+        # minute-aligned ones (HH:MM:00Z); a planted row takes the style of its session
+        # (review 2026-10-23, Opus finding 5)
+        n_frac = sum(1 for x in tss if "." in x)
+        style = "frac" if n_frac * 2 >= len(tss) else "min"
+        out[(a, d)].append(Session(a, d, t, tss[0], tss[-1], max(x[1] for x in lst), style))
     for k in out:
         out[k].sort(key=lambda s: (s.first_ts, s.task_id))
     return out
@@ -274,7 +280,7 @@ def _plant_row(account: str, ts: str, task_id: str, path: str, action: str, sent
     args = {"path": path, **sent, "content": content, "edit": edit}
     return {"event_id": event_id, "ts": ts, "real_ts": None, "account": account,
             "account_kind": "background_llm_agent", "service": "owncloud", "action": action,
-            "resource_id": path, "resource_hash": _stable_hash(path),
+            "resource_id": path, "resource_hash": hashlib.sha256(path.encode("utf-8")).hexdigest(),
             "args": args, "args_hash": _stable_hash(args),
             "exit_code": 0, "bytes": _result_bytes({"path": path, **edit}),
             "error": "", "dest_domain": None, "is_external": False, "parent_event_id": None,
@@ -284,20 +290,31 @@ def _plant_row(account: str, ts: str, task_id: str, path: str, action: str, sent
 
 def _ts_in(rng: random.Random, s: Session, after: str | None = None) -> str | None:
     """A timestamp inside the session's span [first_ts, last_ts] (strictly after `after` when
-    given), whole seconds, never past the session's last row (review 2026-10-23 finding 9);
-    None when no second of the span remains (the caller fails the layout)."""
+    given), never past the session's last row (codex finding 9), in the session's own
+    precision (Opus finding 5): microseconds (a random microsecond) for a "frac" session, a
+    minute-aligned HH:MM:00Z for a "min" session. None when nothing of the span remains (the
+    caller fails the layout)."""
     from datetime import datetime, timedelta
     f = datetime.fromisoformat(s.first_ts.replace("Z", "+00:00"))
-    l = datetime.fromisoformat(s.last_ts.replace("Z", "+00:00")).replace(microsecond=0)
-    lo = f.replace(microsecond=0) + (timedelta(seconds=1) if f.microsecond else timedelta(0))
+    l = datetime.fromisoformat(s.last_ts.replace("Z", "+00:00"))
+    lo = f
     if after:
-        a = datetime.fromisoformat(after.replace("Z", "+00:00")).replace(microsecond=0)
-        lo = max(lo, a + timedelta(seconds=1))
+        a = datetime.fromisoformat(after.replace("Z", "+00:00"))
+        lo = max(lo, a + timedelta(microseconds=1))
+    if s.ts_style == "min":
+        lo_m = lo.replace(second=0, microsecond=0)
+        if lo_m < lo:
+            lo_m += timedelta(minutes=1)
+        l_m = l.replace(second=0, microsecond=0)
+        if l_m < lo_m:
+            return None
+        t = lo_m + timedelta(minutes=rng.randint(0, int((l_m - lo_m).total_seconds()) // 60))
+        return t.strftime("%Y-%m-%dT%H:%M:%SZ")
     if l < lo:
         return None
-    span = int((l - lo).total_seconds())
-    t = lo + timedelta(seconds=rng.randint(0, span))
-    return t.strftime("%Y-%m-%dT%H:%M:%SZ")
+    span_us = int((l - lo).total_seconds() * 1_000_000)
+    t = lo + timedelta(microseconds=rng.randint(0, span_us))
+    return t.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 def _insert_position(rows: Sequence[Mapping[str, Any]], s: Session, ts: str) -> int:

@@ -216,7 +216,9 @@ def corpus_end_base(parent_rows: Sequence[Mapping[str, Any]], day: str,
 EDIT_ACTIONS = ("append_to_file", "replace_in_file")
 WRITE_ACTIONS = ("write_file",) + EDIT_ACTIONS
 #: Arg keys rendered whole (no 4,000-char cap) in every P view here: what the account sent and,
-#: where a view keeps it, the document content.
+#: where a view keeps it, the document content. The cap is lifted for these keys on EVERY row
+#: (a mail or chat body, a GitLab commit's content too), as G0e's `--whole-key content` did for
+#: `content`; stated in views-calibration.md section 2 (review 2026-10-23, Opus finding 16).
 P_WHOLE_KEYS = ("text", "find", "replace", "content", "data", "body")
 
 
@@ -398,10 +400,13 @@ def author_items(stem: str, units: Sequence[AuthorUnit], context: int) -> list[d
     items = []
     for u in units:
         pk, trunc = author_packet(u, context)
-        n_lines = sum(_lines_changed(c) for c in u.changes)
+        per_change = [_lines_changed(c) for c in u.changes]
+        n_lines = sum(per_change)
         items.append({"author": u.author, "doc": f"owncloud:{u.path}", "path": u.path,
                       "window": list(u.window), "unit": u.unit, "n_changes": len(u.changes),
-                      "n_lines_changed": n_lines, "actions": [c.action for c in u.changes],
+                      "n_lines_changed": n_lines, "lines_per_change": per_change,
+                      "all_one_line": all(x <= 1 for x in per_change),
+                      "actions": [c.action for c in u.changes],
                       "change_indices": [c.index for c in u.changes],
                       "label": author_label(stem, u, context), "packet": pk,
                       "truncated": bool(trunc), "key": cache_key(k, author_label(stem, u, context), pk)})
@@ -530,9 +535,18 @@ def make_client(view: str, cache_path: Path, model: str, *, context: int = 0,
                          f"view key {k!r} (one cache per view)")
     set_.check_cache(Path(cache_path), model, prompt_version=prompt_version(view, context))
     factory = client_factory or JudgeClient
-    return factory(cache_path=Path(cache_path), concurrency=concurrency, rpm=rpm, model=model,
-                   spend_cap_usd=spend_cap_usd, system=system_prompt(view, context),
-                   prompt_version=prompt_version(view, context))
+    jc = factory(cache_path=Path(cache_path), concurrency=concurrency, rpm=rpm, model=model,
+                 spend_cap_usd=spend_cap_usd, system=system_prompt(view, context),
+                 prompt_version=prompt_version(view, context))
+    # a cache record made under a different system prompt (same version string) is refused
+    # (review 2026-10-23, Opus finding 13): the prompt version names the view, not the text
+    want = sha256(system_prompt(view, context))
+    bad = [r.get("cache_key") for r in getattr(jc, "cache", {}).values()
+           if (r.get("request_params") or {}).get("system_sha256") not in (None, want)]
+    if bad:
+        raise SystemExit(f"refusing: cache {cache_path} holds {len(bad)} record(s) scored under another "
+                         f"system prompt than the current {k} (e.g. {bad[0]})")
+    return jc
 
 
 async def score_items(jc: JudgeClient, items: Sequence[dict], view: str, context: int = 0,
@@ -560,7 +574,7 @@ async def score_items(jc: JudgeClient, items: Sequence[dict], view: str, context
 
 
 ROW_META_KEYS = ("account", "date", "day_index", "n_events", "author", "doc", "path", "window", "unit",
-                 "n_changes", "n_lines_changed", "actions", "change_indices", "boundary",
+                 "n_changes", "n_lines_changed", "lines_per_change", "all_one_line", "actions", "change_indices", "boundary",
                  "boundary_index", "boundary_day", "write_ts", "write_index", "write_account",
                  "write_day", "span_days", "text_chars", "truncated", "skip", "label")
 
