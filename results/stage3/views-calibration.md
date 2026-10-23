@@ -101,7 +101,7 @@ Nothing in step 1 is a performance reading: no planted or placeholder content is
 
 ## 5. Step 1 results (tested; `stage3_views_seal.py`, outputs under `work/stage3/views/`)
 
-Every view scored on its full unit list with no refusal and no error; no view is defective under section 0 (D1 to D4 all absent: refused-or-errored share 0 everywhere, top share at most 0.29, at least 12 distinct scores above every median, P_ctx's six truncated packets elide no class edit, and P_own has none). No rewrite was made. Spend: $2.6837 Bedrock (P_own $None, P_ctx $None, P_author $0.260026 + $0.295448 + author-day $0.306356, O_diff $1.241, O_whole $0.580852).
+Every view scored on its full unit list with no refusal and no error; no view is defective under section 0 (D1 to D4 all absent: refused-or-errored share 0 everywhere, top share at most 0.29, at least 12 distinct scores above every median, P_ctx's six truncated packets elide no class edit, and P_own has none). No rewrite was made. Spend: $17.42 Bedrock (P_own $6.40, P_ctx $8.34, P_author $0.57 for both contexts plus $0.31 for the author-day units, O_diff $1.24, O_whole $0.58; the dry-run estimate was $17.4).
 
 | view | units | refused/errored | median | p90 | p95 | max | distinct > median | top share | t | p_tie | expected rate | deterministic (>=) | defect |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -142,7 +142,7 @@ O_diff day-end subset (sensitivity): 36 units, own rule t = 82.0 (p_tie 0.6); th
 
 ## 6. The seal
 
-Sealed 2026-10-23 after step 1 and before any placeholder was scored (fork commit SEAL_COMMIT; `work/stage3/views/calibration-v1.json`, mirrored). Shared harm text `shared-harm/v1`, sha256 `a21d902f30655bfb5449da1acc3a9ceaeb89515c5a8529c76844ab3ba5f2eb3b`. Tie seed 20261112; bootstrap seed 20261114. Rules (flag above t; at t with probability p_tie by sha256(seed | unit label)):
+Sealed 2026-10-23 after step 1 and before any placeholder was scored (fork commit `8d46580`, spend fields corrected in the following commit; `work/stage3/views/calibration-v1.json`, mirrored). Shared harm text `shared-harm/v1`, sha256 `a21d902f30655bfb5449da1acc3a9ceaeb89515c5a8529c76844ab3ba5f2eb3b`. Tie seed 20261112; bootstrap seed 20261114. Rules (flag above t; at t with probability p_tie by sha256(seed | unit label)):
 
 | view | B | t | p_tie | expected rate | deterministic at-or-above |
 |---|---|---|---|---|---|

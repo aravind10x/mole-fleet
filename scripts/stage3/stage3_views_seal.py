@@ -201,7 +201,8 @@ def main(argv: list[str] | None = None) -> int:
         defect = sv.defect_check(summ, packets_ok=trunc["class_edits_elided"] == 0)
         seal["views"][view] = {"prompt": sv.prompt_record(view), "n_units": len(rows), "summary": summ,
                                "truncation": trunc, "defect_check": defect,
-                               "rule": unit_rule(rows, view, RATES[view]), "dollars": meta.get("dollars_total")}
+                               "rule": unit_rule(rows, view, RATES[view]),
+                               "dollars": (meta.get("summary") or {}).get("dollars_total", meta.get("dollars_total"))}
     # P_author (pair units, two contexts) and the author-day robustness units
     for name, view, ctx in (("p_author_c0.json", "P_author", 0), ("p_author_c3.json", "P_author", 3)):
         if not (V / name).exists():
