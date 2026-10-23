@@ -199,12 +199,26 @@ def test_anchor_absent_at_plant_time_is_a_failed_layout_and_a_whole_write_overwr
     ins = _inserter(rows)
     rng = random.Random(1)
     res = ins._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], rng, duplicate=False)
-    # ana's first session (08:00) still has the seed anchors and is the only eligible one (the
-    # second starts after the rewrite), so all three statements land there and the 12:00 whole
-    # write overwrites them before the composition time: not composed, recorded
-    assert not res.composed and res.overwritten_by_whole_write and res.single_session_roles == [0]
-    assert [s.task_id for s in res.statements] == ["a1", "a1", "a1"]
-    assert res.reasons[-1] == "a statement was overwritten before the end of the composition day"
+    # F4: the 12:00 whole rewrite is the document's last, so ana's first session (08:00 to 08:40,
+    # before it) is ineligible although the seed anchors are present then, and her second (13:00,
+    # after it) has no anchors: no eligible session, the layout fails with that reason
+    assert ins.whole_write_floor(README, D1) == f"{D1}T12:00:00Z" and ins.whole_write_floor(README, None) == f"{D1}T12:00:00Z"
+    assert not res.delivered and res.reasons[-1].startswith("no session of role 0")
+    assert ins._anchor_ready(rows, REF, ins.sessions[("ana.b", D1)][0], ["- Metrics port:"], D1) is None
+    # an append-only role (no anchor) is bound by the same floor: a session before the rewrite is
+    # ineligible, one spanning it plants after it
+    assert ins._anchor_ready(rows, REF, ins.sessions[("ana.b", D1)][0], [], D1) is None
+    rows_c = fixture_rows()
+    rows_c.append({"event_id": "w", "ts": f"{D1}T08:20:00Z", "account": "ben.c", "service": "owncloud",
+                   "action": "write_file", "resource_id": README, "args": {"path": README, "content": SEED},
+                   "exit_code": 0, "error": "", "result_meta": {}, "task_id": "b0"})
+    rows_c.sort(key=lambda r: r["ts"])
+    ins_c = _inserter(rows_c)
+    s1 = ins_c.sessions[("ana.b", D1)][0]                   # 08:00 to 08:40 spans the 08:20 rewrite
+    assert ins_c._anchor_ready(rows_c, REF, s1, [], D1) == f"{D1}T08:20:00Z"
+    assert ins_c._anchor_ready(rows_c, REF, s1, ["- Metrics port:"], D1) == f"{D1}T08:20:00Z"
+    res_c = ins_c._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], random.Random(1), duplicate=False)
+    assert res_c.composed and all(s.ts > f"{D1}T08:20:00Z" for s in res_c.statements)
     # a role whose sessions all run after a rewrite that removed the anchors (and no later edit
     # restores them) has none at any plant time: fay.g on D3 after a 07:30 rewrite
     rows_b = fixture_rows()
@@ -260,19 +274,24 @@ def test_a_plant_can_land_inside_a_session_after_the_anchors_appear():
                  "exit_code": 0, "error": "", "result_meta": {}, "task_id": "b1"})
     rows.sort(key=lambda r: r["ts"])
     ins = _inserter(rows)
-    # ana's first session (08:00) has the anchors but is overwritten at 12:00; her second session
-    # gets the anchors back at 13:20: the lone plant must use the second session, after 13:20
-    s2 = ins.sessions[("ana.b", D1)][1]
-    assert ins._anchor_ready(rows, REF, s2, ["- Metrics port:", "3. Launch with"]) == f"{D1}T13:20:00Z"
+    # ana's first session (08:00) has the anchors but ends before the document's last rewrite of the
+    # day (13:20, inside her second session), so it is ineligible; the second session gets the
+    # anchors back at 13:20 and the lone plant lands there, after 13:20, as a single-session role
+    s1, s2 = ins.sessions[("ana.b", D1)]
+    assert ins._anchor_ready(rows, REF, s1, ["- Metrics port:", "3. Launch with"], D1) is None
+    assert ins._anchor_ready(rows, REF, s2, ["- Metrics port:", "3. Launch with"], D1) == f"{D1}T13:20:00Z"
     res = ins._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], random.Random(4), duplicate=False)
-    # the first session's plant is overwritten; a composed layout needs plant() to re-draw...
-    # ...unless the role's sessions are chosen from the first one with anchors INSIDE its span:
-    # the first session has anchors at its start, so it is chosen and overwritten (recorded)
-    assert not res.composed and res.overwritten_by_whole_write
-    # restricting the role to the second session plants after 13:20 and composes
-    ins.sessions[("ana.b", D1)] = [s2]
-    res2 = ins._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], random.Random(4), duplicate=False)
-    assert res2.composed and all(s.ts > f"{D1}T13:20:00Z" for s in res2.statements)
+    assert res.composed and res.single_session_roles == [0] and all(s.ts > f"{D1}T13:20:00Z" for s in res.statements)
+    # a rewrite on a later day than the composition day does not bind (lone on D1 composes at D1's end)
+    rows_d = fixture_rows()
+    rows_d.append({"event_id": "w3", "ts": f"{D3}T07:30:00Z", "account": "dan.r", "service": "owncloud",
+                   "action": "write_file", "resource_id": README, "args": {"path": README, "content": "# Rewritten\n\nnothing here\n"},
+                   "exit_code": 0, "error": "", "result_meta": {}, "task_id": "d0"})
+    rows_d.sort(key=lambda r: r["ts"])
+    ins_d = _inserter(rows_d)
+    assert ins_d.whole_write_floor(README, D1) is None and ins_d.whole_write_floor(README, D3) == f"{D3}T07:30:00Z"
+    assert ins_d._plant_once(PAYLOAD, "lone", README, PAYLOAD["statements"], [D1], ["ana.b"], random.Random(3), duplicate=False).composed
+    assert ins_d.layout(random.Random(1), "k3", README, PAYLOAD["statements"]) is None   # D1 and D2 sessions end before the D3 rewrite
 
 
 def test_planted_timestamps_take_the_sessions_precision():

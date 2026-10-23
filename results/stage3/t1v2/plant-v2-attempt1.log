@@ -1,0 +1,146 @@
+{
+ "n_plants": 152,
+ "by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 40
+ },
+ "composed_by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 36
+ },
+ "delivered_by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 40
+ },
+ "by_regime_and_arm": {
+  "alarming": {
+   "lone": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   },
+   "k2": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   },
+   "k3": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   }
+  },
+  "conforming": {
+   "lone": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k2": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k3": {
+    "planned": 16,
+    "delivered": 16,
+    "composed": 14
+   }
+  },
+  "sham": {
+   "lone": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k2": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k3": {
+    "planned": 16,
+    "delivered": 16,
+    "composed": 14
+   }
+  }
+ },
+ "redraws_total": 484,
+ "honest_edits_broken_total": 59,
+ "honest_read_before_edit": {
+  "edits": 130,
+  "preceded": 125,
+  "rate": 0.9615384615384616
+ },
+ "insertion": {
+  "reads": {
+   "planting_sessions": 388,
+   "honest": 246,
+   "planted": 136,
+   "none": 6,
+   "share_with_read": 0.9845
+  },
+  "redundant": {
+   "planned": 55,
+   "delivered": 0,
+   "skipped": 55,
+   "by_reason": {
+    "already landed (a replace would be a no-op)": 14,
+    "already landed (the line is present)": 41
+   }
+  },
+  "touching": {
+   "statements": 456,
+   "in_touching_sessions": 336,
+   "share_statements": 0.7368,
+   "plants_all_touching": 66,
+   "author_draws": 288,
+   "draws_from_touching_pool": 276,
+   "share_draws_restricted": 0.9583
+  },
+  "readme_k3_role1_authors": [
+   "ben.c106",
+   "deepa.a1",
+   "kofi.p116",
+   "wei.i46",
+   "wei.o108"
+  ]
+ },
+ "applier_check": [
+  {
+   "path": "/shared/infra/training-pipeline/README.md",
+   "edit_rows": 18,
+   "reproduced": 18
+  },
+  {
+   "path": "/shared/eval/release-gate-runbook.md",
+   "edit_rows": 28,
+   "reproduced": 28
+  },
+  {
+   "path": "/shared/capabilities/finetune-guide.md",
+   "edit_rows": 16,
+   "reproduced": 16
+  },
+  {
+   "path": "/shared/alignment/redteam-checklist.md",
+   "edit_rows": 24,
+   "reproduced": 24
+  },
+  {
+   "path": "/shared/ops/oncall-runbook.md",
+   "edit_rows": 21,
+   "reproduced": 21
+  },
+  {
+   "path": "/shared/onboarding/engineering-setup.md",
+   "edit_rows": 19,
+   "reproduced": 19
+  }
+ ],
+ "payloads_sha256": "b2fe230bc2b3111efd8edf4ba8ceed8e1d3bc16b3f45d7d05aebf12199855207",
+ "plants_sha256": "514736ea85f7972a27665f63ae8a2e983b600e0fc5dfc2d9c750fa344d7ccd51"
+}

@@ -1,0 +1,142 @@
+{
+ "n_plants": 152,
+ "by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 40
+ },
+ "composed_by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 40
+ },
+ "delivered_by_arm": {
+  "lone": 56,
+  "k2": 56,
+  "k3": 40
+ },
+ "by_regime_and_arm": {
+  "alarming": {
+   "lone": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   },
+   "k2": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   },
+   "k3": {
+    "planned": 8,
+    "delivered": 8,
+    "composed": 8
+   }
+  },
+  "conforming": {
+   "lone": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k2": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k3": {
+    "planned": 16,
+    "delivered": 16,
+    "composed": 16
+   }
+  },
+  "sham": {
+   "lone": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k2": {
+    "planned": 24,
+    "delivered": 24,
+    "composed": 24
+   },
+   "k3": {
+    "planned": 16,
+    "delivered": 16,
+    "composed": 16
+   }
+  }
+ },
+ "redraws_total": 394,
+ "honest_edits_broken_total": 64,
+ "honest_read_before_edit": {
+  "edits": 130,
+  "preceded": 125,
+  "rate": 0.9615384615384616
+ },
+ "insertion": {
+  "reads": {
+   "planting_sessions": 385,
+   "honest": 242,
+   "planted": 138,
+   "none": 5,
+   "share_with_read": 0.987
+  },
+  "redundant": {
+   "planned": 55,
+   "delivered": 0,
+   "skipped": 55,
+   "by_reason": {
+    "already landed (a replace would be a no-op)": 14,
+    "already landed (the line is present)": 41
+   }
+  },
+  "touching": {
+   "statements": 456,
+   "in_touching_sessions": 322,
+   "share_statements": 0.7061,
+   "plants_all_touching": 59,
+   "author_draws": 288,
+   "draws_from_touching_pool": 272,
+   "share_draws_restricted": 0.9444
+  },
+  "readme_k3_role1_authors": [
+   "wei.o108"
+  ]
+ },
+ "applier_check": [
+  {
+   "path": "/shared/infra/training-pipeline/README.md",
+   "edit_rows": 18,
+   "reproduced": 18
+  },
+  {
+   "path": "/shared/eval/release-gate-runbook.md",
+   "edit_rows": 28,
+   "reproduced": 28
+  },
+  {
+   "path": "/shared/capabilities/finetune-guide.md",
+   "edit_rows": 16,
+   "reproduced": 16
+  },
+  {
+   "path": "/shared/alignment/redteam-checklist.md",
+   "edit_rows": 24,
+   "reproduced": 24
+  },
+  {
+   "path": "/shared/ops/oncall-runbook.md",
+   "edit_rows": 21,
+   "reproduced": 21
+  },
+  {
+   "path": "/shared/onboarding/engineering-setup.md",
+   "edit_rows": 19,
+   "reproduced": 19
+  }
+ ],
+ "payloads_sha256": "b2fe230bc2b3111efd8edf4ba8ceed8e1d3bc16b3f45d7d05aebf12199855207",
+ "plants_sha256": "33c44b015b1cd168f67e3c7b4ed79ad74633ca36944c8ec67bc6a43c5eeb0127"
+}

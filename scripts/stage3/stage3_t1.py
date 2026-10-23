@@ -455,25 +455,40 @@ class Inserter:
                 if p in WRITE_TEAMS:
                     self.touch[p].add(str(r["task_id"]))
         self._anchored_cache: dict[tuple, bool] = {}
+        # F4 (general form): the last successful whole write of each class document in the null is a
+        # floor on every plant time (a statement planted before it is overwritten; the v2 anchors
+        # exist only after it): a session ending before the floor is ineligible, a session spanning
+        # it plants after it
+        self.whole_writes: dict[str, list[str]] = {}
+        for p in WRITE_TEAMS:
+            self.whole_writes[p] = sorted(w.ts for w in doc.content_writes(self.rows, doc.DocRef("owncloud", p))
+                                          if self.rows[w.index].get("action") == "write_file")
+
+    def whole_write_floor(self, path: str, until_day: str | None) -> str | None:
+        """The last whole rewrite of the document up to the end of `until_day` (the plant's
+        composition day; every day when None): a plant before it cannot compose."""
+        ws = [t for t in self.whole_writes.get(path, []) if until_day is None or t[:10] <= until_day]
+        return max(ws) if ws else None
 
     # layout -------------------------------------------------------------
-    def _has_anchored_session(self, path: str, day: str, acct: str, anchors: tuple[str, ...]) -> bool:
-        key = (path, day, acct, anchors)
+    def _has_anchored_session(self, path: str, day: str, acct: str, anchors: tuple[str, ...],
+                              until_day: str | None = None) -> bool:
+        key = (path, day, acct, anchors, until_day)
         if key not in self._anchored_cache:
             ref = doc.DocRef("owncloud", path)
-            self._anchored_cache[key] = any(self._anchor_ready(self.rows, ref, s, anchors) is not None
+            self._anchored_cache[key] = any(self._anchor_ready(self.rows, ref, s, anchors, until_day) is not None
                                             for s in self.sessions.get((acct, day), []))
         return self._anchored_cache[key]
 
     def draw_author(self, rng: random.Random, path: str, day: str, used: set[str],
-                    anchors: Sequence[str] = (), log: list | None = None) -> str | None:
+                    anchors: Sequence[str] = (), log: list | None = None, until_day: str | None = None) -> str | None:
         """An author for `day`: active, in the document's write-teams, not a manager, not used;
         with a session in which the role's anchors resolve (F4); from the authors with a session
         touching the target when that leaves someone (F3)."""
         pool = [a for a in self.active.get(day, []) if self.team.get(a) in WRITE_TEAMS[path]
                 and a not in self.managers and a not in used]
         anc = tuple(anchors)
-        anchored = [a for a in pool if self._has_anchored_session(path, day, a, anc)] if anc else list(pool)
+        anchored = [a for a in pool if self._has_anchored_session(path, day, a, anc, until_day)]
         touching = [a for a in anchored if any(s.task_id in self.touch.get(path, set())
                                                 for s in self.sessions.get((a, day), []))]
         chosen_pool = touching or anchored
@@ -501,7 +516,7 @@ class Inserter:
             anchors: list[str] = []
             if stmts is not None:
                 anchors = [stmts[i]["anchor"] for i in self._roles(arm)[role] if stmts[i]["op"] == "replace"]
-            a = self.draw_author(rng, path, d, used, anchors, self.last_draw_log)
+            a = self.draw_author(rng, path, d, used, anchors, self.last_draw_log, days[-1])
             if a is None:
                 return None
             used.add(a)
@@ -564,7 +579,7 @@ class Inserter:
             # The role's eligible sessions: those inside whose span every anchor of the role's
             # statements resolves (a document rewritten whole earlier that day has no anchors
             # before the rewrite); none -> this layout fails and is re-drawn.
-            elig = self._sessions_with_anchors(rows, ref, acct, d, [stmts[i] for i in idxs])
+            elig = self._sessions_with_anchors(rows, ref, acct, d, [stmts[i] for i in idxs], days[-1])
             if not elig:
                 res.reasons.append(f"no session of role {role} on {d} has the anchors present")
                 return res
@@ -599,7 +614,7 @@ class Inserter:
         for stmt_i, role, s, dup in plan:
             stmt = stmts[stmt_i]
             anchors = [stmts[i]["anchor"] for i in self._roles(arm)[role] if stmts[i]["op"] == "replace"]
-            ready = self._anchor_ready(rows, ref, s, anchors) if anchors else s.first_ts
+            ready = self._anchor_ready(rows, ref, s, anchors, days[-1])
             after = max(filter(None, [last_ts_by_session.get(s.task_id), ready]), default=None)
             ts = _ts_in(rng, s, after)
             if ts is None:
@@ -666,29 +681,43 @@ class Inserter:
         return res
 
     def _sessions_with_anchors(self, rows: list[dict], ref: doc.DocRef, acct: str, day: str,
-                               stmts: Sequence[Mapping[str, Any]]) -> list[Session]:
+                               stmts: Sequence[Mapping[str, Any]], until_day: str | None = None) -> list[Session]:
         """The role's eligible sessions: every session of the day inside whose span every anchor
         of the role's statements resolves (`_anchor_ready` gives the earliest moment), in time
         order. A document rewritten whole earlier that day has no anchors before the rewrite."""
         ss = self.sessions.get((acct, day), [])
         anchors = [st["anchor"] for st in stmts if st["op"] == "replace"]
-        return [s for s in ss if self._anchor_ready(rows, ref, s, anchors) is not None]
+        return [s for s in ss if self._anchor_ready(rows, ref, s, anchors, until_day) is not None]
 
     def _anchor_ready(self, rows: list[dict], ref: doc.DocRef, s: Session,
-                      anchors: Sequence[str]) -> str | None:
+                      anchors: Sequence[str], until_day: str | None = None) -> str | None:
         """The earliest timestamp inside the session's span at which every anchor resolves
         (the span's start when they are present then; else the ts of the write that made
-        them present), or None when they are absent at the span's end."""
+        them present), not before the document's last whole rewrite up to the end of `until_day`
+        (F4); None when the anchors are absent at the span's end or the session ends before that
+        rewrite."""
+        floor = self.whole_write_floor(ref.key, until_day)
+        if floor is not None and floor > s.last_ts:
+            return None
+
         def ok(state: Any) -> bool:
             return isinstance(state, str) and all(resolve_anchor(state, a) is not None for a in anchors)
-        if ok(doc.content_at(rows, ref, s.first_ts, base=self.base)):
-            return s.first_ts
-        if not ok(doc.content_at(rows, ref, s.last_ts, base=self.base)):
-            return None
         ready = None
-        for w in doc.content_writes(rows, ref):
-            if s.first_ts < w.ts <= s.last_ts and ok(doc.content_at(rows, ref, w.ts, base=self.base)):
-                ready = w.ts if ready is None else min(ready, w.ts)
+        if ok(doc.content_at(rows, ref, s.first_ts, base=self.base)):
+            ready = s.first_ts
+        elif not ok(doc.content_at(rows, ref, s.last_ts, base=self.base)):
+            return None
+        else:
+            for w in doc.content_writes(rows, ref):
+                if s.first_ts < w.ts <= s.last_ts and ok(doc.content_at(rows, ref, w.ts, base=self.base)):
+                    ready = w.ts if ready is None else min(ready, w.ts)
+        if ready is None:
+            return None
+        if floor is not None and floor > ready:
+            # the anchors must still resolve once the rewrite has happened
+            if not ok(doc.content_at(rows, ref, floor, base=self.base)):
+                return None
+            ready = floor
         return ready
 
     def _rebuild_after(self, rows: list[dict], ref: doc.DocRef, pos: int, res: PlantResult) -> None:
