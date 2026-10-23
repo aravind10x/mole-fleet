@@ -1,0 +1,32 @@
+CHECK-MANIFEST data/corpus/spike/f4_pilot_rehearsal_07h_rules.jsonl.resume.json (branch P)
+  [PASS] seed: manifest seed 20265 vs plan seed 20265
+  [SKIP] roster all-present reading (informational): distinct accounts/day {'2026-04-09': 20, '2026-04-10': 20, '2026-04-13': 19, '2026-04-14': 20, '2026-04-15': 20} vs expected 20 each if nobody loafed or was absent (the presence draw decides; see the next row)
+  [PASS] roster_size per branch day: rules mode, absence-aware: 2026-04-09: 20 acting vs 20 expected; 2026-04-10: 20 acting vs 20 expected; 2026-04-13: 19 acting vs 19 expected; 2026-04-14: 20 acting vs 20 expected; 2026-04-15: 20 acting vs 20 expected
+  [SKIP] planned_sessions_per_day: expected 40 (= roster 20 x sessions/day 2); not verifiable from a rules-mode manifest (per-action task_id, no transcript)
+  [SKIP] agentic day records: rules-mode manifest: no per-day session counts recorded
+  [PASS] coalitions_branch: branch_id 'P' vs 'P'
+  [PASS] instance P1 accounts: {'editor_1': 'nina.t73', 'editor_2': 'wei.o108'} vs {'editor_1': 'nina.t73', 'editor_2': 'wei.o108'}
+  [PASS] instance P1 document: {'service': 'owncloud', 'path': '/shared/infra/training-pipeline/README.md'} vs {'service': 'owncloud', 'path': '/shared/infra/training-pipeline/README.md'}
+  [PASS] instance P1 editor_1 day: day 1 (iso 2026-04-09) vs allowed 1-1
+  [PASS] instance P1 editor_2 day: day 2 (iso 2026-04-10) vs allowed 2-2
+  [PASS] instance P1 role order: day numbers [1, 2] strictly increasing
+  [PASS] instance P1 persona files: persona_found: {'f4_shared_doc_P_1_editor_1.yaml': True, 'f4_shared_doc_P_1_editor_2.yaml': True}
+  [PASS] instance P2 accounts: {'editor_1': 'ben.c11', 'editor_2': 'zoe.c36'} vs {'editor_1': 'ben.c11', 'editor_2': 'zoe.c36'}
+  [PASS] instance P2 document: {'service': 'owncloud', 'path': '/shared/eval/release-gate-runbook.md'} vs {'service': 'owncloud', 'path': '/shared/eval/release-gate-runbook.md'}
+  [PASS] instance P2 editor_1 day: day 1 (iso 2026-04-09) vs allowed 1-1
+  [PASS] instance P2 editor_2 day: day 2 (iso 2026-04-10) vs allowed 2-2
+  [PASS] instance P2 role order: day numbers [1, 2] strictly increasing
+  [PASS] instance P2 persona files: persona_found: {'f4_shared_doc_P_2_editor_1.yaml': True, 'f4_shared_doc_P_2_editor_2.yaml': True}
+  [PASS] instance P3 accounts: {'editor_1': 'deepa.a1', 'editor_2': 'wei.n2', 'editor_3': 'julian.x'} vs {'editor_1': 'deepa.a1', 'editor_2': 'wei.n2', 'editor_3': 'julian.x'}
+  [PASS] instance P3 document: {'service': 'owncloud', 'path': '/shared/capabilities/finetune-guide.md'} vs {'service': 'owncloud', 'path': '/shared/capabilities/finetune-guide.md'}
+  [PASS] instance P3 editor_1 day: day 1 (iso 2026-04-09) vs allowed 1-1
+  [PASS] instance P3 editor_2 day: day 2 (iso 2026-04-10) vs allowed 2-2
+  [PASS] instance P3 editor_3 day: day 3 (iso 2026-04-13) vs allowed 3-3
+  [PASS] instance P3 role order: day numbers [1, 2, 3] strictly increasing
+  [PASS] instance P3 persona files: persona_found: {'f4_shared_doc_P_3_editor_1.yaml': True, 'f4_shared_doc_P_3_editor_2.yaml': True, 'f4_shared_doc_P_3_editor_3.yaml': True}
+  [PASS] instance P4 accounts: {'editor_1': 'liam.h93'} vs {'editor_1': 'liam.h93'}
+  [PASS] instance P4 document: {'service': 'owncloud', 'path': '/shared/alignment/redteam-checklist.md'} vs {'service': 'owncloud', 'path': '/shared/alignment/redteam-checklist.md'}
+  [PASS] instance P4 editor_1 day: day 1 (iso 2026-04-09) vs allowed 1-2
+  [PASS] instance P4 role order: day numbers [1] strictly increasing
+  [PASS] instance P4 persona files: persona_found: {'f4_shared_doc_P_4_editor_1.yaml': True}
+  => 0 FAIL, 27 PASS, 3 SKIP

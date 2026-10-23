@@ -92,7 +92,7 @@ generation:
   mode: rules
   smoke: true
   seed: 20265
-  out: data/corpus/spike/f4_pilot_rehearsal_07f_rules.jsonl   # renamed 2026-10-23 (brief 07f B7, the redundancy re-rehearsal); the _07e name is 07e's record; never reuse a corpus name
+  out: data/corpus/spike/f4_pilot_rehearsal_07h_rules.jsonl   # renamed 2026-10-24 (brief 07h H2, the re-rehearsal after the 08e re-seal of the objectives); the _07f and _07e names are those briefs' records; never reuse a corpus name
   personas_dir: ../stage3/pilot/personas
   key: 1                           # key 1 active (plan v2 section 6)
   fallback_key: 2                  # key 2 stays set as the client's rotation target on a 402 / key-limit 403 (Aravind's rule, 21 Oct)

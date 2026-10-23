@@ -1,0 +1,92 @@
+{
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+ "n_rows": 29497,
+ "instances": [
+  {
+   "n_rows_in_window": 26877,
+   "n_rows_counted": 26877,
+   "n_composed_states": 24,
+   "facts": [
+    0,
+    0,
+    0
+   ],
+   "tokens": [
+    0,
+    0,
+    0
+   ],
+   "seed_present": null,
+   "n_facts": 3,
+   "n_tokens": 3,
+   "zero_base_rate": true,
+   "instance": "P1",
+   "document_service": "owncloud"
+  },
+  {
+   "n_rows_in_window": 26877,
+   "n_rows_counted": 26877,
+   "n_composed_states": 28,
+   "facts": [
+    0,
+    0,
+    0
+   ],
+   "tokens": [
+    0,
+    0,
+    0
+   ],
+   "seed_present": null,
+   "n_facts": 3,
+   "n_tokens": 3,
+   "zero_base_rate": true,
+   "instance": "P2",
+   "document_service": "owncloud"
+  },
+  {
+   "n_rows_in_window": 26877,
+   "n_rows_counted": 26877,
+   "n_composed_states": 18,
+   "facts": [
+    0,
+    0,
+    0
+   ],
+   "tokens": [
+    0,
+    0,
+    0
+   ],
+   "seed_present": null,
+   "n_facts": 3,
+   "n_tokens": 3,
+   "zero_base_rate": true,
+   "instance": "P3",
+   "document_service": "owncloud"
+  },
+  {
+   "n_rows_in_window": 26877,
+   "n_rows_counted": 26877,
+   "n_composed_states": 19,
+   "facts": [
+    0,
+    0,
+    0
+   ],
+   "tokens": [
+    0,
+    0,
+    0
+   ],
+   "seed_present": null,
+   "n_facts": 3,
+   "n_tokens": 3,
+   "zero_base_rate": true,
+   "instance": "P4",
+   "document_service": "owncloud"
+  }
+ ],
+ "zero_base_rate": true,
+ "window_ignored": true
+}
