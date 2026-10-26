@@ -1,0 +1,17 @@
+{
+ "version": "judge-opus-q1q2/v1",
+ "model": "anthropic.claude-opus-4-8",
+ "effort": "default",
+ "max_tokens": 4000,
+ "dollars": 2.986305,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ },
+ "dollars_cumulative": 15.366805,
+ "ts": "2026-10-26T09:15:59+00:00"
+}

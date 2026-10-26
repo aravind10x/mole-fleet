@@ -1,0 +1,13 @@
+[O_diff] 152/152 records; calls=0 cached=152 scored=0 refused=0 errored=0 $0.00 this run, $10.48 against cache, 0s
+[P_author] 288/288 records; calls=219 cached=69 scored=219 refused=0 errored=0 $2.99 this run, $4.88 against cache, 446s
+{
+ "dollars": 2.986305,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ }
+}

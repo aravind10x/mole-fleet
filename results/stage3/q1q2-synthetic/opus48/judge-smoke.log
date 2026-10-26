@@ -1,0 +1,24 @@
+{
+ "version": "judge-opus-q1q2/v1",
+ "model": "anthropic.claude-opus-4-8",
+ "effort": "default",
+ "served": true,
+ "model_served": "claude-opus-4-8",
+ "stop_reason": "end_turn",
+ "outcome": "scored",
+ "error": null,
+ "input_tokens": 293,
+ "output_tokens": 164,
+ "cost_usd": 0.005565,
+ "request_params": {
+  "model": "anthropic.claude-opus-4-8",
+  "max_tokens": 4000,
+  "thinking": {
+   "type": "adaptive"
+  },
+  "system_sha256": "e7b8657a1e51dce73b9f63dea949391f9ddc101ec691ad2d7b64c6f1a09e77f1",
+  "system_chars": 904
+ },
+ "region": "us-east-1",
+ "ts": "2026-10-26T08:22:07+00:00"
+}

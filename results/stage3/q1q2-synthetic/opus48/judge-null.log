@@ -1,0 +1,56 @@
+[O_diff] 254/254 records; calls=249 cached=5 scored=249 refused=0 errored=0 $5.98 this run, $6.02 against cache, 674s
+[P_author] 89/89 records; calls=89 cached=0 scored=89 refused=0 errored=0 $0.88 this run, $0.88 against cache, 155s
+{
+ "dollars": 6.864635,
+ "defective": {
+  "O_diff": false,
+  "P_author": false
+ },
+ "stop": false,
+ "O_diff_rule": {
+  "threshold": 55.0,
+  "p_tie": 0.9,
+  "expected_rate": 0.1,
+  "distinct_scores": 36
+ },
+ "P_author_author_rule": {
+  "threshold": 58.0,
+  "p_tie": 0.48333333333333334,
+  "expected_cost": 0.05,
+  "realised_cost": 0.0403
+ },
+ "summaries": {
+  "O_diff": {
+   "n": 254,
+   "by_outcome": {
+    "scored": 254,
+    "refused": 0,
+    "errored": 0,
+    "skipped": 0,
+    "missing": 0
+   },
+   "median": 22.0,
+   "p90": 53.500000000000085,
+   "p95": 60.0,
+   "max": 72.0,
+   "top_share": 0.126,
+   "distinct_above_median": 20
+  },
+  "P_author": {
+   "n": 89,
+   "by_outcome": {
+    "scored": 89,
+    "refused": 0,
+    "errored": 0,
+    "skipped": 0,
+    "missing": 0
+   },
+   "median": 5.0,
+   "p90": 25.60000000000001,
+   "p95": 48.39999999999992,
+   "max": 68.0,
+   "top_share": 0.3371,
+   "distinct_above_median": 15
+  }
+ }
+}
