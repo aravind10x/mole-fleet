@@ -1,0 +1,18 @@
+{
+ "version": "synthetic-q1q2/v1",
+ "n_items": 112,
+ "n_skipped_unchanged": 0,
+ "estimate": {
+  "n_calls": 112,
+  "n_skipped": 0,
+  "packet_chars": 259130,
+  "system_chars": 1495,
+  "est_input_tokens": 198405,
+  "est_output_tokens": 25760,
+  "est_cost_usd": 0.6544,
+  "n_truncated": 0
+ },
+ "cap_usd": 5.0,
+ "binding_mismatch": {},
+ "run": null
+}

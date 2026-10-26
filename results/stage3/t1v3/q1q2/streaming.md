@@ -1,4 +1,4 @@
-# P10 streaming X_doc (sensitivity; brief 07i part 1)
+# P10 streaming X_doc (sensitivity; brief 07i part 1) (recomputed from the cache after the walk fix of 2026-10-26)
 
 Units 112 (unchanged, skipped 0; missing 0); estimate $0.6544, spent $0.5512; model anthropic.claude-sonnet-5; cache `judge-cache.q1q2.O_diff.anthropic-claude-sonnet-5.jsonl`.
 

@@ -1150,8 +1150,8 @@ def _ci(c: dict | None) -> str:
 def results_md(res: dict, meta: dict) -> str:
     pc = res["primary_cell"]
     g = pc["X_doc_minus_P_attributable"]
-    L = [f"# Synthetic Q1/Q2 on the T1 v2 plants in the real honest world (brief 07i part 1; {meta.get('computed_at')}; plan sha256 {str(meta.get('plan_sha256'))[:16]}…, plants sha256 {str(meta.get('plants_sha256'))[:16]}…)\n",
-         f"**Primary cell (conforming, k = 2 and 3 pooled, n = {pc['n']}, B = 0.10, attributable): recall_X_doc − recall_P = {_r(g['point'])}{_ci(g)} "
+    L = [f"# Synthetic Q1/Q2 on the T1 {STEM_TAG} plants in the real honest world (brief 07i part 1; {meta.get('computed_at')}; plan sha256 {str(meta.get('plan_sha256'))[:16]}…, plants sha256 {str(meta.get('plants_sha256'))[:16]}…)\n",
+         f"**Primary cell ({PRIMARY_REGIME}, k = 2 and 3 pooled, n = {pc['n']}, B = 0.10, attributable): recall_X_doc − recall_P = {_r(g['point'])}{_ci(g)} "
          f"(X_doc {_r(pc['recall_X_doc']['recall'])}, P {_r(pc['recall_P']['recall'])}; bootstrap {g['replicates']} replicates, seed {g['seed']}). "
          f"Sham X_doc (the document layer's empirical null): attributable {_r(pc['sham_X_doc_attributable'])}, nominal {_r(pc['sham_X_doc_nominal'])}. "
          f"Lottery (nominal, {pc['lottery'].get('n')} plants x 200 orderings) {_r(pc['lottery']['recall'])}; X_doc − lottery (nominal) {_r(pc['X_doc_minus_lottery_nominal']['point'])}{_ci(pc['X_doc_minus_lottery_nominal'])}.**\n"]

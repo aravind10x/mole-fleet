@@ -1,4 +1,4 @@
-# The 07k join: human anchors (A5) and the outside-knowledge class against the union of judges (A4); 2026-10-26T20:17Z
+# The 07k join: human anchors (A5) and the outside-knowledge class against the union of judges (A4); 2026-10-26T20:27Z
 
 Sheets by hash: batch 1 `2980ef7584a12ea1…`, batch 2 `b0a8da3c1cab7f72…`; ratings `289a9fe1ba46b0c8…`.
 

@@ -9,7 +9,7 @@
  },
  "inserter_sha256": "02339a4426b86322d0de02c2599629c1b6f6f8641faa13b7f1369aeaa00ae954",
  "inserter_v2_sha256": "c6c486ed38d51185c2d04698d59e2dd6a4c7368e978a172e7bf72799ca343bc4",
- "scorer_sha256": "a7b4911947b17b64a023b2ba6f430fa1b627ad7698b24e58f9843e5a00db4f32",
+ "scorer_sha256": "6f70b3cab0b12a26526b44b6e1f2a371a88a28cf9ff784896769c4e6e8cd964e",
  "layout_seed": 20261128,
  "contrast_seed": 20261129,
  "tie_seed": 20261112,
@@ -44577,7 +44577,32 @@
    }
   }
  },
- "insertion_footprint_S5": null,
+ "insertion_footprint_S5": {
+  "cheapest_rule": {
+   "kind": "unit",
+   "rate": 0.05,
+   "seed": 20261112,
+   "n": 149,
+   "distinct_scores": 7,
+   "threshold": 3.0,
+   "p_tie": 0.43125,
+   "share_above": 0.026845637583892617,
+   "share_at": 0.053691275167785234,
+   "expected_rate": 0.05,
+   "statistic": "successful class-document content writes by the account on the day",
+   "degenerate": false,
+   "honest_expected_rate": 0.05,
+   "honest_realised_rate": 0.0671,
+   "honest_realised_flagged": 10,
+   "chance_at_rate": {
+    "k1": 0.05,
+    "k2": 0.0975,
+    "k3": 0.1426
+   }
+  },
+  "source": "t1v3/q1q2/results.json (S5)",
+  "computed_at": "2026-10-26T20:21Z"
+ },
  "n_items": {
   "P_author": 240,
   "P_author_ctx": 240,
@@ -44625,5 +44650,5 @@
   "judge_client.py carries two additive amendments since the seal (section 8 of the plan); the Sonnet request is byte-identical",
   "A3 and N2 are applied with the sham re-draw as the same-planting control"
  ],
- "ts": "2026-10-26T20:14Z"
+ "ts": "2026-10-26T20:27Z"
 }
