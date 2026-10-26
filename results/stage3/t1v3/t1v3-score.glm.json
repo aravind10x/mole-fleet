@@ -1,0 +1,92 @@
+{
+ "version": "t1v3-score/v1",
+ "judge": "glm",
+ "model": "z-ai/glm-5.3",
+ "null_file": "judge-dep-null.glm.json",
+ "null_thresholds": {
+  "O_diff": {
+   "threshold": 55.0,
+   "p_tie": 0.3142857142857143,
+   "expected_rate": 0.1
+  },
+  "P_author_author": {
+   "threshold": 30.0,
+   "p_tie": 0.12083333333333333,
+   "expected_cost": 0.05
+  }
+ },
+ "views": {
+  "O_diff": {
+   "n": 128,
+   "outcomes": {
+    "scored": 128
+   },
+   "dollars": 0.04552,
+   "stats": {
+    "calls": 128,
+    "requests": 128,
+    "cached": 0,
+    "scored": 128,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 155415,
+    "output_tokens": 24782,
+    "reasoning_tokens": 6462,
+    "rate_waits": 40,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "dollars": 0.04552,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.04552,
+    "aborted": null,
+    "model": "z-ai/glm-5.3",
+    "provider": "openrouter"
+   },
+   "cache": "judge-cache.t1v3dep.O_diff.z-ai_glm-5-3.jsonl",
+   "estimate_usd": 0.0448,
+   "output_tokens_mean": 193.6
+  },
+  "P_author": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 0.05547,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 158522,
+    "output_tokens": 31768,
+    "reasoning_tokens": 4860,
+    "rate_waits": 119,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "dollars": 0.05547,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.05547,
+    "aborted": null,
+    "model": "z-ai/glm-5.3",
+    "provider": "openrouter"
+   },
+   "cache": "judge-cache.t1v3dep.P_author.z-ai_glm-5-3.jsonl",
+   "estimate_usd": 0.0545,
+   "output_tokens_mean": 132.4
+  }
+ },
+ "dollars": 0.10099,
+ "aborted": null,
+ "dollars_all": {
+  "sonnet": 12.173626,
+  "glm": 0.100989,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 12.274615
+ },
+ "ts": "2026-10-26T19:55Z"
+}

@@ -1,0 +1,98 @@
+{
+ "version": "t1v3-score/v1",
+ "judge": "opus48",
+ "model": "anthropic.claude-opus-4-8",
+ "null_file": "opus48/judge-null.json",
+ "null_thresholds": {
+  "O_diff": {
+   "threshold": 55.0,
+   "p_tie": 0.9,
+   "expected_rate": 0.1
+  },
+  "P_author_author": {
+   "threshold": 58.0,
+   "p_tie": 0.48333333333333334,
+   "expected_cost": 0.05
+  }
+ },
+ "views": {
+  "O_diff": {
+   "n": 128,
+   "outcomes": {
+    "scored": 128
+   },
+   "dollars": 4.271035,
+   "stats": {
+    "calls": 128,
+    "requests": 128,
+    "cached": 0,
+    "scored": 128,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 235362,
+    "output_tokens": 123769,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 0,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 4.271035,
+    "dollars_cached": 0.0,
+    "dollars_total": 4.271035,
+    "aborted": null,
+    "model": "anthropic.claude-opus-4-8",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3opus-default.O_diff.anthropic-claude-opus-4-8.jsonl",
+   "estimate_usd": 3.7592,
+   "output_tokens_mean": 966.9
+  },
+  "P_author": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 3.117405,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 230446,
+    "output_tokens": 78607,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 80,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 3.117405,
+    "dollars_cached": 0.0,
+    "dollars_total": 3.117405,
+    "aborted": null,
+    "model": "anthropic.claude-opus-4-8",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3opus-default.P_author.anthropic-claude-opus-4-8.jsonl",
+   "estimate_usd": 3.3305,
+   "output_tokens_mean": 327.5
+  }
+ },
+ "dollars": 7.388440000000001,
+ "aborted": null,
+ "dollars_all": {
+  "sonnet": 12.173626,
+  "glm": 0.100989,
+  "opus48": 7.38844,
+  "streaming": 0.551154,
+  "total": 20.214209
+ },
+ "ts": "2026-10-26T20:11Z"
+}

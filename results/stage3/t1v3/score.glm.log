@@ -1,0 +1,22 @@
+[O_diff] 128/128 records; calls=128 cached=0 scored=128 refused=0 errored=0 $0.05 this run, $0.05 against cache, 189s
+[P_author] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $0.06 this run, $0.06 against cache, 335s
+{
+ "judge": "glm",
+ "dollars_this_run": 0.101,
+ "dollars_all": {
+  "sonnet": 12.173626,
+  "glm": 0.100989,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 12.274615
+ },
+ "aborted": null,
+ "outcomes": {
+  "O_diff": {
+   "scored": 128
+  },
+  "P_author": {
+   "scored": 240
+  }
+ }
+}
