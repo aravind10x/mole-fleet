@@ -75,15 +75,44 @@ def slug(model: str) -> str:
     return model.replace(".", "-")
 
 
-def cache_path(out_dir: Path, view: str, model: str) -> Path:
-    return out_dir / f"judge-cache.{STEM_TAG}.{view}.{slug(model)}.jsonl"
+def cache_path(out_dir: Path, view: str, model: str, effort: str) -> Path:
+    """One cache per (view, model, effort): the effort sets the thinking depth, so records at another
+    effort are another instrument (review 2026-10-26 finding 3)."""
+    return out_dir / f"judge-cache.{STEM_TAG}-{effort}.{view}.{slug(model)}.jsonl"
+
+
+def identity(ns) -> dict:
+    return {"model": ns.model, "effort": ns.effort, "max_tokens": OPUS_MAX_TOKENS}
+
+
+def require_identity(rec: dict, ns, what: str) -> None:
+    got = {k: rec.get(k) for k in ("model", "effort", "max_tokens")}
+    if got != identity(ns):
+        raise SystemExit(f"refusing: {what} was made under {got}, this run is {identity(ns)}")
+
+
+def all_opus_records(out_dir: Path, model: str) -> list[dict]:
+    recs = []
+    for p in sorted(out_dir.glob(f"judge-cache.{STEM_TAG}-*.{slug(model)}.jsonl")):
+        recs += read_jsonl(p)
+    return recs
+
+
+def dollars_so_far(out_dir: Path, model: str) -> float:
+    """Every dollar paid against this model in part 2: all opus caches (every record, errored ones too)
+    plus the smoke call (review 2026-10-26 finding 5)."""
+    tot = sum(float(r.get("cost_usd") or 0.0) for r in all_opus_records(out_dir, model))
+    sm = out_dir / "judge-smoke.json"
+    if sm.exists():
+        tot += float(load_json(sm).get("cost_usd") or 0.0)
+    return round(tot, 6)
 
 
 def make_client(view: str, out_dir: Path, model: str, effort: str, *, concurrency: int, rpm: int,
                 spend_cap_usd: float | None) -> jc_mod.JudgeClient:
     """`stage3_views.make_client`'s checks (cache name carries the view key and the model; one prompt
     version and system prompt per cache), with the opus path's effort and max_tokens."""
-    cp = cache_path(out_dir, view, model)
+    cp = cache_path(out_dir, view, model, effort)
     set_.check_cache(cp, model, prompt_version=sv.prompt_version(view, 0))
     jc = jc_mod.JudgeClient(cache_path=cp, concurrency=concurrency, rpm=rpm, model=model, spend_cap_usd=spend_cap_usd,
                             max_tokens=OPUS_MAX_TOKENS, system=sv.system_prompt(view, 0),
@@ -92,6 +121,11 @@ def make_client(view: str, out_dir: Path, model: str, effort: str, *, concurrenc
     bad = [r.get("cache_key") for r in jc.cache.values() if (r.get("request_params") or {}).get("system_sha256") not in (None, want)]
     if bad:
         raise SystemExit(f"refusing: cache {cp} holds {len(bad)} record(s) under another system prompt")
+    bad = [r.get("cache_key") for r in jc.cache.values()
+           if (r.get("request_params") or {}).get("output_config") != {"effort": effort}
+           or (r.get("request_params") or {}).get("max_tokens") != OPUS_MAX_TOKENS]
+    if bad:
+        raise SystemExit(f"refusing: cache {cp} holds {len(bad)} record(s) at another effort or max_tokens")
     return jc
 
 
@@ -183,13 +217,28 @@ async def estimate(ns, out_dir: Path) -> int:
     recs, aborted = await sv.score_items(jc, pilot, "O_diff", 0)
     if aborted:
         raise SystemExit(f"pilot aborted: {aborted}")
-    outs = [int(r.get("output_tokens") or 0) for r in recs.values() if r.get("outcome") in ("scored", "refused")]
+    # every pilot record's output tokens (the client sums all attempts of a unit, errored re-asks included:
+    # review 2026-10-26 finding 4); at least three scored units, or the estimate is refused
+    outs = [int(r.get("output_tokens") or 0) for r in recs.values()]
     ins = [int(r.get("input_tokens") or 0) for r in recs.values()]
-    per_call = (sum(outs) / len(outs)) if outs else 230.0
+    n_scored = sum(1 for r in recs.values() if r.get("outcome") == "scored")
+    if n_scored < 3 or not outs:
+        raise SystemExit(f"refusing: the pilot scored {n_scored} of {len(pilot)} units; no estimate without a usable pilot "
+                         f"(outcomes {dict(Counter(r.get('outcome') for r in recs.values()))}, output tokens {outs})")
+    per_call = sum(outs) / len(outs)
+    per_call_max = max(outs)
     est = {k: _estimate(U["honest"][v] if k.startswith("honest") else U["plants"][v], v, ns.model, per_call)
            for k, v in (("honest:O_diff", "O_diff"), ("honest:P_author", "P_author"), ("plants:O_diff", "O_diff"), ("plants:P_author", "P_author"))}
     total = round(sum(e["est_cost_usd"] for e in est.values()), 2)
+    est_max = {k: _estimate(U["honest"][v] if k.startswith("honest") else U["plants"][v], v, ns.model, per_call_max)
+               for k, v in (("honest:O_diff", "O_diff"), ("honest:P_author", "P_author"), ("plants:O_diff", "O_diff"), ("plants:P_author", "P_author"))}
+    total_max = round(sum(e["est_cost_usd"] for e in est_max.values()), 2)
+    worst = round(sum(_estimate(U["honest"][v] if k.startswith("honest") else U["plants"][v], v, ns.model, OPUS_MAX_TOKENS)["est_cost_usd"]
+                      for k, v in (("honest:O_diff", "O_diff"), ("honest:P_author", "P_author"), ("plants:O_diff", "O_diff"), ("plants:P_author", "P_author"))), 2)
     out = {"version": VERSION, "model": ns.model, "effort": ns.effort, "max_tokens": OPUS_MAX_TOKENS,
+           "uncertainty": {"note": "five early honest O_diff units; P_author packets differ in shape; thinking length varies by unit",
+                           "total_at_pilot_max_output_tokens": total_max, "output_tokens_per_call_max": per_call_max,
+                           "total_if_every_call_hit_max_tokens": worst},
            "pilot": {"n": len(pilot), "labels": [it["label"] for it in pilot], "output_tokens": outs, "input_tokens": ins,
                      "output_tokens_per_call": round(per_call, 1), "outcomes": dict(Counter(r.get("outcome") for r in recs.values())),
                      "stop_reasons": dict(Counter(r.get("stop_reason") for r in recs.values())), "dollars": jc.stats()["dollars"],
@@ -198,6 +247,7 @@ async def estimate(ns, out_dir: Path) -> int:
            "under_stop_line": total <= ESTIMATE_STOP_USD, "reproduction": U["repro"],
            "n_units": {k: len(v) for k, v in {**{f"honest:{k}": v for k, v in U["honest"].items()}, **{f"plants:{k}": v for k, v in U["plants"].items()}}.items()},
            "ts": jc_mod._now_iso()}
+    out["dollars_so_far"] = dollars_so_far(out_dir, ns.model)
     write_json(out_dir / f"judge-estimate.{ns.effort}.json", out)
     write_json(out_dir / "judge-estimate.json", out)
     print(json.dumps({k: v for k, v in out.items() if k != "reproduction"}, indent=1))
@@ -250,8 +300,21 @@ def per_document(rows: list[dict], rule: dict) -> dict:
     return out
 
 
-async def score_view(view: str, items: list[dict], ns, out_dir: Path, spend_cap: float, note: str) -> tuple[dict, list[dict], float]:
-    jc = make_client(view, out_dir, ns.model, ns.effort, concurrency=ns.concurrency, rpm=ns.rpm, spend_cap_usd=spend_cap)
+def global_cap(out_dir: Path, ns, allowance: float) -> float:
+    """The cap handed to one view's client: its own cache's spend so far plus whatever the global
+    allowance (1.5 x the estimate, never above the brief's loose cap) has left after every opus dollar
+    paid so far in part 2 (review 2026-10-26 finding 5)."""
+    spent = dollars_so_far(out_dir, ns.model)
+    remaining = max(0.0, min(allowance, LOOSE_CAP_USD) - spent)
+    return remaining
+
+
+async def score_view(view: str, items: list[dict], ns, out_dir: Path, allowance: float, note: str) -> tuple[dict, list[dict], float]:
+    remaining = global_cap(out_dir, ns, allowance)
+    if remaining <= 0:
+        raise SystemExit(f"refusing: the global allowance ${allowance} is spent (${dollars_so_far(out_dir, ns.model)} so far)")
+    jc = make_client(view, out_dir, ns.model, ns.effort, concurrency=ns.concurrency, rpm=ns.rpm, spend_cap_usd=None)
+    jc.spend_cap_usd = jc.dollars_cached + remaining
     recs, aborted = await sv.score_items(jc, items, view, 0)
     jc.batch_log(out_dir / "judge-batches.jsonl", note=note + (" ABORTED" if aborted else ""))
     if aborted:
@@ -267,20 +330,35 @@ async def null(ns, out_dir: Path) -> int:
     est = load_json(est_p)
     if not est.get("under_stop_line") or est.get("effort") != ns.effort or est.get("model") != ns.model:
         raise SystemExit(f"refusing: the estimate on file ({est.get('model')}, {est.get('effort')}, ${est.get('total_est_usd')}) does not license this run")
+    require_identity(est, ns, "the estimate")
     cap = round(est["total_est_usd"] * 1.5, 2)
     U = build_units(ns)
     if not U["repro"]["all_reproduced"]:
         raise SystemExit(f"refusing: the units do not reproduce: {U['repro']}")
     out: dict[str, Any] = {"version": VERSION, "model": ns.model, "effort": ns.effort, "max_tokens": OPUS_MAX_TOKENS,
-                           "spend_cap_usd": cap, "views": {}, "dollars": 0.0}
+                           "allowance_usd": cap, "views": {}, "dollars": 0.0, "stop": False, "defective": {}}
     for view in ("O_diff", "P_author"):
         recs, rows, dollars = await score_view(view, U["honest"][view], ns, out_dir, cap, f"{STEM_TAG} null {view}")
+        out["dollars"] += dollars
         summ = sv.summarise(rows)
         defect = sv.defect_check(summ, packets_ok=not any(r.get("truncated") for r in rows))
         rec: dict[str, Any] = {"n_units": len(rows), "summary": summ, "defect_check": defect,
                                "model_served": dict(Counter(r.get("model_served") for r in rows)),
                                "stop_reasons": dict(Counter(r.get("stop_reason") for r in rows)),
-                               "output_tokens_mean": round(sum(r.get("output_tokens") or 0 for r in rows) / max(1, len(rows)), 1)}
+                               "output_tokens_mean": round(sum(r.get("output_tokens") or 0 for r in rows) / max(1, len(rows)), 1),
+                               "rows": rows}
+        out["views"][view] = rec
+        out["defective"][view] = defect["any_defect"]
+        # the report is written before any threshold is fitted, so a defective or empty null still leaves
+        # F4's record (review 2026-10-26 finding 7)
+        out["dollars_cumulative"] = dollars_so_far(out_dir, ns.model)
+        write_json(out_dir / "judge-null.json", out)
+        if defect["any_defect"] or summ["n_scored"] == 0:
+            out["stop"] = True
+            out["ts"] = jc_mod._now_iso()
+            write_json(out_dir / "judge-null.json", out)
+            print(json.dumps({"stop": True, "view": view, "defect_check": defect, "summary": {k: summ.get(k) for k in ("n", "by_outcome", "top_share", "distinct_above_median")}}, indent=1))
+            return 1
         if view == "O_diff":
             rule = unit_rule(rows, view, RATES[view])
             rec["rule"] = rule
@@ -291,12 +369,8 @@ async def null(ns, out_dir: Path) -> int:
             rec["author_rule"] = author_rule(rows, U["account_days"], RATES[view])
             rec["headroom_three_or_fewer_one_line_changes"] = {"n_pairs": sum(1 for r in rows if r.get("n_changes", 0) <= 3 and r.get("all_one_line")),
                                                               "max": max([float(r["score"]) for r in rows if r.get("n_changes", 0) <= 3 and r.get("all_one_line") and r.get("score") is not None], default=None)}
-        rec["rows"] = rows
-        out["views"][view] = rec
-        out["dollars"] += dollars
-    out["defective"] = {v: out["views"][v]["defect_check"]["any_defect"] for v in out["views"]}
-    out["stop"] = any(out["defective"].values())
     out["ts"] = jc_mod._now_iso()
+    out["dollars_cumulative"] = dollars_so_far(out_dir, ns.model)
     write_json(out_dir / "judge-null.json", out)
     print(json.dumps({"dollars": out["dollars"], "defective": out["defective"], "stop": out["stop"],
                       "O_diff_rule": {k: out["views"]["O_diff"]["rule"].get(k) for k in ("threshold", "p_tie", "expected_rate", "distinct_scores")},
@@ -312,7 +386,9 @@ async def plants(ns, out_dir: Path) -> int:
     nul = load_json(np_)
     if nul.get("stop"):
         raise SystemExit("refusing: the null is defective under 11.12(d); part 2 stopped")
+    require_identity(nul, ns, "the null")
     est = load_json(out_dir / "judge-estimate.json")
+    require_identity(est, ns, "the estimate")
     cap = round(est["total_est_usd"] * 1.5, 2)
     U = build_units(ns)
     if not U["repro"]["all_reproduced"]:
@@ -323,7 +399,8 @@ async def plants(ns, out_dir: Path) -> int:
         recs, rows, d = await score_view(view, U["plants"][view], ns, out_dir, cap, f"{STEM_TAG} plants {view}")
         dollars += d
         counts[view] = dict(Counter(r["outcome"] for r in rows))
-    write_json(out_dir / "judge-plants.json", {"version": VERSION, "dollars": dollars, "outcomes": counts, "ts": jc_mod._now_iso()})
+    write_json(out_dir / "judge-plants.json", {"version": VERSION, **identity(ns), "dollars": dollars, "outcomes": counts,
+                                                "dollars_cumulative": dollars_so_far(out_dir, ns.model), "ts": jc_mod._now_iso()})
     print(json.dumps({"dollars": dollars, "outcomes": counts}, indent=1))
     return 0
 
@@ -383,11 +460,13 @@ def results(ns, out_dir: Path) -> int:
     U = build_units(ns)
     seal, manifest, payloads = U["seal"], U["manifest"], U["payloads"]
     nul = load_json(out_dir / "judge-null.json")
+    require_identity(nul, ns, "the null")
+    require_identity(load_json(out_dir / "judge-plants.json"), ns, "the plant run")
     son = seal["binding"]["model"]
     V, T = Path(ns.views_dir), Path(ns.t1v2_dir)
     # records: Opus for O_diff and P_author (plants), Sonnet for P_own and P_author_ctx
-    recs = {"O_diff": {r["cache_key"]: r for r in read_jsonl(cache_path(out_dir, "O_diff", ns.model))},
-            "P_author": {r["cache_key"]: r for r in read_jsonl(cache_path(out_dir, "P_author", ns.model))},
+    recs = {"O_diff": {r["cache_key"]: r for r in read_jsonl(cache_path(out_dir, "O_diff", ns.model, ns.effort))},
+            "P_author": {r["cache_key"]: r for r in read_jsonl(cache_path(out_dir, "P_author", ns.model, ns.effort))},
             "P_own": {r["cache_key"]: r for r in read_jsonl(T / f"judge-cache.t1v2.P_own.{slug(son)}.jsonl")},
             "P_author_ctx": {r["cache_key"]: r for r in read_jsonl(T / f"judge-cache.t1v2.P_author_ctx.{slug(son)}.jsonl")}}
     oseal = opus_seal(seal, nul)
@@ -416,18 +495,28 @@ def results(ns, out_dir: Path) -> int:
                 "P_author_curve": r["P_author"]["curve"], "document_classes": r["O_diff"]["document_classes"],
                 "incomplete": r["incomplete"]}
     table = {reg: {"opus": row(res_opus, reg), "sonnet": row(son_res, reg)} for reg in REGIMES}
+    # a regime whose Opus O_diff or P_author units did not all score is not evaluable (review 2026-10-26 finding 6);
+    # its recalls stay in the table as provisional, marked, and no prediction is read on it
+    not_evaluable = {reg: {k: v for k, v in (table[reg]["opus"] or {}).get("incomplete", {}).items() if k in ("O_diff", "P_author")} for reg in REGIMES}
+    for reg in REGIMES:
+        if table[reg]["opus"] is not None:
+            table[reg]["opus"]["evaluable"] = not not_evaluable[reg]
     c_o, c_s = table["conforming"]["opus"], table["conforming"]["sonnet"]
     sh_o = table["sham"]["opus"]
+    ev1 = not not_evaluable["conforming"] and not not_evaluable["sham"]
     pred1 = {"prediction": "conforming composed recall rises above Sonnet's 0.34 while the sham arm stays at or under 0.10, at Opus's own 10 percent honest threshold",
              "opus_conforming_O_diff": c_o["O_diff_share"], "sonnet_conforming_O_diff": c_s["O_diff_share"], "opus_sham_O_diff": sh_o["O_diff_share"],
-             "held": c_o["O_diff_share"] is not None and c_o["O_diff_share"] > c_s["O_diff_share"] and sh_o["O_diff_share"] <= 0.10}
+             "evaluable": ev1,
+             "held": (c_o["O_diff_share"] is not None and c_o["O_diff_share"] > c_s["O_diff_share"] and sh_o["O_diff_share"] <= 0.10) if ev1 else None}
     d_o = (c_o["O_diff_share"] or 0) - (c_s["O_diff_share"] or 0)
     d_pa = (c_o["P_author"]["lone"]["recall"] or 0) - (c_s["P_author"]["lone"]["recall"] or 0)
+    ev2 = not not_evaluable["conforming"]
     pred2 = {"prediction": "P_author's conforming lone recall rises by less than O_diff's conforming composed recall does (Opus minus Sonnet)",
-             "O_diff_rise": round(d_o, 4), "P_author_lone_rise": round(d_pa, 4), "held": d_pa < d_o}
-    dollars = {"pilot_and_null": nul["dollars"], "plants": load_json(out_dir / "judge-plants.json")["dollars"],
-               "smoke": (load_json(out_dir / "judge-smoke.json") or {}).get("cost_usd")}
-    dollars["total"] = round(sum(v for v in dollars.values() if v), 4)
+             "O_diff_rise": round(d_o, 4), "P_author_lone_rise": round(d_pa, 4), "evaluable": ev2, "held": (d_pa < d_o) if ev2 else None}
+    dollars = {"null_run": nul["dollars"], "plants_run": load_json(out_dir / "judge-plants.json")["dollars"],
+               "smoke": (load_json(out_dir / "judge-smoke.json") or {}).get("cost_usd"),
+               "cumulative_all_opus_records_plus_smoke": dollars_so_far(out_dir, ns.model)}
+    dollars["total"] = dollars["cumulative_all_opus_records_plus_smoke"]
     out = {"version": VERSION, "model": ns.model, "model_served": nul["views"]["O_diff"]["model_served"], "effort": ns.effort,
            "max_tokens": OPUS_MAX_TOKENS, "judge_plan_sha256": sv.file_sha256(Path(ns.plan)) if ns.plan else None,
            "thresholds": {"opus": {"O_diff": {k: oseal["views"]["O_diff"]["rule"].get(k) for k in ("threshold", "p_tie", "expected_rate", "n", "distinct_scores")},
@@ -439,7 +528,8 @@ def results(ns, out_dir: Path) -> int:
            "honest_exceedance_per_document": {"opus": {p: v["expected_exceedance_under_pooled_rule"] for p, v in oseal["views"]["O_diff"]["per_document"].items()},
                                               "sonnet": {p: v["expected_exceedance_under_pooled_rule"] for p, v in seal["views"]["O_diff"]["per_document"].items()}},
            "predictions": {"1": pred1, "2": pred2}, "table": table, "curves": curves, "invisibility": inv, "dollars": dollars,
-           "incomplete": res_opus["incomplete"], "regime_contrasts_opus": res_opus.get("regime_contrasts"),
+           "incomplete": res_opus["incomplete"], "not_evaluable_regimes": {r: v for r, v in not_evaluable.items() if v},
+           "regime_contrasts_opus": res_opus.get("regime_contrasts"),
            "disclosures": ["the T1 v2 placeholders were written by a Claude session (brief 07g) and the judge shares the model family",
                            "P_own and the P_author context-3 variant stay at Sonnet; only O_diff and P_author (context 0) are re-scored",
                            "Opus's thresholds are its own (same mechanism, same rates, same tie seed and labels), not the seal's; no sealed threshold moves",
@@ -458,9 +548,12 @@ def _f(v):
 
 def results_md(out: dict) -> str:
     p1, p2 = out["predictions"]["1"], out["predictions"]["2"]
+    def held(p):
+        return "not evaluable (an Opus unit did not score)" if not p.get("evaluable", True) else str(p["held"])
     L = [f"# The stronger composed judge (brief 07i part 2; {out['model']} served as {list(out['model_served'])}; effort {out['effort']}; {out['ts']})\n",
-         f"**Prediction 1 held: {p1['held']}** (conforming composed recall Opus {_f(p1['opus_conforming_O_diff'])} against Sonnet {_f(p1['sonnet_conforming_O_diff'])}; sham Opus {_f(p1['opus_sham_O_diff'])}). "
-         f"**Prediction 2 held: {p2['held']}** (O_diff rise {_f(p2['O_diff_rise'])}, P_author lone rise {_f(p2['P_author_lone_rise'])}). Dollars {out['dollars']}.\n",
+         f"**Prediction 1 held: {held(p1)}** (conforming composed recall Opus {_f(p1['opus_conforming_O_diff'])} against Sonnet {_f(p1['sonnet_conforming_O_diff'])}; sham Opus {_f(p1['opus_sham_O_diff'])}). "
+         f"**Prediction 2 held: {held(p2)}** (O_diff rise {_f(p2['O_diff_rise'])}, P_author lone rise {_f(p2['P_author_lone_rise'])}). Dollars {out['dollars']}. "
+         + (f"**Not evaluable regimes: {out['not_evaluable_regimes']}.** " if out.get("not_evaluable_regimes") else "") + "\n",
          f"Opus thresholds: O_diff {out['thresholds']['opus']['O_diff']}; P_author author-level {out['thresholds']['opus']['P_author_author']}. "
          f"Sonnet (sealed): O_diff {out['thresholds']['sonnet']['O_diff']}; P_author author-level {out['thresholds']['sonnet']['P_author_author']}.\n",
          f"Null defect check: {out['null_defect_check']}; null summaries: " + json.dumps({v: {k: s.get(k) for k in ('n', 'by_outcome', 'median', 'p90', 'p95', 'max', 'top_share', 'distinct_above_median')} for v, s in out['null_summaries'].items()}) + "\n",
