@@ -305,3 +305,62 @@ def test_streaming_walk_never_reviews_a_later_days_account_day():
     w2 = mk_world(null, planted, {("a05", D1): 10.0, ("a06", D2): 10.0}, writes, doc_score=90.0, honest_doc_score=5.0)
     s2 = q.method_X_doc(w2, null, 0.2, streaming=True)
     assert X not in s2["days"][D1]["candidates"] and X in s2["days"][D2]["candidates"]
+
+
+def test_walk_docs_equals_the_single_frozen_call_with_one_score_row():
+    groups = [frozenset({0, 1, 2}), frozenset({3, 4}), frozenset({5, 6, 7})]
+    srow = np.array([5.0, 9.0, 1.0, 0.0, 7.0, 3.0, 3.0, 8.0])
+    for cap in (1, 2, 3, 4, 5, 6, 9):
+        for free in (set(), {1}, {0, 1, 2}):
+            a = q.walk(groups, [0, 1, 2], cap, free, srow)
+            b = q.walk_docs(groups, cap, free, lambda i: srow)
+            assert (a.surfaced, a.spent, a.walked, a.n_full, a.n_partial) == (b.surfaced, b.spent, b.walked, b.n_full, b.n_partial), (cap, free)
+
+
+def _author_world(null, planted, pown, author_scores, writes):
+    w = mk_world(null, planted, pown, writes, doc_score=90.0, honest_doc_score=5.0)
+    w.ranker = "P_author"
+    w.author_scores = dict(author_scores)
+    return w
+
+
+def test_P_author_ranker_orders_writers_by_their_author_score_on_the_document():
+    # X has four writers on D2; the plant a05 has the lowest P_own but the highest author score on X
+    writes = [(X, "a07", D2), (X, "a08", D2), (X, "a09", D2), (X, "a05", D2)]
+    null = mk_null(scores={("a07", D2): 30.0, ("a08", D2): 20.0, ("a09", D2): 15.0}, writes=writes, units={})
+    null.author_scores = {("a07", X): 10.0, ("a08", X): 8.0, ("a09", X): 5.0, ("a05", X): 2.0}
+    planted = [("a05", D2)]
+    w = _author_world(null, planted, {("a05", D2): 5.0}, {("a05", X): 80.0}, writes)
+    ev = q.evaluate_world(w, null, 0.2, PRULE, None, None)
+    # cap 2: a05 (80) and a07 (10) are reviewed; under P_own a05 (5) would have lost to a07 and a08
+    assert ev["X_doc"]["detected"] and ev["X_doc"]["detected_via_doc"]
+    # attributable: under its honest author score (2) a05 ranks last and is not reached
+    assert ev["X_doc"]["attributable"]["detected"]
+    w2 = mk_world(null, planted, {("a05", D2): 5.0}, writes, doc_score=90.0, honest_doc_score=5.0)
+    assert not q.evaluate_world(w2, null, 0.2, PRULE, None, None)["X_doc"]["detected"]
+    # a writer with no author unit on the document ranks last
+    null.author_scores.pop(("a09", X))
+    w3 = _author_world(null, planted, {("a05", D2): 5.0}, {("a05", X): 1.0}, writes)
+    ev3 = q.evaluate_world(w3, null, 0.2, PRULE, None, None)
+    assert not ev3["X_doc"]["detected"]
+
+
+def test_P_author_ranker_tie_order_is_writer_then_day_and_counterfactual_uses_honest_author_score():
+    writes = [(X, "a05", D1), (X, "a05", D2), (X, "a07", D1), (X, "a07", D2)]
+    null = mk_null(writes=writes, units={})
+    null.author_scores = {("a05", X): 50.0, ("a07", X): 50.0}
+    planted = [("a05", D1), ("a05", D2)]
+    # equal author scores: username order takes a05's two account-days before a07's at cap 2
+    w = _author_world(null, planted, {("a05", D1): 10.0, ("a05", D2): 10.0}, {("a05", X): 50.0}, writes)
+    w.arm, w.plant_id = "k2", "P1-k2"
+    ev = q.evaluate_world(w, null, 0.2, PRULE, None, None)
+    assert ev["X_doc"]["full"] and sorted(ev["X_doc"]["via_doc_planted"]) == sorted(planted)
+    # the honest author score ties too, so the counterfactual walk reaches them as well: not attributable to the ranker
+    assert not ev["X_doc"]["attributable"]["detected"]
+    # coverage: every writer of every candidate has a score
+    L = {"null": null, "worlds": [w]}
+    cov = q.author_coverage(L)
+    assert cov["pass"] and cov["writer_document_plant_triples"] == 2
+    null.author_scores.pop(("a07", X))
+    cov2 = q.author_coverage(L)
+    assert not cov2["pass"] and cov2["missing"][0]["writer"] == "a07"

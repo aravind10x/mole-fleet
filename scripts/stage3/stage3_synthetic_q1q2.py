@@ -150,6 +150,7 @@ class Null:
     odiff_units: dict[tuple[str, int], list[dict]]     # (path, bi) -> [{write_day, write_index, score, label}]
     paths: list[str]
     p_picks: dict[tuple[float, str], list[str]] = field(default_factory=dict)   # (B, day) -> P's honest picks
+    author_scores: dict[tuple[str, str], float] = field(default_factory=dict)   # (author, path) -> the seal's P_author pair score
 
     def cap(self, B: float, day: str) -> int:
         return gm.budget_cap(B, len(self.active[day]))
@@ -188,6 +189,8 @@ class World:
     doc_honest_label: str | None
     o_flagged: bool                       # sealed O_diff flag of the composed unit
     partial_doc_scores: dict[str, float] = field(default_factory=dict)   # P10: day -> score (days before d_c)
+    author_scores: dict[tuple[str, str], float] = field(default_factory=dict)   # (planted author, the plant's document) -> T1 v2 P_author score
+    ranker: str = "P_own"                                                # the within-document order: P_own or P_author (brief 07n part B)
     ctx: dict | None = field(default=None, repr=False)                   # cached units / srow / document groups
 
     @property
@@ -229,6 +232,30 @@ def walk(groups: Sequence[frozenset], order: Sequence[int], cap: int, free: set[
     """The frozen greedy review walk over unit indices (plan section 4)."""
     return gm.review(_Groups(groups), np.array(list(order), dtype=np.int64), cap, free,
                      rule="greedy", srow=srow)
+
+
+def walk_docs(groups: Sequence[frozenset], cap: int, free: set[int],
+              srow_of: Callable[[int], np.ndarray]) -> gm.Walk:
+    """The same greedy walk run one group at a time through the frozen `review`, so each group
+    (document) can carry its own score row for the truncation (brief 07n part B: the P_author
+    ranker scores a writer per document). With one score row for every group this equals the
+    single call (tested)."""
+    surfaced: set[int] = set()
+    spent = 0
+    walked: list[int] = []
+    n_full = n_partial = 0
+    for i, g in enumerate(groups):
+        if spent >= cap:
+            break
+        w = gm.review(_Groups([g]), np.array([0], dtype=np.int64), cap - spent, free | surfaced, rule="greedy", srow=srow_of(i))
+        surfaced |= w.surfaced
+        spent += w.spent
+        walked.append(i)
+        n_full += w.n_full
+        n_partial += w.n_partial
+        if w.n_partial:
+            break
+    return gm.Walk(walked, surfaced, spent, n_full, n_partial)
 
 
 class Units:
@@ -305,14 +332,16 @@ def doc_order(cands: dict[str, tuple[float, str]], rng: random.Random | None = N
 
 
 def xdoc_day(world: World, null: Null, units: Units, B: float, day: str, order: list[str],
-             groups: dict[str, frozenset], free_ads: set[AD], srow: np.ndarray,
+             groups: dict[str, frozenset], free_ads: set[AD], srow_of: Callable[[str], np.ndarray],
              fill_scores: Callable[[AD], float] | None) -> dict:
     """The document walk on `day` at the day's cap with `free_ads` costing nothing, then the fill by
-    P's ranking of the day's account-days (`fill_scores`; None = no fill)."""
+    P's ranking of the day's account-days (`fill_scores`; None = no fill). `srow_of(path)` is the
+    score row the truncation of that document uses (P_own for every document, or the writers'
+    P_author scores on that document)."""
     cap = null.cap(B, day)
     free = {units.idx[ad] for ad in free_ads if ad in units.idx}
     gl = [groups.get(p, frozenset()) for p in order]
-    w = walk(gl, range(len(gl)), cap, free, srow)
+    w = walk_docs(gl, cap, free, lambda i: srow_of(order[i]))
     via_doc = units.to_ads(w.surfaced) - free_ads
     assert all(d <= day for _a, d in via_doc), "the walk reviewed a later day's account-day"
     reviewed = set(free_ads) | via_doc
@@ -353,9 +382,27 @@ def method_X_doc(world: World, null: Null, B: float, *, honest_doc: bool = False
     if world.ctx is None:
         units = Units(null, world.days)
         world.ctx = {"units": units, "srow": units.srow(lambda ad: world.score(null, ad)),
-                     "groups": {d: doc_groups(world, null, units, d) for d in world.days}}
+                     "groups": {d: doc_groups(world, null, units, d) for d in world.days},
+                     "author_rows": {}, "author_rows_honest": {}}
     units, srow = world.ctx["units"], world.ctx["srow"]
     groups_by_day = world.ctx["groups"]
+
+    def srow_for(path: str, honest_author: bool) -> np.ndarray:
+        """The truncation's score row for `path`: P_own (one row for every document) or the writers'
+        P_author scores on that document (the planted writer's T1 v2 unit on the plant's document,
+        the seal's honest pair otherwise; no unit = -inf, ranked last; honest_author: the seal's pair
+        for every writer, the counterfactual of plan B1)."""
+        if world.ranker == "P_own":
+            return srow
+        cache = world.ctx["author_rows_honest" if honest_author else "author_rows"]
+        if path not in cache:
+            def sc(ad: AD) -> float:
+                a = ad[0]
+                if not honest_author and (a, path) in world.author_scores:
+                    return world.author_scores[(a, path)]
+                return null.author_scores.get((a, path), float("-inf"))
+            cache[path] = units.srow(sc)
+        return cache[path]
     fill_scores = None if no_fill else ((lambda ad: null.scores[ad]) if honest_p else (lambda ad: world.score(null, ad)))
     honest_p_all: set[AD] = set().union(*method_P(world, null, B, honest=True).values())
     actual = not honest_doc and not honest_p and rng is None
@@ -369,13 +416,13 @@ def method_X_doc(world: World, null: Null, B: float, *, honest_doc: bool = False
         plant_sc = _honest_plant_score(world, null, d) if honest_doc else None
         cands = candidates(world, null, d if streaming else None, plant_sc)
         order = doc_order(cands, rng)
-        res = xdoc_day(world, null, units, B, d, order, groups, free, srow, fill_scores)
+        res = xdoc_day(world, null, units, B, d, order, groups, free, lambda p: srow_for(p, False), fill_scores)
         res["candidates"] = {p: cands[p][0] for p in order}
         res["order"] = order
         if actual:
             cf = xdoc_day(world, null, units, B, d, doc_order(candidates(world, null, d if streaming else None,
                                                                           _honest_plant_score(world, null, d))),
-                          groups, free, srow, None)
+                          groups, free, lambda p: srow_for(p, True), None)
             res["attributable"] = ({ad for ad in res["via_doc"] if ad in planted and ad not in cf["via_doc"]}
                                    | {ad for ad in res["filled"] if ad in planted and ad not in honest_p_all})
             res["cf_via_doc_planted"] = sorted(ad for ad in cf["via_doc"] if ad in planted)
@@ -794,6 +841,22 @@ def predictions(table: dict, kdep: dict) -> dict:
 
 # ── building the null and the worlds from the real caches ───────────────────
 
+def author_label_parse(label: str) -> tuple[str, str]:
+    """(author, path) from a P_author label `<stem>:P_author:<author>|owncloud:<path>/<d0>..<d1>`."""
+    tail = label.split(":P_author:", 1)[1]
+    author, rest = tail.split("|owncloud:", 1)
+    path = rest.rsplit("/", 1)[0]
+    return author, path
+
+
+def author_scores_from(records: list[dict]) -> dict[tuple[str, str], float]:
+    out = {}
+    for r in records:
+        if r.get("outcome") == "scored" and r.get("score") is not None:
+            out[author_label_parse(r["label"])] = float(r["score"])
+    return out
+
+
 def build_null(rows: list[dict], honest_pown: list[dict], odiff_meta: dict, stem: str) -> Null:
     import score_fork_corpus as sfc
     keys, _day_idx, _by = sfc.account_days(rows)
@@ -828,7 +891,8 @@ def class_writes(rows: Sequence[dict], paths: Sequence[str]) -> list[tuple[str, 
 
 
 def build_world(res: t1.PlantResult, null: Null, stem: str, planted_pown: dict[str, dict],
-                planted_odiff: dict[str, dict], orule: dict, regime: str) -> World:
+                planted_odiff: dict[str, dict], orule: dict, regime: str,
+                planted_pauthor: dict[tuple[str, str, str], float] | None = None, ranker: str = "P_own") -> World:
     pstem = f"{stem}+t1v2+{res.payload_id}-{res.arm}"
     planted = [(a, d) for a, d in zip(res.authors, res.days)]
     scores, labels = {}, {}
@@ -849,12 +913,18 @@ def build_world(res: t1.PlantResult, null: Null, stem: str, planted_pown: dict[s
     days = sorted(res.days)
     if days[-1] != res.composition_day:
         raise ValueError(f"{pstem}: composition day {res.composition_day} is not the last planted day {days[-1]}")
+    a_scores = {}
+    if planted_pauthor:
+        for a in res.authors:
+            k = (pstem, a, res.document)
+            if k in planted_pauthor:
+                a_scores[(a, res.document)] = planted_pauthor[k]
     return World(plant_id=f"{res.payload_id}-{res.arm}", payload_id=res.payload_id, arm=res.arm, regime=regime,
                  document=res.document, days=days, boundary_index=bi, boundary_name=bname, planted=planted,
                  scores=scores, labels=labels, writes=class_writes(res.rows, null.paths),
                  doc_score=float(orec["score"]), doc_label=olab,
                  doc_honest_score=(float(hu["score"]) if hu else None), doc_honest_label=(hu["label"] if hu else None),
-                 o_flagged=th.is_flagged(float(orec["score"]), orule, olab))
+                 o_flagged=th.is_flagged(float(orec["score"]), orule, olab), author_scores=a_scores, ranker=ranker)
 
 
 def load_everything(ns) -> dict:
@@ -876,10 +946,47 @@ def load_everything(ns) -> dict:
     orule = seal["views"]["O_diff"]["rule"]
     prule = seal["views"]["P_own"]["rule"]
     order = sorted(results, key=lambda r: (REGIMES.index(pid2reg[r.payload_id]), r.payload_id, ARMS.index(r.arm)))
-    worlds = [build_world(r, null, stem, planted_pown, planted_odiff, orule, pid2reg[r.payload_id]) for r in order]
+    ranker = getattr(ns, "ranker", "P_own") or "P_own"
+    planted_pauthor: dict[tuple[str, str, str], float] = {}
+    if ranker == "P_author":
+        null.author_scores = author_scores_from(read_jsonl(Path(ns.honest_pauthor)))
+        for r in read_jsonl(Path(ns.planted_pauthor)):
+            if r.get("outcome") == "scored" and r.get("score") is not None:
+                pstem_ = r["label"].split(":P_author:", 1)[0]
+                a, p = author_label_parse(r["label"])
+                planted_pauthor[(pstem_, a, p)] = float(r["score"])
+    worlds = [build_world(r, null, stem, planted_pown, planted_odiff, orule, pid2reg[r.payload_id], planted_pauthor, ranker) for r in order]
     return {"seal": seal, "manifest": manifest, "results": order, "payloads": payloads, "rows": rows, "stem": stem,
             "null": null, "worlds": worlds, "orule": orule, "prule": prule, "pid2reg": pid2reg,
             "planted_pown": planted_pown, "planted_odiff": planted_odiff}
+
+
+# ── the P_author ranker's coverage check (brief 07n part B, B2) ─────────────
+
+def author_coverage(L: dict) -> dict:
+    """Every writer account-day of every candidate document in every plant's window needs a P_author
+    pair score: the planted writer's T1 v2 unit on the plant's document, the seal's honest pair otherwise."""
+    null, worlds = L["null"], L["worlds"]
+    missing = []
+    n_pairs = 0
+    seen = set()
+    for w in worlds:
+        units = Units(null, w.days)
+        groups = doc_groups(world=w, null=null, units=units)
+        for path, idxs in groups.items():
+            for i in idxs:
+                a = units.ads[i][0]
+                key = (a, path, w.plant_id)
+                if key in seen:
+                    continue
+                seen.add(key)
+                n_pairs += 1
+                have = (a, path) in w.author_scores or (a, path) in null.author_scores
+                if not have:
+                    missing.append({"writer": a, "document": path, "plant": w.plant_id})
+    return {"writer_document_plant_triples": n_pairs, "missing": missing, "n_missing": len(missing),
+            "honest_pairs": len(null.author_scores), "planted_pairs": sum(len(w.author_scores) for w in worlds),
+            "pass": not missing}
 
 
 # ── the fit check (plan section 9) ──────────────────────────────────────────
@@ -969,6 +1076,42 @@ def compute(L: dict, ns) -> dict:
                "the k-dependence sentence's third case (the lone gap more than 0.1 above the k = 2 gap and the difference's interval covering zero) is reported as 'no collusion-specific recovery claimed'; the plan's two named cases do not cover it and no claim is made",
            ]}
     return res
+
+
+def ranker_comparison(res: dict, base: dict) -> dict:
+    """X_doc_author (this run's X_doc) against 07i's X_doc, paired by plant and budget (brief 07n B4)."""
+    out: dict[str, Any] = {}
+    for B in BUDGETS:
+        mine = {e["plant_id"]: e for e in res["per_world"][f"B{B}"]}
+        theirs = {e["plant_id"]: e for e in base["per_world"][f"B{B}"]}
+        for reg in REGIMES:
+            for arm_key, arms in ARM_SETS.items():
+                ids = [pid for pid, e in mine.items() if e["regime"] == reg and e["arm"] in arms and pid in theirs]
+                if not ids:
+                    continue
+                for attributable in (True, False):
+                    units = [(_rate(mine[i], "X_doc", attributable), _rate(theirs[i], "X_doc", attributable)) for i in ids]
+                    bs = bootstrap(units, lambda us: (sum(a for a, _ in us) - sum(b for _, b in us)) / len(us) if us else None)
+                    out[f"{reg}:{arm_key}:B{B}:{'attributable' if attributable else 'nominal'}"] = {
+                        **bs, "recall_X_doc_author": round(mean([a for a, _ in units]), 4), "recall_X_doc": round(mean([b for _, b in units]), 4),
+                        "X_doc_minus_P_07i": base["table"][f"{reg}:{arm_key}:B{B}"]["attributable" if attributable else "nominal"]["gaps"]["X_doc_minus_P"]["point"]}
+    # the planted writers' author scores against the honest writers' on the walked documents
+    return out
+
+
+def ranker_md(res: dict) -> str:
+    rc = res.get("ranker_comparison") or {}
+    L = ["\n## X_doc_author against 07i's X_doc (paired over plants, bootstrap seed 20261125)\n",
+         "| cell | attributable: X_doc_author | X_doc (07i) | X_doc_author − X_doc [95%] | X_doc − P (07i) | nominal: X_doc_author − X_doc [95%] |", "|---|---|---|---|---|---|"]
+    for B in BUDGETS:
+        for reg in REGIMES:
+            for arm_key in ("lone", "k2", "k3", "k23"):
+                a = rc.get(f"{reg}:{arm_key}:B{B}:attributable")
+                n = rc.get(f"{reg}:{arm_key}:B{B}:nominal")
+                if not a:
+                    continue
+                L.append(f"| {reg} : {arm_key} : B{B} | {_r(a['recall_X_doc_author'])} | {_r(a['recall_X_doc'])} | {_r(a['point'])}{_ci(a)} | {_r(a['X_doc_minus_P_07i'])} | {_r(n['point'])}{_ci(n)} |")
+    return "\n".join(L) + "\n"
 
 
 def _r(v: Any) -> str:
@@ -1127,7 +1270,7 @@ def streaming_table(L: dict, recs: dict[str, dict], items: list[dict]) -> dict:
     return out
 
 
-def streaming_from_cache(L: dict, ns, out_dir: Path) -> dict:
+def streaming_from_cache(L: dict, ns, out_dir: Path, prefix: str = "") -> dict:
     """The P10 table from the existing cache (no call, so no binding check): every unit's key must be
     in the cache; used to recompute after the walk fix of 2026-10-26 (review finding 2)."""
     items = partial_items(L)
@@ -1142,8 +1285,9 @@ def streaming_from_cache(L: dict, ns, out_dir: Path) -> dict:
     st["spend"] = est_rec.get("run")
     st["estimate"] = est_rec.get("estimate")
     st["recomputed_from_cache"] = True
-    (out_dir / "streaming.json").write_text(json.dumps(st, indent=1, default=str), encoding="utf-8")
-    (out_dir / "streaming.md").write_text(streaming_md(st, model, cache), encoding="utf-8")
+    st["ranker"] = getattr(ns, "ranker", "P_own")
+    (out_dir / f"{prefix}streaming.json").write_text(json.dumps(st, indent=1, default=str), encoding="utf-8")
+    (out_dir / f"{prefix}streaming.md").write_text(streaming_md(st, model, cache), encoding="utf-8")
     print(streaming_md(st, model, cache))
     return st
 
@@ -1210,6 +1354,11 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--template", default=str(sv.jc_mod.FORK / "bootstrap" / "org_template.yaml"))
     ap.add_argument("--model", default=MODEL_DEFAULT)
     ap.add_argument("--fit-check", action="store_true")
+    ap.add_argument("--ranker", choices=("P_own", "P_author"), default="P_own", help="the within-document order (brief 07n part B)")
+    ap.add_argument("--honest-pauthor", default=None, help="views/judge-cache.P_author.*.jsonl (ranker P_author)")
+    ap.add_argument("--planted-pauthor", default=None, help="t1v2/judge-cache.t1v2.P_author.*.jsonl (ranker P_author)")
+    ap.add_argument("--coverage", action="store_true", help="ranker P_author: write author-ranker-coverage.json and stop")
+    ap.add_argument("--baseline-results", default=None, help="ranker P_author: 07i's results.json for the X_doc columns beside")
     ap.add_argument("--streaming-estimate", action="store_true")
     ap.add_argument("--streaming", action="store_true")
     ap.add_argument("--streaming-from-cache", action="store_true")
@@ -1225,6 +1374,18 @@ def main(argv: list[str] | None = None) -> int:
     L = load_everything(ns)
     from datetime import datetime, timezone
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
+    prefix = "author-ranker-" if ns.ranker == "P_author" else ""
+    if ns.ranker == "P_author":
+        if not (ns.honest_pauthor and ns.planted_pauthor):
+            raise SystemExit("ranker P_author needs --honest-pauthor and --planted-pauthor")
+        cov = author_coverage(L)
+        cov["checked_at"] = now
+        (out_dir / "author-ranker-coverage.json").write_text(json.dumps(cov, indent=1), encoding="utf-8")
+        print(json.dumps({k: v for k, v in cov.items() if k != "missing"} | {"missing_head": cov["missing"][:10]}, indent=1), file=sys.stderr)
+        if ns.coverage:
+            return 0 if cov["pass"] else 1
+        if not cov["pass"]:
+            raise SystemExit(f"refusing: {cov['n_missing']} writer-document units have no P_author score (plan B2: score them first)")
     if ns.fit_check:
         fc = fit_check(L, ns)
         fc["checked_at"] = now
@@ -1234,7 +1395,7 @@ def main(argv: list[str] | None = None) -> int:
         print(md)
         return 0 if fc["pass"] else 1
     if ns.streaming_from_cache:
-        streaming_from_cache(L, ns, out_dir)
+        streaming_from_cache(L, ns, out_dir, prefix)
         return 0
     if ns.streaming_estimate or ns.streaming:
         import asyncio
@@ -1253,13 +1414,18 @@ def main(argv: list[str] | None = None) -> int:
             "caps": {f"B{B}": {d: null.cap(B, d) for d in null.days} for B in BUDGETS}, "n_active": {d: len(null.active[d]) for d in null.days},
             "seeds": {"layout": 20261113, "tie": L["seal"]["tie_seed"], "bootstrap": BOOT_SEED, "lottery": LOTTERY_SEED},
             "n_worlds": len(L["worlds"]), "fit_check": fc_path.name}
-    st_path = out_dir / "streaming.json"
+    st_path = out_dir / f"{prefix}streaming.json"
     if st_path.exists():
         res["streaming"] = json.loads(st_path.read_text(encoding="utf-8"))
+    meta["ranker"] = ns.ranker
     res["meta"] = meta
-    (out_dir / "results.json").write_text(json.dumps(res, indent=1, default=str), encoding="utf-8")
+    if ns.ranker == "P_author" and ns.baseline_results:
+        res["ranker_comparison"] = ranker_comparison(res, json.loads(Path(ns.baseline_results).read_text(encoding="utf-8")))
+    (out_dir / f"{prefix}results.json").write_text(json.dumps(res, indent=1, default=str), encoding="utf-8")
     md = results_md(res, meta)
-    (out_dir / "results.md").write_text(md, encoding="utf-8")
+    if ns.ranker == "P_author":
+        md = md.replace("X_doc", "X_doc_author", 1) + ranker_md(res)
+    (out_dir / f"{prefix}results.md").write_text(md, encoding="utf-8")
     print(md)
     return 0
 
