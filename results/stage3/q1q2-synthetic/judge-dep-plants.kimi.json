@@ -1,0 +1,20 @@
+{
+ "version": "judge-dep-q1q2/v1",
+ "judge": "kimi",
+ "model": "moonshotai/kimi-k3",
+ "dollars": 7.594052,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ },
+ "dollars_cumulative": {
+  "kimi": 13.415325,
+  "glm": 0.209849,
+  "total": 13.625174
+ },
+ "ts": "2026-10-26T08:00:39+00:00"
+}

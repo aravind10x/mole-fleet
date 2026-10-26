@@ -1,0 +1,14 @@
+[O_diff] 152/152 records; calls=152 cached=0 scored=152 refused=0 errored=0 $0.05 this run, $0.13 against cache, 302s
+[P_author] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $0.07 this run, $0.08 against cache, 556s
+{
+ "judge": "glm",
+ "dollars": 0.118567,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ }
+}

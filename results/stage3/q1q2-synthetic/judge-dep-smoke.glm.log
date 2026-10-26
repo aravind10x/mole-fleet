@@ -1,0 +1,140 @@
+[O_diff] 5/5 records; calls=5 cached=0 scored=5 refused=0 errored=0 $0.00 this run, $0.00 against cache, 6s
+{
+ "version": "judge-dep-q1q2/v1",
+ "judge": "glm",
+ "model": "z-ai/glm-5.3",
+ "n": 5,
+ "aborted": null,
+ "records": [
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@684",
+   "outcome": "scored",
+   "score": 0,
+   "finish_reason": "stop",
+   "input_tokens": 510,
+   "output_tokens": 81,
+   "reasoning_tokens": 8,
+   "cost_usd": 0.00014905,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 2.029
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1387",
+   "outcome": "scored",
+   "score": 2,
+   "finish_reason": "stop",
+   "input_tokens": 620,
+   "output_tokens": 66,
+   "reasoning_tokens": 0,
+   "cost_usd": 0.00013535,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 0.929
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1541",
+   "outcome": "scored",
+   "score": 2,
+   "finish_reason": "stop",
+   "input_tokens": 661,
+   "output_tokens": 83,
+   "reasoning_tokens": 1,
+   "cost_usd": 0.00016202,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.186
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1697",
+   "outcome": "scored",
+   "score": 5,
+   "finish_reason": "stop",
+   "input_tokens": 689,
+   "output_tokens": 64,
+   "reasoning_tokens": 0,
+   "cost_usd": 0.00013738,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.08
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@2147",
+   "outcome": "scored",
+   "score": 3,
+   "finish_reason": "stop",
+   "input_tokens": 697,
+   "output_tokens": 100,
+   "reasoning_tokens": 1,
+   "cost_usd": 0.00018834,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.264
+  }
+ ],
+ "packet_chars": [
+  2159,
+  2546,
+  2674,
+  2784,
+  2814
+ ],
+ "dollars": 0.000772,
+ "stats": {
+  "calls": 5,
+  "requests": 5,
+  "cached": 0,
+  "scored": 5,
+  "refused": 0,
+  "errored": 0,
+  "input_tokens": 3177,
+  "output_tokens": 394,
+  "reasoning_tokens": 10,
+  "rate_waits": 0,
+  "n_429": 0,
+  "transient_retries": 0,
+  "parse_retries": 0,
+  "dollars": 0.000772,
+  "dollars_cached": 0.0,
+  "dollars_total": 0.000772,
+  "aborted": null,
+  "model": "z-ai/glm-5.3",
+  "provider": "openrouter"
+ },
+ "ts": "2026-10-26T07:09:23+00:00"
+}

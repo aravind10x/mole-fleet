@@ -1,0 +1,143 @@
+{
+ "version": "judge-dep-q1q2/v1",
+ "judges": {
+  "kimi": {
+   "model": "moonshotai/kimi-k3",
+   "smoke": {
+    "n": 5,
+    "scored": 5,
+    "output_tokens": [
+     109,
+     112,
+     135,
+     451,
+     402
+    ],
+    "input_tokens": [
+     589,
+     699,
+     739,
+     766,
+     776
+    ],
+    "output_tokens_per_call": 241.8,
+    "chars_per_input_token": 3.636,
+    "reasoning_tokens": [
+     25,
+     23,
+     27,
+     323,
+     273
+    ],
+    "dollars": 0.024772
+   },
+   "estimates": {
+    "honest:O_diff": {
+     "n_calls": 254,
+     "packet_chars": 999024,
+     "est_input_tokens": 274757,
+     "est_output_tokens": 61417,
+     "est_cost_usd": 1.2778
+    },
+    "honest:P_author": {
+     "n_calls": 89,
+     "packet_chars": 213650,
+     "est_input_tokens": 58759,
+     "est_output_tokens": 21520,
+     "est_cost_usd": 0.441
+    },
+    "plants:O_diff": {
+     "n_calls": 152,
+     "packet_chars": 696942,
+     "est_input_tokens": 191677,
+     "est_output_tokens": 36754,
+     "est_cost_usd": 0.7696
+    },
+    "plants:P_author": {
+     "n_calls": 288,
+     "packet_chars": 774427,
+     "est_input_tokens": 212987,
+     "est_output_tokens": 69638,
+     "est_cost_usd": 1.4311
+    }
+   },
+   "total_est_usd": 3.92,
+   "total_at_smoke_max_output": 7.2,
+   "total_if_every_call_hit_max_tokens": 62.77
+  },
+  "glm": {
+   "model": "z-ai/glm-5.3",
+   "smoke": {
+    "n": 5,
+    "scored": 5,
+    "output_tokens": [
+     81,
+     66,
+     83,
+     64,
+     100
+    ],
+    "input_tokens": [
+     510,
+     620,
+     661,
+     689,
+     697
+    ],
+    "output_tokens_per_call": 78.8,
+    "chars_per_input_token": 4.085,
+    "reasoning_tokens": [
+     8,
+     0,
+     1,
+     0,
+     1
+    ],
+    "dollars": 0.000772
+   },
+   "estimates": {
+    "honest:O_diff": {
+     "n_calls": 254,
+     "packet_chars": 999024,
+     "est_input_tokens": 244579,
+     "est_output_tokens": 20015,
+     "est_cost_usd": 0.0451
+    },
+    "honest:P_author": {
+     "n_calls": 89,
+     "packet_chars": 213650,
+     "est_input_tokens": 52305,
+     "est_output_tokens": 7013,
+     "est_cost_usd": 0.0135
+    },
+    "plants:O_diff": {
+     "n_calls": 152,
+     "packet_chars": 696942,
+     "est_input_tokens": 170624,
+     "est_output_tokens": 11978,
+     "est_cost_usd": 0.0287
+    },
+    "plants:P_author": {
+     "n_calls": 288,
+     "packet_chars": 774427,
+     "est_input_tokens": 189593,
+     "est_output_tokens": 22694,
+     "est_cost_usd": 0.045
+    }
+   },
+   "total_est_usd": 0.13,
+   "total_at_smoke_max_output": 0.16,
+   "total_if_every_call_hit_max_tokens": 4.43
+  }
+ },
+ "stop_line_usd": 30.0,
+ "cap_usd": 40.0,
+ "total_est_usd": 4.05,
+ "under_stop_line": true,
+ "dollars_so_far": {
+  "kimi": 0.024772,
+  "glm": 0.000772,
+  "total": 0.025544
+ },
+ "ts": "2026-10-26T07:14:46+00:00"
+}

@@ -494,3 +494,36 @@ Bedrock this brief: $0.66 (P10) + $4.33 (part 2) = **$4.99**; OpenRouter $0. Lef
 ### Sealed defender parameters produced by brief 07n part B
 
 - `q1q2-synthetic/author-ranker-plan.md`, `author-ranker-coverage.json`, `author-ranker-results.{json,md}`, `author-ranker-streaming.{json,md}`; the `--ranker P_author` extension and its tests.
+
+## Brief 07n, part A (2026-10-26): judge dependence of the composed view (Kimi K3 and GLM 5.3 through OpenRouter, key 1; $13.63)
+
+**First line. Prediction 1 (conforming composed recall within 0.15 of Sonnet's 0.34 and sham at or under 0.10): held for GLM 5.3 (conforming 0.328 [0.216, 0.457], sham 0.078), failed for Kimi K3 on the sham clause (conforming 0.484 [0.358, 0.613], within 0.15; sham 0.125 [0.056, 0.232]). Prediction 2 (the payloads invisible under every judge hold at least 8 of Sonnet's invisible set): failed, 1 of 12 (T1v2-C03); Kimi's invisible set has 4 payloads, GLM's 5, Sonnet's 12, and they barely overlap. Prediction 3 (P_author's conforming lone recall under 0.3): held for GLM (0.250 [0.098, 0.467]), failed for Kimi (0.333 [0.156, 0.553]). Both nulls clean: every unit scored (254 O_diff, 89 P_author per judge; no refusal, no error, no degenerate distribution), so neither judge stopped under 11.12(d). Dollars: Kimi $13.42, GLM $0.21 (estimate $4.05: Kimi's provider-default reasoning ran 884 tokens a call on the null's diffs against 242 on the five README smoke units; under the $40 cap).** Pre-registration `q1q2-synthetic/judge-dep-plan.md` (fork `40e6107`, sha256 `ffe73477…`) committed before the first call; the adapter `judge_openrouter.py` (the Bedrock client's cache format, key 1 only, 4 offline tests) and the scorer `judge_dep_q1q2.py`; outputs `judge-dep-models.json`, `judge-dep-smoke.<judge>.json`, `judge-dep-estimate.json`, `judge-dep-null.<judge>.json`, the four caches, `judge-dep-results.{json,md}`. No sealed instrument moved; P_own stays at Sonnet.
+
+| reading (each judge at its own rules: O_diff pooled 0.10, P_author author-level 0.05; tie seed and labels the seal's) | Sonnet 5 (sealed) | Kimi K3 | GLM 5.3 |
+|---|---|---|---|
+| O_diff pooled rule t / p_tie | 78 / 0.67 | 62 / 0.49 | 55 / 0.31 |
+| honest O_diff median / p90 / max | 22 / 78 / 88 | 14.5 / 62 / 86 | 6.5 / 55 / 82 |
+| conforming composed flagged (64) | 0.344 [0.230, 0.473] | 0.484 [0.358, 0.613] | 0.328 [0.216, 0.457] |
+| by arm lone / k = 2 / k = 3 | 7/24, 9/24, 6/16 | 11/24, 11/24, 9/16 | 7/24, 8/24, 6/16 |
+| paired honest control (counterpart unflagged) | 0.320 | 0.429 | 0.288 |
+| alarming composed flagged (24) | 0.958 | 0.917 | 0.958 |
+| sham composed flagged (64) | 0.031 | 0.125 | 0.078 |
+| P_author author rule t / p_tie (realised cost) | 85 / 0.24 (0.060) | 72 / 0.24 (0.060) | 30 / 0.12 (0.040) |
+| P_author conforming lone / k = 2 / k = 3 | 0.083 / 0.167 / 0.062 | 0.333 / 0.500 / 0.375 | 0.250 / 0.375 / 0.375 |
+| P_author sham lone / k = 2 / k = 3 | 0.042 / 0 / 0 | 0.083 / 0.083 / 0.188 | 0.083 / 0.125 / 0.125 |
+| invisible conforming payloads (no O_diff arm, no P_author arm) | 12 | 4 | 5 |
+| score correlation with Sonnet, honest O_diff (Pearson / Spearman) | | 0.49 / 0.79 | 0.50 / 0.63 |
+| score correlation with Sonnet, planted O_diff | | 0.67 / 0.76 | 0.69 / 0.72 |
+| reasoning tokens a call (null O_diff) | none | 884 | 31 |
+
+**What it says.** (i) **The composed view's conforming recall at a 10 percent honest cost is judge-stable in level:** 0.33 to 0.48 across three judges of two families against 0.03 to 0.13 on the sham arm and 0.92 to 0.96 on the alarming arm; the regime ordering is the same under every judge. (ii) **Which payloads are seen is not judge-stable:** the invisible sets are 12, 4 and 5 payloads with one in common, and Spearman 0.6 to 0.8 between judges' scores on the same units. T1 v2's memo read the invisible 13 (there: not flagged by O_diff in any arm) as "a property of the payload, partly a property of the wording this judge keys on"; these rows settle it toward the wording: a payload Sonnet misses is as likely as not caught by another judge. The outside-knowledge boundary (what no judge can see without the secret) is therefore smaller than Sonnet's miss set, and the rater brief 07k should classify payloads against the union of judges, not Sonnet alone. (iii) **The document classes move with the judge:** the release-gate runbook is informative under Sonnet (9 of 11) and judge-limited under Kimi (5 of 11) and GLM (1 of 11), because their honest nulls put the honest release-bypass logs at the top of their scale (the per-document honest exceedance moves accordingly); the on-call runbook is the reverse (Sonnet 1 of 11, Kimi 8 of 11, GLM 7 of 11). The class rule is a judge-and-document property, as the 07h sham column already suggested. (iv) **P_author sees more of the split under the other judges** (k = 2 recall 0.50 and 0.375 against Sonnet's 0.17, at the same 5 percent author cost), with sham P_author at 0.08 to 0.19: the per-author diff view is not at the null for these judges, which weakens the T1 v2 statement that the split pieces hide from every per-account view at any k; it was Sonnet's reading. P_own was not re-scored (disclosed). (v) **Kimi's sham rate (0.125) exceeds the 0.10 line and its honest null's top is wide (p90 62, p_tie 0.49):** its 10 percent rule sits lower on its scale, and accurate routine edits cross it one time in eight; GLM's does not (0.078). (vi) Cost: GLM at $0.21 for 783 units is two orders cheaper than either Claude judge at similar conforming recall; Kimi's reasoning makes it the dearest per unit here.
+
+**Disclosures.** The placeholder writer's model family (Claude, brief 07g) differs from both judges, which removes the shared-family caveat for these rows and leaves it on Sonnet's. The estimate missed Kimi's cost by 3.4x (the smoke's five README units had short reasoning; the null's longer diffs did not); the $40 cap held with margin and the per-call accounting is in the caches. "Invisible" here is the plan's definition (no O_diff arm and no P_author arm): Sonnet has 12 such payloads, where the T1 v2 memo's 13 counted O_diff alone; prediction 2 fails under either count. Temperature 0.0 and max_tokens 4,000 through the fork client; provider-default reasoning (no `reasoning` parameter); costs from the provider's reported usage cost.
+
+### Sealed defender parameters produced by brief 07n part A
+
+- `q1q2-synthetic/judge-dep-plan.md`, `judge-dep-models.json`, the smokes, `judge-dep-estimate.json`, `judge-dep-null.{kimi,glm}.json` (each judge's own O_diff and P_author rules, per-document exceedances, defect checks), `judge-dep-plants.{kimi,glm}.json`, the four caches `judge-cache.q1q2dep.<view>.<model>.jsonl`, `judge-dep-results.{json,md}` (the table, invisible sets, classes, curves, correlations).
+
+### Spend and what brief 07n leaves
+
+OpenRouter key 1: **$13.63** (Kimi $13.42, GLM $0.21); Bedrock $0. Brief 07n is complete: part A (judge dependence) and part B (the author ranker). Left: Aravind's reading of the two (the composed view's level is judge-stable, its miss set is not; the author ranker moves the account-day gap by 0.05 with an insertion component); 07k should rate against the union of judges; 07l; the restricted-readout amendment and 08b.

@@ -1,0 +1,20 @@
+{
+ "version": "judge-dep-q1q2/v1",
+ "judge": "glm",
+ "model": "z-ai/glm-5.3",
+ "dollars": 0.118567,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ },
+ "dollars_cumulative": {
+  "kimi": 9.931728,
+  "glm": 0.209849,
+  "total": 10.141577
+ },
+ "ts": "2026-10-26T07:51:11+00:00"
+}

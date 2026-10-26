@@ -1,0 +1,14 @@
+[O_diff] 152/152 records; calls=152 cached=0 scored=152 refused=0 errored=0 $3.81 this run, $8.89 against cache, 369s
+[P_author] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $3.79 this run, $4.53 against cache, 607s
+{
+ "judge": "kimi",
+ "dollars": 7.594052,
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ }
+}
