@@ -1,0 +1,25 @@
+# P_author as the within-document ranker (brief 07n, part B; written 2026-10-26 before computation; blue side)
+
+Synthetic, exploratory, run once. The one lever 07i's part-1 reading named. Everything else is 07i's `plan.md` (worlds, sealed scores, budgets, equal volume, the methods, the component attribution rules, the statistics, seeds 20261125 and 20261126); no sealed instrument moves; no second ranker is tried on these data.
+
+## B1. The variant
+
+**X_doc_author**: identical to 07i's X_doc (candidate documents ranked by their O_diff score on the plant's window; the frozen greedy `review` walk at the day's cap; P's picks on the window days before the composition day and the fill by P's ranking on the composition day; the lottery, the document layer alone and the streaming reading as in 07i), except that a document's writers' account-days are reviewed in order of the **writer's P_author score on that document** (the sealed author-level view, zero context) instead of P_own: writers highest P_author first, ties by username, and within a writer its account-days in day order, one account-day each. **(reading)** The P_author unit is the (author, document) pair over the three corpus days as the seal and T1 v2 built it (`author_units(..., "pair")`, window = the whole span): the honest writers' scores are the seal's 89 pair units, a planted writer's score on the plant's document is its T1 v2 P_author unit (the planted and honest changes together), and a planted writer's scores on the other documents are the seal's honest pairs. The frozen truncation (score descending, then unit index in (username, day) order) gives exactly that order when every account-day of a writer carries the writer's score.
+- **Attributable rule** as 07i's plan section 6 (component rules), with P_author's honest counterpart: a planted account-day reached by the document walk is attributable iff the same day's walk under the plant's document's honest unit **and the planted writers' honest P_author scores** (the seal's pair for that author and document; a writer with no honest pair ranks last) does not reach it; a P pick or the fill is attributable under P's rule. The joint reading is not recomputed.
+- The streaming variant (P10's partial windows, already cached) uses the same writer order (P_author over the whole span is not a streaming quantity; disclosed: the streaming X_doc_author reads a writer's full-window author score on an earlier day, an optimistic reading reported beside, not in the primary's place).
+
+## B2. Coverage check first (`author-ranker-coverage.json`)
+
+Every writer of a candidate document in a plant's window needs a P_author pair unit: honest writers from the seal's 89, planted writers from the t1v2 cache (288) for the plant's document and the seal's pairs for other documents. The script lists every (writer, document, plant) without a unit. If any are uncovered, they are scored under the sealed P_author prompt and model on honest content (instrument application, at most $3, disclosed); on this null the 89 pairs cover every (author, document) with a successful write in the three days, so none is expected.
+
+## B3. Prediction (written first; the result stands whatever it shows)
+
+Ranking writers by their own changes to the flagged document lifts the conforming k = 2 and k = 3 attributable gap over P above 07i's 0.075 at B = 0.10, and the lone arm's gain stays within 0.1 of k = 2's (artifact monitoring again), because P_author sees each writer's diff without the account's other work but the routine statements score low on it too (lone 0.08 at the author rule).
+
+## B4. Readings (`author-ranker-results.{json,md}`)
+
+07i's table with X_doc_author beside X_doc and P at the three budgets, composition-day and streaming; X_doc_author − P and X_doc_author − X_doc with their paired bootstrap intervals (seed 20261125); the k-dependence sentence applied to X_doc_author; the lottery beside (the same walk in random document order with the P_author writer order); the sham arm as the null; the operating point (documents walked, honest account-days per walked document, volume share, the plant's document's rank); the planted writers' P_author scores against the honest writers' in the walked documents (why the order helps or not).
+
+## B5, B6. Files and order
+
+`stage3_synthetic_q1q2.py --ranker P_author` (the extension: a `ranker` field in the world's context that replaces the unit scores used for the document walk's truncation; tests on synthetic worlds: a planted writer with the top P_author score inside the cap is reached first; the tie order writer then day; P's picks and the fill unchanged; the attributable counterfactual uses the honest author score), `test_stage3_synthetic_q1q2.py` extended; outputs `author-ranker-coverage.json`, `author-ranker-results.{json,md}` under `work/stage3/q1q2-synthetic/`, mirrored in the fork; the prep report "Brief 07n, part B"; one STATUS line. Order: this plan committed; the extension and tests; the coverage check; compute; report; commit, push. Stop.
