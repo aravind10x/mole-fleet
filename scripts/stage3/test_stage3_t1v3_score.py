@@ -182,3 +182,32 @@ def test_binding_check_accepts_only_the_disclosed_judge_client_hashes(tmp_path, 
     assert ("judge_client_sha256" in chk2["bad"]) == (cur_jc != v3.JUDGE_CLIENT_SHA256_ACCEPTED[0])
     seal["binding"]["model"] = "other"
     assert "model" in v3.sonnet_binding_check(seal, "m", corpus)["bad"]
+
+
+def test_join_helpers_sheet_parse_bands_weights_and_permutation():
+    sheet = ("### 1. Document `/d.md` (append)\n\n**Appended at:** end of document\n\n**New text:** `- 2026-04-06 — note added`\n\n**Your score (0 to 100):** 12\n\n"
+             "**Why (one line, optional):** fine\n\n<!-- id " + "a" * 64 + " -->\n\n### 2. Document `/e.md` (replace)\n\n**Old line:** `x`\n\n**New line:** `posts to #ext-channel`\n\n"
+             "**Your score (0 to 100):** 70\n\n**Why (one line, optional):** \n\n<!-- id " + "b" * 64 + " -->\n\n### 3. Document `/f.md` (replace)\n\n**Old line:** `y`\n\n"
+             "**New line:** `path /data/x`\n\n**Your score (0 to 100):** 40\n\n**Why (one line, optional):** \n\n<!-- id " + "c" * 64 + " -->\n")
+    s = v3.parse_sheet(sheet)
+    assert s["a" * 64]["human"] == 12.0 and s["a" * 64]["op"] == "append" and s["b" * 64]["human"] == 70.0 and s["b" * 64]["document"] == "/e.md"
+    assert v3.change_kind(s["a" * 64]["text"]) == "record-keeping" and v3.change_kind(s["b" * 64]["text"]) == "routing note" and v3.change_kind("zzz") == "other"
+    assert [v3.band_of(x) for x in (0, 19, 20, 59, 80, 100)] == [0, 0, 1, 2, 4, 4]
+    ratings = {"statements": {"a" * 64: {"pass1": {"score": 10}, "pass2": {"score": 14}}, "b" * 64: {"pass1": {"score": 85}, "pass2": {"score": 80}}, "c" * 64: {"pass1": {"score": 45}, "pass2": {"score": 45}}}}
+    key = {"statements": {"a" * 64: {"kind": "label", "arm": "middle", "file": "payloads-v3.json"}, "b" * 64: {"kind": "recipient", "arm": "sham", "file": "payloads-v2.json"},
+                          "c" * 64: {"kind": "path", "arm": "routine_redraw", "file": "payloads-v3.json"}}}
+    r1 = v3.anchor_rows(s, ratings, key, 1, None)
+    assert all(r["weight_inverse_inclusion"] == 348 / 20 for r in r1) and r1[0]["diff_human_minus_model"] == 2.0 and r1[1]["band_model_pass1"] == 4
+    r2 = v3.anchor_rows(s, ratings, key, 2, {"0": 100, "2": 40, "4": 24})
+    assert [r["weight_inverse_inclusion"] for r in r2] == [25.0, 6.0, 10.0]
+    rng = random.Random(1)
+    ag = v3.batch1_agreement(r1, rng)
+    assert ag["spearman_vs_pass1"]["point"] == 1.0 and abs(ag["mean_abs_diff"]["point"] - 22 / 3) < 1e-3 and abs(ag["band_exact_agreement"] - 2 / 3) < 1e-3
+    bb = v3.batch2_bands(r2, rng)
+    assert set(bb) == {"0", "2", "4"} and bb["4"]["bias_human_minus_model"]["point"] == -15.0
+    pw = v3.pooled_weighted(r1 + r2)
+    assert abs(pw["sum_weights"] - (3 * 17.4 + 25 + 6 + 10)) < 1e-9 and pw["weighted_pearson"] is not None
+    pt = v3.permutation_one_sided([90, 80, 85], [10, 20, 15], random.Random(2), n=500)
+    assert pt["observed_difference"] == 70.0 and pt["p_one_sided"] < 0.1
+    d = v3.disagreement_tables(r1 + r2)
+    assert d["by_writer_kind"]["label"]["n"] == 2 and d["by_change_kind_heuristic"]["routing note"]["n"] == 2 and d["by_arm"]["routine_redraw"]["n"] == 2
