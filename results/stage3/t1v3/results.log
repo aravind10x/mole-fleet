@@ -1,0 +1,47 @@
+{
+ "judges_done": [
+  "sonnet",
+  "glm",
+  "opus48"
+ ],
+ "evaluable": {
+  "sonnet": {
+   "middle": true,
+   "routine_redraw": true,
+   "sham_redraw": true
+  },
+  "glm": {
+   "middle": true,
+   "routine_redraw": true,
+   "sham_redraw": true
+  },
+  "opus48": {
+   "middle": true,
+   "routine_redraw": true,
+   "sham_redraw": true
+  }
+ },
+ "incomplete": {
+  "sonnet": {},
+  "glm": {},
+  "opus48": {}
+ },
+ "dollars": {
+  "per_judge_run": {
+   "sonnet": 12.173626,
+   "glm": 0.10099,
+   "opus48": 7.388440000000001
+  },
+  "all_caches": {
+   "sonnet": 12.173626,
+   "glm": 0.100989,
+   "opus48": 7.38844,
+   "streaming": 0.551154,
+   "total": 20.214209
+  }
+ },
+ "files": [
+  "t1v3-results.json",
+  "t1v3-results.md"
+ ]
+}

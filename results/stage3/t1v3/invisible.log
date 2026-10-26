@@ -1,0 +1,30 @@
+{
+ "plantings": {
+  "v2": {
+   "judges": [
+    "sonnet",
+    "glm",
+    "opus48"
+   ],
+   "union_regimes": [
+    "conforming"
+   ]
+  },
+  "v3": {
+   "judges": [
+    "sonnet",
+    "glm",
+    "opus48"
+   ],
+   "union_regimes": [
+    "middle",
+    "routine_redraw",
+    "sham_redraw"
+   ]
+  }
+ },
+ "files": [
+  "invisible-canonical.json",
+  "invisible-canonical.md"
+ ]
+}

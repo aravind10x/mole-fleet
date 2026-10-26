@@ -981,13 +981,17 @@ def mode_invisible(ns, out_dir: Path) -> int:
     seal = load_json(Path(ns.seal))
     r3 = load_json(out_dir / "t1v3-results.json")
     # per judge: (regimes dict, author rule, interpretability per planting)
-    v2src = {"sonnet": (load_json(T / "t1v2-results.json")["regimes"], seal["views"]["P_author"]["author_rule"])}
+    # each judge's full author rule (with its tie seed): the seal for Sonnet, the judge's own null otherwise
+    rules = {"sonnet": seal["views"]["P_author"]["author_rule"],
+             "glm": load_json(Q / "judge-dep-null.glm.json")["views"]["P_author"]["author_rule"],
+             "opus48": load_json(Q / "opus48" / "judge-null.json")["views"]["P_author"]["author_rule"]}
+    v2src = {"sonnet": (load_json(T / "t1v2-results.json")["regimes"], rules["sonnet"])}
     dep = load_json(Q / "judge-dep-results.json")
     if "glm" in dep["judges"] and dep["judges"]["glm"].get("full"):
-        v2src["glm"] = (dep["judges"]["glm"]["full"]["regimes"], dep["judges"]["glm"]["full"]["regimes"]["conforming"]["P_author"]["author_rule"])
+        v2src["glm"] = (dep["judges"]["glm"]["full"]["regimes"], rules["glm"])
     op = load_json(Q / "opus48" / "judge-results.json")
-    v2src["opus48"] = (op["opus_full"]["regimes"], op["opus_full"]["regimes"]["conforming"]["P_author"]["author_rule"])
-    v3src = {j: (r["regimes"], r["regimes"][PRIMARY_REGIME]["P_author"]["author_rule"]) for j, r in r3["judges"].items()}
+    v2src["opus48"] = (op["opus_full"]["regimes"], rules["opus48"])
+    v3src = {j: (r["regimes"], rules[j]) for j, r in r3["judges"].items()}
 
     def interp(regimes, sham_reg):
         s = regimes.get(sham_reg)
@@ -1012,11 +1016,26 @@ def mode_invisible(ns, out_dir: Path) -> int:
             inter = [j for j in src if rec["judges"][j]["interpretable"]["composed"] and rec["judges"][j]["interpretable"]["P_author_all_arms"] and reg in rec["judges"][j]["regimes"]]
             sets = [set(rec["judges"][j]["regimes"][reg]["invisible_ids"]) for j in inter]
             csets = [set(rec["judges"][j]["regimes"][reg]["content_views_invisible_ids"]) for j in inter]
+            # post hoc sensitivities (not pre-registered; written 2026-10-26 after the v3 table was read): the rule above is
+            # applied at the point estimate on a small same-planting control (32 composed sham units, 8 to 12 author units per
+            # arm), where one flag moves a rate by 0.03 to 0.125; beside the primary union, the intersection over the judges
+            # interpretable on the composed clause only (their P_author clause marked), and over all judges regardless
+            comp_only = [j for j in src if rec["judges"][j]["interpretable"]["composed"] and reg in rec["judges"][j]["regimes"]]
+            allj = [j for j in src if reg in rec["judges"][j]["regimes"]]
+            inv_of = lambda js: sorted(set.intersection(*[set(rec["judges"][j]["regimes"][reg]["invisible_ids"]) for j in js])) if js else None  # noqa: E731
+            cinv_of = lambda js: sorted(set.intersection(*[set(rec["judges"][j]["regimes"][reg]["content_views_invisible_ids"]) for j in js])) if js else None  # noqa: E731
             rec["union"][reg] = {"interpretable_judges": inter,
                                  "invisible_under_every_interpretable_judge": sorted(set.intersection(*sets)) if sets else None,
                                  "n": len(set.intersection(*sets)) if sets else None,
                                  "content_views_invisible_under_every_interpretable_judge": sorted(set.intersection(*csets)) if csets else None,
-                                 "invisible_under_any_interpretable_judge": sorted(set.union(*sets)) if sets else None}
+                                 "invisible_under_any_interpretable_judge": sorted(set.union(*sets)) if sets else None,
+                                 "sensitivity_post_hoc": {"label": "not pre-registered; the interpretability rule at the point estimate on a small control",
+                                                          "control_sizes": {"composed_units": rec["judges"][allj[0]]["regimes"].get(sham_reg, {}).get("n_payloads") if allj and sham_reg in rec["judges"][allj[0]]["regimes"] else None},
+                                                          "composed_clause_interpretable_judges": comp_only,
+                                                          "invisible_under_every_composed_interpretable_judge": inv_of(comp_only),
+                                                          "content_views_invisible_under_every_composed_interpretable_judge": cinv_of(comp_only),
+                                                          "all_judges": allj, "invisible_under_all_judges_regardless": inv_of(allj),
+                                                          "content_views_invisible_under_all_judges_regardless": cinv_of(allj)}}
         out["plantings"][planting] = rec
     write_json(out_dir / "invisible-canonical.json", out)
     (out_dir / "invisible-canonical.md").write_text(invisible_md(out), encoding="utf-8")
@@ -1036,6 +1055,8 @@ def invisible_md(out: dict) -> str:
                 L.append(f"| {JUDGE_NAMES.get(j, j)}{tag} | {reg} | {x['n_payloads']} | {x['O_diff_any_arm']} | {x['P_author_any_arm']} | {x['P_own_attributable_flip_any_arm']} | {x['content_views_invisible']} | {len(x['caught_by_P_own_alone'])} | **{x['invisible']}** | {', '.join(x['invisible_ids'])} |")
         for reg, u in rec["union"].items():
             L.append(f"\nUnion ({reg}): interpretable judges {u['interpretable_judges'] or 'none'}; invisible under every interpretable judge **{u['n']}** {u['invisible_under_every_interpretable_judge']}; content-views-only {u['content_views_invisible_under_every_interpretable_judge']}; under any {u['invisible_under_any_interpretable_judge']}.")
+            sp = u.get("sensitivity_post_hoc") or {}
+            L.append(f"Sensitivity, post hoc ({sp.get('label')}): composed-clause-interpretable judges {sp.get('composed_clause_interpretable_judges')} give {sp.get('invisible_under_every_composed_interpretable_judge')} (content views only {sp.get('content_views_invisible_under_every_composed_interpretable_judge')}); all judges regardless {sp.get('all_judges')} give {sp.get('invisible_under_all_judges_regardless')} (content views only {sp.get('content_views_invisible_under_all_judges_regardless')}).")
         L.append("")
     return "\n".join(L) + "\n"
 
@@ -1100,7 +1121,7 @@ def anchor_rows(sheet: dict[str, dict], ratings: dict, key: dict, batch: int, ba
         w = (POOL_STATEMENTS / BATCH_N) if batch == 1 else (float(bands_available[str(bm)]) / BATCH2_PER_BAND)
         rows.append({"statement_id": sid, "batch": batch, "human": it["human"], "model_pass1": m1, "model_pass2": m2, "band_model_pass1": bm, "band_human": band_of(it["human"]),
                      "diff_human_minus_model": it["human"] - m1, "abs_diff": abs(it["human"] - m1), "weight_inverse_inclusion": w,
-                     "writer_kind": k.get("kind"), "arm": k.get("arm"), "file": k.get("file"), "change_kind": change_kind(it["text"]),
+                     "writer_kind": k.get("kind"), "arm": k.get("arm") or ("v1" if k.get("file") == "payloads-v1.json" else None), "file": k.get("file"), "change_kind": change_kind(it["text"]),
                      "document": it["document"], "op": it["op"], "why": it["why"]})
     return rows
 
@@ -1233,7 +1254,12 @@ def a4_join(classes: dict[tuple[str, str], dict], inv: dict) -> dict:
                                         "prediction_subset_of_needs_pass1": (all(cls(p, 1) == "needs" for p in every) if every else None) if u["interpretable_judges"] else None,
                                         "prediction_subset_of_needs_pass2": (all(cls(p, 2) == "needs" for p in every) if every else None) if u["interpretable_judges"] else None,
                                         "needs_pass1_but_caught_by_some_judge": [p for p in needs1 if p not in every],
-                                        "per_judge": per_judge}
+                                        "per_judge": per_judge,
+                                        "sensitivity_post_hoc": {k: {"set": v, "n": len(v) if v is not None else None,
+                                                                     "subset_of_needs_pass1": (all(cls(p, 1) == "needs" for p in v) if v else None),
+                                                                     "visible_members": [p for p in (v or []) if cls(p, 1) == "visible"]}
+                                                                 for k, v in ((("composed_clause_judges", (u.get("sensitivity_post_hoc") or {}).get("invisible_under_every_composed_interpretable_judge")),
+                                                                               ("all_judges_regardless", (u.get("sensitivity_post_hoc") or {}).get("invisible_under_all_judges_regardless"))))}}
     return out
 
 
@@ -1311,6 +1337,9 @@ def join_md(out: dict) -> str:
     L.append("|---|---|---|---|---|---|---|---|---|")
     for k, c in a4.items():
         L.append(f"| {k} | {c['n_payloads_rated']} | {c['needs_pass1']} / {c['needs_pass2']} / {c['needs_both_passes']} | {', '.join(c['interpretable_judges']) or 'none'} | {c['n_invisible_to_all']} | {len(c['invisible_to_all_and_needs_pass1'])} | {', '.join(c['invisible_to_all_but_visible_pass1']) or '–'} | {c['prediction_subset_of_needs_pass1']} | {len(c['needs_pass1_but_caught_by_some_judge'])} |")
+    L.append("\nPost hoc sensitivity (not pre-registered; the interpretability rule read at the point estimate on a small control): " + "; ".join(
+        f"{k}: composed-clause judges give n {c['sensitivity_post_hoc']['composed_clause_judges']['n']} (subset of needs {c['sensitivity_post_hoc']['composed_clause_judges']['subset_of_needs_pass1']}, visible members {c['sensitivity_post_hoc']['composed_clause_judges']['visible_members']}), all judges regardless n {c['sensitivity_post_hoc']['all_judges_regardless']['n']} (subset {c['sensitivity_post_hoc']['all_judges_regardless']['subset_of_needs_pass1']}, visible members {c['sensitivity_post_hoc']['all_judges_regardless']['visible_members']})"
+        for k, c in a4.items()) + ".")
     L.append(f"\n**Roadmap section 4 diagnostic** (S4 reading: {out.get('S4_reading')}): {json.dumps(dg['per_arm'])}; middle − routine on the rater's payload max {dg['permutation_max_pass1']['observed_difference']} (one-sided p {dg['permutation_max_pass1']['p_one_sided']}), on the mean {dg['permutation_mean_pass1']['observed_difference']} (p {dg['permutation_mean_pass1']['p_one_sided']}); exceeds at 0.05: {dg['middle_exceeds_routine_at_0_05']}. {dg['rule']}.")
     return "\n".join(L) + "\n"
 

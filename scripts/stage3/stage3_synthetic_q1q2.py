@@ -71,6 +71,9 @@ REGIMES = ("conforming", "alarming", "sham")
 # T1 v3 (brief 07l, 2026-10-26, additive): the label stem tag and the regime list follow the payload file
 # (`load_everything` sets both); v2's defaults are unchanged.
 STEM_TAG = "t1v2"
+# the regime that carries the primary cell, the sham control and the alarming arm: v2's names by default,
+# v3's (middle, sham_redraw, none) when the payload file carries them (set by load_everything)
+PRIMARY_REGIME, SHAM_REGIME_NAME, ALARM_REGIME = "conforming", "sham", "alarming"
 # judge_client.py was amended additively on 2026-10-26 (07i part 2, 07n part C; the Sonnet path byte-identical,
 # tested): these hashes are accepted for the seal's judge_client_sha256 with that dated note (t1v3-plan.md 8)
 JUDGE_CLIENT_SHA256_ACCEPTED = ("fdce438bf19cc6b1ce498483efec8cb14a0af155ed01db6f2a50976f76fa513c",
@@ -805,7 +808,7 @@ def predictions(table: dict, kdep: dict) -> dict:
         return table.get(f"{reg}:{arm}:B{B}")
 
     out = {}
-    c23, c2, c3 = g("conforming", "k23"), g("conforming", "k2"), g("conforming", "k3")
+    c23, c2, c3 = g(PRIMARY_REGIME, "k23"), g(PRIMARY_REGIME, "k2"), g(PRIMARY_REGIME, "k3")
     xa = [c["attributable"]["gaps"]["X_acct_minus_P"]["point"] for c in (c23, c2, c3) if c]
     out["1_X_acct_recovers_nothing_beyond_P_conforming"] = {
         "prediction": "attributable X_acct - P at most 0.05 at B = 0.10 (pooled k = 2 and 3, and each arm)",
@@ -820,7 +823,7 @@ def predictions(table: dict, kdep: dict) -> dict:
     sham = {}
     sham_ok = True
     for arm in ("lone", "k2", "k3"):
-        s = g("sham", arm)
+        s = g(SHAM_REGIME_NAME, arm)
         if not s:
             continue
         k = {"lone": 1, "k2": 2, "k3": 3}[arm]
@@ -835,7 +838,7 @@ def predictions(table: dict, kdep: dict) -> dict:
         sham[arm] = row
     out["3a_sham_within_chance_band"] = {"prediction": "sham: P and X_doc nominal recall at most 1 - (1 - 0.10)^k plus the Clopper-Pearson half-width; attributable near zero",
                                          "values": sham, "held": sham_ok}
-    al = {arm: (g("alarming", arm) or {}) for arm in ("lone", "k2", "k3", "k23")}
+    al = {arm: (g(ALARM_REGIME, arm) or {}) if ALARM_REGIME else {} for arm in ("lone", "k2", "k3", "k23")}
     alv = {arm: {"P_attributable": (c.get("attributable") or {}).get("P", {}).get("recall"),
                  "P_nominal": (c.get("nominal") or {}).get("P", {}).get("recall"),
                  "X_doc_minus_P_attributable": ((c.get("attributable") or {}).get("gaps") or {}).get("X_doc_minus_P", {}).get("point")}
@@ -946,8 +949,10 @@ def load_everything(ns) -> dict:
     results = ts.regenerate(corpus, Path(ns.payloads), Path(ns.template), manifest)   # raises on a hash mismatch
     payloads = t1.load_payloads(Path(ns.payloads))
     pid2reg = {p["id"]: p.get("arm") or "conforming" for p in payloads}
-    global REGIMES, STEM_TAG
+    global REGIMES, STEM_TAG, PRIMARY_REGIME, SHAM_REGIME_NAME, ALARM_REGIME
     REGIMES = tuple(t1.regimes_of(payloads)) or REGIMES
+    if "middle" in REGIMES:
+        PRIMARY_REGIME, SHAM_REGIME_NAME, ALARM_REGIME = "middle", "sham_redraw", None
     STEM_TAG = getattr(ns, "stem_tag", None) or STEM_TAG
     rows = sv.read_jsonl(corpus)
     stem = sv.stem_of(corpus)
@@ -1007,8 +1012,11 @@ def fit_check(L: dict, ns) -> dict:
     out: dict[str, Any] = {"version": VERSION, "plan_sha256": sha256_file(Path(ns.plan)) if ns.plan else None,
                            "plants_sha256": manifest["plants_sha256"], "plants_reproduce": True,
                            "n_plants": len(worlds), "n_planted_account_days": sum(w.k for w in worlds)}
-    out["ii_scores"] = {"planted_P_own_scored": sum(w.k for w in worlds), "planted_P_own_expected": 288,
-                        "composed_O_diff_scored": len(worlds), "composed_O_diff_expected": 152,
+    # expected counts from the plants manifest (v2: 288 and 152; v3: 240 and 128), 2026-10-26 additive
+    exp_pown = sum(len(r["authors"]) for r in manifest["plants"] if r["delivered"])
+    exp_odiff = sum(1 for r in manifest["plants"] if r["composed"])
+    out["ii_scores"] = {"planted_P_own_scored": sum(w.k for w in worlds), "planted_P_own_expected": exp_pown,
+                        "composed_O_diff_scored": len(worlds), "composed_O_diff_expected": exp_odiff,
                         "every_planted_account_day_active_in_the_null": all(a in null.active[d] for w in worlds for a, d in w.planted),
                         "regimes": dict(Counter(w.regime for w in worlds)), "arms": dict(Counter(w.arm for w in worlds)),
                         "boundaries": dict(Counter(w.boundary_name for w in worlds)),
@@ -1037,7 +1045,7 @@ def fit_check(L: dict, ns) -> dict:
     rule = fit_rule(null)
     out["cheapest_rule_fit"] = {k: rule[k] for k in ("threshold", "p_tie", "share_above", "share_at", "expected_rate", "n", "distinct_scores", "degenerate", "statistic")}
     out["pass"] = (not missing and out["ii_scores"]["every_planted_account_day_active_in_the_null"]
-                   and out["ii_scores"]["planted_P_own_scored"] == 288 and out["ii_scores"]["composed_O_diff_scored"] == 152)
+                   and out["ii_scores"]["planted_P_own_scored"] == exp_pown and out["ii_scores"]["composed_O_diff_scored"] == exp_odiff)
     return out
 
 
@@ -1068,15 +1076,15 @@ def compute(L: dict, ns) -> dict:
         rng = random.Random(LOTTERY_SEED)          # one stream per budget, plants in fit-check order
         evals[B] = [evaluate_world(w, null, B, prule, None if rule["degenerate"] else rule, rng) for w in worlds]
     table = build_table(evals)
-    kdep = {f"B{B}": k_dependence({a: [e for e in evals[B] if e["regime"] == "conforming" and e["arm"] == a] for a in ARMS}, True) for B in BUDGETS}
-    kdep_nom = k_dependence({a: [e for e in evals[PRIMARY_B] if e["regime"] == "conforming" and e["arm"] == a] for a in ARMS}, False)
+    kdep = {f"B{B}": k_dependence({a: [e for e in evals[B] if e["regime"] == PRIMARY_REGIME and e["arm"] == a] for a in ARMS}, True) for B in BUDGETS}
+    kdep_nom = k_dependence({a: [e for e in evals[PRIMARY_B] if e["regime"] == PRIMARY_REGIME and e["arm"] == a] for a in ARMS}, False)
     preds = predictions(table, {**kdep[f"B{PRIMARY_B}"], "nominal_at_B0.1": kdep_nom})
-    primary = table[f"conforming:k23:B{PRIMARY_B}"]
-    res = {"version": VERSION, "primary_cell": {"cell": f"conforming:k23:B{PRIMARY_B}", "n": primary["n"],
+    primary = table[f"{PRIMARY_REGIME}:k23:B{PRIMARY_B}"]
+    res = {"version": VERSION, "primary_regime": PRIMARY_REGIME, "sham_regime": SHAM_REGIME_NAME, "primary_cell": {"cell": f"{PRIMARY_REGIME}:k23:B{PRIMARY_B}", "n": primary["n"],
                                                "X_doc_minus_P_attributable": primary["attributable"]["gaps"]["X_doc_minus_P"],
                                                "recall_P": primary["attributable"]["P"], "recall_X_doc": primary["attributable"]["X_doc"],
-                                               "sham_X_doc_attributable": table[f"sham:k23:B{PRIMARY_B}"]["attributable"]["X_doc"]["recall"],
-                                               "sham_X_doc_nominal": table[f"sham:k23:B{PRIMARY_B}"]["nominal"]["X_doc"]["recall"],
+                                               "sham_X_doc_attributable": table[f"{SHAM_REGIME_NAME}:k23:B{PRIMARY_B}"]["attributable"]["X_doc"]["recall"],
+                                               "sham_X_doc_nominal": table[f"{SHAM_REGIME_NAME}:k23:B{PRIMARY_B}"]["nominal"]["X_doc"]["recall"],
                                                "lottery": primary["lottery"], "X_doc_minus_lottery_nominal": primary["nominal"]["gaps"]["X_doc_minus_lottery"]},
            "k_dependence": kdep, "k_dependence_nominal_B0.1": kdep_nom, "predictions": preds, "table": table,
            "cheapest_rule": rule, "per_world": {f"B{B}": evals[B] for B in BUDGETS},
@@ -1173,8 +1181,8 @@ def results_md(res: dict, meta: dict) -> str:
                          f"{_r(A['doc_layer']['recall'])} ({_r(N['doc_layer']['recall'])}), {_r(c['document_layer'].get('share_of_cap'))} | "
                          f"{_r(A.get('rule', {}).get('recall'))} ({_r(N.get('rule', {}).get('recall'))}) | {_r(A['X_acct_unseeded']['recall'])} ({_r(N['X_acct_unseeded']['recall'])}) | "
                          f"{_r(A['X_doc'].get('full_recovery'))} / {_r(A['P'].get('full_recovery'))} | {_r(rho['rho']) if rho['defined'] else 'undefined (O − P ' + _r(rho['denominator']['point']) + _ci(rho['denominator']) + ')'} |")
-    c = res["table"][f"conforming:k23:B{PRIMARY_B}"]
-    L.append("\n## The document layer's operating point (conforming k = 2 and 3, B = 0.10)\n")
+    c = res["table"][f"{PRIMARY_REGIME}:k23:B{PRIMARY_B}"]
+    L.append(f"\n## The document layer's operating point ({PRIMARY_REGIME} k = 2 and 3, B = 0.10)\n")
     L.append(json.dumps(c["document_layer"], indent=None))
     L.append("\nPrecision (planted account-days reviewed / account-days reviewed, pooled over the cell's worlds): " + json.dumps(c["precision"]))
     L.append(f"\nCheapest class-wide rule (rung 0's edit frequency, re-fitted on the honest null at rate {RULE_RATE}; a re-fit, not rung 0's threshold): "
@@ -1278,8 +1286,8 @@ def streaming_table(L: dict, recs: dict[str, dict], items: list[dict]) -> dict:
                                                                               "X_doc_streaming_minus_P": gap_cell(sub, "X_doc", "P", True)},
                                                              "nominal": {"P": recall_cell(sub, "P", False), "X_doc_streaming": recall_cell(sub, "X_doc", False),
                                                                          "X_doc_streaming_minus_P": gap_cell(sub, "X_doc", "P", False)}}
-    c = out["cells"].get(f"conforming:k23:B{PRIMARY_B}")
-    out["summary"] = {"conforming_k23_B0.1": c, "sham_k23_B0.1_X_doc_streaming_attributable": (out["cells"].get(f"sham:k23:B{PRIMARY_B}") or {}).get("attributable", {}).get("X_doc_streaming", {}).get("recall")}
+    c = out["cells"].get(f"{PRIMARY_REGIME}:k23:B{PRIMARY_B}")
+    out["summary"] = {f"{PRIMARY_REGIME}_k23_B0.1": c, f"{SHAM_REGIME_NAME}_k23_B0.1_X_doc_streaming_attributable": (out["cells"].get(f"{SHAM_REGIME_NAME}:k23:B{PRIMARY_B}") or {}).get("attributable", {}).get("X_doc_streaming", {}).get("recall")}
     return out
 
 
