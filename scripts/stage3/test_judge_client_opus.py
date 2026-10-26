@@ -78,3 +78,16 @@ def test_opus_client_requires_an_effort_and_sonnet_sends_none(tmp_path):
     rec = asyncio.run(c.score("P_own", "lbl", "packet"))
     assert "output_config" not in fake.kwargs[0] and fake.kwargs[0]["thinking"] == {"type": "disabled"}
     assert "output_config" not in rec["request_params"]
+
+
+def test_opus_4_8_adaptive_thinking_without_effort_and_its_price():
+    m = "anthropic.claude-opus-4-8"
+    assert jc.thinking_param(m) == {"type": "adaptive"}
+    assert jc.PRICES[m] == {"input": 5.00, "output": 25.00, "cache_read": 0.50, "cache_write": 6.25}
+    p = jc.request_params(m, 4000, "sys")
+    assert "output_config" not in p and p["thinking"] == {"type": "adaptive"}
+    c = jc.JudgeClient(cache_path=None, concurrency=1, rpm=100, model=m, spend_cap_usd=None, client=_Fake(),
+                       region="us-east-1", verbose=False, system="sys", prompt_version="v")
+    assert c.effort is None
+    with pytest.raises(ValueError):
+        jc.JudgeClient(cache_path=None, concurrency=1, rpm=100, model=m, spend_cap_usd=None, region="us-east-1", verbose=False, effort="high")

@@ -125,3 +125,5 @@ Sealed instruments unchanged; no judge call in the table; model of the sealed sc
 | sham : k2 : B0.02 | 0.000 | 0.000 | 0.000 [0.000, 0.000] | -0.042 | -0.083 [-0.208, 0.000] |
 | sham : k3 : B0.02 | 0.000 | 0.000 | 0.000 [0.000, 0.000] | 0.000 | 0.062 [0.000, 0.188] |
 | sham : k23 : B0.02 | 0.000 | 0.000 | 0.000 [0.000, 0.000] | -0.025 | -0.025 [-0.100, 0.050] |
+
+**Author reuse (N3, 2026-10-26):** 288 planted account-days come from 36 authors; the bootstrap resamples plants, so nominal intervals are too narrow; attributable readings condition out the authors' honest standing.

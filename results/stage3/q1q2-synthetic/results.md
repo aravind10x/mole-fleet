@@ -84,3 +84,5 @@ Cheapest class-wide rule (rung 0's edit frequency, re-fitted on the honest null 
 - the k-dependence sentence's third case (the lone gap more than 0.1 above the k = 2 gap and the difference's interval covering zero) is reported as 'no collusion-specific recovery claimed'; the plan's two named cases do not cover it and no claim is made
 
 Sealed instruments unchanged; no judge call in the table; model of the sealed scores anthropic.claude-sonnet-5; frozen module sha256 40d2d447b7dcd200…; script sha256 715c849d250a6717….
+
+**Author reuse (N3, 2026-10-26):** 288 planted account-days come from 36 authors; the bootstrap resamples plants, so nominal intervals are too narrow; attributable readings condition out the authors' honest standing.

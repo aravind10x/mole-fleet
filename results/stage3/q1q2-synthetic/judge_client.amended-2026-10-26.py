@@ -153,6 +153,9 @@ PRICES: dict[str, dict[str, float]] = {
     # 2026-10-06: $4 / $20 per MTok, cache reads $0.20; cache_write 1.25x input as above) applied to
     # Bedrock usage like the entries above. Thinking tokens bill as output tokens (usage.output_tokens).
     "anthropic.claude-opus-5-5":   {"input": 4.00, "output": 20.00, "cache_read": 0.20, "cache_write": 5.00},
+    # Added 2026-10-26 (brief 07n part C): Claude Opus 4.8, Anthropic list price (the claude-api reference
+    # table cached 2026-10-06: $5 / $25 per MTok; cache multipliers as above), applied to Bedrock usage.
+    "anthropic.claude-opus-4-8":   {"input": 5.00, "output": 25.00, "cache_read": 0.50, "cache_write": 6.25},
 }
 
 
@@ -172,7 +175,9 @@ def thinking_param(model: str) -> dict[str, str]:
     Opus 5.5 id (it rejects `disabled`; 2026-10-26); else `disabled`."""
     if "sonnet-5-5" in model:
         return {"type": "between_tools"}
-    if "opus-5-5" in model:
+    if "opus-5-5" in model or "opus-4-8" in model:
+        # opus-4-8 (2026-10-26, brief 07n part C): adaptive is the on-mode; omitting `thinking` would
+        # run it without thinking; effort stays the provider default (no output_config).
         return {"type": "adaptive"}
     return {"type": "disabled"}
 

@@ -108,6 +108,11 @@ def dollars_so_far(out_dir: Path, model: str) -> float:
     return round(tot, 6)
 
 
+def effort_arg(effort: str | None) -> str | None:
+    """'default' (brief 07n part C: the provider default, no output_config) -> None."""
+    return None if effort in (None, "default") else effort
+
+
 def make_client(view: str, out_dir: Path, model: str, effort: str, *, concurrency: int, rpm: int,
                 spend_cap_usd: float | None) -> jc_mod.JudgeClient:
     """`stage3_views.make_client`'s checks (cache name carries the view key and the model; one prompt
@@ -116,13 +121,14 @@ def make_client(view: str, out_dir: Path, model: str, effort: str, *, concurrenc
     set_.check_cache(cp, model, prompt_version=sv.prompt_version(view, 0))
     jc = jc_mod.JudgeClient(cache_path=cp, concurrency=concurrency, rpm=rpm, model=model, spend_cap_usd=spend_cap_usd,
                             max_tokens=OPUS_MAX_TOKENS, system=sv.system_prompt(view, 0),
-                            prompt_version=sv.prompt_version(view, 0), effort=effort)
+                            prompt_version=sv.prompt_version(view, 0), effort=effort_arg(effort))
     want = jc_mod.sha256(sv.system_prompt(view, 0))
     bad = [r.get("cache_key") for r in jc.cache.values() if (r.get("request_params") or {}).get("system_sha256") not in (None, want)]
     if bad:
         raise SystemExit(f"refusing: cache {cp} holds {len(bad)} record(s) under another system prompt")
+    want_oc = {"effort": effort_arg(effort)} if effort_arg(effort) else None
     bad = [r.get("cache_key") for r in jc.cache.values()
-           if (r.get("request_params") or {}).get("output_config") != {"effort": effort}
+           if (r.get("request_params") or {}).get("output_config") != want_oc
            or (r.get("request_params") or {}).get("max_tokens") != OPUS_MAX_TOKENS]
     if bad:
         raise SystemExit(f"refusing: cache {cp} holds {len(bad)} record(s) at another effort or max_tokens")
@@ -178,7 +184,7 @@ async def smoke(ns, out_dir: Path) -> int:
     # adaptive thinking before any text. A 404 aborts the client (not served); any other outcome is a
     # served model, whatever the verdict parse says.
     jc = jc_mod.JudgeClient(cache_path=None, concurrency=1, rpm=5, model=ns.model, spend_cap_usd=1.0,
-                            max_tokens=OPUS_MAX_TOKENS, effort=ns.effort)
+                            max_tokens=OPUS_MAX_TOKENS, effort=effort_arg(ns.effort))
     try:
         rec = await jc.score("smoke", "q1q2opus:smoke:say-ok", "Say OK.")
         served = True
