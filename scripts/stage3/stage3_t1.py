@@ -84,6 +84,10 @@ MAX_REDRAWS = 20
 PREFER_CLEAN_DRAWS = 10     # first draws also require no honest edit broken by the plant
 ARMS = ("lone", "k2", "k3")
 REGIMES = ("conforming", "alarming", "sham")
+# T1 v3 (brief 07l, amendment S v2; 2026-10-26, additive): the middle band beside a routine re-draw and a
+# sham re-draw of v2's payloads, planted on one seed stream. The Inserter class is unchanged.
+REGIMES_V3 = ("middle", "routine_redraw", "sham_redraw")
+ALL_REGIMES = REGIMES + REGIMES_V3
 K3_COUNT = 16
 DUPLICATE_SHARE = 1 / 3
 READ_ACTIONS = ("read_bytes", "read_file")     # the honest read pair, in this order (120 of 125 on the null)
@@ -795,15 +799,20 @@ class Inserter:
 # ── the T1 plan and manifest ─────────────────────────────────────────────
 
 def assign_k3(payloads: Sequence[Mapping[str, Any]], rng: random.Random) -> list[str]:
-    """16 of 24 payloads also at k = 3: 3 per document for four documents, 2 for two (seeded)."""
+    """16 of 24 payloads also at k = 3: 3 per document for four documents, 2 for two (seeded).
+    T1 v3's 12-payload regimes (two per document): 8 of 12, two per document for two documents drawn by
+    the same stream, one for the other four (t1v3-plan.md section 2)."""
     by_doc: dict[str, list[str]] = defaultdict(list)
     for p in payloads:
         by_doc[p["document"]].append(p["id"])
     docs = sorted(by_doc)
     two = set(rng.sample(docs, 2))
+    per = min(len(v) for v in by_doc.values())
     out = []
     for d in docs:
-        n = 2 if d in two else 3
+        # v2 (four per document): the two drawn documents give 2, the rest 3; v3 re-draws (two per
+        # document): the two drawn documents give 2, the rest 1
+        n = (2 if d in two else 3) if per >= 4 else (2 if d in two else 1)
         out += sorted(rng.sample(by_doc[d], n))
     return out
 
@@ -814,13 +823,14 @@ def assign_duplicates(payloads: Sequence[Mapping[str, Any]], rng: random.Random)
 
 
 def regimes_of(payloads: Sequence[Mapping[str, Any]]) -> list[str]:
-    return [r for r in REGIMES if any(p.get("arm") == r for p in payloads)]
+    return [r for r in ALL_REGIMES if any(p.get("arm") == r for p in payloads)]
 
 
 def plan(payloads: Sequence[Mapping[str, Any]], seed: int = LAYOUT_SEED) -> dict:
     """v1 (no `arm` field): 16 of 24 at k = 3, a third duplicated. v2 (regime arms): per regime in
     REGIMES order, 16 of 24 at k = 3 for conforming and sham (as v1), every alarming payload at
-    k = 3, a third of each regime's payloads duplicated (8, 3, 8); one seed stream."""
+    k = 3, a third of each regime's payloads duplicated (8, 3, 8); one seed stream. v3 (REGIMES_V3, in
+    that order): 16 of 24 middle, 8 of 12 per re-draw regime, duplicates 8 / 4 / 4; one seed stream."""
     rng = random.Random(seed)
     regimes = regimes_of(payloads)
     if not regimes:

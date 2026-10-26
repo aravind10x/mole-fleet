@@ -209,13 +209,15 @@ def _author_flags(res: dict) -> list[tuple[str, bool]]:
 
 def analyse_v2(items: dict[str, list[dict]], recs: dict[str, dict[str, dict]], seal: dict,
                results: list[t1.PlantResult], payloads: list[dict], manifest: dict,
-               honest=None, honest_odiff=None, honest_pieces=None) -> dict:
+               honest=None, honest_odiff=None, honest_pieces=None, regimes: Sequence[str] = REGIMES) -> dict:
+    """`regimes` (additive, 2026-10-26, brief 07l): the regime list to read; v2's three by default, T1 v3's
+    (`t1.REGIMES_V3`) for the middle band. The R3 block fires only when a conforming regime is present."""
     pid2reg = {p["id"]: p.get("arm") or "conforming" for p in payloads}
     kinds = {p["id"]: p["kind"] for p in payloads}
     plant_records = {(r["payload_id"], r["arm"]): r for r in manifest.get("plants", [])}
     per: dict[str, dict] = {}
     incomplete_all: dict[str, dict] = {}
-    for reg in REGIMES:
+    for reg in regimes:
         res_r = [r for r in results if pid2reg.get(r.payload_id) == reg]
         if not res_r:
             continue

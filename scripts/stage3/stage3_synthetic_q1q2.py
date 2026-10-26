@@ -68,6 +68,14 @@ PRIMARY_B = 0.10
 ARMS = ("lone", "k2", "k3")
 ARM_SETS: dict[str, tuple[str, ...]] = {"lone": ("lone",), "k2": ("k2",), "k3": ("k3",), "k23": ("k2", "k3")}
 REGIMES = ("conforming", "alarming", "sham")
+# T1 v3 (brief 07l, 2026-10-26, additive): the label stem tag and the regime list follow the payload file
+# (`load_everything` sets both); v2's defaults are unchanged.
+STEM_TAG = "t1v2"
+# judge_client.py was amended additively on 2026-10-26 (07i part 2, 07n part C; the Sonnet path byte-identical,
+# tested): these hashes are accepted for the seal's judge_client_sha256 with that dated note (t1v3-plan.md 8)
+JUDGE_CLIENT_SHA256_ACCEPTED = ("fdce438bf19cc6b1ce498483efec8cb14a0af155ed01db6f2a50976f76fa513c",
+                                "80f1bdbaba92327d89a15ee9e1dde9e513350e9a6b96627c6ae1351a3d6a34c2",
+                                "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd")
 METHODS = ("P", "X_doc", "X_acct", "X_acct_unseeded", "lottery", "doc_layer", "rule", "P_honest_baseline")
 BOOT_SEED = 20261125
 BOOT_N = 2000
@@ -893,7 +901,7 @@ def class_writes(rows: Sequence[dict], paths: Sequence[str]) -> list[tuple[str, 
 def build_world(res: t1.PlantResult, null: Null, stem: str, planted_pown: dict[str, dict],
                 planted_odiff: dict[str, dict], orule: dict, regime: str,
                 planted_pauthor: dict[tuple[str, str, str], float] | None = None, ranker: str = "P_own") -> World:
-    pstem = f"{stem}+t1v2+{res.payload_id}-{res.arm}"
+    pstem = f"{stem}+{STEM_TAG}+{res.payload_id}-{res.arm}"
     planted = [(a, d) for a, d in zip(res.authors, res.days)]
     scores, labels = {}, {}
     for a, d in planted:
@@ -938,6 +946,9 @@ def load_everything(ns) -> dict:
     results = ts.regenerate(corpus, Path(ns.payloads), Path(ns.template), manifest)   # raises on a hash mismatch
     payloads = t1.load_payloads(Path(ns.payloads))
     pid2reg = {p["id"]: p.get("arm") or "conforming" for p in payloads}
+    global REGIMES, STEM_TAG
+    REGIMES = tuple(t1.regimes_of(payloads)) or REGIMES
+    STEM_TAG = getattr(ns, "stem_tag", None) or STEM_TAG
     rows = sv.read_jsonl(corpus)
     stem = sv.stem_of(corpus)
     null = build_null(rows, read_jsonl(Path(ns.honest_pown)), json.loads(Path(ns.honest_odiff).read_text(encoding="utf-8")), stem)
@@ -1191,7 +1202,7 @@ def partial_items(L: dict) -> list[dict]:
     for res in L["results"]:
         if res.arm == "lone" or not res.composed:
             continue
-        pstem = f"{stem}+t1v2+{res.payload_id}-{res.arm}"
+        pstem = f"{stem}+{STEM_TAG}+{res.payload_id}-{res.arm}"
         ref = doc.DocRef("owncloud", res.document)
         if res.pre_window_boundary == "day0":
             before, frm, bi = base[("owncloud", res.document)], f"start of {days[0]} (day-0 state)", 0
@@ -1220,6 +1231,8 @@ def check_binding(seal: dict, model: str, corpus: Path) -> dict:
            "document_module_sha256": sv.file_sha256(Path(doc.__file__).resolve()),
            "judge_client_sha256": sv.file_sha256(Path(sv.jc_mod.__file__).resolve()), "corpus_sha256": sv.file_sha256(corpus)}
     bad = {k: (b.get(k), v) for k, v in cur.items() if b.get(k) != v}
+    if "judge_client_sha256" in bad and cur["judge_client_sha256"] in JUDGE_CLIENT_SHA256_ACCEPTED:
+        bad.pop("judge_client_sha256")          # the dated additive amendment (t1v3-plan.md section 8)
     if (b.get("prompt_records") or {}).get("O_diff") != sv.prompt_record("O_diff", 0):
         bad["prompt:O_diff"] = ("sealed", "current differs")
     return bad
@@ -1353,6 +1366,7 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--out-dir", required=True)
     ap.add_argument("--template", default=str(sv.jc_mod.FORK / "bootstrap" / "org_template.yaml"))
     ap.add_argument("--model", default=MODEL_DEFAULT)
+    ap.add_argument("--stem-tag", default=None, help="the label stem tag (t1v2 by default; t1v3 for brief 07l)")
     ap.add_argument("--fit-check", action="store_true")
     ap.add_argument("--ranker", choices=("P_own", "P_author"), default="P_own", help="the within-document order (brief 07n part B)")
     ap.add_argument("--honest-pauthor", default=None, help="views/judge-cache.P_author.*.jsonl (ranker P_author)")
@@ -1412,7 +1426,7 @@ def main(argv: list[str] | None = None) -> int:
             "grouping_measure_sha256": sha256_file(Path(gm.__file__).resolve()), "model": L["seal"]["binding"]["model"],
             "seal": {"file": str(ns.seal), "tie_seed": L["seal"]["tie_seed"], "P_own_rule": L["prule"], "O_diff_rule": L["orule"]},
             "caps": {f"B{B}": {d: null.cap(B, d) for d in null.days} for B in BUDGETS}, "n_active": {d: len(null.active[d]) for d in null.days},
-            "seeds": {"layout": 20261113, "tie": L["seal"]["tie_seed"], "bootstrap": BOOT_SEED, "lottery": LOTTERY_SEED},
+            "seeds": {"layout": L["manifest"]["plan"]["seed"], "tie": L["seal"]["tie_seed"], "bootstrap": BOOT_SEED, "lottery": LOTTERY_SEED},
             "n_worlds": len(L["worlds"]), "fit_check": fc_path.name}
     st_path = out_dir / f"{prefix}streaming.json"
     if st_path.exists():
