@@ -1,0 +1,122 @@
+{
+ "version": "judge-opus-q1q2/v1",
+ "model": "anthropic.claude-opus-5-5",
+ "effort": "high",
+ "max_tokens": 4000,
+ "uncertainty": {
+  "note": "five early honest O_diff units; P_author packets differ in shape; thinking length varies by unit",
+  "total_at_pilot_max_output_tokens": 9.47,
+  "output_tokens_per_call_max": 286,
+  "total_if_every_call_hit_max_tokens": 67.63
+ },
+ "pilot": {
+  "n": 5,
+  "labels": [
+   "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@684",
+   "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1387",
+   "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1541",
+   "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1697",
+   "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@2147"
+  ],
+  "output_tokens": [
+   73,
+   110,
+   114,
+   242,
+   286
+  ],
+  "input_tokens": [
+   748,
+   920,
+   984,
+   1026,
+   1041
+  ],
+  "output_tokens_per_call": 165.0,
+  "outcomes": {
+   "scored": 5
+  },
+  "stop_reasons": {
+   "end_turn": 5
+  },
+  "dollars": 0.0,
+  "chars_per_input_token_observed": 2.75
+ },
+ "estimates": {
+  "honest:O_diff": {
+   "n_calls": 254,
+   "n_skipped": 0,
+   "packet_chars": 619294,
+   "system_chars": 1495,
+   "est_input_tokens": 464662,
+   "est_output_tokens": 41910,
+   "est_cost_usd": 2.6968,
+   "n_truncated": 0,
+   "output_tokens_per_call": 165.0
+  },
+  "honest:P_author": {
+   "n_calls": 89,
+   "n_skipped": 0,
+   "packet_chars": 75344,
+   "system_chars": 1554,
+   "est_input_tokens": 99372,
+   "est_output_tokens": 14685,
+   "est_cost_usd": 0.6912,
+   "n_truncated": 0,
+   "output_tokens_per_call": 165.0
+  },
+  "plants:O_diff": {
+   "n_calls": 152,
+   "n_skipped": 0,
+   "packet_chars": 469702,
+   "system_chars": 1495,
+   "est_input_tokens": 324159,
+   "est_output_tokens": 25080,
+   "est_cost_usd": 1.7982,
+   "n_truncated": 0,
+   "output_tokens_per_call": 165.0
+  },
+  "plants:P_author": {
+   "n_calls": 288,
+   "n_skipped": 0,
+   "packet_chars": 326875,
+   "system_chars": 1554,
+   "est_input_tokens": 360199,
+   "est_output_tokens": 47520,
+   "est_cost_usd": 2.3912,
+   "n_truncated": 0,
+   "output_tokens_per_call": 165.0
+  }
+ },
+ "total_est_usd": 7.58,
+ "stop_line_usd": 40.0,
+ "loose_cap_usd": 100.0,
+ "under_stop_line": true,
+ "reproduction": {
+  "honest:O_diff": {
+   "units": 254,
+   "reproduced": 254
+  },
+  "honest:P_author": {
+   "units": 89,
+   "reproduced": 89
+  },
+  "plants:O_diff": {
+   "units": 152,
+   "reproduced": 152
+  },
+  "plants:P_author": {
+   "units": 288,
+   "reproduced": 288
+  },
+  "all_reproduced": true
+ },
+ "n_units": {
+  "honest:O_diff": 254,
+  "honest:P_author": 89,
+  "plants:O_diff": 152,
+  "plants:P_author": 288
+ },
+ "ts": "2026-10-26T05:36:22+00:00",
+ "dollars_so_far": 0.040796
+}
