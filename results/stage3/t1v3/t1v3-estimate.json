@@ -1,0 +1,122 @@
+{
+ "version": "t1v3-score/v1",
+ "plan_sha256": "f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1",
+ "n_units": {
+  "P_author": 240,
+  "P_author_ctx": 240,
+  "O_diff": 128,
+  "P_own": 240
+ },
+ "judges": {
+  "sonnet": {
+   "model": "anthropic.claude-sonnet-5",
+   "basis": "stage3_views.estimate (2.15 chars/token, 230 output tokens, the Bedrock price table); v2: $14.58 estimated, $14.81 realised",
+   "estimates": {
+    "P_author": {
+     "n_calls": 240,
+     "n_skipped": 0,
+     "packet_chars": 256995,
+     "system_chars": 1554,
+     "est_input_tokens": 293002,
+     "est_output_tokens": 55200,
+     "est_cost_usd": 1.138,
+     "n_truncated": 0
+    },
+    "P_author_ctx": {
+     "n_calls": 240,
+     "n_skipped": 0,
+     "packet_chars": 388588,
+     "system_chars": 1611,
+     "est_input_tokens": 360571,
+     "est_output_tokens": 55200,
+     "est_cost_usd": 1.2731,
+     "n_truncated": 0
+    },
+    "O_diff": {
+     "n_calls": 128,
+     "n_skipped": 0,
+     "packet_chars": 397836,
+     "system_chars": 1495,
+     "est_input_tokens": 274045,
+     "est_output_tokens": 29440,
+     "est_cost_usd": 0.8425,
+     "n_truncated": 0
+    },
+    "P_own": {
+     "n_calls": 240,
+     "n_skipped": 0,
+     "packet_chars": 8395491,
+     "system_chars": 1648,
+     "est_input_tokens": 4088842,
+     "est_output_tokens": 55200,
+     "est_cost_usd": 8.7297,
+     "n_truncated": 0
+    }
+   },
+   "total_est_usd": 11.98,
+   "stop_line_usd": 25.0,
+   "cap_usd": 30.0
+  },
+  "glm": {
+   "model": "z-ai/glm-5.3",
+   "basis": "realised per-unit cost of each view on the judge's v2 plant records (07n lessons: a short-unit smoke underestimates reasoning cost)",
+   "estimates": {
+    "O_diff": {
+     "n_calls": 128,
+     "per_unit_usd": 0.00035,
+     "est_cost_usd": 0.0448,
+     "at_v2_max_per_unit_usd": 0.1001,
+     "v2_records": 152,
+     "v2_cache": "judge-cache.q1q2dep.O_diff.z-ai_glm-5-3.jsonl"
+    },
+    "P_author": {
+     "n_calls": 240,
+     "per_unit_usd": 0.000227,
+     "est_cost_usd": 0.0545,
+     "at_v2_max_per_unit_usd": 0.1265,
+     "v2_records": 288,
+     "v2_cache": "judge-cache.q1q2dep.P_author.z-ai_glm-5-3.jsonl"
+    }
+   },
+   "total_est_usd": 0.1,
+   "total_at_v2_max_per_unit_usd": 0.23
+  },
+  "opus48": {
+   "model": "anthropic.claude-opus-4-8",
+   "basis": "realised per-unit cost of each view on the judge's v2 plant records (07n lessons: a short-unit smoke underestimates reasoning cost)",
+   "estimates": {
+    "O_diff": {
+     "n_calls": 128,
+     "per_unit_usd": 0.029369,
+     "est_cost_usd": 3.7592,
+     "at_v2_max_per_unit_usd": 11.1194,
+     "v2_records": 152,
+     "v2_cache": "judge-cache.q1q2opus-default.O_diff.anthropic-claude-opus-4-8.jsonl"
+    },
+    "P_author": {
+     "n_calls": 240,
+     "per_unit_usd": 0.013877,
+     "est_cost_usd": 3.3305,
+     "at_v2_max_per_unit_usd": 16.8516,
+     "v2_records": 288,
+     "v2_cache": "judge-cache.q1q2opus-default.P_author.anthropic-claude-opus-4-8.jsonl"
+    }
+   },
+   "total_est_usd": 7.09,
+   "total_at_v2_max_per_unit_usd": 27.97
+  }
+ },
+ "combined_est_usd": 19.17,
+ "combined_cap_usd": 45.0,
+ "sonnet_under_stop_line": true,
+ "combined_under_cap": true,
+ "licensed": true,
+ "dollars_so_far": {
+  "sonnet": 0,
+  "glm": 0,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 0
+ },
+ "ts": "2026-10-26T19:18Z"
+}

@@ -1,0 +1,157 @@
+{
+ "version": "t1v3-score/v1",
+ "judge": "sonnet",
+ "model": "anthropic.claude-sonnet-5",
+ "binding_check": {
+  "bad": {},
+  "judge_client_note": {
+   "judge_client_sha256_sealed": "fdce438bf19cc6b1ce498483efec8cb14a0af155ed01db6f2a50976f76fa513c",
+   "judge_client_sha256_current": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd",
+   "note": "additive amendments of 2026-10-26 (07i part 2, 07n part C); the Sonnet request and record are byte-identical (test_judge_client_opus.py); t1v3-plan.md section 8"
+  }
+ },
+ "views": {
+  "P_author": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 0.810242,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 230446,
+    "output_tokens": 34935,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 82,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 0.810242,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.810242,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3.P_author.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 1.138
+  },
+  "P_author_ctx": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 1.012954,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 292392,
+    "output_tokens": 42817,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 68,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 1.012954,
+    "dollars_cached": 0.0,
+    "dollars_total": 1.012954,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3.P_author_ctx.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 1.2731
+  },
+  "O_diff": {
+   "n": 128,
+   "outcomes": {
+    "scored": 128
+   },
+   "dollars": 0.765194,
+   "stats": {
+    "calls": 128,
+    "requests": 129,
+    "cached": 0,
+    "scored": 128,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 235362,
+    "output_tokens": 29447,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 11,
+    "n_429": 0,
+    "transient_retries": 1,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 0.765194,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.765194,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3.O_diff.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 0.8425
+  },
+  "P_own": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 9.585236,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 4495608,
+    "output_tokens": 59402,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 73,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 9.585236,
+    "dollars_cached": 0.0,
+    "dollars_total": 9.585236,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1v3.P_own.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 8.7297
+  }
+ },
+ "dollars": 12.173626,
+ "aborted": null,
+ "dollars_all": {
+  "sonnet": 12.173626,
+  "glm": 0,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 12.173626
+ },
+ "ts": "2026-10-26T19:42Z"
+}

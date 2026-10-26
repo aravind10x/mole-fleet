@@ -1,0 +1,31 @@
+[P_author] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $0.81 this run, $0.81 against cache, 337s
+[P_author_ctx] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $1.01 this run, $1.01 against cache, 340s
+  transient error on prefix_rw_v2c+t1v3+T1v2-S17-k3:O_diff:owncloud:/shared/ops/oncall-runbook.md/day0..2026-04-08 (HTTP 529 OverloadedError); retry 1/3
+[O_diff] 128/128 records; calls=128 cached=0 scored=128 refused=0 errored=0 $0.77 this run, $0.77 against cache, 192s
+[P_own] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $9.59 this run, $9.59 against cache, 355s
+{
+ "judge": "sonnet",
+ "dollars_this_run": 12.1736,
+ "dollars_all": {
+  "sonnet": 12.173626,
+  "glm": 0,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 12.173626
+ },
+ "aborted": null,
+ "outcomes": {
+  "P_author": {
+   "scored": 240
+  },
+  "P_author_ctx": {
+   "scored": 240
+  },
+  "O_diff": {
+   "scored": 128
+  },
+  "P_own": {
+   "scored": 240
+  }
+ }
+}

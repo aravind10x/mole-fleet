@@ -1,0 +1,28 @@
+{
+ "version": "t1v3-score/v1",
+ "plan_sha256": "f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1",
+ "n_units": {
+  "P_author": 240,
+  "P_author_ctx": 240,
+  "O_diff": 128,
+  "P_own": 240
+ },
+ "combined_est_usd": 19.17,
+ "combined_cap_usd": 45.0,
+ "sonnet_under_stop_line": true,
+ "combined_under_cap": true,
+ "licensed": true,
+ "dollars_so_far": {
+  "sonnet": 0,
+  "glm": 0,
+  "opus48": 0,
+  "streaming": 0,
+  "total": 0
+ },
+ "ts": "2026-10-26T19:18Z",
+ "per_judge_total_est_usd": {
+  "sonnet": 11.98,
+  "glm": 0.1,
+  "opus48": 7.09
+ }
+}
