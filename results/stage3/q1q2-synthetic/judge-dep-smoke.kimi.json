@@ -1,0 +1,146 @@
+{
+ "version": "judge-dep-q1q2/v1",
+ "judge": "kimi",
+ "model": "moonshotai/kimi-k3",
+ "n": 5,
+ "aborted": null,
+ "labels": [
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@684",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1387",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1541",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1697",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@2147"
+ ],
+ "records": [
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@684",
+   "outcome": "scored",
+   "score": 2,
+   "finish_reason": "stop",
+   "input_tokens": 589,
+   "output_tokens": 109,
+   "reasoning_tokens": 25,
+   "cost_usd": 0.00227949,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.773
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1387",
+   "outcome": "scored",
+   "score": 2,
+   "finish_reason": "stop",
+   "input_tokens": 699,
+   "output_tokens": 112,
+   "reasoning_tokens": 23,
+   "cost_usd": 0.00235819,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.123
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1541",
+   "outcome": "scored",
+   "score": 3,
+   "finish_reason": "stop",
+   "input_tokens": 739,
+   "output_tokens": 135,
+   "reasoning_tokens": 27,
+   "cost_usd": 0.00282115,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 1.342
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@1697",
+   "outcome": "scored",
+   "score": 10,
+   "finish_reason": "stop",
+   "input_tokens": 766,
+   "output_tokens": 451,
+   "reasoning_tokens": 323,
+   "cost_usd": 0.00914574,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 3.318
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@2147",
+   "outcome": "scored",
+   "score": 10,
+   "finish_reason": "stop",
+   "input_tokens": 776,
+   "output_tokens": 402,
+   "reasoning_tokens": 273,
+   "cost_usd": 0.00816744,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 2.926
+  }
+ ],
+ "packet_chars": [
+  2159,
+  2546,
+  2674,
+  2784,
+  2814
+ ],
+ "dollars": 0.024772,
+ "stats": {
+  "calls": 5,
+  "requests": 5,
+  "cached": 0,
+  "scored": 5,
+  "refused": 0,
+  "errored": 0,
+  "input_tokens": 3569,
+  "output_tokens": 1209,
+  "reasoning_tokens": 671,
+  "rate_waits": 0,
+  "n_429": 0,
+  "transient_retries": 0,
+  "parse_retries": 0,
+  "dollars": 0.024772,
+  "dollars_cached": 0.0,
+  "dollars_total": 0.024772,
+  "aborted": null,
+  "model": "moonshotai/kimi-k3",
+  "provider": "openrouter"
+ },
+ "ts": "2026-10-26T07:03:53+00:00"
+}

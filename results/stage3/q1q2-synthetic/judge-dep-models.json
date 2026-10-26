@@ -1,0 +1,115 @@
+{
+ "version": "judge-dep-q1q2/v1",
+ "source": "https://openrouter.ai/api/v1/models",
+ "fetched_at": "2026-10-26T06:58:20+00:00",
+ "price_source": "openrouter-list:https://openrouter.ai/api/v1/models@2026-10-26",
+ "judges": {
+  "kimi": {
+   "name": "Kimi K3",
+   "id": "moonshotai/kimi-k3",
+   "served": true,
+   "context_length": 1048576,
+   "pricing": {
+    "prompt": "0.00000018",
+    "completion": "0.00002",
+    "internal_reasoning": null
+   },
+   "supported_parameters": [
+    "frequency_penalty",
+    "include_reasoning",
+    "logit_bias",
+    "logprobs",
+    "max_completion_tokens",
+    "max_tokens",
+    "min_p",
+    "parallel_tool_calls",
+    "presence_penalty",
+    "reasoning",
+    "reasoning_effort",
+    "repetition_penalty",
+    "response_format",
+    "seed",
+    "stop",
+    "structured_outputs",
+    "temperature",
+    "tool_choice",
+    "tools",
+    "top_k",
+    "top_logprobs",
+    "top_p"
+   ],
+   "candidates_seen": [
+    "moonshotai/kimi-k2",
+    "moonshotai/kimi-k2-0905",
+    "moonshotai/kimi-k2-thinking",
+    "moonshotai/kimi-k2.5",
+    "moonshotai/kimi-k2.6",
+    "moonshotai/kimi-k2.7-code",
+    "moonshotai/kimi-k3",
+    "moonshotai/kimi-k3.1-pro",
+    "moonshotai/kimi-k3:batch",
+    "~moonshotai/kimi-latest"
+   ]
+  },
+  "glm": {
+   "name": "GLM 5.3",
+   "id": "z-ai/glm-5.3",
+   "served": true,
+   "context_length": 1048576,
+   "pricing": {
+    "prompt": "0.0000000699",
+    "completion": "0.0000014",
+    "internal_reasoning": null
+   },
+   "supported_parameters": [
+    "frequency_penalty",
+    "include_reasoning",
+    "logit_bias",
+    "logprobs",
+    "max_tokens",
+    "min_p",
+    "parallel_tool_calls",
+    "presence_penalty",
+    "reasoning",
+    "reasoning_effort",
+    "repetition_penalty",
+    "response_format",
+    "seed",
+    "stop",
+    "structured_outputs",
+    "temperature",
+    "tool_choice",
+    "tools",
+    "top_k",
+    "top_logprobs",
+    "top_p"
+   ],
+   "candidates_seen": [
+    "z-ai/glm-4.5",
+    "z-ai/glm-4.5-air",
+    "z-ai/glm-4.5v",
+    "z-ai/glm-4.6",
+    "z-ai/glm-4.6v",
+    "z-ai/glm-4.7",
+    "z-ai/glm-4.7-flash",
+    "z-ai/glm-5",
+    "z-ai/glm-5-turbo",
+    "z-ai/glm-5.1",
+    "z-ai/glm-5.2",
+    "z-ai/glm-5.3",
+    "z-ai/glm-5.3-flash",
+    "z-ai/glm-5.3-flash:batch",
+    "z-ai/glm-5.3-flashx",
+    "z-ai/glm-5.3-prime",
+    "z-ai/glm-5.3:batch",
+    "z-ai/glm-5v-turbo",
+    "~z-ai/glm-flash-latest",
+    "~z-ai/glm-latest"
+   ]
+  }
+ },
+ "served": [
+  "kimi",
+  "glm"
+ ]
+}
