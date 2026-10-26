@@ -1,0 +1,352 @@
+{
+ "version": "synthetic-q1q2/v1",
+ "plan_sha256": "e6759d58768f080fce389f73a6ecad680fff9ac93a693f4c191dc23d7242671a",
+ "plants_sha256": "33c44b015b1cd168f67e3c7b4ed79ad74633ca36944c8ec67bc6a43c5eeb0127",
+ "plants_reproduce": true,
+ "n_plants": 152,
+ "n_planted_account_days": 288,
+ "ii_scores": {
+  "planted_P_own_scored": 288,
+  "planted_P_own_expected": 288,
+  "composed_O_diff_scored": 152,
+  "composed_O_diff_expected": 152,
+  "every_planted_account_day_active_in_the_null": true,
+  "regimes": {
+   "conforming": 64,
+   "alarming": 24,
+   "sham": 64
+  },
+  "arms": {
+   "lone": 56,
+   "k2": 56,
+   "k3": 40
+  },
+  "boundaries": {
+   "start of 2026-04-06 (day-0 state)": 86,
+   "end of 2026-04-06": 66
+  },
+  "composition_day_is_last_planted_day": true
+ },
+ "iii_candidates": {
+  "table": [
+   {
+    "path": "/shared/infra/training-pipeline/README.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@8372",
+    "write_index": 8372,
+    "score": 62.0
+   },
+   {
+    "path": "/shared/eval/release-gate-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b0..@7475",
+    "write_index": 7475,
+    "score": 25.0
+   },
+   {
+    "path": "/shared/capabilities/finetune-guide.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b0..@5161",
+    "write_index": 5161,
+    "score": 22.0
+   },
+   {
+    "path": "/shared/alignment/redteam-checklist.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b0..@6787",
+    "write_index": 6787,
+    "score": 42.0
+   },
+   {
+    "path": "/shared/ops/oncall-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b0..@6577",
+    "write_index": 6577,
+    "score": 15.0
+   },
+   {
+    "path": "/shared/onboarding/engineering-setup.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-06",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b0..@8650",
+    "write_index": 8650,
+    "score": 3.0
+   },
+   {
+    "path": "/shared/infra/training-pipeline/README.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@18208",
+    "write_index": 18208,
+    "score": 76.0
+   },
+   {
+    "path": "/shared/eval/release-gate-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b0..@16912",
+    "write_index": 16912,
+    "score": 70.0
+   },
+   {
+    "path": "/shared/capabilities/finetune-guide.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b0..@16930",
+    "write_index": 16930,
+    "score": 25.0
+   },
+   {
+    "path": "/shared/alignment/redteam-checklist.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b0..@17454",
+    "write_index": 17454,
+    "score": 78.0
+   },
+   {
+    "path": "/shared/ops/oncall-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b0..@13394",
+    "write_index": 13394,
+    "score": 20.0
+   },
+   {
+    "path": "/shared/onboarding/engineering-setup.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b0..@19172",
+    "write_index": 19172,
+    "score": 15.0
+   },
+   {
+    "path": "/shared/infra/training-pipeline/README.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@27698",
+    "write_index": 27698,
+    "score": 62.0
+   },
+   {
+    "path": "/shared/eval/release-gate-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b0..@29384",
+    "write_index": 29384,
+    "score": 83.0
+   },
+   {
+    "path": "/shared/capabilities/finetune-guide.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b0..@24489",
+    "write_index": 24489,
+    "score": 25.0
+   },
+   {
+    "path": "/shared/alignment/redteam-checklist.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b0..@29484",
+    "write_index": 29484,
+    "score": 65.0
+   },
+   {
+    "path": "/shared/ops/oncall-runbook.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b0..@27101",
+    "write_index": 27101,
+    "score": 85.0
+   },
+   {
+    "path": "/shared/onboarding/engineering-setup.md",
+    "boundary_index": 0,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b0..@28766",
+    "write_index": 28766,
+    "score": 15.0
+   },
+   {
+    "path": "/shared/infra/training-pipeline/README.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b1..@18208",
+    "write_index": 18208,
+    "score": 5.0
+   },
+   {
+    "path": "/shared/eval/release-gate-runbook.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b1..@16912",
+    "write_index": 16912,
+    "score": 78.0
+   },
+   {
+    "path": "/shared/capabilities/finetune-guide.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b1..@16930",
+    "write_index": 16930,
+    "score": 8.0
+   },
+   {
+    "path": "/shared/alignment/redteam-checklist.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b1..@17454",
+    "write_index": 17454,
+    "score": 82.0
+   },
+   {
+    "path": "/shared/ops/oncall-runbook.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b1..@13394",
+    "write_index": 13394,
+    "score": 10.0
+   },
+   {
+    "path": "/shared/onboarding/engineering-setup.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-07",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b1..@19172",
+    "write_index": 19172,
+    "score": 5.0
+   },
+   {
+    "path": "/shared/infra/training-pipeline/README.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b1..@27698",
+    "write_index": 27698,
+    "score": 5.0
+   },
+   {
+    "path": "/shared/eval/release-gate-runbook.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b1..@29384",
+    "write_index": 29384,
+    "score": 72.0
+   },
+   {
+    "path": "/shared/capabilities/finetune-guide.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b1..@24489",
+    "write_index": 24489,
+    "score": 8.0
+   },
+   {
+    "path": "/shared/alignment/redteam-checklist.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b1..@29484",
+    "write_index": 29484,
+    "score": 62.0
+   },
+   {
+    "path": "/shared/ops/oncall-runbook.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b1..@27101",
+    "write_index": 27101,
+    "score": 72.0
+   },
+   {
+    "path": "/shared/onboarding/engineering-setup.md",
+    "boundary_index": 1,
+    "upto_day": "2026-04-08",
+    "unit": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b1..@28766",
+    "write_index": 28766,
+    "score": 5.0
+   }
+  ],
+  "missing": [],
+  "used_combinations": 30,
+  "plant_documents_with_honest_counterpart": 152
+ },
+ "iv_frozen": {
+  "budget_cap": "grouping_measure.budget_cap (imported)",
+  "top_accounts": "grouping_measure.top_accounts (imported)",
+  "review": "grouping_measure.review greedy (imported; run on account-day units)",
+  "G1": "re-implemented on the class-document edit rows (g1_groups) with tests",
+  "grouping_measure_sha256": "40d2d447b7dcd20017e6b335f48abddffa064427d0a1b0809eb0a35d0b47de7f",
+  "tests": "test_stage3_synthetic_q1q2.py (run separately; result recorded in the prep report)"
+ },
+ "caps": {
+  "B0.1": {
+   "2026-04-06": 4,
+   "2026-04-07": 5,
+   "2026-04-08": 5
+  },
+  "B0.05": {
+   "2026-04-06": 2,
+   "2026-04-07": 2,
+   "2026-04-08": 2
+  },
+  "B0.02": {
+   "2026-04-06": 1,
+   "2026-04-07": 1,
+   "2026-04-08": 1
+  }
+ },
+ "n_active": {
+  "2026-04-06": 49,
+  "2026-04-07": 50,
+  "2026-04-08": 50
+ },
+ "honest_class_writer_days_per_document_and_day": {
+  "/shared/infra/training-pipeline/README.md": {
+   "2026-04-06": 9,
+   "2026-04-07": 3,
+   "2026-04-08": 5
+  },
+  "/shared/eval/release-gate-runbook.md": {
+   "2026-04-06": 5,
+   "2026-04-07": 8,
+   "2026-04-08": 8
+  },
+  "/shared/capabilities/finetune-guide.md": {
+   "2026-04-06": 8,
+   "2026-04-07": 5,
+   "2026-04-08": 3
+  },
+  "/shared/alignment/redteam-checklist.md": {
+   "2026-04-06": 5,
+   "2026-04-07": 7,
+   "2026-04-08": 11
+  },
+  "/shared/ops/oncall-runbook.md": {
+   "2026-04-06": 9,
+   "2026-04-07": 4,
+   "2026-04-08": 5
+  },
+  "/shared/onboarding/engineering-setup.md": {
+   "2026-04-06": 6,
+   "2026-04-07": 6,
+   "2026-04-08": 4
+  }
+ },
+ "cheapest_rule_fit": {
+  "threshold": 3.0,
+  "p_tie": 0.43125,
+  "share_above": 0.026845637583892617,
+  "share_at": 0.053691275167785234,
+  "expected_rate": 0.05,
+  "n": 149,
+  "distinct_scores": 7,
+  "degenerate": false,
+  "statistic": "successful class-document content writes by the account on the day"
+ },
+ "pass": true,
+ "checked_at": "2026-10-26T05:05Z"
+}
