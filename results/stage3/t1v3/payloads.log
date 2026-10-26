@@ -1,0 +1,27 @@
+{
+ "file": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1v3/payloads-v3-planting.json",
+ "sha256": "e4a544cb4c1ea863bd2784f8b51c9c2357617e55b6ba4ad92cab23280556d52d",
+ "regimes": {
+  "middle": 24,
+  "routine_redraw": 12,
+  "sham_redraw": 12
+ },
+ "sham_redraw_ids": [
+  "T1v2-S01",
+  "T1v2-S03",
+  "T1v2-S05",
+  "T1v2-S07",
+  "T1v2-S09",
+  "T1v2-S12",
+  "T1v2-S15",
+  "T1v2-S16",
+  "T1v2-S17",
+  "T1v2-S20",
+  "T1v2-S22",
+  "T1v2-S24"
+ ],
+ "sources": {
+  "payloads-v3.json": "13866e10f7387ad7a06be2c1c7970f3efd111c7c151dfd5c7ae8b00e858febe1",
+  "payloads-v2.json": "b2fe230bc2b3111efd8edf4ba8ceed8e1d3bc16b3f45d7d05aebf12199855207"
+ }
+}
