@@ -1,0 +1,226 @@
+[
+ {
+  "edit_id": "568bca04be2a",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Restore verification contact: platform on-call (lena.p62), #platform-oncall",
+  "new_text": "- Restore verification contact: platform on-call (arjun.t09), #platform-oncall",
+  "region": null
+ },
+ {
+  "edit_id": "4a12cede0841",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "2. Hold out at least the minimum held-out fraction into the held-out bucket under `<suite>/<version>/`.",
+  "new_text": "2. Hold out at least the minimum held-out fraction into the held-out bucket under `<suite>/<version>/` (the candidate's version).",
+  "region": null
+ },
+ {
+  "edit_id": "326d9d2b2661",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Release approver: evaluations lead (mei.h42), #evals",
+  "new_text": "- Release approver: evaluations lead (dev.k18), #evals",
+  "region": null
+ },
+ {
+  "edit_id": "bf312b7894cf",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "- Run-name format: `<team>-<project>-<yyyymmdd>-<nn>`",
+  "new_text": "- Run-name format: `<team>-<project>-<yyyymmdd>-<nn>` (`<nn>` is two digits)",
+  "region": null
+ },
+ {
+  "edit_id": "0fe80a08f618",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Ticket triage (rotates weekly): sam.l09, #evals",
+  "new_text": "- Ticket triage (rotates weekly): ines.v33, #evals",
+  "region": null
+ },
+ {
+  "edit_id": "e4b6c832b5be",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Restore-drill cadence: monthly",
+  "new_text": "- Restore-drill cadence: monthly (first Tuesday)",
+  "region": null
+ },
+ {
+  "edit_id": "5802c2a28d01",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "1. Build the candidate set under the candidate staging path and record the row count in the release ticket.",
+  "new_text": "1. Build the candidate set under the candidate staging path; record the row count in the release ticket.",
+  "region": null
+ },
+ {
+  "edit_id": "645794d57a3c",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "1. Install the tracking client and sign in once with your account.",
+  "new_text": "1. Install the tracking client (`pip install agentlab-track`) and sign in once with your account.",
+  "region": null
+ },
+ {
+  "edit_id": "4c749cb21806",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "1. Snapshots run from the ops host with `make snapshot SERVICE=<name>`; the job posts a summary to #platform-oncall.",
+  "new_text": "1. Snapshots run from the ops host with `make snapshot SERVICE=<name>` (one invocation per service); the job posts a summary to #platform-oncall.",
+  "region": null
+ },
+ {
+  "edit_id": "c3b4ebe85f53",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Dedup tool version: `eval-dedup:1.6.0`",
+  "new_text": "- Dedup tool version: `eval-dedup:1.7.0`",
+  "region": null
+ },
+ {
+  "edit_id": "787ff1a0562d",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Snapshot destination path: `/backups/nightly/<service>/`",
+  "new_text": "- Snapshot destination path: `/backups/<service>/nightly/`",
+  "region": null
+ },
+ {
+  "edit_id": "a339f0dba9fc",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "append",
+  "old_line": null,
+  "new_text": "- 2026-04-08 \u2014 Snapshot schedule confirmed against the ops host crontab (platform weekly)",
+  "region": "end of document"
+ },
+ {
+  "edit_id": "f4d530fc540d",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Last-reviewed date: 2026-04-02",
+  "new_text": "- Last-reviewed date: 2026-04-10",
+  "region": null
+ },
+ {
+  "edit_id": "43149d0c8b43",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Dedup manifest index: `/data/finetune/manifests/index.jsonl`",
+  "new_text": "- Dedup manifest index: `/data/finetune/manifests/v2/index.jsonl`",
+  "region": null
+ },
+ {
+  "edit_id": "f14c01b41c7f",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Retention window: 35 days",
+  "new_text": "- Retention window: 30 days",
+  "region": null
+ },
+ {
+  "edit_id": "3d1688961f85",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "append",
+  "old_line": null,
+  "new_text": "- 2026-04-07 \u2014 Run-name format confirmed; runs without a project segment are not listed in the tracker (capabilities weekly)",
+  "region": "end of document"
+ },
+ {
+  "edit_id": "4f563d7d795e",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "- Run archive path: `/shared/capabilities/runs/<project>/<run-name>/`",
+  "new_text": "- Run archive path: `/shared/capabilities/runs/<project>/<run-name>/` (created at `track finish`)",
+  "region": null
+ },
+ {
+  "edit_id": "f2a5b7e62c5a",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "2. Start each run with `track start --name <run-name>`; the config and the git revision are attached.",
+  "new_text": "2. Start each run with `track start --name <run-name>`; the config file and the git revision are attached automatically.",
+  "region": null
+ },
+ {
+  "edit_id": "0396516cf7b6",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "- Release ticket template: `release-ticket-v3`",
+  "new_text": "- Release ticket template: `release-ticket-v4`",
+  "region": null
+ },
+ {
+  "edit_id": "8c76922804e2",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "replace",
+  "old_line": "3. Run `make eval-dedup SUITE=<suite>` against the dedup manifest index and attach the report to the ticket.",
+  "new_text": "3. Run `make eval-dedup SUITE=<suite>` against the dedup manifest index; attach the report to the ticket.",
+  "region": null
+ },
+ {
+  "edit_id": "af0d8ed1ef9f",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "4. Close the run with `track finish`; the summary is written to the run archive path.",
+  "new_text": "4. Close the run with `track finish`; the summary and the metrics export are written to the run archive path.",
+  "region": null
+ },
+ {
+  "edit_id": "c2bc7c45d2a2",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Snapshot job owner (rotates monthly): priya.m04",
+  "new_text": "- Snapshot job owner (rotates monthly): noor.a17",
+  "region": null
+ },
+ {
+  "edit_id": "d113b432d00d",
+  "document": "/shared/eval/dataset-release-checklist.md",
+  "op": "append",
+  "old_line": null,
+  "new_text": "- 2026-04-09 \u2014 Suite version format confirmed as `<suite>-v<major>.<minor>` (evaluations weekly)",
+  "region": "end of document"
+ },
+ {
+  "edit_id": "960d91950b3c",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "- Tracking client version: `agentlab-track:0.9.4`",
+  "new_text": "- Tracking client version: `agentlab-track:0.9.6`",
+  "region": null
+ },
+ {
+  "edit_id": "159cb2c4d8ce",
+  "document": "/shared/capabilities/experiment-tracking-guide.md",
+  "op": "replace",
+  "old_line": "- Last-reviewed date: 2026-03-29",
+  "new_text": "- Last-reviewed date: 2026-04-08",
+  "region": null
+ },
+ {
+  "edit_id": "3ebd9d73fefb",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Last-reviewed date: 2026-04-01",
+  "new_text": "- Last-reviewed date: 2026-04-09",
+  "region": null
+ },
+ {
+  "edit_id": "debdb42f8ade",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "- Restore tool version: `restore-cli:3.2`",
+  "new_text": "- Restore tool version: `restore-cli:3.3`",
+  "region": null
+ },
+ {
+  "edit_id": "84da90d4430e",
+  "document": "/shared/ops/backup-restore-runbook.md",
+  "op": "replace",
+  "old_line": "2. Check the summary each morning; a missing summary pages the restore verification contact.",
+  "new_text": "2. Check the summary each morning before 10:00 UTC; a missing summary pages the restore verification contact.",
+  "region": null
+ }
+]
