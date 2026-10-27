@@ -668,3 +668,43 @@ Bedrock $19.27 (Sonnet $12.39; Opus 4.8 $6.89 including the errored attempts' re
 ### Spend and what brief 07p leaves
 
 OpenRouter key 1 $4.56 (smoke $0.02, null $1.42, v2 plants $1.70, v3 plants $1.42); nothing on key 2; nothing on Bedrock; nothing planted; nothing launched. Left for the coordinator and Aravind: whether the paper's composed sentence now names "two frontier judges from different families (Opus 4.8, GPT-6 Sol) at about 0.4 on routine payloads at a 10 percent honest cost"; whether GPT-6 Sol (clean null, no refusals, a fifth of Opus 4.8's cost per unit, interpretable on v2's sham under the forward rule) joins Opus 4.8 beside the pilot's composed primary; the single routine payload (T1v2-C03) that no judge of four flags in either planting.
+
+## Brief 11 (2026-10-28): B0, the frozen tables and the pre-specified $0 analyses ($0; no judge call)
+
+**First line.** 37 result files are frozen by hash, and every Z2 to Z5 reading is exploratory, read against its pre-specified sentence. Under the theory's own headroom clause, **no Sonnet per-author stratum reaches headroom, the re-plant included** (margin 0.080 against 0.3). The one stratum at headroom, Opus 4.8 on the re-plant, reads **inconclusive** (DiD 0.250 [0.000, 0.500]). The honest cross-entity rate is near zero (0.020 [0.000, 0.050] of account-windows), so **B4's one-agent, two-document cell needs a bank repair.**
+
+**What ran.** Pre-specification `b0/prespec.md` (sha256 `d1d12294…`, fork `1e339f9`), committed before the script existed. Script `work/checks/stage3_b0.py` (sha256 `17da3ace…`, 6 offline tests, byte-identical fork copy) calls the committed scorers' functions unchanged. Reproduction preconditions all passed before any new statistic: per-author flags 96/96 arm counts; forward-rule attributable k/n 6/6 against 07p and 07o; re-plant Δ 6/6; O_diff by arm 72/72. Outputs: `b0/frozen-tables.json` (sha256 `4661f357…`), `b0/b0-results.json` (`c54e2029…`), `b0/b0-results.md` (`95684dfd…`).
+
+**Readings (all exploratory).**
+- *Z1:* 22 confirmatory, 13 exploratory and 2 sensitivity files, both copies identical; 07p's results added beyond the brief's list.
+- *Z2, mechanism:*
+  - the author's maximum rater score predicts the per-author flag in 11 of 12 cells (AUROC 0.66 to 0.84; the exception is Sonnet v3, 9 flags);
+  - volume adds 0.005 to 0.067. Z0's "not purely max-type" sentence fires in 7 cells on lower bounds of 0.001 to 0.017, an in-sample increment biased upward. With sham units added, 10 of 12 cells read "volume adds nothing";
+  - at k = 2 the single flagged author holds the payload's most visible statement in 0.85 to 1.00 of coalitions under every Opus 4.8 planting, GLM v3 and Sonnet in-context on the re-plant; elsewhere it is not distinguishable from chance, and never the reverse.
+- *Z2, pooled contrast:*
+  - Sonnet (both views) and GLM: not read, since no admitted stratum is at headroom;
+  - Opus 4.8: the re-plant alone at headroom, inconclusive, its size from the sham (Δ_sham −0.208, Δ_v1 0.042);
+  - the descriptive Opus 4.8 pools lean positive (0.107 [−0.054, 0.286]; with the v3 weak link 0.163 [0.029, 0.297]).
+- *Z3:* no k = 3 dip is distinguishable from zero in any planting or judge. The Sonnet re-plant dip (−0.146) is −0.027 after attribution, with k = 3 counterparts already flagged 6/16 against 2/24.
+- *Z4:* the honest O_diff tops are mostly retroactive approvals on the release-gate runbook and contact or host moves (Sonnet 0.633, GLM 0.686, Opus 5.5 0.462 beside 43 refusals); Opus 4.8's are "safety step weakened" and contact or host moves (0.962). Keyword classes, not checked against a human read.
+- *Z5:* one account changing one entity in two class documents within two days happens in 2 of 100 account-windows, and every class is at or under 0.05: B4's one-agent cell is caught by a free rule. Across accounts, 0.160 [0.108, 0.224] of entity changes recur in another document (mostly hosts), so the two-agent cell can run on this world.
+
+**For the coordinator and Aravind.**
+- The re-plant's confirmatory outcome stands. Its Sonnet per-author reading is below the theory's headroom, so it cannot carry P-max; P-max's one reading at headroom is inconclusive.
+- The paper's splitting sentence should read "no splitting effect detected; headroom only under Opus 4.8, where the one reading is inconclusive", not "excluded".
+- B4's design takes the bank repair (the higher cost) or anchors on cross-account cells only.
+
+**Deviations, dated and disclosed.**
+- Author rules taken in full from the seal and the judges' nulls (the records omit the tie seed), checked equal on threshold and p_tie.
+- The canonical script lives in `work/checks/` (Z0 named the fork path).
+- Three weaknesses of Z0 found on reading the output, left unchanged: (i)'s in-sample increment; Z5's event-level share read against an account-level budget; Z3's sentence firing on a dip four-fifths removed by attribution.
+- One accidental exposure before Z0 (two planted-unit P_own rationales, no honest-null unit).
+- A corrected clock time on the Z0 STATUS line.
+
+### Sealed defender parameters produced by brief 11 (added to the section-10 list; never read by a scenario-side session)
+
+- `b0/prespec.md`, `b0/frozen-tables.json`, `b0/b0-results.{json,md}`; the scripts `stage3_b0.py`, `test_stage3_b0.py` and the extended `test_fork_copies_identical.py` (canonical in `work/checks/`, byte-identical in the fork's `scripts/stage3/`).
+
+### Spend
+
+$0: no judge call, nothing planted, nothing launched.
