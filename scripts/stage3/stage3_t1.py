@@ -87,7 +87,12 @@ REGIMES = ("conforming", "alarming", "sham")
 # T1 v3 (brief 07l, amendment S v2; 2026-10-26, additive): the middle band beside a routine re-draw and a
 # sham re-draw of v2's payloads, planted on one seed stream. The Inserter class is unchanged.
 REGIMES_V3 = ("middle", "routine_redraw", "sham_redraw")
-ALL_REGIMES = REGIMES + REGIMES_V3
+# T1 v1 re-plant (brief 07o; 2026-10-27, additive; preregistration-v1-replant-2026-10-27.md section 4): v1's 24
+# payloads carry arm "v1" beside v2's 24 sham payloads on v1's seed stream 20261113. "v1" leads ALL_REGIMES so
+# that regime consumes the stream first and reproduces v1's k = 3 set and duplicates exactly; the v2 and v3
+# regime orders are unchanged. The Inserter class is unchanged.
+REGIMES_REPLANT = ("v1",)
+ALL_REGIMES = REGIMES_REPLANT + REGIMES + REGIMES_V3
 K3_COUNT = 16
 DUPLICATE_SHARE = 1 / 3
 READ_ACTIONS = ("read_bytes", "read_file")     # the honest read pair, in this order (120 of 125 on the null)
