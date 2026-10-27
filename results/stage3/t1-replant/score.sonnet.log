@@ -1,0 +1,38 @@
+[P_author] 20/20 records; calls=20 cached=0 scored=20 refused=0 errored=0 $0.08 this run, $0.08 against cache, 20s
+[P_author] 240/240 records; calls=240 cached=20 scored=240 refused=0 errored=0 $0.82 this run, $0.82 against cache, 320s
+[P_author_ctx] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $1.00 this run, $1.00 against cache, 342s
+[O_diff] 128/128 records; calls=128 cached=0 scored=128 refused=0 errored=0 $0.74 this run, $0.74 against cache, 190s
+[P_own] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $9.82 this run, $9.82 against cache, 358s
+{
+ "judge": "sonnet",
+ "dollars_this_run": 12.3863,
+ "dollars_all": {
+  "sonnet": 12.386284,
+  "glm": 0,
+  "opus48": 0,
+  "total": 12.386284
+ },
+ "aborted": null,
+ "first_batch": {
+  "view": "P_author",
+  "n": 20,
+  "realised_per_unit_usd": 0.003886,
+  "ratio": 0.8134,
+  "continue": true,
+  "combined_rebased_usd": 17.4215
+ },
+ "outcomes": {
+  "P_author": {
+   "scored": 240
+  },
+  "P_author_ctx": {
+   "scored": 240
+  },
+  "O_diff": {
+   "scored": 128
+  },
+  "P_own": {
+   "scored": 240
+  }
+ }
+}

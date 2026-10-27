@@ -1,0 +1,190 @@
+{
+ "version": "t1replant-score/v1",
+ "judge": "sonnet",
+ "model": "anthropic.claude-sonnet-5",
+ "binding_check": {
+  "bad": {},
+  "judge_client_note": {
+   "judge_client_sha256_sealed": "fdce438bf19cc6b1ce498483efec8cb14a0af155ed01db6f2a50976f76fa513c",
+   "judge_client_sha256_current": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd",
+   "note": "additive amendments of 2026-10-26 (07i part 2, 07n part C); the Sonnet request and record are byte-identical (test_judge_client_opus.py); t1v3-plan.md section 8"
+  }
+ },
+ "views": {
+  "P_author": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 0.820688,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 20,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 234219,
+    "output_tokens": 35225,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 97,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 0.820688,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.820688,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1replant.P_author.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 1.1466,
+   "output_tokens_mean": 146.8
+  },
+  "P_author_ctx": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 0.99917,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 297180,
+    "output_tokens": 40481,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 107,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 0.99917,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.99917,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1replant.P_author_ctx.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 1.2852,
+   "output_tokens_mean": 168.7
+  },
+  "O_diff": {
+   "n": 128,
+   "outcomes": {
+    "scored": 128
+   },
+   "dollars": 0.743512,
+   "stats": {
+    "calls": 128,
+    "requests": 128,
+    "cached": 0,
+    "scored": 128,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 231351,
+    "output_tokens": 28081,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 18,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 0.743512,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.743512,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1replant.O_diff.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 0.8353,
+   "output_tokens_mean": 219.4
+  },
+  "P_own": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 9.822914,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 4608847,
+    "output_tokens": 60522,
+    "cache_read_tokens": 0,
+    "cache_write_tokens": 0,
+    "rate_waits": 77,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "refusal_retries": 0,
+    "dollars": 9.822914,
+    "dollars_cached": 0.0,
+    "dollars_total": 9.822914,
+    "aborted": null,
+    "model": "anthropic.claude-sonnet-5",
+    "provider": "bedrock",
+    "region": "us-east-1"
+   },
+   "cache": "judge-cache.t1replant.P_own.anthropic-claude-sonnet-5.jsonl",
+   "estimate_usd": 8.9435,
+   "output_tokens_mean": 252.2
+  }
+ },
+ "dollars": 12.386284,
+ "aborted": null,
+ "first_batch": {
+  "view": "P_author",
+  "n": 20,
+  "keys": [
+   "P_author|prefix_rw_v2c+t1replant+T1-01-lone:P_author:kofi.o52|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|af30259f6f66b49f12a546e90b8deb86e3a8bd740c374a89091408cca799983e",
+   "P_author|prefix_rw_v2c+t1replant+T1-01-k2:P_author:sam.w71|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|9c2b69bc6fc2977c51c6761120e63e2cf5e98b6b203a1753b75cfe103930118d",
+   "P_author|prefix_rw_v2c+t1replant+T1-01-k2:P_author:tom.k51|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|58ed2a001071530f750da5254aeb45c15a82ff98168edf70b5aca7a3e69de324",
+   "P_author|prefix_rw_v2c+t1replant+T1-01-k3:P_author:deepa.a7|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|6723cdb345ac3d06ce3493c2f7a3dea0a90e03d64e6a18e4a9a80674850b0503",
+   "P_author|prefix_rw_v2c+t1replant+T1-01-k3:P_author:liam.h93|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|550ed3c8aa672695b8ad56a31c2c593cf18c8101150ef148cd485d1b146d3c11",
+   "P_author|prefix_rw_v2c+t1replant+T1-01-k3:P_author:wei.n2|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|8417f8c372256514c9bfbd4ece879cf9a782e3e9ab7924f2531aed950f7e0225",
+   "P_author|prefix_rw_v2c+t1replant+T1-02-lone:P_author:deepa.a1|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|10aac5c270cd662c648f1ed2547c700c207fbeeedfb2646b24c3570b4bc19d72",
+   "P_author|prefix_rw_v2c+t1replant+T1-02-k2:P_author:deepa.a1|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|aecb8f02b5cb7b235e3ea72027d83bfcc86840d16a89f08f61431642f23848b6",
+   "P_author|prefix_rw_v2c+t1replant+T1-02-k2:P_author:priya.a84|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|25d527a8da45c00b73cc53487014bcddd666e433d5ef43aa6ca02d3679e1af8e",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-lone:P_author:mei.s59|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|c51fd371bd92f00a4d396be6fb5240c3d679dc44c520346c59e95bb7c8f06f78",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-k2:P_author:deepa.a7|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|522ca684fae54941096ac26bd6d47e550eefc17aed7c4ff281eea96ef20d675b",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-k2:P_author:liam.h93|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|9274a4af3a2ddd56d84bb06a9c10f403b14fa27d5bf00558fd57d4eedf61de43",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-k3:P_author:deepa.a7|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|74aa0dfa17dea90959d30a9647bf69494900cf9095b3e32c82ea8ab5f6c80e0c",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-k3:P_author:kofi.o52|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|e2b83bb217e55a066679532a8b543b745925d6714ed36592d27107ecef65f40f",
+   "P_author|prefix_rw_v2c+t1replant+T1-03-k3:P_author:yuki.k38|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|27a5258591aebcd1d448e57025ec5113f370acdff40ae5584a4d9286925b9bf0",
+   "P_author|prefix_rw_v2c+t1replant+T1-04-lone:P_author:deepa.a1|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|f886a4cb60a5ff6f57122481b75b23093cc4f41a4f0c498869d97426dc315e81",
+   "P_author|prefix_rw_v2c+t1replant+T1-04-k2:P_author:liam.w65|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|f59dd43f1c1e49803b1a1953298078564a41041460b4892adc120117c49c3bab",
+   "P_author|prefix_rw_v2c+t1replant+T1-04-k2:P_author:mei.s59|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|053bb41bb85cd0efb9378f3e17e26bfc8cfbbd5424e16c74175135e0f99a39a2",
+   "P_author|prefix_rw_v2c+t1replant+T1-04-k3:P_author:deepa.a7|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|3ac28f8540a510083d5ff57800ef39e015a177a9d964641854f54cf252d8449b",
+   "P_author|prefix_rw_v2c+t1replant+T1-04-k3:P_author:deepa.t9|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|771334054b8dfdef0402b07149df7cdf12bd598cd8ca90fc0a4910bf37954770"
+  ],
+  "realised_per_unit_usd": 0.003886,
+  "ratio": 0.8134,
+  "continue": true,
+  "combined_rebased_usd": 17.4215
+ },
+ "dollars_all": {
+  "sonnet": 12.386284,
+  "glm": 0,
+  "opus48": 0,
+  "total": 12.386284
+ },
+ "ts": "2026-10-27T06:11Z"
+}

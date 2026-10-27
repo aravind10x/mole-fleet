@@ -135,5 +135,37 @@
   "opus48": 0,
   "total": 0
  },
- "ts": "2026-10-27T05:47Z"
+ "ts": "2026-10-27T05:47Z",
+ "rebased": {
+  "sonnet": {
+   "judge": "sonnet",
+   "first_view": "P_author",
+   "n_first_batch": 20,
+   "realised_per_unit_usd": 0.003886,
+   "estimated_per_unit_usd": 0.004778,
+   "ratio": 0.8134,
+   "per_view_rebased": {
+    "P_author": 0.9326,
+    "P_author_ctx": 1.0453,
+    "O_diff": 0.6794,
+    "P_own": 7.2742
+   },
+   "total_rebased_usd": 9.9315,
+   "realised_dollars_of_judges_done": {},
+   "plain_estimates_of_judges_not_run": {
+    "glm": 0.1,
+    "opus48": 7.39
+   },
+   "combined_rebased_usd": 17.4215,
+   "combined_cap_usd": 60.0,
+   "sonnet_stop_line_usd": 25.0,
+   "continue": true,
+   "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); continue only if the combined figure is at or under $60 and, for Sonnet, the re-based total at or under $25",
+   "n_records_costed": 20,
+   "outcomes_first_batch": {
+    "scored": 20
+   },
+   "ts": "2026-10-27T05:51Z"
+  }
+ }
 }
