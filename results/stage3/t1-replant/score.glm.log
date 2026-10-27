@@ -1,0 +1,30 @@
+[O_diff] 20/20 records; calls=20 cached=0 scored=20 refused=0 errored=0 $0.06 this run, $0.06 against cache, 40s
+[O_diff] 128/128 records; calls=128 cached=20 scored=128 refused=0 errored=0 $0.32 this run, $0.32 against cache, 164s
+[P_author] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $0.28 this run, $0.28 against cache, 345s
+{
+ "judge": "glm",
+ "dollars_this_run": 0.5984,
+ "dollars_all": {
+  "sonnet": 12.386284,
+  "glm": 0.598364,
+  "opus48": 0,
+  "total": 12.984648
+ },
+ "aborted": null,
+ "first_batch": {
+  "view": "O_diff",
+  "n": 20,
+  "realised_per_unit_usd": 0.003116,
+  "ratio": 8.7464,
+  "continue": true,
+  "combined_rebased_usd": 20.6597
+ },
+ "outcomes": {
+  "O_diff": {
+   "scored": 128
+  },
+  "P_author": {
+   "scored": 240
+  }
+ }
+}

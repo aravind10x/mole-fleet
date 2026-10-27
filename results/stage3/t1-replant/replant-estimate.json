@@ -166,6 +166,114 @@
     "scored": 20
    },
    "ts": "2026-10-27T05:51Z"
+  },
+  "glm": {
+   "judge": "glm",
+   "first_view": "O_diff",
+   "n_first_batch": 20,
+   "realised_per_unit_usd": 0.003116,
+   "estimated_per_unit_usd": 0.000356,
+   "ratio": 8.7464,
+   "per_view_rebased": {
+    "O_diff": 0.3988,
+    "P_author": 0.4846
+   },
+   "total_rebased_usd": 0.8834,
+   "dollars_paid_all_caches": {
+    "sonnet": 12.386284,
+    "glm": 0.062318,
+    "opus48": 0.0,
+    "total": 12.448602
+   },
+   "remainder_of_this_judge_usd": 0.8211,
+   "realised_dollars_of_judges_done": {
+    "sonnet": 12.386284
+   },
+   "plain_estimates_of_judges_not_started": {
+    "opus48": 7.39
+   },
+   "combined_rebased_usd": 20.6597,
+   "combined_cap_usd": 60.0,
+   "sonnet_stop_line_usd": null,
+   "continue": true,
+   "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); projection = every dollar paid + max(0, this judge's re-based total - its dollars paid) + plain estimates of judges not started; continue only if the projection is at or under $60 and, for Sonnet, the re-based total at or under $25",
+   "n_records_costed": 20,
+   "outcomes_first_batch": {
+    "scored": 20
+   },
+   "ts": "2026-10-27T06:14Z"
+  },
+  "opus48": {
+   "judge": "opus48",
+   "first_view": "O_diff",
+   "n_first_batch": 20,
+   "realised_per_unit_usd": 0.032177,
+   "estimated_per_unit_usd": 0.033367,
+   "ratio": 0.9643,
+   "per_view_rebased": {
+    "O_diff": 4.1186,
+    "P_author": 3.0062
+   },
+   "total_rebased_usd": 7.1248,
+   "dollars_paid_all_caches": {
+    "sonnet": 12.386284,
+    "glm": 0.598364,
+    "opus48": 6.501265,
+    "total": 19.485913
+   },
+   "remainder_of_this_judge_usd": 0.6235,
+   "realised_dollars_of_judges_done": {
+    "sonnet": 12.386284,
+    "glm": 0.598364
+   },
+   "plain_estimates_of_judges_not_started": {},
+   "combined_rebased_usd": 20.1094,
+   "combined_cap_usd": 60.0,
+   "sonnet_stop_line_usd": null,
+   "continue": true,
+   "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); projection = every dollar paid + max(0, this judge's re-based total - its dollars paid) + plain estimates of judges not started; continue only if the projection is at or under $60 and, for Sonnet, the re-based total at or under $25",
+   "n_records_costed": 20,
+   "outcomes_first_batch": {
+    "scored": 20
+   },
+   "ts": "2026-10-27T06:48Z",
+   "rebased_history": [
+    {
+     "judge": "opus48",
+     "first_view": "O_diff",
+     "n_first_batch": 20,
+     "realised_per_unit_usd": 0.0,
+     "estimated_per_unit_usd": 0.033367,
+     "ratio": 0.0,
+     "per_view_rebased": {
+      "O_diff": 0.0,
+      "P_author": 0.0
+     },
+     "total_rebased_usd": 0.0,
+     "dollars_paid_all_caches": {
+      "sonnet": 12.386284,
+      "glm": 0.598364,
+      "opus48": 0.0,
+      "total": 12.984648
+     },
+     "remainder_of_this_judge_usd": 0.0,
+     "realised_dollars_of_judges_done": {
+      "sonnet": 12.386284,
+      "glm": 0.598364
+     },
+     "plain_estimates_of_judges_not_started": {},
+     "combined_rebased_usd": 12.9846,
+     "combined_cap_usd": 60.0,
+     "sonnet_stop_line_usd": null,
+     "continue": true,
+     "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); projection = every dollar paid + max(0, this judge's re-based total - its dollars paid) + plain estimates of judges not started; continue only if the projection is at or under $60 and, for Sonnet, the re-based total at or under $25",
+     "n_records_costed": 20,
+     "outcomes_first_batch": {
+      "errored": 20
+     },
+     "ts": "2026-10-27T06:28Z"
+    }
+   ]
   }
  }
 }

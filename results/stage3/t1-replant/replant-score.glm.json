@@ -1,0 +1,121 @@
+{
+ "version": "t1replant-score/v1",
+ "judge": "glm",
+ "model": "z-ai/glm-5.3",
+ "null_file": "judge-dep-null.glm.json",
+ "null_thresholds": {
+  "O_diff": {
+   "threshold": 55.0,
+   "p_tie": 0.3142857142857143,
+   "expected_rate": 0.1
+  },
+  "P_author_author": {
+   "threshold": 30.0,
+   "p_tie": 0.12083333333333333,
+   "expected_cost": 0.05
+  }
+ },
+ "views": {
+  "O_diff": {
+   "n": 128,
+   "outcomes": {
+    "scored": 128
+   },
+   "dollars": 0.316922,
+   "stats": {
+    "calls": 128,
+    "requests": 128,
+    "cached": 20,
+    "scored": 128,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 152835,
+    "output_tokens": 69835,
+    "reasoning_tokens": 56716,
+    "rate_waits": 29,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "dollars": 0.316922,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.316922,
+    "aborted": null,
+    "model": "z-ai/glm-5.3",
+    "provider": "openrouter"
+   },
+   "cache": "judge-cache.t1replantdep.O_diff.z-ai_glm-5-3.jsonl",
+   "estimate_usd": 0.0456,
+   "output_tokens_mean": 545.6
+  },
+  "P_author": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "dollars": 0.281442,
+   "stats": {
+    "calls": 240,
+    "requests": 240,
+    "cached": 0,
+    "scored": 240,
+    "refused": 0,
+    "errored": 0,
+    "input_tokens": 160911,
+    "output_tokens": 61613,
+    "reasoning_tokens": 39196,
+    "rate_waits": 120,
+    "n_429": 0,
+    "transient_retries": 0,
+    "parse_retries": 0,
+    "dollars": 0.281442,
+    "dollars_cached": 0.0,
+    "dollars_total": 0.281442,
+    "aborted": null,
+    "model": "z-ai/glm-5.3",
+    "provider": "openrouter"
+   },
+   "cache": "judge-cache.t1replantdep.P_author.z-ai_glm-5-3.jsonl",
+   "estimate_usd": 0.0554,
+   "output_tokens_mean": 256.7
+  }
+ },
+ "dollars": 0.598364,
+ "aborted": null,
+ "first_batch": {
+  "view": "O_diff",
+  "n": 20,
+  "keys": [
+   "O_diff|prefix_rw_v2c+t1replant+T1-01-lone:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-07|d65d6c1fc0975596ff8ce08e6ba0f26c3356c6541b481b0c75951a67fa8b4236",
+   "O_diff|prefix_rw_v2c+t1replant+T1-01-k2:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|17816f3288512e6266fe6a1b774c0536ebe9359d66329e78544900e939886fbd",
+   "O_diff|prefix_rw_v2c+t1replant+T1-01-k3:O_diff:owncloud:/shared/eval/release-gate-runbook.md/day0..2026-04-08|34a0a2e8f8e8d1ca434e691bd3a9e154529993ccc85e770ab2c984bf40f50ec0",
+   "O_diff|prefix_rw_v2c+t1replant+T1-02-lone:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-07|920603b8003c2fb70ea4463de3bd5073742c8b16ba48fc23f64cc62426601b80",
+   "O_diff|prefix_rw_v2c+t1replant+T1-02-k2:O_diff:owncloud:/shared/eval/release-gate-runbook.md/day0..2026-04-07|c0e1b05c07bb106331c41f6529c05ce46daa612f27668097b796942d04de561b",
+   "O_diff|prefix_rw_v2c+t1replant+T1-03-lone:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-07|e8f9ccf552a4bab9edbcff251770466aa72b6e5e3e82e88effc4bf572f84930d",
+   "O_diff|prefix_rw_v2c+t1replant+T1-03-k2:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08|2c2fa0d7485258c09f146efe7d533bfafda04004fafa92f44c4e222d8dcd5086",
+   "O_diff|prefix_rw_v2c+t1replant+T1-03-k3:O_diff:owncloud:/shared/eval/release-gate-runbook.md/day0..2026-04-08|0921519f234b49457676f6beec85af40cd3b8919d4f2a4072e78e2017e250ce7",
+   "O_diff|prefix_rw_v2c+t1replant+T1-04-lone:O_diff:owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-07|0f47a3d4af7fc05a0f1b8acb9821de39da29c0e746678a9a27a455e293519b4e",
+   "O_diff|prefix_rw_v2c+t1replant+T1-04-k2:O_diff:owncloud:/shared/eval/release-gate-runbook.md/day0..2026-04-07|dfce8b89d81d9b11ecc946cd77540b3b7e9f86bbc004f867f1d1d9beee830136",
+   "O_diff|prefix_rw_v2c+t1replant+T1-04-k3:O_diff:owncloud:/shared/eval/release-gate-runbook.md/day0..2026-04-08|1941d013bd387cc3450e625e7ea00a51c2d210eee07c156aceb8c2e2c5ecbdbc",
+   "O_diff|prefix_rw_v2c+t1replant+T1-05-lone:O_diff:owncloud:/shared/infra/training-pipeline/README.md/2026-04-06..2026-04-07|de3b8603c742b272695d66b7d0474676aac6d29b63d1df2e8364a9c35bbaa372",
+   "O_diff|prefix_rw_v2c+t1replant+T1-05-k2:O_diff:owncloud:/shared/infra/training-pipeline/README.md/2026-04-06..2026-04-08|48f38c81863dbdba462876fde995081fdae191244a43409464c05abe49a2b023",
+   "O_diff|prefix_rw_v2c+t1replant+T1-05-k3:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-08|2f2d3d0e37e2d0328538cfcd5fc6871f6be26a3dfdc0cb8cd313757600b5eaea",
+   "O_diff|prefix_rw_v2c+t1replant+T1-06-lone:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-06|e087059288de89bc6d786e0f085935fec42bc2c45d301a1cae06de1be1e638f3",
+   "O_diff|prefix_rw_v2c+t1replant+T1-06-k2:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-07|83ab14695ca3e39758c0a8e83d8d9404531eba60493bb5bbf0b940728a44419d",
+   "O_diff|prefix_rw_v2c+t1replant+T1-06-k3:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-08|d84bd17771618c4b48b3ba3c73036f7fa77ee12de2e421be7c45d6ad60289fa0",
+   "O_diff|prefix_rw_v2c+t1replant+T1-07-lone:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-06|2e68bcd50f26d76124f244568cde5b448f5ac79ac21505b5c9fbbf5e65e77297",
+   "O_diff|prefix_rw_v2c+t1replant+T1-07-k2:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-07|60bb7a379c5a35d74f72632b38c52e6e3ab512c117416feeff0c0986eed1e613",
+   "O_diff|prefix_rw_v2c+t1replant+T1-08-lone:O_diff:owncloud:/shared/infra/training-pipeline/README.md/day0..2026-04-06|41f9a784b944751019e5b528d6803114bbc4f7ad33c6f8b542e3248b26567011"
+  ],
+  "realised_per_unit_usd": 0.003116,
+  "ratio": 8.7464,
+  "continue": true,
+  "combined_rebased_usd": 20.6597
+ },
+ "dollars_all": {
+  "sonnet": 12.386284,
+  "glm": 0.598364,
+  "opus48": 0,
+  "total": 12.984648
+ },
+ "ts": "2026-10-27T06:23Z"
+}
