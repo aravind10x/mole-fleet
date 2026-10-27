@@ -1,0 +1,67 @@
+{
+ "judges_done": [
+  "sonnet",
+  "glm",
+  "opus48"
+ ],
+ "outcome_sonnet": {
+  "row": "v1's effect excluded",
+  "did": 0.0833,
+  "ci95": [
+   -0.125,
+   0.2917
+  ],
+  "delta_v1": 0.0,
+  "delta_v1_ci95": [
+   -0.1667,
+   0.1667
+  ],
+  "delta_sham": -0.0833,
+  "delta_sham_ci95": [
+   -0.2083,
+   0.0
+  ],
+  "n_v1": 24,
+  "n_sham": 24,
+  "v1_old_inserter_delta": 0.4583,
+  "evaluable": true,
+  "provisional": false
+ },
+ "under_80_sonnet": {
+  "held": false,
+  "delta": 0.0,
+  "ci95": [
+   -0.2778,
+   0.2778
+  ],
+  "n": 18,
+  "band_counts": {
+   "under 70": 6,
+   "70 to 79": 12,
+   "80 and above": 6
+  },
+  "band_counts_match": true
+ },
+ "incomplete": {
+  "sonnet": {},
+  "glm": {},
+  "opus48": {}
+ },
+ "dollars": {
+  "per_judge_run": {
+   "sonnet": 12.386284,
+   "glm": 0.598364,
+   "opus48": 1.029265
+  },
+  "all_caches": {
+   "sonnet": 12.386284,
+   "glm": 0.598364,
+   "opus48": 6.887,
+   "total": 19.871648
+  }
+ },
+ "files": [
+  "replant-results.json",
+  "replant-results.md"
+ ]
+}

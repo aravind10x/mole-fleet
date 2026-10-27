@@ -1,0 +1,70 @@
+{
+ "plantings": {
+  "v2": {
+   "judges": [
+    "sonnet",
+    "glm",
+    "opus48"
+   ],
+   "union_regimes": [
+    "conforming"
+   ]
+  },
+  "v3": {
+   "judges": [
+    "sonnet",
+    "glm",
+    "opus48"
+   ],
+   "union_regimes": [
+    "middle",
+    "routine_redraw",
+    "sham_redraw"
+   ]
+  },
+  "v1_replant": {
+   "judges": [
+    "sonnet",
+    "glm",
+    "opus48"
+   ],
+   "union_regimes": [
+    "v1"
+   ]
+  }
+ },
+ "v1_replant_union": {
+  "v1": {
+   "interpretable_judges": [
+    "sonnet",
+    "opus48"
+   ],
+   "with_caution": {
+    "opus48": [
+     "composed"
+    ]
+   },
+   "invisible_under_every_interpretable_judge": [
+    "T1-06"
+   ],
+   "n": 1,
+   "content_views_invisible_under_every_interpretable_judge": [
+    "T1-06"
+   ],
+   "invisible_under_any_interpretable_judge": [
+    "T1-01",
+    "T1-06"
+   ],
+   "sensitivity_point_rule": {
+    "label": "the A3 / A7 point rule (nominal sham rates at or under 0.10 at the point, P_author in every arm), a labelled sensitivity",
+    "interpretable_judges": [],
+    "invisible_under_every_interpretable_judge": null,
+    "content_views_invisible_under_every_interpretable_judge": null
+   }
+  }
+ },
+ "files": [
+  "invisible-canonical.json",
+  "invisible-canonical.md"
+ ]
+}
