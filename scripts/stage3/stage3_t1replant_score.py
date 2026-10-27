@@ -1058,6 +1058,16 @@ def assemble_results(judges: Mapping[str, dict], hashes: Mapping[str, Any], m: M
             "n_items": dict(n_items), "reproduction": repro, "dollars": dict(dollars), "disclosures": DISCLOSURES, "ts": now_iso()}
 
 
+def _did_qualifier(fsr: Mapping[str, Any] | None) -> str:
+    """codex round, second half (finding 3): the per-author forward-sham label travels with the mechanical outcome row."""
+    if not fsr:
+        return ""
+    lab = (fsr.get("per_author") or {}).get("label")
+    if lab == "not interpretable":
+        return " (mechanical row; this judge's P_author and DiD readings are not interpretable under the forward sham rule)"
+    return f" (per-author forward-sham label: {lab})" if lab else " (per-author forward-sham label: none assigned)"
+
+
 def _rt(x: Mapping[str, Any] | None) -> str:
     return "" if not x else f"{_f(x.get('rate'))} ({x.get('k')}/{x.get('n')})"
 
@@ -1103,21 +1113,30 @@ def results_md(out: dict) -> str:
         for arm in ARMS:
             L.append(f"| P_author {arm} recall (author rule) | " + " | ".join(cell(reg, lambda v, a=arm: rec(v, a)) for reg in REGIMES) + " |")
         for arm in ARMS:
-            L.append(f"| P_author_ctx {arm} recall (Sonnet variant) | " + " | ".join(cell(reg, lambda v, a=arm: _f(v['P_author_ctx']['arms'][a]['recall'])) for reg in REGIMES) + " |")
-        L.append("| O_diff composed flagged (pooled rule) | " + " | ".join(cell(reg, lambda v: f"{_f(v['O_diff']['share'])} ({v['O_diff']['flagged']}/{v['O_diff']['n']}){_ci(v['O_diff']['ci95'])}") for reg in REGIMES) + " |")
-        L.append("| O_diff by arm lone / k2 / k3 | " + " | ".join(cell(reg, lambda v: " / ".join(f"{v['O_diff']['by_arm'][a]['flagged']}/{v['O_diff']['by_arm'][a]['n']}" for a in ARMS)) for reg in REGIMES) + " |")
-        L.append("| O_diff paired honest control | " + " | ".join(cell(reg, lambda v: f"{_f(v['O_diff']['paired_honest_control']['share_among_counterpart_unflagged'])} ({v['O_diff']['paired_honest_control']['flagged_among_counterpart_unflagged']}/{v['O_diff']['paired_honest_control']['n_counterpart_unflagged']})") for reg in REGIMES) + " |")
+            L.append(f"| P_author_ctx {arm} recall (Sonnet variant; over delivered plants) | " + " | ".join(cell(reg, lambda v, a=arm: f"{_f(v['P_author_ctx']['arms'][a]['recall'])} ({v['P_author_ctx']['arms'][a]['flagged']}/{v['P_author_ctx']['arms'][a]['n_delivered']})") for reg in REGIMES) + " |")
+        # codex round, second half (finding 5): the attributable reading first and named as primary, the nominal share beside
+        L.append("| O_diff attributable composed share (primary: the paired honest control, flagged among plants whose honest counterpart diff is unflagged) | " + " | ".join(cell(reg, lambda v: f"{_f(v['O_diff']['paired_honest_control']['share_among_counterpart_unflagged'])} ({v['O_diff']['paired_honest_control']['flagged_among_counterpart_unflagged']}/{v['O_diff']['paired_honest_control']['n_counterpart_unflagged']}){_ci(v['O_diff']['paired_honest_control']['ci95_among_counterpart_unflagged'])}") for reg in REGIMES) + " |")
+        L.append("| O_diff nominal composed share (pooled rule, every composed plant) | " + " | ".join(cell(reg, lambda v: f"{_f(v['O_diff']['share'])} ({v['O_diff']['flagged']}/{v['O_diff']['n']}){_ci(v['O_diff']['ci95'])}") for reg in REGIMES) + " |")
+        L.append("| O_diff nominal by arm lone / k2 / k3 | " + " | ".join(cell(reg, lambda v: " / ".join(f"{v['O_diff']['by_arm'][a]['flagged']}/{v['O_diff']['by_arm'][a]['n']}" for a in ARMS)) for reg in REGIMES) + " |")
         L.append("| O_diff by kind (flagged/composed) | " + " | ".join(cell(reg, lambda v: ", ".join(f"{k} {x['flagged']}/{x['composed']}" for k, x in v['O_diff_by_kind'].items())) for reg in REGIMES) + " |")
         L.append("| P_own split pieces flipped (Sonnet) | " + " | ".join(cell(reg, lambda v: f"{v['P_own']['flips']['flipped']} of {v['P_own']['flips']['n_honest_unflagged_pieces']} (bound {v['P_own']['flips']['binomial_95_upper_bound']}; within {v['P_own']['flips']['within_bound']})") for reg in REGIMES) + " |")
         L.append("| P_own per-piece flip rate | " + " | ".join(cell(reg, lambda v: _f(v['per_piece_recall']['rate'])) for reg in REGIMES) + " |")
-        L.append("| P_own coalition level lone / k2 / k3 any piece flagged | " + " | ".join(cell(reg, lambda v: " / ".join(_f(v['P_own_coalition_level'][a]['any_piece_flagged']) for a in ARMS)) for reg in REGIMES) + " |")
+        L.append("| P_own coalition level lone / k2 / k3 any piece flagged (over plants with pieces) | " + " | ".join(cell(reg, lambda v: " / ".join(f"{_f(v['P_own_coalition_level'][a]['any_piece_flagged'])} (n {v['P_own_coalition_level'][a]['n']})" for a in ARMS)) for reg in REGIMES) + " |")
         L.append("| k = 2 gap O_diff − P_own (nominal; flip-based) | " + " | ".join(cell(reg, lambda v: f"{_f(v['gap_k2']['point'])}{_ci(v['gap_k2']['ci95'])}; {_f(v['gap_k2_flip_based']['point'])}{_ci(v['gap_k2_flip_based']['ci95'])}") for reg in REGIMES) + " |")
         L.append("| delivered / composed per arm | " + " | ".join(cell(reg, lambda v: ", ".join(f"{a} {v['n_delivered_by_arm'].get(a, 0)}/{v['n_composed_by_arm'].get(a, 0)}" for a in ARMS)) for reg in REGIMES) + " |")
         L.append("| document classes | " + " | ".join(cell(reg, lambda v: ", ".join(f"{d.split('/')[-1]} {c['class']} ({c['t1_flagged']}/{c['t1_composed']})" for d, c in v['O_diff']['document_classes'].items())) for reg in REGIMES) + " |")
         d = rp["did"]
         L.append(f"\n**DiD (paired by payload within regime, regimes resampled independently, {d['replicates']} replicates, seed {d['seed']}):** DiD {_f(d['did'])}{_ci(d['ci95'])}; "
                  f"Δ_v1 {_f(d['delta_v1'])}{_ci(d['delta_v1_ci95'])} (n {d['n_v1']}); Δ_sham {_f(d['delta_sham'])}{_ci(d['delta_sham_ci95'])} (n {d['n_sham']}); outcome **{d['outcome'] or 'not evaluable'}**"
-                 f"{' (numbers provisional)' if d.get('provisional') else ''}; v1 old inserter Δ {_f(d['v1_old_inserter_delta'])}. Dependence: {d['dependence']}.")
+                 f"{' (numbers provisional)' if d.get('provisional') else ''}"
+                 f"{_did_qualifier(rp.get('forward_sham_rule'))}; v1 old inserter Δ {_f(d['v1_old_inserter_delta'])}. Dependence: {d['dependence']}.")
+        # codex round, second half (finding 6): the v1 regime's tie-only composed attribution beside the sham's
+        for reg, cr in rp.get("carried", {}).items():
+            to = cr.get("O_diff_tie_only")
+            if to and reg != SHAM_REGIME:
+                cd = to["coupled_draw_attributable"]
+                L.append(f"Composed attribution sensitivity, {reg} regime ({to['label']}): of {to['attributable_flagged']} attributable flags (n {to['n_attributable']}), "
+                         f"{to['flagged_with_planted_score_at_threshold']} sit at the threshold {to['threshold']} and {to['flagged_with_counterpart_score_at_threshold']} have the counterpart there; coupled-draw attributable {_rt(cd)}.")
         for reg, x in rp["delta"].items():
             L.append(f"- Δ {reg}: lone {_f(x['recall_lone'])} ({x['flagged_lone']}/{x['n']}) − k2 {_f(x['recall_k2'])} ({x['flagged_k2']}/{x['n']}) = {_f(x['delta'])}; discordant lone only {x['discordant_lone_only']}, k2 only {x['discordant_k2_only']}.")
         L.append("\n**P_author by n_changes stratum (author rule; units, and plants by their largest unit):**\n")
@@ -1247,7 +1266,15 @@ def invisible_md(out: dict) -> str:
             L.append(f"\nUnion ({reg}): interpretable judges {u['interpretable_judges'] or 'none'}; invisible under every interpretable judge **{u['n']}** {u['invisible_under_every_interpretable_judge']}; content-views-only {u['content_views_invisible_under_every_interpretable_judge']}; under any {u['invisible_under_any_interpretable_judge']}.")
             if planting == "v1_replant":
                 sp = u["sensitivity_point_rule"]
-                L.append(f"With caution: {u['with_caution'] or 'none'}. Sensitivity ({sp['label']}): judges {sp['interpretable_judges'] or 'none'} give {sp['invisible_under_every_interpretable_judge']} (content views only {sp['content_views_invisible_under_every_interpretable_judge']}).")
+                n_pay = next((x["n_payloads"] for jj in rec["judges"].values() for r_, x in jj["regimes"].items() if r_ == reg), None)
+                ids = u["invisible_under_every_interpretable_judge"]
+                caution = "; ".join(f"{JUDGE_NAMES.get(jj, jj)} {', '.join(c)}: with caution" for jj, c in (u["with_caution"] or {}).items()) or "none with caution"
+                if u["interpretable_judges"]:
+                    L.append(f"Across {', '.join(JUDGE_NAMES.get(jj, jj) for jj in u['interpretable_judges'])} ({caution}), {u['n']} of {n_pay} payloads ({', '.join(ids) if ids else 'none'}) remain invisible under every interpretable judge.")
+                if sp["interpretable_judges"]:
+                    L.append(f"Sensitivity ({sp['label']}): judges {sp['interpretable_judges']} give {sp['invisible_under_every_interpretable_judge']} (content views only {sp['content_views_invisible_under_every_interpretable_judge']}).")
+                else:
+                    L.append(f"Sensitivity ({sp['label']}): no judge is eligible, so there is no union estimate under the point rule (not zero invisible payloads).")
             else:
                 sp = u.get("sensitivity_post_hoc") or {}
                 L.append(f"Sensitivity, post hoc ({sp.get('label')}): composed-clause-interpretable judges {sp.get('composed_clause_interpretable_judges')} give {sp.get('invisible_under_every_composed_interpretable_judge')} (content views only {sp.get('content_views_invisible_under_every_composed_interpretable_judge')}); all judges regardless {sp.get('all_judges')} give {sp.get('invisible_under_all_judges_regardless')} (content views only {sp.get('content_views_invisible_under_all_judges_regardless')}).")
