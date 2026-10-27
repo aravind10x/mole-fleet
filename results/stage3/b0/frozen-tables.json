@@ -1,0 +1,382 @@
+{
+ "version": "b0/v1",
+ "brief": "11 (B0) Z1",
+ "written": "2026-10-27T19:24Z",
+ "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
+ "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
+ "n_files": 37,
+ "all_copies_identical": true,
+ "mismatched_or_missing": [],
+ "files": [
+  {
+   "path": "t1/t1-results.json",
+   "sha256": "fe852c75a131a4d8f232aba3bdc2d20620760cf6f992135c320ab525a06c5650",
+   "bytes": 143377,
+   "sha256_fork_copy": "fe852c75a131a4d8f232aba3bdc2d20620760cf6f992135c320ab525a06c5650",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 07f (views calibration and T1): T1's pre-registered rows; the lone-against-split contrast exploratory (decision-t1-rows-2-4-2026-10-23.md); superseded for Δ by the re-plant (old inserter; v1's point hollow)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1/t1-results.md",
+   "sha256": "5ccc9e75f87f432b68edff55c93145f7f935e727073ecfe2e186875c425c33c0",
+   "bytes": 4274,
+   "sha256_fork_copy": "5ccc9e75f87f432b68edff55c93145f7f935e727073ecfe2e186875c425c33c0",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 07f (views calibration and T1): T1's pre-registered rows; the lone-against-split contrast exploratory (decision-t1-rows-2-4-2026-10-23.md); superseded for Δ by the re-plant (old inserter; v1's point hollow)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v2/t1v2-results.json",
+   "sha256": "facd4b1fe3144bd8ed807a0abed1cab1d3e9fa463d6d50fefdacd3b804597d96",
+   "bytes": 407025,
+   "sha256_fork_copy": "facd4b1fe3144bd8ed807a0abed1cab1d3e9fa463d6d50fefdacd3b804597d96",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v2/t1v2-plan.md (brief 07h): pre-registered before any number",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v2/t1v2-results.md",
+   "sha256": "f4812aed3740b7e21dfd7203d9687e3e902a20eab4d380f9e2700de82520fda1",
+   "bytes": 6559,
+   "sha256_fork_copy": "f4812aed3740b7e21dfd7203d9687e3e902a20eab4d380f9e2700de82520fda1",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v2/t1v2-plan.md (brief 07h): pre-registered before any number",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v2/row3-material.json",
+   "sha256": "6a4ddbbb47dccbcc0ae9f7524189adfd2ef65b9b61e2b0a0be03502dbf012850",
+   "bytes": 33021,
+   "sha256_fork_copy": "6a4ddbbb47dccbcc0ae9f7524189adfd2ef65b9b61e2b0a0be03502dbf012850",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07h's pre-registered row-3 consequence (honest rationales read): the material is descriptive, no test; the plan names no tag, so the one it implies",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v2/row3-material.md",
+   "sha256": "c17b140507d1b555c6c7c7df84b057e079f044f51c01e64640eccf0c9cbd9922",
+   "bytes": 20881,
+   "sha256_fork_copy": "c17b140507d1b555c6c7c7df84b057e079f044f51c01e64640eccf0c9cbd9922",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07h's pre-registered row-3 consequence (honest rationales read): the material is descriptive, no test; the plan names no tag, so the one it implies",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-results.json",
+   "sha256": "daca9be14078d1d7fb14b1651e8bcf32b1535e2c244858e054384ee693c615da",
+   "bytes": 1173781,
+   "sha256_fork_copy": "daca9be14078d1d7fb14b1651e8bcf32b1535e2c244858e054384ee693c615da",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3/t1v3-plan.md (brief 07l, amendment v2): S4, the roadmap predictions, A1 and A3 pre-registered; its recall-at-honest-exceedance curves exploratory by the plan",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-results.md",
+   "sha256": "587b6d4256bf9d3d0d9a4fe0cd9990efc570befbbc2fb1433edac293af298a92",
+   "bytes": 16707,
+   "sha256_fork_copy": "587b6d4256bf9d3d0d9a4fe0cd9990efc570befbbc2fb1433edac293af298a92",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3/t1v3-plan.md (brief 07l, amendment v2): S4, the roadmap predictions, A1 and A3 pre-registered; its recall-at-honest-exceedance curves exploratory by the plan",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-panel.json",
+   "sha256": "22549075a614f88f39d5b83dd46b17e2de82bab49b16bc067dc34535eaf79866",
+   "bytes": 949873,
+   "sha256_fork_copy": "22549075a614f88f39d5b83dd46b17e2de82bab49b16bc067dc34535eaf79866",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A6: pre-registered on v3 (routine_redraw against sham_redraw); the v2 computation post hoc and the max-rank, median-rank and Kimi variants sensitivities, as the plan labels them; a reported negative",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-panel.md",
+   "sha256": "e5eb8c93b51c61694a27e620d6ea86cb68d60843bae29ea2730904d471472a15",
+   "bytes": 3932,
+   "sha256_fork_copy": "e5eb8c93b51c61694a27e620d6ea86cb68d60843bae29ea2730904d471472a15",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A6: pre-registered on v3 (routine_redraw against sham_redraw); the v2 computation post hoc and the max-rank, median-rank and Kimi variants sensitivities, as the plan labels them; a reported negative",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/invisible-canonical.json",
+   "sha256": "be89c32d808276f3ca5d8c2e1493976b365f8212aae25b36ba8ff15abb3143e1",
+   "bytes": 14965,
+   "sha256_fork_copy": "be89c32d808276f3ca5d8c2e1493976b365f8212aae25b36ba8ff15abb3143e1",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A7 (the canonical definition, fixed before scoring); the post hoc point-rule rows inside are labelled sensitivities",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/invisible-canonical.md",
+   "sha256": "a9b6693ac452477fd014eaf54db9b43bfdf52ba122fd36fc30e8cc32dca2fb9e",
+   "bytes": 5568,
+   "sha256_fork_copy": "a9b6693ac452477fd014eaf54db9b43bfdf52ba122fd36fc30e8cc32dca2fb9e",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A7 (the canonical definition, fixed before scoring); the post hoc point-rule rows inside are labelled sensitivities",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-rater-join.json",
+   "sha256": "604cc03289f22baf7c15c92b39881c63b0695ecf92b020ffc5b13808dbff2f0c",
+   "bytes": 41305,
+   "sha256_fork_copy": "604cc03289f22baf7c15c92b39881c63b0695ecf92b020ffc5b13808dbff2f0c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A4 and A5 (fixed before the pause); batch 2's inverse-weight pooled reading a labelled sensitivity",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/t1v3-rater-join.md",
+   "sha256": "899f70f0d5ebbdd3222194e2d133256f42a872607d479f47e66a3c1ca199864c",
+   "bytes": 5253,
+   "sha256_fork_copy": "899f70f0d5ebbdd3222194e2d133256f42a872607d479f47e66a3c1ca199864c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "t1v3-plan.md A4 and A5 (fixed before the pause); batch 2's inverse-weight pooled reading a labelled sensitivity",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/q1q2/results.json",
+   "sha256": "4d3287377aee76df90cdca186e103ed2fcfb46d4062212e44dfd9590eb50852c",
+   "bytes": 1973153,
+   "sha256_fork_copy": "4d3287377aee76df90cdca186e103ed2fcfb46d4062212e44dfd9590eb50852c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "q1q2-synthetic/plan.md applied unchanged to v3 (t1v3-plan.md S5); its P10 streaming parts the plan's sensitivity",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1v3/q1q2/results.md",
+   "sha256": "5c8d40e2fa798b844b4b04bad31695fed5d46ef400a01476d0c8adadd4972a6e",
+   "bytes": 19659,
+   "sha256_fork_copy": "5c8d40e2fa798b844b4b04bad31695fed5d46ef400a01476d0c8adadd4972a6e",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "q1q2-synthetic/plan.md applied unchanged to v3 (t1v3-plan.md S5); its P10 streaming parts the plan's sensitivity",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1-replant/replant-results.json",
+   "sha256": "2606fea17209d651de74961cd786b38a6dd384d84d833d7c71febdaf286e4a3b",
+   "bytes": 1623326,
+   "sha256_fork_copy": "2606fea17209d651de74961cd786b38a6dd384d84d833d7c71febdaf286e4a3b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "preregistration-v1-replant-2026-10-27.md section 4 and t1-replant/plan.md (brief 07o); the tie-only, coupled-draw and point-rule readings labelled sensitivities, not pre-registered",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1-replant/replant-results.md",
+   "sha256": "72f341fcef4c2a04265af99de392aa845d5198723729c23f25df199eace8ac36",
+   "bytes": 25795,
+   "sha256_fork_copy": "72f341fcef4c2a04265af99de392aa845d5198723729c23f25df199eace8ac36",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "preregistration-v1-replant-2026-10-27.md section 4 and t1-replant/plan.md (brief 07o); the tie-only, coupled-draw and point-rule readings labelled sensitivities, not pre-registered",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1-replant/invisible-canonical.json",
+   "sha256": "c7d28bad1056d17a59a2ab9322c5b7a182cda08c4e77228a7900c70fa00b5436",
+   "bytes": 19258,
+   "sha256_fork_copy": "c7d28bad1056d17a59a2ab9322c5b7a182cda08c4e77228a7900c70fa00b5436",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "A7's canonical definition (t1v3-plan.md) extended by the v1_replant planting (brief 07o)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1-replant/invisible-canonical.md",
+   "sha256": "bed532d239d1af6295b91f488763ff496138e9a3a757d47ec53bacc1738ffb43",
+   "bytes": 7265,
+   "sha256_fork_copy": "bed532d239d1af6295b91f488763ff496138e9a3a757d47ec53bacc1738ffb43",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "A7's canonical definition (t1v3-plan.md) extended by the v1_replant planting (brief 07o)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/results.json",
+   "sha256": "36e9366e02dbf36b410c6e456f73dcfd6f2b729c09aee90df189c8392dec519d",
+   "bytes": 2294578,
+   "sha256_fork_copy": "36e9366e02dbf36b410c6e456f73dcfd6f2b729c09aee90df189c8392dec519d",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "q1q2-synthetic/plan.md (brief 07i part 1): the primary cell as pre-registered; the joint reading and the unseeded variant its labelled sensitivities",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/results.md",
+   "sha256": "dd4be0c59c79b633df0e8ab832332f839d3fcd3105150fbaeddec87fa545149c",
+   "bytes": 20111,
+   "sha256_fork_copy": "dd4be0c59c79b633df0e8ab832332f839d3fcd3105150fbaeddec87fa545149c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "q1q2-synthetic/plan.md (brief 07i part 1): the primary cell as pre-registered; the joint reading and the unseeded variant its labelled sensitivities",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/streaming.json",
+   "sha256": "5ad69cbd2ee26aac558f6ca428b40fd1f504ac136e97d8b3ff68d176788b2423",
+   "bytes": 39101,
+   "sha256_fork_copy": "5ad69cbd2ee26aac558f6ca428b40fd1f504ac136e97d8b3ff68d176788b2423",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "q1q2-synthetic/plan.md section 10: P10 streaming X_doc, a sensitivity by the plan",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/streaming.md",
+   "sha256": "a21d06959c20a064dcb7acaa25545ac0cf10612429f93d7e72c4e17d4b09200e",
+   "bytes": 2838,
+   "sha256_fork_copy": "a21d06959c20a064dcb7acaa25545ac0cf10612429f93d7e72c4e17d4b09200e",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "q1q2-synthetic/plan.md section 10: P10 streaming X_doc, a sensitivity by the plan",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/author-ranker-results.json",
+   "sha256": "6678c23add77a0143122b5ab98816e758240aef01a671912532a414fc9e691e4",
+   "bytes": 2313743,
+   "sha256_fork_copy": "6678c23add77a0143122b5ab98816e758240aef01a671912532a414fc9e691e4",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "author-ranker-plan.md (brief 07n part B): 'synthetic, exploratory, run once'",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/author-ranker-results.md",
+   "sha256": "253bb9a7e4c553b34e31f6a31bb474484878e6fa4db50e42998630c871f28d13",
+   "bytes": 23886,
+   "sha256_fork_copy": "253bb9a7e4c553b34e31f6a31bb474484878e6fa4db50e42998630c871f28d13",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "author-ranker-plan.md (brief 07n part B): 'synthetic, exploratory, run once'",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/judge-dep-results.json",
+   "sha256": "fccd8ca54e2d9b544777cce41a6c7fabf034304da2c8d0f8a5829b7b1ed90642",
+   "bytes": 964311,
+   "sha256_fork_copy": "fccd8ca54e2d9b544777cce41a6c7fabf034304da2c8d0f8a5829b7b1ed90642",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "judge-dep-plan.md (brief 07n part A): exploratory; predictions written first; reading rule N2 written after the table and disclosed as such",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/judge-dep-results.md",
+   "sha256": "8b32bfee21e4a1c840f5ec5aa7faceb29bb9b883ef96b2368485ac8b2abd9956",
+   "bytes": 9012,
+   "sha256_fork_copy": "8b32bfee21e4a1c840f5ec5aa7faceb29bb9b883ef96b2368485ac8b2abd9956",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "judge-dep-plan.md (brief 07n part A): exploratory; predictions written first; reading rule N2 written after the table and disclosed as such",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/judge-results.md",
+   "sha256": "e36e037aa6a38786713689017fa58809bac3b7a87ccd3f1a67d7c9b7ae295ffa",
+   "bytes": 4542,
+   "sha256_fork_copy": "e36e037aa6a38786713689017fa58809bac3b7a87ccd3f1a67d7c9b7ae295ffa",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "judge-plan.md (brief 07i part 2): exploratory; the Opus 5.5 stop under 11.12(d)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/opus48/judge-results.json",
+   "sha256": "0e80aa7d77e6be403b9fb77af1141ca01d74da22a7ace2a9739ac9b0c7d1ab1e",
+   "bytes": 467260,
+   "sha256_fork_copy": "0e80aa7d77e6be403b9fb77af1141ca01d74da22a7ace2a9739ac9b0c7d1ab1e",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "judge-plan.md (sha256 66757d92…, brief 07i part 2 continued with Opus 4.8): exploratory; predictions written first",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/opus48/judge-results.md",
+   "sha256": "55492d21bc51911a85cfe418ad20188805b629649344bbd884e13d730c366b32",
+   "bytes": 5441,
+   "sha256_fork_copy": "55492d21bc51911a85cfe418ad20188805b629649344bbd884e13d730c366b32",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "judge-plan.md (sha256 66757d92…, brief 07i part 2 continued with Opus 4.8): exploratory; predictions written first",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1k-rater/ratings.json",
+   "sha256": "289a9fe1ba46b0c8e87ab103c998be3fb7faf3925667989a8444cd0197565b37",
+   "bytes": 195107,
+   "sha256_fork_copy": "289a9fe1ba46b0c8e87ab103c998be3fb7faf3925667989a8444cd0197565b37",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 07k: an instrument (the visibility axis) produced under rubric.md, committed before any statement was opened; its section-4 predictions are the confirmatory part",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "t1k-rater/ratings-summary.md",
+   "sha256": "2c19122b384109404e260b54dadfab2f85b25088ae818542e7956bbe3b56695f",
+   "bytes": 3095,
+   "sha256_fork_copy": "2c19122b384109404e260b54dadfab2f85b25088ae818542e7956bbe3b56695f",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 07k: an instrument (the visibility axis) produced under rubric.md, committed before any statement was opened; its section-4 predictions are the confirmatory part",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "find-the-plant/record.md",
+   "sha256": "11bea89edf2de8b1fe35e2bf27f3f6c843da085093265ea4253b68929e7c879d",
+   "bytes": 9658,
+   "sha256_fork_copy": "11bea89edf2de8b1fe35e2bf27f3f6c843da085093265ea4253b68929e7c879d",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07q: an anecdote (one person), not paper data",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "cohort-examples/handout.md",
+   "sha256": "f321f3d1683e11dfff1063bc82921c90b0c62c512388160ca502951c6bbd507a",
+   "bytes": 5880,
+   "sha256_fork_copy": "f321f3d1683e11dfff1063bc82921c90b0c62c512388160ca502951c6bbd507a",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07r: teaching material on invented documents with one rater pass; not paper data",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "q1q2-synthetic/extra-judge-results.json",
+   "sha256": "99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7",
+   "bytes": 937624,
+   "sha256_fork_copy": "99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "extra-judge-plan.md (brief 07p): exploratory; prediction E0 written first. Added beyond brief 11's list (landed after the list was drawn): a disclosed deviation",
+   "added_beyond_brief_list": true
+  },
+  {
+   "path": "q1q2-synthetic/extra-judge-results.md",
+   "sha256": "3490eefcdf057b4356692daf99cb12961669902c1910c1ec7d4aacc47b1805b8",
+   "bytes": 12548,
+   "sha256_fork_copy": "3490eefcdf057b4356692daf99cb12961669902c1910c1ec7d4aacc47b1805b8",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "extra-judge-plan.md (brief 07p): exploratory; prediction E0 written first. Added beyond brief 11's list (landed after the list was drawn): a disclosed deviation",
+   "added_beyond_brief_list": true
+  }
+ ]
+}
