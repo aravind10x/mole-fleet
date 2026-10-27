@@ -317,8 +317,20 @@ def mode_estimate(ns, out_dir: Path) -> int:
 # ── scoring, with the first-batch re-base ───────────────────────────────────
 
 def allowance(est: dict, judge: str) -> float:
-    cap = round(est["judges"][judge]["total_est_usd"] * 1.5, 2)
+    """1.5 times the judge's estimate; after an accepted first-batch re-base, 1.5 times the larger of the estimate and
+    the re-based total (plan.md section 10, finding 5); Sonnet never above $30."""
+    b = float(est["judges"][judge]["total_est_usd"])
+    rb = (est.get("rebased") or {}).get(judge) or {}
+    if rb.get("continue"):
+        b = max(b, float(rb["total_rebased_usd"]))
+    cap = round(b * 1.5, 2)
     return min(cap, SONNET_CAP_USD) if judge == "sonnet" else cap
+
+
+def client_budget(est: dict, judge: str, dollars: Mapping[str, float]) -> float:
+    """What a client may still spend: the smaller of the judge's remaining allowance and the remaining global budget
+    ($60 minus every dollar paid under the out dir), never below zero (plan.md section 10, finding 5)."""
+    return max(0.0, min(allowance(est, judge) - float(dollars.get(judge, 0.0)), COMBINED_CAP_USD - float(dollars["total"])))
 
 
 def check_caps(out_dir: Path, est: dict, judge: str) -> None:
@@ -329,10 +341,14 @@ def check_caps(out_dir: Path, est: dict, judge: str) -> None:
         raise SystemExit(f"refusing: {judge}'s allowance ${allowance(est, judge)} is spent (${d[judge]} so far); re-base with a dated note")
 
 
-def rebase(est: dict, judge: str, first_view: str, realised_per_unit: float, done_dollars: Mapping[str, float], n_first_batch: int | None = None) -> dict:
-    """The first-batch re-base: every view of `judge` scaled by realised / estimated per-unit cost on the first view;
-    the combined figure adds the realised dollars of the judges already done and the plain estimates of the rest.
-    Continue only if the combined figure is within the $60 cap and, for Sonnet, the re-based total within the $25 stop line."""
+def rebase(est: dict, judge: str, first_view: str, realised_per_unit: float, dollars: Mapping[str, float], n_first_batch: int | None = None,
+           started: Sequence[str] = ()) -> dict:
+    """The first-batch re-base: every view of `judge` scaled by realised / estimated per-unit cost on the first view.
+    The combined projection (plan.md section 10, finding 6) is every dollar already paid over all caches under the out
+    dir (all judges, errored records included; `dollars` from dollars_all), plus this judge's re-based total less what it
+    has paid so far (not below zero), plus the plain estimates of the judges that have neither a score file (`started`)
+    nor any dollar paid. Continue only if the projection is within the $60 cap and, for Sonnet, the re-based total
+    within the $25 stop line."""
     ej = est["judges"][judge]["estimates"]
 
     def per_unit(v: str) -> float:
@@ -344,16 +360,20 @@ def rebase(est: dict, judge: str, first_view: str, realised_per_unit: float, don
     ratio = float(realised_per_unit) / per_unit(first_view)
     per_view = {v: round(ej[v]["n_calls"] * per_unit(v) * ratio, 4) for v in ej}
     total = round(sum(per_view.values()), 4)
-    done = {j: round(float(d), 6) for j, d in done_dollars.items() if j != judge}
-    not_run = [j for j in JUDGE_ORDER if j != judge and j not in done]
-    combined = round(sum(done.values()) + total + sum(float(est["judges"][j]["total_est_usd"]) for j in not_run), 4)
+    paid = {j: round(float(dollars.get(j, 0.0)), 6) for j in JUDGE_ORDER}
+    remainder = max(0.0, total - paid[judge])
+    not_started = [j for j in JUDGE_ORDER if j != judge and j not in started and paid[j] <= 0]
+    combined = round(float(dollars["total"]) + remainder + sum(float(est["judges"][j]["total_est_usd"]) for j in not_started), 4)
     cont = combined <= COMBINED_CAP_USD and (judge != "sonnet" or total <= SONNET_STOP_USD)
     return {"judge": judge, "first_view": first_view, "n_first_batch": n_first_batch, "realised_per_unit_usd": round(float(realised_per_unit), 6),
             "estimated_per_unit_usd": round(per_unit(first_view), 6), "ratio": round(ratio, 4), "per_view_rebased": per_view,
-            "total_rebased_usd": total, "realised_dollars_of_judges_done": done, "plain_estimates_of_judges_not_run": {j: est["judges"][j]["total_est_usd"] for j in not_run},
+            "total_rebased_usd": total, "dollars_paid_all_caches": {**paid, "total": round(float(dollars["total"]), 6)},
+            "remainder_of_this_judge_usd": round(remainder, 4),
+            "realised_dollars_of_judges_done": {j: paid[j] for j in started if j != judge},
+            "plain_estimates_of_judges_not_started": {j: est["judges"][j]["total_est_usd"] for j in not_started},
             "combined_rebased_usd": combined, "combined_cap_usd": COMBINED_CAP_USD, "sonnet_stop_line_usd": SONNET_STOP_USD if judge == "sonnet" else None,
             "continue": bool(cont),
-            "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); continue only if the combined figure is at or under $60 and, for Sonnet, the re-based total at or under $25"}
+            "rule": "rebased_view = n_calls(view) x est_per_unit(view) x (realised_per_unit_first / est_per_unit_first); projection = every dollar paid + max(0, this judge's re-based total - its dollars paid) + plain estimates of judges not started; continue only if the projection is at or under $60 and, for Sonnet, the re-based total at or under $25"}
 
 
 def first_batch_items(items: Sequence[dict], n: int) -> list[dict]:
@@ -369,6 +389,10 @@ def realised_mean_cost(cache: Mapping[str, dict], keys: Sequence[str]) -> tuple[
 def record_rebase(out_dir: Path, judge: str, note: dict) -> None:
     ep = out_dir / ESTIMATE_FILE
     est = load_json(ep)
+    old = (est.get("rebased") or {}).get(judge)
+    if old:
+        # a rerun's first batch: the earlier note is kept, never overwritten (plan.md section 10, finding 6)
+        note["rebased_history"] = list(old.get("rebased_history") or []) + [{k: v for k, v in old.items() if k != "rebased_history"}]
     est.setdefault("rebased", {})[judge] = note
     write_json(ep, est)
 
@@ -432,7 +456,7 @@ async def score_judge(ns, out_dir: Path, est: dict, U: dict, judge: str) -> dict
             j = make_glm(view, out_dir, Path(ns.q1q2_dir), concurrency=ns.concurrency, rpm=ns.rpm)
         else:
             j = make_opus(view, out_dir, concurrency=ns.concurrency, rpm=ns.rpm)
-        j.spend_cap_usd = j.dollars_cached + max(0.0, allowance(est, judge) - dollars_all(out_dir)[judge])
+        j.spend_cap_usd = j.dollars_cached + client_budget(est, judge, dollars_all(out_dir))
         if i == 0:
             # the first-batch re-base: the first FIRST_BATCH items of the judge's first view, then the realised
             # per-unit cost against the estimate's before any further call
@@ -447,8 +471,8 @@ async def score_judge(ns, out_dir: Path, est: dict, U: dict, judge: str) -> dict
             n_got, rp = realised_mean_cost({**recs1, **{k: j.cache[k] for k in recs1 if k in j.cache}}, [it["key"] for it in first])
             if not n_got or rp is None:
                 raise SystemExit(f"refusing: none of the {len(first)} first-batch records came back")
-            done = {jj: dollars_all(out_dir)[jj] for jj in judges_done(out_dir) if jj != judge}
-            note = rebase(est, judge, key, rp, done, n_first_batch=len(first))
+            started = [jj for jj in JUDGE_ORDER if score_file(out_dir, jj).exists()]
+            note = rebase(est, judge, key, rp, dollars_all(out_dir), n_first_batch=len(first), started=started)
             note["n_records_costed"] = n_got
             note["outcomes_first_batch"] = dict(Counter((recs1.get(it["key"]) or {}).get("outcome", "missing") for it in first))
             note["ts"] = now_iso()
@@ -458,6 +482,9 @@ async def score_judge(ns, out_dir: Path, est: dict, U: dict, judge: str) -> dict
             if not note["continue"]:
                 j.batch_log(out_dir / "judge-batches.jsonl", note=f"{STEM_TAG} {judge} {key} first batch; REBASE STOP")
                 raise RebaseStop(note)
+            # the accepted re-base sets the allowance for this client and the later views (plan.md section 10, finding 5)
+            est = load_json(out_dir / ESTIMATE_FILE)
+            j.spend_cap_usd = j.dollars_cached + float(j.stats()["dollars"]) + client_budget(est, judge, dollars_all(out_dir))
         recs, aborted = await sv.score_items(j, U["items"][key], view, ctx)
         j.batch_log(out_dir / "judge-batches.jsonl", note=f"{STEM_TAG} {judge} {key}" + (" ABORTED" if aborted else ""))
         rows = [sv.to_row(it, recs.get(it["key"])) for it in U["items"][key]]
@@ -519,11 +546,24 @@ def flagged_union(u: Mapping[str, Any], arule: Mapping[str, Any]) -> bool:
     return u.get("union_max") is not None and th.is_flagged(float(u["union_max"]), arule, u["author"])
 
 
-def honest_only_flagged(u: Mapping[str, Any], arule: Mapping[str, Any]) -> bool:
-    """The author's honest-only standing (plan.md section 2): the max of its honest pairs on the other class
-    documents at the author rule with the author's own tie draw; no honest pair is never flagged."""
+def honest_standing(u: Mapping[str, Any], pid: str, arule: Mapping[str, Any], honest_pairs: Mapping[tuple, float] | None = None,
+                    pid_path: Mapping[str, str] | None = None) -> dict:
+    """The author's honest-only standing (plan.md section 10, amendment of 2026-10-27 (codex finding 3)): the max over
+    all the author's honest pairs in the judge's honest null, the target document's own pair (author, path) included
+    when the author has one, at the author rule with the author's own tie draw; no honest pair is never flagged."""
+    path = (pid_path or {}).get(pid)
+    target = (honest_pairs or {}).get((u["author"], path)) if path is not None else None
     hv = [float(x) for x in (u.get("honest_other_pairs") or {}).values() if x is not None]
-    return bool(hv) and th.is_flagged(max(hv), arule, u["author"])
+    if target is not None:
+        hv.append(float(target))
+    mx = max(hv) if hv else None
+    return {"honest_target_pair": float(target) if target is not None else None, "honest_only_max": mx,
+            "honest_only_flagged": bool(mx is not None and th.is_flagged(mx, arule, u["author"]))}
+
+
+def honest_only_flagged(u: Mapping[str, Any], pid: str, arule: Mapping[str, Any], honest_pairs: Mapping[tuple, float] | None = None,
+                        pid_path: Mapping[str, str] | None = None) -> bool:
+    return honest_standing(u, pid, arule, honest_pairs, pid_path)["honest_only_flagged"]
 
 
 def payload_flags(reg_res: Mapping[str, Any], arule: Mapping[str, Any]) -> dict[str, dict]:
@@ -647,14 +687,20 @@ def unit_labels(items_pa: Sequence[dict]) -> dict[tuple[str, str, str], str]:
 
 
 def unit_rows(planted_unit_scores: Mapping[str, list], arule: Mapping[str, Any], labels: Mapping[tuple, str] | None = None,
-              vrule: Mapping[str, Any] | None = None) -> list[dict]:
+              vrule: Mapping[str, Any] | None = None, honest_pairs: Mapping[tuple, float] | None = None,
+              pid_path: Mapping[str, str] | None = None) -> list[dict]:
+    """Per planted author unit: the union flag, the honest-only standing (target document included; plan.md section 10,
+    amendment of 2026-10-27 (codex finding 3)), attributable = flagged and not flagged on honest pairs alone."""
     out = []
     for key, units in planted_unit_scores.items():
         pid, arm = key.rsplit(":", 1)
         for u in units:
-            fl, hf = flagged_union(u, arule), honest_only_flagged(u, arule)
+            fl = flagged_union(u, arule)
+            hs_ = honest_standing(u, pid, arule, honest_pairs, pid_path)
+            hf = hs_["honest_only_flagged"]
             lab = (labels or {}).get((pid, arm, u["author"]))
             row = {"payload_id": pid, "arm": arm, "author": u["author"], "n_changes": u.get("n_changes"), "flagged": fl,
+                   "honest_target_pair": hs_["honest_target_pair"], "honest_only_max": hs_["honest_only_max"],
                    "honest_only_flagged": hf, "attributable": bool(fl and not hf), "label": lab}
             if vrule is not None:
                 row["volume_flagged"] = (u.get("n_changes") is not None and lab is not None and th.is_flagged(u["n_changes"], vrule, lab))
@@ -727,32 +773,86 @@ def sham_label(k: int, n: int) -> str | None:
     return "interpretable, with caution" if k / n > SHAM_RULE_MAX else "interpretable"
 
 
-def _cond(k: int, n: int) -> dict:
-    return {"k": k, "n": n, "rate": _r(k / n) if n else None, "lb_one_sided_95": one_sided_lb(k, n), "label": sham_label(k, n)}
+def _cond(k: int, n: int, label_ok: bool = True) -> dict:
+    return {"k": k, "n": n, "rate": _r(k / n) if n else None, "lb_one_sided_95": one_sided_lb(k, n), "label": sham_label(k, n) if label_ok else None}
 
 
-def forward_sham_rule(sham_res: Mapping[str, Any], arule: Mapping[str, Any]) -> dict:
+TIE_ONLY_NOTE = "specified after the codex round of 2026-10-27, before any score was read; not pre-registered"
+CONTROL_REASON = "control under 64 units or not fully scored"
+NOT_EVALUABLE_REASON = "judge not evaluable: a P_author or O_diff unit of a regime did not score (plan.md section 10, finding 1)"
+
+
+def tie_only_reading(rows: Sequence[dict], orule: Mapping[str, Any]) -> dict:
+    """plan.md section 10, finding 8 (additive): among the attributable composed flags (counterpart diff unflagged), how
+    many sit exactly at the O_diff threshold (the flag came from the planted unit's tie draw) and how many have the
+    counterpart at the threshold; and the attributable rate when each planted unit's tie draw uses its COUNTERPART's
+    label (coupled draws). The sealed nominal mechanism stays the primary."""
+    t = orule.get("threshold")
+    att = [x for x in rows if x.get("counterpart_flagged") is False]
+    fl = [x for x in att if x["flagged"]]
+
+    def at_t(v):
+        return v is not None and t is not None and float(v) == float(t)
+
+    def coupled(x):
+        if x.get("score") is None:
+            return False
+        if x.get("counterpart_label") is None:
+            return bool(x["flagged"])
+        return th.is_flagged(float(x["score"]), orule, x["counterpart_label"])
+
+    kc = sum(1 for x in att if coupled(x))
+    return {"label": TIE_ONLY_NOTE, "threshold": t, "p_tie": orule.get("p_tie"), "n_attributable": len(att), "attributable_flagged": len(fl),
+            "flagged_with_planted_score_at_threshold": sum(1 for x in fl if at_t(x.get("score"))),
+            "flagged_with_counterpart_score_at_threshold": sum(1 for x in fl if at_t(x.get("counterpart_score"))),
+            "coupled_draw_attributable": {"k": kc, "n": len(att), "rate": _r(kc / len(att)) if att else None, "lb_one_sided_95": one_sided_lb(kc, len(att))}}
+
+
+def sham_control(sham_res: Mapping[str, Any]) -> dict:
+    pus = sham_res["P_author"]["planted_unit_scores"]
+    return {"n_plants": len(pus), "distinct_payloads": len({k.rsplit(":", 1)[0] for k in pus}),
+            "distinct_authors": len({u["author"] for us in pus.values() for u in us}),
+            "n_composed": len(sham_res["O_diff"]["rows"]), "distinct_payloads_composed": len({x["payload_id"] for x in sham_res["O_diff"]["rows"]})}
+
+
+def forward_sham_rule(sham_res: Mapping[str, Any], arule: Mapping[str, Any], *, orule: Mapping[str, Any] | None = None,
+                      honest_pairs: Mapping[tuple, float] | None = None, pid_path: Mapping[str, str] | None = None, evaluable: bool = True) -> dict:
     """plan.md section 2 on the sham regime: (a) composed: attributable = flagged among the composed sham plants whose
     honest counterpart diff is not flagged; (b) per-author: attributable = plants with any planted author flagged among
-    the delivered sham plants (pooled over arms) none of whose planted authors is flagged on honest pairs alone."""
+    the delivered sham plants (pooled over arms) none of whose planted authors is flagged on honest pairs alone (the
+    target document's honest pair included: plan.md section 10, amendment of 2026-10-27 (codex finding 3)). A label is
+    assigned only when the condition's full control holds at least 64 plants, every one scored, and the judge is
+    evaluable (plan.md section 10, findings 1 and 2); otherwise the numbers stay, marked provisional."""
     rows = sham_res["O_diff"]["rows"]
     att = [x for x in rows if x.get("counterpart_flagged") is False]
-    comp = {"control_n": len(rows), "control_at_least_64": len(rows) >= 64,
-            "attributable": _cond(sum(1 for x in att if x["flagged"]), len(att)),
-            "nominal": _cond(sum(1 for x in rows if x["flagged"]), len(rows))}
-    comp["label"] = comp["attributable"]["label"]
+    c_scored = all(x.get("outcome") == "scored" for x in rows)
+    c_ok = evaluable and len(rows) >= 64 and c_scored
+    comp: dict[str, Any] = {"control_n": len(rows), "control_at_least_64": len(rows) >= 64, "control_fully_scored": c_scored,
+                            "attributable": _cond(sum(1 for x in att if x["flagged"]), len(att), c_ok),
+                            "nominal": _cond(sum(1 for x in rows if x["flagged"]), len(rows), c_ok)}
+    if orule is not None:
+        comp["tie_only"] = tie_only_reading(rows, orule)
+        cd = comp["tie_only"]["coupled_draw_attributable"]
+        cd["label"] = sham_label(cd["k"], cd["n"]) if c_ok else None
     plants = []
+    p_scored = True
     for key, units in sham_res["P_author"]["planted_unit_scores"].items():
-        _pid, arm = key.rsplit(":", 1)
-        plants.append({"arm": arm, "flagged": any(flagged_union(u, arule) for u in units), "honest_flagged": any(honest_only_flagged(u, arule) for u in units)})
-    pa = {"control_n": len(plants), "control_at_least_64": len(plants) >= 64}
+        pid, arm = key.rsplit(":", 1)
+        p_scored = p_scored and all(u.get("outcome") == "scored" for u in units)
+        plants.append({"arm": arm, "flagged": any(flagged_union(u, arule) for u in units),
+                       "honest_flagged": any(honest_only_flagged(u, pid, arule, honest_pairs, pid_path) for u in units)})
+    p_ok = evaluable and len(plants) >= 64 and p_scored
+    pa: dict[str, Any] = {"control_n": len(plants), "control_at_least_64": len(plants) >= 64, "control_fully_scored": p_scored}
     pa_att = [p for p in plants if not p["honest_flagged"]]
-    pa["attributable"] = _cond(sum(1 for p in pa_att if p["flagged"]), len(pa_att))
-    pa["nominal"] = _cond(sum(1 for p in plants if p["flagged"]), len(plants))
+    pa["attributable"] = _cond(sum(1 for p in pa_att if p["flagged"]), len(pa_att), p_ok)
+    pa["nominal"] = _cond(sum(1 for p in plants if p["flagged"]), len(plants), p_ok)
     pa["n_honest_flagged_plants"] = len(plants) - len(pa_att)
-    pa["by_arm"] = {a: {"attributable": _cond(sum(1 for p in pa_att if p["arm"] == a and p["flagged"]), sum(1 for p in pa_att if p["arm"] == a)),
-                        "nominal": _cond(sum(1 for p in plants if p["arm"] == a and p["flagged"]), sum(1 for p in plants if p["arm"] == a))} for a in ARMS}
-    pa["label"] = pa["attributable"]["label"]
+    pa["by_arm"] = {a: {"attributable": _cond(sum(1 for p in pa_att if p["arm"] == a and p["flagged"]), sum(1 for p in pa_att if p["arm"] == a), p_ok),
+                        "nominal": _cond(sum(1 for p in plants if p["arm"] == a and p["flagged"]), sum(1 for p in plants if p["arm"] == a), p_ok)} for a in ARMS}
+    for c, ok in ((comp, c_ok), (pa, p_ok)):
+        c["label"] = c["attributable"]["label"] if ok else None
+        c["reason"] = None if ok else (NOT_EVALUABLE_REASON if not evaluable else CONTROL_REASON)
+        c["provisional"] = not ok
 
     def point_ok(c):
         return c["rate"] is not None and c["rate"] <= SHAM_RULE_MAX
@@ -760,8 +860,9 @@ def forward_sham_rule(sham_res: Mapping[str, Any], arule: Mapping[str, Any]) -> 
     sens = {"label": "the A3 / A7 point rule (the nominal sham rate at or under 0.10 at the point), a labelled sensitivity",
             "composed": point_ok(comp["nominal"]), "P_author_pooled": point_ok(pa["nominal"]),
             "P_author_all_arms": all(point_ok(pa["by_arm"][a]["nominal"]) for a in ARMS if pa["by_arm"][a]["nominal"]["n"])}
-    return {"composed": comp, "per_author": pa, "point_rule_sensitivity": sens,
-            "rule": "not interpretable when the one-sided 95 percent lower bound of the attributable sham rate exceeds 0.10; interpretable, with caution when only the point exceeds 0.10; interpretable otherwise; on a control of at least 64 units (plan.md section 2)"}
+    return {"composed": comp, "per_author": pa, "point_rule_sensitivity": sens, "sham_control": sham_control(sham_res), "provisional": not evaluable,
+            "dependence": AUTHOR_REUSE,
+            "rule": "not interpretable when the one-sided 95 percent lower bound of the attributable sham rate exceeds 0.10; interpretable, with caution when only the point exceeds 0.10; interpretable otherwise; only on a full control of at least 64 plants, every one scored (plan.md sections 2 and 10)"}
 
 
 def composed_vs_k2_gap(flags: Mapping[str, dict], seed: int = DID_SEED, n: int = BOOT_N) -> dict:
@@ -785,40 +886,60 @@ def composed_vs_k2_gap(flags: Mapping[str, dict], seed: int = DID_SEED, n: int =
                                                    "P_author_k2_recall": _r(sum(1 for x in k2 if x) / len(k2)) if k2 else None, "note": "point only"}}
 
 
-def cases(did: Mapping[str, Any], fsr: Mapping[str, Any], gap_v1: Mapping[str, Any]) -> dict:
+def cases(did: Mapping[str, Any], fsr: Mapping[str, Any], gap_v1: Mapping[str, Any], evaluable: bool = True) -> dict:
     """plan.md section 4's named cases. F: fragmentation present (Replicated or Attenuated) but the v1 regime's paired
-    composed − P_author(k = 2) gap covers zero. D: Δ_sham's interval excludes zero on the positive side. E: the
-    per-author forward sham rule reads not interpretable (section 2 governs)."""
+    composed − P_author(k = 2) gap covers zero. D: Δ_sham's interval excludes zero on the positive side. E, per condition
+    (plan.md section 10, finding 9): the per-author or the composed forward sham label reads not interpretable; E fires
+    on either (a condition with no label reads None). None of them is read for a judge that is not evaluable."""
+    if not evaluable:
+        return {k: None for k in ("case_F_fires", "case_D_fires", "case_E_per_author", "case_E_composed", "case_E_fires")} | {"reason": NOT_EVALUABLE_REASON}
     dci = did.get("delta_sham_ci95") or [None, None]
+    lab_pa, lab_c = fsr["per_author"]["label"], fsr["composed"]["label"]
+    e_pa = None if lab_pa is None else lab_pa == "not interpretable"
+    e_c = None if lab_c is None else lab_c == "not interpretable"
+    e = True if (e_pa or e_c) else (None if (e_pa is None and e_c is None) else False)
     return {"case_F_fires": bool(did.get("outcome") in ("Replicated", "Attenuated") and gap_v1.get("covers_zero")),
             "case_F_gap": {k: gap_v1.get(k) for k in ("gap", "ci95", "n", "covers_zero")},
             "case_D_fires": bool(dci[0] is not None and dci[0] > 0), "case_D_delta_sham": {"point": did.get("delta_sham"), "ci95": dci},
-            "case_E_fires": fsr["per_author"]["label"] == "not interpretable", "case_E_labels": {"per_author": fsr["per_author"]["label"], "composed": fsr["composed"]["label"]}}
+            "case_E_per_author": e_pa, "case_E_composed": e_c, "case_E_fires": e, "case_E_labels": {"per_author": lab_pa, "composed": lab_c}, "reason": None}
 
 
 def replant_readings(per: Mapping[str, dict], arule: Mapping[str, Any], *, labels: Mapping[tuple, str] | None = None,
                      bands: Mapping[str, dict] | None = None, v1_old_delta: float | None = None, vrule: Mapping[str, Any] | None = None,
-                     evaluable: bool = True) -> dict:
-    """plan.md section 4's primary and the readings beside it, in its order, for one judge."""
+                     honest_pairs: Mapping[tuple, float] | None = None, pid_path: Mapping[str, str] | None = None,
+                     orule: Mapping[str, Any] | None = None, evaluable: bool = True) -> dict:
+    """plan.md section 4's primary and the readings beside it, in its order, for one judge. A judge that is not
+    evaluable (plan.md section 10, finding 1) reads no outcome row, no under-80 verdict, no forward-sham label and no
+    case; its numbers stay, marked provisional."""
     flags = {reg: payload_flags(per[reg], arule) for reg in REGIMES if reg in per}
-    out: dict[str, Any] = {"payload_flags": flags, "evaluable": evaluable,
+    out: dict[str, Any] = {"payload_flags": flags, "evaluable": evaluable, "provisional": not evaluable,
+                           "evaluable_rule": "every P_author and every O_diff unit of both regimes scored (plan.md section 10, finding 1)",
                            "delta": {reg: delta_reading(f) for reg, f in flags.items()}}
     d = did_bootstrap(flags.get(V1_REGIME, {}), flags.get(SHAM_REGIME, {}))
-    d["outcome_if_complete"] = d["outcome"]
     if not evaluable:
         d["outcome"] = None           # an instrument that did not score every unit reads no row
+    d["provisional"] = not evaluable
     d["v1_old_inserter_delta"] = v1_old_delta
+    d["dependence"] = AUTHOR_REUSE
     out["did"] = d
-    out["under_80"] = under_80_reading(flags.get(V1_REGIME, {}), bands) if bands is not None else None
+    u8 = under_80_reading(flags.get(V1_REGIME, {}), bands) if bands is not None else None
+    if u8 is not None and not evaluable:
+        u8["held"] = None
+    if u8 is not None:
+        u8["provisional"] = not evaluable
+    out["under_80"] = u8
     out["n_changes_strata"] = {}
     for reg in flags:
-        rows = unit_rows(per[reg]["P_author"]["planted_unit_scores"], arule, labels, vrule)
+        rows = unit_rows(per[reg]["P_author"]["planted_unit_scores"], arule, labels, vrule, honest_pairs, pid_path)
         out["n_changes_strata"][reg] = {"table": strata_table(rows), "rows": rows}
-    out["forward_sham_rule"] = forward_sham_rule(per[SHAM_REGIME], arule) if SHAM_REGIME in per else None
+    out["forward_sham_rule"] = (forward_sham_rule(per[SHAM_REGIME], arule, orule=orule, honest_pairs=honest_pairs, pid_path=pid_path, evaluable=evaluable)
+                                if SHAM_REGIME in per else None)
     out["composed_vs_k2_gap"] = {reg: composed_vs_k2_gap(f) for reg, f in flags.items()}
-    out["cases"] = cases(d, out["forward_sham_rule"], out["composed_vs_k2_gap"].get(V1_REGIME, {})) if out["forward_sham_rule"] else None
+    out["cases"] = cases(d, out["forward_sham_rule"], out["composed_vs_k2_gap"].get(V1_REGIME, {}), evaluable) if out["forward_sham_rule"] else None
     out["carried"] = {reg: {"O_diff_share": per[reg]["O_diff"]["share"], "O_diff_ci95": per[reg]["O_diff"]["ci95"],
-                            "O_diff_paired_honest_control": per[reg]["O_diff"]["paired_honest_control"], "P_own_flips": per[reg]["P_own"]["flips"],
+                            "O_diff_paired_honest_control": per[reg]["O_diff"]["paired_honest_control"],
+                            "O_diff_tie_only": tie_only_reading(per[reg]["O_diff"]["rows"], orule) if orule is not None else None,
+                            "P_own_flips": per[reg]["P_own"]["flips"],
                             "per_piece_recall": per[reg]["per_piece_recall"], "P_own_coalition_level": per[reg]["P_own_coalition_level"],
                             "gap_k2": per[reg]["gap_k2"], "gap_k2_flip_based": per[reg]["gap_k2_flip_based"]} for reg in flags}
     return out
@@ -829,8 +950,9 @@ def v1_old_inserter_delta(t1_results: Mapping[str, Any]) -> float:
     return round(a["lone"]["recall"] - a["k2"]["recall"], 4)
 
 
-def v1_old_inserter_strata(t1_results: Mapping[str, Any], arule: Mapping[str, Any]) -> dict:
-    rows = unit_rows(t1_results["P_author"]["planted_unit_scores"], arule)
+def v1_old_inserter_strata(t1_results: Mapping[str, Any], arule: Mapping[str, Any], honest_pairs: Mapping[tuple, float] | None = None,
+                           pid_path: Mapping[str, str] | None = None) -> dict:
+    rows = unit_rows(t1_results["P_author"]["planted_unit_scores"], arule, honest_pairs=honest_pairs, pid_path=pid_path)
     return {"label": "old inserter, v1 run", "table": strata_table(rows), "n_units": len(rows)}
 
 
@@ -842,20 +964,25 @@ def analyse_judge(ns, judge: str, U: dict, out_dir: Path, ctx: dict) -> dict:
     recs = recs_for(judge, out_dir, U["son"])
     res = v2.analyse_v2(U["items"], recs, jseal, U["results"], U["payloads"], U["manifest"], honest=honest, honest_odiff=h_od, honest_pieces=h_po, regimes=REGIMES)
     model = U["son"] if judge == "sonnet" else (GLM_ID if judge == "glm" else OPUS_ID)
-    return judge_record(res, judge, jseal, seal, hs, U["manifest"], ctx, model)
+    return judge_record(res, judge, jseal, seal, hs, U["manifest"], ctx, model, honest_pa=honest["P_author"])
 
 
-def judge_record(res: dict, judge: str, jseal: dict, seal: dict, hs: Sequence[float], m: Mapping[str, Any], ctx: Mapping[str, Any], model: str) -> dict:
-    """analyse_v2's record for one judge with the re-plant readings and v3's thresholds / insertion / curve beside."""
+def judge_record(res: dict, judge: str, jseal: dict, seal: dict, hs: Sequence[float], m: Mapping[str, Any], ctx: Mapping[str, Any], model: str,
+                 honest_pa: Mapping[tuple, float] | None = None) -> dict:
+    """analyse_v2's record for one judge with the re-plant readings and v3's thresholds / insertion / curve beside.
+    `honest_pa` is the judge's honest P_author pairs {(author, path): score} (the target document's pair enters the
+    honest-only standing: plan.md section 10, amendment of 2026-10-27 (codex finding 3))."""
     per = res["regimes"]
     arule = jseal["views"]["P_author"]["author_rule"]
-    # the primary reads P_author alone: it is evaluable when every P_author unit of both regimes scored (an
-    # incomplete O_diff or P_own is reported in `incomplete` and leaves the readings that use it to say so)
-    evaluable = not [k for k in res["incomplete"] if k.split(":")[-1] == "P_author"]
-    res["replant"] = replant_readings(per, arule, labels=ctx["labels"], bands=ctx["bands"], v1_old_delta=ctx["v1_old_delta"], vrule=ctx["vrule"], evaluable=evaluable)
+    # evaluable when every P_author and every O_diff unit of both regimes scored (plan.md section 10, finding 1)
+    evaluable = not [k for k in res["incomplete"] if k.split(":")[-1] in ("P_author", "O_diff")]
+    res["incomplete_note"] = ("P_own and P_author_ctx incompleteness is reported here as it is; it does not gate the primary (P_author) or the "
+                              "judge's evaluability, which needs every P_author and every O_diff unit of both regimes (plan.md section 10, finding 1)")
+    res["replant"] = replant_readings(per, arule, labels=ctx["labels"], bands=ctx["bands"], v1_old_delta=ctx["v1_old_delta"], vrule=ctx["vrule"],
+                                      honest_pairs=honest_pa, pid_path=ctx.get("pid_path"), orule=jseal["views"]["O_diff"]["rule"], evaluable=evaluable)
     if judge == "sonnet":
         res["replant"]["volume_rule"] = ctx["volume"]
-        res["replant"]["v1_old_inserter_strata"] = v1_old_inserter_strata(ctx["t1_results"], seal["views"]["P_author"]["author_rule"])
+        res["replant"]["v1_old_inserter_strata"] = v1_old_inserter_strata(ctx["t1_results"], seal["views"]["P_author"]["author_rule"], honest_pa, ctx.get("pid_path"))
     else:
         res["replant"]["volume_rule"] = {"see": "judges.sonnet.replant.volume_rule (judge-free)"}
     res["document_classes"] = {reg: per[reg]["O_diff"]["document_classes"] for reg in per}
@@ -870,6 +997,9 @@ def judge_record(res: dict, judge: str, jseal: dict, seal: dict, hs: Sequence[fl
     return res
 
 
+AUTHOR_REUSE = ("the sham control is 64 plants from 24 payloads and a small set of authors; the payload bootstrap and the binomial bounds do not capture "
+                "shared-author dependence; attributable readings condition out the authors' honest standing; no dependence-aware interval is pre-registered")
+
 DISCLOSURES = [
     "Sonnet 5 under the sealed instruments is primary and the only reading comparable with v1; GLM 5.3 and Opus 4.8 score O_diff and P_author under their own 07n nulls and rules (no new null)",
     "P_own and the P_author context-3 variant are Sonnet's re-plant scores in every judge's table",
@@ -878,6 +1008,9 @@ DISCLOSURES = [
     "judge_client.py carries the two dated additive amendments the v3 plan disclosed; the Sonnet request is byte-identical",
     "v1's seed stream 20261113 is kept, but the layouts do not pair with v1's (the inserter changed): the design pairs by payload; v1's k = 3 set and duplicates are reproduced by the regime amendment",
     "the outcome rows and the under-80 condition are read on the rounded (reported) values",
+    AUTHOR_REUSE,
+    "dated amendments after the codex round (plan.md section 10): evaluability needs every P_author and O_diff unit of both regimes; a forward-sham label needs a full, fully scored 64-plant control; the honest-only standing includes the target document's honest pair; the tie-only counts and the coupled-draw rate are additive, specified before any score was read and not pre-registered; case E is read per condition",
+    "the judge client's ledger can lose one paid attempt on an abort (codex finding 7, refuted for this brief: the client is bound by the seal's hash); the loss is bounded by one request",
 ]
 
 
@@ -896,7 +1029,7 @@ def mode_results(ns, out_dir: Path) -> int:
     honest_rows = load_json(V / "p_author_c0.json")["rows"]
     vrule = volume_rule_of(honest_rows)
     pid2reg = {p["id"]: p["arm"] for p in U["payloads"]}
-    ctx = {"labels": unit_labels(U["items"]["P_author"]), "bands": bands, "v1_old_delta": v1_old_inserter_delta(t1r), "vrule": vrule,
+    ctx = {"labels": unit_labels(U["items"]["P_author"]), "bands": bands, "pid_path": {p["id"]: p["document"] for p in U["payloads"]}, "v1_old_delta": v1_old_inserter_delta(t1r), "vrule": vrule,
            "volume": volume_reading(vrule, honest_rows, U["items"]["P_author"], pid2reg), "t1_results": t1r}
     judges = {j: analyse_judge(ns, j, U, out_dir, ctx) for j in done}
     dollars = {"per_judge_run": {j: load_json(score_file(out_dir, j))["dollars"] for j in done}, "all_caches": dollars_all(out_dir)}
@@ -918,8 +1051,8 @@ def assemble_results(judges: Mapping[str, dict], hashes: Mapping[str, Any], m: M
     return {"version": VERSION, "plan_sha256": hashes["plan"], "plants_sha256": hashes["plants"], "payloads_sha256": hashes["payloads"], "hashes": dict(hashes),
             "sources": m.get("sources"), "v1_plan_reproduced": m.get("v1_plan_reproduced"),
             "seeds": {"layout": LAYOUT_SEED, "did": DID_SEED, "tie": tie_seed, "volume_tie": TIE_SEED, "replicates": BOOT_N}, "judges_done": list(judges),
-            "outcome_sonnet": {"row": son["did"]["outcome"], **{k: son["did"][k] for k in ("did", "ci95", "delta_v1", "delta_v1_ci95", "delta_sham", "delta_sham_ci95", "n_v1", "n_sham", "v1_old_inserter_delta", "outcome_if_complete")},
-                               "evaluable": son["evaluable"]},
+            "outcome_sonnet": {"row": son["did"]["outcome"], **{k: son["did"][k] for k in ("did", "ci95", "delta_v1", "delta_v1_ci95", "delta_sham", "delta_sham_ci95", "n_v1", "n_sham", "v1_old_inserter_delta")},
+                               "evaluable": son["evaluable"], "provisional": son["provisional"]},
             "under_80_sonnet": {k: son["under_80"][k] for k in ("held", "delta", "ci95", "n", "band_counts", "band_counts_match")} if son.get("under_80") else None,
             "judges": {j: {k: v for k, v in r.items() if k != "regimes"} | {"regimes": r["regimes"]} for j, r in judges.items()},
             "n_items": dict(n_items), "reproduction": repro, "dollars": dict(dollars), "disclosures": DISCLOSURES, "ts": now_iso()}
@@ -942,10 +1075,18 @@ def results_md(out: dict) -> str:
         L.append(f"## {JUDGE_NAMES[j]} ({r['model']}; O_diff rule t {r['thresholds']['O_diff']['threshold']} p_tie {_f(r['thresholds']['O_diff']['p_tie'])}; author rule t {r['thresholds']['P_author_author']['threshold']} p_tie {_f(r['thresholds']['P_author_author']['p_tie'])})\n")
         if fsr:
             c, p = fsr["composed"], fsr["per_author"]
-            L.append(f"Forward sham rule (plan.md section 2): composed **{c['label']}** (attributable {_rt(c['attributable'])}, one-sided LB {_f(c['attributable']['lb_one_sided_95'])}; nominal {_rt(c['nominal'])}; control {c['control_n']}); "
-                     f"per-author **{p['label']}** (attributable {_rt(p['attributable'])}, LB {_f(p['attributable']['lb_one_sided_95'])}; nominal {_rt(p['nominal'])}; control {p['control_n']}; "
+            sc = fsr["sham_control"]
+            L.append(f"Forward sham rule (plan.md sections 2 and 10){' (provisional: judge not evaluable)' if fsr['provisional'] else ''}: "
+                     f"composed **{c['label'] or 'no label'}**{' (' + c['reason'] + ')' if c['reason'] else ''} (attributable {_rt(c['attributable'])}, one-sided LB {_f(c['attributable']['lb_one_sided_95'])}; nominal {_rt(c['nominal'])}; control {c['control_n']}); "
+                     f"per-author **{p['label'] or 'no label'}**{' (' + p['reason'] + ')' if p['reason'] else ''} (attributable {_rt(p['attributable'])}, LB {_f(p['attributable']['lb_one_sided_95'])}; nominal {_rt(p['nominal'])}; control {p['control_n']}; "
                      f"by arm attributable {', '.join(a + ' ' + _rt(p['by_arm'][a]['attributable']) for a in ARMS)}). Point-rule sensitivity: composed {fsr['point_rule_sensitivity']['composed']}, "
-                     f"P_author all arms {fsr['point_rule_sensitivity']['P_author_all_arms']}.\n")
+                     f"P_author all arms {fsr['point_rule_sensitivity']['P_author_all_arms']}.")
+            if c.get("tie_only"):
+                to = c["tie_only"]
+                cd = to["coupled_draw_attributable"]
+                L.append(f"Tie-only composed attribution ({to['label']}): of {to['attributable_flagged']} attributable flags, {to['flagged_with_planted_score_at_threshold']} sit at the threshold {to['threshold']} "
+                         f"and {to['flagged_with_counterpart_score_at_threshold']} have the counterpart there; coupled-draw attributable {_rt(cd)}, LB {_f(cd['lb_one_sided_95'])}, label {cd.get('label')}.")
+            L.append(f"Sham control: {sc['n_plants']} plants from {sc['distinct_payloads']} distinct payloads and {sc['distinct_authors']} distinct authors ({sc['n_composed']} composed). Dependence: {fsr['dependence']}.\n")
         L.append("| reading | v1 | sham |")
         L.append("|---|---|---|")
 
@@ -975,8 +1116,8 @@ def results_md(out: dict) -> str:
         L.append("| document classes | " + " | ".join(cell(reg, lambda v: ", ".join(f"{d.split('/')[-1]} {c['class']} ({c['t1_flagged']}/{c['t1_composed']})" for d, c in v['O_diff']['document_classes'].items())) for reg in REGIMES) + " |")
         d = rp["did"]
         L.append(f"\n**DiD (paired by payload within regime, regimes resampled independently, {d['replicates']} replicates, seed {d['seed']}):** DiD {_f(d['did'])}{_ci(d['ci95'])}; "
-                 f"Δ_v1 {_f(d['delta_v1'])}{_ci(d['delta_v1_ci95'])} (n {d['n_v1']}); Δ_sham {_f(d['delta_sham'])}{_ci(d['delta_sham_ci95'])} (n {d['n_sham']}); outcome **{d['outcome'] or 'not evaluable'}** "
-                 f"(if complete: {d['outcome_if_complete']}); v1 old inserter Δ {_f(d['v1_old_inserter_delta'])}.")
+                 f"Δ_v1 {_f(d['delta_v1'])}{_ci(d['delta_v1_ci95'])} (n {d['n_v1']}); Δ_sham {_f(d['delta_sham'])}{_ci(d['delta_sham_ci95'])} (n {d['n_sham']}); outcome **{d['outcome'] or 'not evaluable'}**"
+                 f"{' (numbers provisional)' if d.get('provisional') else ''}; v1 old inserter Δ {_f(d['v1_old_inserter_delta'])}. Dependence: {d['dependence']}.")
         for reg, x in rp["delta"].items():
             L.append(f"- Δ {reg}: lone {_f(x['recall_lone'])} ({x['flagged_lone']}/{x['n']}) − k2 {_f(x['recall_k2'])} ({x['flagged_k2']}/{x['n']}) = {_f(x['delta'])}; discordant lone only {x['discordant_lone_only']}, k2 only {x['discordant_k2_only']}.")
         L.append("\n**P_author by n_changes stratum (author rule; units, and plants by their largest unit):**\n")
@@ -1010,8 +1151,9 @@ def results_md(out: dict) -> str:
         L.append("\n**Composed − P_author(k = 2), paired over the composed k = 2 payloads:** " + "; ".join(
             f"{reg} {_f(x['gap'])}{_ci(x['ci95'])} (n {x['n']}; covers zero {x['covers_zero']}; pooled composed − k2 recall {_f(x['pooled_composed_minus_P_author_k2']['point'])})" for reg, x in g.items()) + ".")
         L.append(f"Case F (fragmentation present, gap covers zero): **{cs.get('case_F_fires')}**. Case D (Δ_sham positive, interval excludes zero): **{cs.get('case_D_fires')}**. "
-                 f"Case E (per-author sham not interpretable): **{cs.get('case_E_fires')}**.")
-        L.append(f"\nIncomplete views: {r['incomplete'] or 'none'}; not delivered {json.dumps(r['not_delivered'])}; delivered but not composed {json.dumps(r['not_composed_delivered'])}.\n")
+                 f"Case E (a sham condition not interpretable): **{cs.get('case_E_fires')}** (per-author {cs.get('case_E_per_author')}, composed {cs.get('case_E_composed')})"
+                 + (f"; {cs['reason']}." if cs.get("reason") else "."))
+        L.append(f"\nIncomplete views: {r['incomplete'] or 'none'} ({r.get('incomplete_note')}); not delivered {json.dumps(r['not_delivered'])}; delivered but not composed {json.dumps(r['not_composed_delivered'])}.\n")
     ins = out["judges"]["sonnet"]["insertion"]
     L.append(f"**Insertion record:** {json.dumps(ins.get('insertion'))}; honest read-before-edit {json.dumps(ins.get('honest_read_before_edit'))}; re-draws {ins.get('redraws_total')}; honest edits broken {ins.get('honest_edits_broken_total')}; by regime and arm {json.dumps(ins.get('by_regime_and_arm'))}.\n")
     L.append(f"Spend: {json.dumps(out['dollars'])}. Disclosures: " + " ".join(f"({i + 1}) {d}." for i, d in enumerate(out["disclosures"])))
@@ -1038,12 +1180,14 @@ def v1_replant_planting(judges_res: Mapping[str, Mapping[str, Any]], rules: Mapp
     rec: dict[str, Any] = {"judges": {}, "union": {}, "interpretability_rule": "the forward sham rule (plan.md section 2) read from replant-results.json"}
     for j, r in judges_res.items():
         ip = interp_forward(r["replant"]["forward_sham_rule"])
-        rec["judges"][j] = {"interpretable": ip, "P_author_clause_interpretable": ip["P_author_pooled"],
+        ip["evaluable"] = bool(r["replant"].get("evaluable", True))
+        rec["judges"][j] = {"interpretable": ip, "P_author_clause_interpretable": ip["P_author_pooled"], "evaluable": ip["evaluable"],
                             "regimes": {reg: invisible_from(r["regimes"], reg, rules[j]) for reg in regs if reg in r["regimes"]}}
     for reg in regs:
         J = rec["judges"]
-        inter = [j for j in J if J[j]["interpretable"]["composed"] and J[j]["interpretable"]["P_author_pooled"] and reg in J[j]["regimes"]]
-        pt = [j for j in J if J[j]["interpretable"]["point_rule_sensitivity"]["composed"] and J[j]["interpretable"]["point_rule_sensitivity"]["P_author_all_arms"] and reg in J[j]["regimes"]]
+        # a judge that is not evaluable (plan.md section 10, finding 1) is out of the union and the sensitivity
+        inter = [j for j in J if J[j]["evaluable"] and J[j]["interpretable"]["composed"] and J[j]["interpretable"]["P_author_pooled"] and reg in J[j]["regimes"]]
+        pt = [j for j in J if J[j]["evaluable"] and J[j]["interpretable"]["point_rule_sensitivity"]["composed"] and J[j]["interpretable"]["point_rule_sensitivity"]["P_author_all_arms"] and reg in J[j]["regimes"]]
         inv = lambda js, f="invisible_ids": _inter([set(J[j]["regimes"][reg][f]) for j in js])  # noqa: E731
         rec["union"][reg] = {"interpretable_judges": inter, "with_caution": {j: J[j]["interpretable"]["with_caution"] for j in inter if J[j]["interpretable"]["with_caution"]},
                              "invisible_under_every_interpretable_judge": inv(inter), "n": len(inv(inter)) if inter else None,
@@ -1078,7 +1222,7 @@ def mode_invisible(ns, out_dir: Path) -> int:
 def invisible_out(v3inv: Mapping[str, Any], rec: dict, source: Mapping[str, Any], results_sha: str) -> dict:
     """v3's v2 and v3 plantings copied unchanged, the v1_replant planting added."""
     return {"version": VERSION, "definition": v3inv["definition"], "P_own_clause": v3inv["P_own_clause"], "interpretability": v3inv["interpretability"],
-            "interpretability_v1_replant": "v1_replant's columns: a judge's clause is interpretable unless the forward sham rule (plan.md section 2) reads it not interpretable on the re-plant's 64-unit sham control (composed: the attributable composed share; P_author: the attributable pooled per-author rate); 'with caution' recorded; the A3 / A7 point rule beside as a labelled sensitivity",
+            "interpretability_v1_replant": "v1_replant's columns: a judge that is not evaluable (a P_author or O_diff unit unscored) is marked and left out of the union; otherwise a judge's clause is interpretable unless the forward sham rule (plan.md section 2) reads it not interpretable on the re-plant's 64-unit sham control (composed: the attributable composed share; P_author: the attributable pooled per-author rate); 'with caution' recorded; the A3 / A7 point rule beside as a labelled sensitivity",
             "retired_counts": v3inv.get("retired_counts"), "source_v2_v3": dict(source), "results_sha256": results_sha,
             "plantings": {"v2": copy.deepcopy(v3inv["plantings"]["v2"]), "v3": copy.deepcopy(v3inv["plantings"]["v3"]), "v1_replant": rec}, "ts": now_iso()}
 
@@ -1094,7 +1238,7 @@ def invisible_md(out: dict) -> str:
         for j, d in rec["judges"].items():
             ip = d["interpretable"]
             if planting == "v1_replant":
-                tag = f" (composed {ip['composed_label']}; P_author {ip['P_author_label']})"
+                tag = " (not evaluable)" if not d.get("evaluable", True) else f" (composed {ip['composed_label']}; P_author {ip['P_author_label']})"
             else:
                 tag = "" if (ip["composed"] and d["P_author_clause_interpretable"]) else (" (P_author clause not interpretable)" if ip["composed"] else " (not interpretable)")
             for reg, x in d["regimes"].items():

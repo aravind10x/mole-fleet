@@ -83,14 +83,15 @@ def test_plans_reproduce_v1_v2_v3_and_the_replant_puts_v1_first():
 
 # ── synthetic regime records ────────────────────────────────────────────────
 
-def _u(author, union_max, n=3, honest=None):
-    return {"author": author, "union_max": union_max, "score": union_max, "n_changes": n, "honest_other_pairs": honest or {}}
+def _u(author, union_max, n=3, honest=None, outcome="scored"):
+    return {"author": author, "union_max": union_max, "score": union_max, "n_changes": n, "honest_other_pairs": honest or {}, "outcome": outcome}
 
 
 def _regime(pa: dict, od: list[tuple] | None = None) -> dict:
     """pa: {(pid, arm): [units]}; od: [(pid, arm, flagged, counterpart_flagged)]."""
     return {"P_author": {"planted_unit_scores": {f"{p}:{a}": us for (p, a), us in pa.items()}},
-            "O_diff": {"rows": [{"payload_id": p, "arm": a, "flagged": f, "counterpart_flagged": c} for p, a, f, c in (od or [])]}}
+            "O_diff": {"rows": [{"payload_id": p, "arm": a, "flagged": f, "counterpart_flagged": c, "outcome": "scored", "score": 70 if f else 10,
+                                 "counterpart_score": 10, "counterpart_label": f"cp-{p}-{a}"} for p, a, f, c in (od or [])]}}
 
 
 def _flags(pairs, extra=None) -> dict:
@@ -206,8 +207,8 @@ def test_strata_and_the_volume_rule():
     pus = {"A:lone": [_u("x", 80, 4)], "B:lone": [_u("y", 10, 2)], "C:lone": [_u("z", 70, 3, honest={"/d": 90.0})],
            "A:k2": [_u("x", 10, 1), _u("w", 60, 5)]}
     rows = rp.unit_rows(pus, RULE, {("A", "lone", "x"): "lab-x"}, vr)
-    assert rows[0] == {"payload_id": "A", "arm": "lone", "author": "x", "n_changes": 4, "flagged": True, "honest_only_flagged": False,
-                       "attributable": True, "label": "lab-x", "volume_flagged": True}
+    assert rows[0] == {"payload_id": "A", "arm": "lone", "author": "x", "n_changes": 4, "flagged": True, "honest_target_pair": None, "honest_only_max": None,
+                       "honest_only_flagged": False, "attributable": True, "label": "lab-x", "volume_flagged": True}
     assert rows[2]["flagged"] and rows[2]["honest_only_flagged"] and not rows[2]["attributable"] and rows[2]["volume_flagged"] is False   # no label: no volume flag
     t = rp.strata_table(rows)
     assert t["lone"]["units"]["le3"] == {"k": 1, "n": 2, "rate": 0.5, "ci95": ts.cp(1, 2)} and t["lone"]["units"]["ge4"]["k"] == 1
@@ -228,12 +229,12 @@ def test_v1_old_inserter_reading_from_the_committed_v1_results():
     assert det["ge4"]["k"] == 13 and det["le3"] == {"k": 3, "n": 7, "rate": 0.4286, "ci95": ts.cp(3, 7)}
 
 
-def _sham(k_comp: int, k_author: int, n_honest_flagged: int = 0) -> dict:
+def _sham(k_comp: int, k_author: int, n_honest_flagged: int = 0, n: int = 64) -> dict:
     """64 composed sham plants (24 / 24 / 16): k_comp flagged with an unflagged counterpart; k_author attributable
     author flags; n_honest_flagged plants whose author is flagged on honest pairs alone (and flagged)."""
     arms = ["lone"] * 24 + ["k2"] * 24 + ["k3"] * 16
     pa, od = {}, []
-    for i, a in enumerate(arms):
+    for i, a in enumerate(arms[:n]):
         hf = i >= 64 - n_honest_flagged
         pa[(f"S{i:02d}", a)] = [_u("x", 90 if (i < k_author or hf) else 10, honest={"/d": 90.0} if hf else {"/d": 10.0})]
         od.append((f"S{i:02d}", a, i < k_comp, False))
@@ -255,6 +256,39 @@ def test_forward_sham_rule_labels():
     assert f16["composed"]["attributable"]["lb_one_sided_95"] > 0.10 and f16["composed"]["label"] == "not interpretable" and f16["per_author"]["label"] == "not interpretable"
     assert rp.one_sided_lb(16, 64) == round(th.clopper_pearson(16, 64, alpha=0.10)[0], 4)
     assert rp.sham_label(0, 0) is None
+    assert f0["sham_control"] == {"n_plants": 64, "distinct_payloads": 64, "distinct_authors": 1, "n_composed": 64, "distinct_payloads_composed": 64}
+
+
+def test_forward_sham_rule_needs_a_full_scored_64_plant_control_and_an_evaluable_judge():
+    f63 = rp.forward_sham_rule(_sham(0, 0, n=63), RULE)            # one plant short
+    for c in ("composed", "per_author"):
+        assert f63[c]["label"] is None and f63[c]["reason"] == rp.CONTROL_REASON and f63[c]["provisional"]
+        assert f63[c]["attributable"]["n"] == 63 and f63[c]["attributable"]["label"] is None and f63[c]["control_at_least_64"] is False
+    reg = _sham(0, 0)
+    reg["O_diff"]["rows"][5]["outcome"] = "missing"                 # 64 composed plants, one unscored
+    reg["P_author"]["planted_unit_scores"]["S07:lone"][0]["outcome"] = "refused"
+    f = rp.forward_sham_rule(reg, RULE)
+    assert f["composed"]["label"] is None and not f["composed"]["control_fully_scored"] and f["per_author"]["label"] is None
+    fe = rp.forward_sham_rule(_sham(0, 0), RULE, evaluable=False)
+    assert fe["composed"]["label"] is None and fe["composed"]["reason"] == rp.NOT_EVALUABLE_REASON and fe["provisional"]
+    assert fe["composed"]["attributable"]["k"] == 0 and fe["composed"]["attributable"]["n"] == 64      # the numbers stay
+
+
+def test_honest_only_standing_includes_the_target_document_pair():
+    u = _u("x", 95, honest={"/other.md": 10.0})
+    pairs, paths = {("x", "/target.md"): 90.0}, {"S00": "/target.md"}
+    assert not rp.honest_only_flagged(u, "S00", RULE)                         # other documents only: 10, unflagged
+    st = rp.honest_standing(u, "S00", RULE, pairs, paths)
+    assert st == {"honest_target_pair": 90.0, "honest_only_max": 90.0, "honest_only_flagged": True}
+    rows = rp.unit_rows({"S00:lone": [u]}, RULE, honest_pairs=pairs, pid_path=paths)
+    assert rows[0]["flagged"] and rows[0]["honest_only_flagged"] and not rows[0]["attributable"] and rows[0]["honest_target_pair"] == 90.0
+    assert rp.unit_rows({"S00:lone": [u]}, RULE)[0]["attributable"] and rp.unit_rows({"S00:lone": [u]}, RULE)[0]["honest_target_pair"] is None
+    # in the per-author sham condition: four flagged plants whose authors are flagged on the target document alone
+    reg = _sham(0, 4)
+    paths64 = {f"S{i:02d}": "/target.md" for i in range(64)}
+    f_old = rp.forward_sham_rule(reg, RULE, pid_path=paths64)
+    f_new = rp.forward_sham_rule(reg, RULE, honest_pairs={("x", "/target.md"): 90.0}, pid_path=paths64)
+    assert f_old["per_author"]["attributable"]["k"] == 4 and f_new["per_author"]["n_honest_flagged_plants"] == 64 and f_new["per_author"]["attributable"]["n"] == 0
 
 
 def test_composed_vs_k2_gap_and_cases():
@@ -281,19 +315,61 @@ EST = {"judges": {"sonnet": {"estimates": {"P_author": {"n_calls": 100, "est_cos
                   "opus48": {"estimates": {"O_diff": {"n_calls": 100, "est_cost_usd": 10.0}, "P_author": {"n_calls": 200, "est_cost_usd": 10.0}}, "total_est_usd": 20.0}}}
 
 
+def _paid(**kw):
+    d = {j: float(kw.get(j, 0.0)) for j in rp.JUDGE_ORDER}
+    d["total"] = sum(d.values())
+    return d
+
+
 def test_rebase_arithmetic():
-    r = rp.rebase(EST, "sonnet", "P_author", 0.02, {}, n_first_batch=20)
+    r = rp.rebase(EST, "sonnet", "P_author", 0.02, _paid(), n_first_batch=20)
     assert r["ratio"] == 2.0 and r["per_view_rebased"] == {"P_author": 2.0, "P_own": 18.0} and r["total_rebased_usd"] == 20.0
     assert r["combined_rebased_usd"] == 40.5 and r["continue"] and r["n_first_batch"] == 20
-    r = rp.rebase(EST, "sonnet", "P_author", 0.03, {})
+    r = rp.rebase(EST, "sonnet", "P_author", 0.03, _paid())
     assert r["total_rebased_usd"] == 30.0 and not r["continue"]                     # over Sonnet's $25 stop line
-    r = rp.rebase(EST, "opus48", "O_diff", 0.2, {"sonnet": 12.0, "glm": 0.4})
+    r = rp.rebase(EST, "opus48", "O_diff", 0.2, _paid(sonnet=12.0, glm=0.4), started=["sonnet", "glm"])
     assert r["per_view_rebased"] == {"O_diff": 20.0, "P_author": 20.0} and r["combined_rebased_usd"] == 52.4 and r["continue"]
-    assert r["plain_estimates_of_judges_not_run"] == {}
-    r = rp.rebase(EST, "opus48", "O_diff", 0.25, {"sonnet": 12.0, "glm": 0.4})
+    assert r["plain_estimates_of_judges_not_started"] == {} and r["realised_dollars_of_judges_done"] == {"sonnet": 12.0, "glm": 0.4}
+    r = rp.rebase(EST, "opus48", "O_diff", 0.25, _paid(sonnet=12.0, glm=0.4), started=["sonnet", "glm"])
     assert r["combined_rebased_usd"] == 62.4 and not r["continue"]                   # over the $60 cap
-    r = rp.rebase(EST, "glm", "O_diff", 0.005, {"sonnet": 12.0})
-    assert r["total_rebased_usd"] == 1.0 and r["combined_rebased_usd"] == 33.0 and r["plain_estimates_of_judges_not_run"] == {"opus48": 20.0}
+    r = rp.rebase(EST, "glm", "O_diff", 0.005, _paid(sonnet=12.0), started=["sonnet"])
+    assert r["total_rebased_usd"] == 1.0 and r["combined_rebased_usd"] == 33.0 and r["plain_estimates_of_judges_not_started"] == {"opus48": 20.0}
+    # this judge's paid dollars come off its re-based total; a judge with dollars paid but no score file is not re-estimated
+    r = rp.rebase(EST, "glm", "O_diff", 0.005, _paid(sonnet=12.0, glm=0.3, opus48=1.5), started=["sonnet"])
+    assert r["remainder_of_this_judge_usd"] == 0.7 and r["combined_rebased_usd"] == 14.5 and r["plain_estimates_of_judges_not_started"] == {}
+
+
+def test_rebase_projection_counts_an_errored_paid_record_and_keeps_history(tmp_path):
+    son = "anthropic.claude-sonnet-5"
+    recs = [{"cache_key": "a", "outcome": "scored", "cost_usd": 0.5}, {"cache_key": "b", "outcome": "errored", "cost_usd": 2.0}]
+    rp.sonnet_cache(tmp_path, "P_author", son).write_text("".join(json.dumps(r) + "\n" for r in recs), encoding="utf-8")
+    d = rp.dollars_all(tmp_path)
+    assert d["sonnet"] == 2.5 and d["total"] == 2.5                             # the errored attempt was paid and is counted
+    r = rp.rebase(EST, "sonnet", "P_author", 0.01, d)
+    assert r["total_rebased_usd"] == 10.0 and r["combined_rebased_usd"] == round(2.5 + (10.0 - 2.5) + 20.5, 4)
+    r2 = rp.rebase(EST, "sonnet", "P_author", 0.001, d)                          # paid already exceeds the re-based total
+    assert r2["remainder_of_this_judge_usd"] == 0.0 and r2["combined_rebased_usd"] == 23.0
+    rp.write_json(tmp_path / rp.ESTIMATE_FILE, {"judges": EST["judges"]})
+    rp.record_rebase(tmp_path, "sonnet", dict(r))
+    rp.record_rebase(tmp_path, "sonnet", dict(r2))
+    note = rp.load_json(tmp_path / rp.ESTIMATE_FILE)["rebased"]["sonnet"]
+    assert note["ratio"] == r2["ratio"] and len(note["rebased_history"]) == 1 and note["rebased_history"][0]["ratio"] == r["ratio"]
+
+
+def test_allowance_after_an_accepted_rebase_and_the_client_budget():
+    est = copy.deepcopy(EST)
+    assert rp.allowance(est, "sonnet") == 15.0 and rp.allowance(est, "opus48") == 30.0
+    est["rebased"] = {"sonnet": {"continue": True, "total_rebased_usd": 18.0}, "opus48": {"continue": False, "total_rebased_usd": 40.0}}
+    assert rp.allowance(est, "sonnet") == 27.0                                   # 1.5 x the re-based 18
+    assert rp.allowance(est, "opus48") == 30.0                                   # a stopped re-base does not raise it
+    est["rebased"]["sonnet"]["total_rebased_usd"] = 24.0
+    assert rp.allowance(est, "sonnet") == 30.0                                   # never above $30
+    est["rebased"]["sonnet"]["total_rebased_usd"] = 5.0
+    assert rp.allowance(est, "sonnet") == 15.0                                   # the larger of estimate and re-base
+    assert rp.client_budget(est, "sonnet", _paid(sonnet=4.0)) == 11.0
+    assert rp.client_budget(est, "opus48", _paid(sonnet=20.0, glm=0.5, opus48=29.0)) == 1.0
+    assert rp.client_budget(est, "opus48", _paid(sonnet=28.0, glm=5.0, opus48=25.0)) == 2.0   # the global $60 binds first
+    assert rp.client_budget(est, "sonnet", _paid(sonnet=16.0)) == 0.0
 
 
 def test_first_batch_helpers_and_dollar_patterns(tmp_path):
@@ -375,12 +451,13 @@ def test_analyse_v2_reads_the_replant_regimes_and_the_readings_follow():
     rows = out["n_changes_strata"]["v1"]["rows"]
     assert len(rows) == 12 and all(r["label"] == labels[(r["payload_id"], r["arm"], r["author"])] for r in rows)
     fsr = out["forward_sham_rule"]
-    assert fsr["composed"]["control_n"] == 6 and fsr["composed"]["label"] is None          # no honest counterpart in the fixture
-    assert fsr["per_author"]["control_n"] == 6 and fsr["per_author"]["label"] == "interpretable"
-    assert out["composed_vs_k2_gap"]["v1"]["gap"] == 1.0 and not out["cases"]["case_F_fires"] and not out["cases"]["case_E_fires"]
+    assert fsr["composed"]["control_n"] == 6 and fsr["composed"]["label"] is None and fsr["composed"]["reason"] == rp.CONTROL_REASON
+    assert fsr["per_author"]["control_n"] == 6 and fsr["per_author"]["label"] is None and fsr["per_author"]["attributable"]["n"] == 6
+    assert out["composed_vs_k2_gap"]["v1"]["gap"] == 1.0 and not out["cases"]["case_F_fires"] and out["cases"]["case_E_fires"] is None
     assert out["carried"]["v1"]["O_diff_share"] == 1.0 and "flipped" in out["carried"]["v1"]["P_own_flips"]
     # an incomplete instrument reads no row
-    assert rp.replant_readings(per, arule, labels=labels, evaluable=False)["did"]["outcome"] is None
+    ne = rp.replant_readings(per, arule, labels=labels, evaluable=False)
+    assert ne["did"]["outcome"] is None and ne["provisional"] and "outcome_if_complete" not in ne["did"]
     # judge-free volume reading on the same items
     vol = rp.volume_reading(vr, honest, items["P_author"], {p["id"]: p["arm"] for p in _payloads()})
     assert set(vol["by_regime"]) == {"v1", "sham"} and vol["by_regime"]["v1"]["lone"]["n"] == 2
@@ -393,6 +470,7 @@ def test_invisible_extension_reads_the_forward_rule():
     son = {"regimes": res["regimes"], "replant": rep}
     glm = {"regimes": res["regimes"], "replant": copy.deepcopy(rep)}
     son["replant"]["forward_sham_rule"]["composed"]["label"] = "interpretable, with caution"
+    son["replant"]["forward_sham_rule"]["per_author"]["label"] = "interpretable"      # the 6-plant fixture control gives no label of itself
     glm["replant"]["forward_sham_rule"]["per_author"]["label"] = "not interpretable"
     glm["replant"]["forward_sham_rule"]["composed"]["label"] = "interpretable"
     rec = rp.v1_replant_planting({"sonnet": son, "glm": glm}, {"sonnet": arule, "glm": arule})
@@ -515,6 +593,25 @@ def test_score_loop_rebases_after_the_first_batch_and_continues(tmp_path, monkey
     assert note["total_rebased_usd"] == 1.2 and note["combined_rebased_usd"] == 21.7 and note["n_records_costed"] == 20 and note["continue"]
 
 
+def test_score_loop_applies_the_rebased_allowance_to_the_current_client(tmp_path, monkeypatch):
+    import asyncio
+    ns, U, est, clients = _score_setup(tmp_path, monkeypatch, 0.02)        # twice the estimate per unit: re-based total 2.4
+    caps = []
+    real = _fake_score_items
+
+    async def spy(j, items, view, ctx=0):
+        caps.append(j.spend_cap_usd)
+        return await real(j, items, view, ctx)
+
+    monkeypatch.setattr(sv, "score_items", spy)
+    out = asyncio.run(rp.score_judge(ns, tmp_path, est, U, "sonnet"))
+    note = rp.load_json(tmp_path / rp.ESTIMATE_FILE)["rebased"]["sonnet"]
+    assert note["total_rebased_usd"] == 2.4 and note["continue"] and out["aborted"] is None
+    assert abs(caps[0] - 1.8) < 1e-9                                  # the plain allowance before the first batch
+    assert abs(caps[1] - 3.6) < 1e-9                                  # 1.5 x 2.4 once the re-base is accepted
+    assert abs(caps[2] - (3.6 - 0.6)) < 1e-9                          # the next view's client: the remaining allowance
+
+
 def test_score_loop_stops_without_further_calls_when_the_rebase_exceeds_the_stop_line(tmp_path, monkeypatch):
     import asyncio
     ns, U, est, clients = _score_setup(tmp_path, monkeypatch, 0.3)        # 30 times the estimate per unit
@@ -524,3 +621,95 @@ def test_score_loop_stops_without_further_calls_when_the_rebase_exceeds_the_stop
     note = rp.load_json(tmp_path / rp.ESTIMATE_FILE)["rebased"]["sonnet"]
     assert note["ratio"] == 30.0 and note["total_rebased_usd"] == 36.0 and not note["continue"]
     assert rp.dollars_all(tmp_path)["sonnet"] == 6.0
+
+
+def test_an_incomplete_O_diff_reads_no_outcome_no_verdict_no_label_no_case():
+    res, seal, items = _run(_score)
+    ctx = {"labels": rp.unit_labels(items["P_author"]), "bands": {"T1-01": {"max_pass1": 60, "max_pass2": 61, "band": "under 70", "band_pass2": "under 70"},
+                                                                  "T1-02": {"max_pass1": 75, "max_pass2": 75, "band": "70 to 79", "band_pass2": "70 to 79"}},
+           "v1_old_delta": 0.4583, "vrule": None, "volume": {}, "t1_results": _load("t1/t1-results.json"), "pid_path": {p["id"]: p["document"] for p in _payloads()}}
+    ok = rp.judge_record(copy.deepcopy(res), "glm", seal, seal, [1.0], _manifest(_results()), ctx, "m")
+    assert ok["replant"]["evaluable"] and ok["replant"]["did"]["outcome"] == "Replicated" and ok["replant"]["under_80"]["held"] is True
+    bad = copy.deepcopy(res)
+    bad["incomplete"] = {"v1:O_diff": {"scored": 5, "missing": 1}, "sham:P_own": {"scored": 9, "errored": 1}}
+    r = rp.judge_record(bad, "glm", seal, seal, [1.0], _manifest(_results()), ctx, "m")["replant"]
+    assert not r["evaluable"] and r["provisional"] and r["did"]["outcome"] is None and "outcome_if_complete" not in r["did"] and r["did"]["did"] == 1.0
+    assert r["under_80"]["held"] is None and r["under_80"]["delta"] == 1.0
+    assert r["forward_sham_rule"]["composed"]["label"] is None and r["forward_sham_rule"]["per_author"]["reason"] == rp.NOT_EVALUABLE_REASON
+    assert r["cases"]["case_F_fires"] is None and r["cases"]["case_E_fires"] is None and r["cases"]["reason"] == rp.NOT_EVALUABLE_REASON
+    # P_own alone incomplete does not gate the judge
+    pown = copy.deepcopy(res)
+    pown["incomplete"] = {"sham:P_own": {"scored": 9, "errored": 1}}
+    rec = rp.judge_record(pown, "glm", seal, seal, [1.0], _manifest(_results()), ctx, "m")
+    assert rec["replant"]["evaluable"] and "does not gate the primary" in rec["incomplete_note"]
+    # the invisible extension leaves a judge that is not evaluable out of the union
+    good = rp.judge_record(copy.deepcopy(res), "sonnet", seal, seal, [1.0], _manifest(_results()), ctx, "m")
+    good["replant"]["forward_sham_rule"]["composed"]["label"] = "interpretable"
+    good["replant"]["forward_sham_rule"]["per_author"]["label"] = "interpretable"
+    nb = rp.judge_record(copy.deepcopy(bad), "glm", seal, seal, [1.0], _manifest(_results()), ctx, "m")
+    nb["replant"]["forward_sham_rule"]["composed"]["label"] = "interpretable"           # even with labels, not evaluable stays out
+    nb["replant"]["forward_sham_rule"]["per_author"]["label"] = "interpretable"
+    arule = seal["views"]["P_author"]["author_rule"]
+    rec = rp.v1_replant_planting({"sonnet": good, "glm": nb}, {"sonnet": arule, "glm": arule})
+    assert rec["union"]["v1"]["interpretable_judges"] == ["sonnet"] and rec["union"]["v1"]["sensitivity_point_rule"]["interpretable_judges"] == ["sonnet"]
+    assert rec["judges"]["glm"]["evaluable"] is False
+    imd = rp.invisible_md({"definition": "d", "P_own_clause": "c", "interpretability": "i", "retired_counts": {}, "ts": "t",
+                           "interpretability_v1_replant": "n", "source_v2_v3": {"sha256": "f" * 64}, "plantings": {"v1_replant": rec}})
+    assert "GLM 5.3 (not evaluable)" in imd
+
+
+def _labels_drawing(seed, p_tie, below: bool, prefix: str) -> str:
+    for i in range(1000):
+        lab = f"{prefix}{i}"
+        if (th.tie_uniform(seed, lab) < p_tie) == below:
+            return lab
+    raise AssertionError("no label found")
+
+
+def test_tie_only_counts_and_the_coupled_draw_rate():
+    orule = {"threshold": 40, "p_tie": 0.5, "seed": 7}
+    up, cp_down = _labels_drawing(7, 0.5, True, "plant-"), _labels_drawing(7, 0.5, False, "cp-")
+    cp_up = _labels_drawing(7, 0.5, True, "cpu-")
+    rows = [  # at the threshold: flagged by its own draw; the counterpart (also at the threshold) drew unflagged
+        {"payload_id": "A", "arm": "lone", "score": 40, "flagged": th.is_flagged(40, orule, up), "counterpart_flagged": False, "counterpart_score": 40, "counterpart_label": cp_down},
+        # above the threshold: flagged under either draw
+        {"payload_id": "B", "arm": "lone", "score": 70, "flagged": True, "counterpart_flagged": False, "counterpart_score": 10, "counterpart_label": cp_down},
+        # at the threshold, its own draw unflagged, the counterpart's label would draw flagged
+        {"payload_id": "C", "arm": "k2", "score": 40, "flagged": False, "counterpart_flagged": False, "counterpart_score": 12, "counterpart_label": cp_up},
+        {"payload_id": "D", "arm": "k2", "score": 10, "flagged": False, "counterpart_flagged": False, "counterpart_score": 5, "counterpart_label": cp_up},
+        # counterpart flagged: not in the attributable set
+        {"payload_id": "E", "arm": "k3", "score": 90, "flagged": True, "counterpart_flagged": True, "counterpart_score": 60, "counterpart_label": cp_up}]
+    assert rows[0]["flagged"]
+    t = rp.tie_only_reading(rows, orule)
+    assert t["n_attributable"] == 4 and t["attributable_flagged"] == 2
+    assert t["flagged_with_planted_score_at_threshold"] == 1 and t["flagged_with_counterpart_score_at_threshold"] == 1
+    assert t["coupled_draw_attributable"]["k"] == 2 and t["coupled_draw_attributable"]["n"] == 4 and t["coupled_draw_attributable"]["rate"] == 0.5   # B and C
+    assert t["label"] == rp.TIE_ONLY_NOTE
+    # inside the forward sham rule (a full control) the coupled rate carries a label; and the v1 regime's carried block has the counts
+    reg = _sham(0, 0)
+    reg["O_diff"]["rows"][0].update({"score": 40, "flagged": True, "counterpart_label": cp_down})
+    f = rp.forward_sham_rule(reg, RULE, orule=orule)
+    assert f["composed"]["tie_only"]["flagged_with_planted_score_at_threshold"] == 1 and f["composed"]["attributable"]["k"] == 1
+    assert f["composed"]["tie_only"]["coupled_draw_attributable"]["k"] == 0 and f["composed"]["tie_only"]["coupled_draw_attributable"]["label"] == "interpretable"
+    res, seal, items = _run(_score)
+    out = rp.replant_readings(res["regimes"], seal["views"]["P_author"]["author_rule"], orule=seal["views"]["O_diff"]["rule"])
+    assert out["carried"]["v1"]["O_diff_tie_only"]["label"] == rp.TIE_ONLY_NOTE and "O_diff_tie_only" in out["carried"]["sham"]
+
+
+def test_case_E_reads_each_condition():
+    g = {"covers_zero": False}
+    did = {"outcome": "Inconclusive", "delta_sham": 0.0, "delta_sham_ci95": [-0.1, 0.1]}
+    comp_only = {"composed": {"label": "not interpretable"}, "per_author": {"label": "interpretable"}}
+    c = rp.cases(did, comp_only, g)
+    assert c["case_E_composed"] is True and c["case_E_per_author"] is False and c["case_E_fires"] is True
+    c = rp.cases(did, {"composed": {"label": "interpretable"}, "per_author": {"label": "interpretable, with caution"}}, g)
+    assert c["case_E_fires"] is False and c["case_E_composed"] is False
+    c = rp.cases(did, {"composed": {"label": None}, "per_author": {"label": "not interpretable"}}, g)
+    assert c["case_E_composed"] is None and c["case_E_per_author"] is True and c["case_E_fires"] is True
+    assert rp.cases(did, {"composed": {"label": None}, "per_author": {"label": None}}, g)["case_E_fires"] is None
+
+
+def test_the_author_reuse_line_is_disclosed_and_printed():
+    assert rp.AUTHOR_REUSE in rp.DISCLOSURES
+    f = rp.forward_sham_rule(_sham(0, 0), RULE)
+    assert f["dependence"] == rp.AUTHOR_REUSE
