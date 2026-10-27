@@ -1,0 +1,124 @@
+{
+ "version": "judge-extra/v1",
+ "judges": {
+  "sol": {
+   "output_tokens_per_call": 225.8,
+   "chars_per_input_token": 3.814,
+   "output_tokens": [
+    128,
+    129,
+    245,
+    394,
+    233
+   ],
+   "input_tokens": [
+    542,
+    694,
+    878,
+    1196,
+    1910
+   ],
+   "reasoning_tokens": [
+    69,
+    66,
+    150,
+    297,
+    148
+   ],
+   "estimates": {
+    "honest:O_diff": {
+     "n_calls": 254,
+     "est_input_tokens": 261950,
+     "est_output_tokens": 57353,
+     "est_cost_usd": 1.0974
+    },
+    "honest:P_author": {
+     "n_calls": 89,
+     "est_input_tokens": 56020,
+     "est_output_tokens": 20096,
+     "est_cost_usd": 0.313
+    },
+    "v2:O_diff": {
+     "n_calls": 152,
+     "est_input_tokens": 182742,
+     "est_output_tokens": 34322,
+     "est_cost_usd": 0.7087
+    },
+    "v2:P_author": {
+     "n_calls": 288,
+     "est_input_tokens": 203060,
+     "est_output_tokens": 65030,
+     "est_cost_usd": 1.0564
+    },
+    "v3:O_diff": {
+     "n_calls": 128,
+     "est_input_tokens": 154491,
+     "est_output_tokens": 28902,
+     "est_cost_usd": 0.598
+    },
+    "v3:P_author": {
+     "n_calls": 240,
+     "est_input_tokens": 165178,
+     "est_output_tokens": 54192,
+     "est_cost_usd": 0.8723
+    }
+   },
+   "total_est_usd": 4.65,
+   "total_at_smoke_max_output": 6.58,
+   "total_if_every_call_hit_max_tokens": 48.09,
+   "n_calls": 1151,
+   "model": "openai/gpt-6-sol",
+   "smoke_dollars": 0.02328,
+   "dollars_07p_paid": {
+    "sol": 0.02328,
+    "muse": 0,
+    "total": 0.02328
+   },
+   "paid_plus_estimate_usd": 4.67,
+   "stop_line_usd": 20.0,
+   "cap_usd": 25.0,
+   "under_stop_line": true
+  }
+ },
+ "reproduction": {
+  "v2": {
+   "honest:O_diff": {
+    "units": 254,
+    "reproduced": 254
+   },
+   "honest:P_author": {
+    "units": 89,
+    "reproduced": 89
+   },
+   "plants:O_diff": {
+    "units": 152,
+    "reproduced": 152
+   },
+   "plants:P_author": {
+    "units": 288,
+    "reproduced": 288
+   },
+   "all_reproduced": true
+  },
+  "v3": {
+   "P_author": {
+    "units": 240,
+    "reproduced": 240
+   },
+   "P_author_ctx": {
+    "units": 240,
+    "reproduced": 240
+   },
+   "O_diff": {
+    "units": 128,
+    "reproduced": 128
+   },
+   "P_own": {
+    "units": 240,
+    "reproduced": 240
+   },
+   "all_reproduced": true
+  }
+ },
+ "ts": "2026-10-27T18:09:38+00:00"
+}

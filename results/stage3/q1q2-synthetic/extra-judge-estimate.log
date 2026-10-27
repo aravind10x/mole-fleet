@@ -1,0 +1,48 @@
+{
+ "output_tokens_per_call": 225.8,
+ "chars_per_input_token": 3.814,
+ "output_tokens": [
+  128,
+  129,
+  245,
+  394,
+  233
+ ],
+ "input_tokens": [
+  542,
+  694,
+  878,
+  1196,
+  1910
+ ],
+ "reasoning_tokens": [
+  69,
+  66,
+  150,
+  297,
+  148
+ ],
+ "total_est_usd": 4.65,
+ "total_at_smoke_max_output": 6.58,
+ "total_if_every_call_hit_max_tokens": 48.09,
+ "n_calls": 1151,
+ "model": "openai/gpt-6-sol",
+ "smoke_dollars": 0.02328,
+ "dollars_07p_paid": {
+  "sol": 0.02328,
+  "muse": 0,
+  "total": 0.02328
+ },
+ "paid_plus_estimate_usd": 4.67,
+ "stop_line_usd": 20.0,
+ "cap_usd": 25.0,
+ "under_stop_line": true,
+ "per_set": {
+  "honest:O_diff": 1.0974,
+  "honest:P_author": 0.313,
+  "v2:O_diff": 0.7087,
+  "v2:P_author": 1.0564,
+  "v3:O_diff": 0.598,
+  "v3:P_author": 0.8723
+ }
+}

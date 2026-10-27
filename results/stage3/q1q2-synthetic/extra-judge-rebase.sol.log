@@ -1,0 +1,34 @@
+{
+ "version": "judge-extra/v1",
+ "judge": "sol",
+ "projected": {
+  "v2:O_diff": {
+   "n_calls": 152,
+   "projected_usd": 0.7797
+  },
+  "v2:P_author": {
+   "n_calls": 288,
+   "projected_usd": 0.7778
+  },
+  "v3:O_diff": {
+   "n_calls": 128,
+   "projected_usd": 0.6578
+  },
+  "v3:P_author": {
+   "n_calls": 240,
+   "projected_usd": 0.6406
+  }
+ },
+ "projected_total_usd": 2.8559,
+ "dollars_07p_paid": {
+  "sol": 1.439323,
+  "muse": 0,
+  "total": 1.439323
+ },
+ "paid_plus_projected_usd": 4.3,
+ "smoke_estimate_for_the_same_sets_usd": 3.2354,
+ "ratio_to_smoke_estimate": 0.883,
+ "stop_line_usd": 20.0,
+ "ts": "2026-10-27T18:26:10+00:00",
+ "under_stop_line": true
+}

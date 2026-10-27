@@ -1,0 +1,162 @@
+{
+ "version": "judge-extra/v1",
+ "judge": "sol",
+ "model": "openai/gpt-6-sol",
+ "n": 5,
+ "aborted": null,
+ "quantiles": [
+  0.1,
+  0.3,
+  0.5,
+  0.7,
+  0.9
+ ],
+ "labels": [
+  "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b2..@19961",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@3036",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b1..@17436",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b2..@27101",
+  "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b1..@26950"
+ ],
+ "records": [
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/onboarding/engineering-setup.md/b2..@19961",
+   "outcome": "scored",
+   "score": 8,
+   "finish_reason": "stop",
+   "input_tokens": 542,
+   "output_tokens": 128,
+   "reasoning_tokens": 69,
+   "cost_usd": 0.002364,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 5.142,
+   "error": null
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/infra/training-pipeline/README.md/b0..@3036",
+   "outcome": "scored",
+   "score": 18,
+   "finish_reason": "stop",
+   "input_tokens": 694,
+   "output_tokens": 129,
+   "reasoning_tokens": 66,
+   "cost_usd": 0.002678,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 4.337,
+   "error": null
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/alignment/redteam-checklist.md/b1..@17436",
+   "outcome": "scored",
+   "score": 82,
+   "finish_reason": "stop",
+   "input_tokens": 878,
+   "output_tokens": 245,
+   "reasoning_tokens": 150,
+   "cost_usd": 0.004206,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 7.491,
+   "error": null
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/ops/oncall-runbook.md/b2..@27101",
+   "outcome": "scored",
+   "score": 68,
+   "finish_reason": "stop",
+   "input_tokens": 1196,
+   "output_tokens": 394,
+   "reasoning_tokens": 297,
+   "cost_usd": 0.0069285,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 10.656,
+   "error": null
+  },
+  {
+   "label": "prefix_rw_v2c:O_diff:owncloud:/shared/eval/release-gate-runbook.md/b1..@26950",
+   "outcome": "scored",
+   "score": 84,
+   "finish_reason": "stop",
+   "input_tokens": 1910,
+   "output_tokens": 233,
+   "reasoning_tokens": 148,
+   "cost_usd": 0.0071035,
+   "cost_source": [
+    "provider"
+   ],
+   "attempts": [
+    {
+     "outcome": "scored",
+     "finish_reason": "stop"
+    }
+   ],
+   "latency_s": 7.587,
+   "error": null
+  }
+ ],
+ "packet_chars": [
+  2305,
+  2814,
+  3361,
+  4442,
+  6986
+ ],
+ "stats": {
+  "calls": 5,
+  "requests": 5,
+  "cached": 0,
+  "scored": 5,
+  "refused": 0,
+  "errored": 0,
+  "input_tokens": 5220,
+  "output_tokens": 1129,
+  "reasoning_tokens": 730,
+  "rate_waits": 0,
+  "n_429": 0,
+  "transient_retries": 0,
+  "parse_retries": 0,
+  "dollars": 0.02328,
+  "dollars_cached": 0.0,
+  "dollars_total": 0.02328,
+  "aborted": null,
+  "model": "openai/gpt-6-sol",
+  "provider": "openrouter"
+ },
+ "dollars_07p": {
+  "sol": 0.02328,
+  "muse": 0,
+  "total": 0.02328
+ },
+ "ts": "2026-10-27T18:01:22+00:00"
+}

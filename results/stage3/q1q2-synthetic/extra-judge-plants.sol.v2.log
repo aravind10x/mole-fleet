@@ -1,0 +1,19 @@
+[O_diff] 152/152 records; calls=152 cached=0 scored=152 refused=0 errored=0 $0.79 this run, $2.00 against cache, 104s
+[P_author] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $0.91 this run, $1.14 against cache, 167s
+{
+ "judge": "sol",
+ "set": "v2",
+ "outcomes": {
+  "O_diff": {
+   "scored": 152
+  },
+  "P_author": {
+   "scored": 288
+  }
+ },
+ "dollars_07p": {
+  "sol": 3.138895,
+  "muse": 0,
+  "total": 3.138895
+ }
+}

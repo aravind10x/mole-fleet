@@ -1,0 +1,28 @@
+{
+ "sol": {
+  "name": "GPT-6 Sol",
+  "id": "openai/gpt-6-sol",
+  "served": true,
+  "context_length": 1050000,
+  "pricing": {
+   "prompt": "0.000002",
+   "completion": "0.00001",
+   "internal_reasoning": null
+  },
+  "temperature_supported": false,
+  "reasoning_supported": true
+ },
+ "muse": {
+  "name": "Muse Wonder",
+  "id": "meta/muse-wonder",
+  "served": true,
+  "context_length": 1048576,
+  "pricing": {
+   "prompt": "0.000004",
+   "completion": "0.00002",
+   "internal_reasoning": null
+  },
+  "temperature_supported": true,
+  "reasoning_supported": true
+ }
+}
