@@ -1,0 +1,13 @@
+{
+ "file": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1-replant/payloads-replant-planting.json",
+ "sha256": "2f38bb546ffb0d7b22443b4328ac851fc78bb7ba5f0cd85659b60dc746b28c25",
+ "regimes": {
+  "v1": 24,
+  "sham": 24
+ },
+ "n_payloads": 48,
+ "sources": {
+  "payloads-v1.json": "79b758f90d9e7ab5a2dd5a8b38a0537be11e3fa4e96308ff1d248f804afb539b",
+  "payloads-v2.json": "b2fe230bc2b3111efd8edf4ba8ceed8e1d3bc16b3f45d7d05aebf12199855207"
+ }
+}
