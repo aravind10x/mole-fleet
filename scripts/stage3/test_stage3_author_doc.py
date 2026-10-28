@@ -1,6 +1,6 @@
 """Tests for stage3_author_doc.py (brief 12, B1; plan `work/stage3/b1/plan.md` section 1): the applier reproduces
-honest edits (synthetic cases and every write of the honest null), never inserts a line that is not the change's own
-and takes the counterpart of a line a neighbour changed; the provenance marks of both readings; the single- and
+honest edits (synthetic cases and every write of the honest null), applies the manager's rule where the find-text is
+present, shows as written (flagged, counted) a replace of text another author wrote, and never inserts a neighbour's line; the provenance marks of both readings; the single- and
 multi-document packets; the prompts carry the shared harm text byte for byte; and, on the three committed plantings,
 an isolated dossier never contains another author's planted line. No network; nothing sealed read."""
 from __future__ import annotations
@@ -35,72 +35,93 @@ def ch(i, ts_, acct, before, after, action="replace_in_file"):
 PRE = "# Guide\n- Version: 1.0\n- Contact: alice\n- Host: a.example\n"
 
 
-def test_step1_exact_when_nobody_else_changed_the_document():
+def rp_(find, repl):
+    return {"find": find, "replace": repl}
+
+
+def test_a_replace_whose_find_is_present_follows_the_manager_rule():
     st = Counter()
-    after = PRE.replace("1.0", "1.1")
-    assert ad.rebase_change(PRE, PRE, after, st) == after
-    assert st["step1_exact"] == 1
+    c = ch(0, "2026-04-07T08:00:00Z", "me", PRE, PRE.replace("1.0", "1.1"))
+    out, flagged = ad.apply_change(PRE, c, rp_("- Version: 1.0", "- Version: 1.1"), st)
+    assert out == PRE.replace("1.0", "1.1") and not flagged and st["op_replace_in_file"] == 1
 
 
-def test_step2_reproduces_when_ours_equals_before():
-    after = PRE.replace("alice", "bob") + "- Note: added\n"
-    assert ad.rebase_change(PRE, PRE, after, fast=False) == after
-
-
-def test_counterpart_replaces_the_pre_window_version_of_a_line_a_neighbour_changed():
-    # a neighbour bumped the version; this author bumps it again; the isolated state has the pre-window version
-    neighbour = PRE.replace("1.0", "1.1")
-    after = neighbour.replace("1.1", "1.2")
-    st = Counter()
-    out = ad.rebase_change(PRE, neighbour, after, st)
-    assert out == PRE.replace("1.0", "1.2")
-    assert st["removed_counterpart"] == 1 and "1.1" not in out
-
-
-def test_a_neighbours_appended_line_never_enters_the_isolated_state():
+def test_an_append_goes_to_the_end_of_the_isolated_state():
     neighbour = PRE + "- NEIGHBOUR LINE\n"
-    after = neighbour + "- my line\n"
-    out = ad.rebase_change(PRE, neighbour, after)
+    c = ch(1, "2026-04-07T08:00:00Z", "me", neighbour, neighbour + "- my line\n", "append_to_file")
+    out, _ = ad.apply_change(PRE, c, {"text": "- my line"})
     assert out == PRE + "- my line\n" and "NEIGHBOUR" not in out
 
 
-def test_editing_a_neighbours_new_line_inserts_only_the_authors_line():
-    neighbour = PRE + "- Rotation: weekly (set by carol)\n"
-    after = neighbour.replace("- Rotation: weekly (set by carol)", "- Rotation: daily")
+def test_a_replace_of_text_another_author_wrote_is_shown_as_written_flagged_and_counted():
+    neighbour = PRE.replace("1.0", "1.1")                       # a neighbour bumped the version in the window
+    after = neighbour.replace("1.1", "1.2")
     st = Counter()
-    out = ad.rebase_change(PRE, neighbour, after, st)
-    assert "carol" not in out and "- Rotation: daily" in out
-    assert set(ad.lines_of(out)) - set(ad.lines_of(PRE)) == {"- Rotation: daily"}
+    c = ch(2, "2026-04-07T08:00:00Z", "me", neighbour, after)
+    out, flagged = ad.apply_change(PRE, c, rp_("- Version: 1.1", "- Version: 1.2"), st)
+    assert flagged == {"- Version: 1.2"} and st["replace_shown_as_written"] == 1 and st["lines_shown_as_written"] == 1
+    assert "- Version: 1.0" in ad.lines_of(out) and "- Version: 1.2" in ad.lines_of(out)       # nothing removed, nothing inferred
+    assert "1.1" not in out                                                                      # the neighbour's text is not shown
+    assert ad.lines_of(out).index("- Version: 1.2") == 1                                         # just after the last aligned line before the change
+
+
+def test_a_substring_replace_is_shown_as_the_author_wrote_it():
+    neighbour = PRE.replace("a.example", "b.example")
+    c = ch(3, "2026-04-07T08:00:00Z", "me", neighbour, neighbour.replace("b.example", "c.example"))
+    out, flagged = ad.apply_change(PRE, c, rp_("b.example", "c.example"))
+    assert flagged == {"c.example"} and "b.example" not in out and "- Host: a.example" in out
 
 
 def test_a_whole_write_contributes_only_the_lines_it_changed():
     neighbour = PRE.replace("alice", "carol") + "- N1\n"
     after = "# Guide (rewritten)\n- Version: 1.0\n- Contact: carol\n- Host: a.example\n- N1\n- mine\n"
-    out = ad.rebase_change(PRE, neighbour, after)
-    added = set(ad.lines_of(out)) - set(ad.lines_of(PRE))
-    assert added <= set(ad.lines_of(after)) - set(ad.lines_of(neighbour))
-    assert "- N1" not in ad.lines_of(out) and "- mine" in ad.lines_of(out) and "# Guide (rewritten)" in ad.lines_of(out)
+    c = ch(4, "2026-04-07T08:00:00Z", "me", neighbour, after, "write_file")
+    out, flagged = ad.apply_change(PRE, c, {"content": after})
+    assert not flagged and "- N1" not in ad.lines_of(out) and "- mine" in ad.lines_of(out) and "# Guide (rewritten)" in ad.lines_of(out)
+    assert "- Contact: carol" not in ad.lines_of(out) and "- Contact: alice" in ad.lines_of(out)
 
 
-def test_the_applier_never_inserts_a_line_that_is_not_the_changes_own():
+def test_a_whole_write_that_moves_a_neighbours_line_does_not_insert_it():
+    # codex finding 7's case: live before = [head, NEIGHBOUR, x1, x2]; the write moves NEIGHBOUR after x2
+    before = "head\nNEIGHBOUR\nx1\nx2\n"
+    after = "head\nx1\nx2\nNEIGHBOUR\n"
+    st = Counter()
+    out = ad.rebase_lines("head\nx1\nx2\n", before, after, st)
+    assert "NEIGHBOUR" not in out and st["relocated_not_inserted"] == 1
+
+
+def test_rebase_lines_reproduces_when_ours_equals_before():
+    after = PRE.replace("alice", "bob") + "- Note: added\n"
+    assert ad.rebase_lines(PRE, PRE, after, fast=False) == after
+
+
+def test_the_isolated_state_never_gains_a_neighbours_line():
     import random
     rng = random.Random(7)
-    base = [f"line {i}" for i in range(12)]
-    for _ in range(200):
+    base = [f"line {i:02d}" for i in range(12)]
+    ours = "\n".join(base) + "\n"
+    for _ in range(300):
         neighbour = list(base)
         for _k in range(rng.randrange(1, 4)):
             j = rng.randrange(len(neighbour))
             neighbour[j] = neighbour[j] + f" (n{rng.randrange(99)})"
         neighbour.insert(rng.randrange(len(neighbour) + 1), "NEIGHBOUR ONLY")
-        after = list(neighbour)
-        j = rng.randrange(len(after))
-        after[j] = f"AUTHOR {rng.randrange(999)}"
-        after.append("AUTHOR APPEND")
-        out = ad.rebase_change("\n".join(base) + "\n", "\n".join(neighbour) + "\n", "\n".join(after) + "\n")
-        own = set(after) - set(neighbour)
-        new = set(ad.lines_of(out)) - set(base)
-        assert new <= own, (new, own)
+        jb = "\n".join(neighbour) + "\n"
+        if rng.random() < 0.5:                                     # a whole write: one line changed, one appended, maybe reordered
+            after = list(neighbour)
+            after[rng.randrange(len(after))] = "AUTHOR WRITE"
+            after.append("AUTHOR APPEND")
+            if rng.random() < 0.3:
+                rng.shuffle(after)
+            ja = "\n".join(after) + "\n"
+            out, _ = ad.apply_change(ours, ch(0, "2026-04-07T08:00:00Z", "me", jb, ja, "write_file"), {"content": ja})
+        else:                                                      # a replace of any line, the neighbour's included
+            target = neighbour[rng.randrange(len(neighbour))]
+            ja = jb.replace(target, "AUTHOR EDIT", 1)
+            out, _ = ad.apply_change(ours, ch(0, "2026-04-07T08:00:00Z", "me", jb, ja), rp_(target, "AUTHOR EDIT"))
+        new_lines = set(ad.lines_of(out)) - set(base)
         assert "NEIGHBOUR ONLY" not in ad.lines_of(out)
+        assert new_lines <= {"AUTHOR WRITE", "AUTHOR APPEND", "AUTHOR EDIT"}, new_lines
 
 
 # ── provenance and marks ────────────────────────────────────────────────────
@@ -135,19 +156,29 @@ def test_a_line_the_author_added_then_another_removed_is_not_shown():
 def test_dossier_doc_isolated_and_live_on_a_small_timeline():
     s1 = PRE + "- NEIGHBOUR PLANT\n"
     s2 = s1.replace("1.0", "9.9")
-    tl = [ch(0, "2026-04-06T08:00:00Z", "nb", PRE, s1, "append_to_file"), ch(1, "2026-04-07T08:00:00Z", "me", s1, s2)]
-    iso = ad.dossier_doc(tl, "me", "/x.md", ("2026-04-06", "2026-04-08"), PRE, "isolated")
-    live = ad.dossier_doc(tl, "me", "/x.md", ("2026-04-06", "2026-04-08"), PRE, "live")
-    assert "NEIGHBOUR PLANT" not in iso.state and "9.9" in iso.state
-    assert "NEIGHBOUR PLANT" in live.state and live.state == s2
-    assert iso.n_changes == live.n_changes == 1
+    s3 = s2.replace("- NEIGHBOUR PLANT", "- NEIGHBOUR PLANT (edited by me)")
+    tl = [ch(0, "2026-04-06T08:00:00Z", "nb", PRE, s1, "append_to_file"), ch(1, "2026-04-07T08:00:00Z", "me", s1, s2),
+          ch(2, "2026-04-07T09:00:00Z", "me", s2, s3)]
+    rows = [{"args": {"text": "- NEIGHBOUR PLANT"}}, {"args": rp_("- Version: 1.0", "- Version: 9.9")},
+            {"args": rp_("- NEIGHBOUR PLANT", "- NEIGHBOUR PLANT (edited by me)")}]
+    win = ("2026-04-06", "2026-04-08")
+    iso = ad.dossier_doc(tl, "me", "/x.md", win, PRE, "isolated", rows)
+    live = ad.dossier_doc(tl, "me", "/x.md", win, PRE, "live", rows)
+    assert "9.9" in iso.state and "- NEIGHBOUR PLANT" not in ad.lines_of(iso.state)
+    assert "- NEIGHBOUR PLANT (edited by me)" in ad.lines_of(iso.state)          # the author's own text, shown as written
+    assert iso.stats["replace_shown_as_written"] == 1 and "replace_shown_as_written" not in live.stats
+    txt_iso, c_iso = ad.render_marked(iso.entries, "me")
+    assert "* - NEIGHBOUR PLANT (edited by me)" in txt_iso and c_iso["as_written"] == 1 and "+ - Version: 9.9" in txt_iso
+    txt_live, c_live = ad.render_marked(live.entries, "me")
+    assert "* " not in txt_live and "+ - NEIGHBOUR PLANT (edited by me)" in txt_live and live.state == s3
+    assert iso.n_changes == live.n_changes == 2
 
 
 # ── packets and prompts ─────────────────────────────────────────────────────
 
 def test_single_document_packet_layout():
     tl = [ch(0, "2026-04-07T08:00:00Z", "me", PRE, PRE.replace("1.0", "1.1"))]
-    d = ad.dossier_doc(tl, "me", "/shared/x.md", ("2026-04-06", "2026-04-08"), PRE, "isolated")
+    d = ad.dossier_doc(tl, "me", "/shared/x.md", ("2026-04-06", "2026-04-08"), PRE, "isolated", [{"args": rp_("- Version: 1.0", "- Version: 1.1")}])
     pk, trunc, c = ad.dossier_packet(ad.ISO, "me", [d], ("2026-04-06", "2026-04-08"))
     head = pk.split("\n")
     assert head[0] == ad.INTRO[ad.ISO] and head[1] == "" and head[2] == "Author: me"
@@ -159,10 +190,11 @@ def test_multi_document_packet_renders_every_touched_document():
     t_a = [ch(0, "2026-04-06T08:00:00Z", "me", PRE, PRE + "- in A\n", "append_to_file")]
     pre_b = "# B\n- k: v\n"
     t_b = [ch(1, "2026-04-07T08:00:00Z", "me", pre_b, pre_b.replace("v", "w"))]
+    rows = [{"args": {"text": "- in A"}}, {"args": rp_("- k: v", "- k: w")}]
     win = ("2026-04-06", "2026-04-08")
     units = ad.dossier_units({"/a.md": t_a, "/b.md": t_b}, ["/a.md", "/b.md"], ["2026-04-06", "2026-04-07", "2026-04-08"], multi=True)
     assert len(units) == 1 and units[0].paths == ["/a.md", "/b.md"]
-    its = ad.dossier_items("stem", units, ad.ISO, {"/a.md": t_a, "/b.md": t_b}, {"/a.md": PRE, "/b.md": pre_b})
+    its = ad.dossier_items("stem", units, ad.ISO, {"/a.md": t_a, "/b.md": t_b}, {"/a.md": PRE, "/b.md": pre_b}, rows)
     pk = its[0]["packet"]
     assert "Documents (2):" in pk and "[1] Document: owncloud:/a.md" in pk and "[2] Document: owncloud:/b.md" in pk
     assert "+ - in A" in pk and "+ - k: w" in pk and "- - k: v" in pk
@@ -205,10 +237,10 @@ def _honest():
 
 @needs_corpus
 def test_the_applier_reproduces_every_honest_write():
-    _rows, _days, _b, paths, tl, pre = _honest()
-    rep = {p: ad.check_replay(tl[p], pre[p]) for p in paths}
-    assert sum(v["changes"] for v in rep.values()) == 130
-    assert all(v["changes"] == v["reproduced"] for v in rep.values()), rep
+    rows, _days, _b, paths, tl, pre = _honest()
+    rep = {p: ad.check_replay(tl[p], pre[p], rows) for p in paths}
+    assert sum(v["changes"] for v in rep.values()) == 130 and sum(v["whole_writes"] for v in rep.values()) == 4
+    assert all(v["changes"] == v["reproduced"] and not v["shown_as_written"] and v["whole_writes"] == v["whole_writes_reproduced"] for v in rep.values()), rep
 
 
 @needs_corpus
@@ -219,7 +251,7 @@ def test_honest_units_match_the_p_author_pairs_and_live_reproduces_the_reader():
     assert [(u.author, u.paths[0]) for u in units] == [(u.author, u.path) for u in pa] and len(units) == 89
     for p in paths:
         end = tl[p][-1].after
-        d = ad.dossier_doc(tl[p], tl[p][-1].account, p, (days[0], days[-1]), pre[p], "live")
+        d = ad.dossier_doc(tl[p], tl[p][-1].account, p, (days[0], days[-1]), pre[p], "live", rows)
         assert d.state == end
     # pre-window = the seeder's day-0 state for the honest null
     assert all(pre[p] == b[("owncloud", p)] for p in paths)
@@ -251,13 +283,13 @@ def test_isolated_dossiers_hold_no_neighbours_planted_line(planting):
         for s in res.statements:
             by_role.setdefault(s.role, set()).add(s.line_text)
         for role, author in enumerate(res.authors):
-            iso = set(ad.lines_of(ad.dossier_doc(tl, author, res.document, (days[0], days[-1]), pre, "isolated").state))
+            iso = set(ad.lines_of(ad.dossier_doc(tl, author, res.document, (days[0], days[-1]), pre, "isolated", res.rows).state))
             others = set().union(*[v for r, v in by_role.items() if r != role]) if len(by_role) > 1 else set()
             assert not (others & iso), (res.payload_id, res.arm, author)
             n_own_missing += int(not by_role.get(role, set()) <= iso)
             if others:
                 n_split += 1
-                live = set(ad.lines_of(ad.dossier_doc(tl, author, res.document, (days[0], days[-1]), pre, "live").state))
+                live = set(ad.lines_of(ad.dossier_doc(tl, author, res.document, (days[0], days[-1]), pre, "live", res.rows).state))
                 n_live_shows += int(bool(others & live))
     assert n_split > 0 and n_live_shows > 0            # the live reading does show neighbours (the leak exists to be measured)
     print(planting, "split units", n_split, "live shows a neighbour", n_live_shows, "own statement missing in isolated", n_own_missing)
