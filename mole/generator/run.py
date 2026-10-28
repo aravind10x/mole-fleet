@@ -288,6 +288,7 @@ async def build_context(
     sandbox: Any | None = None,
     seed_world: bool = False,
     class_documents: bool = False,
+    class_documents_version: str = "v6",
 ) -> Any:
     """Build the canonical TaskContext (same path the orchestrator + generator tests
     use): audit-wrapped managers + a mutable account box the Member/AgenticMember
@@ -295,7 +296,7 @@ async def build_context(
     a DryRunSandbox is used (in-process); pass a LabSandbox for full-service
     agentic runs. `seed_world=True` runs seed_org so agentic background accounts act on a
     populated world. `class_documents=True` (with `seed_world`) also seeds the six Stage 3
-    class documents in ownCloud (seeders/seed_class_docs.py)."""
+    class documents in ownCloud (seeders/seed_class_docs.py), in `class_documents_version`."""
     composite = CompositeStateManager(environments=list(envs))
     sandbox = sandbox or DryRunSandbox()
     await composite.setup(sandbox=sandbox)
@@ -314,7 +315,8 @@ async def build_context(
         if class_documents:
             # No try/except: a run that asked for the class must not start without it.
             from ..seeders.seed_class_docs import seed_class_documents
-            await seed_class_documents(SimpleNamespace(**composite.managers))
+            await seed_class_documents(SimpleNamespace(**composite.managers),
+                                       version=class_documents_version)
 
     # Per-task account via ContextVar (see generator/account_context.py) — the
     # earlier mutable-dict box race-corrupted attribution under concurrency.
@@ -812,6 +814,7 @@ async def simulate(
     redundant_role_sessions: bool = False,
     task_bank_path: str | Path | None = None,
     class_documents: bool = False,
+    class_documents_version: str = "v6",
     allowed_persona_ids: set[str] | None = None,
     attack_session_rate: float = 0.20,
     multi_day: bool = False,
@@ -880,7 +883,9 @@ async def simulate(
     task_bank {path, sha256, tasks_per_team}. `class_documents` (a fresh agentic lab run):
     seed the six class documents in ownCloud at world start, recorded as
     class_documents [{service, path, sha256}]; a lab branch inherits them from the
-    parent's volumes instead, so the two are refused together.
+    parent's volumes instead, so the two are refused together. `class_documents_version`
+    picks the seed set (seeders/seed_class_docs.py CLASS_SEED_VERSIONS; default "v6"),
+    recorded as class_documents_version; a version other than v6 needs class_documents.
 
     `allow_blocked_gate`: a `branch_from` run refuses to start when the parent's final
     `release-gate` would fail the safe release candidate (the honest threshold ratchet:
@@ -918,6 +923,13 @@ async def simulate(
     if class_documents and mode == "agentic" and (branch_from is not None or resume):
         raise ValueError("class_documents seeds a fresh world; a branch or resume "
                          "inherits the parent's documents")
+    from ..seeders.seed_class_docs import CLASS_SEED_VERSIONS
+    if class_documents_version not in CLASS_SEED_VERSIONS:
+        raise ValueError(f"class_documents_version must be one of {sorted(CLASS_SEED_VERSIONS)}, "
+                         f"got {class_documents_version!r}")
+    if class_documents_version != "v6" and not class_documents:
+        raise ValueError("class_documents_version other than v6 needs class_documents "
+                         "(a branch inherits its parent's documents)")
     config = config or NPCConfig(sessions_per_day=sessions_per_day,
                                  absent_probability=absent_probability)
     personas = load_personas(include_holdouts=include_holdouts)
@@ -1198,10 +1210,12 @@ async def simulate(
             # containers — don't re-seed (would duplicate or fail on existing rows).
             ctx = await build_context(collector, tmp_dir=tmp_dir, envs=envs,
                                       sandbox=sandbox, seed_world=(not lab_branch) and ((not resume) or os.environ.get("NPC_RESEED_ON_RESUME","").lower() in ("1","true","yes")),
-                                      class_documents=class_documents)
+                                      class_documents=class_documents,
+                                      class_documents_version=class_documents_version)
             if class_documents:
                 from ..seeders.seed_class_docs import class_documents_record
-                manifest["class_documents"] = class_documents_record()
+                manifest["class_documents"] = class_documents_record(class_documents_version)
+                manifest["class_documents_version"] = class_documents_version
                 resume_state.write_atomic(manifest, out_path)
             # The in-process managers live in THIS python process, not the docker
             # lab, so a cross-process resume must overlay the last committed day's

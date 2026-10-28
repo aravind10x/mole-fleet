@@ -10,6 +10,8 @@ from pathlib import Path
 import pytest
 import yaml
 
+from mole.seeders.seed_class_docs import class_documents_record
+
 REPO = Path(__file__).resolve().parents[1]
 for _p in (REPO, REPO / "scripts"):
     if str(_p) not in sys.path:
@@ -345,7 +347,7 @@ def _agentic_manifest(tmp_path, bank: Path, **day_over):
     man = {"audit_path": str(audit), "start_date": "2026-04-06", "n_days": 1,
            "sandbox_mode": "lab", "days": [day],
            "task_bank": {"sha256": hashlib.sha256(bank.read_bytes()).hexdigest()},
-           "class_documents": [{"path": f"/d{i}"} for i in range(6)]}
+           "class_documents": class_documents_record()}
     mp = tmp_path / "h.jsonl.resume.json"
     mp.write_text(json.dumps(man))
     return mp
@@ -599,3 +601,27 @@ def test_roster_check_reports_a_day_in_progress_and_reads_agentic_from_the_sessi
     row = rows["roster_size per branch day"]
     assert row[1] is True, row
     assert "in progress" in row[2] and "not run yet" in row[2] and "rules mode" not in row[2]
+
+
+# ── brief 14 (B4-R): the class-document seed version ─────────────────────────────────────
+
+def test_check_manifest_reads_the_class_document_version(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    bank = tmp_path / "bank.yaml"
+    bank.write_text("x: 1\n")
+    flags = ["--multi-day", "--no-insiders", "--task-bank", "bank.yaml", "--class-documents",
+             "--class-documents-version", "v7"]
+    plan = ll.build_expected_plan(_honest(tmp_path, extra_flags=flags), None)
+    assert plan["class_documents"] and plan["class_documents_version"] == "v7"
+    assert "--class-documents-version v7" in ll.build_command(_honest(tmp_path, extra_flags=flags), None)
+    mp = _agentic_manifest(tmp_path, bank)                       # a v6 record, no version: a v6 run
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["class documents version"] is False
+    man = json.loads(mp.read_text())
+    man["class_documents"], man["class_documents_version"] = class_documents_record("v7"), "v7"
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["class documents version"] and rows["class documents seeded"]
+    v6plan = ll.build_expected_plan(_honest(tmp_path), None)
+    assert v6plan["class_documents_version"] == "v6"
+    assert {r[0]: r[1] for r in ll.check_manifest(v6plan, mp)}["class documents version"] is False

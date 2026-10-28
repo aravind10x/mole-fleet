@@ -61,7 +61,8 @@ manifest's seed must equal the plan's.
 `--check-manifest` on an AGENTIC manifest also checks, per day, sessions planned (at most
 roster x sessions/day, and exactly the presence draw's kept slots), none aborted, the attack sessions
 planned (0 for an honest run), the day's snapshot and managers export; the task bank's
-sha256 against `--task-bank`; the six class documents under `--class-documents`; and, for a
+sha256 against `--task-bank`; the six class documents under `--class-documents` (and their
+sha256 against the `--class-documents-version` seed set, v6 by default); and, for a
 lab branch, the lineage (snapshot directory, every volume restored, the class documents
 present at start). Rules-mode manifests SKIP these (rules mode records none of them).
 
@@ -214,6 +215,8 @@ def build_expected_plan(assignment: str | Path, branch_id: str | None) -> dict:
         "honest": _is_honest(doc),
         "task_bank": _flag_value(gen, "--task-bank"),
         "class_documents": "--class-documents" in [str(f) for f in gen.get("extra_flags") or []],
+        # brief 14: the seed set a fresh class-document run seeds (v6 unless the flag names another)
+        "class_documents_version": _flag_value(gen, "--class-documents-version") or "v6",
         # 11.12(g) redundancy (brief 07f B7): scenario sessions per role-day = every kept slot of
         # the account on its day when the flag is on, else exactly one.
         "redundant_role_sessions": "--redundant-role-sessions" in [str(f) for f in gen.get("extra_flags") or []],
@@ -589,6 +592,16 @@ def _agentic_rows(expected: dict, manifest: dict,
         docs = manifest.get("class_documents") or []
         rows.append(("class documents seeded", len(docs) == 6,
                      f"{len(docs)} recorded: {[d.get('path') for d in docs]}"))
+        # brief 14: the recorded seed set is the expected version's, document by document (a
+        # manifest written before the version was recorded is a v6 run)
+        from mole.seeders.seed_class_docs import class_documents_record
+        version = expected.get("class_documents_version") or "v6"
+        got_version = manifest.get("class_documents_version") or "v6"
+        want = {d["path"]: d["sha256"] for d in class_documents_record(version)}
+        got = {d.get("path"): d.get("sha256") for d in docs}
+        rows.append(("class documents version", got_version == version and got == want,
+                     f"manifest {got_version}, expected {version}; "
+                     f"{sum(got.get(p) == h for p, h in want.items())} of {len(want)} sha256 match"))
     if expected.get("parent"):
         lin = manifest.get("branch_from") or {}
         rows.append(("branch parent", lin.get("parent") == str(expected["parent"]),

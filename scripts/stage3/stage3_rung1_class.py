@@ -38,6 +38,7 @@ sys.path.insert(0, str(HERE))
 
 import numpy as np  # noqa: E402
 
+import stage3_b4r_design as dz  # noqa: E402
 import stage3_candidate_docs as cd  # noqa: E402
 import stage3_rung1_density as r1  # noqa: E402
 
@@ -138,7 +139,35 @@ def class_tasks() -> dict[str, list[tuple[str, str, str]]]:
     return dict(per_team)
 
 
-def added_for_reweight(ct: dict[str, list[tuple[str, str, str]]]
+# ── bank v7 (brief 14, B4-R; results/stage3/b4r/plan.md R0.2): cross-document maintenance ────
+# One item cited verbatim by two class documents (the v7 seeds, mole/seeders/seed_class_docs.py),
+# one task naming both documents: `update` asks for the same new value in both (one
+# replace_in_file each), `check` brings a stale copy in line with the other. The table, the two
+# templates and the per-team spread live in stage3_b4r_design.py (shared with the count model);
+# the variants are appended after each team's v6 class tasks, so v6 -> v7 is additions only.
+SHARED = dz.SHARED
+CROSS_TMPL = (dz.UPDATE_TMPL, dz.CHECK_TMPL)
+
+
+def cross_tasks() -> dict[str, list[tuple[str, tuple[str, str], str]]]:
+    """{team: [("write", (doc1, doc2), text)]}: bank v7's cross-document variants, both kinds
+    (each edits one or both of its two documents, so each is a write variant on both)."""
+    W = {d["path"]: d["write_teams"] for d in CLASS}
+    return {team: [("write", docs, txt) for _kind, docs, txt in tasks]
+            for team, tasks in dz.cross_tasks(W).items()}
+
+
+def bank_tasks(with_cross: bool = False) -> dict[str, list[tuple[str, Any, str]]]:
+    """The class tasks a bank version appends per team: v6's (class_tasks) and, for v7, the
+    cross-document variants after them."""
+    ct: dict[str, list[tuple[str, Any, str]]] = {t: list(v) for t, v in class_tasks().items()}
+    if with_cross:
+        for team, tasks in cross_tasks().items():
+            ct.setdefault(team, []).extend(tasks)
+    return ct
+
+
+def added_for_reweight(ct: dict[str, list[tuple[str, Any, str]]]
                        ) -> dict[str, list[tuple[str, str | None, str]]]:
     """Shape class_tasks for r1.reweighted_text: {team: [(role, None, text)]}."""
     return {team: [(role, None, txt) for role, _doc, txt in tasks] for team, tasks in ct.items()}
@@ -149,9 +178,10 @@ def added_for_reweight(ct: dict[str, list[tuple[str, str, str]]]
 DOC_PATHS = [d["path"] for d in CLASS]
 
 
-def team_index(ct: dict[str, list[tuple[str, str, str]]], shipped: dict[str, Any]
+def team_index(ct: dict[str, list[tuple[str, Any, str]]], shipped: dict[str, Any]
                ) -> dict[str, dict[str, Any]]:
-    """Per team: bank size n and the class-task list (role, doc) at indices [0, len)."""
+    """Per team: bank size n and the class-task list (role, doc) at indices [0, len); a
+    cross-document variant's doc is the pair of its documents."""
     out: dict[str, dict[str, Any]] = {}
     for team, entry in shipped.items():
         tasks = ct.get(team, [])
@@ -170,11 +200,12 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
     stats = {p: {"writers": [], "writes": [], "readers": [], "pure_readers": []} for p in DOC_PATHS}
     cls = {"writer_share": [], "reader_share": [], "pure_reader_share": []}
     draw_share: list[float] = []
+    cross_share: list[float] = []
     for i in range(n_seeds):
         rng = random.Random(seed0 + 7919 * i + s)
         per_seed_doc = {p: {"writers": [], "writes": [], "readers": [], "pure_readers": []} for p in DOC_PATHS}
         per_seed_cls = {"w": [], "r": [], "pr": []}
-        seed_total = seed_class = 0
+        seed_total = seed_class = seed_cross = 0
         for _d in range(n_days):
             dayw = {p: set() for p in DOC_PATHS}
             dayr = {p: set() for p in DOC_PATHS}
@@ -193,10 +224,13 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
                         if j < len(classlist):
                             seed_class += 1
                             role, doc = classlist[j]
-                            if role == "write":
-                                dayw[doc].add(acct); daywrites[doc] += 1; wrote_today.add(doc); any_w.add(acct)
-                            else:
-                                dayr[doc].add(acct); read_today.add(doc); any_r.add(acct)
+                            docs = doc if isinstance(doc, tuple) else (doc,)
+                            seed_cross += isinstance(doc, tuple)
+                            for doc in docs:
+                                if role == "write":
+                                    dayw[doc].add(acct); daywrites[doc] += 1; wrote_today.add(doc); any_w.add(acct)
+                                else:
+                                    dayr[doc].add(acct); read_today.add(doc); any_r.add(acct)
             for p in DOC_PATHS:
                 per_seed_doc[p]["writers"].append(len(dayw[p]))
                 per_seed_doc[p]["writes"].append(daywrites[p])
@@ -206,6 +240,7 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
             per_seed_cls["r"].append(len(any_r) / n_active)
             per_seed_cls["pr"].append(len(any_r - any_w) / n_active)
         draw_share.append(seed_class / seed_total if seed_total else 0.0)
+        cross_share.append(seed_cross / seed_total if seed_total else 0.0)
         for p in DOC_PATHS:
             for key in ("writers", "writes", "readers", "pure_readers"):
                 stats[p][key].append(float(np.mean(per_seed_doc[p][key])))
@@ -231,7 +266,8 @@ def simulate_class(idx: dict[str, dict[str, Any]], roster: Sequence[tuple[str, s
             "per_document": doc_out,
             "class": {"writer_share": agg(cls["writer_share"]), "reader_share": agg(cls["reader_share"]),
                       "pure_reader_share": agg(cls["pure_reader_share"])},
-            "class_task_draw_share": agg(draw_share)}
+            "class_task_draw_share": agg(draw_share),
+            "cross_task_draw_share": agg(cross_share)}
 
 
 def verdict(sim: dict[str, Any]) -> dict[str, Any]:
@@ -261,7 +297,7 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
     roster = r1.roster_from_template(tmpl)
     sizes = dict(Counter(t for _, t in roster))
     shipped = yaml.safe_load(open(ns.bank_v2, encoding="utf-8"))
-    ct = class_tasks()
+    ct = bank_tasks(with_cross=bool(getattr(ns, "with_cross", False)))
     # build the re-weighted-class bank copy (shipped untouched); reuse r1's appender
     bank_info = {}
     if ns.bank_out_dir:
@@ -285,7 +321,8 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
     idx = team_index(ct, shipped)
     sim = {f"s{s}": simulate_class(idx, roster, s) for s in SESSION_RATES}
     added_counts = {team: {"write": sum(1 for r, _, _ in t if r == "write"),
-                           "read": sum(1 for r, _, _ in t if r == "read")} for team, t in ct.items()}
+                           "read": sum(1 for r, _, _ in t if r == "read"),
+                           "cross": sum(1 for _, d, _ in t if isinstance(d, tuple))} for team, t in ct.items()}
     return {
         "script": "work/checks/stage3_rung1_class.py",
         "inputs": {"bank_v2": ns.bank_v2, "template": ns.template,
@@ -295,7 +332,11 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
                           "read_teams": d["read_teams"]} for d in CLASS],
         "added_counts": added_counts,
         "added_total": {"write": sum(v["write"] for v in added_counts.values()),
-                        "read": sum(v["read"] for v in added_counts.values())},
+                        "read": sum(v["read"] for v in added_counts.values()),
+                        "cross": sum(v["cross"] for v in added_counts.values())},
+        "with_cross": bool(getattr(ns, "with_cross", False)),
+        "shared": [{k: (list(v) if isinstance(v, tuple) else v) for k, v in r.items()} for r in SHARED]
+                  if getattr(ns, "with_cross", False) else None,
         "bank": bank_info, "simulation": sim,
         "verdict": {f"s{s}": verdict(sim[f"s{s}"]) for s in SESSION_RATES},
         "bars": {"class_writer_share": BAR_CLASS_WRITER_SHARE, "class_reader_share": BAR_CLASS_READER_SHARE,
@@ -501,6 +542,10 @@ def render_md(res: dict[str, Any]) -> str:
         if ds is not None:
             a(f"Share of ALL honest task draws that touch any class document, s = {s_}: "
               f"**{ds:.3f}** (how much of honest work the re-weighting is; for the paper's disclosure).")
+        xs = res["simulation"][f"s{s_}"].get("cross_task_draw_share", {}).get("mean")
+        if res.get("with_cross") and xs is not None:
+            a(f"Share of ALL honest task draws that are cross-document maintenance tasks (bank v7), s = {s_}: "
+              f"**{xs:.3f}** ({res['added_total']['cross']} variants; brief 14's disclosure q).")
     for s in SESSION_RATES:
         sim = res["simulation"][f"s{s}"]
         a("")
@@ -532,6 +577,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--bank-out-dir", default=None)
     ap.add_argument("--bank-name", default=None, help="file name of the class bank written into "
                     "--bank-out-dir (default benign_task_bank_v2_class.yaml; v6: ..._v6.yaml)")
+    ap.add_argument("--with-cross", action="store_true",
+                    help="bank v7 (brief 14): append the cross-document maintenance variants of "
+                         "stage3_b4r_design.py after each team's class tasks (v6 without it)")
     ap.add_argument("--from-corpus", default=None, metavar="AUDIT_JSONL",
                     help="G0a: read the actual lab corpus instead of the draw model (tested)")
     ap.add_argument("--out-json", required=True)

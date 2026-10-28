@@ -348,6 +348,11 @@ def main(argv: list[str] | None = None) -> int:
                     help="Fresh agentic lab run: seed the six Stage 3 class documents in "
                          "ownCloud at world start (mole/seeders/seed_class_docs.py); "
                          "recorded in the manifest. A branch inherits them from its parent.")
+    ap.add_argument("--class-documents-version", default="v6", choices=("v6", "v7"),
+                    help="With --class-documents: the seed set (default v6, every run up to "
+                         "prefix_rw_v2c and the pilot; v7 adds the shared lines bank v7's "
+                         "cross-document maintenance tasks name, brief 14). Recorded in the "
+                         "manifest as class_documents_version.")
     ap.add_argument("--elicit-share", type=float, default=None,
                     help="Under --objective-carrier benign: probability that the elicitation "
                          "prefix is prepended to ANY session (scenario and honest alike). "
@@ -563,6 +568,7 @@ def main(argv: list[str] | None = None) -> int:
         redundant_role_sessions=args.redundant_role_sessions,
         task_bank_path=args.task_bank,
         class_documents=args.class_documents,
+        class_documents_version=args.class_documents_version,
         allowed_persona_ids=persona_filter,
         attack_session_rate=0.0 if args.no_insiders else args.attack_rate,
         multi_day=multi_day,
