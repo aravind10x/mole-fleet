@@ -518,5 +518,93 @@
   "stage3_views": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
   "judge_client": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd"
  },
- "ts": "2026-10-28T09:56Z"
+ "ts": "2026-10-28T09:56Z",
+ "rebased": {
+  "sonnet": {
+   "judge": "sonnet",
+   "first_view": "null:P_author_doc_iso",
+   "realised_per_unit_usd": 0.003567,
+   "estimated_per_unit_usd": 0.005372,
+   "ratio": 0.6639,
+   "per_set_rebased": {
+    "null:P_author_doc_iso": 0.3174,
+    "null:P_author_doc_live": 0.4298,
+    "replant:P_author_doc_iso": 0.8701,
+    "replant:P_author_doc_live": 1.168,
+    "v2:P_author_doc_iso": 1.0497,
+    "v2:P_author_doc_live": 1.3969,
+    "v3:P_author_doc_iso": 0.8646,
+    "v3:P_author_doc_live": 1.1682
+   },
+   "total_rebased_usd": 7.2647,
+   "dollars_paid": {
+    "sonnet": 0.07133,
+    "opus48": 0.0,
+    "total": 0.07133
+   },
+   "dollars_completed": {
+    "sonnet": 0.07133,
+    "opus48": 0.0
+   },
+   "planned_by_judge": {
+    "sonnet": 7.2647,
+    "opus48": 50.3876
+   },
+   "remaining_by_judge": {
+    "sonnet": 7.1934,
+    "opus48": 50.3876
+   },
+   "combined_rebased_usd": 57.6523,
+   "stop_line_usd": 65.0,
+   "continue": true,
+   "ts": "2026-10-28T09:57Z",
+   "n_first_batch": 20,
+   "outcomes_first_batch": {
+    "scored": 20
+   }
+  },
+  "opus48": {
+   "judge": "opus48",
+   "first_view": "null:P_author_doc_iso",
+   "realised_per_unit_usd": 0.01743,
+   "estimated_per_unit_usd": 0.026869,
+   "ratio": 0.6487,
+   "per_set_rebased": {
+    "null:P_author_doc_iso": 1.5513,
+    "null:P_author_doc_live": 1.8259,
+    "replant:P_author_doc_iso": 4.2175,
+    "replant:P_author_doc_live": 4.9453,
+    "v2:P_author_doc_iso": 5.0746,
+    "v2:P_author_doc_live": 5.9229,
+    "v3:P_author_doc_iso": 4.2041,
+    "v3:P_author_doc_live": 4.9457
+   },
+   "total_rebased_usd": 32.6873,
+   "dollars_paid": {
+    "sonnet": 0.841934,
+    "opus48": 0.3486,
+    "total": 1.190534
+   },
+   "dollars_completed": {
+    "sonnet": 0.841934,
+    "opus48": 0.3486
+   },
+   "planned_by_judge": {
+    "sonnet": 7.2647,
+    "opus48": 32.6873
+   },
+   "remaining_by_judge": {
+    "sonnet": 6.4228,
+    "opus48": 32.3387
+   },
+   "combined_rebased_usd": 39.952,
+   "stop_line_usd": 65.0,
+   "continue": true,
+   "ts": "2026-10-28T10:02Z",
+   "n_first_batch": 20,
+   "outcomes_first_batch": {
+    "scored": 20
+   }
+  }
+ }
 }

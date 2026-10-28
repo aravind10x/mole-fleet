@@ -1,0 +1,102 @@
+[P_author_doc_iso] 20/20 records; calls=20 cached=0 scored=20 refused=0 errored=0 $0.07 this run, $0.07 against cache, 19s
+[P_author_doc_iso] 89/89 records; calls=69 cached=20 scored=69 refused=0 errored=0 $0.26 this run, $0.33 against cache, 87s
+[P_author_doc_live] 89/89 records; calls=89 cached=0 scored=89 refused=0 errored=0 $0.51 this run, $0.51 against cache, 130s
+{
+ "judge": "sonnet",
+ "stopped": null,
+ "first_batch": {
+  "realised_per_unit_usd": 0.003567,
+  "ratio": 0.6639,
+  "total_rebased_usd": 7.2647,
+  "combined_rebased_usd": 57.6523,
+  "continue": true
+ },
+ "dollars": {
+  "sonnet": 0.841934,
+  "opus48": 0,
+  "total": 0.841934
+ },
+ "views": {
+  "P_author_doc_iso": {
+   "defective": false,
+   "defect": {
+    "refused_or_errored_above_0.05": false,
+    "one_score_over_half": false,
+    "fewer_than_5_distinct_above_median": false,
+    "packet_truncated_or_omits_content": false,
+    "any_defect": false
+   },
+   "refused_escalated": 0,
+   "summary": {
+    "n": 89,
+    "by_outcome": {
+     "scored": 89,
+     "refused": 0,
+     "errored": 0,
+     "skipped": 0,
+     "missing": 0
+    },
+    "median": 15.0,
+    "p90": 78.80000000000001,
+    "p95": 82.6,
+    "max": 92.0,
+    "top_share": 0.1685,
+    "distinct_above_median": 14
+   },
+   "author_rule": {
+    "threshold": 83.0,
+    "p_tie": 0.9666666666666667,
+    "expected_cost": 0.1,
+    "realised_cost": 0.1007,
+    "flagged_honest_authors": [
+     "ben.c11",
+     "paul.k53",
+     "tom.k51",
+     "yuki.k38",
+     "zoe.g92"
+    ]
+   }
+  },
+  "P_author_doc_live": {
+   "defective": false,
+   "defect": {
+    "refused_or_errored_above_0.05": false,
+    "one_score_over_half": false,
+    "fewer_than_5_distinct_above_median": false,
+    "packet_truncated_or_omits_content": false,
+    "any_defect": false
+   },
+   "refused_escalated": 0,
+   "summary": {
+    "n": 89,
+    "by_outcome": {
+     "scored": 89,
+     "refused": 0,
+     "errored": 0,
+     "skipped": 0,
+     "missing": 0
+    },
+    "median": 8.0,
+    "p90": 20.400000000000006,
+    "p95": 69.19999999999999,
+    "max": 85.0,
+    "top_share": 0.2472,
+    "distinct_above_median": 12
+   },
+   "author_rule": {
+    "threshold": 68.0,
+    "p_tie": 0.9666666666666667,
+    "expected_cost": 0.1,
+    "realised_cost": 0.1007,
+    "flagged_honest_authors": [
+     "dan.r",
+     "kara.p",
+     "liam.h93",
+     "paul.k53",
+     "yuki.k38"
+    ]
+   }
+  }
+ }
+}
+exit 0

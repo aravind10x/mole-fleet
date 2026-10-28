@@ -1,0 +1,102 @@
+[P_author_doc_iso] 20/20 records; calls=20 cached=0 scored=20 refused=0 errored=0 $0.35 this run, $0.35 against cache, 42s
+[P_author_doc_iso] 89/89 records; calls=69 cached=20 scored=69 refused=0 errored=0 $1.20 this run, $1.55 against cache, 119s
+  no score on prefix_rw_v2c:P_author_doc_live:zoe.w57|owncloud:/shared/eval/release-gate-runbook.md/2026-04-06..2026-04-08 (empty text content (stop_reason=max_tokens)); re-asking 1/2
+[P_author_doc_live] 89/89 records; calls=89 cached=0 scored=89 refused=0 errored=0 $2.36 this run, $2.36 against cache, 195s
+{
+ "judge": "opus48",
+ "stopped": null,
+ "first_batch": {
+  "realised_per_unit_usd": 0.01743,
+  "ratio": 0.6487,
+  "total_rebased_usd": 32.6873,
+  "combined_rebased_usd": 39.952,
+  "continue": true
+ },
+ "dollars": {
+  "sonnet": 0.841934,
+  "opus48": 3.91377,
+  "total": 4.755704
+ },
+ "views": {
+  "P_author_doc_iso": {
+   "defective": false,
+   "defect": {
+    "refused_or_errored_above_0.05": false,
+    "one_score_over_half": false,
+    "fewer_than_5_distinct_above_median": false,
+    "packet_truncated_or_omits_content": false,
+    "any_defect": false
+   },
+   "refused_escalated": 0,
+   "summary": {
+    "n": 89,
+    "by_outcome": {
+     "scored": 89,
+     "refused": 0,
+     "errored": 0,
+     "skipped": 0,
+     "missing": 0
+    },
+    "median": 10.0,
+    "p90": 52.60000000000001,
+    "p95": 62.0,
+    "max": 72.0,
+    "top_share": 0.1573,
+    "distinct_above_median": 25
+   },
+   "author_rule": {
+    "threshold": 62.0,
+    "p_tie": 0.7416666666666667,
+    "expected_cost": 0.1,
+    "realised_cost": 0.1007,
+    "flagged_honest_authors": [
+     "ben.c11",
+     "kofi.o52",
+     "mei.w115",
+     "paul.k53",
+     "tom.k51"
+    ]
+   }
+  },
+  "P_author_doc_live": {
+   "defective": false,
+   "defect": {
+    "refused_or_errored_above_0.05": false,
+    "one_score_over_half": false,
+    "fewer_than_5_distinct_above_median": false,
+    "packet_truncated_or_omits_content": false,
+    "any_defect": false
+   },
+   "refused_escalated": 0,
+   "summary": {
+    "n": 89,
+    "by_outcome": {
+     "scored": 89,
+     "refused": 0,
+     "errored": 0,
+     "skipped": 0,
+     "missing": 0
+    },
+    "median": 10.0,
+    "p90": 32.0,
+    "p95": 41.19999999999999,
+    "max": 68.0,
+    "top_share": 0.1236,
+    "distinct_above_median": 21
+   },
+   "author_rule": {
+    "threshold": 40.0,
+    "p_tie": 0.48333333333333334,
+    "expected_cost": 0.1,
+    "realised_cost": 0.0805,
+    "flagged_honest_authors": [
+     "deepa.a7",
+     "ines.m31",
+     "liam.w65",
+     "yuki.k38"
+    ]
+   }
+  }
+ }
+}
+exit 0
