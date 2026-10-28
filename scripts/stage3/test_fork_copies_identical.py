@@ -19,7 +19,8 @@ FILES = ["stage3_views.py", "test_stage3_views.py", "stage3_thresholds.py", "tes
          "stage3_t1replant_score.py", "test_stage3_t1replant_score.py",
          "judge_extra.py", "test_judge_extra.py",
          "stage3_b0.py", "test_stage3_b0.py",
-         "stage3_rater_join_07s.py", "test_stage3_rater_join_07s.py"]
+         "stage3_rater_join_07s.py", "test_stage3_rater_join_07s.py",
+         "stage3_author_doc.py", "test_stage3_author_doc.py", "stage3_b1_dossier.py", "test_stage3_b1_dossier.py"]
 
 
 @pytest.mark.parametrize("name", FILES)
