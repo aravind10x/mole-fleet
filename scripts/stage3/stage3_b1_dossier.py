@@ -347,6 +347,7 @@ def mode_estimate(ns, out_dir: Path) -> int:
     est["leak_exposure"] = {p: leak_exposure(W["planted"][p]) for p in ORDER if p in W["planted"]}
     est["manifests"] = W["manifests"]
     est["prompt_records"] = {k: ad.prompt_record(k) for k in KEYS}
+    est["step"] = step_hashes(ns)
     est["module_sha256"] = {"stage3_author_doc": sv.file_sha256(Path(ad.__file__).resolve()), "stage3_b1_dossier": sv.file_sha256(Path(__file__).resolve()),
                             "stage3_views": sv.file_sha256(Path(sv.__file__).resolve()), "judge_client": sv.file_sha256(Path(jc_mod.__file__).resolve())}
     est["ts"] = now_iso()
@@ -481,7 +482,13 @@ def step_hashes(ns) -> dict:
     return {"plan_sha256": sv.file_sha256(Path(ns.plan)) if ns.plan else None,
             "stage3_author_doc": sv.file_sha256(Path(ad.__file__).resolve()), "stage3_b1_dossier": sv.file_sha256(Path(__file__).resolve()),
             "stage3_views": sv.file_sha256(Path(sv.__file__).resolve()), "judge_client": sv.file_sha256(Path(jc_mod.__file__).resolve()),
-            "system_sha256": {k: jc_mod.sha256(ad.system_prompt(k)) for k in KEYS}, "ts": now_iso()}
+            "system_sha256": {k: jc_mod.sha256(ad.system_prompt(k)) for k in KEYS}, "seed_base_sha256": seed_base_sha256(), "ts": now_iso()}
+
+
+def seed_base_sha256() -> str:
+    """The day-0 class-document seed every step reads (the default, v6; another session's v7 is never read here)."""
+    b = sv.seed_base()
+    return jc_mod.sha256(json.dumps(sorted([k[1], v] for k, v in b.items())))
 
 
 def judge_stopped(jn: Mapping[str, Any] | None) -> str | None:

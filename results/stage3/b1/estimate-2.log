@@ -1,0 +1,112 @@
+{
+ "combined_est_usd": 61.3298,
+ "licensed": true,
+ "n_items": {
+  "null": {
+   "P_author_doc_iso": 89,
+   "P_author_doc_live": 89
+  },
+  "replant": {
+   "P_author_doc_iso": 240,
+   "P_author_doc_live": 240
+  },
+  "v2": {
+   "P_author_doc_iso": 288,
+   "P_author_doc_live": 288
+  },
+  "v3": {
+   "P_author_doc_iso": 240,
+   "P_author_doc_live": 240
+  }
+ },
+ "replay_all_reproduced": true,
+ "leak_exposure": {
+  "replant": {
+   "P_author_doc_iso": {
+    "k2": {
+     "k": 0,
+     "n": 96,
+     "share": 0.0
+    },
+    "k3": {
+     "k": 0,
+     "n": 96,
+     "share": 0.0
+    }
+   },
+   "P_author_doc_live": {
+    "k2": {
+     "k": 95,
+     "n": 96,
+     "share": 0.9896
+    },
+    "k3": {
+     "k": 96,
+     "n": 96,
+     "share": 1.0
+    }
+   }
+  },
+  "v2": {
+   "P_author_doc_iso": {
+    "k2": {
+     "k": 0,
+     "n": 112,
+     "share": 0.0
+    },
+    "k3": {
+     "k": 0,
+     "n": 120,
+     "share": 0.0
+    }
+   },
+   "P_author_doc_live": {
+    "k2": {
+     "k": 111,
+     "n": 112,
+     "share": 0.9911
+    },
+    "k3": {
+     "k": 120,
+     "n": 120,
+     "share": 1.0
+    }
+   }
+  },
+  "v3": {
+   "P_author_doc_iso": {
+    "k2": {
+     "k": 0,
+     "n": 96,
+     "share": 0.0
+    },
+    "k3": {
+     "k": 0,
+     "n": 96,
+     "share": 0.0
+    }
+   },
+   "P_author_doc_live": {
+    "k2": {
+     "k": 95,
+     "n": 96,
+     "share": 0.9896
+    },
+    "k3": {
+     "k": 96,
+     "n": 96,
+     "share": 1.0
+    }
+   }
+  }
+ },
+ "by_judge": {
+  "sonnet": 10.9422,
+  "opus48": 50.3876
+ },
+ "opus_band": [
+  32.519,
+  126.2963
+ ]
+}
+exit 0

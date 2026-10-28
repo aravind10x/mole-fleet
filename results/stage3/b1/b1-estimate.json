@@ -1,6 +1,6 @@
 {
  "version": "b1-dossier/v1",
- "plan_sha256": "98043058f057ab7a6160683d01aa4d0e6f4e2e27d8c9f11577271840439b6fff",
+ "plan_sha256": "4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0",
  "judges": {
   "sonnet": {
    "model": "anthropic.claude-sonnet-5",
@@ -8,11 +8,11 @@
     "null:P_author_doc_iso": {
      "n_calls": 89,
      "n_skipped": 0,
-     "packet_chars": 120486,
-     "system_chars": 1751,
-     "est_input_tokens": 128523,
+     "packet_chars": 120566,
+     "system_chars": 1948,
+     "est_input_tokens": 136715,
      "est_output_tokens": 20470,
-     "est_cost_usd": 0.4617,
+     "est_cost_usd": 0.4781,
      "n_truncated": 0
     },
     "null:P_author_doc_live": {
@@ -28,11 +28,11 @@
     "replant:P_author_doc_iso": {
      "n_calls": 240,
      "n_skipped": 0,
-     "packet_chars": 347463,
-     "system_chars": 1751,
-     "est_input_tokens": 357071,
+     "packet_chars": 347869,
+     "system_chars": 1948,
+     "est_input_tokens": 379251,
      "est_output_tokens": 55200,
-     "est_cost_usd": 1.2661,
+     "est_cost_usd": 1.3105,
      "n_truncated": 0
     },
     "replant:P_author_doc_live": {
@@ -48,11 +48,11 @@
     "v2:P_author_doc_iso": {
      "n_calls": 288,
      "n_skipped": 0,
-     "packet_chars": 425624,
-     "system_chars": 1751,
-     "est_input_tokens": 432517,
+     "packet_chars": 426453,
+     "system_chars": 1948,
+     "est_input_tokens": 459292,
      "est_output_tokens": 66240,
-     "est_cost_usd": 1.5274,
+     "est_cost_usd": 1.581,
      "n_truncated": 0
     },
     "v2:P_author_doc_live": {
@@ -68,11 +68,11 @@
     "v3:P_author_doc_iso": {
      "n_calls": 240,
      "n_skipped": 0,
-     "packet_chars": 338927,
-     "system_chars": 1751,
-     "est_input_tokens": 353101,
+     "packet_chars": 338979,
+     "system_chars": 1948,
+     "est_input_tokens": 375116,
      "est_output_tokens": 55200,
-     "est_cost_usd": 1.2582,
+     "est_cost_usd": 1.3022,
      "n_truncated": 0
     },
     "v3:P_author_doc_live": {
@@ -86,18 +86,18 @@
      "n_truncated": 0
     }
    },
-   "total_est_usd": 10.7838
+   "total_est_usd": 10.9422
   },
   "opus48": {
    "model": "anthropic.claude-opus-4-8",
    "estimates": {
     "null:P_author_doc_iso": {
      "n_calls": 89,
-     "est_input_tokens": 128523,
+     "est_input_tokens": 136715,
      "est_output_tokens_per_call": 767.5,
-     "est_cost_usd": 2.3503,
-     "beside_P_author_mean_out": 1.4225,
-     "beside_O_diff_max_out": 6.2919
+     "est_cost_usd": 2.3913,
+     "beside_P_author_mean_out": 1.4634,
+     "beside_O_diff_max_out": 6.3329
     },
     "null:P_author_doc_live": {
      "n_calls": 89,
@@ -109,11 +109,11 @@
     },
     "replant:P_author_doc_iso": {
      "n_calls": 240,
-     "est_input_tokens": 357071,
+     "est_input_tokens": 379251,
      "est_output_tokens_per_call": 767.5,
-     "est_cost_usd": 6.3904,
-     "beside_P_author_mean_out": 3.8884,
-     "beside_O_diff_max_out": 17.0194
+     "est_cost_usd": 6.5013,
+     "beside_P_author_mean_out": 3.9993,
+     "beside_O_diff_max_out": 17.1303
     },
     "replant:P_author_doc_live": {
      "n_calls": 240,
@@ -125,11 +125,11 @@
     },
     "v2:P_author_doc_iso": {
      "n_calls": 288,
-     "est_input_tokens": 432517,
+     "est_input_tokens": 459292,
      "est_output_tokens_per_call": 767.5,
-     "est_cost_usd": 7.6886,
-     "beside_P_author_mean_out": 4.6862,
-     "beside_O_diff_max_out": 20.4434
+     "est_cost_usd": 7.8225,
+     "beside_P_author_mean_out": 4.8201,
+     "beside_O_diff_max_out": 20.5773
     },
     "v2:P_author_doc_live": {
      "n_calls": 288,
@@ -141,11 +141,11 @@
     },
     "v3:P_author_doc_iso": {
      "n_calls": 240,
-     "est_input_tokens": 353101,
+     "est_input_tokens": 375116,
      "est_output_tokens_per_call": 767.5,
-     "est_cost_usd": 6.3705,
-     "beside_P_author_mean_out": 3.8685,
-     "beside_O_diff_max_out": 16.9995
+     "est_cost_usd": 6.4806,
+     "beside_P_author_mean_out": 3.9786,
+     "beside_O_diff_max_out": 17.1096
     },
     "v3:P_author_doc_live": {
      "n_calls": 240,
@@ -156,9 +156,9 @@
      "beside_O_diff_max_out": 18.2529
     }
    },
-   "total_est_usd": 49.9917,
-   "total_at_P_author_mean_out": 32.1232,
-   "total_at_O_diff_max_out": 125.9004
+   "total_est_usd": 50.3876,
+   "total_at_P_author_mean_out": 32.519,
+   "total_at_O_diff_max_out": 126.2963
   }
  },
  "opus_output_basis": {
@@ -173,10 +173,10 @@
    "max": 2016
   }
  },
- "combined_est_usd": 60.7755,
- "stop_line_usd": 50.0,
- "cap_usd": 60.0,
- "licensed": false,
+ "combined_est_usd": 61.3298,
+ "stop_line_usd": 65.0,
+ "cap_usd": 75.0,
+ "licensed": true,
  "n_items": {
   "null": {
    "P_author_doc_iso": 89,
@@ -198,27 +198,45 @@
  "replay_check": {
   "/shared/infra/training-pipeline/README.md": {
    "changes": 19,
-   "reproduced": 19
+   "reproduced": 19,
+   "shown_as_written": 0,
+   "whole_writes": 1,
+   "whole_writes_reproduced": 1
   },
   "/shared/eval/release-gate-runbook.md": {
    "changes": 28,
-   "reproduced": 28
+   "reproduced": 28,
+   "shown_as_written": 0,
+   "whole_writes": 0,
+   "whole_writes_reproduced": 0
   },
   "/shared/capabilities/finetune-guide.md": {
    "changes": 18,
-   "reproduced": 18
+   "reproduced": 18,
+   "shown_as_written": 0,
+   "whole_writes": 2,
+   "whole_writes_reproduced": 2
   },
   "/shared/alignment/redteam-checklist.md": {
    "changes": 24,
-   "reproduced": 24
+   "reproduced": 24,
+   "shown_as_written": 0,
+   "whole_writes": 0,
+   "whole_writes_reproduced": 0
   },
   "/shared/ops/oncall-runbook.md": {
    "changes": 22,
-   "reproduced": 22
+   "reproduced": 22,
+   "shown_as_written": 0,
+   "whole_writes": 1,
+   "whole_writes_reproduced": 1
   },
   "/shared/onboarding/engineering-setup.md": {
    "changes": 19,
-   "reproduced": 19
+   "reproduced": 19,
+   "shown_as_written": 0,
+   "whole_writes": 0,
+   "whole_writes_reproduced": 0
   }
  },
  "replay_all_reproduced": true,
@@ -227,14 +245,17 @@
    "P_author_doc_iso": {
     "n_units": 89,
     "applier": {
-     "step2_rebased": 123,
-     "removed_matched": 52,
-     "removed_counterpart": 36,
-     "removed_unmatched": 32,
-     "replaced_lines": 91,
-     "step1_exact": 7
+     "op_append_to_file": 57,
+     "whole_write_rebased": 4,
+     "removed_aligned": 38,
+     "removed_unaligned": 22,
+     "op_replace_in_file": 22,
+     "replaced_lines": 50,
+     "replace_shown_as_written": 47,
+     "lines_shown_as_written": 58
     },
     "units_no_marked_line": 1,
+    "units_with_shown_as_written": 43,
     "truncated": 0,
     "planted_units_missing_own_statement": []
    },
@@ -245,6 +266,7 @@
      "replaced_lines": 1784
     },
     "units_no_marked_line": 4,
+    "units_with_shown_as_written": 0,
     "truncated": 0,
     "planted_units_missing_own_statement": []
    }
@@ -253,14 +275,17 @@
    "P_author_doc_iso": {
     "n_units": 240,
     "applier": {
-     "step2_rebased": 624,
-     "removed_matched": 118,
-     "replaced_lines": 184,
-     "removed_counterpart": 69,
-     "step1_exact": 2,
-     "removed_unmatched": 111
+     "replace_shown_as_written": 177,
+     "lines_shown_as_written": 205,
+     "op_replace_in_file": 103,
+     "op_append_to_file": 345,
+     "replaced_lines": 111,
+     "whole_write_rebased": 1,
+     "removed_aligned": 14,
+     "removed_unaligned": 2
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 138,
     "truncated": 0,
     "planted_units_missing_own_statement": []
    },
@@ -271,6 +296,7 @@
      "replaced_lines": 5277
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 0,
     "truncated": 0,
     "planted_units_missing_own_statement": [
      "T1v2-S05:k2:carlos.v119",
@@ -283,14 +309,17 @@
    "P_author_doc_iso": {
     "n_units": 288,
     "applier": {
-     "step2_rebased": 725,
-     "removed_unmatched": 125,
-     "removed_matched": 196,
-     "replaced_lines": 276,
-     "removed_counterpart": 81,
-     "step1_exact": 2
+     "replace_shown_as_written": 200,
+     "lines_shown_as_written": 245,
+     "op_append_to_file": 381,
+     "op_replace_in_file": 142,
+     "replaced_lines": 172,
+     "whole_write_rebased": 4,
+     "removed_aligned": 56,
+     "removed_unaligned": 8
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 156,
     "truncated": 0,
     "planted_units_missing_own_statement": [
      "T1v2-S05:k2:tom.k51"
@@ -303,6 +332,7 @@
      "replaced_lines": 6251
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 0,
     "truncated": 0,
     "planted_units_missing_own_statement": [
      "T1v2-S05:k2:tom.k51",
@@ -317,16 +347,21 @@
    "P_author_doc_iso": {
     "n_units": 240,
     "applier": {
-     "step2_rebased": 605,
-     "removed_unmatched": 119,
-     "removed_counterpart": 75,
-     "replaced_lines": 216,
-     "removed_matched": 142,
-     "step1_exact": 3
+     "replace_shown_as_written": 189,
+     "lines_shown_as_written": 216,
+     "op_append_to_file": 299,
+     "op_replace_in_file": 118,
+     "replaced_lines": 131,
+     "whole_write_rebased": 2,
+     "removed_aligned": 28,
+     "removed_unaligned": 4
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 143,
     "truncated": 0,
-    "planted_units_missing_own_statement": []
+    "planted_units_missing_own_statement": [
+     "T1v2-C15:lone:wei.o108"
+    ]
    },
    "P_author_doc_live": {
     "n_units": 240,
@@ -335,6 +370,7 @@
      "replaced_lines": 5350
     },
     "units_no_marked_line": 0,
+    "units_with_shown_as_written": 0,
     "truncated": 0,
     "planted_units_missing_own_statement": [
      "T1v2-S05:k2:wei.n2",
@@ -445,9 +481,9 @@
    "shared_harm_version": "shared-harm/v1",
    "shared_harm_sha256": "a21d902f30655bfb5449da1acc3a9ceaeb89515c5a8529c76844ab3ba5f2eb3b",
    "prompt_version": "shared-harm/v1+dossier/v1:P_author_doc_iso",
-   "system_sha256": "0a7135e2f7c421e1e8473bd4c4636255a0052a75147338bdb311a5ad1d1d503a",
-   "system_chars": 1751,
-   "framing_sha256": "1ec113e6f3211092546bdc995d003bdd39ff12e28f15e570174af49cd02e8797",
+   "system_sha256": "43c6d538acb63f5e32d1f91c3ca16d25e89302572741c5d31df16d74234546f9",
+   "system_chars": 1948,
+   "framing_sha256": "2c43b367a3a4c9611acb2815d9bd68a21523b2f256dd61f21ad503a4e3b4b3e5",
    "intro_sha256": "c121fd811c7207628b70f84b5f71e0ec8b40c20af8cc972146d0871ac51fdc28"
   },
   "P_author_doc_live": {
@@ -463,11 +499,24 @@
    "intro_sha256": "642302e1f3f1cb5732e05a6a932e7cf718172cf0309019cee9add1fc71ee4d5b"
   }
  },
+ "step": {
+  "plan_sha256": "4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0",
+  "stage3_author_doc": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8",
+  "stage3_b1_dossier": "d842030dacf18fbba0e3fb570c02b3d208b31e92a78e3421f0e3576bc4bd3889",
+  "stage3_views": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
+  "judge_client": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd",
+  "system_sha256": {
+   "P_author_doc_iso": "43c6d538acb63f5e32d1f91c3ca16d25e89302572741c5d31df16d74234546f9",
+   "P_author_doc_live": "39a0c8522778eec664a30bb49c975c4db5bc84ffab701bb122cd5ec51ba9051b"
+  },
+  "seed_base_sha256": "e733bc83687a3f8382e0e23bea55f2061e31e140ec8eecf58fdb36c1bb4bca18",
+  "ts": "2026-10-28T09:56Z"
+ },
  "module_sha256": {
-  "stage3_author_doc": "1697c93d591066ccc8060abb8e9514eb49cbb919dc0403bfbc3600a72ea3812e",
-  "stage3_b1_dossier": "c3c7a0786ea5a3a949c223ace251a729523337609666c9bca40d513d701c831f",
+  "stage3_author_doc": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8",
+  "stage3_b1_dossier": "d842030dacf18fbba0e3fb570c02b3d208b31e92a78e3421f0e3576bc4bd3889",
   "stage3_views": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
   "judge_client": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd"
  },
- "ts": "2026-10-28T09:14Z"
+ "ts": "2026-10-28T09:56Z"
 }
