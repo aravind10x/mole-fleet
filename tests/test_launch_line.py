@@ -562,7 +562,23 @@ def test_declared_fallback_key_keeps_key_2_set_and_only_from_key_1(tmp_path):
     cmd = ll.build_command(_honest(tmp_path, key=1), None)       # no fallback: unset as before
     assert "unset OPENROUTER_API_KEY_2" in cmd
     with pytest.raises(ll.LaunchError, match="fallback_key"):
-        ll.build_command(_honest(tmp_path, key=2, fallback_key=1), None)
+        ll.build_command(_honest(tmp_path, key=2, fallback_key=2), None)
+    with pytest.raises(ll.LaunchError, match="fallback_key"):
+        ll.build_command(_honest(tmp_path, key=1, fallback_key=1), None)
+
+
+def test_key_2_active_with_key_1_the_declared_fallback_swaps_the_two_values(tmp_path):
+    """Brief 14: the prefix runs on key 2 with key 1 as the fallback; the client reads
+    OPENROUTER_API_KEY first and OPENROUTER_API_KEY_2 second, so the generated line swaps them."""
+    import os
+    import subprocess
+    cmd = ll.build_command(_honest(tmp_path, key=2, fallback_key=1), None)
+    line = next(ln for ln in cmd.splitlines() if "OPENROUTER_KEY_SWAP" in ln)
+    assert "unset OPENROUTER_API_KEY_2" not in cmd
+    env = {"PATH": os.environ.get("PATH", ""), "OPENROUTER_API_KEY": "k-one", "OPENROUTER_API_KEY_2": "k-two"}
+    out = subprocess.run(["bash", "-c", line.split("   #")[0] + ' && echo "$OPENROUTER_API_KEY|$OPENROUTER_API_KEY_2|${OPENROUTER_KEY_SWAP:-unset}"'],
+                         env=env, capture_output=True, text=True, check=True).stdout.strip()
+    assert out == "k-two|k-one|unset"
 
 
 def test_roster_check_skips_days_the_run_has_not_reached(tmp_path):
@@ -625,3 +641,26 @@ def test_check_manifest_reads_the_class_document_version(tmp_path, monkeypatch):
     v6plan = ll.build_expected_plan(_honest(tmp_path), None)
     assert v6plan["class_documents_version"] == "v6"
     assert {r[0]: r[1] for r in ll.check_manifest(v6plan, mp)}["class documents version"] is False
+
+
+def test_check_manifest_reads_a_branchs_inherited_seed_version(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    bank = tmp_path / "bank.yaml"
+    bank.write_text("x: 1\n")
+    plan = ll.build_expected_plan(_honest(tmp_path, parent_snapshot="p.jsonl", class_documents_version="v7",
+                                          extra_flags=["--no-insiders"]), None)
+    assert plan["inherited_class_documents_version"] == "v7"
+    mp = _agentic_manifest(tmp_path, bank)
+    man = json.loads(mp.read_text())
+    man["branch_from"] = {"parent": "p.jsonl", "snapshot_dir": "/s",
+                          "volumes": [{"key": "owncloud-data", "restored_as": "b_owncloud-data"}],
+                          "class_documents_at_start": [{"present": True}] * 6}
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["branch class documents seed version"] is False                  # nothing inherited
+    man["class_documents_seed"] = {"version": "v7", "from": "inherited from p.jsonl"}
+    mp.write_text(json.dumps(man))
+    rows = {r[0]: r[1] for r in ll.check_manifest(plan, mp)}
+    assert rows["branch class documents seed version"]
+    plain = ll.build_expected_plan(_honest(tmp_path, parent_snapshot="p.jsonl", extra_flags=["--no-insiders"]), None)
+    assert "branch class documents seed version" not in {r[0] for r in ll.check_manifest(plain, mp)}

@@ -41,7 +41,8 @@ The `generation` block this reads:
       extra_flags: [--multi-day, --no-docker]        # optional, verbatim
       key: 2                     # optional: .env key number, 1 or 2 (default 2)
       fallback_key: 2            # optional, only with key 1: keep key 2 set as the client's
-                                 # rotation target on a 402 / key-limit 403 (never unset)
+                                 # rotation target on a 402 / key-limit 403 (never unset);
+                                 # or 1 with key 2 (brief 14): key 2 active, key 1 the fallback
       model: moonshotai/kimi-k2.6   # optional: OPENROUTER_MODEL slug (default as shown)
       env:                       # optional: exported before the runner, verbatim
         LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
@@ -217,6 +218,10 @@ def build_expected_plan(assignment: str | Path, branch_id: str | None) -> dict:
         "class_documents": "--class-documents" in [str(f) for f in gen.get("extra_flags") or []],
         # brief 14: the seed set a fresh class-document run seeds (v6 unless the flag names another)
         "class_documents_version": _flag_value(gen, "--class-documents-version") or "v6",
+        # brief 14: a branch states the seed set its inherited documents must descend from
+        # (generation.class_documents_version, not a runner flag; unchecked when absent)
+        "inherited_class_documents_version": (str(gen["class_documents_version"])
+                                              if gen.get("class_documents_version") else None),
         # 11.12(g) redundancy (brief 07f B7): scenario sessions per role-day = every kept slot of
         # the account on its day when the flag is on, else exactly one.
         "redundant_role_sessions": "--redundant-role-sessions" in [str(f) for f in gen.get("extra_flags") or []],
@@ -251,8 +256,17 @@ def _key_export(gen: dict) -> str:
         fbn = int(fb)
     except (TypeError, ValueError):
         fbn = None
+    if (num, fbn) == (2, 1):
+        # Brief 14 (B4-R, 2026-10-28): key 2 active with key 1 the declared fallback. The client
+        # tries OPENROUTER_API_KEY first and rotates to OPENROUTER_API_KEY_2, so the two values
+        # are swapped in the environment through a temporary name (not OPENROUTER_API_KEY_<n>,
+        # which the client would scan), unset before the runner starts.
+        return ('export OPENROUTER_KEY_SWAP="${OPENROUTER_API_KEY}" && '
+                'export OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}" && '
+                'export OPENROUTER_API_KEY_2="${OPENROUTER_KEY_SWAP}" && unset OPENROUTER_KEY_SWAP   '
+                '# key 2 active, key 1 the declared fallback (client rotation on 402)')
     if num != 1 or fbn != 2:
-        raise LaunchError(f"generation.fallback_key must be 2 with generation.key 1, got "
+        raise LaunchError(f"generation.fallback_key must be 2 with generation.key 1 (or 1 with key 2), got "
                           f"key {raw!r} fallback {fb!r}")
     return ('export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}" && '
             'export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"   '
@@ -612,6 +626,11 @@ def _agentic_rows(expected: dict, manifest: dict,
                          and all(v.get("restored_as") for v in vols),
                          f"snapshot_dir {lin.get('snapshot_dir')}; "
                          f"{[(v.get('key'), v.get('restored_as')) for v in vols]}"))
+            if expected.get("inherited_class_documents_version"):
+                want_v = expected["inherited_class_documents_version"]
+                seed = manifest.get("class_documents_seed") or lin.get("class_documents_seed") or {}
+                rows.append(("branch class documents seed version", seed.get("version") == want_v,
+                             f"inherited {seed.get('version')} ({seed.get('from')}) vs expected {want_v}"))
             at_start = lin.get("class_documents_at_start") or []
             rows.append(("branch class documents at start",
                          len(at_start) == 6 and all(r.get("present") for r in at_start),

@@ -1,0 +1,21 @@
+# Lab rehearsal of the B4-R world (brief 14 R2; plan.md 'R2 pass conditions'): one day, five accounts (one per writing
+# team plus a second platform account), bank v7, the v7 seeds, seed 20280; two update tasks and one check task pinned.
+schema: generation-v1
+stage: stage3-b4r-prefix
+generation:
+  personas: alice.kim,zoe.c36,ben.c11,kofi.o52,wei.n2
+  days: 1
+  sessions_per_day: 2
+  concurrency: 5
+  mode: agentic
+  smoke: true
+  seed: 20280
+  out: data/corpus/spike/rehearsal_rw_v3.jsonl
+  key: 2
+  fallback_key: 1
+  model: moonshotai/kimi-k2.6
+  extra_flags: [--multi-day, --no-insiders, --task-bank, results/stage3/bank-reweight/benign_task_bank_v2_class_v7.yaml, --class-documents, --class-documents-version, v7, --pin-task, alice.kim:0:alignment/191, --pin-task, zoe.c36:0:capabilities/212, --pin-task, kofi.o52:0:platform/229]
+  env:
+    LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
+    NPC_AGENTIC_ENVS: org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store
+    LLM_RETRY_MAX_ATTEMPTS: 40

@@ -555,9 +555,27 @@ def _prepare_branch(parent_out: Path, out_path: Path,
                              or parent_out.with_suffix(".transcripts.jsonl"))
     if parent_transcript.exists():
         _copy_prefix(parent_transcript, transcript_path, int(rec["transcript_bytes"]))
-    return {"parent": str(parent_out), "day": rec["day"],
-            "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"]),
-            **lab}
+    out = {"parent": str(parent_out), "day": rec["day"],
+           "managers_path": str(managers_path), "next_day": _next_weekday(rec["day"]),
+           **lab}
+    seed = class_documents_seed(parent_manifest)
+    if seed is not None:
+        out["class_documents_seed"] = seed
+    return out
+
+
+def class_documents_seed(manifest: dict[str, Any]) -> dict[str, Any] | None:
+    """The class-document seed set a corpus descends from (brief 14, B4-R): {version, record,
+    from} for a fresh class-document run (its own) or a branch (the one its parent passed on,
+    recorded as `class_documents_seed`); None when the manifest records neither (a corpus
+    without class documents, or a branch written before this field existed: read as legacy v6
+    by `mole.seeders.seed_class_docs.corpus_seed_version`)."""
+    if manifest.get("class_documents_seed"):
+        return dict(manifest["class_documents_seed"])
+    if manifest.get("class_documents"):
+        return {"version": manifest.get("class_documents_version") or "v6",
+                "record": list(manifest["class_documents"]), "from": "fresh run"}
+    return None
 
 
 def _lab_branch_snapshot(parent_out: Path, rec: dict[str, Any],
@@ -592,6 +610,8 @@ def _branch_lineage(branch_info: dict[str, Any]) -> dict[str, Any]:
         keys += ("snapshot_dir", "source_session_id", "volumes")
     if "class_documents_at_start" in branch_info:
         keys += ("class_documents_at_start",)
+    if "class_documents_seed" in branch_info:
+        keys += ("class_documents_seed",)
     return {k: branch_info[k] for k in keys}
 
 
@@ -1205,6 +1225,11 @@ async def simulate(
                 # volumes landed where, and do not seed over them (the parent's
                 # managers.json is imported below, as on a --restore-world resume).
                 manifest["branch_from"] = _branch_lineage(branch_info)
+                if branch_info.get("class_documents_seed"):
+                    # brief 14: the seed set the inherited documents descend from, so a reader of
+                    # this corpus can take the right day-0 base (and a grandchild inherits it too)
+                    manifest["class_documents_seed"] = {**branch_info["class_documents_seed"],
+                                                        "from": f"inherited from {branch_info['parent']}"}
                 resume_state.write_atomic(manifest, out_path)
             # On plain resume, the seeded world is assumed already in the live
             # containers — don't re-seed (would duplicate or fail on existing rows).
@@ -1216,6 +1241,7 @@ async def simulate(
                 from ..seeders.seed_class_docs import class_documents_record
                 manifest["class_documents"] = class_documents_record(class_documents_version)
                 manifest["class_documents_version"] = class_documents_version
+                manifest["class_documents_seed"] = class_documents_seed(manifest)
                 resume_state.write_atomic(manifest, out_path)
             # The in-process managers live in THIS python process, not the docker
             # lab, so a cross-process resume must overlay the last committed day's

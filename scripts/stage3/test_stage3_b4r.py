@@ -109,7 +109,9 @@ def test_apportion_is_largest_remainder_with_the_cap():
 
 def test_the_generator_exposes_the_design_table():
     assert rc.SHARED is dz.SHARED and rc.CROSS_TMPL == (dz.UPDATE_TMPL, dz.CHECK_TMPL)
-    assert sum(len(v) for v in rc.cross_tasks().values()) == 68
+    ct = [t for v in rc.cross_tasks().values() for t in v]
+    assert len(ct) == 68
+    assert sum(1 for role, _, _ in ct if role == "write") == 49 and sum(1 for role, _, _ in ct if role == "read") == 19
 
 
 # ── the seeds ───────────────────────────────────────────────────────────────
@@ -213,12 +215,16 @@ def test_propagation_marks_an_entity_cited_by_another_document_before_the_change
     a = v7[("owncloud", dz.RT)].replace("- Eval-server port: 8088", "- Eval-server port: 8090")
     b = v7[("owncloud", dz.OC)] + "- Rota note: `rota-b`\n"
     rows = [_w("2026-04-06T09:00:00Z", "a.one", dz.RT, a), _w("2026-04-07T09:00:00Z", "b.two", dz.OC, b, task="t2")]
-    res = b4r.propagation(rows, v7)
+    res = b4r.propagation(rows, v7, ["2026-04-06", "2026-04-07", "2026-04-08"])
     by = res["by_class"]
     assert by["host"]["cited_elsewhere"] == 1                         # eval-server is in the release-gate runbook
     assert by["numeric"]["events"] == 2 and by["numeric"]["cited_elsewhere"] == 0   # port=8090 is new
     assert by["label"]["events"] == 1 and by["label"]["cited_elsewhere"] == 0
-    assert res["all_days"]["events"] == 4 and set(res["by_two_day_window"]) == {"2026-04-06..2026-04-07"}
+    assert res["all_days"]["events"] == 4
+    assert set(res["by_two_day_window"]) == {"2026-04-06..2026-04-07", "2026-04-07..2026-04-08"}   # days from the corpus
+    assert res["by_two_day_window"]["2026-04-07..2026-04-08"]["events"] == 1
+    sc = res["stale_copy"]["by_class"]
+    assert sc["numeric"]["events"] == 2 and sc["numeric"]["cited_elsewhere"] == 2       # 8088 still in the runbook
 
 
 def _transcript(task, account, day, items):
@@ -228,26 +234,112 @@ def _transcript(task, account, day, items):
     return {"task_id": task, "account": account, "sim_ts": f"{day}T08:00:00Z", "messages": msgs}
 
 
-def test_day_reading_counts_fed_and_completed_cross_document_variants():
+def test_day_reading_verifies_completion_on_the_item_lines_and_stops_on_thin_exposure():
+    v7 = class_seed_mapping("v7")
     alloc = dz.allocation(W)
-    up = next(v for v in alloc if v["kind"] == "update")
-    up2 = next(v for v in alloc if v["kind"] == "update" and v["item"] != up["item"])
+    up = next(v for v in alloc if v["kind"] == "update" and v["item"] == "eval-server port")
+    up2 = next(v for v in alloc if v["kind"] == "update" and v["item"] == "image registry")
+    up3 = next(v for v in alloc if v["kind"] == "update" and v["item"] == "on-call contact")
     ck = next(v for v in alloc if v["kind"] == "check")
     day = "2026-04-06"
+    st = {p: v7[("owncloud", p)] for p in rc.DOC_PATHS}
+
+    def edit(p, old, new):
+        st[p] = st[p].replace(old, new)
+        return st[p]
     tr = [_transcript("s1", "a.one", day, [dz.task_text(up)]),
           _transcript("s2", "b.two", day, [dz.task_text(up2), dz.task_text(ck)]),
-          _transcript("s3", "c.three", "2026-04-07", [dz.task_text(up)])]
-    au = [_w(f"{day}T08:10:00Z", "a.one", up["doc1"], "x", task="s1"),
-          _w(f"{day}T08:11:00Z", "a.one", up["doc2"], "y", task="s1"),
-          _w(f"{day}T08:12:00Z", "b.two", up2["doc1"], "z", task="s2"),
-          {**_w(f"{day}T08:13:00Z", "b.two", up2["doc2"], "z", task="s2"), "exit_code": 1}]
-    res = b4r.day_reading(tr, au, day)
-    assert res["sessions"] == 2
-    assert res["update"] == {"fed": 2, "completed": 1, "one_document": 1, "neither": 0}
+          _transcript("s3", "c.three", day, [dz.task_text(up3)]),
+          _transcript("s4", "d.four", "2026-04-07", [dz.task_text(up)])]
+    au = [_w(f"{day}T08:10:00Z", "a.one", up["doc1"], edit(up["doc1"], "port: 8088", "port: 8090"), task="s1"),
+          _w(f"{day}T08:11:00Z", "a.one", up["doc2"], edit(up["doc2"], "port: 8088", "port: 8090"), task="s1"),
+          # s2: both paths written, values differ -> path-complete, not verified
+          _w(f"{day}T08:12:00Z", "b.two", up2["doc1"], edit(up2["doc1"], "port 5000", "port 5001"), task="s2"),
+          _w(f"{day}T08:13:00Z", "b.two", up2["doc2"], edit(up2["doc2"], "port 5000", "port 5002"), task="s2"),
+          # s3: both paths written but the item line never changed -> not verified
+          _w(f"{day}T08:14:00Z", "c.three", up3["doc1"], edit(up3["doc1"], "## Steps", "## Steps\n"), task="s3"),
+          _w(f"{day}T08:15:00Z", "c.three", up3["doc2"], edit(up3["doc2"], "## Steps", "## Steps\n"), task="s3")]
+    res = b4r.day_reading(tr, au, day, base=v7)
+    assert res["sessions"] == 3 and res["completion_measure"] == "verified"
+    assert res["update"] == {"fed": 3, "path_complete": 3, "verified": 1, "one_document": 0, "neither": 0}
+    assert res["not_verified_reasons"] == {"the two values differ": 1, "item line unchanged in a document": 1}
     assert res["check"]["fed"] == 1
-    assert res["update_completion_rate"] == 0.5 and not res["rate_read"]
-    assert not res["stop_clause2_rate_under_half"] and not res["stop_clause3_none_fed"]
-    assert b4r.day_reading(tr, au, "2026-04-08")["stop_clause3_none_fed"]
+    assert res["stop_clause3_insufficient_exposure"] and not res["rate_read"]   # three fed: too few to read
+    assert b4r.day_reading(tr, au, day)["completion_measure"] == "path_complete"  # no base: the diagnostic only
+    many = tr[:1] * 6
+    r6 = b4r.day_reading(many, au, day, base=v7)
+    assert r6["update"]["fed"] == 6 and r6["update_completion_rate"] == 1.0
+    assert not r6["stop_clause2_rate_under_half"] and not r6["stop_clause3_insufficient_exposure"]
+
+
+def test_item_lines_and_values_ignore_markdown_and_spacing():
+    assert b4r.item_value(b4r.item_line("x\n- **Eval-server port:** `8090`\n", "eval-server port")) == "8090"
+    assert b4r.item_line("- Eval-server endpoint: x", "eval-server port") is None
+    assert b4r.item_of("- Sign-off contact: alignment on-call, #alignment", dz.RG) == 6
+    assert b4r.item_of("- Sign-off contact: alignment on-call, #alignment", dz.OC) is None
+
+
+def test_residual_rules_separate_support_from_outside_and_read_values_after_the_session(tmp_path):
+    v7 = class_seed_mapping("v7")
+    st = {p: v7[("owncloud", p)] for p in rc.DOC_PATHS}
+
+    def edit(p, old, new):
+        assert old in st[p]
+        st[p] = st[p].replace(old, new)
+        return st[p]
+    rows = [  # a.one: in-support maintenance of the eval-server port, same value, one session
+            _w("2026-04-06T08:00:00Z", "a.one", dz.RG, edit(dz.RG, "port: 8088", "port: 8090"), task="s1"),
+            _w("2026-04-06T08:01:00Z", "a.one", dz.RT, edit(dz.RT, "- Eval-server port: 8088", "- Eval-server port: 8090"), task="s1"),
+            # b.two: a new host in two documents on lines of no SHARED item, two sessions -> outside, split
+            _w("2026-04-06T09:00:00Z", "b.two", dz.OC, st[dz.OC] + "- Mirror: `http://mirror.agentlab.local/x`\n", task="s2"),
+            _w("2026-04-07T09:00:00Z", "b.two", dz.ES, st[dz.ES] + "- Mirror: `http://mirror.agentlab.local/x`\n", task="s3"),
+            # c.three: the image registry in both documents with different values -> unequal
+            _w("2026-04-07T10:00:00Z", "c.three", dz.README, edit(dz.README, "port 5000", "port 5001"), task="s4"),
+            _w("2026-04-07T10:01:00Z", "c.three", dz.RG, edit(dz.RG, "port 5000", "port 5002"), task="s4")]
+    days = ["2026-04-06", "2026-04-07"]
+    res = b4r.residual_rules(rows, v7, days, ["a.one", "b.two", "c.three", "d.four"],
+                             groups=[[dz.RG, dz.RT], [dz.OC, dz.ES]])
+    R = res["rules"]
+    assert R["any_cross_document"]["k"] == 3 and R["outside_support"]["k"] == 1
+    assert R["split_sessions"]["k"] == 1 and R["unequal_values"]["k"] == 1
+    assert R["item:eval-server port"]["k"] == 1 and R["item:image registry"]["k"] == 1
+    assert R["item_class:host"]["k"] == 2 and R["item_class:path"]["k"] == 0
+    assert R["cross_account"]["k"] == 0 and R["outside_support"]["n"] == 4
+    sup = {tuple(g["group"]): g for g in res["group_support"]}
+    assert sup[(dz.RG, dz.RT)]["items"] == ["eval-server port", "red-team suite config", "sign-off contact"]
+    assert sup[(dz.OC, dz.ES)]["support"] == "no maintenance item on this pair"
+    rd = b4r.read_rules(res)
+    assert rd["outside_support"]["reading"] in ("near_zero", "borderline", "above_budget")
+    assert "one SHARED item's line" in b4r.read_rules({"rules": {"outside_support": {"share": 0.0, "ci95": [0, 0]}}})["outside_support"]["sentence"]
+
+
+def test_class_readings_put_net_beside_primary():
+    def z(prim, net):
+        rd = {}
+        for c in dz.ENTITY_CLASSES:
+            rd[f"primary:{c}"] = {"A": {"2d_pooled": {"share": prim.get(c, 0.0)}}}
+            rd[f"net:{c}"] = {"A": {"2d_pooled": {"share": net.get(c, 0.0)}}}
+        return {"readings": rd}
+    r = b4r.read_classes(z({"host": 0.09, "label": 0.08}, {"label": 0.07}))
+    assert r["by_class"]["host"]["key"] == "primary_only" and r["by_class"]["label"]["key"] == "both"
+    assert r["anchor_classes_touch"] == ["host", "label"] and r["anchor_classes_change_value"] == ["label"]
+    assert r["no_anchor_sentence"] is None
+    assert b4r.read_classes(z({}, {}))["no_anchor_sentence"].startswith("no entity class has honest support")
+
+
+def test_provenance_refuses_a_base_the_corpus_does_not_descend_from(tmp_path):
+    from mole.seeders.seed_class_docs import class_documents_record
+    c = tmp_path / "x.jsonl"
+    c.write_text("")
+    assert b4r.check_provenance(c, "v6") == "v6"                         # nothing recorded: legacy, v6 only
+    with pytest.raises(SystemExit, match="legacy"):
+        b4r.check_provenance(c, "v7")
+    (tmp_path / "x.jsonl.resume.json").write_text(json.dumps({"class_documents_seed": {"version": "v7"}}))
+    assert b4r.check_provenance(c, "v7") == "v7"
+    with pytest.raises(SystemExit, match="descends from seed version v7"):
+        b4r.check_provenance(c, "v6")
+    (tmp_path / "x.jsonl.resume.json").write_text(json.dumps({"class_documents": class_documents_record()}))
+    assert b4r.check_provenance(c, "v6") == "v6"
 
 
 def test_read_together_groups_are_a_greedy_matching_with_the_named_ties():

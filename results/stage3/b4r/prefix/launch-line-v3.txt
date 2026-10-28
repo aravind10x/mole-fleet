@@ -1,0 +1,22 @@
+# Run from the project root. All paths below are relative to work/mole-fork.
+# The key is selected by variable name from .env (generation.key); nothing here is edited by hand.
+cd work/mole-fork
+set -a && source .env && set +a
+export OPENROUTER_KEY_SWAP="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}" && export OPENROUTER_API_KEY_2="${OPENROUTER_KEY_SWAP}" && unset OPENROUTER_KEY_SWAP   # key 2 active, key 1 the declared fallback (client rotation on 402)
+export LAB_COMPOSE="$PWD/data/corpus/spike/lab.nogitlab.yaml"
+export NPC_AGENTIC_ENVS="org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store"
+export LLM_RETRY_MAX_ATTEMPTS="40"
+OPENROUTER_MODEL=moonshotai/kimi-k2.6 \
+  .venv/bin/python scripts/sim_runner.py --smoke --personas alice.kim,ben.c91,carlos.v119,priya.a84,ben.l63,julian.x,deepa.a7,dan.r,zoe.w57,zoe.g92,sara.p29,ben.c106,zoe.c36,sam.w71,deepa.a1,frank.s,mei.w115,deepa.s107,kofi.o52,ines.m31,liam.h93,wei.o108,yuki.k38,liam.w65,deepa.t9,tom.k51,wei.n2,mei.s59,lena.n79,nina.t73,hannah.m,nina.n12,kofi.k110,maya.h96,elena.r61,tom.m82,raj.c89,carlos.o55,elena.r13,nina.l27,sam.l104,omar.s34,raj.k48,kara.p,raj.n88,kofi.p116,ben.c11,paul.k53,wei.i46,noah.g102 --multi-day --no-insiders --task-bank results/stage3/bank-reweight/benign_task_bank_v2_class_v7.yaml --class-documents --class-documents-version v7 --days 1 --sessions-per-day 2 --concurrency 10 --mode agentic --seed 20281 --out data/corpus/spike/prefix_rw_v3.jsonl
+
+EXPECTED PLAN
+  assignment       : ../stage3/prefix/prefix_rw_v3.yaml
+  branch           : None   mode: agentic   days: 1
+  roster size      : 50
+  sessions/day     : 2
+  planned sess/day : 100  (roster x sessions/day)
+  coalition instances (0):
+  persona files that must exist: 0
+  PRESENCE-AWARE PLAN (seed 20281, start 2026-04-06; the presence draw of mole/generator/presence.py): 93 sessions in all
+    2026-04-06: 49 of 50 accounts act, 93 sessions planned; absent ['zoe.c36']
+    scenario sessions expected over the run: 0 (one per role-day)

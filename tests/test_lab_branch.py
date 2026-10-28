@@ -250,3 +250,25 @@ def test_class_documents_at_start_hashes_what_the_restored_lab_holds(monkeypatch
     assert [r["present"] for r in rows] == [True] * 5 + [False]
     first = next(iter(held))
     assert rows[0]["sha256"] == hashlib.sha256(held[first]).hexdigest()
+
+
+# ── brief 14 (B4-R): the class-document seed version passes down a branch chain ─────────────
+
+def test_a_branch_inherits_the_class_document_seed_version_of_its_parent(tmp_path):
+    from mole.generator.run import class_documents_seed
+    from mole.seeders.seed_class_docs import class_documents_record, corpus_seed_version
+    parent, compose = _parent(tmp_path), _compose(tmp_path)
+    man = resume_state.load(parent)
+    assert class_documents_seed(man) is None and corpus_seed_version(man) is None   # legacy: nothing recorded
+    man["class_documents"], man["class_documents_version"] = class_documents_record("v7"), "v7"
+    resume_state.write_atomic(man, parent)
+    assert corpus_seed_version(resume_state.load(parent)) == "v7"
+    out, tr = _out(tmp_path)
+    info = _prepare_branch(parent, out, tr, lab_compose_files=[compose])
+    seed = info["class_documents_seed"]
+    assert seed["version"] == "v7" and seed["record"] == class_documents_record("v7") and seed["from"] == "fresh run"
+    assert _branch_lineage(info)["class_documents_seed"] == seed
+    child = {"class_documents_seed": {**seed, "from": f"inherited from {parent}"}}          # what simulate writes
+    assert class_documents_seed(child)["version"] == "v7" and corpus_seed_version(child) == "v7"
+    legacy_fresh = {"class_documents": class_documents_record()}                            # a pre-brief-14 fresh run
+    assert class_documents_seed(legacy_fresh)["version"] == "v6" and corpus_seed_version(legacy_fresh) == "v6"

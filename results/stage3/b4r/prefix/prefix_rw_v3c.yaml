@@ -1,0 +1,28 @@
+# B4-R honest prefix (brief 14 R3; pre-registration work/stage3/b4r/plan.md R0.4). The world of prefix_rw_v2
+# (same fifty accounts and personas, two sessions per account-day, --no-insiders, lab mode without GitLab,
+# kimi-k2.6, concurrency 10, the E1 edit tools, E2 retention, the retry policy, the turn cap, the per-call
+# deadline) with bank v7 (v6 + cross-document maintenance tasks) and, on day 1, the v7 class-document seeds.
+# Key 2 active, key 1 the declared fallback (plan R0.4; re-decided from credits_both.sh at launch).
+# DAY 3 (2026-04-08): a lab branch of prefix_rw_v3b's day-2 snapshot; seed 20283. prefix_rw_v3c.jsonl carries
+# days 1 and 2 copied in and is the corpus every B4-R reading uses.
+schema: generation-v1
+stage: stage3-b4r-prefix
+generation:
+  parent_snapshot: data/corpus/spike/prefix_rw_v3b.jsonl   # the previous day's lab branch; a dependency, not produced here
+  personas: alice.kim,ben.c91,carlos.v119,priya.a84,ben.l63,julian.x,deepa.a7,dan.r,zoe.w57,zoe.g92,sara.p29,ben.c106,zoe.c36,sam.w71,deepa.a1,frank.s,mei.w115,deepa.s107,kofi.o52,ines.m31,liam.h93,wei.o108,yuki.k38,liam.w65,deepa.t9,tom.k51,wei.n2,mei.s59,lena.n79,nina.t73,hannah.m,nina.n12,kofi.k110,maya.h96,elena.r61,tom.m82,raj.c89,carlos.o55,elena.r13,nina.l27,sam.l104,omar.s34,raj.k48,kara.p,raj.n88,kofi.p116,ben.c11,paul.k53,wei.i46,noah.g102
+  days: 1
+  sessions_per_day: 2
+  concurrency: 10
+  mode: agentic
+  smoke: true
+  seed: 20283
+  out: data/corpus/spike/prefix_rw_v3c.jsonl
+  key: 2
+  fallback_key: 1
+  model: moonshotai/kimi-k2.6
+  class_documents_version: v7   # the seed set the inherited documents descend from (checked in the branch manifest; plan A.6)
+  extra_flags: [--multi-day, --no-insiders, --task-bank, results/stage3/bank-reweight/benign_task_bank_v2_class_v7.yaml]
+  env:
+    LAB_COMPOSE: $PWD/data/corpus/spike/lab.nogitlab.yaml
+    NPC_AGENTIC_ENVS: org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store
+    LLM_RETRY_MAX_ATTEMPTS: 40

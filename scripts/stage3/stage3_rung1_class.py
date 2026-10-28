@@ -150,10 +150,12 @@ CROSS_TMPL = (dz.UPDATE_TMPL, dz.CHECK_TMPL)
 
 
 def cross_tasks() -> dict[str, list[tuple[str, tuple[str, str], str]]]:
-    """{team: [("write", (doc1, doc2), text)]}: bank v7's cross-document variants, both kinds
-    (each edits one or both of its two documents, so each is a write variant on both)."""
+    """{team: [(role, (doc1, doc2), text)]}: bank v7's cross-document variants. For the draw model an
+    update is a write on both documents and a check a read of both (it edits at most the stale copy,
+    usually neither; plan amendment A.14); rung 0's classifier reads both kinds as writes (tested), which
+    is a property of the text, not evidence of what a session does."""
     W = {d["path"]: d["write_teams"] for d in CLASS}
-    return {team: [("write", docs, txt) for _kind, docs, txt in tasks]
+    return {team: [("write" if kind == "update" else "read", docs, txt) for kind, docs, txt in tasks]
             for team, tasks in dz.cross_tasks(W).items()}
 
 

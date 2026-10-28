@@ -246,3 +246,19 @@ async def seed_class_documents(ctx: Any, version: str = DEFAULT_VERSION) -> int:
         await mgr.write_file(path=path, content=content)
     logger.info("seed_class_documents: seeded %d class documents (version %s)", len(docs), version)
     return len(docs)
+
+
+def corpus_seed_version(manifest: dict[str, Any] | None) -> str | None:
+    """The seed version a corpus's class documents descend from, from its run manifest
+    (`<corpus>.resume.json`): the recorded `class_documents_seed` (fresh runs and, from brief
+    14, branches), else `class_documents_version` or "v6" for a fresh class-document run that
+    predates the field; None when nothing is recorded (a legacy branch, read as v6 by callers
+    that say so, or a corpus without class documents)."""
+    if not manifest:
+        return None
+    seed = manifest.get("class_documents_seed") or {}
+    if seed.get("version"):
+        return str(seed["version"])
+    if manifest.get("class_documents"):
+        return str(manifest.get("class_documents_version") or "v6")
+    return None
