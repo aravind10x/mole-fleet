@@ -264,3 +264,11 @@ def test_valid_records_set_aside_foreign_ones(tmp_path):
     b1.cache_path(tmp_path, "sonnet", ad.LIVE).write_text("\n".join(json.dumps(x) for x in (good, stale, err)) + "\n", encoding="utf-8")
     recs, bad = b1.valid_records("sonnet", ad.LIVE, tmp_path)
     assert set(recs) == {"a"} and bad == ["b"]
+
+
+def test_valid_records_require_the_exact_max_tokens(tmp_path):
+    rec = {"cache_key": "a", "outcome": "scored", "score": 5, "model": b1.MODELS["opus48"], "prompt_version": ad.prompt_version(ad.ISO),
+           "request_params": {"system_sha256": b1.jc_mod.sha256(ad.system_prompt(ad.ISO)), "max_tokens": None, "output_config": None}}
+    b1.cache_path(tmp_path, "opus48", ad.ISO).write_text(json.dumps(rec) + "\n", encoding="utf-8")
+    recs, bad = b1.valid_records("opus48", ad.ISO, tmp_path)
+    assert not recs and bad == ["a"]

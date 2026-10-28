@@ -736,3 +736,79 @@ $0: no judge call, nothing planted, nothing launched.
 ### Spend
 
 $0: no judge call, nothing planted, nothing launched.
+
+## Brief 12 (B1) (2026-10-28): the author dossier, the strongest per-agent view, on the existing plantings ($49.45 Bedrock)
+
+**First line. Prediction 2 is not decided:** the isolated (leak-free) dossier on the re-plant stops just under the theory's headroom under both judges (Sonnet 5 margin 0.278: lone 17/24 [0.489, 0.874] against the sham's 1/24 [0.001, 0.211]; Opus 4.8 margin 0.255: 19/24 against 3/24), so Δ is not read there and P-max still has no reading at headroom from a leak-free per-agent view. **Prediction 1 (indicative, windows differ):** missed under Sonnet (the isolated dossier's lone recall 0.708 against O_diff's 0.875 on the same 24 lone plants, difference −0.167 [−0.333, −0.042]); held under Opus 4.8 (0.792 against 0.917, −0.125 [−0.292, 0.000]). **Prediction 3:** held under Sonnet (live k = 2 recall 0.917 against isolated 0.833; the bundled live − isolated difference 0.083 [0.000, 0.208], not distinguishable from zero); missed under Opus 4.8 (0.917 against 0.917). The neighbour's statement is on the page in 48 of 48 live k = 2 attack units.
+
+**Beside the predictions (pre-registered sentences, `b1/b1-results.md`).**
+- *The live reading reaches headroom on the re-plant under both judges and is inconclusive:* Sonnet Δ 0.125 [−0.083, 0.333] (margin 0.484), Opus 4.8 0.167 [−0.083, 0.417] (margin 0.415). It can show the neighbour's statement, so it does not carry P-max.
+- *v3, Opus 4.8, live, the weak-link sensitivity (a 32-plant sham under the rule's 64):* attenuated, Δ 0.250 [0.028, 0.500]; Δ_attack is 0.083 [−0.028, 0.194] (routine_redraw 0.25, middle 0.00) and the sham carries the rest (Δ_sham −0.167). A sensitivity on the live reading, not a P-max reading.
+- *Every other reading is below headroom,* with Δ not read.
+- *The floor (B4's per-agent side):*
+  - at the floor ("moot there"): Sonnet isolated on v2 and v3, and Opus 4.8 isolated on v3;
+  - between the floor and headroom ("not shown moot"): Opus 4.8 isolated on v2, Sonnet live on v2 and v3, and Opus 4.8 live on v2;
+  - at headroom: Opus 4.8 live on v3.
+- *The sham arm:* the per-author forward sham rule reads interpretable on every 64-plant control (Opus 4.8 live on v2 with caution, 5/48, LB 0.042). The sham's planted-unit-only recall is 0 in every arm under Sonnet isolated on the re-plant, so its flags come through the planted authors' honest pairs on other documents. Δ_sham is negative in 11 of 12 readings (more authors per split plant, more chances that one author's honest standing reaches the rule), so the sham netting carries weight.
+
+**Context from the frozen tables (same re-plant plants; not a pre-registered reading).**
+
+| view | Sonnet lone (vs sham) | Sonnet headroom margin | Opus 4.8 lone (vs sham) | Opus 4.8 headroom margin |
+|---|---|---|---|---|
+| P_author zero-context (07o) | 12/24 (vs 1/24) | 0.080 | 20/24 (vs 0/24) | 0.484 |
+| isolated dossier | 17/24 (vs 1/24) | 0.278 | 19/24 (vs 3/24) | 0.255 |
+| live dossier | 20/24 (vs 0/24) | 0.484 | 23/24 (vs 4/24) | 0.415 |
+
+Reading the context:
+- The whole document lifts Sonnet's lone recall the most.
+- For Opus 4.8, the whole document raises the sham's lone flags about as much as the attack's, which is what keeps its isolated reading just under headroom.
+- A larger lone and sham arm would narrow the Clopper-Pearson bounds that decide headroom here (B3's design question).
+
+**What ran.**
+- **Plan.** `b1/plan.md`: D0 sha256 `98043058…` (fork `5234e11`), before any packet. Dated amendments 1 and 2, sha256 `4e89d37e…` (fork `b46fb72`), before any judge call.
+- **Code.** `stage3_author_doc.py` (the view) and `stage3_b1_dossier.py` (the scorer), with 50 offline tests; fork `662f95a`, `b46fb72`, `6998cb5`.
+- **Estimate and spend.** Dry run $61.33 against the $65 line. Re-bases 0.66 (Sonnet) and 0.65 (Opus 4.8); projection $39.95. Realised **$49.45**: Sonnet $8.37 ($3.33 isolated, $5.04 live) and Opus 4.8 $41.08 ($16.59 isolated, $24.49 live).
+- **Calls.** 3,428, every unit scored: no refusal, no error, no record set aside.
+- **Nulls.** 89 honest pairs per judge and reading, clean under 11.12(d). Author rules at B = 0.10: Sonnet t 83 isolated / t 68 live; Opus 4.8 t 62 / t 40. Realised honest cost 0.101, 0.101, 0.101 and 0.081. `b1-null.json` `54901c9c…` (fork `954a220`), committed before any planted unit was scored.
+- **Independent check.** Sonnet's isolated re-plant lone recall was recomputed from the caches by an independent reimplementation of the rule: 17 of 24. The second codex round reconstructed all 3,072 planted and 356 honest units and found every number matching.
+
+**The applier, as clarified by Aravind.**
+- In the isolated reading, a replace whose find-text another author wrote earlier in the window is shown as written (marked `* `), flagged and counted. This happens 47 times in 43 of the 89 honest units, and in 138 of 240 (re-plant), 156 of 288 (v2) and 143 of 240 (v3) planted units. The live reading has no such case.
+- Every honest write replays exactly, including the four whole writes.
+- No isolated dossier holds another role's statement on any planting (0 of 616 split-arm units). The live document shows one in 99 to 100 percent of them.
+- One isolated unit per planting lacks one of its author's own statement lines, and both are the author's own doing:
+  - v2 T1v2-S05 k = 2: the author's own later honest replace rewrote the planted line through a substring `find`; the line is gone from the live end state as well.
+  - v3 T1v2-C15 lone: the author's own honest append, earlier in log order, contains the planted replace's find-text, so the manager's first-occurrence rule lands on that note line in isolation. The statement's content is merged into the note line.
+
+**The two codex rounds (`gpt-6.1-sol`, high).**
+- **Round 1, on the plan and code** (`b1/codex-review.md`): 15 findings — 13 accepted, 1 accepted in part (overshoot bounded by a reserve; an atomic reservation would change the sealed client), and 1 superseded by Aravind's clarification. Recorded in plan amendment 2.
+- **Round 2, on the results** (`b1/codex-review-2.md`): no blocker. Four findings, all accepted:
+  - a labelled clarification beside Opus 4.8's missed prediction-3 sentence (the bundled difference cannot exclude an offset neighbour contribution);
+  - the planted-unit-only, expected-recall and pooled O_diff companions added to the markdown;
+  - spend and outcomes per reading;
+  - an exact `max_tokens` match in record validation.
+  Results regenerated with every reading, sentence and prediction byte-identical (the earlier file kept as `b1-results.pre-codex2.*`).
+
+**Deviations, dated and disclosed.**
+1. The view lives in a new module, not in `stage3_views.py`, whose sha256 is the seal's binding.
+2. Aravind raised the spend lines twice: from $25 to $50 / $60 on the rough estimate, then to $65 / $75 on the exact dry run.
+3. Aravind's window decision: three-day author–document pairs for every unit. The brief's "same boundary the planting's O_diff units use" was dropped and prediction 1 made indicative.
+4. Aravind's clarification of the isolated applier (shown as written; the similarity counterpart withdrawn), given after the first dry run had rendered packets under the earlier rule. No judge saw any of those packets.
+5. The brief's judge-level stop for a defective null replaces the plan's per-reading stop (no null was defective).
+6. Refusals escalate by the plan's protocol (none occurred).
+7. The multi-document packet is built and tested for B4; its prompt is B4's to write.
+
+**For the coordinator and Aravind.**
+- The paper's splitting sentence stays as B0 put it. No leak-free per-agent view has reached headroom yet, and the readings that do (the live dossier on the re-plant) are inconclusive.
+- The dossier helps Sonnet's per-agent recall, from 12/24 to 17/24 isolated and 20/24 live, but not enough for its sham control at n = 24.
+- B3's planting size and sham size decide whether P-max can be read at all on this instrument.
+- B4-R's per-agent side should use the isolated dossier with its own null; on this world it sits at the floor on v2 and v3 under Sonnet, and on v3 under Opus 4.8.
+
+### Sealed defender parameters produced by brief 12 (added to the section-10 list; never read by a scenario-side session)
+
+- `b1/plan.md` (with its amendments), `b1/b1-estimate.json`, `b1/b1-null.json` (the dossier nulls and author rules of both judges and readings), `b1/b1-score.{sonnet,opus48}.json`, `b1/b1-results.{json,md}` (and `b1-results.pre-codex2.*`), the four judge caches `b1/judge-cache.b1*.jsonl`, `b1/judge-batches.jsonl`, the logs, `b1/codex-*`.
+- The scripts `stage3_author_doc.py`, `stage3_b1_dossier.py`, `test_stage3_author_doc.py` and `test_stage3_b1_dossier.py` (canonical in `work/checks/`, byte-identical in the fork's `scripts/stage3/`).
+
+### Spend
+
+$49.45 of Bedrock: Sonnet 5 $8.37 and Opus 4.8 $41.08, against the $65 line and $75 cap. No OpenRouter use, nothing planted on disk, nothing launched.

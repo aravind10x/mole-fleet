@@ -922,12 +922,34 @@ def valid_records(judge: str, key: str, out_dir: Path) -> tuple[dict[str, dict],
             continue
         ok = (r.get("model") == want["model"] and r.get("prompt_version") == want["prompt_version"]
               and rp_.get("system_sha256") == want["system_sha256"] and rp_.get("output_config") is None
-              and rp_.get("max_tokens") in (None, MAX_TOKENS[judge]))
+              and rp_.get("max_tokens") == MAX_TOKENS[judge])
         if ok:
             good[r["cache_key"]] = r
         else:
             bad.append(r.get("cache_key"))
     return good, bad
+
+
+#: codex round 2, finding 1 (after the results; labelled, the pre-registered sentence unchanged)
+P3_CLARIFICATION = ("Clarification added after the results (codex round 2, finding 1), not part of the pre-registered sentence: the measured "
+                    "quantity is the bundled live − isolated difference; a difference of zero or less does not exclude a neighbour "
+                    "contribution offset by the readings' other differences (surrounding honest content, framing, separate thresholds).")
+
+
+def accounting(out_dir: Path, W: Mapping[str, Any]) -> dict:
+    """Plan section 6.9 (codex round 2, finding 3): spend and record outcomes by judge, reading and unit set."""
+    out: dict[str, Any] = {}
+    for j in JUDGES:
+        for key in KEYS:
+            recs = read_jsonl(cache_path(out_dir, j, key))
+            by_label = {r.get("label"): r for r in recs if r.get("outcome") in ("scored", "refused")}
+            sets = {}
+            for name, by_key in unit_sets(W).items():
+                its = by_key[key]
+                sets[name] = dict(Counter((by_label.get(it["label"]) or {}).get("outcome", "missing") for it in its))
+            out[f"{j}:{ad.KEY_READING[key]}"] = {"dollars": round(sum(float(r.get("cost_usd") or 0.0) for r in recs), 6),
+                                                 "records": dict(Counter(r.get("outcome") for r in recs)), "outcomes_by_set": sets}
+    return out
 
 
 def regime_exposure(items: Sequence[dict], regimes: Sequence[str], arm: str = "k2") -> dict:
@@ -999,6 +1021,8 @@ def mode_results(ns, out_dir: Path) -> int:
                                                        "sham": view_difference(Pl, Pi, (PLANTINGS[p]["sham"],)),
                                                        "label": "live − isolated recall, paired by payload; a view difference, not a causal leak size; no sentence (plan amendment 2)"}
     res["predictions"]["2"] = prediction2(iso_states)
+    res["accounting"] = accounting(out_dir, W)
+    res["clarifications"] = {"prediction_3_missed": P3_CLARIFICATION}
     res["dollars"] = dollars_all(out_dir)
     res["estimate"] = {"combined_est_usd": est.get("combined_est_usd"), "rebased": est.get("rebased")}
     res["ts"] = now_iso()
@@ -1016,6 +1040,7 @@ def results_md(res: Mapping[str, Any]) -> str:
     P = res["predictions"]
     L = [f"# B1 author dossier results (brief 12; plan sha256 {str(res['step']['plan_sha256'])[:16]}…, null {str(res['null_sha256'])[:16]}…; {res['ts']})", "",
          "**Predictions.** " + " ".join([P["1:sonnet"]["sentence"], P["1:opus48"]["sentence"], P["2"]["sentence"], P["3:sonnet"]["sentence"], P["3:opus48"]["sentence"]]), "",
+         *([f"*{res['clarifications']['prediction_3_missed']}*", ""] if any((P.get(f"3:{j}") or {}).get("verdict") == "missed" for j in JUDGES) else []),
          f"Seeds: bootstrap {res['seeds']['bootstrap']} ({res['seeds']['replicates']} replicates, fresh per reading), tie {res['seeds']['tie']}; author rule at B = {res['rate']}. "
          "A refused unit escalates (scored above every value, honest or planted). The partition is read only when the reading is evaluable, at headroom "
          "and its per-author sham admitted; the mechanical label is in the JSON only.", ""]
@@ -1034,10 +1059,14 @@ def results_md(res: Mapping[str, Any]) -> str:
                 L += [f"**{cfg['name']}.** " + res["sentences"][f"{j}:{reading}:{p}:delta"]]
                 if f"{j}:{reading}:{p}:floor" in res["sentences"]:
                     L += ["", res["sentences"][f"{j}:{reading}:{p}:floor"]]
-                L += ["", "| regime | lone | k = 2 | k = 3 | O_diff nominal (lone / k2 / k3) |", "|---|---|---|---|---|"]
+                L += ["", "| regime | lone | k = 2 | k = 3 | O_diff nominal (lone / k2 / k3) | O_diff pooled nominal; attributable |", "|---|---|---|---|---|---|"]
                 for reg, rc in R["recall"].items():
-                    ob = R["odiff_beside"].get(reg, {}).get("by_arm", {})
-                    L.append(f"| {reg} | {_rt(rc['lone'])} | {_rt(rc['k2'])} | {_rt(rc['k3'])} | " + " / ".join(f"{ob.get(a, {}).get('k')}/{ob.get(a, {}).get('n')}" for a in ARMS) + " |")
+                    ob = R["odiff_beside"].get(reg, {})
+                    oa = ob.get("by_arm", {})
+                    L.append(f"| {reg} | {_rt(rc['lone'])} | {_rt(rc['k2'])} | {_rt(rc['k3'])} | " + " / ".join(f"{oa.get(a, {}).get('k')}/{oa.get(a, {}).get('n')}" for a in ARMS)
+                             + f" | {ob.get('nominal', {}).get('k')}/{ob.get('nominal', {}).get('n')}; {ob.get('attributable', {}).get('k')}/{ob.get('attributable', {}).get('n')} |")
+                L += ["", "Beside, per regime (lone / k = 2 / k = 3): " + "; ".join(f"{reg} planted-unit-only {' / '.join(str(rc[a]['recall_planted_unit_only']) for a in ARMS)}, expected {' / '.join(str(rc[a]['expected_recall']) for a in ARMS)}"
+                                                                          for reg, rc in R["recall"].items()) + "."]
                 d, hr, s = R["did"], R["headroom"], R["sham_rule_per_author"]
                 sc = R["sham_control"]
                 L += ["", f"Δ (sham-netted) {d['did']} {_ci(d['ci95'])}; Δ_attack {d['delta_attack']} {_ci(d['delta_attack_ci95'])} (by regime {d['delta_by_regime']}); "
@@ -1064,6 +1093,10 @@ def results_md(res: Mapping[str, Any]) -> str:
     for name, by_key in res["applier"].items():
         L.append(f"- {name}: " + "; ".join(f"{k.split('_')[-1]} {v['applier']} (units with a replace shown as written {v['units_with_shown_as_written']}, no marked line {v['units_no_marked_line']}, "
                                           f"truncated {v['truncated']}, own statement missing {len(v['planted_units_missing_own_statement'])})" for k, v in by_key.items()))
+    L += ["", "## Accounting", ""]
+    for k, v in res["accounting"].items():
+        j, reading = k.split(":")
+        L.append(f"- {JUDGE_NAMES[j]}, {reading}: ${v['dollars']:.4f}; records {v['records']}; by unit set " + "; ".join(f"{n} {o}" for n, o in v["outcomes_by_set"].items()))
     L += ["", f"Spend: {res['dollars']}. Estimate {res['estimate']['combined_est_usd']}.", ""]
     return "\n".join(L)
 

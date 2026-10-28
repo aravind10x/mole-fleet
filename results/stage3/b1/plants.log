@@ -1,0 +1,175 @@
+=== replant sonnet 10:08:11
+[P_author_doc_iso] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $0.93 this run, $1.26 against cache, 338s
+[P_author_doc_live] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $1.41 this run, $1.92 against cache, 341s
+{
+ "judge": "sonnet",
+ "planting": "replant",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 3.183446,
+  "opus48": 3.91377,
+  "total": 7.097216
+ }
+}
+rc replant sonnet 0
+=== replant opus48 10:21:58
+[P_author_doc_iso] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $4.49 this run, $6.04 against cache, 451s
+[P_author_doc_live] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $6.43 this run, $8.79 against cache, 536s
+{
+ "judge": "opus48",
+ "planting": "replant",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 3.183446,
+  "opus48": 14.830675,
+  "total": 18.014121
+ }
+}
+rc replant opus48 0
+=== v2 sonnet 10:40:55
+[P_author_doc_iso] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $1.12 this run, $2.39 against cache, 430s
+[P_author_doc_live] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $1.69 this run, $3.62 against cache, 430s
+{
+ "judge": "sonnet",
+ "planting": "v2",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 288,
+   "outcomes": {
+    "scored": 288
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 288,
+   "outcomes": {
+    "scored": 288
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 6.002086,
+  "opus48": 14.830675,
+  "total": 20.832761
+ }
+}
+rc v2 sonnet 0
+=== v2 opus48 10:58:52
+[P_author_doc_iso] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $5.47 this run, $11.51 against cache, 545s
+[P_author_doc_live] 288/288 records; calls=288 cached=0 scored=288 refused=0 errored=0 $8.21 this run, $17.00 against cache, 701s
+{
+ "judge": "opus48",
+ "planting": "v2",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 288,
+   "outcomes": {
+    "scored": 288
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 288,
+   "outcomes": {
+    "scored": 288
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 6.002086,
+  "opus48": 28.509575,
+  "total": 34.511661
+ }
+}
+rc v2 opus48 0
+=== v3 sonnet 11:23:13
+[P_author_doc_iso] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $0.94 this run, $3.33 against cache, 338s
+[P_author_doc_live] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $1.43 this run, $5.04 against cache, 338s
+{
+ "judge": "sonnet",
+ "planting": "v3",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 8.371098,
+  "opus48": 28.509575,
+  "total": 36.880673
+ }
+}
+rc v3 sonnet 0
+=== v3 opus48 11:37:28
+[P_author_doc_iso] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $5.08 this run, $16.59 against cache, 517s
+[P_author_doc_live] 240/240 records; calls=240 cached=0 scored=240 refused=0 errored=0 $7.49 this run, $24.49 against cache, 660s
+{
+ "judge": "opus48",
+ "planting": "v3",
+ "result": {
+  "P_author_doc_iso": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  },
+  "P_author_doc_live": {
+   "n": 240,
+   "outcomes": {
+    "scored": 240
+   },
+   "aborted": null
+  }
+ },
+ "dollars": {
+  "sonnet": 8.371098,
+  "opus48": 41.083605,
+  "total": 49.454703
+ }
+}
+rc v3 opus48 0
+exit done

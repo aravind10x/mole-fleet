@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 44,
+ "n_files": 46,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -454,6 +454,28 @@
    "tag_source": "brief 07s H1 and amendment B2: instrument outputs (four fresh-context passes) under rubric.md 20962e5a… (section 2 unchanged from 07k; section 2b committed before either input was opened); no predictions registered",
    "added_beyond_brief_list": true,
    "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "b1/b1-results.json",
+   "sha256": "6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18",
+   "bytes": 1984966,
+   "sha256_fork_copy": "6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b1/plan.md sections 6 and 7 with dated amendments 1 and 2 (all before any judge call): the readings and the three predictions pre-registered with a sentence per outcome; prediction 1 indicative (amendment 2, Aravind); v3's partition a labelled weak-link sensitivity; the v2/v3 live − isolated view differences beside, no sentence; the prediction-3 clarification and the markdown companions added after codex round 2, labelled",
+   "added_beyond_brief_list": false,
+   "added_by": "brief 12 (B1) (2026-10-28), as the brief asks (a new entry, no existing entry edited)"
+  },
+  {
+   "path": "b1/b1-results.md",
+   "sha256": "378ba8c7dc9e56e7cca10c1ca3714d2d20a2a7e2df6a26f4e533f5999ca0b403",
+   "bytes": 27420,
+   "sha256_fork_copy": "378ba8c7dc9e56e7cca10c1ca3714d2d20a2a7e2df6a26f4e533f5999ca0b403",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b1/plan.md sections 6 and 7 with dated amendments 1 and 2 (all before any judge call): the readings and the three predictions pre-registered with a sentence per outcome; prediction 1 indicative (amendment 2, Aravind); v3's partition a labelled weak-link sensitivity; the v2/v3 live − isolated view differences beside, no sentence; the prediction-3 clarification and the markdown companions added after codex round 2, labelled",
+   "added_beyond_brief_list": false,
+   "added_by": "brief 12 (B1) (2026-10-28), as the brief asks (a new entry, no existing entry edited)"
   }
  ],
  "amendments": [
@@ -468,6 +490,15 @@
     "t1k-rater/ratings-2.json",
     "t1k-rater/ratings-triples.json",
     "t1k-rater/ratings-2-summary.md"
+   ],
+   "note": "additive; no earlier entry changed"
+  },
+  {
+   "date": "2026-10-28",
+   "by": "brief 12 (B1)",
+   "added": [
+    "b1/b1-results.json",
+    "b1/b1-results.md"
    ],
    "note": "additive; no earlier entry changed"
   }
