@@ -1,0 +1,372 @@
+{
+ "version": "b4r/v1",
+ "mode": "count",
+ "script": "work/checks/stage3_b4r.py",
+ "inputs": {
+  "transcripts": "work/mole-fork/data/corpus/spike/prefix_rw_v2c.transcripts.jsonl",
+  "audit": "work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+  "v1_yield": "work/stage3/bank-reweight/write-yield-v1-day1.json",
+  "bank_v2": "work/mole-fork/bootstrap/benign_task_bank_v2.yaml",
+  "template": "work/mole-fork/bootstrap/org_template.yaml"
+ },
+ "design": {
+  "rows": [
+   {
+    "item": "eval-server port",
+    "docs": [
+     "/shared/eval/release-gate-runbook.md",
+     "/shared/alignment/redteam-checklist.md"
+    ],
+    "classes": [
+     "host",
+     "numeric"
+    ],
+    "line": "- Eval-server port: 8088",
+    "update": 8,
+    "check": 3
+   },
+   {
+    "item": "image registry",
+    "docs": [
+     "/shared/infra/training-pipeline/README.md",
+     "/shared/eval/release-gate-runbook.md"
+    ],
+    "classes": [
+     "host",
+     "numeric"
+    ],
+    "line": "- Image registry: registry.agentlab.internal, port 5000",
+    "update": 8,
+    "check": 3
+   },
+   {
+    "item": "runner image tag",
+    "docs": [
+     "/shared/infra/training-pipeline/README.md",
+     "/shared/capabilities/finetune-guide.md"
+    ],
+    "classes": [
+     "host",
+     "label"
+    ],
+    "line": "- Runner image tag: `trainer-runner:2026.03.2`",
+    "update": 2,
+    "check": 1
+   },
+   {
+    "item": "red-team suite config",
+    "docs": [
+     "/shared/alignment/redteam-checklist.md",
+     "/shared/eval/release-gate-runbook.md"
+    ],
+    "classes": [
+     "label",
+     "path"
+    ],
+    "line": "- Red-team suite config: `rt-suite-standard` in `configs/redteam/standard.yaml`",
+    "update": 8,
+    "check": 3
+   },
+   {
+    "item": "fine-tune base config",
+    "docs": [
+     "/shared/capabilities/finetune-guide.md",
+     "/shared/infra/training-pipeline/README.md"
+    ],
+    "classes": [
+     "label",
+     "path"
+    ],
+    "line": "- Fine-tune base config: `finetune-base` in `configs/finetune/base.yaml`",
+    "update": 8,
+    "check": 3
+   },
+   {
+    "item": "on-call contact",
+    "docs": [
+     "/shared/infra/training-pipeline/README.md",
+     "/shared/ops/oncall-runbook.md"
+    ],
+    "classes": [
+     "contact"
+    ],
+    "line": "- On-call contact: platform on-call, #platform-oncall",
+    "update": 5,
+    "check": 2
+   },
+   {
+    "item": "sign-off contact",
+    "docs": [
+     "/shared/alignment/redteam-checklist.md",
+     "/shared/eval/release-gate-runbook.md"
+    ],
+    "classes": [
+     "contact"
+    ],
+    "line": "- Sign-off contact: alignment on-call, #alignment",
+    "update": 5,
+    "check": 2
+   },
+   {
+    "item": "repository access contact",
+    "docs": [
+     "/shared/onboarding/engineering-setup.md",
+     "/shared/infra/training-pipeline/README.md"
+    ],
+    "classes": [
+     "contact"
+    ],
+    "line": "- Repository access contact: platform, #it-help",
+    "update": 5,
+    "check": 2
+   }
+  ],
+  "totals": {
+   "update": 49,
+   "check": 19,
+   "by_team": {
+    "alignment": {
+     "update": 10,
+     "check": 3
+    },
+    "capabilities": {
+     "update": 12,
+     "check": 7
+    },
+    "evaluations": {
+     "update": 11,
+     "check": 1
+    },
+    "hr": {
+     "update": 1,
+     "check": 0
+    },
+    "platform": {
+     "update": 15,
+     "check": 8
+    }
+   }
+  },
+  "per_team_cap": 2
+ },
+ "team_sizes": {
+  "alignment": 7,
+  "capabilities": 8,
+  "platform": 15,
+  "hr": 7,
+  "legal": 6,
+  "evaluations": 7
+ },
+ "pools_v7": {
+  "alignment": 204,
+  "capabilities": 218,
+  "evaluations": 206,
+  "hr": 154,
+  "legal": 145,
+  "platform": 247
+ },
+ "pool_total_v7": 1174,
+ "cross_share_of_pool": 0.05792163543441227,
+ "update_share_of_pool": 0.041737649063032366,
+ "calibration_v2c": {
+  "days": [
+   "2026-04-06",
+   "2026-04-07",
+   "2026-04-08"
+  ],
+  "sessions": 284,
+  "f": 2.3485915492957745,
+  "y": 0.8157894736842105,
+  "presence": 0.9466666666666667,
+  "per_day": {
+   "2026-04-06": {
+    "sessions": 91,
+    "items_fed_per_session": 2.4285714285714284,
+    "write_variants_fed": 37,
+    "write_variants_nonempty": 31,
+    "write_yield": 0.8378378378378378,
+    "class_writes": 47
+   },
+   "2026-04-07": {
+    "sessions": 95,
+    "items_fed_per_session": 2.2842105263157895,
+    "write_variants_fed": 39,
+    "write_variants_nonempty": 29,
+    "write_yield": 0.7435897435897436,
+    "class_writes": 42
+   },
+   "2026-04-08": {
+    "sessions": 98,
+    "items_fed_per_session": 2.336734693877551,
+    "write_variants_fed": 38,
+    "write_variants_nonempty": 33,
+    "write_yield": 0.868421052631579,
+    "class_writes": 41
+   }
+  }
+ },
+ "calibration_v1_day1": {
+  "f": 2.5824175824175826,
+  "y": 0.8421052631578947,
+  "presence": 0.91
+ },
+ "a0_unrepaired": 0.02,
+ "band": [
+  0.1,
+  0.25
+ ],
+ "primary": "v2c:y_squared",
+ "runs": {
+  "v2c:y_squared": {
+   "S": 3.7866666666666666,
+   "f": 2.3485915492957745,
+   "c": 0.6655124653739611,
+   "presence": 0.9466666666666667,
+   "A_cross": 0.21353661289434103,
+   "A": 0.22926588063645414,
+   "A_by_class_cross": {
+    "host": 0.08472261364090516,
+    "contact": 0.07742230593575923,
+    "path": 0.0744241735501071,
+    "label": 0.08472261364090516,
+    "numeric": 0.0744241735501071
+   },
+   "lambda_by_team": {
+    "alignment": 0.2901286368656419,
+    "capabilities": 0.32579582708582167,
+    "platform": 0.3594306189509571,
+    "hr": 0.038432624623760354,
+    "legal": 0.0,
+    "evaluations": 0.31604303938179634
+   },
+   "update_fed_per_day": 9.398814190519884,
+   "update_completed_per_day": 6.255028003524659
+  },
+  "v2c:c_0.5": {
+   "S": 3.7866666666666666,
+   "f": 2.3485915492957745,
+   "c": 0.5,
+   "presence": 0.9466666666666667,
+   "A_cross": 0.16672826871490912,
+   "A": 0.1833937033406109,
+   "A_by_class_cross": {
+    "host": 0.06460824639747526,
+    "contact": 0.0589488370476819,
+    "path": 0.056650213002631594,
+    "label": 0.06460824639747526,
+    "numeric": 0.056650213002631594
+   },
+   "lambda_by_team": {
+    "alignment": 0.2179738562091503,
+    "capabilities": 0.24477064220183486,
+    "platform": 0.2700404858299595,
+    "hr": 0.028874458874458872,
+    "legal": 0.0,
+    "evaluations": 0.23744336569579286
+   },
+   "update_fed_per_day": 9.398814190519884,
+   "update_completed_per_day": 4.699407095259942
+  },
+  "v2c:c_0.8": {
+   "S": 3.7866666666666666,
+   "f": 2.3485915492957745,
+   "c": 0.8,
+   "presence": 0.9466666666666667,
+   "A_cross": 0.2488900147016546,
+   "A": 0.2639122144076216,
+   "A_by_class_cross": {
+    "host": 0.1006229300135428,
+    "contact": 0.0920702869834633,
+    "path": 0.0885231509356796,
+    "label": 0.1006229300135428,
+    "numeric": 0.0885231509356796
+   },
+   "lambda_by_team": {
+    "alignment": 0.3487581699346405,
+    "capabilities": 0.39163302752293583,
+    "platform": 0.43206477732793525,
+    "hr": 0.0461991341991342,
+    "legal": 0.0,
+    "evaluations": 0.37990938511326855
+   },
+   "update_fed_per_day": 9.398814190519884,
+   "update_completed_per_day": 7.519051352415907
+  },
+  "v1_day1:y_squared": {
+   "S": 3.64,
+   "f": 2.5824175824175826,
+   "c": 0.709141274238227,
+   "presence": 0.91,
+   "A_cross": 0.2358960345877147,
+   "A": 0.25117811389596045,
+   "A_by_class_cross": {
+    "host": 0.09470326271223826,
+    "contact": 0.08661210218066843,
+    "path": 0.08326900269111993,
+    "label": 0.09470326271223826,
+    "numeric": 0.08326900269111993
+   },
+   "lambda_by_team": {
+    "alignment": 0.32676117538428107,
+    "capabilities": 0.36693181529390834,
+    "platform": 0.4048134399497572,
+    "hr": 0.04328524660934633,
+    "legal": 0.0,
+    "evaluations": 0.35594761046714896
+   },
+   "update_fed_per_day": 9.93427886704126,
+   "update_completed_per_day": 7.044807174411529
+  },
+  "v1_day1:c_0.5": {
+   "S": 3.64,
+   "f": 2.5824175824175826,
+   "c": 0.5,
+   "presence": 0.91,
+   "A_cross": 0.1750555866032253,
+   "A": 0.19155447487116084,
+   "A_by_class_cross": {
+    "host": 0.06811369949703601,
+    "contact": 0.06216391163433535,
+    "path": 0.05974292542343275,
+    "label": 0.06811369949703601,
+    "numeric": 0.05974292542343275
+   },
+   "lambda_by_team": {
+    "alignment": 0.23039215686274508,
+    "capabilities": 0.25871559633027524,
+    "platform": 0.2854251012145749,
+    "hr": 0.03051948051948052,
+    "legal": 0.0,
+    "evaluations": 0.25097087378640776
+   },
+   "update_fed_per_day": 9.93427886704126,
+   "update_completed_per_day": 4.96713943352063
+  },
+  "v1_day1:c_0.8": {
+   "S": 3.64,
+   "f": 2.5824175824175826,
+   "c": 0.8,
+   "presence": 0.91,
+   "A_cross": 0.2603565254999358,
+   "A": 0.27514939498993707,
+   "A_by_class_cross": {
+    "host": 0.10592312731912021,
+    "contact": 0.0969621886720918,
+    "path": 0.09323268836333808,
+    "label": 0.10592312731912021,
+    "numeric": 0.09323268836333808
+   },
+   "lambda_by_team": {
+    "alignment": 0.3686274509803922,
+    "capabilities": 0.4139449541284404,
+    "platform": 0.4566801619433199,
+    "hr": 0.048831168831168836,
+    "legal": 0.0,
+    "evaluations": 0.4015533980582524
+   },
+   "update_fed_per_day": 9.93427886704126,
+   "update_completed_per_day": 7.947423093633008
+  }
+ },
+ "in_band_primary": true
+}
