@@ -4,9 +4,9 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 37,
+ "n_files": 44,
  "all_copies_identical": true,
- "mismatched_or_missing": [],
+ "mismatched_or_missing": 0,
  "files": [
   {
    "path": "t1/t1-results.json",
@@ -377,6 +377,99 @@
    "tag": "exploratory",
    "tag_source": "extra-judge-plan.md (brief 07p): exploratory; prediction E0 written first. Added beyond brief 11's list (landed after the list was drawn): a disclosed deviation",
    "added_beyond_brief_list": true
+  },
+  {
+   "path": "rater-07s/rater-07s-results.json",
+   "sha256": "d0a1b7b858ff02dd5fe9fb34db16e9830a3eba1179055e93ef87c9553e06d042",
+   "bytes": 22875,
+   "sha256_fork_copy": "d0a1b7b858ff02dd5fe9fb34db16e9830a3eba1179055e93ef87c9553e06d042",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "join-plan.md (brief 07s part J and amendment B2 part J): statistics and reading rules (J3 drift, C3 adds-to-max) pre-specified before any rating; no prediction registered, so descriptive. The readings and disclosures are written after the tables; the post-hoc parts inside them are labelled",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "rater-07s/rater-honest-reference.md",
+   "sha256": "a90ebce76d6b008bfa4ba36828662a9da27e910a9da670b73cb49655b70f100b",
+   "bytes": 9230,
+   "sha256_fork_copy": "a90ebce76d6b008bfa4ba36828662a9da27e910a9da670b73cb49655b70f100b",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "join-plan.md (brief 07s part J and amendment B2 part J): statistics and reading rules (J3 drift, C3 adds-to-max) pre-specified before any rating; no prediction registered, so descriptive. The readings and disclosures are written after the tables; the post-hoc parts inside them are labelled",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "rater-07s/rater-composition.md",
+   "sha256": "b8b572e2a9cfc2573313ff3e2c51836160631163827cd2001e08319d984388dc",
+   "bytes": 9508,
+   "sha256_fork_copy": "b8b572e2a9cfc2573313ff3e2c51836160631163827cd2001e08319d984388dc",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "join-plan.md (brief 07s part J and amendment B2 part J): statistics and reading rules (J3 drift, C3 adds-to-max) pre-specified before any rating; no prediction registered, so descriptive. The readings and disclosures are written after the tables; the post-hoc parts inside them are labelled",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "rater-07s/posthoc-drift-sensitivity.json",
+   "sha256": "47db6ac14f178ddcbc2c48b048ed8beb78a09a37a3169c9274e94045c0bd63e4",
+   "bytes": 1488,
+   "sha256_fork_copy": "47db6ac14f178ddcbc2c48b048ed8beb78a09a37a3169c9274e94045c0bd63e4",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "brief 07s part J, post hoc and labelled: C3's contrast with 07k maxima raised by the measured drift; the honest edits' R-C class shares",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "t1k-rater/ratings-2.json",
+   "sha256": "29d579b301c6c854e12bb60d1cc8440eaeef7b47213ba4aa59b773b6e79e0e8d",
+   "bytes": 76894,
+   "sha256_fork_copy": "29d579b301c6c854e12bb60d1cc8440eaeef7b47213ba4aa59b773b6e79e0e8d",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07s H1 and amendment B2: instrument outputs (four fresh-context passes) under rubric.md 20962e5a… (section 2 unchanged from 07k; section 2b committed before either input was opened); no predictions registered",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "t1k-rater/ratings-triples.json",
+   "sha256": "3690599f807e5eda9b940a8220f336e117e94fa4845d2eb63b74def8979ec518",
+   "bytes": 134183,
+   "sha256_fork_copy": "3690599f807e5eda9b940a8220f336e117e94fa4845d2eb63b74def8979ec518",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07s H1 and amendment B2: instrument outputs (four fresh-context passes) under rubric.md 20962e5a… (section 2 unchanged from 07k; section 2b committed before either input was opened); no predictions registered",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  },
+  {
+   "path": "t1k-rater/ratings-2-summary.md",
+   "sha256": "da49b790efb4a84db5298da2982eb5efc73381bfa9d33775290e7939729bb7e9",
+   "bytes": 953,
+   "sha256_fork_copy": "da49b790efb4a84db5298da2982eb5efc73381bfa9d33775290e7939729bb7e9",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 07s H1 and amendment B2: instrument outputs (four fresh-context passes) under rubric.md 20962e5a… (section 2 unchanged from 07k; section 2b committed before either input was opened); no predictions registered",
+   "added_beyond_brief_list": true,
+   "added_by": "brief 07s part J (2026-10-28), as the 07s amendment asks (a frozen-tables entry)"
+  }
+ ],
+ "amendments": [
+  {
+   "date": "2026-10-28",
+   "by": "brief 07s part J",
+   "added": [
+    "rater-07s/rater-07s-results.json",
+    "rater-07s/rater-honest-reference.md",
+    "rater-07s/rater-composition.md",
+    "rater-07s/posthoc-drift-sensitivity.json",
+    "t1k-rater/ratings-2.json",
+    "t1k-rater/ratings-triples.json",
+    "t1k-rater/ratings-2-summary.md"
+   ],
+   "note": "additive; no earlier entry changed"
   }
  ]
 }

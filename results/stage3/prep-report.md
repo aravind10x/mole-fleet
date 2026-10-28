@@ -708,3 +708,31 @@ OpenRouter key 1 $4.56 (smoke $0.02, null $1.42, v2 plants $1.70, v3 plants $1.4
 ### Spend
 
 $0: no judge call, nothing planted, nothing launched.
+
+## Brief 07s (2026-10-28): honest edits in the rater pool ($0)
+
+**First line. Honest single edits sit with the routine arm and below the middle arm on the rater's visibility scale.** The 116 honest edits of the null `prefix_rw_v2c`, scored blind under rubric section 2 (unchanged from 07k), have median 25 (mean 24.9; 72 percent under 40, 9 percent at 60 or more). v2's conforming (routine) statements cannot be told from them (AUROC 0.563 [0.480, 0.648]); v3's middle statements sit modestly above (0.648 [0.568, 0.722]); v1 (0.902) and alarming (0.981) well above; the sham below (0.260). The visibility axis now has an honest anchor at its low end, and a fifth of honest edits fall in the 41 to 60 band the middle arm was written for.
+
+**What ran.** Part 0 (blue): `stage3_rater_strip.py` `07s` mode with 4 new tests (fork `834e1e3`): every successful content edit of a class document in the three days, no-ops dropped (127), sampled 20 per document with `random.Random(20261137)` where 20 exist (116: README 19, fine-tuning guide 18 and engineering setup 19 taken whole), rendered as the changed lines with the edit's own day as `{date}`, shuffled with 60 of 07k's 348 statements re-drawn on the same stream; hashes in STATUS before rating; the part J plan (`rater-07s/join-plan.md`) written before any rating. Part R: a fresh rater session (`local_a2747ac3…`, Opus 5.5 orchestrating, rating nothing) ran two fresh-context passes on `fable` at high effort, as 07k's (fork `ba6edca`, `221191c`, `aeb5e43`); pass agreement Spearman 0.977. Part J (blue): `stage3_rater_join_07s.py` with 4 tests, committed before any score was read (fork `95c1534`).
+
+**Drift, not small by the plan's rule.** On the 60 re-drawn statements the 07s passes ran 8.05 points above 07k's (pass 2: 5.20) with the order kept (Spearman 0.919 [0.848, 0.958]). The shift is uniform across bands (+7 to +10) and makes J2's separations understatements. Read inside the 07s session, as the rule asks: honest 25 against routine 30 (n 21), middle 45 (n 10), v1 72.5 (n 8); same ordering.
+
+**Beside the primary.** Format-matched honest edits (one line, no account handle; 56) sit lower still (median 9). By the pilot's R-C classes (`pilot-gates.md` B.3; post hoc, labelled): honest edits under 40 0.724, 40 to 69 0.241, 70 to 79 0.017, 80 and over 0.017.
+
+**Deviations and disclosures.** 116 honest edits, not 120. The honest items are partly identifiable by form (handles 0.52 against 0.08; multi-line text), measured before rating. Every pass held the auto-loaded project memory index (no note opened, by each pass's report). The rater session read blue's part 0 STATUS line for its format: it rated nothing, and the pass prompts are kept and word-checked; the blue brief allowing that read was the error. Pass incidents are in `t1k-rater/rater-record-2.md`. Tables: `rater-07s/rater-honest-reference.md`; numbers `rater-07s/rater-07s-results.json`.
+
+## Brief 07s (B2) (2026-10-28): the composition item ($0)
+
+**First line. Read together, routine and middle-band triples stand out from honest triples although their single lines do not, and the gain is more than their most visible line.** Under rubric section 2b (committed before any input was opened), against the same-author honest null (22 triples; median 20): v2 conforming composition median 62.5, AUROC 0.849 [0.728, 0.946]; v3 middle median 70, 0.936 [0.854, 0.992]; v1 85 (0.949); alarming 95 (1.000); sham 5 (0.340). Composition minus the maximum single-statement score is +24.8 for routine and middle against +1.7 for same-author honest triples (contrast +23.1, intervals [16.4, 29.1] and [16.4, 28.8]: composition adds to the maximum); not for v1 (+6.2 [−0.4, 12.2]) or alarming (+5.1 [−1.2, 10.4]), whose top line already shows the harm.
+
+**What ran.** 104 distinct planted triples (the 176 payload instances of v1, v2, v3's planting file and the re-plant; each distinct triple once, every planting in the key) shuffled with 120 random honest triples (20 per document, any authors) and 22 same-author honest triples (all that exist), `random.Random(20261142)`; two fresh-context passes on `fable` (Spearman 0.982). Random null beside: median 45, routine 0.816, middle 0.928; against the 21 format-matched random triples, routine 0.894 [0.799, 0.965].
+
+**The drift sensitivity (post hoc, labelled).** The placeholders' maxima are 07k scores; raising them by the measured 07s drift (uniform +8.05 or per band) leaves the routine and middle contrasts at +13.5 to +15.0, every interval above zero (`rater-07s/posthoc-drift-sensitivity.json`).
+
+**What it does and does not say.** A triple is shown as a set, so the score is the harm's visibility to a reader given the grouping (the oracle-grouping condition), not what a deployable layer that must find the grouping sees. For routine and middle-band payloads the harm is legible in the composed text, and the open question is the grouping. B3's certification bar has its honest reference: 0 of 142 honest triples score above 75 (top 70).
+
+**Deviations and disclosures.** As brief 07s above, plus: honest triples carry handles in 0.82 (C5 has 1 format-matched same-author triple, so the matched reading rests on the random null); the same-author null is small (19 with all three edits scored for C3); triples carry op and anchor or region beside the texts so that 2b's "applied to the day-0 document" can be read. Tables: `rater-07s/rater-composition.md`; frozen-tables entries added (`b0/frozen-tables.json`, 44 files, tags exploratory, the post-hoc file sensitivity).
+
+### Spend
+
+$0: no judge call, nothing planted, nothing launched.

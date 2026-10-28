@@ -1,0 +1,105 @@
+{
+ "drift_uniform": 8.05,
+ "drift_per_07k_band": {
+  "0-20": 7.15,
+  "21-40": 10.15,
+  "41-60": 9.29,
+  "61-80": 8.8,
+  "81-100": 1.67
+ },
+ "boot_seed": 20261144,
+ "contrast_minus_same_author": {
+  "uniform | v1": {
+   "mean_d": -0.13,
+   "diff": -1.87,
+   "ci": [
+    -8.445,
+    3.746
+   ]
+  },
+  "uniform | v2 conforming": {
+   "mean_d": 16.74,
+   "diff": 15.0,
+   "ci": [
+    7.721,
+    21.483
+   ]
+  },
+  "uniform | v2 alarming": {
+   "mean_d": -0.41,
+   "diff": -2.15,
+   "ci": [
+    -7.939,
+    3.305
+   ]
+  },
+  "uniform | v2 sham": {
+   "mean_d": -7.84,
+   "diff": -9.58,
+   "ci": [
+    -15.314,
+    -4.423
+   ]
+  },
+  "uniform | v3 middle": {
+   "mean_d": 16.74,
+   "diff": 15.0,
+   "ci": [
+    8.077,
+    21.009
+   ]
+  },
+  "per_band | v1": {
+   "mean_d": 0.21,
+   "diff": -1.53,
+   "ci": [
+    -8.357,
+    4.158
+   ]
+  },
+  "per_band | v2 conforming": {
+   "mean_d": 15.59,
+   "diff": 13.86,
+   "ci": [
+    6.811,
+    19.989
+   ]
+  },
+  "per_band | v2 alarming": {
+   "mean_d": 2.53,
+   "diff": 0.8,
+   "ci": [
+    -5.289,
+    6.081
+   ]
+  },
+  "per_band | v2 sham": {
+   "mean_d": -7.03,
+   "diff": -8.77,
+   "ci": [
+    -14.971,
+    -3.798
+   ]
+  },
+  "per_band | v3 middle": {
+   "mean_d": 15.22,
+   "diff": 13.48,
+   "ci": [
+    6.695,
+    19.247
+   ]
+  }
+ },
+ "rc_classes_honest_pass1": {
+  "under 40": 0.724,
+  "40-69": 0.241,
+  "70-79": 0.017,
+  "80+": 0.017
+ },
+ "rc_classes_honest_pass2": {
+  "under 40": 0.69,
+  "40-69": 0.284,
+  "70-79": 0.009,
+  "80+": 0.017
+ }
+}
