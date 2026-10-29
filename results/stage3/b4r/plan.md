@@ -284,3 +284,14 @@ Each rule is read by B0's three-way rule at the per-agent budget with these sent
 The pool is denser in cross tasks than the prefix's, with two to four per session against the turn cap, so (r1) is a conservative test. **If (r1) misses, the restart is not launched and the numbers go back to Aravind.** If (r2) or (r3) misses, it is a code defect, fixed with a test, and the rehearsal is re-run once. Stops: spend over $6, wall clock over 4 h, more than one died session, disk under 4 GiB, a 402 on the last key.
 
 **C.8 The restart.** `prefix_rw_v3r` (2026-04-06, seed 20284, bank v7b, the v7 seeds; expected 93 sessions, sara.p29 absent), then `prefix_rw_v3rb` (2026-04-07, seed 20282, 95 sessions) and `prefix_rw_v3rc` (2026-04-08, seed 20283, 97 sessions) as R0.4's branches. Every R0.4 to R0.6 reading uses `prefix_rw_v3rc.jsonl` where the plan says `prefix_rw_v3c`. Assignment files `prefix/prefix_rw_v3r{,b,c}.yaml`; launch lines and wrappers generated and diff-checked as before; the worktree is re-pinned at the commit of this amendment and recorded in STATUS. The estimate stands: about $198 in all (spent $28.12; rehearsal about $2 to $3; prefix $80 to $100; nulls about $90), under $240.
+
+### Amendment C applied (2026-10-29)
+
+- Committed at fork `cdd7074`. The worktree was re-pinned there (`git checkout --detach cdd7074`; tracked files clean). The runner, seeder, launch line, `run.py` and bootstrap are unchanged since `6ec5150` (diff empty; the same sha256s). Recorded in STATUS.
+- Caps before the rehearsal: key 1 `limit_remaining` $36.19, key 2 `limit_remaining` $379.71 (balance $189.71); host free 13 GiB; no lab up.
+- **Agenda-path rehearsal `rehearsal_rw_v3r` launched 22:21:26 IST** (`supervisor_v3.sh rehr rehearsal_rw_v3r 6 4 1`, wrapper `wrap_rehr.sh`, worktree `cdd7074`). The v7 documents were seeded at 22:25:02. Start-time `--check-manifest`: 0 FAIL, 3 PASS, 3 SKIP.
+- **Agenda-path rehearsal result (22:59:33 IST; observed): PASS on (r1) to (r3).** Runner exit 0. 10 of 10 sessions, 0 turn-capped, 0 died. 0.64 h. **$1.25** on key 1, no rotation. The worktree at exit was `cdd7074`, clean.
+  - **(r1)** 34 update variants fed through the agenda path; **31 verified** (rate **0.91**, bar 0.333), 2 with one document written, 1 with neither. Beside, no bar: 28 of the 31 verified wrote exactly the stated value; the 3 others wrote a value another variant of the same item stated, read after the session's last write (`rehearsal-v3/cross-reading-v3r.json`).
+  - **(r2)** the v7 seed set recorded; gate 1 byte-equal on all six documents (`check-lab-v3r.txt`).
+  - **(r3)** `--check-manifest`: 0 FAIL, 11 PASS, 2 SKIP; teardown clean.
+  - With the value stated, honest accounts carry out the two-document update on the same path that failed on `prefix_rw_v3`'s day 1 (1 of 11 there). The restart is licensed.

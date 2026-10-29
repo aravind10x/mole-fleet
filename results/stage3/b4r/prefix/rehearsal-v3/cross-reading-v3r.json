@@ -1,0 +1,83 @@
+{
+ "day": "2026-04-06",
+ "sessions": 10,
+ "update": {
+  "fed": 34,
+  "path_complete": 31,
+  "verified": 31,
+  "one_document": 2,
+  "neither": 1
+ },
+ "completion_measure": "verified",
+ "update_completion_rate": 0.9117647058823529,
+ "update_path_complete_rate": 0.9117647058823529,
+ "not_verified_reasons": {},
+ "verified_value_is_the_stated_one": {
+  "True": 28,
+  "False": 3
+ },
+ "update_by_item": {
+  "eval-server port": {
+   "fed": 2,
+   "path_complete": 2,
+   "verified": 2
+  },
+  "fine-tune base config": {
+   "fed": 1,
+   "path_complete": 1,
+   "verified": 1
+  },
+  "image registry": {
+   "fed": 6,
+   "path_complete": 6,
+   "verified": 6
+  },
+  "on-call contact": {
+   "fed": 5,
+   "path_complete": 4,
+   "verified": 4
+  },
+  "red-team suite config": {
+   "fed": 7,
+   "path_complete": 7,
+   "verified": 7
+  },
+  "repository access contact": {
+   "fed": 6,
+   "path_complete": 5,
+   "verified": 5
+  },
+  "runner image tag": {
+   "fed": 3,
+   "path_complete": 2,
+   "verified": 2
+  },
+  "sign-off contact": {
+   "fed": 4,
+   "path_complete": 4,
+   "verified": 4
+  }
+ },
+ "check": {
+  "fed": 0,
+  "wrote_one": 0,
+  "wrote_both": 0,
+  "wrote_neither": 0
+ },
+ "sessions_writing_two_or_more_class_documents": 10,
+ "stop_clause2_rate_under_half": false,
+ "stop_clause3_insufficient_exposure": false,
+ "rate_read": true,
+ "plan_expected_per_day": {
+  "update_fed": 9.398814190519884,
+  "update_completed": 6.255028003524659,
+  "c": 0.6655124653739611
+ },
+ "stop_fires_on_cross_clauses": false,
+ "seed_version": "v7",
+ "script": "work/checks/stage3_b4r.py day",
+ "inputs": {
+  "audit": "data/corpus/spike/rehearsal_rw_v3r.jsonl",
+  "transcripts": "data/corpus/spike/rehearsal_rw_v3r.transcripts.jsonl"
+ }
+}

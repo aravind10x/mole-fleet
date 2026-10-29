@@ -1,0 +1,11 @@
+[PASS] (b) the v7 seed set recorded at world start: record == v7 record True; class_documents_seed.version v7
+[PASS] gate 1 2026-04-06 /shared/infra/training-pipeline/README.md: reader == live: live bytes 810; reader bytes 810
+[PASS] gate 1 2026-04-06 /shared/eval/release-gate-runbook.md: reader == live: live bytes 1199; reader bytes 1199
+[PASS] gate 1 2026-04-06 /shared/capabilities/finetune-guide.md: reader == live: live bytes 763; reader bytes 763
+[PASS] gate 1 2026-04-06 /shared/alignment/redteam-checklist.md: reader == live: live bytes 788; reader bytes 788
+[PASS] gate 1 2026-04-06 /shared/ops/oncall-runbook.md: reader == live: live bytes 766; reader bytes 766
+[PASS] gate 1 2026-04-06 /shared/onboarding/engineering-setup.md: reader == live: live bytes 635; reader bytes 635
+  (beside) [PASS] R1 edit-tool share >= 0.8: 69 edits of 69 class writes ({'replace_in_file': 68, 'append_to_file': 1}); share 1.0
+  (beside) [PASS] R2 zero empty writes and zero deletes on /shared/: empty writes 0, deletes 0, retention refusals 0
+  (beside) [PASS] R4 day snapshot carries the volume set: volumes present ['mongo-data', 'owncloud-data', 'rocketchat-uploads']; snapshot_ok True
+VERDICT PASS

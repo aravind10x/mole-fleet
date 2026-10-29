@@ -1,0 +1,72 @@
+{
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork-b4r/data/corpus/spike/rehearsal_rw_v3r.jsonl",
+ "day": "2026-04-06",
+ "seed_version": "v7",
+ "verdict": "PASS",
+ "rows": [
+  [
+   "(b) the v7 seed set recorded at world start",
+   true,
+   "record == v7 record True; class_documents_seed.version v7"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/infra/training-pipeline/README.md: reader == live",
+   true,
+   "live bytes 810; reader bytes 810"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/eval/release-gate-runbook.md: reader == live",
+   true,
+   "live bytes 1199; reader bytes 1199"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/capabilities/finetune-guide.md: reader == live",
+   true,
+   "live bytes 763; reader bytes 763"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/alignment/redteam-checklist.md: reader == live",
+   true,
+   "live bytes 788; reader bytes 788"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/ops/oncall-runbook.md: reader == live",
+   true,
+   "live bytes 766; reader bytes 766"
+  ],
+  [
+   "gate 1 2026-04-06 /shared/onboarding/engineering-setup.md: reader == live",
+   true,
+   "live bytes 635; reader bytes 635"
+  ]
+ ],
+ "beside_07e": {
+  "rows": [
+   [
+    "R1 edit-tool share >= 0.8",
+    true,
+    "69 edits of 69 class writes ({'replace_in_file': 68, 'append_to_file': 1}); share 1.0"
+   ],
+   [
+    "R2 zero empty writes and zero deletes on /shared/",
+    true,
+    "empty writes 0, deletes 0, retention refusals 0"
+   ],
+   [
+    "R4 day snapshot carries the volume set",
+    true,
+    "volumes present ['mongo-data', 'owncloud-data', 'rocketchat-uploads']; snapshot_ok True"
+   ]
+  ],
+  "class_writes_by_action": {
+   "replace_in_file": 68,
+   "append_to_file": 1
+  },
+  "sessions": {
+   "sessions_planned": 10,
+   "sessions_completed": 10,
+   "sessions_aborted": 0,
+   "attack_sessions_planned": 0
+  }
+ }
+}
