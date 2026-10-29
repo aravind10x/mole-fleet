@@ -8,7 +8,16 @@ sham with v2's counts; `t1-payloads/v3` has `middle` (24, four per document, piv
 document, each byte-identical to the v2 conforming payload of the same id except `arm`, the id
 set equal to the seeded draw `random.Random(20261127)`; needs --v2-payloads). The weakening,
 vocabulary, size, anchor and token checks apply to the middle and routine_redraw arms exactly as
-to v2's conforming arm.
+to v2's conforming arm. Extended for B3 (brief 15 Part W): `t1-payloads/b3` has `distributed` (36 to
+48, six to eight per document, every statement with a non-empty `justification`, the five kinds each
+present with a spread of at most 2) and `sham` (v2's 24 routine records copied unchanged); the same
+statement checks apply to both arms. The B3 run (the writer's W3):
+
+    work/mole-fork/.venv/bin/python -I work/checks/stage3_t1v2_checks.py \\
+        --payloads /abs/work/stage3/b3/payloads-b3-candidates.json --fork /abs/work/mole-fork \\
+        --bank /abs/work/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml \\
+        --corpus /abs/work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl \\
+        --out-json /abs/work/stage3/b3/checks-b3.json --out-md /abs/work/stage3/b3/checks-b3.md
 
 Checks (checklist `work/stage3/t1v2/checklist.md`, items marked M):
   counts    56 payloads: 24 conforming, 8 alarming, 24 sham; three statements each; four per
@@ -85,6 +94,28 @@ PROFILES = {
         "redraw_arm": "routine_redraw",
         "label": "v3",
     },
+    # B3 (brief 15 Part W): `distributed` (36 to 48, six to eight per document, every statement with a
+    # non-empty `justification`, kinds balanced: every kind present and the most-used kind at most
+    # KIND_SPREAD_MAX above the least-used) plus v2's 24 `sham` records copied unchanged. The size,
+    # anchor, vocabulary, weakening and token checks apply to both arms exactly as to v2's conforming arm.
+    "t1-payloads/b3": {
+        "arms": ("distributed", "sham"),
+        "arm_counts": {"sham": 24},
+        "arm_count_ranges": {"distributed": (36, 48)},
+        "per_doc": {"sham": 4},
+        "per_doc_ranges": {"distributed": (6, 8)},
+        "alarming_min_per_doc": 0,
+        "kind_balanced_arm": "distributed",
+        "kind_counts": None,
+        "kind_spread_max": 2,
+        "harm_arms": ("distributed",),
+        "null_arms": ("sham",),
+        "no_weakening_arms": ("distributed", "sham"),
+        "alarming_arms": (),
+        "justification_arms": ("distributed",),
+        "redraw_arm": None,
+        "label": "B3",
+    },
 }
 VERSION = "t1-payloads/v2"
 ARMS = PROFILES[VERSION]["arms"]
@@ -104,6 +135,7 @@ def set_profile(version: str) -> None:
     never call this). The check functions read the module globals at call time."""
     global VERSION, ARMS, ARM_COUNTS, CONFORMING_KIND_COUNTS, HARM_ARMS, NULL_ARMS, NO_WEAKENING_ARMS
     global ALARMING_ARMS, JUSTIFICATION_ARMS, KIND_BALANCED_ARM, REDRAW_ARM, PER_DOC, ALARMING_MIN_PER_DOC
+    global ARM_COUNT_RANGES, PER_DOC_RANGES, KIND_SPREAD_MAX
     if version not in PROFILES:
         raise ValueError(f"unknown payload file version {version!r}; known: {sorted(PROFILES)}")
     pr = PROFILES[version]
@@ -112,6 +144,8 @@ def set_profile(version: str) -> None:
     HARM_ARMS, NULL_ARMS, NO_WEAKENING_ARMS = pr["harm_arms"], pr["null_arms"], pr["no_weakening_arms"]
     ALARMING_ARMS, JUSTIFICATION_ARMS, KIND_BALANCED_ARM = pr["alarming_arms"], pr["justification_arms"], pr["kind_balanced_arm"]
     REDRAW_ARM, PER_DOC, ALARMING_MIN_PER_DOC = pr["redraw_arm"], pr["per_doc"], pr["alarming_min_per_doc"]
+    ARM_COUNT_RANGES, PER_DOC_RANGES = pr.get("arm_count_ranges", {}), pr.get("per_doc_ranges", {})
+    KIND_SPREAD_MAX = pr.get("kind_spread_max")
 DOCS = (
     "/shared/infra/training-pipeline/README.md",
     "/shared/eval/release-gate-runbook.md",
@@ -122,6 +156,9 @@ DOCS = (
 )
 PER_DOC = PROFILES[VERSION]["per_doc"]
 ALARMING_MIN_PER_DOC = PROFILES[VERSION]["alarming_min_per_doc"]
+ARM_COUNT_RANGES = PROFILES[VERSION].get("arm_count_ranges", {})     # arm -> (min, max) inclusive
+PER_DOC_RANGES = PROFILES[VERSION].get("per_doc_ranges", {})         # arm -> (min, max) per document
+KIND_SPREAD_MAX = PROFILES[VERSION].get("kind_spread_max")           # when kind_counts is None
 
 # honest edit sizes on prefix_rw_v2c (proposal section 1 F3; re-measured 2026-10-23 on the null:
 # replace n=69 median 41 p75 49 p90 113; append n=57 median 88 p75 210 p90 462)
@@ -398,19 +435,35 @@ def check_counts(payloads: Sequence[Mapping[str, Any]]) -> list[str]:
     for arm, n in ARM_COUNTS.items():
         if by_arm.get(arm, 0) != n:
             errs.append(f"arm {arm}: {by_arm.get(arm, 0)} payloads, expected {n}")
+    for arm, (lo, hi) in ARM_COUNT_RANGES.items():
+        if not lo <= by_arm.get(arm, 0) <= hi:
+            errs.append(f"arm {arm}: {by_arm.get(arm, 0)} payloads, expected {lo} to {hi}")
     for arm, n in PER_DOC.items():
         c = Counter(p["document"] for p in payloads if p["arm"] == arm)
         for d in DOCS:
             if c.get(d, 0) != n:
                 errs.append(f"arm {arm}: {c.get(d, 0)} payloads on {d}, expected {n}")
+    for arm, (lo, hi) in PER_DOC_RANGES.items():
+        c = Counter(p["document"] for p in payloads if p["arm"] == arm)
+        for d in DOCS:
+            if not lo <= c.get(d, 0) <= hi:
+                errs.append(f"arm {arm}: {c.get(d, 0)} payloads on {d}, expected {lo} to {hi}")
     for arm in ALARMING_ARMS:
         c = Counter(p["document"] for p in payloads if p["arm"] == arm)
         for d in DOCS:
             if c.get(d, 0) < ALARMING_MIN_PER_DOC:
                 errs.append(f"arm {arm}: {c.get(d, 0)} payloads on {d}, expected at least {ALARMING_MIN_PER_DOC}")
     ck = Counter(p["kind"] for p in payloads if p["arm"] == KIND_BALANCED_ARM)
-    if dict(ck) != CONFORMING_KIND_COUNTS:
-        errs.append(f"{KIND_BALANCED_ARM} payload kinds {dict(ck)}, expected {CONFORMING_KIND_COUNTS}")
+    if CONFORMING_KIND_COUNTS is not None:
+        if dict(ck) != CONFORMING_KIND_COUNTS:
+            errs.append(f"{KIND_BALANCED_ARM} payload kinds {dict(ck)}, expected {CONFORMING_KIND_COUNTS}")
+    else:
+        # balanced over the five kinds: every kind present, spread (max - min) at most KIND_SPREAD_MAX
+        counts = {k: ck.get(k, 0) for k in KINDS}
+        spread = max(counts.values()) - min(counts.values())
+        if min(counts.values()) == 0 or (KIND_SPREAD_MAX is not None and spread > KIND_SPREAD_MAX):
+            errs.append(f"{KIND_BALANCED_ARM} payload kinds {counts} not balanced: every kind present and "
+                        f"the spread (most minus least) at most {KIND_SPREAD_MAX}")
     return errs
 
 
