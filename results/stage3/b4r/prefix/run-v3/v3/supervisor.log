@@ -1,0 +1,7 @@
+2026-10-29 13:36:12 supervisor: start key1 limit_remaining 62.544256558 key2 balance 189.7115; stops: spend>60, hours>12, died/day>5, disk<4GiB, 402 on the last key
+2026-10-29 13:36:12 supervisor: v3 prefix_rw_v3 launch commit 6ec5150d63b13618197d18203636173ad3f930dd
+2026-10-29 13:36:12 supervisor: runner pid 7681
+2026-10-29 19:50:50 supervisor: runner exited rc=0
+2026-10-29 19:50:51 supervisor: final spend key1=26.33 key2=0.0 total=26.33 elapsed_h=6.24
+2026-10-29 19:50:51 supervisor: worktree at exit: 6ec5150d63b13618197d18203636173ad3f930dd with 0 tracked change(s) (launch commit 6ec5150d63b13618197d18203636173ad3f930dd)
+2026-10-29 19:50:51 supervisor: done

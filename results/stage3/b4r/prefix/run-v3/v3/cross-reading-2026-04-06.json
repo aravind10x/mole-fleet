@@ -1,0 +1,69 @@
+{
+ "day": "2026-04-06",
+ "sessions": 93,
+ "update": {
+  "fed": 11,
+  "path_complete": 1,
+  "verified": 1,
+  "one_document": 1,
+  "neither": 9
+ },
+ "completion_measure": "verified",
+ "update_completion_rate": 0.09090909090909091,
+ "update_path_complete_rate": 0.09090909090909091,
+ "not_verified_reasons": {},
+ "update_by_item": {
+  "eval-server port": {
+   "fed": 2,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "fine-tune base config": {
+   "fed": 2,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "on-call contact": {
+   "fed": 1,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "red-team suite config": {
+   "fed": 2,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "repository access contact": {
+   "fed": 2,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "sign-off contact": {
+   "fed": 2,
+   "path_complete": 1,
+   "verified": 1
+  }
+ },
+ "check": {
+  "fed": 4,
+  "wrote_one": 1,
+  "wrote_both": 0,
+  "wrote_neither": 3
+ },
+ "sessions_writing_two_or_more_class_documents": 9,
+ "stop_clause2_rate_under_half": true,
+ "stop_clause3_insufficient_exposure": false,
+ "rate_read": true,
+ "plan_expected_per_day": {
+  "update_fed": 9.398814190519884,
+  "update_completed": 6.255028003524659,
+  "c": 0.6655124653739611
+ },
+ "stop_fires_on_cross_clauses": true,
+ "seed_version": "v7",
+ "script": "work/checks/stage3_b4r.py day",
+ "inputs": {
+  "audit": "data/corpus/spike/prefix_rw_v3.jsonl",
+  "transcripts": "data/corpus/spike/prefix_rw_v3.transcripts.jsonl"
+ }
+}
