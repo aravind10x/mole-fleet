@@ -459,3 +459,73 @@ def test_rehearsal_pin_check_reads_the_session_the_pinned_update_ran_in():
     assert rh.pinned_update_rows(man, {"alignment/191": text}, tr, rows, day, v7)[0][1] is False   # values differ
     rows[1] = {**rows[1], "action": "write_file"}
     assert rh.pinned_update_rows(man, {"alignment/191": text}, tr, rows, day, v7)[0][1] is False   # not replace_in_file
+
+
+# ── bank v7b (Amendment C): the update variants state the new value ──────────────────────────
+
+V7B = BANKS / "benign_task_bank_v2_class_v7b.yaml"
+REH = BANKS / "benign_task_bank_v7b_rehearsal_updates.yaml"
+
+
+def test_v7b_is_the_generator_with_named_values_and_changes_only_the_49_update_lines():
+    text = r1.reweighted_text(SHIPPED.read_text(encoding="utf-8"),
+                              rc.added_for_reweight(rc.bank_tasks(with_cross=True, version="v7b")))
+    assert text == V7B.read_text(encoding="utf-8")
+    d6 = [ln for ln in difflib.unified_diff(V6.read_text().splitlines(), text.splitlines(), lineterm="", n=0)
+          if not ln.startswith(("---", "+++", "@@"))]
+    assert len(d6) == 68 and all(ln.startswith("+") for ln in d6)
+    v7 = V7.read_text().splitlines()
+    v7b = text.splitlines()
+    assert len(v7) == len(v7b)
+    changed = [(a, b) for a, b in zip(v7, v7b) if a != b]
+    assert len(changed) == 49
+    assert all("changed this week:" in a and "changed this week to " in b for a, b in changed)
+
+
+def test_v7b_values_are_routine_new_values_in_the_items_format_carrying_the_rows_classes():
+    vals = dz.routine_values()
+    for r, vs in zip(dz.SHARED, vals):
+        assert len(vs) == r["update"] == len(set(vs))
+        key = r["line"].split(":")[0] + ": "
+        seed_value = r["line"][len(key):]
+        for v in vs:
+            assert v != seed_value
+            assert {c for c, _ in b0.entities(key + v) if c in dz.ENTITY_CLASSES} == set(r["classes"]), (r["item"], v)
+    for v in dz.allocation(W):
+        if v["kind"] != "update":
+            continue
+        t = dz.task_text(v, "v7b")
+        assert f"changed this week to {v['value']}:" in t
+        assert [p for p in rc.DOC_PATHS if p in t] == sorted({v["doc1"], v["doc2"]}, key=rc.DOC_PATHS.index)
+        for p in (v["doc1"], v["doc2"]):
+            assert cd.classify_doc_task(t, p) == "write"
+            assert set(cd.shared_paths(t)) & set(rc.DOC_PATHS) == {v["doc1"], v["doc2"]}
+
+
+def test_the_rehearsal_bank_holds_each_teams_v7b_update_variants_only():
+    doc = yaml.safe_load(REH.read_text())
+    upd = {dz.task_text(v, "v7b"): v["team"] for v in dz.allocation(W) if v["kind"] == "update"}
+    assert set(doc) == {"alignment", "capabilities", "evaluations", "platform"}
+    for team, e in doc.items():
+        assert e["variants"] and all(upd.get(t) == team for t in e["variants"])
+    assert sum(len(e["variants"]) for e in doc.values()) == 48            # hr's one update is not in the rehearsal
+
+
+def test_the_day_reading_recognises_v7b_texts_and_reports_the_stated_value():
+    v7 = class_seed_mapping("v7")
+    up = next(v for v in dz.allocation(W) if v["kind"] == "update" and v["item"] == "eval-server port")
+    day = "2026-04-06"
+    st = {p: v7[("owncloud", p)] for p in rc.DOC_PATHS}
+    tr = [_transcript("s1", "a.one", day, [dz.task_text(up, "v7b")]) for _ in range(5)]
+    tr = [{**t, "task_id": f"s{i}"} for i, t in enumerate(tr)]
+    au = []
+    for i in range(5):
+        val = up["value"] if i < 4 else "8199"
+        for p in (up["doc1"], up["doc2"]):
+            st[p] = v7[("owncloud", p)].replace("port: 8088", f"port: {val}")
+            au.append(_w(f"{day}T0{i}:10:00Z", "a.one", p, st[p], task=f"s{i}"))
+            st[p] = v7[("owncloud", p)]
+            au.append(_w(f"{day}T0{i}:20:00Z", "a.one", p, st[p], task=f"r{i}"))   # reset by another session
+    res = b4r.day_reading(tr, au, day, base=v7)
+    assert res["update"]["fed"] == 5 and res["update"]["verified"] == 5 and not res["stop_clause2_rate_under_half"]
+    assert res["verified_value_is_the_stated_one"] == {"True": 4, "False": 1}

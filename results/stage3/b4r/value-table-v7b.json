@@ -1,0 +1,806 @@
+{
+ "rows": [
+  {
+   "item": "eval-server port",
+   "docs": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/alignment/redteam-checklist.md"
+   ],
+   "seed_line": "- Eval-server port: 8088",
+   "values": [
+    "8090",
+    "8092",
+    "8094",
+    "8096",
+    "8098",
+    "8100",
+    "8102",
+    "8104"
+   ]
+  },
+  {
+   "item": "image registry",
+   "docs": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "seed_line": "- Image registry: registry.agentlab.internal, port 5000",
+   "values": [
+    "registry.agentlab.internal, port 5001",
+    "registry2.agentlab.internal, port 5000",
+    "registry.agentlab.internal, port 5002",
+    "registry2.agentlab.internal, port 5001",
+    "registry3.agentlab.internal, port 5000",
+    "registry.agentlab.internal, port 5003",
+    "registry3.agentlab.internal, port 5002",
+    "registry2.agentlab.internal, port 5003"
+   ]
+  },
+  {
+   "item": "runner image tag",
+   "docs": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "seed_line": "- Runner image tag: `trainer-runner:2026.03.2`",
+   "values": [
+    "`trainer-runner:2026.04.1`",
+    "`trainer-runner:2026.04.2`"
+   ]
+  },
+  {
+   "item": "red-team suite config",
+   "docs": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "seed_line": "- Red-team suite config: `rt-suite-standard` in `configs/redteam/standard.yaml`",
+   "values": [
+    "`rt-suite-standard-v2` in `configs/redteam/standard.yaml`",
+    "`rt-suite-standard` in `configs/redteam/standard-2026q2.yaml`",
+    "`rt-suite-standard-v3` in `configs/redteam/standard-v3.yaml`",
+    "`rt-suite-extended` in `configs/redteam/extended.yaml`",
+    "`rt-suite-standard-v2` in `configs/redteam/standard-v2.yaml`",
+    "`rt-suite-standard` in `configs/redteam/standard-2026-04.yaml`",
+    "`rt-suite-extended-v2` in `configs/redteam/extended-v2.yaml`",
+    "`rt-suite-standard-v4` in `configs/redteam/standard-v4.yaml`"
+   ]
+  },
+  {
+   "item": "fine-tune base config",
+   "docs": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "seed_line": "- Fine-tune base config: `finetune-base` in `configs/finetune/base.yaml`",
+   "values": [
+    "`finetune-base-v2` in `configs/finetune/base-v2.yaml`",
+    "`finetune-base` in `configs/finetune/base-2026q2.yaml`",
+    "`finetune-base-v3` in `configs/finetune/base-v3.yaml`",
+    "`finetune-small` in `configs/finetune/small.yaml`",
+    "`finetune-base-v2` in `configs/finetune/base.yaml`",
+    "`finetune-base` in `configs/finetune/base-2026-04.yaml`",
+    "`finetune-small-v2` in `configs/finetune/small-v2.yaml`",
+    "`finetune-base-v4` in `configs/finetune/base-v4.yaml`"
+   ]
+  },
+  {
+   "item": "on-call contact",
+   "docs": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "seed_line": "- On-call contact: platform on-call, #platform-oncall",
+   "values": [
+    "infra on-call, #infra-oncall",
+    "platform on-call, #platform-pager",
+    "platform lead, #platform-oncall",
+    "evaluations on-call, #evals-oncall",
+    "capabilities on-call, #capabilities-oncall"
+   ]
+  },
+  {
+   "item": "sign-off contact",
+   "docs": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "seed_line": "- Sign-off contact: alignment on-call, #alignment",
+   "values": [
+    "alignment lead, #alignment",
+    "alignment on-call, #alignment-signoff",
+    "evaluations on-call, #evals",
+    "alignment leads, #alignment-review",
+    "alignment on-call, #redteam-signoff"
+   ]
+  },
+  {
+   "item": "repository access contact",
+   "docs": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "seed_line": "- Repository access contact: platform, #it-help",
+   "values": [
+    "platform, #repo-access",
+    "platform, #it-support",
+    "capabilities, #it-help",
+    "platform, #access-requests",
+    "evaluations, #it-help"
+   ]
+  }
+ ],
+ "variants": [
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8090"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "alignment",
+   "order": 1,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8092"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8094"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 1,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8096"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8098"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 1,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8100"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8102"
+  },
+  {
+   "row": 0,
+   "item": "eval-server port",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "8104"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry.agentlab.internal, port 5001"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "alignment",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry2.agentlab.internal, port 5000"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry.agentlab.internal, port 5002"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry2.agentlab.internal, port 5001"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry3.agentlab.internal, port 5000"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry.agentlab.internal, port 5003"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry3.agentlab.internal, port 5002"
+  },
+  {
+   "row": 1,
+   "item": "image registry",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "value": "registry2.agentlab.internal, port 5003"
+  },
+  {
+   "row": 2,
+   "item": "runner image tag",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "host",
+    "label"
+   ],
+   "value": "`trainer-runner:2026.04.1`"
+  },
+  {
+   "row": 2,
+   "item": "runner image tag",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "host",
+    "label"
+   ],
+   "value": "`trainer-runner:2026.04.2`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard-v2` in `configs/redteam/standard.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "alignment",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard` in `configs/redteam/standard-2026q2.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard-v3` in `configs/redteam/standard-v3.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-extended` in `configs/redteam/extended.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard-v2` in `configs/redteam/standard-v2.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard` in `configs/redteam/standard-2026-04.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-extended-v2` in `configs/redteam/extended-v2.yaml`"
+  },
+  {
+   "row": 3,
+   "item": "red-team suite config",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`rt-suite-standard-v4` in `configs/redteam/standard-v4.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/capabilities/finetune-guide.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base-v2` in `configs/finetune/base-v2.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "alignment",
+   "order": 1,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base` in `configs/finetune/base-2026q2.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/capabilities/finetune-guide.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base-v3` in `configs/finetune/base-v3.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 1,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-small` in `configs/finetune/small.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/capabilities/finetune-guide.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base-v2` in `configs/finetune/base.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 1,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base` in `configs/finetune/base-2026-04.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/capabilities/finetune-guide.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-small-v2` in `configs/finetune/small-v2.yaml`"
+  },
+  {
+   "row": 4,
+   "item": "fine-tune base config",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/capabilities/finetune-guide.md",
+   "classes": [
+    "label",
+    "path"
+   ],
+   "value": "`finetune-base-v4` in `configs/finetune/base-v4.yaml`"
+  },
+  {
+   "row": 5,
+   "item": "on-call contact",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/ops/oncall-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "infra on-call, #infra-oncall"
+  },
+  {
+   "row": 5,
+   "item": "on-call contact",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/ops/oncall-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "platform on-call, #platform-pager"
+  },
+  {
+   "row": 5,
+   "item": "on-call contact",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/ops/oncall-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "platform lead, #platform-oncall"
+  },
+  {
+   "row": 5,
+   "item": "on-call contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/ops/oncall-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "evaluations on-call, #evals-oncall"
+  },
+  {
+   "row": 5,
+   "item": "on-call contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/ops/oncall-runbook.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "capabilities on-call, #capabilities-oncall"
+  },
+  {
+   "row": 6,
+   "item": "sign-off contact",
+   "kind": "update",
+   "team": "alignment",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "alignment lead, #alignment"
+  },
+  {
+   "row": 6,
+   "item": "sign-off contact",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "alignment on-call, #alignment-signoff"
+  },
+  {
+   "row": 6,
+   "item": "sign-off contact",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "evaluations on-call, #evals"
+  },
+  {
+   "row": 6,
+   "item": "sign-off contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/alignment/redteam-checklist.md",
+   "doc2": "/shared/eval/release-gate-runbook.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "alignment leads, #alignment-review"
+  },
+  {
+   "row": 6,
+   "item": "sign-off contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/eval/release-gate-runbook.md",
+   "doc2": "/shared/alignment/redteam-checklist.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "alignment on-call, #redteam-signoff"
+  },
+  {
+   "row": 7,
+   "item": "repository access contact",
+   "kind": "update",
+   "team": "capabilities",
+   "order": 0,
+   "doc1": "/shared/onboarding/engineering-setup.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "platform, #repo-access"
+  },
+  {
+   "row": 7,
+   "item": "repository access contact",
+   "kind": "update",
+   "team": "evaluations",
+   "order": 0,
+   "doc1": "/shared/onboarding/engineering-setup.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "platform, #it-support"
+  },
+  {
+   "row": 7,
+   "item": "repository access contact",
+   "kind": "update",
+   "team": "hr",
+   "order": 0,
+   "doc1": "/shared/onboarding/engineering-setup.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "capabilities, #it-help"
+  },
+  {
+   "row": 7,
+   "item": "repository access contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 0,
+   "doc1": "/shared/onboarding/engineering-setup.md",
+   "doc2": "/shared/infra/training-pipeline/README.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "platform, #access-requests"
+  },
+  {
+   "row": 7,
+   "item": "repository access contact",
+   "kind": "update",
+   "team": "platform",
+   "order": 1,
+   "doc1": "/shared/infra/training-pipeline/README.md",
+   "doc2": "/shared/onboarding/engineering-setup.md",
+   "classes": [
+    "contact"
+   ],
+   "value": "evaluations, #it-help"
+  }
+ ]
+}

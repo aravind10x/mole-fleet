@@ -1,0 +1,22 @@
+# Run from the project root. All paths below are relative to work/mole-fork.
+# The key is selected by variable name from .env (generation.key); nothing here is edited by hand.
+cd work/mole-fork
+set -a && source .env && set +a
+export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"   # key 1 active, key 2 the declared fallback (client rotation on 402)
+export LAB_COMPOSE="$PWD/data/corpus/spike/lab.nogitlab.yaml"
+export NPC_AGENTIC_ENVS="org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store"
+export LLM_RETRY_MAX_ATTEMPTS="40"
+OPENROUTER_MODEL=moonshotai/kimi-k2.6 \
+  .venv/bin/python scripts/sim_runner.py --smoke --personas alice.kim,zoe.c36,ben.c11,kofi.o52,wei.n2 --multi-day --no-insiders --task-bank results/stage3/bank-reweight/benign_task_bank_v7b_rehearsal_updates.yaml --class-documents --class-documents-version v7 --days 1 --sessions-per-day 2 --concurrency 5 --mode agentic --seed 20285 --out data/corpus/spike/rehearsal_rw_v3r.jsonl
+
+EXPECTED PLAN
+  assignment       : ../stage3/prefix/rehearsal-v3/rehearsal_v3r.yaml
+  branch           : None   mode: agentic   days: 1
+  roster size      : 5
+  sessions/day     : 2
+  planned sess/day : 10  (roster x sessions/day)
+  coalition instances (0):
+  persona files that must exist: 0
+  PRESENCE-AWARE PLAN (seed 20285, start 2026-04-06; the presence draw of mole/generator/presence.py): 10 sessions in all
+    2026-04-06: 5 of 5 accounts act, 10 sessions planned
+    scenario sessions expected over the run: 0 (one per role-day)

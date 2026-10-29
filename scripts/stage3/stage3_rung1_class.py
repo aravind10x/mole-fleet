@@ -149,22 +149,22 @@ SHARED = dz.SHARED
 CROSS_TMPL = (dz.UPDATE_TMPL, dz.CHECK_TMPL)
 
 
-def cross_tasks() -> dict[str, list[tuple[str, tuple[str, str], str]]]:
+def cross_tasks(version: str = "v7") -> dict[str, list[tuple[str, tuple[str, str], str]]]:
     """{team: [(role, (doc1, doc2), text)]}: bank v7's cross-document variants. For the draw model an
     update is a write on both documents and a check a read of both (it edits at most the stale copy,
     usually neither; plan amendment A.14); rung 0's classifier reads both kinds as writes (tested), which
     is a property of the text, not evidence of what a session does."""
     W = {d["path"]: d["write_teams"] for d in CLASS}
     return {team: [("write" if kind == "update" else "read", docs, txt) for kind, docs, txt in tasks]
-            for team, tasks in dz.cross_tasks(W).items()}
+            for team, tasks in dz.cross_tasks(W, version).items()}
 
 
-def bank_tasks(with_cross: bool = False) -> dict[str, list[tuple[str, Any, str]]]:
-    """The class tasks a bank version appends per team: v6's (class_tasks) and, for v7, the
-    cross-document variants after them."""
+def bank_tasks(with_cross: bool = False, version: str = "v7") -> dict[str, list[tuple[str, Any, str]]]:
+    """The class tasks a bank version appends per team: v6's (class_tasks) and, for v7 / v7b, the
+    cross-document variants after them (v7b: the update variants state the new value)."""
     ct: dict[str, list[tuple[str, Any, str]]] = {t: list(v) for t, v in class_tasks().items()}
     if with_cross:
-        for team, tasks in cross_tasks().items():
+        for team, tasks in cross_tasks(version).items():
             ct.setdefault(team, []).extend(tasks)
     return ct
 
@@ -299,7 +299,8 @@ def analyse(ns: argparse.Namespace) -> dict[str, Any]:
     roster = r1.roster_from_template(tmpl)
     sizes = dict(Counter(t for _, t in roster))
     shipped = yaml.safe_load(open(ns.bank_v2, encoding="utf-8"))
-    ct = bank_tasks(with_cross=bool(getattr(ns, "with_cross", False)))
+    ct = bank_tasks(with_cross=bool(getattr(ns, "with_cross", False)),
+                    version="v7b" if getattr(ns, "named_values", False) else "v7")
     # build the re-weighted-class bank copy (shipped untouched); reuse r1's appender
     bank_info = {}
     if ns.bank_out_dir:
@@ -582,6 +583,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--with-cross", action="store_true",
                     help="bank v7 (brief 14): append the cross-document maintenance variants of "
                          "stage3_b4r_design.py after each team's class tasks (v6 without it)")
+    ap.add_argument("--named-values", action="store_true",
+                    help="with --with-cross: bank v7b (plan Amendment C), the update variants state the new value")
     ap.add_argument("--from-corpus", default=None, metavar="AUDIT_JSONL",
                     help="G0a: read the actual lab corpus instead of the draw model (tested)")
     ap.add_argument("--out-json", required=True)

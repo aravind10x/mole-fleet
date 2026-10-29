@@ -159,8 +159,13 @@ def _norm_text(t: str) -> str:
 
 
 def cross_variant_texts() -> dict[str, dict[str, Any]]:
-    """{normalised text: variant} for every bank-v7 cross-document variant."""
-    return {_norm_text(dz.task_text(v)): v for v in dz.allocation(write_teams())}
+    """{normalised text: variant} for every cross-document variant of bank v7 and of bank v7b (whose update
+    variants state the new value; Amendment C)."""
+    out: dict[str, dict[str, Any]] = {}
+    for v in dz.allocation(write_teams()):
+        for version in ("v7", "v7b"):
+            out[_norm_text(dz.task_text(v, version))] = {**v, "bank": version}
+    return out
 
 
 def _ok_write(r: Mapping[str, Any]) -> str | None:
@@ -228,6 +233,7 @@ def day_reading(transcripts: Sequence[Mapping[str, Any]], audit: Sequence[Mappin
     chk = {"fed": 0, "wrote_one": 0, "wrote_both": 0, "wrote_neither": 0}
     by_row: dict[str, dict[str, int]] = defaultdict(lambda: {"fed": 0, "path_complete": 0, "verified": 0})
     why: Counter = Counter()
+    stated: Counter = Counter()
     sessions = 0
     two_doc_sessions = 0
     for t in transcripts:
@@ -266,6 +272,8 @@ def day_reading(transcripts: Sequence[Mapping[str, Any]], audit: Sequence[Mappin
             if changed and same:
                 upd["verified"] += 1
                 by_row[v["item"]]["verified"] += 1
+                if v.get("bank") == "v7b":   # beside, no bar (Amendment C): the value written is the one stated
+                    stated[item_value(f"x: {v['value']}") == item_value(vals[0][1])] += 1
             else:
                 why["item line unchanged in a document" if not changed else "the two values differ"] += 1
     fed = upd["fed"]
@@ -276,7 +284,8 @@ def day_reading(transcripts: Sequence[Mapping[str, Any]], audit: Sequence[Mappin
     return {"day": day, "sessions": sessions, "update": upd, "completion_measure": key,
             "update_completion_rate": rate,
             "update_path_complete_rate": upd["path_complete"] / fed if fed else None,
-            "not_verified_reasons": dict(why), "update_by_item": dict(sorted(by_row.items())), "check": chk,
+            "not_verified_reasons": dict(why), "verified_value_is_the_stated_one": {str(k): n for k, n in stated.items()},
+            "update_by_item": dict(sorted(by_row.items())), "check": chk,
             "sessions_writing_two_or_more_class_documents": two_doc_sessions,
             "stop_clause2_rate_under_half": clause2, "stop_clause3_insufficient_exposure": clause3,
             "rate_read": fed >= STOP_MIN_FED}
