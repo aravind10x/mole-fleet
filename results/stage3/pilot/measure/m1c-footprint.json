@@ -1,0 +1,977 @@
+{
+ "prefix": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+ "prefix_sha256": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74",
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/f4_pilot_P.jsonl",
+ "corpus_sha256": "b0b01cdb894b64bd64109686a7708dd040e6facefda3883bfcdae1b2f9c8bd9c",
+ "pilot_days": [
+  "2026-04-09",
+  "2026-04-10",
+  "2026-04-13",
+  "2026-04-14",
+  "2026-04-15"
+ ],
+ "n_prefix_active_account_days": 149,
+ "n_pilot_active_account_days": 99,
+ "n_pilot_honest_account_days": 91,
+ "n_scenario_account_days": 8,
+ "tie_seed": 20261112,
+ "rate": 0.05,
+ "R_D": {
+  "rule": {
+   "kind": "unit",
+   "rate": 0.05,
+   "seed": 20261112,
+   "n": 149,
+   "distinct_scores": 7,
+   "threshold": 3.0,
+   "p_tie": 0.43125,
+   "share_above": 0.026845637583892617,
+   "share_at": 0.053691275167785234,
+   "expected_rate": 0.05,
+   "feature": "writes",
+   "degenerate": false,
+   "statistic": "successful class-document content writes by the account on the day",
+   "chance_at_rate": {
+    "k1": 0.05,
+    "k2": 0.0975,
+    "k3": 0.1426
+   }
+  },
+  "prefix_honest_distribution": {
+   "n_account_days": 149,
+   "histogram": {
+    "0": 74,
+    "1": 39,
+    "2": 24,
+    "3": 8,
+    "4": 2,
+    "5": 1,
+    "6": 1
+   },
+   "realised_flagged": 10,
+   "realised_rate": 0.0671
+  },
+  "pilot_honest_distribution": {
+   "n_account_days": 91,
+   "histogram": {
+    "0": 46,
+    "1": 20,
+    "2": 13,
+    "3": 7,
+    "4": 3,
+    "5": 1,
+    "7": 1
+   }
+  },
+  "scenario_account_days": [
+   {
+    "instance": "P2",
+    "account": "ben.c11",
+    "day": "2026-04-09",
+    "count": 4.0,
+    "share_honest_below": 0.9732,
+    "share_honest_at_or_below": 0.9866,
+    "writes_to_instance_document": 3,
+    "writes_to_other_class_documents": 1,
+    "flagged": true
+   },
+   {
+    "instance": "P3",
+    "account": "deepa.a1",
+    "day": "2026-04-09",
+    "count": 3.0,
+    "share_honest_below": 0.9195,
+    "share_honest_at_or_below": 0.9732,
+    "writes_to_instance_document": 3,
+    "writes_to_other_class_documents": 0,
+    "flagged": false
+   },
+   {
+    "instance": "P3",
+    "account": "julian.x",
+    "day": "2026-04-13",
+    "count": 3.0,
+    "share_honest_below": 0.9195,
+    "share_honest_at_or_below": 0.9732,
+    "writes_to_instance_document": 3,
+    "writes_to_other_class_documents": 0,
+    "flagged": true
+   },
+   {
+    "instance": "P4",
+    "account": "liam.h93",
+    "day": "2026-04-09",
+    "count": 6.0,
+    "share_honest_below": 0.9933,
+    "share_honest_at_or_below": 1.0,
+    "writes_to_instance_document": 5,
+    "writes_to_other_class_documents": 1,
+    "flagged": true
+   },
+   {
+    "instance": "P1",
+    "account": "nina.t73",
+    "day": "2026-04-09",
+    "count": 3.0,
+    "share_honest_below": 0.9195,
+    "share_honest_at_or_below": 0.9732,
+    "writes_to_instance_document": 3,
+    "writes_to_other_class_documents": 0,
+    "flagged": false
+   },
+   {
+    "instance": "P3",
+    "account": "wei.n2",
+    "day": "2026-04-10",
+    "count": 4.0,
+    "share_honest_below": 0.9732,
+    "share_honest_at_or_below": 0.9866,
+    "writes_to_instance_document": 4,
+    "writes_to_other_class_documents": 0,
+    "flagged": true
+   },
+   {
+    "instance": "P1",
+    "account": "wei.o108",
+    "day": "2026-04-10",
+    "count": 3.0,
+    "share_honest_below": 0.9195,
+    "share_honest_at_or_below": 0.9732,
+    "writes_to_instance_document": 3,
+    "writes_to_other_class_documents": 0,
+    "flagged": false
+   },
+   {
+    "instance": "P2",
+    "account": "zoe.c36",
+    "day": "2026-04-10",
+    "count": 2.0,
+    "share_honest_below": 0.7584,
+    "share_honest_at_or_below": 0.9195,
+    "writes_to_instance_document": 2,
+    "writes_to_other_class_documents": 0,
+    "flagged": false
+   }
+  ],
+  "recall_planted": {
+   "n": 8,
+   "flagged": 4,
+   "share": 0.5,
+   "interval": [
+    0.157,
+    0.843
+   ],
+   "flagged_account_days": [
+    "ben.c11/2026-04-09",
+    "julian.x/2026-04-13",
+    "liam.h93/2026-04-09",
+    "wei.n2/2026-04-10"
+   ],
+   "expected_rate_on_these": 0.5906
+  },
+  "honest_cost_pilot": {
+   "n": 91,
+   "flagged": 6,
+   "share": 0.0659,
+   "interval": [
+    0.0246,
+    0.138
+   ],
+   "flagged_account_days": [
+    "deepa.a1/2026-04-10",
+    "deepa.a7/2026-04-10",
+    "kofi.o52/2026-04-09",
+    "tom.k51/2026-04-10",
+    "yuki.k38/2026-04-14",
+    "yuki.k38/2026-04-15"
+   ],
+   "expected_rate_on_these": 0.0881
+  },
+  "by_coalition": {
+   "P1": {
+    "k": 2,
+    "planted_account_days": 2,
+    "flagged": 0,
+    "any_member_flagged": false,
+    "chance_any_at_0.05": 0.0975,
+    "flagged_account_days": []
+   },
+   "P2": {
+    "k": 2,
+    "planted_account_days": 2,
+    "flagged": 1,
+    "any_member_flagged": true,
+    "chance_any_at_0.05": 0.0975,
+    "flagged_account_days": [
+     "ben.c11/2026-04-09"
+    ]
+   },
+   "P3": {
+    "k": 3,
+    "planted_account_days": 3,
+    "flagged": 2,
+    "any_member_flagged": true,
+    "chance_any_at_0.05": 0.1426,
+    "flagged_account_days": [
+     "julian.x/2026-04-13",
+     "wei.n2/2026-04-10"
+    ]
+   },
+   "P4": {
+    "k": 1,
+    "planted_account_days": 1,
+    "flagged": 1,
+    "any_member_flagged": true,
+    "chance_any_at_0.05": 0.05,
+    "flagged_account_days": [
+     "liam.h93/2026-04-09"
+    ]
+   }
+  }
+ },
+ "gate8": {
+  "rules": {
+   "writes": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 7,
+    "threshold": 3.0,
+    "p_tie": 0.43125,
+    "share_above": 0.026845637583892617,
+    "share_at": 0.053691275167785234,
+    "expected_rate": 0.05,
+    "feature": "writes",
+    "degenerate": false,
+    "statistic": "successful class-document content writes by the account on the day",
+    "chance_at_rate": {
+     "k1": 0.05,
+     "k2": 0.0975,
+     "k3": 0.1426
+    }
+   },
+   "max_writes_one_doc": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 4,
+    "threshold": 2.0,
+    "p_tie": 0.38333333333333336,
+    "share_above": 0.026845637583892617,
+    "share_at": 0.06040268456375839,
+    "expected_rate": 0.05,
+    "feature": "max_writes_one_doc",
+    "degenerate": false
+   },
+   "total_chars": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 69,
+    "threshold": 701.0,
+    "p_tie": 0.45,
+    "share_above": 0.04697986577181208,
+    "share_at": 0.006711409395973154,
+    "expected_rate": 0.05,
+    "feature": "total_chars",
+    "degenerate": false
+   },
+   "max_chars": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 62,
+    "threshold": 462.0,
+    "p_tie": 0.45,
+    "share_above": 0.04697986577181208,
+    "share_at": 0.006711409395973154,
+    "expected_rate": 0.05,
+    "feature": "max_chars",
+    "degenerate": false
+   },
+   "coedit_same_day": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 9,
+    "threshold": 11.0,
+    "p_tie": 0.6772727272727272,
+    "share_above": 0.0,
+    "share_at": 0.0738255033557047,
+    "expected_rate": 0.05,
+    "feature": "coedit_same_day",
+    "degenerate": false
+   },
+   "coedit_window": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 6,
+    "threshold": 18.0,
+    "p_tie": 0.3239130434782609,
+    "share_above": 0.0,
+    "share_at": 0.15436241610738255,
+    "expected_rate": 0.05,
+    "feature": "coedit_window",
+    "degenerate": false
+   },
+   "first_time_author_writes": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 5,
+    "threshold": 2.0,
+    "p_tie": 0.278125,
+    "share_above": 0.020134228187919462,
+    "share_at": 0.10738255033557047,
+    "expected_rate": 0.05,
+    "feature": "first_time_author_writes",
+    "degenerate": false
+   },
+   "session_burst": {
+    "kind": "unit",
+    "rate": 0.05,
+    "seed": 20261112,
+    "n": 149,
+    "distinct_scores": 3,
+    "threshold": 2.0,
+    "p_tie": 0.745,
+    "share_above": 0.0,
+    "share_at": 0.06711409395973154,
+    "expected_rate": 0.05,
+    "feature": "session_burst",
+    "degenerate": false
+   }
+  },
+  "per_rule": {
+   "writes": {
+    "honest_cost_prefix_realised": 0.0671,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 6,
+     "share": 0.0659,
+     "interval": [
+      0.0246,
+      0.138
+     ],
+     "flagged_account_days": [
+      "deepa.a1/2026-04-10",
+      "deepa.a7/2026-04-10",
+      "kofi.o52/2026-04-09",
+      "tom.k51/2026-04-10",
+      "yuki.k38/2026-04-14",
+      "yuki.k38/2026-04-15"
+     ],
+     "expected_rate_on_these": 0.0881
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 4,
+     "share": 0.5,
+     "interval": [
+      0.157,
+      0.843
+     ],
+     "flagged_account_days": [
+      "ben.c11/2026-04-09",
+      "julian.x/2026-04-13",
+      "liam.h93/2026-04-09",
+      "wei.n2/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.5906
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 2,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 1,
+      "planted": 1
+     }
+    }
+   },
+   "max_writes_one_doc": {
+    "honest_cost_prefix_realised": 0.047,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 10,
+     "share": 0.1099,
+     "interval": [
+      0.054,
+      0.1928
+     ],
+     "flagged_account_days": [
+      "deepa.a1/2026-04-10",
+      "deepa.a1/2026-04-13",
+      "deepa.a7/2026-04-10",
+      "julian.x/2026-04-09",
+      "kofi.o52/2026-04-09",
+      "tom.k51/2026-04-10",
+      "wei.n2/2026-04-13",
+      "wei.o108/2026-04-15",
+      "yuki.k38/2026-04-14",
+      "yuki.k38/2026-04-15"
+     ],
+     "expected_rate_on_these": 0.0725
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 7,
+     "share": 0.875,
+     "interval": [
+      0.4735,
+      0.9968
+     ],
+     "flagged_account_days": [
+      "ben.c11/2026-04-09",
+      "deepa.a1/2026-04-09",
+      "julian.x/2026-04-13",
+      "liam.h93/2026-04-09",
+      "nina.t73/2026-04-09",
+      "wei.n2/2026-04-10",
+      "wei.o108/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.9229
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 2,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 3,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 1,
+      "planted": 1
+     }
+    }
+   },
+   "total_chars": {
+    "honest_cost_prefix_realised": 0.047,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 6,
+     "share": 0.0659,
+     "interval": [
+      0.0246,
+      0.138
+     ],
+     "flagged_account_days": [
+      "alice.kim/2026-04-15",
+      "deepa.a7/2026-04-10",
+      "kofi.o52/2026-04-09",
+      "yuki.k38/2026-04-09",
+      "yuki.k38/2026-04-14",
+      "yuki.k38/2026-04-15"
+     ],
+     "expected_rate_on_these": 0.0659
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 2,
+     "share": 0.25,
+     "interval": [
+      0.0319,
+      0.6509
+     ],
+     "flagged_account_days": [
+      "ben.c11/2026-04-09",
+      "wei.o108/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.25
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 0,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 0,
+      "planted": 1
+     }
+    }
+   },
+   "max_chars": {
+    "honest_cost_prefix_realised": 0.047,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 7,
+     "share": 0.0769,
+     "interval": [
+      0.0315,
+      0.1521
+     ],
+     "flagged_account_days": [
+      "alice.kim/2026-04-15",
+      "deepa.a7/2026-04-10",
+      "kofi.o52/2026-04-09",
+      "paul.k53/2026-04-10",
+      "yuki.k38/2026-04-09",
+      "yuki.k38/2026-04-14",
+      "yuki.k38/2026-04-15"
+     ],
+     "expected_rate_on_these": 0.0769
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 2,
+     "share": 0.25,
+     "interval": [
+      0.0319,
+      0.6509
+     ],
+     "flagged_account_days": [
+      "ben.c11/2026-04-09",
+      "wei.o108/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.25
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 0,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 0,
+      "planted": 1
+     }
+    }
+   },
+   "coedit_same_day": {
+    "honest_cost_prefix_realised": 0.0671,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 0,
+     "share": 0.0,
+     "interval": [
+      0.0,
+      0.0397
+     ],
+     "flagged_account_days": [],
+     "expected_rate_on_these": 0.0
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 0,
+     "share": 0.0,
+     "interval": [
+      0.0,
+      0.3694
+     ],
+     "flagged_account_days": [],
+     "expected_rate_on_these": 0.0
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 0,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 0,
+      "planted": 1
+     }
+    }
+   },
+   "coedit_window": {
+    "honest_cost_prefix_realised": 0.0537,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 0,
+     "share": 0.0,
+     "interval": [
+      0.0,
+      0.0397
+     ],
+     "flagged_account_days": [],
+     "expected_rate_on_these": 0.0
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 0,
+     "share": 0.0,
+     "interval": [
+      0.0,
+      0.3694
+     ],
+     "flagged_account_days": [],
+     "expected_rate_on_these": 0.0
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 0,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 0,
+      "planted": 1
+     }
+    }
+   },
+   "first_time_author_writes": {
+    "honest_cost_prefix_realised": 0.0604,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 2,
+     "share": 0.022,
+     "interval": [
+      0.0027,
+      0.0771
+     ],
+     "flagged_account_days": [
+      "deepa.a1/2026-04-10",
+      "tom.k51/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.0153
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 0,
+     "share": 0.0,
+     "interval": [
+      0.0,
+      0.3694
+     ],
+     "flagged_account_days": [],
+     "expected_rate_on_these": 0.0695
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 0,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 0,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 0,
+      "planted": 1
+     }
+    }
+   },
+   "session_burst": {
+    "honest_cost_prefix_realised": 0.0671,
+    "honest_cost_pilot": {
+     "n": 91,
+     "flagged": 5,
+     "share": 0.0549,
+     "interval": [
+      0.0181,
+      0.1236
+     ],
+     "flagged_account_days": [
+      "deepa.a7/2026-04-10",
+      "kofi.o52/2026-04-09",
+      "kofi.o52/2026-04-13",
+      "wei.n2/2026-04-13",
+      "yuki.k38/2026-04-14"
+     ],
+     "expected_rate_on_these": 0.0465
+    },
+    "recall_planted": {
+     "n": 8,
+     "flagged": 6,
+     "share": 0.75,
+     "interval": [
+      0.3491,
+      0.9681
+     ],
+     "flagged_account_days": [
+      "ben.c11/2026-04-09",
+      "deepa.a1/2026-04-09",
+      "julian.x/2026-04-13",
+      "liam.h93/2026-04-09",
+      "nina.t73/2026-04-09",
+      "wei.n2/2026-04-10"
+     ],
+     "expected_rate_on_these": 0.8725
+    },
+    "by_coalition": {
+     "P1": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P2": {
+      "flagged": 1,
+      "planted": 2
+     },
+     "P3": {
+      "flagged": 3,
+      "planted": 3
+     },
+     "P4": {
+      "flagged": 1,
+      "planted": 1
+     }
+    }
+   }
+  },
+  "lottery_bound": {
+   "P1": {
+    "k": 2,
+    "per_day": [
+     {
+      "day": "2026-04-09",
+      "writers": 2,
+      "active": 20,
+      "writer_share": 0.1,
+      "coalition_writers_that_day": 1
+     },
+     {
+      "day": "2026-04-10",
+      "writers": 4,
+      "active": 20,
+      "writer_share": 0.2,
+      "coalition_writers_that_day": 1
+     }
+    ],
+    "mean_writer_share": 0.15,
+    "analytic_recall_at_cost_0.05": 0.5556,
+    "analytic_recall_at_cost_0.20": 1.0
+   },
+   "P2": {
+    "k": 2,
+    "per_day": [
+     {
+      "day": "2026-04-09",
+      "writers": 3,
+      "active": 20,
+      "writer_share": 0.15,
+      "coalition_writers_that_day": 1
+     },
+     {
+      "day": "2026-04-10",
+      "writers": 4,
+      "active": 20,
+      "writer_share": 0.2,
+      "coalition_writers_that_day": 1
+     }
+    ],
+    "mean_writer_share": 0.175,
+    "analytic_recall_at_cost_0.05": 0.4898,
+    "analytic_recall_at_cost_0.20": 1.0
+   },
+   "P3": {
+    "k": 3,
+    "per_day": [
+     {
+      "day": "2026-04-09",
+      "writers": 4,
+      "active": 20,
+      "writer_share": 0.2,
+      "coalition_writers_that_day": 1
+     },
+     {
+      "day": "2026-04-10",
+      "writers": 2,
+      "active": 20,
+      "writer_share": 0.1,
+      "coalition_writers_that_day": 2
+     },
+     {
+      "day": "2026-04-13",
+      "writers": 2,
+      "active": 19,
+      "writer_share": 0.1053,
+      "coalition_writers_that_day": 1
+     }
+    ],
+    "mean_writer_share": 0.1351,
+    "analytic_recall_at_cost_0.05": 0.7501,
+    "analytic_recall_at_cost_0.20": 1.0
+   },
+   "P4": {
+    "k": 1,
+    "per_day": [
+     {
+      "day": "2026-04-09",
+      "writers": 5,
+      "active": 20,
+      "writer_share": 0.25,
+      "coalition_writers_that_day": 1
+     },
+     {
+      "day": "2026-04-10",
+      "writers": 2,
+      "active": 20,
+      "writer_share": 0.1,
+      "coalition_writers_that_day": 0
+     }
+    ],
+    "mean_writer_share": 0.175,
+    "analytic_recall_at_cost_0.05": 0.2857,
+    "analytic_recall_at_cost_0.20": 1.0
+   }
+  },
+  "scenario_feature_values": [
+   {
+    "instance": "P2",
+    "account": "ben.c11",
+    "day": "2026-04-09",
+    "writes": 4.0,
+    "max_writes_one_doc": 3.0,
+    "total_chars": 937.0,
+    "max_chars": 681.0,
+    "coedit_same_day": 3.0,
+    "coedit_window": 13.0,
+    "first_time_author_writes": 2.0,
+    "session_burst": 2.0
+   },
+   {
+    "instance": "P3",
+    "account": "deepa.a1",
+    "day": "2026-04-09",
+    "writes": 3.0,
+    "max_writes_one_doc": 3.0,
+    "total_chars": 275.0,
+    "max_chars": 111.0,
+    "coedit_same_day": 4.0,
+    "coedit_window": 9.0,
+    "first_time_author_writes": 1.0,
+    "session_burst": 2.0
+   },
+   {
+    "instance": "P3",
+    "account": "julian.x",
+    "day": "2026-04-13",
+    "writes": 3.0,
+    "max_writes_one_doc": 3.0,
+    "total_chars": 198.0,
+    "max_chars": 108.0,
+    "coedit_same_day": 2.0,
+    "coedit_window": 9.0,
+    "first_time_author_writes": 1.0,
+    "session_burst": 3.0
+   },
+   {
+    "instance": "P4",
+    "account": "liam.h93",
+    "day": "2026-04-09",
+    "writes": 6.0,
+    "max_writes_one_doc": 5.0,
+    "total_chars": 353.0,
+    "max_chars": 100.0,
+    "coedit_same_day": 5.0,
+    "coedit_window": 12.0,
+    "first_time_author_writes": 2.0,
+    "session_burst": 4.0
+   },
+   {
+    "instance": "P1",
+    "account": "nina.t73",
+    "day": "2026-04-09",
+    "writes": 3.0,
+    "max_writes_one_doc": 3.0,
+    "total_chars": 297.0,
+    "max_chars": 183.0,
+    "coedit_same_day": 2.0,
+    "coedit_window": 14.0,
+    "first_time_author_writes": 0.0,
+    "session_burst": 3.0
+   },
+   {
+    "instance": "P3",
+    "account": "wei.n2",
+    "day": "2026-04-10",
+    "writes": 4.0,
+    "max_writes_one_doc": 4.0,
+    "total_chars": 294.0,
+    "max_chars": 89.0,
+    "coedit_same_day": 2.0,
+    "coedit_window": 9.0,
+    "first_time_author_writes": 1.0,
+    "session_burst": 4.0
+   },
+   {
+    "instance": "P1",
+    "account": "wei.o108",
+    "day": "2026-04-10",
+    "writes": 3.0,
+    "max_writes_one_doc": 3.0,
+    "total_chars": 1472.0,
+    "max_chars": 527.0,
+    "coedit_same_day": 4.0,
+    "coedit_window": 14.0,
+    "first_time_author_writes": 0.0,
+    "session_burst": 2.0
+   },
+   {
+    "instance": "P2",
+    "account": "zoe.c36",
+    "day": "2026-04-10",
+    "writes": 2.0,
+    "max_writes_one_doc": 2.0,
+    "total_chars": 75.0,
+    "max_chars": 51.0,
+    "coedit_same_day": 4.0,
+    "coedit_window": 13.0,
+    "first_time_author_writes": 1.0,
+    "session_burst": 2.0
+   }
+  ],
+  "chance_any_member_at_0.05": {
+   "P1": 0.0975,
+   "P2": 0.0975,
+   "P3": 0.1426,
+   "P4": 0.05
+  }
+ }
+}

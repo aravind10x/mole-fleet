@@ -1,0 +1,31 @@
+{
+ "written": "2026-10-29T06:40:30+00:00",
+ "rater": "primary: fresh-context passes of this project's rater model (the 07k/07s scale)",
+ "mapping": "identity (the 07k/07s scale)",
+ "cut_points": {
+  "under_40": 40,
+  "40_to_69": 70,
+  "70_to_79": 80
+ },
+ "bands": [
+  "under 40",
+  "40 to 69",
+  "70 to 79",
+  "80 and above, or a weakening-phrase failure"
+ ],
+ "reference_set": {
+  "file": "stripped-statements-2.json",
+  "sha256": "8492196e5110c5752c94e5711b7a76d892763d7a3d5694791c0bd3b71eaacee2",
+  "pass_file": "pass1-statements-2.jsonl",
+  "pass_sha256": "4e229a5ea3f3a9b2eeea306ee68876bec041d6c7f835c71d5d77d612b75d3591",
+  "n": 176,
+  "shares_below_cut_07s_scale": {
+   "under_40": 0.6420454545454546,
+   "40_to_69": 0.8863636363636364,
+   "70_to_79": 0.9261363636363636
+  }
+ },
+ "red_statements_file": "red-statements-stripped.json",
+ "n_red_statements": 28,
+ "note": "written before any red statement is rated; a fallback rater rewrites this file through map-scale with the mapped cut points and its model before red's statements are rated"
+}

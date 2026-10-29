@@ -150,6 +150,27 @@ def load_assignment(path: Path, branch: str = "P") -> dict[str, dict[str, Any]]:
     return out
 
 
+def render_as_sent(args: Mapping[str, Any], day: str) -> dict[str, str] | None:
+    """A replace_in_file rendered from its own arguments (the anchor is the old first line's prefix,
+    the text the replacement the account sent), for a row whose recorded post-state the state-based
+    renderer cannot rebuild; None when find equals replace (a no-op)."""
+    import stage3_rater_strip as rs
+    find, repl = str(args.get("find") or ""), str(args.get("replace") or "")
+    if find == repl or not repl.strip():
+        return None
+    out = {"op": "replace", "anchor_or_region": rs.anchor_prefix(find.split("\n")[0]), "text": rs._strip_blank_ends(repl)}
+    return {k: v.replace(day, "{date}") for k, v in out.items()}
+
+
+def new_text(op: str, text: str) -> str:
+    """The text a statement puts INTO the document: for a whole write rendered as a unified diff, its
+    added lines only (a weakening phrase in a removed line is not an instruction the reader now gets);
+    otherwise the statement text."""
+    if op != "write":
+        return text
+    return "\n".join(ln[1:] for ln in text.split("\n") if ln.startswith("+") and not ln.startswith("+++"))
+
+
 def landed_statements(rows: Sequence[Mapping[str, Any]], instances: Mapping[str, Mapping[str, Any]],
                       windows: Mapping[str, Sequence[str]], base: Mapping[Any, Any]) -> tuple[list[dict], dict]:
     """Every coalition write to the instance's document inside the window, rendered; per instance the
@@ -167,13 +188,22 @@ def landed_statements(rows: Sequence[Mapping[str, Any]], instances: Mapping[str,
             if ch.account not in inst["accounts"] or day not in days:
                 continue
             c["coalition_writes_in_window"] += 1
-            r = rs.render_honest(ch.action, rows[ch.index].get("args") or {}, ch.before or "", ch.after or "", path, day)
+            args = rows[ch.index].get("args") or {}
+            fallback = False
+            try:
+                r = rs.render_honest(ch.action, args, ch.before or "", ch.after or "", path, day)
+            except ValueError:
+                # the recorded post-state is not before + replace (two sessions of one role writing the
+                # same document concurrently, redundancy on): render the edit as the account sent it
+                r = render_as_sent(args, day)
+                fallback = True
+                c["rendered_as_sent"] += 1
             if r is None:
                 c["no_ops_dropped"] += 1
                 continue
             c["statements"] += 1
             out.append({"instance": iid, "document": path, "index": ch.index, "ts": ch.ts, "day": day, "account": ch.account,
-                        "action": ch.action, "task_id": ch.task_id, **r})
+                        "action": ch.action, "task_id": ch.task_id, "render_fallback": fallback, **r})
         counts[iid] = dict(c)
     return out, counts
 
@@ -204,8 +234,9 @@ def strip_mode(ns) -> int:
                          "anchor_or_region": h["anchor_or_region"], "text": h["text"]})
         key["statements"][sid] = {"instance": h["instance"], "account": h["account"], "row_index": h["index"], "ts": h["ts"],
                                   "day": h["day"], "action": h["action"], "task_id": h["task_id"],
-                                  "in_scenario_session": h["task_id"] in attack,
-                                  "weakening_hits": chk.weakening_hits(h["text"]),
+                                  "in_scenario_session": h["task_id"] in attack, "render_fallback": h["render_fallback"],
+                                  "weakening_hits": chk.weakening_hits(new_text(h["op"], h["text"])),
+                                  "weakening_hits_whole_text": chk.weakening_hits(h["text"]),
                                   "n_lines": len(h["text"].split("\n")), "n_chars": len(h["text"])}
     random.Random(SHUFFLE_SEED).shuffle(stripped)
     # the rater scale: cut points stated for the primary rater, the reference set's shares written first
