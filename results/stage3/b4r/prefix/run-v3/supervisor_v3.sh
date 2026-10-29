@@ -101,7 +101,7 @@ PYV=/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/bin/python
       sleep 30
       for DAY in $(grep -o 'day-boundary manifest committed: day=[0-9-]*' "$RUNLOG" | cut -d= -f2 | tail -n +$((SEEN+1))); do
         "$PYV" -I "$CHECK" --corpus "$AUDIT" --day "$DAY" --out-json "$LOGDIR/day-reading-$DAY.json" > "$LOGDIR/day-reading-$DAY.txt" 2>&1
-        "$PYV" -I "$B4R" day --audit "$AUDIT" --transcripts "$TRANS" --day "$DAY" --count "$COUNT" --out-json "$LOGDIR/cross-reading-$DAY.json" > "$LOGDIR/cross-reading-$DAY.txt" 2>&1
+        "$PYV" -I "$B4R" day --audit "$AUDIT" --transcripts "$TRANS" --day "$DAY" --version v7 --count "$COUNT" --out-json "$LOGDIR/cross-reading-$DAY.json" > "$LOGDIR/cross-reading-$DAY.txt" 2>&1
         echo "$(date '+%F %T') DAY READING $DAY (read by the session after the launch): $(head -1 "$LOGDIR/day-reading-$DAY.txt") | cross: $(tr -d '\n ' < "$LOGDIR/cross-reading-$DAY.txt" | cut -c1-300)" >> "$LOGDIR/hourly.log"
         (cd "$WT" && git rev-parse HEAD && git status --porcelain --untracked-files=no) > "$LOGDIR/code-state-$DAY.txt" 2>&1
         if [ "$(head -1 "$LOGDIR/code-state-$DAY.txt")" != "$LAUNCH_COMMIT" ] || [ "$(wc -l < "$LOGDIR/code-state-$DAY.txt")" -gt 1 ]; then
