@@ -295,3 +295,12 @@ The pool is denser in cross tasks than the prefix's, with two to four per sessio
   - **(r2)** the v7 seed set recorded; gate 1 byte-equal on all six documents (`check-lab-v3r.txt`).
   - **(r3)** `--check-manifest`: 0 FAIL, 11 PASS, 2 SKIP; teardown clean.
   - With the value stated, honest accounts carry out the two-document update on the same path that failed on `prefix_rw_v3`'s day 1 (1 of 11 there). The restart is licensed.
+- **Day 1 restart, `prefix_rw_v3r`: launched 23:01:01 IST** (`supervisor_v3.sh v3r prefix_rw_v3r 60 12 5`, wrapper `wrap_v3r.sh`, worktree `cdd7074`, clean). Caps: key 1 `limit_remaining` $34.94, key 2 `limit_remaining` $379.71 (balance $189.71). The v7 documents were seeded at 23:04:41. Start-time `--check-manifest`: 0 FAIL, 3 PASS, 3 SKIP. Expected 93 sessions (sara.p29 absent).
+- **Day 1 restart result (04:05:13 IST, 2026-10-30; observed).** Runner exit 0. 93 sessions, 93 completed, 0 died, 28 at the turn cap. 5.07 h. **$18.37 on key 1** ($0.20 a session; provider-reported $18.31), $0 on key 2, no rotation. The worktree at exit was `cdd7074`, clean. Final `--check-manifest`: **0 FAIL, 11 PASS, 2 SKIP**. Gate 1 byte-equal on all six documents. Teardown clean. The corpus and snapshots were copied to the main checkout.
+- **Day-1 stop: CONTINUE on every clause.**
+  - Clause 1: writes per document 12 / 9 / 8 / 13 / 6 / 4 (README, release-gate runbook, fine-tuning guide, red-team checklist, on-call runbook, engineering setup), 0 empty writes, 0 deletes, 0 refusals.
+  - Clause 2: **10 update variants fed, 5 verified, rate 0.50** (bar 0.333); 1 more path-complete whose item line did not change in one document; 4 wrote one document; 0 wrote neither. All 5 verified wrote exactly the stated value.
+  - Clause 3: 10 fed, at least five.
+  - Beside, no bar: by item (fed, verified), fine-tune base config (2, 2), repository access contact (2, 2), sign-off contact (2, 1), image registry (1, 0), red-team suite config (3, 0); checks 4 fed, 1 wrote the stale copy; 12 sessions wrote two or more class documents.
+  - The verified rate (0.50) sits under the model's c = 0.666 and at R0.3's c = 0.5 sensitivity (expected A about 0.18). Recorded, not acted on: nothing is retuned (C.3, C.5).
+- **Re-base after day 1.** Spent $47.74 (rehearsals $1.79 and $1.25, the first day 1 $26.33, the restart $18.37). Days 2 and 3: 192 sessions at $0.20 to $0.30, $38 to $58. Nulls about $90. **Total about $176 to $196, under $240.**

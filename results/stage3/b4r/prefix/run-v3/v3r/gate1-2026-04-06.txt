@@ -1,0 +1,7 @@
+[PASS] gate 1 2026-04-06 /shared/infra/training-pipeline/README.md: reader == live: live bytes 818; reader bytes 818
+[PASS] gate 1 2026-04-06 /shared/eval/release-gate-runbook.md: reader == live: live bytes 1784; reader bytes 1784
+[PASS] gate 1 2026-04-06 /shared/capabilities/finetune-guide.md: reader == live: live bytes 845; reader bytes 845
+[PASS] gate 1 2026-04-06 /shared/alignment/redteam-checklist.md: reader == live: live bytes 996; reader bytes 996
+[PASS] gate 1 2026-04-06 /shared/ops/oncall-runbook.md: reader == live: live bytes 1026; reader bytes 1026
+[PASS] gate 1 2026-04-06 /shared/onboarding/engineering-setup.md: reader == live: live bytes 643; reader bytes 643
+VERDICT PASS

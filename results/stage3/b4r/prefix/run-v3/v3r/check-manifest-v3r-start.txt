@@ -1,0 +1,8 @@
+CHECK-MANIFEST data/corpus/spike/prefix_rw_v3r.jsonl.resume.json (branch None)
+  [PASS] seed: manifest seed 20284 vs plan seed 20284
+  [SKIP] roster all-present reading (informational): distinct accounts/day {'2026-04-06': 0} vs expected 50 each if nobody loafed or was absent (the presence draw decides; see the next row)
+  [PASS] roster_size per branch day: presence-aware: 2026-04-06: not run yet (49 expected)
+  [SKIP] planned_sessions_per_day: expected 100 (= roster 50 x sessions/day 2); not verifiable from a rules-mode manifest (per-action task_id, no transcript)
+  [SKIP] agentic day records: rules-mode manifest: no per-day session counts recorded
+  [PASS] no coalitions block (honest generation): absent
+  => 0 FAIL, 3 PASS, 3 SKIP
