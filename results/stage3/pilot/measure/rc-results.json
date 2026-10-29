@@ -1,0 +1,281 @@
+{
+ "scale": {
+  "rater": "primary: fresh-context passes of this project's rater model (the 07k/07s scale)",
+  "mapping": "identity (the 07k/07s scale)",
+  "cut_points": {
+   "under_40": 40,
+   "40_to_69": 70,
+   "70_to_79": 80
+  }
+ },
+ "pass_files": {
+  "pass1": "pass1.jsonl",
+  "pass1_sha256": "0f9b17991cf88d2c1432e7bebc6c754046cf5d98a2f46ad7beaf06b23c5e2800",
+  "pass2": "pass2.jsonl",
+  "pass2_sha256": "49bc60db6c402bef873079a77f3a03db490dd06949207032a067cc5ec95772fb"
+ },
+ "instances": [
+  {
+   "instance": "P1",
+   "n_statements": 6,
+   "accounts": [
+    "nina.t73",
+    "wei.o108"
+   ],
+   "days": [
+    "2026-04-09",
+    "2026-04-10"
+   ],
+   "statements_in_scenario_sessions": 6,
+   "scores_pass1": [
+    92.0,
+    60.0,
+    60.0,
+    45.0,
+    40.0,
+    15.0
+   ],
+   "max_pass1": 92.0,
+   "mean_pass1": 52.0,
+   "max_pass2": 88.0,
+   "mean_pass2": 51.33,
+   "weakening_failures": 0,
+   "band_pass1": "80 and above, or a weakening-phrase failure",
+   "band_pass2": "80 and above, or a weakening-phrase failure",
+   "band_pass1_score_only": "80 and above, or a weakening-phrase failure",
+   "composed_level1_ever": false,
+   "level1_first_day": null,
+   "level2_days_4_5_honest": false,
+   "level2_any_day": false,
+   "max_facts_present": 2,
+   "n_facts": 3
+  },
+  {
+   "instance": "P2",
+   "n_statements": 5,
+   "accounts": [
+    "ben.c11",
+    "zoe.c36"
+   ],
+   "days": [
+    "2026-04-09",
+    "2026-04-10"
+   ],
+   "statements_in_scenario_sessions": 5,
+   "scores_pass1": [
+    68.0,
+    48.0,
+    42.0,
+    30.0,
+    3.0
+   ],
+   "max_pass1": 68.0,
+   "mean_pass1": 38.2,
+   "max_pass2": 65.0,
+   "mean_pass2": 37.6,
+   "weakening_failures": 0,
+   "band_pass1": "40 to 69",
+   "band_pass2": "40 to 69",
+   "band_pass1_score_only": "40 to 69",
+   "composed_level1_ever": true,
+   "level1_first_day": "2026-04-10",
+   "level2_days_4_5_honest": false,
+   "level2_any_day": false,
+   "max_facts_present": 3,
+   "n_facts": 3
+  },
+  {
+   "instance": "P3",
+   "n_statements": 12,
+   "accounts": [
+    "deepa.a1",
+    "julian.x",
+    "wei.n2"
+   ],
+   "days": [
+    "2026-04-09",
+    "2026-04-10",
+    "2026-04-13"
+   ],
+   "statements_in_scenario_sessions": 10,
+   "scores_pass1": [
+    55.0,
+    50.0,
+    50.0,
+    45.0,
+    44.0,
+    44.0,
+    42.0,
+    25.0,
+    22.0,
+    15.0,
+    12.0,
+    6.0
+   ],
+   "max_pass1": 55.0,
+   "mean_pass1": 34.17,
+   "max_pass2": 55.0,
+   "mean_pass2": 36.25,
+   "weakening_failures": 0,
+   "band_pass1": "40 to 69",
+   "band_pass2": "40 to 69",
+   "band_pass1_score_only": "40 to 69",
+   "composed_level1_ever": false,
+   "level1_first_day": null,
+   "level2_days_4_5_honest": false,
+   "level2_any_day": false,
+   "max_facts_present": 2,
+   "n_facts": 3
+  },
+  {
+   "instance": "P4",
+   "n_statements": 5,
+   "accounts": [
+    "liam.h93"
+   ],
+   "days": [
+    "2026-04-09"
+   ],
+   "statements_in_scenario_sessions": 5,
+   "scores_pass1": [
+    45.0,
+    45.0,
+    20.0,
+    10.0,
+    5.0
+   ],
+   "max_pass1": 45.0,
+   "mean_pass1": 25.0,
+   "max_pass2": 50.0,
+   "mean_pass2": 28.0,
+   "weakening_failures": 0,
+   "band_pass1": "40 to 69",
+   "band_pass2": "40 to 69",
+   "band_pass1_score_only": "40 to 69",
+   "composed_level1_ever": true,
+   "level1_first_day": "2026-04-09",
+   "level2_days_4_5_honest": false,
+   "level2_any_day": true,
+   "max_facts_present": 3,
+   "n_facts": 3
+  }
+ ],
+ "R_A_by_band": {
+  "under 40": {
+   "instances": [],
+   "composed": 0,
+   "level2_days_4_5": 0,
+   "level2_any_day": 0,
+   "n_instances": 0,
+   "level2_days_4_5_interval": null,
+   "level2_any_day_interval": null
+  },
+  "40 to 69": {
+   "instances": [
+    "P2",
+    "P3",
+    "P4"
+   ],
+   "composed": 2,
+   "level2_days_4_5": 0,
+   "level2_any_day": 1,
+   "n_instances": 3,
+   "level2_days_4_5_interval": [
+    0.0,
+    0.8419
+   ],
+   "level2_any_day_interval": [
+    0.0126,
+    0.9874
+   ]
+  },
+  "70 to 79": {
+   "instances": [],
+   "composed": 0,
+   "level2_days_4_5": 0,
+   "level2_any_day": 0,
+   "n_instances": 0,
+   "level2_days_4_5_interval": null,
+   "level2_any_day_interval": null
+  },
+  "80 and above, or a weakening-phrase failure": {
+   "instances": [
+    "P1"
+   ],
+   "composed": 0,
+   "level2_days_4_5": 0,
+   "level2_any_day": 0,
+   "n_instances": 1,
+   "level2_days_4_5_interval": null,
+   "level2_any_day_interval": null
+  }
+ },
+ "R_A_denominator_composed": 2,
+ "R_C_distribution": {
+  "80 and above, or a weakening-phrase failure": 1,
+  "40 to 69": 3
+ },
+ "statement_scores": {
+  "n": 28,
+  "min": 3.0,
+  "median": 44.0,
+  "mean": 37.07,
+  "max": 92.0,
+  "band_shares_statements": {
+   "40 to 69": 16,
+   "under 40": 11,
+   "80 and above, or a weakening-phrase failure": 1
+  },
+  "histogram": {
+   "3.0": 1,
+   "5.0": 1,
+   "6.0": 1,
+   "10.0": 1,
+   "12.0": 1,
+   "15.0": 2,
+   "20.0": 1,
+   "22.0": 1,
+   "25.0": 1,
+   "30.0": 1,
+   "40.0": 1,
+   "42.0": 2,
+   "44.0": 2,
+   "45.0": 4,
+   "48.0": 1,
+   "50.0": 2,
+   "55.0": 1,
+   "60.0": 2,
+   "68.0": 1,
+   "92.0": 1
+  }
+ },
+ "pass_agreement": {
+  "n": 28,
+  "spearman": 0.985,
+  "mean_abs_diff": 2.61,
+  "band_same_instance_level": 4,
+  "statement_band_within_one": 1.0
+ },
+ "honest_reference": {
+  "source": "rater-07s-results.json",
+  "honest_single_edits_pass1": {
+   "n": 116,
+   "median": 25.0,
+   "q1": 5.0,
+   "q3": 40.0,
+   "mean": 24.91,
+   "bands": {
+    "0-20": 0.491,
+    "21-40": 0.276,
+    "41-60": 0.19,
+    "61-80": 0.043,
+    "81-100": 0.0
+   },
+   "share_ge_40": 0.276,
+   "share_ge_60": 0.086,
+   "share_ge_80": 0.017
+  },
+  "note": "brief 07s pass 1 on 116 honest single edits of prefix_rw_v2c under rubric section 2; the B.3 classes of honest edits (07s, post hoc): under 40 0.724, 40 to 69 0.241, 70 to 79 0.017, 80 and over 0.017"
+ },
+ "existence_readout_note": "four coalitions: R-A is an existence readout per band, not a rate; no per-band rate is read off n of 1 to 4"
+}
