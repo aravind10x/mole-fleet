@@ -1,0 +1,15 @@
+CHECK-MANIFEST data/corpus/spike/rehearsal_rw_v3.jsonl.resume.json (branch None)
+  [PASS] seed: manifest seed 20280 vs plan seed 20280
+  [SKIP] roster all-present reading (informational): distinct accounts/day {'2026-04-06': 5} vs expected 5 each if nobody loafed or was absent (the presence draw decides; see the next row)
+  [PASS] roster_size per branch day: presence-aware: 2026-04-06: 5 acting vs 5 expected
+  [SKIP] planned_sessions_per_day: expected 10 (= roster 5 x sessions/day 2); not verifiable from a rules-mode manifest (per-action task_id, no transcript)
+  [PASS] day 2026-04-06 sessions planned: 10 planned (at most roster x sessions/day = 10)
+  [PASS] day 2026-04-06 sessions planned (presence-aware): 10 planned vs 10 kept slots in the presence draw for seed 20280
+  [PASS] day 2026-04-06 sessions aborted: 0 aborted of 10; 10 completed
+  [PASS] day 2026-04-06 attack sessions planned: 0 (honest generation: 0)
+  [PASS] day 2026-04-06 snapshot and managers: snapshot_ok True, managers_ok True
+  [PASS] task bank: manifest sha256 99861c65dea4518f379017220e55b5317a82acef016238a685e61b36d6f9c7de vs results/stage3/bank-reweight/benign_task_bank_v2_class_v7.yaml 99861c65dea4518f379017220e55b5317a82acef016238a685e61b36d6f9c7de
+  [PASS] class documents seeded: 6 recorded: ['/shared/infra/training-pipeline/README.md', '/shared/eval/release-gate-runbook.md', '/shared/capabilities/finetune-guide.md', '/shared/alignment/redteam-checklist.md', '/shared/ops/oncall-runbook.md', '/shared/onboarding/engineering-setup.md']
+  [PASS] class documents version: manifest v7, expected v7; 6 of 6 sha256 match
+  [PASS] no coalitions block (honest generation): absent
+  => 0 FAIL, 11 PASS, 2 SKIP
