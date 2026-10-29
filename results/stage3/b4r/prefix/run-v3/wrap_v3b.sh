@@ -1,15 +1,16 @@
 #!/bin/bash
-# Launch wrapper for prefix_rw_v3b (brief 14, B4-R; work/stage3/b4r/plan.md R0.4 / R2). Runs from the pinned worktree
-# work/mole-fork-b4r at the approved stage3 commit (plan amendment A.9; never work/mole-fork-pilot); the launch commit is
-# logged and the supervisor checks the worktree is clean at that commit at every boundary. The sim_runner line and the key/env exports are the ones
-# scripts/launch_line.py generated from the assignment file (saved as launch-line-v3b.txt), pasted verbatim (L15 rule 2; diff-checked).
-# Differences from the generated text: .env sourced by absolute path, DOCKER_CONFIG the credential-free config with the
-# compose plugin, unbuffered timestamped log. No key value is ever printed.
+# Launch wrapper for prefix_rw_v3b (brief 14, B4-R; work/stage3/b4r/plan.md R0.4 / R2, Amendments A and B). Runs from the pinned
+# worktree work/mole-fork-b4r at the approved stage3 commit (A.9; never work/mole-fork-pilot); the launch commit is logged
+# and the supervisor checks the worktree is clean at that commit at every boundary. The sim_runner line and the key/env
+# exports are the ones scripts/launch_line.py generated from the assignment file (saved as launch-line-v3b.txt), pasted verbatim
+# (L15 rule 2; diff-checked). Key 1 active, key 2 the declared fallback (Amendment B). Differences from the generated text:
+# .env sourced from the main checkout by absolute path, DOCKER_CONFIG the credential-free config with the compose plugin,
+# unbuffered timestamped log. No key value is ever printed.
 set -euo pipefail
 F=/Users/aravind/KruxAI/tais-project-selection/work/mole-fork-b4r   # the pinned worktree (plan A.9)
 cd "$F"
 set -a; source /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.env; set +a
-export OPENROUTER_KEY_SWAP="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}" && export OPENROUTER_API_KEY_2="${OPENROUTER_KEY_SWAP}" && unset OPENROUTER_KEY_SWAP   # key 2 active, key 1 the declared fallback (client rotation on 402)
+export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"   # key 1 active, key 2 the declared fallback (client rotation on 402)
 export LAB_COMPOSE="$PWD/data/corpus/spike/lab.nogitlab.yaml"
 export NPC_AGENTIC_ENVS="org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store"
 export LLM_RETRY_MAX_ATTEMPTS="40"

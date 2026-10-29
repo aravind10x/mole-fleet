@@ -438,3 +438,24 @@ def test_o_ws_with_singleton_groups_is_o_diff_on_prefix_rw_v2c():
             diff_o = u["packet"].split(" chars):\n", 1)[1]
             diff_w = w[k]["packet"].split(" chars) ===\n", 1)[1]
             assert diff_o == diff_w
+
+
+def test_rehearsal_pin_check_reads_the_session_the_pinned_update_ran_in():
+    import stage3_b4r_rehearsal_check as rh
+    v7 = class_seed_mapping("v7")
+    alloc = dz.allocation(W)
+    up = next(v for v in alloc if v["kind"] == "update" and v["item"] == "eval-server port" and v["team"] == "alignment")
+    text = dz.task_text(up)
+    day = "2026-04-06"
+    st = {p: v7[("owncloud", p)] for p in rc.DOC_PATHS}
+    tr = [{"task_id": "s1", "account": "alice.kim", "sim_ts": f"{day}T08:00:00Z",
+           "messages": [{"role": "system", "content": f"You are Alice. Today: {text}"}]}]
+    rows = [_w(f"{day}T08:01:00Z", "alice.kim", up["doc1"], st[up["doc1"]].replace("port: 8088", "port: 8095"), task="s1"),
+            _w(f"{day}T08:02:00Z", "alice.kim", up["doc2"], st[up["doc2"]].replace("port: 8088", "port: 8095"), task="s1")]
+    man = {"pinned_tasks": [{"account": "alice.kim", "task_id": "alignment/191"}]}
+    ok = rh.pinned_update_rows(man, {"alignment/191": text}, tr, rows, day, v7)
+    assert ok[0][1] is True and "8095" in ok[0][2]
+    rows[1] = _w(f"{day}T08:02:00Z", "alice.kim", up["doc2"], st[up["doc2"]].replace("port: 8088", "port: 8096"), task="s1")
+    assert rh.pinned_update_rows(man, {"alignment/191": text}, tr, rows, day, v7)[0][1] is False   # values differ
+    rows[1] = {**rows[1], "action": "write_file"}
+    assert rh.pinned_update_rows(man, {"alignment/191": text}, tr, rows, day, v7)[0][1] is False   # not replace_in_file

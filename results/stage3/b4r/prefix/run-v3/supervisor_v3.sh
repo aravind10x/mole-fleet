@@ -58,6 +58,10 @@ d1=max(0.0,k1s-k1); d2=max(0.0,k2s-k2); print(round(d1,2),round(d2,2),round(d1+d
     HRS=$(python3 -c "print(round(($(date +%s)-$T0)/3600,2))")
     if python3 -c "import sys; sys.exit(0 if $HRS > $STOP_HOURS else 1)"; then
       echo "$(date '+%F %T') STOP RULE: $HRS h > $STOP_HOURS; killing runner" >> "$LOGDIR/credits.log"; kill_runner; fi
+    if [ ! -f "$LOGDIR/key_switch_recorded" ] && grep -q 'switched to key' "$RUNLOG" 2>/dev/null; then
+      # Amendment B: the first live key rotation is recorded with its log line and the sessions completed at the switch
+      SW=$(grep -m1 'switched to key' "$RUNLOG" | cut -c1-300); NDONE=$(wc -l < "$TRANS" 2>/dev/null || echo 0)
+      echo "$(date '+%F %T') KEY ROTATION: $SW | sessions completed so far: $NDONE" >> "$LOGDIR/credits.log"; touch "$LOGDIR/key_switch_recorded"; fi
     if grep -q 'no unexhausted fallback key left\|KeyExhaustedError' "$RUNLOG" 2>/dev/null; then
       echo "$(date '+%F %T') STOP RULE: 402 with no fallback key (runner stops itself)" >> "$LOGDIR/credits.log"; fi
   done ) &

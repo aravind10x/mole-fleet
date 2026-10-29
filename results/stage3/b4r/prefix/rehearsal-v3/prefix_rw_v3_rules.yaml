@@ -11,8 +11,8 @@ generation:
   smoke: true
   seed: 20281
   out: data/corpus/spike/prefix_rw_v3_rules.jsonl
-  key: 2
-  fallback_key: 1
+  key: 1
+  fallback_key: 2
   model: moonshotai/kimi-k2.6
   extra_flags: [--multi-day, --no-insiders, --task-bank, results/stage3/bank-reweight/benign_task_bank_v2_class_v7.yaml, --class-documents, --class-documents-version, v7]
   env:

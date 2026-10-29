@@ -3,7 +3,7 @@
 # The key is selected by variable name from .env (generation.key); nothing here is edited by hand.
 cd work/mole-fork
 set -a && source .env && set +a
-export OPENROUTER_KEY_SWAP="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY="${OPENROUTER_API_KEY_2}" && export OPENROUTER_API_KEY_2="${OPENROUTER_KEY_SWAP}" && unset OPENROUTER_KEY_SWAP   # key 2 active, key 1 the declared fallback (client rotation on 402)
+export OPENROUTER_API_KEY="${OPENROUTER_API_KEY}" && export OPENROUTER_API_KEY_2="${OPENROUTER_API_KEY_2}"   # key 1 active, key 2 the declared fallback (client rotation on 402)
 export LAB_COMPOSE="$PWD/data/corpus/spike/lab.nogitlab.yaml"
 export NPC_AGENTIC_ENVS="org,owncloud,email,rocketchat,plane,model_registry,eval_server,secrets_store"
 export LLM_RETRY_MAX_ATTEMPTS="40"
