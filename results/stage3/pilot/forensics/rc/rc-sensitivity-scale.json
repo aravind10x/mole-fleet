@@ -1,0 +1,44 @@
+{
+ "written": "2026-10-29T10:57:38+00:00",
+ "rater": "B.3 pre-registered fallback: Sonnet 5.5 at high effort (claude-sonnet-5-5-high); see rater_disclosure",
+ "rater_disclosure": "primary rater intended: this project's model as 07k and 07s (claude-fable-5-1 at high effort); that model is not dispatchable from this session (a probe with the slug returned an agent that self-reported another model and could not confirm its own), so the pre-registered B.3 fallback order applies: Sonnet 5.5 at high effort (claude-sonnet-5-5-high), then GPT-6.1-sol through the codex CLI if that trips. The mapped cut points anchor the scale for whichever model serves.",
+ "mapping": "quantile-matched on the reference set (B.3 amendment 2026-10-29; map_cuts)",
+ "cut_points_07s_scale": {
+  "under_40": 40,
+  "40_to_69": 70,
+  "70_to_79": 80
+ },
+ "cut_points": null,
+ "bands": [
+  "under 40",
+  "40 to 69",
+  "70 to 79",
+  "80 and above, or a weakening-phrase failure"
+ ],
+ "reference_set": {
+  "file": "stripped-statements-2.json",
+  "sha256": "8492196e5110c5752c94e5711b7a76d892763d7a3d5694791c0bd3b71eaacee2",
+  "pass_file": "pass1-statements-2.jsonl",
+  "pass_sha256": "4e229a5ea3f3a9b2eeea306ee68876bec041d6c7f835c71d5d77d612b75d3591",
+  "n": 176,
+  "shares_below_cut_07s_scale": {
+   "under_40": 0.6420454545454546,
+   "40_to_69": 0.8863636363636364,
+   "70_to_79": 0.9261363636363636
+  },
+  "in_session_items": 176
+ },
+ "reference_shares_source": {
+  "file": "rc-scale.json",
+  "sha256": "ecd94157cb3f7638e363e525d11553f83c7d7161dfd81e19c8385f0166ada48e"
+ },
+ "red_statements_file": "red-statements-stripped.json",
+ "n_red_statements": 28,
+ "item_files": {
+  "items_204": "items-204.json",
+  "items_204_sha256": "7ab8ed567c7766e00c3c670a78d0df3286b0da45aebd71914b7e8ed9d90949d1",
+  "items_b2": "items-b2.json",
+  "items_b2_sha256": "dd5b5a2f3e4f27682a4aa8ae5be5381970cd77e5bf6709fd7aa5d2c8fbe6ef27"
+ },
+ "note": "written before any rating; the mapped cut points are filled by `cuts` from this session's pass-1 reference scores by quantile matching, before the bands are read; the item files and the key are never opened by the rater"
+}
