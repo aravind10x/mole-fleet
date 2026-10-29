@@ -1,0 +1,92 @@
+{
+ "day0": "2026-04-08",
+ "estimate": {
+  "sonnet:P_own": {
+   "n_calls": 99,
+   "est_input_tokens": 1895450,
+   "est_output_tokens": 22770,
+   "est_cost_usd": 4.0186,
+   "n_truncated": 0
+  },
+  "sonnet:P_ctx": {
+   "n_calls": 99,
+   "est_input_tokens": 2364952,
+   "est_output_tokens": 22770,
+   "est_cost_usd": 4.9576,
+   "n_truncated": 0
+  },
+  "sonnet:P_legacy": {
+   "n_calls": 99,
+   "est_input_tokens": 2433996,
+   "est_output_tokens": 22770,
+   "est_cost_usd": 5.0957,
+   "n_truncated": 0
+  },
+  "sonnet:P_author": {
+   "n_calls": 8,
+   "est_input_tokens": 14062,
+   "est_output_tokens": 1840,
+   "est_cost_usd": 0.0465,
+   "n_truncated": 0
+  },
+  "sonnet:P_author_ctx": {
+   "n_calls": 8,
+   "est_input_tokens": 16939,
+   "est_output_tokens": 1840,
+   "est_cost_usd": 0.0523,
+   "n_truncated": 0
+  },
+  "sonnet:O_diff": {
+   "n_calls": 4,
+   "est_input_tokens": 8300,
+   "est_output_tokens": 920,
+   "est_cost_usd": 0.0258,
+   "n_truncated": 0
+  },
+  "sonnet:O_whole": {
+   "n_calls": 4,
+   "est_input_tokens": 8237,
+   "est_output_tokens": 920,
+   "est_cost_usd": 0.0257,
+   "n_truncated": 0
+  },
+  "opus48:P_own": {
+   "n_calls": 99,
+   "est_input_tokens": 1895450,
+   "est_output_tokens": 99000,
+   "est_cost_usd": 11.9522,
+   "n_truncated": 0
+  },
+  "opus48:O_diff": {
+   "n_calls": 4,
+   "est_input_tokens": 8300,
+   "est_output_tokens": 4000,
+   "est_cost_usd": 0.1415,
+   "n_truncated": 0
+  },
+  "sol:P_author": {
+   "n_calls": 8,
+   "est_input_tokens": 14062,
+   "est_output_tokens": 2000,
+   "est_cost_usd": 0.0529,
+   "n_truncated": 0
+  },
+  "sol:O_diff": {
+   "n_calls": 4,
+   "est_input_tokens": 8300,
+   "est_output_tokens": 1000,
+   "est_cost_usd": 0.0293,
+   "n_truncated": 0
+  }
+ },
+ "estimate_total_usd": 26.4,
+ "n_units": {
+  "P_own:0": 99,
+  "P_ctx:0": 99,
+  "P_legacy:0": 99,
+  "P_author:0": 8,
+  "P_author:3": 8,
+  "O_diff:0": 4,
+  "O_whole:0": 4
+ }
+}

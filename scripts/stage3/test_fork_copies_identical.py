@@ -24,7 +24,8 @@ FILES = ["stage3_views.py", "test_stage3_views.py", "stage3_thresholds.py", "tes
          "stage3_b4r_design.py", "stage3_b4r.py", "stage3_b4r_views.py", "test_stage3_b4r.py", "stage3_rung1_class.py", "stage3_b4r_rehearsal_check.py",
          "stage3_pilot_live_check.py", "test_stage3_pilot_live_check.py", "stage3_rater_pilot.py", "test_stage3_rater_pilot.py",
          "stage3_pilot_footprint.py", "test_stage3_pilot_footprint.py",
-         "test_judge_client_converse.py", "stage3_sol_provider_check.py", "test_stage3_sol_provider_check.py", "judge_client.py"]
+         "test_judge_client_converse.py", "stage3_sol_provider_check.py", "test_stage3_sol_provider_check.py", "judge_client.py",
+         "stage3_pilot_archive.py", "test_stage3_pilot_archive.py"]
 
 
 @pytest.mark.parametrize("name", FILES)
