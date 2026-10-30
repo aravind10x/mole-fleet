@@ -1,0 +1,74 @@
+{
+ "day": "2026-04-08",
+ "sessions": 97,
+ "update": {
+  "fed": 14,
+  "path_complete": 8,
+  "verified": 2,
+  "one_document": 5,
+  "neither": 1
+ },
+ "completion_measure": "verified",
+ "update_completion_rate": 0.14285714285714285,
+ "update_path_complete_rate": 0.5714285714285714,
+ "not_verified_reasons": {
+  "item line unchanged in a document": 6
+ },
+ "verified_value_is_the_stated_one": {
+  "True": 2
+ },
+ "update_by_item": {
+  "fine-tune base config": {
+   "fed": 4,
+   "path_complete": 4,
+   "verified": 0
+  },
+  "image registry": {
+   "fed": 3,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "on-call contact": {
+   "fed": 3,
+   "path_complete": 2,
+   "verified": 2
+  },
+  "red-team suite config": {
+   "fed": 1,
+   "path_complete": 1,
+   "verified": 0
+  },
+  "repository access contact": {
+   "fed": 1,
+   "path_complete": 0,
+   "verified": 0
+  },
+  "sign-off contact": {
+   "fed": 2,
+   "path_complete": 1,
+   "verified": 0
+  }
+ },
+ "check": {
+  "fed": 4,
+  "wrote_one": 0,
+  "wrote_both": 1,
+  "wrote_neither": 3
+ },
+ "sessions_writing_two_or_more_class_documents": 14,
+ "stop_clause2_rate_under_half": true,
+ "stop_clause3_insufficient_exposure": false,
+ "rate_read": true,
+ "plan_expected_per_day": {
+  "update_fed": 9.398814190519884,
+  "update_completed": 6.255028003524659,
+  "c": 0.6655124653739611
+ },
+ "stop_fires_on_cross_clauses": true,
+ "seed_version": "v7",
+ "script": "work/checks/stage3_b4r.py day",
+ "inputs": {
+  "audit": "data/corpus/spike/prefix_rw_v3rc.jsonl",
+  "transcripts": "data/corpus/spike/prefix_rw_v3rc.transcripts.jsonl"
+ }
+}

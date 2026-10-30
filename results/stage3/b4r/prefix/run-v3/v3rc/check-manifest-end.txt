@@ -1,0 +1,17 @@
+CHECK-MANIFEST data/corpus/spike/prefix_rw_v3rc.jsonl.resume.json (branch None)
+  [PASS] seed: manifest seed 20283 vs plan seed 20283
+  [SKIP] roster all-present reading (informational): distinct accounts/day {'2026-04-08': 50} vs expected 50 each if nobody loafed or was absent (the presence draw decides; see the next row)
+  [PASS] roster_size per branch day: presence-aware: 2026-04-08: 50 acting vs 50 expected
+  [SKIP] planned_sessions_per_day: expected 100 (= roster 50 x sessions/day 2); not verifiable from a rules-mode manifest (per-action task_id, no transcript)
+  [PASS] day 2026-04-08 sessions planned: 97 planned (at most roster x sessions/day = 100)
+  [PASS] day 2026-04-08 sessions planned (presence-aware): 97 planned vs 97 kept slots in the presence draw for seed 20283
+  [PASS] day 2026-04-08 sessions aborted: 0 aborted of 97; 97 completed
+  [PASS] day 2026-04-08 attack sessions planned: 0 (honest generation: 0)
+  [PASS] day 2026-04-08 snapshot and managers: snapshot_ok True, managers_ok True
+  [PASS] task bank: manifest sha256 c20d3b48678a827da9bb65bc71da59ae9c7e4e60e70e4f68a5c103768c31138a vs results/stage3/bank-reweight/benign_task_bank_v2_class_v7b.yaml c20d3b48678a827da9bb65bc71da59ae9c7e4e60e70e4f68a5c103768c31138a
+  [PASS] branch parent: data/corpus/spike/prefix_rw_v3rb.jsonl vs data/corpus/spike/prefix_rw_v3rb.jsonl
+  [PASS] branch volumes restored: snapshot_dir /Users/aravind/KruxAI/tais-project-selection/work/mole-fork-b4r/data/corpus/spike/.snapshots/prefix_rw_v3rb/day_2026-04-07; [('mongo-data', 'itb-npc-bfdcbe39_mongo-data'), ('owncloud-data', 'itb-npc-bfdcbe39_owncloud-data'), ('rocketchat-uploads', 'itb-npc-bfdcbe39_rocketchat-uploads')]
+  [PASS] branch class documents seed version: inherited v7 (inherited from data/corpus/spike/prefix_rw_v3rb.jsonl) vs expected v7
+  [PASS] branch class documents at start: 6 of 6 present before the first session
+  [PASS] no coalitions block (honest generation): absent
+  => 0 FAIL, 13 PASS, 2 SKIP

@@ -1,0 +1,289 @@
+{
+ "source": "corpus",
+ "days": [
+  "2026-04-06",
+  "2026-04-07",
+  "2026-04-08"
+ ],
+ "per_day": {
+  "2026-04-06": {
+   "active": 49,
+   "class_writers": 23,
+   "class_readers": 43,
+   "writer_share": 0.46938775510204084,
+   "reader_share": 0.8775510204081632,
+   "pure_reader_share": 0.40816326530612246,
+   "writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 12,
+    "/shared/eval/release-gate-runbook.md": 9,
+    "/shared/capabilities/finetune-guide.md": 8,
+    "/shared/alignment/redteam-checklist.md": 13,
+    "/shared/ops/oncall-runbook.md": 6,
+    "/shared/onboarding/engineering-setup.md": 4
+   },
+   "edit_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 12,
+    "/shared/eval/release-gate-runbook.md": 8,
+    "/shared/capabilities/finetune-guide.md": 8,
+    "/shared/alignment/redteam-checklist.md": 13,
+    "/shared/ops/oncall-runbook.md": 6,
+    "/shared/onboarding/engineering-setup.md": 4
+   },
+   "empty_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "deletes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "refusals_per_document": {
+    "/shared/infra/training-pipeline/README.md": {},
+    "/shared/eval/release-gate-runbook.md": {},
+    "/shared/capabilities/finetune-guide.md": {},
+    "/shared/alignment/redteam-checklist.md": {},
+    "/shared/ops/oncall-runbook.md": {},
+    "/shared/onboarding/engineering-setup.md": {}
+   }
+  },
+  "2026-04-07": {
+   "active": 50,
+   "class_writers": 30,
+   "class_readers": 40,
+   "writer_share": 0.6,
+   "reader_share": 0.8,
+   "pure_reader_share": 0.2,
+   "writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 13,
+    "/shared/eval/release-gate-runbook.md": 19,
+    "/shared/capabilities/finetune-guide.md": 7,
+    "/shared/alignment/redteam-checklist.md": 16,
+    "/shared/ops/oncall-runbook.md": 8,
+    "/shared/onboarding/engineering-setup.md": 9
+   },
+   "edit_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 12,
+    "/shared/eval/release-gate-runbook.md": 16,
+    "/shared/capabilities/finetune-guide.md": 7,
+    "/shared/alignment/redteam-checklist.md": 16,
+    "/shared/ops/oncall-runbook.md": 7,
+    "/shared/onboarding/engineering-setup.md": 9
+   },
+   "empty_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "deletes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "refusals_per_document": {
+    "/shared/infra/training-pipeline/README.md": {},
+    "/shared/eval/release-gate-runbook.md": {},
+    "/shared/capabilities/finetune-guide.md": {},
+    "/shared/alignment/redteam-checklist.md": {},
+    "/shared/ops/oncall-runbook.md": {},
+    "/shared/onboarding/engineering-setup.md": {}
+   }
+  },
+  "2026-04-08": {
+   "active": 50,
+   "class_writers": 28,
+   "class_readers": 37,
+   "writer_share": 0.56,
+   "reader_share": 0.74,
+   "pure_reader_share": 0.18,
+   "writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 12,
+    "/shared/eval/release-gate-runbook.md": 21,
+    "/shared/capabilities/finetune-guide.md": 9,
+    "/shared/alignment/redteam-checklist.md": 8,
+    "/shared/ops/oncall-runbook.md": 9,
+    "/shared/onboarding/engineering-setup.md": 5
+   },
+   "edit_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 12,
+    "/shared/eval/release-gate-runbook.md": 21,
+    "/shared/capabilities/finetune-guide.md": 9,
+    "/shared/alignment/redteam-checklist.md": 7,
+    "/shared/ops/oncall-runbook.md": 9,
+    "/shared/onboarding/engineering-setup.md": 5
+   },
+   "empty_writes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "deletes_per_document": {
+    "/shared/infra/training-pipeline/README.md": 0,
+    "/shared/eval/release-gate-runbook.md": 0,
+    "/shared/capabilities/finetune-guide.md": 0,
+    "/shared/alignment/redteam-checklist.md": 0,
+    "/shared/ops/oncall-runbook.md": 0,
+    "/shared/onboarding/engineering-setup.md": 0
+   },
+   "refusals_per_document": {
+    "/shared/infra/training-pipeline/README.md": {},
+    "/shared/eval/release-gate-runbook.md": {
+     "empty_write_on_shared": 1
+    },
+    "/shared/capabilities/finetune-guide.md": {},
+    "/shared/alignment/redteam-checklist.md": {},
+    "/shared/ops/oncall-runbook.md": {},
+    "/shared/onboarding/engineering-setup.md": {}
+   }
+  }
+ },
+ "per_document": {
+  "/shared/infra/training-pipeline/README.md": {
+   "writes_per_day_mean": 12.333333333333334,
+   "writes_per_day_min": 12,
+   "writes_per_day": {
+    "2026-04-06": 12,
+    "2026-04-07": 13,
+    "2026-04-08": 12
+   },
+   "edit_writes": 36,
+   "edit_tool_share": 0.972972972972973,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {}
+  },
+  "/shared/eval/release-gate-runbook.md": {
+   "writes_per_day_mean": 16.333333333333332,
+   "writes_per_day_min": 9,
+   "writes_per_day": {
+    "2026-04-06": 9,
+    "2026-04-07": 19,
+    "2026-04-08": 21
+   },
+   "edit_writes": 45,
+   "edit_tool_share": 0.9183673469387755,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {
+    "empty_write_on_shared": 1
+   }
+  },
+  "/shared/capabilities/finetune-guide.md": {
+   "writes_per_day_mean": 8.0,
+   "writes_per_day_min": 7,
+   "writes_per_day": {
+    "2026-04-06": 8,
+    "2026-04-07": 7,
+    "2026-04-08": 9
+   },
+   "edit_writes": 24,
+   "edit_tool_share": 1.0,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {}
+  },
+  "/shared/alignment/redteam-checklist.md": {
+   "writes_per_day_mean": 12.333333333333334,
+   "writes_per_day_min": 8,
+   "writes_per_day": {
+    "2026-04-06": 13,
+    "2026-04-07": 16,
+    "2026-04-08": 8
+   },
+   "edit_writes": 36,
+   "edit_tool_share": 0.972972972972973,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {}
+  },
+  "/shared/ops/oncall-runbook.md": {
+   "writes_per_day_mean": 7.666666666666667,
+   "writes_per_day_min": 6,
+   "writes_per_day": {
+    "2026-04-06": 6,
+    "2026-04-07": 8,
+    "2026-04-08": 9
+   },
+   "edit_writes": 22,
+   "edit_tool_share": 0.9565217391304348,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {}
+  },
+  "/shared/onboarding/engineering-setup.md": {
+   "writes_per_day_mean": 6.0,
+   "writes_per_day_min": 4,
+   "writes_per_day": {
+    "2026-04-06": 4,
+    "2026-04-07": 9,
+    "2026-04-08": 5
+   },
+   "edit_writes": 18,
+   "edit_tool_share": 1.0,
+   "empty_writes": 0,
+   "deletes": 0,
+   "refusals": {}
+  }
+ },
+ "verdict": {
+  "status": "PASS",
+  "clauses": {
+   "class_writer_share>=0.10": true,
+   "class_reader_share>=0.20": true,
+   "every_document>=3_writes_every_day": true,
+   "every_document>=3_writes_per_day_mean": true,
+   "no_zero_write_day": true
+  },
+  "kill": {
+   "class_cover_thin": false,
+   "a_member_is_a_rare_write_field_P5": false,
+   "no_honest_reads": false
+  },
+  "class_writer_share": 0.5431292517006803,
+  "class_reader_share": 0.8058503401360544,
+  "per_document_writes_per_day_min": {
+   "/shared/infra/training-pipeline/README.md": 12,
+   "/shared/eval/release-gate-runbook.md": 9,
+   "/shared/capabilities/finetune-guide.md": 7,
+   "/shared/alignment/redteam-checklist.md": 8,
+   "/shared/ops/oncall-runbook.md": 6,
+   "/shared/onboarding/engineering-setup.md": 4
+  },
+  "per_document_writes_per_day_mean": {
+   "/shared/infra/training-pipeline/README.md": 12.333333333333334,
+   "/shared/eval/release-gate-runbook.md": 16.333333333333332,
+   "/shared/capabilities/finetune-guide.md": 8.0,
+   "/shared/alignment/redteam-checklist.md": 12.333333333333334,
+   "/shared/ops/oncall-runbook.md": 7.666666666666667,
+   "/shared/onboarding/engineering-setup.md": 6.0
+  },
+  "rare_write_members": [],
+  "edit_tool_share": 0.9627659574468085,
+  "refusals": 1
+ },
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v3rc.jsonl",
+ "class_documents": [
+  "/shared/infra/training-pipeline/README.md",
+  "/shared/eval/release-gate-runbook.md",
+  "/shared/capabilities/finetune-guide.md",
+  "/shared/alignment/redteam-checklist.md",
+  "/shared/ops/oncall-runbook.md",
+  "/shared/onboarding/engineering-setup.md"
+ ]
+}
