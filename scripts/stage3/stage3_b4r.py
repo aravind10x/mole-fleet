@@ -469,6 +469,24 @@ def in_support(inst: Mapping[str, Any]) -> bool:
     return set(inst["docs"]) == set(dz.SHARED[r]["docs"])
 
 
+def row_entities() -> list[set[tuple[str, str]]]:
+    """Per SHARED row, the B0 entities of its seed line and of every v7b table value written as that row's line
+    (the plan's day-2 note: the entity-matched support sensitivity)."""
+    import stage3_b0 as b0
+    out = []
+    for r, vals in zip(dz.SHARED, dz.routine_values()):
+        key = r["line"].split(":")[0] + ": "
+        ents = {e for ln in [r["line"]] + [key + v for v in vals] for e in b0.entities(ln) if e[0] in b0.CLASSES}
+        out.append(ents)
+    return out
+
+
+def in_support_by_entity(inst: Mapping[str, Any], rents: Sequence[set]) -> bool:
+    """Sensitivity (labelled): the instance's documents are one row's pair and its entity is one of that row's
+    seed or table entities, however the line around it is worded."""
+    return any(set(inst["docs"]) == set(r["docs"]) and inst["entity"] in rents[i] for i, r in enumerate(dz.SHARED))
+
+
 def _state_at(tl_idx: Mapping[str, tuple[list[int], list[str | None]]], base: Mapping[Any, Any], p: str, i: int) -> str | None:
     idx, afters = tl_idx[p]
     k = bisect_left(idx, i + 1) - 1
@@ -502,7 +520,9 @@ def residual_rules(rows: Sequence[Mapping[str, Any]], base: Mapping[Any, Any], d
         sess_end[str(r.get("task_id") or "")] = i
     days = sorted(days)
     wins = [(days[i], days[i + 1]) for i in range(len(days) - 1)]
-    names = ["outside_support", "unequal_values", "split_sessions", "cross_account", "any_cross_document"]
+    names = ["outside_support", "unequal_values", "split_sessions", "cross_account", "any_cross_document",
+             "outside_support_by_entity__sensitivity"]
+    rents = row_entities()
     names += [f"item:{r['item']}" for r in dz.SHARED] + [f"item_class:{c}" for c in dz.ENTITY_CLASSES]
     per: dict[str, dict[str, list[float]]] = {n: defaultdict(list) for n in names}
     for win in wins:
@@ -518,6 +538,7 @@ def residual_rules(rows: Sequence[Mapping[str, Any]], base: Mapping[Any, Any], d
             flags = {n: False for n in names}
             flags["any_cross_document"] = bool(inst)
             flags["outside_support"] = any(not in_support(x) for x in inst)
+            flags["outside_support_by_entity__sensitivity"] = any(not in_support_by_entity(x, rents) for x in inst)
             flags["split_sessions"] = any(len(x["sessions"]) >= 2 for x in inst)
             mine = [e for e in evs if e["account"] == a and e["day"] in win]
             for ri, r in enumerate(dz.SHARED):
@@ -569,6 +590,8 @@ RULE_CONSTRAINT = {
     "unequal_values": "the item's two copies carry the same value once the planting session ends",
     "split_sessions": "a one-agent payload puts both documents' changes in one session",
     "cross_account": "a two-agent payload is read against the account-level cross-account rule",
+    "outside_support_by_entity__sensitivity": ("a sensitivity beside outside support (lines matched by the row's seed or table "
+                                               "entities, not by the item's name); the registered reading is outside support"),
 }
 
 

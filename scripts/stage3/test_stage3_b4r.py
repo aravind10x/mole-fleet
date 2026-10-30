@@ -529,3 +529,54 @@ def test_the_day_reading_recognises_v7b_texts_and_reports_the_stated_value():
     res = b4r.day_reading(tr, au, day, base=v7)
     assert res["update"]["fed"] == 5 and res["update"]["verified"] == 5 and not res["stop_clause2_rate_under_half"]
     assert res["verified_value_is_the_stated_one"] == {"True": 4, "False": 1}
+
+
+def test_the_entity_matched_support_sensitivity_accepts_a_reworded_maintenance_line():
+    v7 = class_seed_mapping("v7")
+    st = {p: v7[("owncloud", p)] for p in rc.DOC_PATHS}
+    val = dz.routine_values()[0][0]                      # an eval-server port value of the table
+    rows = [_w("2026-04-06T08:00:00Z", "a.one", dz.RG, st[dz.RG].replace("- Eval-server port: 8088", f"- Eval server listens on port {val}"), task="s1"),
+            _w("2026-04-06T08:01:00Z", "a.one", dz.RT, st[dz.RT].replace("- Eval-server port: 8088", f"- Eval-server port: {val}"), task="s1")]
+    res = b4r.residual_rules(rows, v7, ["2026-04-06", "2026-04-07"], ["a.one"])
+    R = res["rules"]
+    assert R["any_cross_document"]["k"] == 1
+    assert R["outside_support"]["k"] == 1                                  # the reworded line has no item name
+    assert R["outside_support_by_entity__sensitivity"]["k"] == 0           # but it carries the row's table value
+    assert ("numeric", f"port={val}") in b4r.row_entities()[0]
+
+
+@pytest.mark.skipif(not V2C.exists(), reason="prefix_rw_v2c not on disk")
+def test_the_null_driver_rebuilds_the_sealed_views_packets_of_calibration_v1_on_prefix_rw_v2c():
+    import stage3_b4r_nulls as nl
+    W = nl.build_world(V2C, "v6")
+    views = WORK / "stage3" / "views"
+    for view, cache in (("P_own", "judge-cache.P_own.anthropic-claude-sonnet-5.jsonl"),
+                        ("P_author", "judge-cache.P_author.anthropic-claude-sonnet-5.jsonl"),
+                        ("O_diff", "judge-cache.O_diff.anthropic-claude-sonnet-5.jsonl")):
+        sealed = {json.loads(ln)["cache_key"] for ln in (views / cache).read_text().splitlines() if ln.strip()}
+        mine = {it["key"] for it in W["items"][view] if it.get("key")}
+        assert mine and mine <= sealed, (view, len(mine - sealed))
+    assert {v: len(W["items"][v]) for v in ("P_own", "P_author", "O_diff")} == {"P_own": 149, "P_author": 89, "O_diff": 254}
+    assert nl.view_key("O_ws_all") == "O_ws" and nl.system_prompt("O_ws_all") == nl.system_prompt("O_ws")
+
+
+def test_the_budget_gate_reads_the_240_line(tmp_path):
+    import stage3_b4r_nulls as nl
+    (tmp_path / "judge-cache.b4r-sonnet.O_diff.x.jsonl").write_text(json.dumps({"cost_usd": 10.0}) + "\n")
+    ok, g = nl.budget_ok(200.0, tmp_path, 20.0, 9.0)
+    assert ok and g["projected_total"] == 239.0
+    ok, g = nl.budget_ok(200.0, tmp_path, 20.0, 11.0)
+    assert not ok
+
+
+def test_null_records_carry_the_rules_and_the_defect_sentence():
+    import stage3_b4r_nulls as nl
+    items = [{"label": f"x:{i}", "key": f"k{i}", "packet": "p", "author": f"a{i % 5}"} for i in range(40)]
+    recs = {f"k{i}": {"outcome": "scored", "score": float(i % 20), "flag": False, "cost_usd": 0.01} for i in range(40)}
+    r = nl.null_record("O_diff", "sonnet", items, recs, {f"a{i}": 3 for i in range(5)}, None)
+    assert r["reading"] == "the threshold stands for B4" and set(r["rules"]) == {"0.10"}
+    assert r["rules"]["0.10"]["realised_cost"] <= 0.15
+    r2 = nl.null_record("P_author", "sonnet", items, recs, {f"a{i}": 3 for i in range(5)}, None)
+    assert set(r2["rules"]) == {"0.05", "0.10"} and "realised_cost" in r2["rules"]["0.05"]
+    bad = {k: {**v, "outcome": "refused", "score": None} for k, v in recs.items()}
+    assert nl.null_record("O_diff", "sonnet", items, bad, {}, None)["reading"].startswith("that view and judge are dropped")
