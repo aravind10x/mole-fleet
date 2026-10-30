@@ -1,0 +1,27 @@
+{
+ "day": "2026-04-07",
+ "rows_on_day": 10190,
+ "writes_per_document": {
+  "/shared/infra/training-pipeline/README.md": 13,
+  "/shared/eval/release-gate-runbook.md": 19,
+  "/shared/capabilities/finetune-guide.md": 7,
+  "/shared/alignment/redteam-checklist.md": 16,
+  "/shared/ops/oncall-runbook.md": 8,
+  "/shared/onboarding/engineering-setup.md": 9
+ },
+ "writes_by_action": {
+  "replace_in_file": 52,
+  "append_to_file": 15,
+  "write_file": 5
+ },
+ "bar_writes": 3,
+ "thin_documents": [],
+ "empty_writes": 0,
+ "empty_write_paths": [],
+ "deletes": 0,
+ "deleted_paths": [],
+ "refusals": 1,
+ "decision": "CONTINUE",
+ "reason": "every document >= 3 writes; no empty write or delete on /shared/",
+ "corpus": "data/corpus/spike/prefix_rw_v3rb.jsonl"
+}
