@@ -1,0 +1,38 @@
+{
+ "writer_dir": "/Users/aravind/b3-rater-triples-p1",
+ "allowed_inputs": [
+  "/Users/aravind/b3-rater-triples-p1/doc-states-day0.md",
+  "/Users/aravind/b3-rater-triples-p1/ratings-b3-triples-p1.jsonl",
+  "/Users/aravind/b3-rater-triples-p1/rubric-passes-2.md",
+  "/Users/aravind/b3-rater-triples-p1/stripped-triples-b3.json"
+ ],
+ "opened_ok": [
+  "/Users/aravind/b3-rater-triples-p1",
+  "/Users/aravind/b3-rater-triples-p1/doc-states-day0.md",
+  "/Users/aravind/b3-rater-triples-p1/ratings-b3-triples-p1.jsonl",
+  "/Users/aravind/b3-rater-triples-p1/rubric-passes-2.md",
+  "/Users/aravind/b3-rater-triples-p1/stripped-triples-b3.json"
+ ],
+ "verdict": "FAIL",
+ "opened_outside_scratchpad": [
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-BVcRxq/645e6523-923d-4d80-a6fe-8341b9dbb91d/scratchpad",
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-BVcRxq/645e6523-923d-4d80-a6fe-8341b9dbb91d/scratchpad/show.py",
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-BVcRxq/645e6523-923d-4d80-a6fe-8341b9dbb91d/scratchpad/write.py"
+ ],
+ "opened_outside_withheld": [
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "8b61f50840a3"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "edcc55b780d2"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "c8d8d16b9f87"
+  }
+ ],
+ "unredacted_sha256": "838677d6743664970b586d4d1b1588601312994a00ae13a9137567352dc3484c",
+ "reading": "strict verdict FAIL under the allow-list (the three inputs and the output); every file the session opened lies inside its folder; 3 entries are the session's own app scratchpad (helper scripts that print batches, append the rater's lines and check the output; none produces a score: no random, no score literal, scores from the command line); 3 entries are path-shaped tokens inside command text, withheld"
+}

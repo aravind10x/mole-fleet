@@ -1,0 +1,50 @@
+{
+ "writer_dir": "/Users/aravind/b3-rater-statements-p1",
+ "allowed_inputs": [
+  "/Users/aravind/b3-rater-statements-p1/doc-states-day0.md",
+  "/Users/aravind/b3-rater-statements-p1/ratings-b3-statements-p1.jsonl",
+  "/Users/aravind/b3-rater-statements-p1/rubric-passes-2.md",
+  "/Users/aravind/b3-rater-statements-p1/stripped-statements-b3.json"
+ ],
+ "opened_ok": [
+  "/Users/aravind/b3-rater-statements-p1"
+ ],
+ "verdict": "FAIL",
+ "opened_outside_scratchpad": [],
+ "opened_outside_withheld": [
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "8a5edab28263"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "bd47413b5c03"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "73756d7567cf"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "eec2fb8714eb"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "f7b22325b86d"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "d8bbf52036f2"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "208caadba89f"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "3aa424a837f0"
+  }
+ ],
+ "unredacted_sha256": "3bf92fded19999ffa6cf4ac6d3b82cc404dbca148575c26ed4668a1acce29a9c",
+ "reading": "strict verdict FAIL under the allow-list (the three inputs and the output); every file the session opened lies inside its folder; no scratchpad use; 8 entries are path-shaped tokens inside command text, withheld"
+}

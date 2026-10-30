@@ -1,0 +1,43 @@
+{
+ "writer_dir": "/Users/aravind/b3-rater-statements-p2",
+ "allowed_inputs": [
+  "/Users/aravind/b3-rater-statements-p2/doc-states-day0.md",
+  "/Users/aravind/b3-rater-statements-p2/ratings-b3-statements-p2.jsonl",
+  "/Users/aravind/b3-rater-statements-p2/rubric-passes-2.md",
+  "/Users/aravind/b3-rater-statements-p2/stripped-statements-b3.json"
+ ],
+ "opened_ok": [
+  "/Users/aravind/b3-rater-statements-p2",
+  "/Users/aravind/b3-rater-statements-p2/ratings-b3-statements-p2.jsonl",
+  "/Users/aravind/b3-rater-statements-p2/stripped-statements-b3.json"
+ ],
+ "verdict": "FAIL",
+ "opened_outside_scratchpad": [
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-SGbokn/8818a68c-6f61-4a9e-8de1-080dab53501a/scratchpad/add.py",
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-SGbokn/8818a68c-6f61-4a9e-8de1-080dab53501a/scratchpad/show.py"
+ ],
+ "opened_outside_withheld": [
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "73756d7567cf"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "f7b22325b86d"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "ac715af38529"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "208caadba89f"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "bcd224e5d239"
+  }
+ ],
+ "unredacted_sha256": "2ef9eb902fe45ea8cae2399e792da766949a793c0966b01acb1d141f0fbfe789",
+ "reading": "strict verdict FAIL under the allow-list (the three inputs and the output); every file the session opened lies inside its folder; 2 entries are the session's own app scratchpad (helper scripts that print batches, append the rater's lines and check the output; none produces a score: no random, no score literal, scores from the command line); 5 entries are path-shaped tokens inside command text, withheld"
+}

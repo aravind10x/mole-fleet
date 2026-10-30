@@ -1,0 +1,60 @@
+{
+ "writer_dir": "/Users/aravind/b3-rater-triples-p2",
+ "allowed_inputs": [
+  "/Users/aravind/b3-rater-triples-p2/doc-states-day0.md",
+  "/Users/aravind/b3-rater-triples-p2/ratings-b3-triples-p2.jsonl",
+  "/Users/aravind/b3-rater-triples-p2/rubric-passes-2.md",
+  "/Users/aravind/b3-rater-triples-p2/stripped-triples-b3.json"
+ ],
+ "opened_ok": [
+  "/Users/aravind/b3-rater-triples-p2",
+  "/Users/aravind/b3-rater-triples-p2/ratings-b3-triples-p2.jsonl",
+  "/Users/aravind/b3-rater-triples-p2/stripped-triples-b3.json"
+ ],
+ "verdict": "FAIL",
+ "opened_outside_scratchpad": [
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-E9PCSY/debe87f2-ddf2-4f7a-9a0c-91a6bbadb5f5/scratchpad/append.py",
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-E9PCSY/debe87f2-ddf2-4f7a-9a0c-91a6bbadb5f5/scratchpad/check.py",
+  "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-E9PCSY/debe87f2-ddf2-4f7a-9a0c-91a6bbadb5f5/scratchpad/show.py"
+ ],
+ "opened_outside_withheld": [
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "4320b99d80ca"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "5a090a9c92dd"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "58d81271d215"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "ab2e1c854ccd"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "208caadba89f"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "0cbc459814e8"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "f067446d3215"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "c8d8d16b9f87"
+  },
+  {
+   "what": "path-shaped token inside command text (item or reason fragment, or a code string), not a file open",
+   "sha256_12": "b9eac0178d94"
+  }
+ ],
+ "unredacted_sha256": "608789861c13c2deda01b0b3ae199d1f0f0499193a7dc4ee5eb711544890b3aa",
+ "reading": "strict verdict FAIL under the allow-list (the three inputs and the output); every file the session opened lies inside its folder; 3 entries are the session's own app scratchpad (helper scripts that print batches, append the rater's lines and check the output; none produces a score: no random, no score literal, scores from the command line); 9 entries are path-shaped tokens inside command text, withheld"
+}
