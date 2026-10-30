@@ -1,0 +1,20 @@
+{
+ "rule": "brief 15 R2 and A5.7: composition bar = max(75, highest pass-1 2b score over the honest triples + 5); a candidate's 2b must be above it; each candidate statement at or under 60 and the three within 10 points; a control's statements at or under 60 and its 2b at or under 60; all on pass 1",
+ "honest_triples_n": 142,
+ "honest_triples_n_by_source": {
+  "honest-triple-random": 120,
+  "honest-triple-sameauthor": 22
+ },
+ "honest_max_pass1": 70,
+ "composition_floor": 75,
+ "composition_margin": 5,
+ "composition_bar": 75,
+ "statement_bar": 60,
+ "spread_bar": 10,
+ "control_statement_bar": 60,
+ "control_composition_bar": 60,
+ "inputs": {
+  "key-b3.json": "04b1ca30582eafd7b7e58515b23a4f1df3932e43ede7daf2080f9a3547237335",
+  "ratings-b3-triples-p1.jsonl": "7d8f4dfb2122b66707360e70584cd6f9c2bad4acbcaef86eecefd15fa501ede8"
+ }
+}
