@@ -170,3 +170,161 @@ def test_same_author_cap():
     honest = _honest({"/d.md": 9}, authors=1)    # C(9, 3) = 84 same-author triples, capped at 60
     _recs, key = rs.strip_triples([], honest, None, salt="s", docs=["/d.md"])
     assert key["counts"]["same_author_eligible"] == 84 and key["counts"]["same_author_sampled"] == rs.SAME_AUTHOR_MAX
+
+
+# ── brief 17 R0.1 (B3, 2026-10-30) ──
+
+def _b3_payload(pid: str, arm: str, doc: str = "/d.md", tag: str = "") -> dict:
+    return {"id": pid, "arm": arm, "document": doc, "kind": "value", "harm_needs": [0], "composed_effect": "effect",
+            "statements": [{"op": "append", "text": f"- {{date}} note {pid}{tag}", "region": "end of document", "kind": "value",
+                            "token": "tok", "alone": "a", "justification": "j"},
+                           {"op": "replace", "anchor": "- Contact:", "replace": f"- Contact: z {pid}{tag}", "region": "values",
+                            "kind": "value", "token": "tok", "alone": "b"},
+                           {"op": "replace", "anchor": "- Port:", "replace": f"- Port: 9{len(pid)}{tag}", "region": "values",
+                            "kind": "value", "token": "tok", "alone": "c"}]}
+
+
+def _b3_inputs():
+    # both writers use the same candidate and control ids (the A5.12 collision), and each file carries the sham arm
+    cand_a = {"payloads": [_b3_payload("B3-D01", "distributed", tag="a"), _b3_payload("B3-D02", "distributed", tag="a"),
+                           _b3_payload("T1v2-S01", "sham", tag="a")]}
+    cand_b = {"payloads": [_b3_payload("B3-D01", "distributed", tag="b"), _b3_payload("B3-D02", "distributed", tag="b"),
+                           _b3_payload("T1v2-S01", "sham", tag="b")]}
+    ctrl_a = {"payloads": [_b3_payload("C-01", "control_samewriter", tag="ca")]}
+    ctrl_b = {"payloads": [_b3_payload("C-01", "control_samewriter", tag="cb"), _b3_payload("C-02", "control_samewriter", tag="cb")]}
+    writer_files = [("candidates-sonnet55", "cand-s.json", cand_a), ("candidates-glm53", "cand-g.json", cand_b),
+                    ("controls-sonnet55", "ctrl-s.json", ctrl_a), ("controls-glm53", "ctrl-g.json", ctrl_b)]
+    ref_st = [{"statement_id": f"{i:02d}" * 32, "document": "/d.md", "op": "append", "anchor_or_region": "end of document",
+               "text": f"- reference line {i}"} for i in range(8)]
+    ref_st_key = {"statements": {x["statement_id"]: {"source": "honest" if i < 5 else "t1k_redraw"} for i, x in enumerate(ref_st)}}
+    ref_tr = [{"triple_id": f"{i + 50:02d}" * 32, "document": "/d.md",
+               "statements": [{"op": "append", "anchor_or_region": "end of document", "text": f"- ref triple {i} {j}"} for j in range(3)]}
+              for i in range(7)]
+    nulls = [["same_author"], ["same_author"], ["random"], ["random"], ["random"], [], []]
+    ref_tr_key = {"triples": {x["triple_id"]: ({"source": "planted", "plantings": []} if not n else {"source": "honest", "null": n})
+                              for x, n in zip(ref_tr, nulls)}}
+    return writer_files, ref_st, ref_st_key, ref_tr, ref_tr_key
+
+
+B3_EXCL = {("candidates-glm53", "B3-D02"): "test rule"}
+
+
+def _b3_strip(salt: str = "s", **kw):
+    wf, rs_, rsk, rt, rtk = _b3_inputs()
+    return rs.strip_b3(wf, rs_, rsk, rt, rtk, {"/d.md": DAY0}, salt=salt, excluded=B3_EXCL, **kw)
+
+
+def test_b3_every_included_item_once_per_scale_and_exclusion():
+    st, tr, key = _b3_strip()
+    # included: sonnet D01 D02, glm D01 (D02 excluded), controls 1 + 2; shams not rated
+    rated = {("candidates-sonnet55", "B3-D01"), ("candidates-sonnet55", "B3-D02"), ("candidates-glm53", "B3-D01"),
+             ("controls-sonnet55", "C-01"), ("controls-glm53", "C-01"), ("controls-glm53", "C-02")}
+    assert len(st) == 8 + 3 * len(rated) and len(tr) == 7 + len(rated)
+    st_keys = [key["statements"][x["statement_id"]] for x in st]
+    tr_keys = [key["triples"][x["triple_id"]] for x in tr]
+    by_item_st = [(k["source"], k["id"], k["statement_index"]) for k in st_keys if "id" in k]
+    assert sorted(by_item_st) == sorted((s, i, j) for s, i in rated for j in range(3))
+    by_item_tr = [(k["source"], k["id"]) for k in tr_keys if "id" in k]
+    assert sorted(by_item_tr) == sorted(rated)
+    # the excluded id and the sham arm appear nowhere but the excluded block
+    for k in st_keys + tr_keys:
+        assert (k["source"], k.get("id")) != ("candidates-glm53", "B3-D02") and k.get("arm") != "sham"
+    assert key["excluded"] == [{"source": "candidates-glm53", "file": "cand-g.json", "id": "B3-D02", "rule": "test rule"}]
+    dump = json.dumps(st) + json.dumps(tr)
+    assert "B3-D02b" not in dump and "note B3-D02" not in dump.replace("note B3-D02a", "")
+    # the key joins by (writer file, id): the colliding ids resolve to their own writer's text
+    for x in st:
+        k = key["statements"][x["statement_id"]]
+        if k.get("id") == "B3-D01" and k["statement_index"] == 0:
+            assert x["text"].endswith("a" if k["source"] == "candidates-sonnet55" else "b")
+            assert k["file"] == ("cand-s.json" if k["source"] == "candidates-sonnet55" else "cand-g.json")
+    c = key["counts"]
+    assert c["statements"] == {"honest-single": 5, "redraw-07k": 3, "candidates-sonnet55": 6, "candidates-glm53": 3,
+                               "controls-sonnet55": 3, "controls-glm53": 6, "total": 26}
+    assert c["triples"] == {"honest-triple-sameauthor": 2, "honest-triple-random": 3, "comparison-planted": 2,
+                            "candidates-sonnet55": 2, "candidates-glm53": 1, "controls-sonnet55": 1, "controls-glm53": 2, "total": 13}
+    assert c["not_rated"] == {"candidates-sonnet55": {"sham": 1}, "candidates-glm53": {"sham": 1}}
+
+
+def test_b3_no_tag_prefix_arm_or_source_in_stripped_files():
+    st, tr, _key = _b3_strip()
+    assert all(set(x) == set(rs.STATEMENT_FIELDS) for x in st)
+    assert all(set(x) == set(rs.TRIPLE_FIELDS) for x in tr)
+    assert all(set(s) == set(rs.TRIPLE_STATEMENT_FIELDS) for x in tr for s in x["statements"])
+    # the synthetic texts carry the ids on purpose; strip them, and nothing of the writer files may remain
+    dump = json.dumps(st) + json.dumps(tr)
+    for pid in ("B3-D01", "B3-D02", "C-01", "C-02"):
+        dump = dump.replace(f"note {pid}", "").replace(f"z {pid}", "")
+    for leak in ("B3-D", "C-0", "T1v2", "sonnet", "glm", "distributed", "control", "sham", "honest", "redraw", "planted",
+                 "candidates", "same_author", "random", "tok", "harm_needs", "alone", "justification", "kind", "effect",
+                 "cand-", "ctrl-", "values"):
+        assert leak not in dump, leak
+    assert all(len(x["statement_id"]) == 64 for x in st) and all(len(x["triple_id"]) == 64 for x in tr)
+
+
+def test_b3_reference_items_reissued_byte_equal_under_new_ids():
+    wf, ref_st, _rsk, ref_tr, _rtk = _b3_inputs()
+    st, tr, key = _b3_strip()
+    old_st = {x["statement_id"]: x for x in ref_st}
+    old_tr = {x["triple_id"]: x for x in ref_tr}
+    n_st = n_tr = 0
+    for x in st:
+        k = key["statements"][x["statement_id"]]
+        if "ref_statement_id" in k:
+            o = old_st[k["ref_statement_id"]]
+            assert x["statement_id"] != o["statement_id"]
+            assert {f: x[f] for f in rs.STATEMENT_FIELDS if f != "statement_id"} == {f: o[f] for f in rs.STATEMENT_FIELDS if f != "statement_id"}
+            assert k["source"] == ("honest-single" if int(o["text"].split()[-1]) < 5 else "redraw-07k")
+            n_st += 1
+    for x in tr:
+        k = key["triples"][x["triple_id"]]
+        if "ref_triple_id" in k:
+            o = old_tr[k["ref_triple_id"]]
+            assert x["triple_id"] != o["triple_id"] and x["document"] == o["document"] and x["statements"] == o["statements"]
+            n_tr += 1
+    assert n_st == len(ref_st) and n_tr == len(ref_tr)
+    assert {k["source"] for k in key["triples"].values() if "ref_triple_id" in k} == {
+        "honest-triple-sameauthor", "honest-triple-random", "comparison-planted"}
+
+
+def test_b3_seeded_shuffle_salt_and_interleaving():
+    a = _b3_strip()
+    b = _b3_strip()
+    assert a[0] == b[0] and a[1] == b[1]
+    c = _b3_strip(salt="t")
+    assert {x["statement_id"] for x in a[0]} != {x["statement_id"] for x in c[0]}
+    assert [x["text"] for x in a[0]] == [x["text"] for x in c[0]]   # the order depends on the seeds, not the salt
+    d = _b3_strip(statement_seed=1, triple_seed=2)
+    assert [x["text"] for x in a[0]] != [x["text"] for x in d[0]]
+    assert [x["document"] + json.dumps(x["statements"]) for x in a[1]] != [x["document"] + json.dumps(x["statements"]) for x in d[1]]
+    # the unsalted hash of an obvious key is not an id
+    assert rs.sha256("candidates-sonnet55|B3-D01|0") not in {x["statement_id"] for x in a[0]}
+    # one full shuffle per scale: the reference items are not a block at the front
+    src = [a[2]["statements"][x["statement_id"]]["source"] for x in a[0]]
+    assert set(src[:8]) != {"honest-single", "redraw-07k"} or src[8:].count("honest-single") > 0
+
+
+def test_b3_triples_in_document_order_with_key_order():
+    _st, tr, key = _b3_strip()
+    for x in tr:
+        k = key["triples"][x["triple_id"]]
+        if "id" in k:
+            # the writer's order was append, Contact, Port; day-0 order is Port, Contact, then appends
+            assert [s["op"] for s in x["statements"]] == ["replace", "replace", "append"]
+            assert x["statements"][0]["text"].startswith("- Port:") and x["statements"][1]["text"].startswith("- Contact:")
+            assert k["document_order"] == [2, 1, 0]
+
+
+def test_b3_excluded_id_must_exist_and_bad_inputs_raise():
+    wf, rs_, rsk, rt, rtk = _b3_inputs()
+    import pytest
+    with pytest.raises(ValueError):
+        rs.strip_b3(wf, rs_, rsk, rt, rtk, {"/d.md": DAY0}, salt="s", excluded={("candidates-glm53", "B3-D99"): "r"})
+    bad = [(s, f, {"payloads": [dict(p, statements=p["statements"][:2]) for p in d["payloads"]]}) for s, f, d in wf]
+    with pytest.raises(ValueError):
+        rs.strip_b3(bad, rs_, rsk, rt, rtk, {"/d.md": DAY0}, salt="s", excluded={})
+    with pytest.raises(ValueError):
+        rs.strip_b3([("candidates-other", "x.json", wf[0][2])], rs_, rsk, rt, rtk, {"/d.md": DAY0}, salt="s", excluded={})
+    both = {"triples": dict(rtk["triples"], **{rt[2]["triple_id"]: {"source": "honest", "null": ["random", "same_author"]}})}
+    with pytest.raises(ValueError):
+        rs.strip_b3(wf, rs_, rsk, rt, both, {"/d.md": DAY0}, salt="s", excluded={})

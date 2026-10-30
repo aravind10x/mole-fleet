@@ -29,6 +29,15 @@ beside a re-draw of 07k's statements, and the planted and honest triples (see th
         --payloads v1=../stage3/t1/payloads-v1.json v2=../stage3/t1v2/payloads-v2.json \\
                    v3=../stage3/t1v3/payloads-v3-planting.json replant=../stage3/t1-replant/payloads-replant-planting.json \\
         --out-dir ../stage3/t1k-rater
+
+Brief 17 R0.1 (B3, 2026-10-30, additive): the two B3 rater scales and their key (see the section above `main_b3`):
+
+    cd work/checks && ../mole-fork/.venv/bin/python -I stage3_rater_strip.py b3 \\
+        --candidates sonnet55=../stage3/b3/payloads-b3-candidates-sonnet55.json glm53=../stage3/b3/payloads-b3-candidates-glm53.json \\
+        --controls sonnet55=../stage3/b3/controls-b3-sonnet55.json glm53=../stage3/b3/controls-b3-glm53.json \\
+        --ref-statements ../stage3/t1k-rater/stripped-statements-2.json --ref-statements-key ../stage3/t1k-rater/key-2.json \\
+        --ref-triples ../stage3/t1k-rater/stripped-triples.json --ref-triples-key ../stage3/t1k-rater/key-triples.json \\
+        --out-dir ../stage3/b3/rater
 """
 from __future__ import annotations
 
@@ -352,10 +361,144 @@ def main_07s(argv: list[str]) -> int:
     return 0
 
 
+# ── brief 17 R0.1 (B3, 2026-10-30, additive; the 07k and 07s paths are unchanged) ──
+#
+# The two B3 rater scales, each one full shuffle of reference and new items under fresh opaque ids:
+#   stripped-statements-b3.json  07s's 176 single edits (116 honest, 60 re-drawn 07k) re-issued byte-equal in every
+#       field but the id, beside every statement of every included candidate and control; random.Random(20261162);
+#   stripped-triples-b3.json     07s's 246 triples (22 same-author and 120 random honest, 104 planted) re-issued the
+#       same way, beside every included candidate and control as a triple in document order; random.Random(20261163);
+#   key-b3.json                  per opaque id the source, and for writer items the writer file, original id, arm, kind
+#       and statement index (statements) or document order (triples); for reference items the 07s id. Both writers
+#       used ids B3-Dxx and C-xx, so writer items are keyed by (source, id). Only `distributed` and
+#       `control_samewriter` are rated (each file's sham arm is v2's, already in the comparison set). Excluded ids are
+#       listed with their rule in `excluded` and appear nowhere else.
+
+B3_STATEMENT_SEED = 20261162
+B3_TRIPLE_SEED = 20261163
+B3_RATED_ARM = {"candidates": "distributed", "controls": "control_samewriter"}
+B3_WRITERS = ("sonnet55", "glm53")
+B3_EXCLUDED = {("candidates-glm53", "B3-D36"): (
+    "brief 15 A5.14(a), 2026-10-30: a candidate that fails a mechanical check its own writer session cannot fix is "
+    "excluded (the zero-occurrence token check, statement 3); applied at R0 stripping, the candidates file unchanged")}
+B3_REF_STATEMENT_SOURCE = {"honest": "honest-single", "t1k_redraw": "redraw-07k"}
+B3_REF_TRIPLE_SOURCE = {("honest", ("same_author",)): "honest-triple-sameauthor", ("honest", ("random",)): "honest-triple-random",
+                        ("planted", ()): "comparison-planted"}
+
+
+def strip_b3(writer_files: list[tuple[str, str, dict]], ref_statements: list[dict], ref_statements_key: Mapping[str, Any],
+             ref_triples: list[dict], ref_triples_key: Mapping[str, Any], base: Mapping[str, str] | None, salt: str,
+             excluded: Mapping[tuple[str, str], str] = B3_EXCLUDED, statement_seed: int = B3_STATEMENT_SEED,
+             triple_seed: int = B3_TRIPLE_SEED) -> tuple[list[dict], list[dict], dict]:
+    """writer_files: [(source, file name, parsed file)], source `candidates-<writer>` or `controls-<writer>`.
+    Returns (statements, triples, key)."""
+    statements: list[dict] = []
+    triples: list[dict] = []
+    key: dict[str, Any] = {"salt": salt, "statement_seed": statement_seed, "triple_seed": triple_seed,
+                           "excluded": [], "counts": {}, "statements": {}, "triples": {}}
+    n_st: dict[str, int] = {}
+    n_tr: dict[str, int] = {}
+    for x in ref_statements:
+        k = ref_statements_key["statements"][x["statement_id"]]
+        src = B3_REF_STATEMENT_SOURCE[k["source"]]
+        sid = sha256(f"{salt}|ref-statement|{x['statement_id']}")
+        statements.append({"statement_id": sid, **{f: x[f] for f in STATEMENT_FIELDS if f != "statement_id"}})
+        key["statements"][sid] = {"source": src, "ref_statement_id": x["statement_id"]}
+        n_st[src] = n_st.get(src, 0) + 1
+    for x in ref_triples:
+        k = ref_triples_key["triples"][x["triple_id"]]
+        src = B3_REF_TRIPLE_SOURCE.get((k["source"], tuple(k.get("null") or ())))
+        if src is None:
+            raise ValueError(f"reference triple {x['triple_id'][:12]}: source {k['source']} with nulls {k.get('null')}")
+        tid = sha256(f"{salt}|ref-triple|{x['triple_id']}")
+        triples.append({"triple_id": tid, "document": x["document"], "statements": x["statements"]})
+        key["triples"][tid] = {"source": src, "ref_triple_id": x["triple_id"]}
+        n_tr[src] = n_tr.get(src, 0) + 1
+    found: set[tuple[str, str]] = set()
+    not_rated: dict[str, dict[str, int]] = {}
+    for source, fname, d in writer_files:
+        part, _, writer = source.partition("-")
+        if part not in B3_RATED_ARM or writer not in B3_WRITERS:
+            raise ValueError(f"unknown source {source}")
+        for p in d["payloads"]:
+            if p.get("arm") != B3_RATED_ARM[part]:
+                not_rated.setdefault(source, {}).setdefault(str(p.get("arm")), 0)
+                not_rated[source][str(p.get("arm"))] += 1
+                continue
+            if (source, p["id"]) in excluded:
+                found.add((source, p["id"]))
+                key["excluded"].append({"source": source, "file": fname, "id": p["id"], "rule": excluded[(source, p["id"])]})
+                continue
+            if len(p["statements"]) != 3:
+                raise ValueError(f"{source} {p['id']}: {len(p['statements'])} statements, not 3")
+            doc = str(p["document"])
+            item = {"source": source, "file": fname, "writer": writer, "id": p["id"], "arm": p["arm"], "kind": p.get("kind"),
+                    "document": doc}
+            recs = []
+            for i, st in enumerate(p["statements"]):
+                sid = sha256(f"{salt}|{source}|{p['id']}|{i}")
+                rec = {"op": str(st["op"]), "anchor_or_region": anchor_or_region(st), "text": statement_text(st)}
+                statements.append({"statement_id": sid, "document": doc, **rec})
+                key["statements"][sid] = {**item, "statement_index": i}
+                recs.append(rec)
+            ordered = _ordered(recs, (base or {}).get(doc))
+            tid = sha256(f"{salt}|{source}|{p['id']}")
+            triples.append({"triple_id": tid, "document": doc, "statements": ordered})
+            key["triples"][tid] = {**item, "document_order": [next(i for i, r in enumerate(recs) if r is o) for o in ordered]}
+            n_st[source] = n_st.get(source, 0) + 3
+            n_tr[source] = n_tr.get(source, 0) + 1
+    missing = set(excluded) - found
+    if missing:
+        raise ValueError(f"excluded ids not found in a rated arm: {sorted(missing)}")
+    if len(key["statements"]) != len(statements) or len(key["triples"]) != len(triples):
+        raise ValueError("opaque id collision")
+    random.Random(statement_seed).shuffle(statements)
+    random.Random(triple_seed).shuffle(triples)
+    key["counts"] = {"statements": {**n_st, "total": len(statements)}, "triples": {**n_tr, "total": len(triples)},
+                     "not_rated": not_rated}
+    return statements, triples, key
+
+
+def main_b3(argv: list[str]) -> int:
+    ap = argparse.ArgumentParser(description="brief 17 R0.1: the B3 rater scales and their key")
+    ap.add_argument("--candidates", nargs="+", required=True, help="writer=path, writer in sonnet55, glm53")
+    ap.add_argument("--controls", nargs="+", required=True, help="writer=path")
+    ap.add_argument("--ref-statements", required=True, help="07s's stripped-statements-2.json")
+    ap.add_argument("--ref-statements-key", required=True, help="07s's key-2.json")
+    ap.add_argument("--ref-triples", required=True, help="07s's stripped-triples.json")
+    ap.add_argument("--ref-triples-key", required=True, help="07s's key-triples.json")
+    ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--salt", default=None, help="test only; the default is a fresh secrets.token_hex(16)")
+    ns = ap.parse_args(argv)
+    import stage3_views as sv
+    base = {k[1]: v for k, v in sv.seed_base().items()}
+    paths: dict[str, Path] = {}
+    writer_files = []
+    for part, specs in (("candidates", ns.candidates), ("controls", ns.controls)):
+        for spec in specs:
+            writer, _, f = spec.partition("=")
+            paths[f"{part}-{writer}"] = Path(f)
+            writer_files.append((f"{part}-{writer}", Path(f).name, json.loads(Path(f).read_text(encoding="utf-8"))))
+    for name in ("ref_statements", "ref_statements_key", "ref_triples", "ref_triples_key"):
+        paths[name.replace("_", "-")] = Path(getattr(ns, name))
+    load = lambda name: json.loads(paths[name].read_text(encoding="utf-8"))  # noqa: E731
+    salt = ns.salt or secrets.token_hex(16)
+    statements, triples, key = strip_b3(writer_files, load("ref-statements"), load("ref-statements-key"),
+                                        load("ref-triples"), load("ref-triples-key"), base, salt)
+    key["sources"] = {n: {"file": p.name, "sha256": hashlib.sha256(p.read_bytes()).hexdigest()} for n, p in paths.items()}
+    written = _write(Path(ns.out_dir), [("stripped-statements-b3.json", statements), ("stripped-triples-b3.json", triples),
+                                        ("key-b3.json", key)])
+    print(json.dumps({"counts": key["counts"], "excluded": [(e["source"], e["id"]) for e in key["excluded"]],
+                      "sources": key["sources"], "sha256": written}, indent=1))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if argv and argv[0] == "07s":
         return main_07s(argv[1:])
+    if argv and argv[0] == "b3":
+        return main_b3(argv[1:])
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--payloads", nargs="+", required=True)
     ap.add_argument("--out-dir", required=True)
