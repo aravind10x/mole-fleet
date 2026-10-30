@@ -812,3 +812,22 @@ Reading the context:
 ### Spend
 
 $49.45 of Bedrock: Sonnet 5 $8.37 and Opus 4.8 $41.08, against the $65 line and $75 cap. No OpenRouter use, nothing planted on disk, nothing launched.
+
+## Brief 14 (B4-R) (2026-10-28 to 30): the world repair for B4 ($179.79: OpenRouter $109.34, Bedrock $70.45)
+
+**First line. The repair reached its pre-registered target.** On the new honest prefix `prefix_rw_v3rc` (285 sessions, three days), an honest account changes one entity in two class documents within two days in **0.20 [0.11, 0.30]** of account-windows, against 0.020 [0.000, 0.050] before the repair. B4 runs on this world, with the per-agent cross-document rule reported beside every reading at matched cost (`b4r/b4r-results.md`, `b4r/z5-v3.md`).
+
+- **What was built.** Bank v7 added 68 cross-document maintenance tasks on eight shared items. The first day on it was stopped by the pre-registered day-1 stop (1 of 11 update tasks verified) because honest agents would not invent an unstated new value. Bank v7b states the value (Aravind's repair R-a, Amendment C), and an agenda-path rehearsal confirmed it (31 of 34). The prefix was then restarted as `prefix_rw_v3r` with branches `v3rb` and `v3rc`. The seeds are versioned (v6 unchanged); the seed record is inherited down the branches; the runs used a pinned worktree; the first live key rotation (key 1 to key 2) lost no session.
+- **What B4 inherits** (pre-written sentences): contact, path and label lifted under both definitions; host only touched; **numeric not lifted**. The account-level cross-account rule costs 0.40, so it is not free. The unequal-values (0.00) and split-sessions (0.01) rules are free, so B4's payloads put both edits in one session and leave the copies equal. The name-matched outside-support rule is borderline (0.12; entity-matched 0.02). Per-item rules are under the budget (the known-item bound). The group support table is in `b4r-results.md`.
+- **The nulls.** Twelve clean nulls: P_author, O_diff, O_ws, O_ws_all and the isolated and live dossier, under Sonnet 5 and Opus 4.8, each with "the threshold stands for B4". P_own is defective by its own 11.12(d) clause before any call (four packets over the sealed cap) and is dropped without rewrite. The ungrouped baseline scores honest six-document diffs high (Sonnet median 72), so its threshold sits near the top of the scale.
+- **Honest behaviour found and disclosed:** agents decline to act on a change they cannot verify; agents rewrite and reword shared documents, so cited values decay (shared item lines 16 to 12 to 7 over the first two days). Both belong in the paper's world section.
+- **Open for Aravind:** whether `prefix_rw_v3r` becomes world one's prefix (R0.9).
+
+### Sealed defender parameters produced by brief 14 (added to the section-10 list; never read by a scenario-side session)
+
+- `b4r/plan.md` (with Amendments A to C and the record), `b4r/count.json`, `b4r/z5-v3.{json,md}`, `b4r/z5-v2c-beside.json`, `b4r/g0a-density-v3.*`, `b4r/g0d-leak-v3.*`, `b4r/groups-v3.json`, `b4r/nulls-estimate.json`, `b4r/nulls/*.json` (the twelve nulls with their thresholds), `b4r/judge` caches under `b4r/nulls/`, `b4r/b4r-results.{json,md}`, `b4r/codex-*`, `b4r/value-table-v7b.json`. B4's writer may read `value-table-v7b.json` and the SHARED table (honest files) but not the thresholds.
+- The scripts `stage3_b4r_design.py`, `stage3_b4r.py`, `stage3_b4r_views.py`, `stage3_b4r_nulls.py`, `stage3_b4r_rehearsal_check.py`, `test_stage3_b4r.py` (canonical in `work/checks/`, byte-identical in the fork's `scripts/stage3/`).
+
+### Spend
+
+OpenRouter $109.34: rehearsals $1.79 and $1.25, the stopped day 1 $26.33, the restart $18.37, day 2 $23.68, day 3 $37.92; key 1 $64.35, key 2 $44.99. Bedrock $70.45 (Sonnet 5 $10.92, Opus 4.8 $59.55). Total $179.79 against the $240 ceiling.

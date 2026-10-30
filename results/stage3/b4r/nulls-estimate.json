@@ -1,0 +1,166 @@
+{
+ "version": "b4r-nulls/v1",
+ "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v3rc.jsonl",
+ "corpus_sha256": "d846524462d00fb6f96c8a019b07b6b55646cf1055bf36eb23ebf5f288cd34e9",
+ "views": {
+  "P_own": {
+   "sonnet": {
+    "n_calls": 149,
+    "n_skipped": 0,
+    "est_input_tokens": 3114726,
+    "est_output_tokens": 34270,
+    "est_cost_usd": 6.5722,
+    "n_truncated": 4,
+    "max_packet_chars": 150000
+   },
+   "opus48": {
+    "n_calls": 149,
+    "n_skipped": 0,
+    "est_input_tokens": 3114726,
+    "est_output_tokens": 114730,
+    "est_cost_usd": 18.4419,
+    "n_truncated": 4,
+    "max_packet_chars": 150000
+   }
+  },
+  "P_author": {
+   "sonnet": {
+    "n_calls": 101,
+    "n_skipped": 0,
+    "est_input_tokens": 121640,
+    "est_output_tokens": 23230,
+    "est_cost_usd": 0.4756,
+    "n_truncated": 0,
+    "max_packet_chars": 11088
+   },
+   "opus48": {
+    "n_calls": 101,
+    "n_skipped": 0,
+    "est_input_tokens": 121640,
+    "est_output_tokens": 77770,
+    "est_cost_usd": 2.5524,
+    "n_truncated": 0,
+    "max_packet_chars": 11088
+   }
+  },
+  "O_diff": {
+   "sonnet": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 660280,
+    "est_output_tokens": 89240,
+    "est_cost_usd": 2.213,
+    "n_truncated": 0,
+    "max_packet_chars": 6501
+   },
+   "opus48": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 660280,
+    "est_output_tokens": 298760,
+    "est_cost_usd": 10.7704,
+    "n_truncated": 0,
+    "max_packet_chars": 6501
+   }
+  },
+  "O_ws": {
+   "sonnet": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 996346,
+    "est_output_tokens": 89240,
+    "est_cost_usd": 2.8851,
+    "n_truncated": 0,
+    "max_packet_chars": 8912
+   },
+   "opus48": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 996346,
+    "est_output_tokens": 298760,
+    "est_cost_usd": 12.4507,
+    "n_truncated": 0,
+    "max_packet_chars": 8912
+   }
+  },
+  "O_ws_all": {
+   "sonnet": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 2119624,
+    "est_output_tokens": 89240,
+    "est_cost_usd": 5.1316,
+    "n_truncated": 0,
+    "max_packet_chars": 17016
+   },
+   "opus48": {
+    "n_calls": 388,
+    "n_skipped": 0,
+    "est_input_tokens": 2119624,
+    "est_output_tokens": 298760,
+    "est_cost_usd": 18.0671,
+    "n_truncated": 0,
+    "max_packet_chars": 17016
+   }
+  },
+  "P_author_doc_iso": {
+   "sonnet": {
+    "n_calls": 38,
+    "n_skipped": 0,
+    "est_input_tokens": 92714,
+    "est_output_tokens": 8740,
+    "est_cost_usd": 0.2728,
+    "n_truncated": 0,
+    "max_packet_chars": 8460
+   },
+   "opus48": {
+    "n_calls": 38,
+    "n_skipped": 0,
+    "est_input_tokens": 92714,
+    "est_output_tokens": 29260,
+    "est_cost_usd": 1.1951,
+    "n_truncated": 0,
+    "max_packet_chars": 8460
+   }
+  },
+  "P_author_doc_live": {
+   "sonnet": {
+    "n_calls": 38,
+    "n_skipped": 0,
+    "est_input_tokens": 137762,
+    "est_output_tokens": 8740,
+    "est_cost_usd": 0.3629,
+    "n_truncated": 0,
+    "max_packet_chars": 12777
+   },
+   "opus48": {
+    "n_calls": 38,
+    "n_skipped": 0,
+    "est_input_tokens": 137762,
+    "est_output_tokens": 29260,
+    "est_cost_usd": 1.4203,
+    "n_truncated": 0,
+    "max_packet_chars": 12777
+   }
+  }
+ },
+ "totals": {
+  "sonnet": 17.9132,
+  "opus48": 64.8979
+ },
+ "combined": 82.8111,
+ "groups": [
+  [
+   "/shared/alignment/redteam-checklist.md",
+   "/shared/eval/release-gate-runbook.md"
+  ],
+  [
+   "/shared/capabilities/finetune-guide.md",
+   "/shared/onboarding/engineering-setup.md"
+  ],
+  [
+   "/shared/infra/training-pipeline/README.md",
+   "/shared/ops/oncall-runbook.md"
+  ]
+ ]
+}

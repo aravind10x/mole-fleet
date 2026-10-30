@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 46,
+ "n_files": 64,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -476,6 +476,168 @@
    "tag_source": "b1/plan.md sections 6 and 7 with dated amendments 1 and 2 (all before any judge call): the readings and the three predictions pre-registered with a sentence per outcome; prediction 1 indicative (amendment 2, Aravind); v3's partition a labelled weak-link sensitivity; the v2/v3 live − isolated view differences beside, no sentence; the prediction-3 clarification and the markdown companions added after codex round 2, labelled",
    "added_beyond_brief_list": false,
    "added_by": "brief 12 (B1) (2026-10-28), as the brief asks (a new entry, no existing entry edited)"
+  },
+  {
+   "path": "b4r/b4r-results.md",
+   "sha256": "0d0379f3c8f080f68aa63f088d2bc744a0a4ddb8c7e9f1fcbc5407f2ab748c98",
+   "bytes": 10660,
+   "sha256_fork_copy": "0d0379f3c8f080f68aa63f088d2bc744a0a4ddb8c7e9f1fcbc5407f2ab748c98",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.1, R0.5, R0.6 with Amendments A to C (all before the v3rc data existed): the pass, the class and rule sentences and the null rules pre-registered; propagation descriptive; the entity-matched support rule a labelled sensitivity"
+  },
+  {
+   "path": "b4r/b4r-results.json",
+   "sha256": "cc7182338c271824f3686710f831f81fb184393d4e93bd16cf6fe84437f2da82",
+   "bytes": 24152,
+   "sha256_fork_copy": "cc7182338c271824f3686710f831f81fb184393d4e93bd16cf6fe84437f2da82",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "as b4r-results.md"
+  },
+  {
+   "path": "b4r/z5-v3.json",
+   "sha256": "da376c429dcd8a14737db37b1a7f9333d75c382a93907b3c3c7ea2423464bee9",
+   "bytes": 42723,
+   "sha256_fork_copy": "da376c429dcd8a14737db37b1a7f9333d75c382a93907b3c3c7ea2423464bee9",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.1 and R0.5 (statistic A's pass and the class sentences), A.1 to A.3 (residual rules), A.10 (propagation, descriptive), the day-2 note (the entity-matched sensitivity)"
+  },
+  {
+   "path": "b4r/z5-v3.md",
+   "sha256": "702a1be48120bc87c558e7f52cc4b5cb4d66b282f9a0c38bd9c63503616fa3c0",
+   "bytes": 7050,
+   "sha256_fork_copy": "702a1be48120bc87c558e7f52cc4b5cb4d66b282f9a0c38bd9c63503616fa3c0",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "as z5-v3.json"
+  },
+  {
+   "path": "b4r/nulls-estimate.json",
+   "sha256": "54c917d7728a9d30270e65b25aea18a58aac7daf3c626ed640456b11d23287ae",
+   "bytes": 3645,
+   "sha256_fork_copy": "54c917d7728a9d30270e65b25aea18a58aac7daf3c626ed640456b11d23287ae",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "the dry-run estimate, no reading"
+  },
+  {
+   "path": "b4r/groups-v3.json",
+   "sha256": "a99b45fe06786394430f826088ffb8046dd435b304aafee8d53f8e02c88c7ae3",
+   "bytes": 5065,
+   "sha256_fork_copy": "a99b45fe06786394430f826088ffb8046dd435b304aafee8d53f8e02c88c7ae3",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6 item 4's rule, applied before any judge call"
+  },
+  {
+   "path": "b4r/nulls/O_diff.opus48.json",
+   "sha256": "0373bf241026450ed16ceda1aca6d803eafc293fef82346af346b1f11e7ff85a",
+   "bytes": 544322,
+   "sha256_fork_copy": "0373bf241026450ed16ceda1aca6d803eafc293fef82346af346b1f11e7ff85a",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/O_diff.sonnet.json",
+   "sha256": "59eba972eb7ed0d8f6844f60722b632ec7a85cbed777e89245d5dd4c266c5dba",
+   "bytes": 555088,
+   "sha256_fork_copy": "59eba972eb7ed0d8f6844f60722b632ec7a85cbed777e89245d5dd4c266c5dba",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/O_ws.opus48.json",
+   "sha256": "8620f0dd0c9dfa1d43cce9b54218ba0a3916b8b72dbb52312107f98351698e32",
+   "bytes": 526997,
+   "sha256_fork_copy": "8620f0dd0c9dfa1d43cce9b54218ba0a3916b8b72dbb52312107f98351698e32",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/O_ws.sonnet.json",
+   "sha256": "4ae7ae8884b03d437cbab46d3404cd29fa68013ce4fb113c73b1e6d658768566",
+   "bytes": 531899,
+   "sha256_fork_copy": "4ae7ae8884b03d437cbab46d3404cd29fa68013ce4fb113c73b1e6d658768566",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/O_ws_all.opus48.json",
+   "sha256": "a838b586ead60d8a1ace371db79f47fb22611cb97608064019067ab4ddc0e541",
+   "bytes": 597665,
+   "sha256_fork_copy": "a838b586ead60d8a1ace371db79f47fb22611cb97608064019067ab4ddc0e541",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/O_ws_all.sonnet.json",
+   "sha256": "f81b65eca87a0469c84414b699247526e4731916e25b99a848744fdaa1ae157d",
+   "bytes": 583679,
+   "sha256_fork_copy": "f81b65eca87a0469c84414b699247526e4731916e25b99a848744fdaa1ae157d",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author.opus48.json",
+   "sha256": "7da893239f6aa1c5695bd567e249dcf1f1af371b7754dae5e2ad0f9b724323d5",
+   "bytes": 137846,
+   "sha256_fork_copy": "7da893239f6aa1c5695bd567e249dcf1f1af371b7754dae5e2ad0f9b724323d5",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author.sonnet.json",
+   "sha256": "7c7d21b5cc3d18344a2ce68f4cc14378a4c32083814eed291c27987004f40f12",
+   "bytes": 140565,
+   "sha256_fork_copy": "7c7d21b5cc3d18344a2ce68f4cc14378a4c32083814eed291c27987004f40f12",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author_doc_iso.opus48.json",
+   "sha256": "4b414c538bd6dc8b497f1a2892b2469e47000d43838171f9645f3ff7477a3867",
+   "bytes": 61530,
+   "sha256_fork_copy": "4b414c538bd6dc8b497f1a2892b2469e47000d43838171f9645f3ff7477a3867",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author_doc_iso.sonnet.json",
+   "sha256": "6c2844d113f8dbcf070bf73dd796d0d1974190550b8537620670b1fa105bbf1d",
+   "bytes": 62904,
+   "sha256_fork_copy": "6c2844d113f8dbcf070bf73dd796d0d1974190550b8537620670b1fa105bbf1d",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author_doc_live.opus48.json",
+   "sha256": "cc325859ba1adbfe6dac5e01ab3cc715a5d858a8a6fad911959af5093870a737",
+   "bytes": 61089,
+   "sha256_fork_copy": "cc325859ba1adbfe6dac5e01ab3cc715a5d858a8a6fad911959af5093870a737",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/nulls/P_author_doc_live.sonnet.json",
+   "sha256": "14bcd2f1a077871a304182510db203d4b195d6b18a0a7b61fff976f9ce9a9f02",
+   "bytes": 60325,
+   "sha256_fork_copy": "14bcd2f1a077871a304182510db203d4b195d6b18a0a7b61fff976f9ce9a9f02",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
   }
  ],
  "amendments": [
@@ -499,6 +661,31 @@
    "added": [
     "b1/b1-results.json",
     "b1/b1-results.md"
+   ],
+   "note": "additive; no earlier entry changed"
+  },
+  {
+   "date": "2026-10-30",
+   "by": "brief 14 (B4-R)",
+   "added": [
+    "b4r/b4r-results.md",
+    "b4r/b4r-results.json",
+    "b4r/z5-v3.json",
+    "b4r/z5-v3.md",
+    "b4r/nulls-estimate.json",
+    "b4r/groups-v3.json",
+    "b4r/nulls/O_diff.opus48.json",
+    "b4r/nulls/O_diff.sonnet.json",
+    "b4r/nulls/O_ws.opus48.json",
+    "b4r/nulls/O_ws.sonnet.json",
+    "b4r/nulls/O_ws_all.opus48.json",
+    "b4r/nulls/O_ws_all.sonnet.json",
+    "b4r/nulls/P_author.opus48.json",
+    "b4r/nulls/P_author.sonnet.json",
+    "b4r/nulls/P_author_doc_iso.opus48.json",
+    "b4r/nulls/P_author_doc_iso.sonnet.json",
+    "b4r/nulls/P_author_doc_live.opus48.json",
+    "b4r/nulls/P_author_doc_live.sonnet.json"
    ],
    "note": "additive; no earlier entry changed"
   }

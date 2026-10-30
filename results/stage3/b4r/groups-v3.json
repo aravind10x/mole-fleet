@@ -1,0 +1,250 @@
+{
+ "corpus_sha256": "d846524462d00fb6f96c8a019b07b6b55646cf1055bf36eb23ebf5f288cd34e9",
+ "g": 5,
+ "groups": [
+  [
+   "/shared/alignment/redteam-checklist.md",
+   "/shared/eval/release-gate-runbook.md"
+  ],
+  [
+   "/shared/capabilities/finetune-guide.md",
+   "/shared/onboarding/engineering-setup.md"
+  ],
+  [
+   "/shared/infra/training-pipeline/README.md",
+   "/shared/ops/oncall-runbook.md"
+  ]
+ ],
+ "pairs_ranked": [
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "accounts": 24,
+   "sessions": 37
+  },
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 24,
+   "sessions": 28
+  },
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 22,
+   "sessions": 27
+  },
+  {
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 16,
+   "sessions": 21
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "accounts": 15,
+   "sessions": 21
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 14,
+   "sessions": 17
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 13,
+   "sessions": 22
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 12,
+   "sessions": 17
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "accounts": 11,
+   "sessions": 15
+  },
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 11,
+   "sessions": 12
+  },
+  {
+   "pair": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 9,
+   "sessions": 11
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 8,
+   "sessions": 11
+  },
+  {
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 8,
+   "sessions": 10
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 6,
+   "sessions": 7
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 5,
+   "sessions": 5
+  }
+ ],
+ "pairs_not_taken": [
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 24,
+   "sessions": 28,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 22,
+   "sessions": 27,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "accounts": 15,
+   "sessions": 21,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 14,
+   "sessions": 17,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 13,
+   "sessions": 22,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "accounts": 12,
+   "sessions": 17,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "accounts": 11,
+   "sessions": 15,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 11,
+   "sessions": 12,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 9,
+   "sessions": 11,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "accounts": 8,
+   "sessions": 11,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 8,
+   "sessions": 10,
+   "why": "a document already grouped"
+  },
+  {
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/onboarding/engineering-setup.md"
+   ],
+   "accounts": 5,
+   "sessions": 5,
+   "why": "a document already grouped"
+  }
+ ]
+}

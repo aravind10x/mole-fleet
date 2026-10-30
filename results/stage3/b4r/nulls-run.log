@@ -1,0 +1,481 @@
+2026-10-30 14:45:01 start sonnet P_author (remaining planned after this $57.3214)
+{
+ "view": "P_author",
+ "judge": "sonnet",
+ "n": 101,
+ "by_outcome": {
+  "scored": 101,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 0.325276,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.05": [
+   92.0,
+   0.0403
+  ],
+  "0.10": [
+   82.0,
+   0.1007
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 14:47:24 end sonnet P_author rc=0
+2026-10-30 14:47:24 start sonnet O_diff (remaining planned after this $55.1084)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+{
+ "view": "O_diff",
+ "judge": "sonnet",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 1.839576,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   85.0,
+   0.1031
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 14:57:01 end sonnet O_diff rc=0
+2026-10-30 14:57:01 start sonnet O_ws (remaining planned after this $52.2233)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+{
+ "view": "O_ws",
+ "judge": "sonnet",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 2.668418,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   85.0,
+   0.0954
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:06:49 end sonnet O_ws rc=0
+2026-10-30 15:06:49 start sonnet O_ws_all (remaining planned after this $47.0917)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+{
+ "view": "O_ws_all",
+ "judge": "sonnet",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 5.534114,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   85.0,
+   0.1005
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:18:02 end sonnet O_ws_all rc=0
+2026-10-30 15:18:02 start sonnet P_author_doc_iso (remaining planned after this $46.8189)
+{
+ "view": "P_author_doc_iso",
+ "judge": "sonnet",
+ "n": 38,
+ "by_outcome": {
+  "scored": 38,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 0.226638,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   92.0,
+   0.1007
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:18:47 end sonnet P_author_doc_iso rc=0
+2026-10-30 15:18:47 start sonnet P_author_doc_live (remaining planned after this $46.456)
+{
+ "view": "P_author_doc_live",
+ "judge": "sonnet",
+ "n": 38,
+ "by_outcome": {
+  "scored": 38,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 0.318518,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   68.0,
+   0.1007
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:19:31 end sonnet P_author_doc_live rc=0
+2026-10-30 15:19:31 start opus48 P_author_doc_iso (remaining planned after this $45.2609)
+{
+ "view": "P_author_doc_iso",
+ "judge": "opus48",
+ "n": 38,
+ "by_outcome": {
+  "scored": 38,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 1.69917,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   68.0,
+   0.1007
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:22:50 end opus48 P_author_doc_iso rc=0
+2026-10-30 15:22:50 start opus48 P_author_doc_live (remaining planned after this $43.8406)
+{
+ "view": "P_author_doc_live",
+ "judge": "opus48",
+ "n": 38,
+ "by_outcome": {
+  "scored": 38,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 1.73662,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   58.0,
+   0.0805
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:25:44 end opus48 P_author_doc_live rc=0
+2026-10-30 15:25:44 start opus48 O_diff (remaining planned after this $33.0702)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+{
+ "view": "O_diff",
+ "judge": "opus48",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 9.408715,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   60.0,
+   0.1031
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 15:41:29 end opus48 O_diff rc=0
+2026-10-30 15:41:29 start opus48 O_ws (remaining planned after this $20.6195)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+{
+ "view": "O_ws",
+ "judge": "opus48",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 15.890345,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   68.0,
+   0.0979
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 16:07:02 end opus48 O_ws rc=0
+2026-10-30 16:07:02 start opus48 P_author (remaining planned after this $18.0671)
+{
+ "view": "P_author",
+ "judge": "opus48",
+ "n": 101,
+ "by_outcome": {
+  "scored": 101,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 1.125115,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.05": [
+   62.0,
+   0.0201
+  ],
+  "0.10": [
+   60.0,
+   0.1208
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 16:09:31 end opus48 P_author rc=0
+2026-10-30 16:09:31 start opus48 O_ws_all (remaining planned after this $0)
+Task exception was never retrieved
+future: <Task finished name='Task-393' coro=<AsyncClient.aclose() done, defined at /Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py:2198> exception=RuntimeError('Event loop is closed')>
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_client.py", line 2205, in aclose
+    await self._transport.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpx2/_transports/default.py", line 400, in aclose
+    await self._pool.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 382, in aclose
+    await self._close_connections(closing_connections)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection_pool.py", line 374, in _close_connections
+    await connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/connection.py", line 157, in aclose
+    await self._connection.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_async/http11.py", line 236, in aclose
+    await self._network_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/httpcore2/_backends/anyio.py", line 55, in aclose
+    await self._stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/streams/tls.py", line 248, in aclose
+    await self.transport_stream.aclose()
+  File "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/.venv/lib/python3.12/site-packages/anyio/_backends/_asyncio.py", line 1467, in aclose
+    self._transport.close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 1213, in close
+    super().close()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/selector_events.py", line 875, in close
+    self._loop.call_soon(self._call_connection_lost, None)
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 799, in call_soon
+    self._check_closed()
+  File "/Users/aravind/.local/share/uv/python/cpython-3.12.9-macos-aarch64-none/lib/python3.12/asyncio/base_events.py", line 545, in _check_closed
+    raise RuntimeError('Event loop is closed')
+RuntimeError: Event loop is closed
+  no score on prefix_rw_v3rc:O_ws_all:alignment/redteam-checklist.md+capabilities/finetune-guide.md+eval/release-gate-runbook.md+training-pipeline/README.md+onboarding/engineering-setup.md+ops/oncall-runbook.md/b0..@25623 (empty text content (stop_reason=max_tokens)); re-asking 1/2
+  transient error on prefix_rw_v3rc:O_ws_all:alignment/redteam-checklist.md+capabilities/finetune-guide.md+eval/release-gate-runbook.md+training-pipeline/README.md+onboarding/engineering-setup.md+ops/oncall-runbook.md/b1..@10519 (HTTP 500 InternalServerError); retry 1/3
+  no score on prefix_rw_v3rc:O_ws_all:alignment/redteam-checklist.md+capabilities/finetune-guide.md+eval/release-gate-runbook.md+training-pipeline/README.md+onboarding/engineering-setup.md+ops/oncall-runbook.md/b1..@21405 (empty text content (stop_reason=max_tokens)); re-asking 1/2
+  no score on prefix_rw_v3rc:O_ws_all:alignment/redteam-checklist.md+capabilities/finetune-guide.md+eval/release-gate-runbook.md+training-pipeline/README.md+onboarding/engineering-setup.md+ops/oncall-runbook.md/b2..@25148 (empty text content (stop_reason=max_tokens)); re-asking 1/2
+{
+ "view": "O_ws_all",
+ "judge": "opus48",
+ "n": 388,
+ "by_outcome": {
+  "scored": 388,
+  "refused": 0,
+  "errored": 0,
+  "skipped": 0,
+  "missing": 0
+ },
+ "dollars": 29.677625,
+ "defect": false,
+ "reading": "the threshold stands for B4",
+ "thresholds": {
+  "0.10": [
+   70.0,
+   0.1005
+  ]
+ },
+ "aborted": null
+}
+2026-10-30 16:53:33 end opus48 O_ws_all rc=0
+2026-10-30 16:53:33 nulls run done
