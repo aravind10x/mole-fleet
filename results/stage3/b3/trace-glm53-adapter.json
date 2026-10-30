@@ -1,0 +1,664 @@
+{
+ "version": "b3-cursor-paths/1",
+ "adapter_sha256": "cd2c07e4084e0958f9b150e42af122b4571a24b35b9f84bdb9069388fbcb0c5e",
+ "workspace": "/Users/aravind/b3-writer-glm53",
+ "conversation": {
+  "path": "/Users/aravind/KruxAI/rough/cursor-glm53-2026-10-29-2324/conversation.jsonl",
+  "sha256": "86baf96ff296b63733b2e8b05401fafee23309672461425805065a610184cd60"
+ },
+ "native": {
+  "path": "/Users/aravind/KruxAI/rough/cursor-glm53-2026-10-29-2324/cursor-native-transcript.jsonl",
+  "sha256": "41bf7bcfa391d9469c19bdd3135b3f5e561cfc11ac66aedeb7f3787a7d2fec0b"
+ },
+ "tool_calls_conversation": {
+  "read_file_v2": 5,
+  "ripgrep_raw_search": 1,
+  "edit_file_v2": 15,
+  "run_terminal_command_v2": 4
+ },
+ "tool_calls_native": {
+  "Read": 5,
+  "Grep": 1,
+  "Write": 7,
+  "Shell": 4,
+  "StrReplace": 8
+ },
+ "unknown_tools": [],
+ "n_paths": 18,
+ "cross_check": {
+  "tool_call_totals_equal": true,
+  "non_shell_paths_equal": true,
+  "only_in_conversation": [],
+  "only_in_native": []
+ },
+ "script_paths": [
+  [
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json"
+  ],
+  [
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json"
+  ]
+ ],
+ "paths": [
+  {
+   "path": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json",
+   "uses": [
+    [
+     "conversation",
+     3,
+     "read_file_v2",
+     "params.effectiveUri"
+    ],
+    [
+     "conversation",
+     3,
+     "read_file_v2",
+     "params.targetFile"
+    ],
+    [
+     "conversation",
+     3,
+     "read_file_v2",
+     "rawArgs.path"
+    ],
+    [
+     "native",
+     1,
+     "Read",
+     "input.path"
+    ],
+    [
+     "native",
+     12,
+     "Write",
+     "script text"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/writer-spec-b3.md",
+   "uses": [
+    [
+     "conversation",
+     2,
+     "read_file_v2",
+     "params.effectiveUri"
+    ],
+    [
+     "conversation",
+     2,
+     "read_file_v2",
+     "params.targetFile"
+    ],
+    [
+     "conversation",
+     2,
+     "read_file_v2",
+     "rawArgs.path"
+    ],
+    [
+     "native",
+     1,
+     "Read",
+     "input.path"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/doc-states-day0.md",
+   "uses": [
+    [
+     "conversation",
+     13,
+     "read_file_v2",
+     "params.effectiveUri"
+    ],
+    [
+     "conversation",
+     13,
+     "read_file_v2",
+     "params.targetFile"
+    ],
+    [
+     "conversation",
+     13,
+     "read_file_v2",
+     "rawArgs.path"
+    ],
+    [
+     "native",
+     4,
+     "Read",
+     "input.path"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/rubric.md",
+   "uses": [
+    [
+     "conversation",
+     6,
+     "ripgrep_raw_search",
+     "params.path"
+    ],
+    [
+     "conversation",
+     6,
+     "ripgrep_raw_search",
+     "rawArgs.path"
+    ],
+    [
+     "conversation",
+     9,
+     "read_file_v2",
+     "params.effectiveUri"
+    ],
+    [
+     "conversation",
+     9,
+     "read_file_v2",
+     "params.targetFile"
+    ],
+    [
+     "conversation",
+     9,
+     "read_file_v2",
+     "rawArgs.path"
+    ],
+    [
+     "conversation",
+     10,
+     "read_file_v2",
+     "params.effectiveUri"
+    ],
+    [
+     "conversation",
+     10,
+     "read_file_v2",
+     "params.targetFile"
+    ],
+    [
+     "conversation",
+     10,
+     "read_file_v2",
+     "rawArgs.path"
+    ],
+    [
+     "native",
+     2,
+     "Grep",
+     "input.path"
+    ],
+    [
+     "native",
+     3,
+     "Read",
+     "input.path"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53",
+   "uses": [
+    [
+     "conversation",
+     54,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "conversation",
+     57,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     20,
+     "Shell",
+     "input.command"
+    ],
+    [
+     "native",
+     21,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/scratch-b3",
+   "uses": [
+    [
+     "conversation",
+     54,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     20,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/scratch-b3/parts",
+   "uses": [
+    [
+     "conversation",
+     54,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     20,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/scratch-b3/parts/sanity_b3.py",
+   "uses": [
+    [
+     "conversation",
+     57,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     21,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3",
+   "uses": [
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "conversation",
+     48,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "conversation",
+     54,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ],
+    [
+     "native",
+     18,
+     "Shell",
+     "input.command"
+    ],
+    [
+     "native",
+     20,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/checklist-b3.md",
+   "uses": [
+    [
+     "conversation",
+     20,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     51,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     57,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     7,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     19,
+     "StrReplace",
+     "input.path"
+    ],
+    [
+     "native",
+     21,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts",
+   "uses": [
+    [
+     "conversation",
+     54,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     20,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p1.tmp",
+   "uses": [
+    [
+     "conversation",
+     23,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     8,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p2.tmp",
+   "uses": [
+    [
+     "conversation",
+     26,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     9,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p3.tmp",
+   "uses": [
+    [
+     "conversation",
+     29,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     10,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p4.tmp",
+   "uses": [
+    [
+     "conversation",
+     32,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     11,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "uses": [
+    [
+     "conversation",
+     35,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "conversation",
+     46,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     47,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     48,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     12,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ],
+    [
+     "native",
+     16,
+     "StrReplace",
+     "input.path"
+    ],
+    [
+     "native",
+     17,
+     "StrReplace",
+     "input.path"
+    ],
+    [
+     "native",
+     18,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "uses": [
+    [
+     "conversation",
+     36,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "conversation",
+     39,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     40,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     42,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     43,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     57,
+     "run_terminal_command_v2",
+     "params.command"
+    ],
+    [
+     "native",
+     12,
+     "Write",
+     "script text"
+    ],
+    [
+     "native",
+     13,
+     "Shell",
+     "input.command"
+    ],
+    [
+     "native",
+     14,
+     "StrReplace",
+     "input.path"
+    ],
+    [
+     "native",
+     15,
+     "StrReplace",
+     "input.path"
+    ],
+    [
+     "native",
+     21,
+     "Shell",
+     "input.command"
+    ]
+   ]
+  },
+  {
+   "path": "/Users/aravind/b3-writer-glm53/work/stage3/b3/writer-record.md",
+   "uses": [
+    [
+     "conversation",
+     17,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "conversation",
+     60,
+     "edit_file_v2",
+     "params.relativeWorkspacePath"
+    ],
+    [
+     "native",
+     6,
+     "Write",
+     "input.path"
+    ],
+    [
+     "native",
+     22,
+     "StrReplace",
+     "input.path"
+    ]
+   ]
+  }
+ ]
+}

@@ -1,0 +1,95 @@
+{
+ "version": "b3-trace-audit-sonnet55-controls/1",
+ "written": "2026-10-30",
+ "writer_dir": "/Users/aravind/b3-controls-sonnet55",
+ "audit_script": "work/checks/stage3_b3_trace_audit.py",
+ "audit_script_sha256": "2a409344589abdd5a3c72a65850156c6214a6932451eaea15d2f84a3d72e1fdd",
+ "allow": [
+  "work/stage3/b3/writer-spec-b3.md",
+  "work/stage3/b3/routine-reference-b3.json",
+  "work/stage3/t1k-rater/rubric.md",
+  "work/stage3/t1k-rater/doc-states-day0.md",
+  "work/stage3/b3/payloads-b3-candidates.json",
+  "work/stage3/b3/controls-b3.json",
+  "work/stage3/b3/writer-record.md"
+ ],
+ "transcripts": {
+  "2c281827-a6fc-4419-be0e-ed95e92519f6": {
+   "sha256": "4a490ea17b1886e6bef693c34e153c322226a1f9049c99da0a9b3809baadd140",
+   "bytes": 1198244,
+   "audit": {
+    "writer_dir": "/Users/aravind/b3-controls-sonnet55",
+    "allowed_inputs": [
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/controls-b3.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/payloads-b3-candidates.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/routine-reference-b3.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-record.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-spec-b3.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/doc-states-day0.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md"
+    ],
+    "opened_ok": [
+     "/Users/aravind/b3-controls-sonnet55",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-record.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-spec-b3.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/doc-states-day0.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md"
+    ],
+    "opened_outside": [
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater",
+     "/build_controls.py",
+     "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-fX1wGD/2c281827-a6fc-4419-be0e-ed95e92519f6/scratchpad",
+     "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-fX1wGD/2c281827-a6fc-4419-be0e-ed95e92519f6/scratchpad/build_controls.py",
+     "/private/tmp/claude-501/-Users-aravind--claude-spares-spare-fX1wGD/2c281827-a6fc-4419-be0e-ed95e92519f6/scratchpad/validate_controls.py",
+     "/validate_controls.py"
+    ],
+    "verdict": "FAIL"
+   }
+  },
+  "049c4545-c7d1-421b-be0f-52f07088c9a4": {
+   "sha256": "a3c04142872f7bffcd4af15454e24a5d4c815492ff7b5f3f13a1fb03d4bce61d",
+   "bytes": 804809,
+   "audit": {
+    "writer_dir": "/Users/aravind/b3-controls-sonnet55",
+    "allowed_inputs": [
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/controls-b3.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/payloads-b3-candidates.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/routine-reference-b3.json",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-record.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-spec-b3.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/doc-states-day0.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md"
+    ],
+    "opened_ok": [
+     "/Users/aravind/b3-controls-sonnet55",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-record.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3/writer-spec-b3.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/doc-states-day0.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/b3",
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater/rubric.md"
+    ],
+    "opened_outside": [
+     "/Users/aravind/b3-controls-sonnet55/work/stage3/t1k-rater"
+    ],
+    "verdict": "FAIL"
+   }
+  }
+ },
+ "scratchpad_files_sha256_not_opened": {
+  "build_controls.py": "60a6234e862dabc8a2a126957d88220db373cce8825c8c3773beebfb7a176303",
+  "validate_controls.py": "5d5f996e028e8c041ef7c4f1fb5c1dd50004b60fca42e36a16232813cef057dd"
+ },
+ "folder_files_sha256": {
+  "work/stage3/b3/routine-reference-b3.json": "fac62cce9810b1f14f43a2c442dd08ef5b266c52bc758ad6f7cb6a003e8cea2d",
+  "work/stage3/b3/writer-spec-b3.md": "794c5c8fb5c2f7df8ac7f306a46dd528a4ff033e93c8988c7748fd21600ca48a",
+  "work/stage3/b3/controls-b3.json": "75fed7d0cfa3bad2e083e264f735074af1f73513a0a7b77bc25a728a6c90631e",
+  "work/stage3/b3/payloads-b3-candidates.json": "ebce93e8f913e890a5af21eecdff3321d499d455dae23617d56d083a405b85f0",
+  "work/stage3/b3/writer-record.md": "d3d2eea9d3017af2e4fc4595b06e63620b24fb0e7858baa058477e294bbbe46a",
+  "work/stage3/t1k-rater/rubric.md": "20962e5a008a00535e36a17ad888268e11f1d756473c345e1147e00c1ebc1662",
+  "work/stage3/t1k-rater/doc-states-day0.md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0"
+ }
+}

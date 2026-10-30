@@ -1,0 +1,137 @@
+{
+ "version": "b3-trace-audit-glm53/1",
+ "written": "2026-10-30",
+ "export_dir": "/Users/aravind/KruxAI/rough/cursor-glm53-2026-10-29-2324",
+ "export_sha256sums_verified": "27 of 27 OK (shasum -a 256 -c SHA256SUMS)",
+ "export_files_sha256": {
+  "SHA256SUMS": "b1367a53d45792921f1da51f91e8bc0781aed398bf91f96c7eeaf536ea4b5e4f",
+  "conversation.jsonl": "86baf96ff296b63733b2e8b05401fafee23309672461425805065a610184cd60",
+  "cursor-native-transcript.jsonl": "41bf7bcfa391d9469c19bdd3135b3f5e561cfc11ac66aedeb7f3787a7d2fec0b",
+  "manifest.json": "eae49560c3fb363780ff26cdd352d7819ef7fa71faecb5231ac17b6a975ea374",
+  "export_trace.py": "7b169343f1823a46a9b753903b512234c9195f527c5679e044bdd52c66380266",
+  "README.txt": "89ced0df93d0b3ee003994809a53d25ad18b66613f11efd1a13f973da0f4c72e"
+ },
+ "adapter": "work/checks/stage3_b3_cursor_paths.py",
+ "adapter_sha256": "cd2c07e4084e0958f9b150e42af122b4571a24b35b9f84bdb9069388fbcb0c5e",
+ "audit_script": "work/checks/stage3_b3_trace_audit.py",
+ "audit_script_sha256": "2a409344589abdd5a3c72a65850156c6214a6932451eaea15d2f84a3d72e1fdd",
+ "paths_file": "work/stage3/b3/trace-glm53-paths.txt",
+ "paths_file_sha256": "79ce0f88f7e14d0e743952be42c2017e7faf00c10ebed1a93046f07639ceaec6",
+ "adapter_report": "work/stage3/b3/trace-glm53-adapter.json",
+ "adapter_report_sha256": "5bf4e998d805aca1f39f5d79cb7a69c5cf2b49df131e0416e102ad01d6778493",
+ "tool_calls_conversation": {
+  "read_file_v2": 5,
+  "ripgrep_raw_search": 1,
+  "edit_file_v2": 15,
+  "run_terminal_command_v2": 4
+ },
+ "tool_calls_native": {
+  "Read": 5,
+  "Grep": 1,
+  "Write": 7,
+  "Shell": 4,
+  "StrReplace": 8
+ },
+ "cross_check": {
+  "tool_call_totals_equal": true,
+  "non_shell_paths_equal": true,
+  "only_in_conversation": [],
+  "only_in_native": []
+ },
+ "script_paths": [
+  [
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json"
+  ],
+  [
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json"
+  ]
+ ],
+ "audit_writer_dir_folder": {
+  "writer_dir": "/Users/aravind/b3-writer-glm53",
+  "allowed_inputs": [
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/b3-writer-glm53/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/b3-writer-glm53/work/stage3/t1k-rater/rubric.md"
+  ],
+  "opened_ok": [
+   "/Users/aravind/b3-writer-glm53",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/checklist-b3.md",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p1.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p2.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p3.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p4.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/writer-record.md"
+  ],
+  "opened_outside": [
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/rubric.md",
+   "/Users/aravind/b3-writer-glm53/scratch-b3",
+   "/Users/aravind/b3-writer-glm53/scratch-b3/parts",
+   "/Users/aravind/b3-writer-glm53/scratch-b3/parts/sanity_b3.py"
+  ],
+  "verdict": "FAIL"
+ },
+ "audit_writer_dir_repo": {
+  "writer_dir": "/Users/aravind/KruxAI/tais-project-selection",
+  "allowed_inputs": [
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/rubric.md"
+  ],
+  "opened_ok": [
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/rubric.md"
+  ],
+  "opened_outside": [
+   "/Users/aravind/b3-writer-glm53",
+   "/Users/aravind/b3-writer-glm53/scratch-b3",
+   "/Users/aravind/b3-writer-glm53/scratch-b3/parts",
+   "/Users/aravind/b3-writer-glm53/scratch-b3/parts/sanity_b3.py",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/checklist-b3.md",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p1.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p2.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p3.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p4.tmp",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "/Users/aravind/b3-writer-glm53/work/stage3/b3/writer-record.md"
+  ],
+  "verdict": "FAIL"
+ },
+ "classification": {
+  "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/routine-reference-b3.json": "input, read at the repository path",
+  "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/writer-spec-b3.md": "input, read at the repository path",
+  "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/doc-states-day0.md": "input, read at the repository path",
+  "/Users/aravind/KruxAI/tais-project-selection/work/stage3/t1k-rater/rubric.md": "input, read at the repository path",
+  "/Users/aravind/b3-writer-glm53": "writer's folder (cd target / listing)",
+  "/Users/aravind/b3-writer-glm53/scratch-b3": "writer's own scratch",
+  "/Users/aravind/b3-writer-glm53/scratch-b3/parts": "writer's own scratch",
+  "/Users/aravind/b3-writer-glm53/scratch-b3/parts/sanity_b3.py": "writer's own scratch",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3": "writer's folder (cd target / listing)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/checklist-b3.md": "writer's own output",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p1.tmp": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p2.tmp": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p3.tmp": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/p4.tmp": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/parts/sanity_b3.py": "writer's own scratch (later moved to scratch-b3/)",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/payloads-b3-candidates.json": "writer's own output",
+  "/Users/aravind/b3-writer-glm53/work/stage3/b3/writer-record.md": "writer's own output"
+ },
+ "n_paths": 18,
+ "n_other": 0
+}

@@ -1,0 +1,1 @@
+- Controls session, 2026-10-30: model claude-sonnet-5-5 (Sonnet 5.5), harness Claude Code desktop app (Code tab, Claude Agent SDK), reasoning effort 30, no sub-agents; wrote only `work/stage3/b3/controls-b3.json` (12 records, arm `control_samewriter`, ids C-01..C-12) and left `payloads-b3-candidates.json` unchanged.
