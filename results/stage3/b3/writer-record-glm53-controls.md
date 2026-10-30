@@ -1,0 +1,1 @@
+- 2026-10-30 — controls session: model z-ai/glm-5.3, harness Claude Code CLI (effort default), setting b3-controls-glm53 (10 control_samewriter records C-01 to C-10 in controls-b3.json; no sub-agents; checks script not run, per the controls task).

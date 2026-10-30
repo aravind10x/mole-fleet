@@ -1,0 +1,94 @@
+{
+ "version": "b3-trace-audit-glm53-controls/1",
+ "written": "2026-10-30",
+ "writer_dir": "/Users/aravind/b3-controls-glm53",
+ "audit_script": "work/checks/stage3_b3_trace_audit.py",
+ "audit_script_sha256": "2a409344589abdd5a3c72a65850156c6214a6932451eaea15d2f84a3d72e1fdd",
+ "allow": [
+  "work/stage3/b3/writer-spec-b3.md",
+  "work/stage3/b3/routine-reference-b3.json",
+  "work/stage3/t1k-rater/rubric.md",
+  "work/stage3/t1k-rater/doc-states-day0.md",
+  "work/stage3/b3/payloads-b3-candidates.json",
+  "work/stage3/b3/controls-b3.json",
+  "work/stage3/b3/writer-record.md"
+ ],
+ "transcript": "/Users/aravind/.claude/projects/-Users-aravind-b3-controls-glm53/66f5cd70-183e-411d-b368-d7ea7ed3d2cf.jsonl",
+ "transcript_sha256": "d5cf83208c3d1b66ef4197341df8f91240c7bd51c03b3a5f44c73bcad2f4b950",
+ "transcript_bytes": 1979849,
+ "metadata": {
+  "assistant_model_field": {
+   "z-ai/glm-5.3": 49,
+   "<synthetic>": 1
+  },
+  "first_event_utc": "2026-10-30T11:52:10.182Z",
+  "last_event_utc": "2026-10-30T12:21:50.562Z",
+  "entrypoint": "cli",
+  "claude_code_version": "2.1.292",
+  "effort_field": {
+   "high": 49
+  },
+  "tool_uses": {
+   "Read": 4,
+   "Bash": 13,
+   "Write": 2,
+   "Edit": 6
+  }
+ },
+ "audit": {
+  "writer_dir": "/Users/aravind/b3-controls-glm53",
+  "allowed_inputs": [
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/controls-b3.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/writer-record.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/t1k-rater/rubric.md"
+  ],
+  "opened_ok": [
+   "/Users/aravind/b3-controls-glm53",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/controls-b3.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/routine-reference-b3.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/writer-record.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/writer-spec-b3.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/t1k-rater/doc-states-day0.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/t1k-rater/rubric.md",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/payloads-b3-candidates.json",
+   "/Users/aravind/b3-controls-glm53/work/stage3/b3/writer-record.md"
+  ],
+  "opened_outside": [
+   "/dev/null",
+   null,
+   "/tmp/b3_dump.txt",
+   "/tmp/b3_tokens.txt"
+  ],
+  "verdict": "FAIL"
+ },
+ "n_tokens_withheld_candidate_text": 1,
+ "tmp_files_created_by_the_session_not_opened": {
+  "/tmp/b3_tokens.txt": {
+   "sha256": "24d72feda52c4c760a4b7c668ab1cd0e5e08ce7fe3c288adc800c51bb068026f",
+   "bytes": 4594,
+   "born_ist": "2026-10-30T17:22:49+05:30"
+  },
+  "/tmp/b3_dump.txt": {
+   "sha256": "b56835d5aa51d2a091b395e1bcee3b7dfdff7d8445ec02737d08e0da8c2b5f14",
+   "bytes": 24512,
+   "born_ist": "2026-10-30T17:22:52+05:30"
+  }
+ },
+ "folder_files_sha256": {
+  "work/stage3/b3/routine-reference-b3.json": "fac62cce9810b1f14f43a2c442dd08ef5b266c52bc758ad6f7cb6a003e8cea2d",
+  "work/stage3/b3/writer-spec-b3.md": "794c5c8fb5c2f7df8ac7f306a46dd528a4ff033e93c8988c7748fd21600ca48a",
+  "work/stage3/b3/controls-b3.json": "0d1d418b26c98dee007195938b8571dbca50d6b5cdac0561095875ff7a09566e",
+  "work/stage3/b3/payloads-b3-candidates.json": "90611d780eb5ff585ee9bb94d04794cec862202d2dc29b220f2691923528da91",
+  "work/stage3/b3/writer-record.md": "a85bc610202c2618cce04ead66f4a5bec152eb2362e25721f5b15e950334528a",
+  "work/stage3/t1k-rater/rubric.md": "20962e5a008a00535e36a17ad888268e11f1d756473c345e1147e00c1ebc1662",
+  "work/stage3/t1k-rater/doc-states-day0.md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0"
+ }
+}

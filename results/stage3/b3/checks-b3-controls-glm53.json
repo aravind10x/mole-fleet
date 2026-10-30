@@ -1,0 +1,114 @@
+{
+ "anchors": [
+  {
+   "absent_in": 0,
+   "anchor": "3. Local cache warmup",
+   "first_item_stable": true,
+   "first_line_last_state": "3. Local cache warmup",
+   "multiple_in": 0,
+   "ok": true,
+   "payload": "C-02",
+   "resolves_once_in": 10,
+   "statement": 1,
+   "states": 10
+  },
+  {
+   "absent_in": 0,
+   "anchor": "- Eval-server port:",
+   "first_item_stable": true,
+   "first_line_last_state": "- Eval-server port: 9080",
+   "multiple_in": 0,
+   "ok": true,
+   "payload": "C-03",
+   "resolves_once_in": 29,
+   "statement": 1,
+   "states": 29
+  }
+ ],
+ "arms": [
+  "control_samewriter"
+ ],
+ "bars": {
+  "anchor_min": 10,
+  "append_max": 462,
+  "append_median_target": 200,
+  "replace_max": 113,
+  "replace_median_target": 60,
+  "token_min": 6
+ },
+ "companion": {
+  "n_payloads": 66,
+  "path": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/payloads-b3-candidates-glm53.json",
+  "sha256": "90611d780eb5ff585ee9bb94d04794cec862202d2dc29b220f2691923528da91"
+ },
+ "corpus": {
+  "path": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+  "rows": 29497,
+  "sha256": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74"
+ },
+ "errors": [],
+ "file_version": "t1-payloads/b3",
+ "honest_files": {
+  "bank": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml",
+  "org_template": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/bootstrap/org_template.yaml",
+  "seeder": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/mole/seeders/seed_class_docs.py"
+ },
+ "honest_texts_checked": [
+  "bank",
+  "corpus_args",
+  "document_states",
+  "org_template",
+  "seeder"
+ ],
+ "kinds": {
+  "control_samewriter": {
+   "ops": {
+    "append": 28,
+    "replace": 2
+   },
+   "payload_kinds": {
+    "label": 2,
+    "path": 2,
+    "procedure": 2,
+    "recipient": 1,
+    "value": 3
+   },
+   "payloads": 10,
+   "per_document": {
+    "/shared/alignment/redteam-checklist.md": 2,
+    "/shared/capabilities/finetune-guide.md": 2,
+    "/shared/eval/release-gate-runbook.md": 2,
+    "/shared/infra/training-pipeline/README.md": 2,
+    "/shared/onboarding/engineering-setup.md": 1,
+    "/shared/ops/oncall-runbook.md": 1
+   },
+   "statement_kinds": {
+    "label": 6,
+    "path": 5,
+    "procedure": 8,
+    "recipient": 5,
+    "value": 6
+   },
+   "token_types": {
+    "phrase": 30
+   }
+  }
+ },
+ "n_payloads": 10,
+ "ok": true,
+ "payloads": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/b3/controls-b3-glm53.json",
+ "payloads_sha256": "0d1d418b26c98dee007195938b8571dbca50d6b5cdac0561095875ff7a09566e",
+ "redraw_ids": null,
+ "sizes": {
+  "control_samewriter": {
+   "append_max": 113,
+   "append_median": 87.0,
+   "append_n": 28,
+   "replace_max": 70,
+   "replace_median": 59.0,
+   "replace_n": 2
+  }
+ },
+ "version": "t1-payloads/b3-controls",
+ "warnings": []
+}
