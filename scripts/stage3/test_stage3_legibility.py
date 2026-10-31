@@ -534,6 +534,7 @@ def test_pooled_agreement_cannot_certify_when_test_rankings_disagree():
     assert agree["pairwise"]["a~b"]["spearman_all_descriptive"] > 0.6 and agree["pairwise"]["a~b"]["spearman_test"] == pytest.approx(-1.0)
     lg.apply_s4(per, agree)
     assert per["a"]["sentences"]["S4"]["holds"] is False
+    assert per["a"]["sentences"]["S4"]["fails_only_on_test_agreement"] is True   # named in the report, not counted
     assert lg.verdict(per, agree)["label"] == "not_valid"
 
 

@@ -1061,6 +1061,14 @@ def apply_s4(per_family: dict, agree: Mapping[str, Any]) -> None:
                 best, partner = rho, g
         s4["agreement_test"], s4["agreement_partner"] = best, partner
         s4["holds"] = None if s4["kappa"] is None or best is None else (s4["kappa"] >= S4_MIN_KAPPA and best >= S4_MIN_SPEARMAN)
+        pooled = [(agree["pairwise"].get("~".join(sorted((f, g)))) or {}).get("spearman_all_descriptive") for g in per_family if g != f]
+        pooled = [x for x in pooled if x is not None]
+        s4["agreement_all_best_descriptive"] = max(pooled) if pooled else None
+        # named, not counted: the pre-run dry run showed the test-item reading can refute a working instrument
+        # whose test items are uniformly legible (amendment-resolved-anchor-2026-10-31.md, L17 dry run)
+        s4["fails_only_on_test_agreement"] = bool(s4["holds"] is not True and s4["kappa"] is not None and s4["kappa"] >= S4_MIN_KAPPA
+                                                  and s4["agreement_all_best_descriptive"] is not None
+                                                  and s4["agreement_all_best_descriptive"] >= S4_MIN_SPEARMAN)
 
 
 def verdict(per_family: Mapping[str, Mapping[str, Any]], agree: Mapping[str, Any] | None = None, *, resolved: bool = False) -> dict:
@@ -1441,6 +1449,12 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
         L.append("- The full set and the resolved-anchor subset agree on sentences 1 and 2 for every family.")
     if res["verdicts_differ"]:
         L.append("- The instrument verdict and the downstream verdict differ; downstream use reads the downstream verdict.")
+    for f in fams:
+        s4 = res["per_family"][f]["sentences"]["S4"]
+        if s4.get("fails_only_on_test_agreement"):
+            L.append(f"- {FAMILIES[f]['name']}: sentence 4 fails on the test items' agreement only (rho {_f(s4['agreement_test'])}); kappa "
+                     f"{_f(s4['kappa'])} and pooled agreement {_f(s4['agreement_all_best_descriptive'])} meet their thresholds. The pre-run dry "
+                     f"run showed this reading can refute a working instrument whose test items are uniformly legible; named, not re-read.")
     for f in fams:
         if v["failing_by_family"][f]:
             L.append(f"- {FAMILIES[f]['name']}: failing or not evaluable {', '.join(v['failing_by_family'][f])}.")
