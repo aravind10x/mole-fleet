@@ -190,8 +190,8 @@ def test_edit_heads():
 def test_parse_answer():
     assert lg.parse_answer("   ") is None
     assert lg.parse_answer("It moves the port.") == {"answer": "It moves the port.", "declined_token": False}
-    assert lg.parse_answer("DECLINED.")["declined_token"] is True
-    assert lg.parse_answer("Declined")["declined_token"] is True
+    assert lg.parse_answer("DECLINED.") == {"refused": True, "declined_token": True, "answer": None}
+    assert lg.parse_answer("Declined")["refused"] is True
     assert lg.parse_answer("Declining to guess, it moves the port")["declined_token"] is False
 
 
@@ -200,9 +200,17 @@ def test_parse_score():
     assert ok == {"score": 1, "flag": True, "rationale": "states it", "declined": False}
     assert lg.parse_score('{"reason": "x", "declined": true, "score": 0}')["declined"] is True
     for bad in ('{"reason": "x", "declined": false, "score": 2}', '{"reason": "x", "declined": false, "score": true}',
-                '{"reason": "x", "declined": "no", "score": 1}', '{"reason": "x", "score": 1}', "no json", '{"score": "1", "declined": false}'):
+                '{"reason": "x", "declined": "no", "score": 1}', '{"reason": "x", "score": 1}', "no json", '{"score": "1", "declined": false}',
+                '{"reason": 5, "declined": false, "score": 1}'):
         assert lg.parse_score(bad) is None, bad
-    assert lg.parse_score('{"a": 1} then {"reason": "r", "declined": false, "score": 0}')["score"] == 0
+    # braces inside the reason, nested objects, unrelated objects around it
+    assert lg.parse_score('{"reason": "uses {x} and }", "declined": false, "score": 1}')["score"] == 1
+    assert lg.parse_score('{"a": {"b": 1}} then {"reason": "r", "declined": false, "score": 0} and {"note": 1}')["score"] == 0
+    assert lg.parse_score('```json\n{"declined": false, "score": 1.0}\n```')["score"] == 1
+    # two objects that disagree are unparseable; two that agree are fine
+    assert lg.parse_score('{"declined": false, "score": 1} {"declined": false, "score": 0}') is None
+    assert lg.parse_score('{"declined": false, "score": 1} {"declined": false, "score": 1}')["score"] == 1
+    assert lg.parse_score("DECLINED") == {"refused": True, "scorer_declined": True}
 
 
 # ── cache keys: passes and repeats must be distinct (brief 23 I2) ─────────────────────────────────────
@@ -247,7 +255,8 @@ async def no_sleep(_s):
 def client(fn, cache, system, pv, parse):
     fc = ScriptedClient(fn)
     return jc.JudgeClient(cache, model="anthropic.claude-sonnet-5", region="us-east-1", client=fc, sleep=no_sleep, verbose=False,
-                          system=system, prompt_version=pv, parse=parse, spend_cap_usd=None, rpm=10_000, concurrency=8), fc
+                          system=system, prompt_version=pv, parse=parse, spend_cap_usd=None, rpm=10_000, concurrency=8,
+                          refusal_retries=0), fc   # as make_reader / make_scorer: provider refusals are not re-asked
 
 
 def test_second_pass_and_repeat_are_requested_not_served_from_cache(tmp_path):
@@ -370,7 +379,9 @@ def reader_fn(declined_marker=None):
         if declined_marker and declined_marker in sec:
             return msg("DECLINED")
         toks = sorted(set(TOK.findall(sec)))
-        return msg(("WHOLE " if sec.startswith("3 edits") else "PART ") + " ".join(toks))
+        if sec.startswith("3 edits"):   # even-numbered test items are not understood whole (L = 0): L varies across items
+            return msg("WHOLE " + " ".join(t for t in toks if not re.match(r"TOK-T1v\d-[CM]0[24]", t)))
+        return msg("PART " + " ".join(toks))
     return fn
 
 
@@ -378,10 +389,11 @@ def scorer_fn(kw):
     pkt = kw["messages"][0]["content"]
     rubric = pkt.split("Target:\n<<<\n", 1)[1].split("\n>>>", 1)[0]
     answer = pkt.split("Answer:\n<<<\n", 1)[1].split("\n>>>", 1)[0]
-    rt = set(TOK.findall(rubric))
-    hit = bool(rt & set(TOK.findall(answer)))
-    if not rubric.startswith("The document"):
-        hit = hit and answer.startswith("WHOLE")
+    rt, at = set(TOK.findall(rubric)), set(TOK.findall(answer))
+    if rubric.startswith("The document"):   # own target: every listed change must be covered
+        hit = bool(rt) and rt <= at
+    else:
+        hit = bool(rt & at) and answer.startswith("WHOLE")
     return msg(json.dumps({"reason": "r", "declined": False, "score": int(hit)}))
 
 
@@ -422,15 +434,18 @@ def test_end_to_end_fake_run_reads_valid_and_counts_every_call(tmp_path, small):
     res = lg.analyse(rec, rows, ["sonnet55", "kimi", "sol"])
     for f, d in res["per_family"].items():
         s = d["sentences"]
-        assert s["S1"]["value"] == 0.0 and s["S2"]["value"] == 1.0 and s["S3"]["value"] == 0.0
-        assert s["S4"]["kappa"] == pytest.approx(1.0) and s["S4"]["agreement"] == pytest.approx(1.0)
+        assert s["S1"]["value"] == 0.0 and s["S2"]["value"] == 0.5 and s["S3"]["value"] == 0.0
+        assert s["S4"]["kappa"] == pytest.approx(1.0) and s["S4"]["agreement_test"] == pytest.approx(1.0)
         assert s["S4b"]["D_whole_own"] == 1.0 and s["S4b"]["D_part_own"] == 1.0
         assert all(x["holds"] is True for x in s.values()), (f, s)
-        assert d["regimes"]["v2_conforming"]["targets"]["rubric"]["L"]["mean"] == 1.0
+        assert d["regimes"]["v2_conforming"]["targets"]["rubric"]["L"]["mean"] == 0.5
         assert d["retest"]["L"]["n"] == n_ret
     assert res["verdict"]["label"] == "valid" and res["verdict"]["families_valid"] == ["kimi", "sol", "sonnet55"]
+    assert len(res["verdict"]["agreeing_valid_pairs"]) == 3
+    assert all(x["p1:scored"] == x["p2:scored"] for d in res["per_family"].values() for x in d["outcomes"]["scorer"].values())
     md = lg.render_md({**res, "routes": {f: {"route": "bedrock", "model": "m"} for f in lg.FAMILIES}, "answer_chars": {f: lg.describe([1.0]) for f in lg.FAMILIES},
-                       "hashes": {"items_v0": "h", "rubrics": "h", "script_at_items": "h", "script_now": "h", "prompt_sha256": lg.prompt_hashes()},
+                       "hashes": {"items_v0": "h", "rubrics": "h", "config": "h", "script_at_items": "h", "script_now": "h",
+                                  "prompt_sha256": lg.prompt_hashes(), "dependency_sha256": {"d": "h"}},
                        "cache_sha256": {"x": "h"}, "dollars": {"total": 0.0}}, small[3])
     assert "**Verdict: valid**" in md
     for eff in rubrics["test"].values():
@@ -441,7 +456,7 @@ def test_end_to_end_declined_reader_is_a_refusal_and_breaks_its_items(tmp_path, 
     rows, _rub, _a, _b, rec, _ = run_e2e(tmp_path, small, declined_marker="TOK-T1v2-C01")
     res = lg.analyse(rec, rows, ["sonnet55", "kimi", "sol"])
     k = res["per_family"]["kimi"]
-    out = k["reader_outcomes_r0"]["v2_conforming"]
+    out = k["outcomes"]["reader"]["r0:v2_conforming"]
     assert out["whole"].get("refused_token") == 1 and out["part0"].get("refused_token") == 1
     nc = k["regimes"]["v2_conforming"]["targets"]["rubric"]
     assert nc["n_computed"] == 3 and nc["not_computed"] == {"refused_token": 1}
@@ -472,3 +487,164 @@ def test_estimate_counts_calls(small, monkeypatch):
     assert est["families"]["sonnet55"]["route"] == "bedrock" and est["families"]["kimi"]["route"] == "openrouter"
     assert est["stop_at_usd"] == pytest.approx(2 * est["total_usd"], abs=0.011)
     lg.check_safe(est)
+
+
+# ── codex round 1 regressions (2026-10-31) ────────────────────────────────────────────────────────────
+
+def test_refusal_is_not_reasked_and_is_recorded(tmp_path):
+    seq = iter([msg("", stop_reason="refusal"), msg("an answer")])
+    rd, fc = client(lambda kw: next(seq), tmp_path / "r.jsonl", lg.READER_SYSTEM, lg.READER_PROMPT_VERSION, lg.parse_answer)
+    rec = asyncio.run(rd.score(lg.READ_VIEW, lg.read_label(0, "ab" * 32, "whole"), "pkt"))
+    assert rec["outcome"] == "refused" and len(fc.messages.calls) == 1
+
+
+def test_scorer_declined_word_is_a_refusal_not_a_reask(tmp_path):
+    sc, fc = client(lambda kw: msg("DECLINED"), tmp_path / "s.jsonl", lg.SCORER_SYSTEM, lg.SCORER_PROMPT_VERSION, lg.parse_score)
+    rec = asyncio.run(sc.score(lg.SCORE_VIEW, lg.score_label(1, "kimi", 0, "ab" * 32, "whole", "rubric"), "pkt"))
+    assert rec["outcome"] == "refused" and rec["parsed"]["scorer_declined"] is True and len(fc.messages.calls) == 1
+    r = lg.Records({}, [rec])
+    assert r.score_outcome("kimi", 0, "ab" * 32, "whole", "rubric", 1) == "refused_token"
+
+
+def test_mixed_passes_and_scorer_refusals_are_counted():
+    iid = "ef" * 32
+    row = {"item_id": iid, "regime": "v2_conforming", "retest": False}
+    reads = [rec_read("f", 0, iid, c) for c in lg.CONDS]
+    scores = [rec_score("f", 0, iid, c, "rubric", 1, 1) for c in lg.CONDS]
+    scores += [rec_score("f", 0, iid, "whole", "rubric", 2, outcome="refused")] + [rec_score("f", 0, iid, c, "rubric", 2, 0) for c in lg.PARTS]
+    t = lg.outcome_tables(lg.Records({"f": reads}, scores), "f", [row])
+    assert t["scorer"]["r0:v2_conforming:whole:rubric"] == {"p1:scored": 1, "p2:refused_provider": 1}
+    assert t["mixed_passes"] == {"r0:v2_conforming:rubric:refused_provider+scored": 1}
+    st = lg.Records({"f": reads}, scores).item_stat("f", 0, row, "rubric")
+    assert st["scored_passes"]["whole"] == 1 and st["D_whole"] == 1.0 and st["D_part"] == 0.5 and st["L"] == 0.5
+
+
+def _per(Lmap, rows, sentences_hold=True):
+    return {"L_by_item": Lmap, "sentences": {k: {"holds": sentences_hold} for k in ("S1", "S2", "S3", "S4b")} | {
+        "S4": {"kappa": 0.9, "holds": None}}}
+
+
+def test_pooled_agreement_cannot_certify_when_test_rankings_disagree():
+    rows = [{"item_id": f"t{i}", "regime": "v2_conforming"} for i in range(6)] + [{"item_id": f"n{i}", "regime": "control"} for i in range(20)]
+    a = {f"t{i}": 0.5 + 0.1 * i for i in range(6)} | {f"n{i}": 0.0 for i in range(20)}
+    b = {f"t{i}": 1.0 - 0.1 * i for i in range(6)} | {f"n{i}": 0.0 for i in range(20)}
+    per = {"a": _per(a, rows), "b": _per(b, rows)}
+    agree = lg.agreement(per, rows)
+    assert agree["pairwise"]["a~b"]["spearman_all_descriptive"] > 0.6 and agree["pairwise"]["a~b"]["spearman_test"] == pytest.approx(-1.0)
+    lg.apply_s4(per, agree)
+    assert per["a"]["sentences"]["S4"]["holds"] is False
+    assert lg.verdict(per, agree)["label"] == "not_valid"
+
+
+def test_valid_needs_two_families_that_agree_with_each_other():
+    rows = [{"item_id": f"t{i}", "regime": "v2_conforming"} for i in range(6)]
+    up = {f"t{i}": 0.1 * i for i in range(6)}
+    down = {f"t{i}": -0.1 * i for i in range(6)}
+    per = {"a": _per(up, rows), "b": _per(down, rows), "c": _per(up, rows)}
+    agree = lg.agreement(per, rows)
+    for f in per:
+        per[f]["sentences"]["S4"]["holds"] = True   # each found a partner, but a and c are the only agreeing pair
+    v = lg.verdict(per, agree)
+    assert v["label"] == "valid" and v["agreeing_valid_pairs"] == [["a", "c"]]
+    per["c"]["sentences"]["S1"]["holds"] = False
+    assert lg.verdict(per, agree)["label"] == "valid_for_one_family"
+
+
+def test_sentences_are_not_evaluable_below_completeness_and_s2_counts_missing_as_not_above(small):
+    _t, _k, _p, items, _r = small
+    rows = items["items"]
+    reads, scores = [], []
+    for row in rows:
+        lt = lg.l_target(row["regime"])
+        test = row["regime"] in lg.TEST_REGIMES
+        for c in lg.CONDS:
+            reads.append(rec_read("f", 0, row["item_id"], c))
+            for t in lg.scoring_targets(row, 0):
+                for p in lg.PASSES:
+                    v = 1 if (test and c == "whole") or t == "own" else 0
+                    scores.append(rec_score("f", 0, row["item_id"], c, t, p, v))
+    nulls = [r for r in rows if r["regime"] in lg.NULL_REGIMES]
+    tests = [r for r in rows if r["regime"] in lg.TEST_REGIMES]
+    drop = {nulls[0]["item_id"], nulls[1]["item_id"], tests[0]["item_id"]}   # 2 of 13 nulls: under 90 percent
+    reads2 = [x for x in reads if not any(d in x["label"] for d in drop)]
+    d = lg.family_analysis(lg.Records({"f": reads2}, scores), "f", rows)
+    s = d["sentences"]
+    assert s["S1"]["n"] == len(nulls) - 2 and s["S1"]["holds"] is None and s["S2"]["holds"] is None
+    assert s["S2"]["value"] == pytest.approx((len(tests) - 1) / len(tests))
+    d_full = lg.family_analysis(lg.Records({"f": reads}, scores), "f", rows)
+    assert d_full["sentences"]["S1"]["holds"] is True and d_full["sentences"]["S2"]["value"] == 1.0
+
+
+def test_manifest_mismatches_name_every_drift():
+    items = {"inputs_sha256": {"triples": "a", "key": "b"}, "script_sha256": "s", "config_sha256": "c", "dependency_sha256": {"d1": "x"}}
+    assert lg.manifest_mismatches(items, inputs_sha256={"triples": "a", "key": "b"}, script_sha256="s", cfg_sha256="c", deps={"d1": "x"}) == []
+    bad = lg.manifest_mismatches(items, inputs_sha256={"triples": "a", "key": "B"}, script_sha256="t", cfg_sha256="C", deps={"d1": "y"})
+    assert bad == ["input:key", "script", "config", "dependency:d1"]
+
+
+def test_config_hash_moves_with_a_prompt():
+    h = lg.config_sha256()
+    old = lg.SCORER_TEMPLATE
+    try:
+        lg.SCORER_TEMPLATE = old + " "
+        assert lg.config_sha256() != h
+    finally:
+        lg.SCORER_TEMPLATE = old
+
+
+def test_route_probe_accepts_only_a_parseable_reply(tmp_path):
+    ok, _ = client(lambda kw: msg("OK"), None, lg.READER_SYSTEM, lg.READER_PROMPT_VERSION, lg.parse_answer)
+    assert lg.probe(ok)["accepted"] is True
+    empty, _ = client(lambda kw: msg(" "), None, lg.READER_SYSTEM, lg.READER_PROMPT_VERSION, lg.parse_answer)
+    assert lg.probe(empty) == {**lg.probe(empty), "accepted": False, "outcome": "errored"}
+    ref, _ = client(lambda kw: msg("", stop_reason="refusal"), None, lg.READER_SYSTEM, lg.READER_PROMPT_VERSION, lg.parse_answer)
+    assert lg.probe(ref)["accepted"] is False
+
+
+def test_request_guard_stops_before_the_next_request_and_paid_attempts_stay_on_file(tmp_path):
+    seq = iter([msg("not json"), msg("not json")])
+    sc, fc = client(lambda kw: next(seq), tmp_path / "s.jsonl", lg.SCORER_SYSTEM, lg.SCORER_PROMPT_VERSION, lg.parse_score)
+    sc.concurrency = 1
+    n = {"req": 0}
+
+    def guard():
+        n["req"] += 1
+        if n["req"] > 1:
+            raise jc.JudgeAborted("twice-estimate stop: test")
+    sc.request_guard = guard
+    with pytest.raises(jc.JudgeAborted):
+        asyncio.run(sc.score_many([(lg.SCORE_VIEW, lg.score_label(1, "kimi", 0, "ab" * 32, c, "rubric"), "pkt") for c in lg.CONDS]))
+    assert len(fc.messages.calls) == 1
+    on_file = lg.read_jsonl(tmp_path / "s.jsonl")
+    assert len(on_file) == 1 and on_file[0]["outcome"] == "errored" and on_file[0]["cost_usd"] > 0
+    assert on_file[0]["error"] == "aborted after paid attempts"
+    g = lg.SpendGuard(1.0, offset_usd=0.4)
+    g.clients = [sc]
+    assert g.total() == pytest.approx(0.4 + sc.total_spent())
+
+
+def test_cache_drift_and_reasoning_env(tmp_path, monkeypatch):
+    sc, _ = client(lambda kw: msg('{"declined": false, "score": 1}'), tmp_path / "s.jsonl", lg.SCORER_SYSTEM, lg.SCORER_PROMPT_VERSION, lg.parse_score)
+    asyncio.run(sc.score(lg.SCORE_VIEW, "score:p1:kimi:r0:" + "ab" * 32 + ":whole:rubric", "pkt"))
+    assert lg.cache_drift(sc, lg.SCORER_SYSTEM) == 0 and lg.cache_drift(sc, lg.SCORER_SYSTEM + " changed") == 1
+    monkeypatch.setenv("OPENROUTER_REASONING_EFFORT", "low")
+    with pytest.raises(SystemExit):
+        lg.check_reasoning_env()
+    import judge_openrouter as jo
+    assert jo.reasoning_setting().startswith("effort low")
+    monkeypatch.delenv("OPENROUTER_REASONING_EFFORT")
+    lg.check_reasoning_env()
+    assert jo.reasoning_setting() == "provider default"
+
+
+def test_phase_stop_after_a_scorer_abort():
+    g = lg.SpendGuard(10.0)
+    assert lg.phase_must_stop({"score": {"aborted": True}}, g)
+    assert not lg.phase_must_stop({"score": {"aborted": False}}, g)
+
+
+def test_main_prints_only_the_error_type(tmp_path, capsys):
+    assert lg.main(["report", "--out-dir", str(tmp_path), "--triples", str(tmp_path / "none.json")]) == 1
+    err = capsys.readouterr().err
+    assert json.loads(err) == {"error": "FileNotFoundError", "mode": "report", "traceback": "errors.log"}
+    assert (tmp_path / "errors.log").exists()

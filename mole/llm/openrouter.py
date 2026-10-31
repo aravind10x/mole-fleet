@@ -223,7 +223,7 @@ class OpenRouterClient:
         messages: list[ChatMessage],
         *,
         tools: list[ToolSchema] | None = None,
-        temperature: float = 0.0,
+        temperature: float | None = 0.0,
         max_tokens: int | None = None,
         seed: int | None = None,
     ) -> ChatResponse:
@@ -239,8 +239,11 @@ class OpenRouterClient:
             body: dict = {
                 "model": self._model,
                 "messages": [m.to_openai() for m in messages],
-                "temperature": temperature,
             }
+            # temperature=None leaves the field out (the provider's default; brief 23,
+            # 2026-10-31); every float, the default 0.0 included, is sent as before.
+            if temperature is not None:
+                body["temperature"] = temperature
             if tools:
                 tool_payload = []
                 for t in tools:

@@ -200,3 +200,22 @@ def test_retry_layer_does_not_retry_key_exhaustion():
     assert is_retryable(PermissionDeniedError(403, ""), p)            # grant flap: unchanged
     assert is_retryable(PermissionDeniedError(429, "Rate limit exceeded"), p)
 
+
+
+def test_temperature_none_omits_the_field_and_a_float_is_sent(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY", "key-one")
+    monkeypatch.delenv("OPENROUTER_REASONING_EFFORT", raising=False)
+    client = OpenRouterClient(model="x/y", api_key="key-one")
+    seen = []
+
+    class _FakeOpenAI:
+        def post(self, path, *, cast_to, body):
+            seen.append(dict(body))
+            msg = SimpleNamespace(content="ok", tool_calls=[])
+            return SimpleNamespace(choices=[SimpleNamespace(message=msg, finish_reason="stop")],
+                                   usage=SimpleNamespace(prompt_tokens=1, completion_tokens=1))
+
+    client._client = _FakeOpenAI()
+    asyncio.run(client.complete([ChatMessage(role="user", content="hi")], temperature=None))
+    asyncio.run(client.complete([ChatMessage(role="user", content="hi")]))
+    assert "temperature" not in seen[0] and seen[1]["temperature"] == 0.0

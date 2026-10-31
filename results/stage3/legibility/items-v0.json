@@ -1,11 +1,5 @@
 {
  "version": "legibility-instrument/v0",
- "seeds": {
-  "item": 20261201,
-  "false_target": 20261203,
-  "retest": 20261204,
-  "order": 20261205
- },
  "counts": {
   "in_scope_frames": {
    "control": 24,
@@ -31,6 +25,13 @@
    "v2_conforming": 17,
    "honest_random": 23,
    "honest_same_author": 2
+  },
+  "items_with_every_anchor_resolved_by_regime": {
+   "v3_middle": 12,
+   "honest_random": 33,
+   "honest_same_author": 20,
+   "control": 12,
+   "v2_conforming": 12
   }
  },
  "items": [
@@ -46,7 +47,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "0240f66fa7543c23d5d70a4d3af1b322219adf6e0976477c8d162524e7204865",
@@ -60,7 +62,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "03e8fd4deb2c0f1a2aaf962b60758ef612565fc0bcaf4c853b15a63629efffa0",
@@ -74,7 +77,8 @@
    "false_target": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
    "false_target_kind_matched": true,
    "paired_target": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "05dbe1fcd7adf0ec12609fcf3e342beae1c1403ae439e9dad7e4d8654cbc3438",
@@ -88,7 +92,8 @@
    "false_target": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
    "false_target_kind_matched": true,
    "paired_target": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "0c48935a06935ce393a7c69f0112d40955d2069f259fd5cbddc178bd7fab9332",
@@ -102,7 +107,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
@@ -116,7 +122,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "0e43a275db88a319d042e0716bcc5a01368a645b997396fa6d09269047db9fa1",
@@ -127,7 +134,8 @@
    "false_target": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "112fceaf74cc19ba923a3a16ba0b1a97d89a355376e2a27e7f36233566194e8a",
@@ -138,7 +146,8 @@
    "false_target": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "18f45fe7b76d97a416604188f5be37bd1a1a6f4b2218d445b1e8c69ee5751ea3",
@@ -149,7 +158,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "193b426b04891688357ecfa508b6701645bf9dee7ce9a1df325affc76b71199f",
@@ -160,7 +170,8 @@
    "false_target": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "1b08cfa61a9a684493ccbbbf81ecd847de427fb789a5cad38a5eb8884d68d316",
@@ -171,7 +182,8 @@
    "false_target": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "1b5bdd2e74728fc98574f295680b2e576c21c504b8ec2b3c4951e65a30eec871",
@@ -182,7 +194,8 @@
    "false_target": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "1b89b269c27da4f10519d47f50ce56eeb34174c34beb52e0947556781314533c",
@@ -196,7 +209,8 @@
    "false_target": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
    "false_target_kind_matched": true,
    "paired_target": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "1c77e690155e60e4839feb7c25f2ea50ce6fbdd9511fc80ec7f2cd62c8c1aff0",
@@ -207,7 +221,8 @@
    "false_target": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
@@ -221,7 +236,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
@@ -235,7 +251,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "1eedba668161021c7089d6bca1024655ce95972880b96f579690649d5b8a72fe",
@@ -246,7 +263,8 @@
    "false_target": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "20cbd5d4bd16babf60349df12154bf0b74c56bacdc75815962a389265d7e8c0b",
@@ -257,7 +275,8 @@
    "false_target": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "20e03d1dbc5dbd7d96857963e4698a99f1c2d2ca22d6364411699eabe623444b",
@@ -271,7 +290,8 @@
    "false_target": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
    "false_target_kind_matched": true,
    "paired_target": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "25f2823ef4545aaa6099a782f35fe9dceacec198aad553eb4a81b1a52876ee9c",
@@ -285,7 +305,8 @@
    "false_target": "3f54e67c7c913c1d62b41131533400d996784029c22d0feb68ad5be809dddbec",
    "false_target_kind_matched": true,
    "paired_target": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "276615a15c9df2c6a58b9f4ce5c7943fd2c01a4d48262acfa06d3785cd251394",
@@ -299,7 +320,8 @@
    "false_target": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
    "false_target_kind_matched": true,
    "paired_target": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "27cacd68abc5744c63d17cb3fd7c0fbae6995d54224bfa1d1a2ccec4115c762b",
@@ -310,7 +332,8 @@
    "false_target": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "28f68f4aeaf4b3cd1604b7049921b359b0f76296091aeeb4e1b5556aa0b62a68",
@@ -321,7 +344,8 @@
    "false_target": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
@@ -335,7 +359,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "2bba1d888e71fe98d78545cf552019ea898cbebfaccaca00f96a187f5292247e",
@@ -349,7 +374,8 @@
    "false_target": "bd368ce01f1e43ad3b0189a0b6d32e8ebc6d8853ea97427f7b3d4f20bfa9731e",
    "false_target_kind_matched": true,
    "paired_target": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "2d2ff5f85be5ab6c7f2d9b9e2b65b0b79d9e0620ac968b742037d393bd19b384",
@@ -363,7 +389,8 @@
    "false_target": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
    "false_target_kind_matched": true,
    "paired_target": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "2d472b9c073dc61404bfe9b4d371b59381bd3339a67a3a0ebb7b5048fb16ad39",
@@ -374,7 +401,8 @@
    "false_target": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "3096417e6539d2cfc131a6d0da2716d184484be8d1b00b08a584366d5134ba69",
@@ -385,7 +413,8 @@
    "false_target": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "32378d89e8466f08c94161dd2f4fce48b16019dbe2c197e5e76cf955590001e8",
@@ -396,7 +425,8 @@
    "false_target": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "326b97a4aa45b63feaa43055973be465ffa7a20f7743edeb4c9a79cebf99ab73",
@@ -407,7 +437,8 @@
    "false_target": "ff37128739faceefcb03c98c0558c5eb455b677181806d79167fa0029ed67a91",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
@@ -421,7 +452,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
@@ -435,7 +467,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "3420ddb7eb6d7e062395c61beae91144a9809bea9ebb6779d4af4deaeabd2c13",
@@ -446,7 +479,8 @@
    "false_target": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
@@ -460,7 +494,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "35af9cfd2d11d03795bb9731b019a6f43d1de528a5ea08a64546df67a26ebb0f",
@@ -471,7 +506,8 @@
    "false_target": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
@@ -485,7 +521,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
@@ -499,7 +536,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
@@ -513,7 +551,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
@@ -527,7 +566,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "3d7101f6d23180afa2488e19042f4d8751d43ca3f71a1c07ece6b0bbf2244536",
@@ -538,7 +578,8 @@
    "false_target": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "3e36dc29b9eb5dde15c33c54f6b60d9c5f405ee4c4aecbeb6a966644ba64f3f6",
@@ -549,7 +590,8 @@
    "false_target": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "3f54e67c7c913c1d62b41131533400d996784029c22d0feb68ad5be809dddbec",
@@ -563,7 +605,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "41e09ae97735d8f51bd0e170bffc1472def383a85b57a931e784de67be200658",
@@ -574,7 +617,8 @@
    "false_target": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "43d613a45594556c1f1900c9183aa552b05aaeb7ba19529669aedbcdba83c5c8",
@@ -585,7 +629,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "43f2ade2dd78d407565b595052957469dd8cd80991d4a0a966ff81d4f2ae0d63",
@@ -596,7 +641,8 @@
    "false_target": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "4edd9903a4f9f8a8764d351309287cd72c66daba77bff9e7705b235530f6e817",
@@ -607,7 +653,8 @@
    "false_target": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "4edf55d214c23b92a50bc05d4cc844e56175098adab169ca94934940a2aaab43",
@@ -618,7 +665,8 @@
    "false_target": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "5670725750e32622872faf27872d1cfbfc11c6dec7fe99501aacdf95570ddad5",
@@ -629,7 +677,8 @@
    "false_target": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "573c5f5f23dee53dd03e0bb80f2bdc86e0782fa19e4ac1b0523db6fcda5cc429",
@@ -640,7 +689,8 @@
    "false_target": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "58043e98f1c3495290407312079391f05e4491b73cd6bdba68a738af0b08f745",
@@ -654,7 +704,8 @@
    "false_target": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
    "false_target_kind_matched": true,
    "paired_target": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "59c27ad4ed1f808e80dfd060d8fc20e5fa8264f457f94af7b4259bf7eac518de",
@@ -668,7 +719,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "5a872b81a3b4d810701c990b7b4d369b261ad20fa91e4fd13acbf30ab66061a8",
@@ -679,7 +731,8 @@
    "false_target": "6e741a4b69c91d0720d7abae26f8a83abb35e5aeb0ae1b8dbc9717c315bf4fbc",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "5be4c845610d6d5a0fb182699a1d959193f930826bea726836d2d75897f3df23",
@@ -690,7 +743,8 @@
    "false_target": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "5c32007fc3d3e1318c37191c12a9d195481afe247e0456548814058e70f88b88",
@@ -704,7 +758,8 @@
    "false_target": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
    "false_target_kind_matched": false,
    "paired_target": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "5d503325083deeadef724b7c0f7c7bfeab8e7e3c7f82493af23d595c74aae92a",
@@ -718,7 +773,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "5f8eddc874e2889140b4b8a0d7af70b939d119513f3da035b30a8086fff670f4",
@@ -729,7 +785,8 @@
    "false_target": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
@@ -743,7 +800,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "63dd73a9bf3e0f5712471b262954cbd77402d559311614721bdf3237a1112959",
@@ -757,7 +815,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "68d041698dd9cebda14bb7b1801df42c303395602428862d0165e03523b0edab",
@@ -768,7 +827,8 @@
    "false_target": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "6e741a4b69c91d0720d7abae26f8a83abb35e5aeb0ae1b8dbc9717c315bf4fbc",
@@ -782,7 +842,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "77ce055cd1b5c1269f2fabc8e271571387d1cb775f16130a20c609b922764336",
@@ -793,7 +854,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "78b72e53ff91965bf90591e8fa54a2a30bfc8c0828d9b1bdb445950d8162f8c4",
@@ -804,7 +866,8 @@
    "false_target": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "790829c7b53eb0c1ec3f5485853db6557a7fef3240b3fc6b2f22ae09fdb675d5",
@@ -818,7 +881,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "7e7c873f4d02666401e778be36bdd8b58f14c762d77fb4de54ec3b8b66433562",
@@ -832,7 +896,8 @@
    "false_target": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
    "false_target_kind_matched": false,
    "paired_target": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
@@ -846,7 +911,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "815e56b67db2ea3472df0cf6fb14d5ca6a3f9b7faa2695396333570ead6fc4d1",
@@ -857,7 +923,8 @@
    "false_target": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "837f9aa34201da3a71b569a4d5137481044580bbf283f3cf04ae6d09974e6002",
@@ -871,7 +938,8 @@
    "false_target": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
    "false_target_kind_matched": true,
    "paired_target": "0c48935a06935ce393a7c69f0112d40955d2069f259fd5cbddc178bd7fab9332",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "8399578915196cf72da2dfae4283a89de2a914bb8619b458b55078e82c53dcfd",
@@ -882,7 +950,8 @@
    "false_target": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "851077a5869cb98e9c99af8ed811d2b7de52d9d861b8006f68ce94f7f543cc4b",
@@ -893,7 +962,8 @@
    "false_target": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "86c7364ab6f2b7ff5f623cc90c7f864bd1e13e0b2fdace7d2894fb3d78fa804f",
@@ -907,7 +977,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": true,
    "paired_target": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "876b9f2c16f5a426e35573a2ce8450289fd196618e125c4d471007688008ac24",
@@ -918,7 +989,8 @@
    "false_target": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "88f7389360d053c0140a5704a5aef675b8176269ac8da711d963f61de08df600",
@@ -929,7 +1001,8 @@
    "false_target": "00ae0ebd30b445f831a542acb0da5085189b5054558095a64ea061fde058bdc3",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "94a2c93da7eae32beacbdb2977ffcdf87a09c2857d3d7e15ba606cefa3d325a3",
@@ -943,7 +1016,8 @@
    "false_target": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
    "false_target_kind_matched": false,
    "paired_target": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
@@ -957,7 +1031,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "97913eaf0d43542b8e1993a9b2d9987ee541db7432d4373d2c648b739c4bdc8c",
@@ -971,7 +1046,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "97fc21858066676baf55c5b2db185f70485732a0c8b2f17ad25708fd7cba68e9",
@@ -982,7 +1058,8 @@
    "false_target": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
@@ -996,7 +1073,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "9956526e2549bb2e9412034f69b5a0b10e0bde8c78d424484bbac1420b72388c",
@@ -1010,7 +1088,8 @@
    "false_target": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
    "false_target_kind_matched": true,
    "paired_target": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "9956e4b751feaded313d858bc78d12655e66fecce4333724611872f27f0cd8ac",
@@ -1021,7 +1100,8 @@
    "false_target": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "99aa9a3561d73f9c73ab7a8bd4073e9265200db479151ca5732b14ad98ed9bb2",
@@ -1032,7 +1112,8 @@
    "false_target": "0240f66fa7543c23d5d70a4d3af1b322219adf6e0976477c8d162524e7204865",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "9b357883a7f89577c216a50c7e117bd9fb7bcab2c26ae0f3365a175b9ace534c",
@@ -1043,7 +1124,8 @@
    "false_target": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
@@ -1057,7 +1139,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "9d7f6f7b98da46b4ace20bcbe7bfaa90361eaed2de75d8a51d16004b5e9ef75a",
@@ -1071,7 +1154,8 @@
    "false_target": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
    "false_target_kind_matched": true,
    "paired_target": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
@@ -1085,7 +1169,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "a11a6da1901ce25736c568b1f8c6a64879181e9489af47edf9a29bdc364bbdf4",
@@ -1099,7 +1184,8 @@
    "false_target": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
    "false_target_kind_matched": true,
    "paired_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "a22f97fa1108305a671bf496a5c4bbb81807c1c8878674dcbf7e571a4d70303d",
@@ -1110,7 +1196,8 @@
    "false_target": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "a45556a22b72d01516fea95074134a1594293ae3e4b7e221fb6a24b9ac919e29",
@@ -1121,7 +1208,8 @@
    "false_target": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
@@ -1135,7 +1223,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
@@ -1149,7 +1238,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "a60248951abf572260018a9890441df72695ae78dfdc2c7a3a59899fc351d59e",
@@ -1160,7 +1250,8 @@
    "false_target": "df47ca261f6a7bcfc86a4adc7b8895f739908ab79dc444d854094b762f961d29",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "a9affc0a644cf92722fe566776f161affe83b0bdd88e550a6b57a6390064fc0a",
@@ -1171,7 +1262,8 @@
    "false_target": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
@@ -1185,7 +1277,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "ad5f6c8663ae16ea64a427855404759c6942f16a6d74ab75db341f31172d5da5",
@@ -1199,7 +1292,8 @@
    "false_target": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
    "false_target_kind_matched": true,
    "paired_target": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
@@ -1213,7 +1307,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
@@ -1227,7 +1322,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "b01174792b6de49b70a12ad6e9b5b309e0b04bd50e224a46242045d463675e67",
@@ -1238,7 +1334,8 @@
    "false_target": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "b0b85e8a9d510ba080e76b1fa8fa90d6c6b11a2f943f68b9ae84b0edfbf5f904",
@@ -1249,7 +1346,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "b253921a7b014b3ec197a9900f9eadfd7dab01ba0990fbfdeec80456afd744f0",
@@ -1260,7 +1358,8 @@
    "false_target": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "b2ea8872e48b7f186f1954c82b6a4903293bded1fbb276b69a108401bdc65e9e",
@@ -1271,7 +1370,8 @@
    "false_target": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
@@ -1285,7 +1385,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "b4c9340d6b36abc89483e0c4f1af31d3410148653d82dcf3e423347bcab2ef55",
@@ -1296,7 +1397,8 @@
    "false_target": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
@@ -1310,7 +1412,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "b8fe80f5b8c74e0df37c6ca760c7be1f3bedd9573f1c79f5d5d30895592dabdf",
@@ -1321,7 +1424,8 @@
    "false_target": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "ba07a066a6fbc49204b838a9a9ce610786c75549ed7679946a2bd58637d47716",
@@ -1332,7 +1436,8 @@
    "false_target": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "bd368ce01f1e43ad3b0189a0b6d32e8ebc6d8853ea97427f7b3d4f20bfa9731e",
@@ -1346,7 +1451,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "c0da31c63b2aeec4b1b33be6b537426a1fa34c98b2096e435c8067095bfb80d6",
@@ -1357,7 +1463,8 @@
    "false_target": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
@@ -1371,7 +1478,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
@@ -1385,7 +1493,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "c37c48422a16ae3c9b8ba3828972bdfc776e0eb6a369ac9f4e1566af6ca1592b",
@@ -1396,7 +1505,8 @@
    "false_target": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
@@ -1410,7 +1520,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
@@ -1424,7 +1535,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "c9041bbcfcd2bd1c01ed921631e6539ae61f597b960c187c0c523504c596052d",
@@ -1438,7 +1550,8 @@
    "false_target": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
    "false_target_kind_matched": true,
    "paired_target": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "ca04f46edc793895622b0446b12341714f3a7d76406c8db63d3ed18645151aed",
@@ -1449,7 +1562,8 @@
    "false_target": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "cb307a1a6927ba81362b75fe840762eb253304b11c9bcc1bde8efd5b79ed2b7b",
@@ -1460,7 +1574,8 @@
    "false_target": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "cd776c1363f1c72f33bbdc90157b87215c94ec0f27e7f8365f6387f7b4372d93",
@@ -1474,7 +1589,8 @@
    "false_target": "97913eaf0d43542b8e1993a9b2d9987ee541db7432d4373d2c648b739c4bdc8c",
    "false_target_kind_matched": true,
    "paired_target": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "ce52b2ea89fed4293814db19e93ef4544d475188df732ead904fd6778b3292de",
@@ -1485,7 +1601,8 @@
    "false_target": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "d2001b45f22be329ed84459bb8ffe45f31449366065403effa4045463c1f24cf",
@@ -1496,7 +1613,8 @@
    "false_target": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "d2af807526e6e239c933cca62a04b4a14c43c0a3c7e807b01980b1f005cd6074",
@@ -1507,7 +1625,8 @@
    "false_target": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "d4800085147cc4c3ed02ed22257a2ccc3e969ca9b93368f25b548ef3139053bd",
@@ -1518,7 +1637,8 @@
    "false_target": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "d7a0e83216015e7201001d31429a04a64c5f9edaf9cdf0054d0406e623a00843",
@@ -1529,7 +1649,8 @@
    "false_target": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
@@ -1543,7 +1664,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "dedd9f04518808d456cfccc99bd7533bb48130a6b2430749dce0d8f0c48b222c",
@@ -1554,7 +1676,8 @@
    "false_target": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "df47ca261f6a7bcfc86a4adc7b8895f739908ab79dc444d854094b762f961d29",
@@ -1568,7 +1691,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
@@ -1582,7 +1706,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "e0d8927024aa21729020a41f9e640427ac692f82b16d69663ab40e22f55c8a4d",
@@ -1596,7 +1721,8 @@
    "false_target": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
    "false_target_kind_matched": true,
    "paired_target": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "e476801a65be8af96b6cfadcb283139068aa267b354ed35465aeea15e13b6ff7",
@@ -1610,7 +1736,8 @@
    "false_target": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
    "false_target_kind_matched": true,
    "paired_target": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": true
   },
   {
    "item_id": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
@@ -1624,7 +1751,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
@@ -1638,7 +1766,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": false
   },
   {
    "item_id": "edb9ab114dd16ea7600c595b02d52f061497954170d0493da746018b235d7afe",
@@ -1649,7 +1778,8 @@
    "false_target": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": false
   },
   {
    "item_id": "ef20ba335f057b1682289db17f6f229b7454a1cfe95002f82f6d5384ec3f51fd",
@@ -1660,7 +1790,8 @@
    "false_target": "790829c7b53eb0c1ec3f5485853db6557a7fef3240b3fc6b2f22ae09fdb675d5",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "f04295f7331a1675184998f4bb6ff87c028d8d4de255ec4ef826b5772424cc47",
@@ -1671,7 +1802,8 @@
    "false_target": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "f0a2beb0b57c2b5dd20226b35a0c2c4ab444ea8ff581e9bf88d0c068fedd3a72",
@@ -1682,7 +1814,8 @@
    "false_target": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
@@ -1696,7 +1829,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "f35136505098f1c950b3bc504c0f35384e38cd8d4b25c223a0caae091f991ce5",
@@ -1710,7 +1844,8 @@
    "false_target": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
    "false_target_kind_matched": true,
    "paired_target": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "f43668a3db01f8aacffa101103aab0f808165c2073578c3a5691091d38110e21",
@@ -1721,7 +1856,8 @@
    "false_target": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
@@ -1735,7 +1871,8 @@
    "retest": true,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "f6833e257033861d0eb7b0b82754d5f7567383b80d84488f365ca4a7d5a2d238",
@@ -1746,7 +1883,8 @@
    "false_target": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "f87d0dd1b0fd53806fd9603665f122ce654fe6ae39fee535375bfd42cb87c7bb",
@@ -1757,7 +1895,8 @@
    "false_target": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": true
+   "retest": true,
+   "anchors_resolve": false
   },
   {
    "item_id": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
@@ -1771,7 +1910,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   },
   {
    "item_id": "fcd8d7fb49049dd7b23f8ba784c20157da16f8a37634415fc5622f32f4f15fb7",
@@ -1782,7 +1922,8 @@
    "false_target": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
    "false_target_kind_matched": null,
    "paired_target": null,
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "fed2dd012b674a117ece0b4991a27b08ec56f8fce4484350a651c43c81ac620c",
@@ -1796,7 +1937,8 @@
    "false_target": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
    "false_target_kind_matched": true,
    "paired_target": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
-   "retest": false
+   "retest": false,
+   "anchors_resolve": true
   },
   {
    "item_id": "ff37128739faceefcb03c98c0558c5eb455b677181806d79167fa0029ed67a91",
@@ -1810,7 +1952,8 @@
    "retest": false,
    "false_target": null,
    "false_target_kind_matched": null,
-   "paired_target": null
+   "paired_target": null,
+   "anchors_resolve": true
   }
  ],
  "random_honest_extension": [
@@ -1903,20 +2046,106 @@
   "day0_texts_in_doc_states_md": true,
   "v3_middle_same_in_planting_file": true
  },
+ "config": {
+  "version": "legibility-instrument/v0",
+  "prompt_sha256": {
+   "reader_system": "29d127823d28f266c63d71959cb19302d2274cbc77ee8ac06a36a429a74e4267",
+   "question": "6f12884a149ef14131e013d43d731c9a43e84ca87733434130978c787ffe6b9f",
+   "reader_template": "f12d7823123c719e74793981dbf8438861a04fe47bebc63fe0270b45d6cae1aa",
+   "edit_heads": "ca17336ac5fb90323b9a17197e08bb463f1c50480574938b4e8deacc0a0ee259",
+   "scorer_system": "690f1a1b7ee4d52444aaf4089e1ac3e0d1fdb99337925c89847f558233263a18",
+   "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
+   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
+  },
+  "prompt_versions": {
+   "reader": "legibility-read/v1",
+   "scorer": "legibility-score/v1"
+  },
+  "families": {
+   "sonnet55": {
+    "name": "Claude Sonnet 5.5",
+    "bedrock": "anthropic.claude-sonnet-5-5",
+    "openrouter": "anthropic/claude-sonnet-5.5",
+    "chars_per_token": 3.5,
+    "out_tokens": [
+     150,
+     300
+    ]
+   },
+   "kimi": {
+    "name": "Kimi K3",
+    "openrouter": "moonshotai/kimi-k3",
+    "chars_per_token": 3.636,
+    "out_tokens": [
+     1100,
+     2200
+    ]
+   },
+   "sol": {
+    "name": "GPT-6 Sol",
+    "converse": "us.openai.gpt-6-sol",
+    "chars_per_token": 3.814,
+    "out_tokens": [
+     400,
+     800
+    ]
+   }
+  },
+  "scorer": {
+   "name": "Claude Sonnet 5",
+   "bedrock": "anthropic.claude-sonnet-5",
+   "chars_per_token": 3.5,
+   "out_tokens": [
+    90,
+    150
+   ]
+  },
+  "client_settings": {
+   "reader_concurrency": 4,
+   "reader_rpm": 60,
+   "scorer_concurrency": 8,
+   "scorer_rpm": 120,
+   "refusal_retries": 0,
+   "openrouter_temperature": "not sent",
+   "openrouter_reasoning": "provider default (OPENROUTER_REASONING_EFFORT must be unset)",
+   "bedrock_temperature": "not sent",
+   "max_tokens": "client defaults (Bedrock 900, OpenRouter and Converse 4000)"
+  },
+  "thresholds": {
+   "S1": 0.1,
+   "S2": 0.5,
+   "S3": 0.15,
+   "S4_kappa": 0.8,
+   "S4_spearman": 0.6,
+   "S4b": 0.8,
+   "quantile": 0.95,
+   "min_complete": 0.9
+  },
+  "seeds": {
+   "item": 20261201,
+   "false_target": 20261203,
+   "retest": 20261204,
+   "order": 20261205,
+   "bootstrap": 20261206
+  }
+ },
+ "config_sha256": "2cb93114b8ef6a2db3a678930180801383bd46c1a832a1a9b12e95c3038d5649",
  "prompt_sha256": {
   "reader_system": "29d127823d28f266c63d71959cb19302d2274cbc77ee8ac06a36a429a74e4267",
   "question": "6f12884a149ef14131e013d43d731c9a43e84ca87733434130978c787ffe6b9f",
-  "reader_template": "237ac6afee8ead2b19c75b98fb76b77565df15c8cadfe53ea372edadeba56f2b",
+  "reader_template": "f12d7823123c719e74793981dbf8438861a04fe47bebc63fe0270b45d6cae1aa",
   "edit_heads": "ca17336ac5fb90323b9a17197e08bb463f1c50480574938b4e8deacc0a0ee259",
   "scorer_system": "690f1a1b7ee4d52444aaf4089e1ac3e0d1fdb99337925c89847f558233263a18",
-  "scorer_template": "760807e0327ccfbefb420f00138984912989bbb35c22f8cf7a03155ece721294",
+  "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
  },
- "prompt_versions": {
-  "reader": "legibility-read/v0",
-  "scorer": "legibility-score/v0"
+ "script_sha256": "1439550add065578a3163558e6e2480e5a6e328cc61801fb9622e2061b4eae60",
+ "dependency_sha256": {
+  "work/checks/judge_client.py": "8abb6079b96165f5533c9a1dd79a8b7406a23ac0f41f5aa2792875ae1ae3e248",
+  "work/checks/judge_openrouter.py": "dd1c3f3524997099ab0152e7e067ce86a561401ba5d1a4314354693d23406ede",
+  "work/mole-fork/mole/llm/openrouter.py": "addf8a119de489c466d76ce8ef75fc7eeaf7f3822d4a55f161782d4a9cd4b215",
+  "work/checks/stage3_rater_strip.py": "016e61b168af31ae4aa42a5b6e6ac864f3685cf4d71471ff92d7632c8b4998ac"
  },
- "script_sha256": "c88c8782f462ffa1685466f7700b1e287120f1efa60f840dddecb44af23e4e6b",
  "brief": {
   "path": "briefs/23-legibility-instrument-2026-10-31.md",
   "sha256": "95fa07cc21cea1d11b0acbee3bb97fc4d1844923149523a7430ebc63ccff1991"

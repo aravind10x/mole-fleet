@@ -1,47 +1,50 @@
 {
  "reader_calls_per_family": 688,
- "reader_packet_chars": 975116,
+ "reader_packet_chars": 1038412,
  "families": {
   "sonnet55": {
    "route": "bedrock",
    "model": "anthropic.claude-sonnet-5-5",
    "calls": 688,
-   "est_input_tokens": 278605,
+   "est_input_tokens": 296689,
    "est_output_tokens": 103200,
-   "usd": 1.5892,
-   "usd_upper": 2.6212
+   "usd": 1.6254,
+   "usd_upper": 2.9231
   },
   "kimi": {
    "route": "openrouter",
    "model": "moonshotai/kimi-k3",
    "calls": 688,
-   "est_input_tokens": 268184,
+   "est_input_tokens": 285592,
    "est_output_tokens": 756800,
-   "usd": 11.4035,
-   "usd_upper": 22.7555
+   "usd": 11.4068,
+   "usd_upper": 25.0347
   },
   "sol": {
    "route": "converse",
    "model": "us.openai.gpt-6-sol",
    "calls": 688,
-   "est_input_tokens": 255668,
+   "est_input_tokens": 272263,
    "est_output_tokens": 275200,
-   "usd": 3.5897,
-   "usd_upper": 6.6169
+   "usd": 3.6262,
+   "usd_upper": 7.3187
   }
  },
+ "routes_known": false,
  "scorer": {
   "route": "bedrock",
   "model": "anthropic.claude-sonnet-5",
   "calls": 6384,
   "calls_per_family": 2128,
-  "est_input_tokens": 2318746,
-  "usd": 10.3831,
-  "usd_upper": 14.2135
+  "est_input_tokens": 2889658,
+  "usd": 11.5249,
+  "usd_upper": 18.6966
  },
- "total_usd": 26.97,
- "total_usd_upper": 46.21,
- "stop_at_usd": 53.93,
+ "route_probes_usd_allowance": 0.05,
+ "total_usd": 28.23,
+ "total_usd_upper": 54.02,
+ "stop_at_usd": 56.47,
+ "config_sha256": "2cb93114b8ef6a2db3a678930180801383bd46c1a832a1a9b12e95c3038d5649",
  "assumptions": {
   "families": {
    "sonnet55": {
@@ -72,9 +75,12 @@
     90,
     150
    ],
-   "assumed_answer_chars": 450
+   "assumed_answer_chars_central_upper": [
+    450,
+    900
+   ]
   },
   "every_answer_scored": true,
-  "parse_reasks_not_priced": true
+  "upper_reask_factor": 1.1
  }
 }

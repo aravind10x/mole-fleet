@@ -265,11 +265,15 @@ def classify_parsed(text: str, parse: ReplyParser, stop: Mapping[str, Any]) -> d
     """Brief 23 (2026-10-31): a caller's reply parser in place of the verdict parser. `parse`
     returns a dict (outcome 'scored'; its score, flag and rationale, or None, go on the record and
     the whole dict under `parsed`) or None (outcome 'errored', re-asked as an unparseable verdict
-    is). `stop` holds the provider's stop fields, copied onto the record."""
+    is). `stop` holds the provider's stop fields, copied onto the record. A dict with `refused: True`
+    is the model's own refusal in words (outcome 'refused', not re-asked as an unparseable reply is).
+    An unparseable reply's text is not kept on the record (`rationale` None)."""
     v = parse(text)
     if v is None:
-        return {"outcome": "errored", "score": None, "flag": None, "rationale": text[:300], **stop,
+        return {"outcome": "errored", "score": None, "flag": None, "rationale": None, **stop,
                 "error": f"no parseable reply (stop={stop.get('stop_reason', stop.get('finish_reason'))})"}
+    if v.get("refused") is True:
+        return {"outcome": "refused", "score": None, "flag": None, "rationale": None, **stop, "error": None, "parsed": v}
     return {"outcome": "scored", "score": v.get("score"), "flag": v.get("flag"), "rationale": v.get("rationale"),
             **stop, "error": None, "parsed": v}
 
@@ -390,13 +394,18 @@ class JudgeClient:
                  region: str | None = None, max_tokens: int = MAX_TOKENS, client: Any = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
                  system: str | None = None, prompt_version: str | None = None,
-                 effort: str | None = None, parse: ReplyParser | None = None):
+                 effort: str | None = None, parse: ReplyParser | None = None,
+                 refusal_retries: int = MAX_REFUSAL_RETRIES, request_guard: Callable[[], None] | None = None):
         # Stage 3 (brief 07f B2): a scorer may give this client its own system prompt and
         # prompt version (the shared-harm views); both default to the frozen release judge, so
         # every earlier caller is unchanged. A cache file holds one prompt version.
         # Brief 23 (2026-10-31): `parse` replaces the verdict parser (see classify_parsed); None
-        # keeps the verdict parser, so every earlier caller is unchanged.
+        # keeps the verdict parser, so every earlier caller is unchanged. `refusal_retries` (default
+        # the module's one re-ask) and `request_guard` (called before every request; it raises
+        # JudgeAborted to stop, e.g. a spend limit shared by several clients) default to the old behaviour.
         self.parse = parse
+        self.refusal_retries = refusal_retries
+        self.request_guard = request_guard
         self.system = JUDGE_SYSTEM if system is None else system
         self.prompt_version = PROMPT_VERSION if prompt_version is None else prompt_version
         self.model = model or os.environ.get("JUDGE_MODEL") or DEFAULT_MODEL
@@ -515,6 +524,11 @@ class JudgeClient:
             if self.spend_cap_usd is not None and self.total_spent() >= self.spend_cap_usd:
                 self._abort(f"judge spend cap ${self.spend_cap_usd:.2f} reached "
                             f"(${self.total_spent():.4f} paid against this cache)")
+            if self.request_guard is not None:
+                try:
+                    self.request_guard()
+                except JudgeAborted as exc:
+                    self._abort(str(exc), exc)
             await self._throttle(st)
             self._c["requests"] += 1
             try:
@@ -578,7 +592,20 @@ class JudgeClient:
         n_parse = n_refuse = 0
         served: str | None = None
         while True:
-            resp, err = await self._request(st, packet, label, system=system, max_tokens=max_tokens)
+            try:
+                resp, err = await self._request(st, packet, label, system=system, max_tokens=max_tokens)
+            except JudgeAborted:
+                if attempts:   # brief 23: earlier attempts of this unit were paid; keep them on file
+                    self._save({"cache_key": key, "view": view, "label": label, "outcome": "errored", "score": None,
+                                "flag": None, "rationale": None, "stop_reason": None, "stop_details": None,
+                                "error": "aborted after paid attempts", "provider": PROVIDER, "model": self.model,
+                                "model_served": served, "region": self.region, **tok, "cost_usd": round(cost, 8),
+                                "price_source": PRICE_SOURCE, "packet_chars": len(packet), "packet_sha256": sha256(packet),
+                                "prompt_version": self.prompt_version,
+                                "request_params": request_params(self.model, max_tokens, system, self.effort),
+                                "parse_retries": n_parse + n_refuse, "attempts": attempts, "latency_s": round(time.monotonic() - t0, 3),
+                                "ts": _now_iso()})
+                raise
             if resp is None:
                 c = {"outcome": "errored", "score": None, "flag": None, "rationale": None,
                      "stop_reason": None, "stop_details": None, "error": err}
@@ -595,7 +622,7 @@ class JudgeClient:
             served = getattr(resp, "model", None) or served
             c = classify(resp, self.parse)
             attempts.append({"outcome": c["outcome"], "stop_reason": c["stop_reason"]})
-            if retries and c["outcome"] == "refused" and n_refuse < MAX_REFUSAL_RETRIES:
+            if retries and c["outcome"] == "refused" and n_refuse < self.refusal_retries:
                 n_refuse += 1
                 self._c["refusal_retries"] += 1
                 cat = (c["stop_details"] or {}).get("category")
@@ -731,11 +758,12 @@ class BedrockConverseJudge:
                  concurrency: int = 4, rpm: int = 30, max_tokens: int = CONVERSE_MAX_TOKENS,
                  spend_cap_usd: float | None = None, region: str | None = None, client: Any = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
-                 parse: ReplyParser | None = None):
+                 parse: ReplyParser | None = None, request_guard: Callable[[], None] | None = None):
         if model not in CONVERSE_PRICES:
             raise ValueError(f"no Converse price for model {model!r}; add it to CONVERSE_PRICES (known: {sorted(CONVERSE_PRICES)})")
         self.model, self.system, self.prompt_version = model, system, prompt_version
         self.parse = parse  # brief 23: a reply parser in place of the verdict parser (None: unchanged)
+        self.request_guard = request_guard  # brief 23: called before every request; raises JudgeAborted to stop
         self.prices = CONVERSE_PRICES[model]
         self.region = region or os.environ.get("AWS_REGION")
         self.concurrency, self.rpm, self.max_tokens = concurrency, rpm, max_tokens
@@ -825,6 +853,12 @@ class BedrockConverseJudge:
             if self.spend_cap_usd is not None and self.total_spent() >= self.spend_cap_usd:
                 self.abort = f"judge spend cap ${self.spend_cap_usd:.2f} reached (${self.total_spent():.4f} paid against this cache)"
                 raise JudgeAborted(self.abort)
+            if self.request_guard is not None:
+                try:
+                    self.request_guard()
+                except JudgeAborted as exc:
+                    self.abort = str(exc)
+                    raise
             await self._throttle()
             self._c["requests"] += 1
             client = self._get_client()
@@ -879,7 +913,18 @@ class BedrockConverseJudge:
         n_parse = 0
         served: str | None = None
         while True:
-            resp, err = await self._request(packet, label)
+            try:
+                resp, err = await self._request(packet, label)
+            except JudgeAborted:
+                if attempts:   # brief 23: earlier attempts of this unit were paid; keep them on file
+                    self._save({"cache_key": key, "view": view, "label": label, "outcome": "errored", "score": None,
+                                "flag": None, "rationale": None, "stop_reason": None, "finish_reason": None,
+                                "stop_details": None, "error": "aborted after paid attempts", "provider": CONVERSE_PROVIDER,
+                                "model": self.model, "model_served": served, "region": self.region, **tok,
+                                "cost_usd": round(cost, 8), "price_source": CONVERSE_PRICE_SOURCE, "packet_chars": len(packet),
+                                "packet_sha256": sha256(packet), "prompt_version": self.prompt_version,
+                                "attempts": attempts, "ts": _now_iso()})
+                raise
             if resp is None:
                 c = {"outcome": "errored", "score": None, "flag": None, "rationale": None, "stop_reason": None,
                      "finish_reason": None, "stop_details": None, "error": err}

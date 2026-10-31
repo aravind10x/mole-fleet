@@ -48,6 +48,13 @@ RATE_LIMIT_PAUSE_S = 60.0
 MAX_429_RETRIES = 2
 KEY_FALLBACK_PREFIX = "OPENROUTER_API_KEY_"
 MODERATION_PREFIX = "moderation 403: "   # brief 23: an OpenRouter moderation flag, kept as a refusal when asked
+REASONING_ENV = "OPENROUTER_REASONING_EFFORT"   # read by the fork client on every call
+
+
+def reasoning_setting() -> str:
+    """What the fork client sends as `reasoning` (brief 23: recorded, so an inherited setting is visible)."""
+    effort = os.environ.get(REASONING_ENV, "").strip().lower()
+    return f"effort {effort} ({REASONING_ENV})" if effort in ("low", "medium", "high") else "provider default"
 
 
 def drop_fallback_keys() -> list[str]:
@@ -95,19 +102,21 @@ class OpenRouterJudge:
     with an async `complete(messages, *, temperature, max_tokens)`; by default an
     OpenRouterClient on key 1 is built once. `prices` = {"prompt": USD/token, "completion": USD/token}.
     Brief 23 (2026-10-31): `parse` replaces the verdict parser (judge_client.classify_parsed), and
-    temperature=None asks for the provider default: the fork client always writes the field, so it
-    goes out as JSON null (the OpenAI-compatible schema's "unset"), recorded as null."""
+    temperature=None asks for the provider default: the fork client then leaves the field out
+    (mole/llm/openrouter.py, 2026-10-31), recorded as "not sent (provider default)"."""
 
     def __init__(self, cache_path: Path | None, model: str, *, system: str, prompt_version: str,
                  prices: dict[str, float], price_source: str, concurrency: int = 4, rpm: int = 30,
                  max_tokens: int = MAX_TOKENS, temperature: float | None = TEMPERATURE,
                  spend_cap_usd: float | None = None, client: Any = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
-                 parse: jc.ReplyParser | None = None, moderation_as_refusal: bool = False):
+                 parse: jc.ReplyParser | None = None, moderation_as_refusal: bool = False,
+                 request_guard: Callable[[], None] | None = None):
         self.model, self.system, self.prompt_version = model, system, prompt_version
         self.parse = parse
         # brief 23: a moderation 403 is that unit's refusal (recorded, not re-asked) instead of a run stop
         self.moderation_as_refusal = moderation_as_refusal
+        self.request_guard = request_guard   # brief 23: called before every request; raises JudgeAborted to stop
         self.prices, self.price_source = prices, price_source
         self.concurrency, self.rpm, self.max_tokens, self.temperature = concurrency, rpm, max_tokens, temperature
         self.spend_cap_usd = spend_cap_usd
@@ -195,6 +204,12 @@ class OpenRouterJudge:
             if self.spend_cap_usd is not None and self.total_spent() >= self.spend_cap_usd:
                 self.abort = f"judge spend cap ${self.spend_cap_usd:.2f} reached (${self.total_spent():.4f} paid against this cache)"
                 raise jc.JudgeAborted(self.abort)
+            if self.request_guard is not None:
+                try:
+                    self.request_guard()
+                except jc.JudgeAborted as exc:
+                    self.abort = str(exc)
+                    raise
             await self._throttle()
             self._c["requests"] += 1
             try:
@@ -252,7 +267,18 @@ class OpenRouterJudge:
         attempts: list[dict] = []
         n_parse = 0
         while True:
-            resp, err = await self._request(packet, label)
+            try:
+                resp, err = await self._request(packet, label)
+            except jc.JudgeAborted:
+                if attempts:   # brief 23: earlier attempts of this unit were paid; keep them on file
+                    self._save({"cache_key": key, "view": view, "label": label, "outcome": "errored", "score": None,
+                                "flag": None, "rationale": None, "finish_reason": None, "stop_reason": None,
+                                "stop_details": None, "error": "aborted after paid attempts", "provider": PROVIDER,
+                                "model": self.model, "model_served": self.model, **tok, "cost_usd": round(cost, 8),
+                                "cost_source": sorted(set(sources)), "price_source": self.price_source,
+                                "packet_chars": len(packet), "packet_sha256": jc.sha256(packet),
+                                "prompt_version": self.prompt_version, "attempts": attempts, "ts": jc._now_iso()})
+                raise
             if resp is None:
                 if err and err.startswith(MODERATION_PREFIX):
                     c = {"outcome": "refused", "score": None, "flag": None, "rationale": None, "finish_reason": "moderation_403", "error": err}
@@ -283,14 +309,23 @@ class OpenRouterJudge:
                 "region": None, **tok, "cache_read_tokens": 0, "cache_write_tokens": 0,
                 "cost_usd": round(cost, 8), "cost_source": sorted(set(sources)), "price_source": self.price_source,
                 "packet_chars": len(packet), "packet_sha256": jc.sha256(packet), "prompt_version": self.prompt_version,
-                "request_params": {"model": self.model, "max_tokens": self.max_tokens, "temperature": self.temperature,
-                                   "reasoning": "provider default", "system_sha256": jc.sha256(self.system),
+                "request_params": {"model": self.model, "max_tokens": self.max_tokens,
+                                   "temperature": "not sent (provider default)" if self.temperature is None else self.temperature,
+                                   "reasoning": reasoning_setting(), "system_sha256": jc.sha256(self.system),
                                    "system_chars": len(self.system)},
                 "parse_retries": n_parse, "attempts": attempts, "latency_s": round(time.monotonic() - t0, 3),
                 "ts": jc._now_iso()}
 
     async def score_many(self, items: Iterable[tuple[str, str, str]]) -> list[dict]:
-        return list(await asyncio.gather(*[self.score(v, l, p) for v, l, p in items]))
+        """Every call settles (and is cached) before this returns or raises (brief 23: no call is left
+        running into a later batch); an abort is raised as JudgeAborted after the others settle."""
+        results = await asyncio.gather(*[self.score(v, l, p) for v, l, p in items], return_exceptions=True)
+        for r in results:
+            if isinstance(r, BaseException) and not isinstance(r, jc.JudgeAborted):
+                raise r
+        if any(isinstance(r, jc.JudgeAborted) for r in results):
+            raise jc.JudgeAborted(self.abort or "aborted")
+        return list(results)
 
     def stats(self) -> dict:
         return {**self._c, "dollars": round(self.dollars, 6), "dollars_cached": round(self.dollars_cached, 6),

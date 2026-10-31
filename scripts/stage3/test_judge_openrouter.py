@@ -99,7 +99,7 @@ def test_parser_and_null_temperature(tmp_path):
                            parse=lambda t: {"answer": t} if t.strip() else None)
     rec = asyncio.run(j.score("legib-read", "read:r0:ab:whole", "pkt"))
     assert rec["outcome"] == "scored" and rec["parsed"] == {"answer": "It moves the port."}
-    assert fake.calls[0]["temperature"] is None and rec["request_params"]["temperature"] is None
+    assert fake.calls[0]["temperature"] is None and rec["request_params"]["temperature"] == "not sent (provider default)"
     assert jo.classify(_resp("x", finish="content_filter"), parse=lambda t: {"a": t})["outcome"] == "refused"
 
 
@@ -118,3 +118,23 @@ def test_moderation_403_is_a_refusal_only_when_asked(tmp_path):
         asyncio.run(j2.score("legib-read", "read:r0:ab:whole", "pkt"))
     plain = Status403("Error code: 403 - key limit")
     assert not jo.is_moderation_403(plain)
+
+
+def test_score_many_settles_every_call_before_raising(tmp_path):
+    class Status400(Exception):
+        status_code = 400
+
+    class Mixed(Fake):
+        async def complete(self, messages, *, temperature, max_tokens):
+            await asyncio.sleep(0.01 if messages[1].content == "bad" else 0.05)
+            self.calls.append(messages[1].content)
+            if messages[1].content == "bad":
+                raise Status400("Error code: 400")
+            return _resp('{"score": 1, "flag": false, "rationale": "r"}')
+    fake = Mixed([])
+    j = jo.OpenRouterJudge(tmp_path / "c.jsonl", "moonshotai/kimi-k3", system="sys", prompt_version="v", prices=PRICES,
+                           price_source="test", client=fake, verbose=False, concurrency=4)
+    with pytest.raises(jc.JudgeAborted):
+        asyncio.run(j.score_many([("v", "a", "bad"), ("v", "b", "ok1"), ("v", "c", "ok2")]))
+    assert sorted(fake.calls) == ["bad", "ok1", "ok2"]
+    assert len([ln for ln in (tmp_path / "c.jsonl").read_text().splitlines() if ln.strip()]) == 2
