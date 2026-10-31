@@ -47,6 +47,7 @@ TRANSIENT_BACKOFF_S = 5.0
 RATE_LIMIT_PAUSE_S = 60.0
 MAX_429_RETRIES = 2
 KEY_FALLBACK_PREFIX = "OPENROUTER_API_KEY_"
+MODERATION_PREFIX = "moderation 403: "   # brief 23: an OpenRouter moderation flag, kept as a refusal when asked
 
 
 def drop_fallback_keys() -> list[str]:
@@ -58,8 +59,9 @@ def drop_fallback_keys() -> list[str]:
     return names
 
 
-def classify(resp: Any) -> dict:
-    """ChatResponse-like -> {outcome, score, flag, rationale, finish_reason, error}."""
+def classify(resp: Any, parse: jc.ReplyParser | None = None) -> dict:
+    """ChatResponse-like -> {outcome, score, flag, rationale, finish_reason, error}. With `parse`
+    (brief 23), judge_client.classify_parsed decides scored / errored for non-empty content."""
     fr = getattr(resp, "finish_reason", None)
     if fr in ("content_filter", "refusal"):
         return {"outcome": "refused", "score": None, "flag": None, "rationale": None, "finish_reason": fr, "error": None}
@@ -67,6 +69,8 @@ def classify(resp: Any) -> dict:
     if not text:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": None, "finish_reason": fr,
                 "error": f"empty content (finish_reason={fr})"}
+    if parse is not None:
+        return jc.classify_parsed(text, parse, {"finish_reason": fr})
     v = jc._parse_verdict(text)
     if v.get("score") is None:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": text[:300], "finish_reason": fr,
@@ -80,17 +84,30 @@ def _status(exc: BaseException) -> int | None:
     return int(s) if isinstance(s, int) else None
 
 
+def is_moderation_403(exc: BaseException) -> bool:
+    """OpenRouter's input moderation answers 403 with a message naming moderation or a flag."""
+    msg = str(exc).lower()
+    return _status(exc) == 403 and ("moderation" in msg or "flagged" in msg)
+
+
 class OpenRouterJudge:
     """One (model, view) judge over the fork's OpenRouter client. `client` (tests) is any object
     with an async `complete(messages, *, temperature, max_tokens)`; by default an
-    OpenRouterClient on key 1 is built once. `prices` = {"prompt": USD/token, "completion": USD/token}."""
+    OpenRouterClient on key 1 is built once. `prices` = {"prompt": USD/token, "completion": USD/token}.
+    Brief 23 (2026-10-31): `parse` replaces the verdict parser (judge_client.classify_parsed), and
+    temperature=None asks for the provider default: the fork client always writes the field, so it
+    goes out as JSON null (the OpenAI-compatible schema's "unset"), recorded as null."""
 
     def __init__(self, cache_path: Path | None, model: str, *, system: str, prompt_version: str,
                  prices: dict[str, float], price_source: str, concurrency: int = 4, rpm: int = 30,
-                 max_tokens: int = MAX_TOKENS, temperature: float = TEMPERATURE,
+                 max_tokens: int = MAX_TOKENS, temperature: float | None = TEMPERATURE,
                  spend_cap_usd: float | None = None, client: Any = None,
-                 sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True):
+                 sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
+                 parse: jc.ReplyParser | None = None, moderation_as_refusal: bool = False):
         self.model, self.system, self.prompt_version = model, system, prompt_version
+        self.parse = parse
+        # brief 23: a moderation 403 is that unit's refusal (recorded, not re-asked) instead of a run stop
+        self.moderation_as_refusal = moderation_as_refusal
         self.prices, self.price_source = prices, price_source
         self.concurrency, self.rpm, self.max_tokens, self.temperature = concurrency, rpm, max_tokens, temperature
         self.spend_cap_usd = spend_cap_usd
@@ -187,6 +204,8 @@ class OpenRouterJudge:
                 raise jc.JudgeAborted(self.abort) from exc
             except Exception as exc:  # noqa: BLE001  (SDK status errors, timeouts, connection errors)
                 s = _status(exc)
+                if self.moderation_as_refusal and is_moderation_403(exc):
+                    return None, MODERATION_PREFIX + str(exc)[:200]
                 if s in (400, 401, 403, 404):
                     self.abort = f"HTTP {s} {type(exc).__name__} on {label} (model {self.model}): {str(exc)[:300]}"
                     raise jc.JudgeAborted(self.abort) from exc
@@ -235,6 +254,10 @@ class OpenRouterJudge:
         while True:
             resp, err = await self._request(packet, label)
             if resp is None:
+                if err and err.startswith(MODERATION_PREFIX):
+                    c = {"outcome": "refused", "score": None, "flag": None, "rationale": None, "finish_reason": "moderation_403", "error": err}
+                    attempts.append({"outcome": "refused", "finish_reason": "moderation_403"})
+                    break
                 c = {"outcome": "errored", "score": None, "flag": None, "rationale": None, "finish_reason": None, "error": err}
                 attempts.append({"outcome": "errored", "finish_reason": None})
                 break
@@ -247,7 +270,7 @@ class OpenRouterJudge:
             self.dollars += dc
             for k in tok:
                 self._c[k] += int(getattr(u, k, 0) or 0)
-            c = classify(resp)
+            c = classify(resp, self.parse)
             attempts.append({"outcome": c["outcome"], "finish_reason": c["finish_reason"]})
             if c["outcome"] == "errored" and n_parse < MAX_PARSE_RETRIES:
                 n_parse += 1

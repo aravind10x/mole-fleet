@@ -121,3 +121,14 @@ def test_spend_cap_aborts():
     with pytest.raises(jc.JudgeAborted):
         asyncio.run(j.score("O_diff", "b", "p"))
     assert "spend cap" in (j.abort or "")
+
+
+def test_converse_with_a_parser():   # brief 23
+    parse = lambda t: {"answer": t} if t.strip() else None
+    c = jc.classify_converse(_resp("It moves the port."), parse=parse)
+    assert c["outcome"] == "scored" and c["parsed"] == {"answer": "It moves the port."} and c["finish_reason"] == "end_turn"
+    assert jc.classify_converse(_resp("x", stop="content_filtered"), parse=parse)["outcome"] == "refused"
+    j, fake = make([_resp("an answer")], parse=parse)
+    rec = asyncio.run(j.score("legib-read", "read:r0:ab:whole", "pkt"))
+    assert rec["outcome"] == "scored" and rec["parsed"]["answer"] == "an answer"
+    assert "temperature" not in fake.calls[0]["inferenceConfig"]

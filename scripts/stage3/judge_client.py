@@ -90,6 +90,7 @@ __all__ = [
     "thinking_param", "request_params", "cost_usd", "cache_key", "sha256", "classify",
     "elide", "render_block", "p_packet", "group_packet", "get_render_event",
     "BedrockConverseJudge", "classify_converse", "CONVERSE_PRICES", "CONVERSE_PROVIDER", "CONVERSE_MAX_TOKENS",
+    "ReplyParser", "classify_parsed",
 ]
 
 # ── constants ────────────────────────────────────────────────────────────
@@ -257,10 +258,27 @@ def _stop_details(response: Any) -> dict | None:
     return dict(sd) if isinstance(sd, dict) else {"raw": str(sd)}
 
 
-def classify(response: Any) -> dict:
+ReplyParser = Callable[[str], "dict | None"]
+
+
+def classify_parsed(text: str, parse: ReplyParser, stop: Mapping[str, Any]) -> dict:
+    """Brief 23 (2026-10-31): a caller's reply parser in place of the verdict parser. `parse`
+    returns a dict (outcome 'scored'; its score, flag and rationale, or None, go on the record and
+    the whole dict under `parsed`) or None (outcome 'errored', re-asked as an unparseable verdict
+    is). `stop` holds the provider's stop fields, copied onto the record."""
+    v = parse(text)
+    if v is None:
+        return {"outcome": "errored", "score": None, "flag": None, "rationale": text[:300], **stop,
+                "error": f"no parseable reply (stop={stop.get('stop_reason', stop.get('finish_reason'))})"}
+    return {"outcome": "scored", "score": v.get("score"), "flag": v.get("flag"), "rationale": v.get("rationale"),
+            **stop, "error": None, "parsed": v}
+
+
+def classify(response: Any, parse: ReplyParser | None = None) -> dict:
     """One response -> {outcome, score, flag, rationale, stop_reason, stop_details, error}.
     outcome is 'refused' iff stop_reason == 'refusal'; 'scored' iff _parse_verdict found a
-    score; otherwise 'errored' (empty text, unparseable JSON, max_tokens without JSON)."""
+    score; otherwise 'errored' (empty text, unparseable JSON, max_tokens without JSON).
+    With `parse` (brief 23), `classify_parsed` decides scored / errored for non-empty text."""
     stop_reason = getattr(response, "stop_reason", None)
     details = _stop_details(response)
     if stop_reason == "refusal":
@@ -271,6 +289,8 @@ def classify(response: Any) -> dict:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": None,
                 "stop_reason": stop_reason, "stop_details": details,
                 "error": f"empty text content (stop_reason={stop_reason})"}
+    if parse is not None:
+        return classify_parsed(text, parse, {"stop_reason": stop_reason, "stop_details": details})
     v = _parse_verdict(text)
     if v.get("score") is None:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": text[:300],
@@ -370,10 +390,13 @@ class JudgeClient:
                  region: str | None = None, max_tokens: int = MAX_TOKENS, client: Any = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
                  system: str | None = None, prompt_version: str | None = None,
-                 effort: str | None = None):
+                 effort: str | None = None, parse: ReplyParser | None = None):
         # Stage 3 (brief 07f B2): a scorer may give this client its own system prompt and
         # prompt version (the shared-harm views); both default to the frozen release judge, so
         # every earlier caller is unchanged. A cache file holds one prompt version.
+        # Brief 23 (2026-10-31): `parse` replaces the verdict parser (see classify_parsed); None
+        # keeps the verdict parser, so every earlier caller is unchanged.
+        self.parse = parse
         self.system = JUDGE_SYSTEM if system is None else system
         self.prompt_version = PROMPT_VERSION if prompt_version is None else prompt_version
         self.model = model or os.environ.get("JUDGE_MODEL") or DEFAULT_MODEL
@@ -570,7 +593,7 @@ class JudgeClient:
             for k in tok:
                 self._c[k] += u[k]
             served = getattr(resp, "model", None) or served
-            c = classify(resp)
+            c = classify(resp, self.parse)
             attempts.append({"outcome": c["outcome"], "stop_reason": c["stop_reason"]})
             if retries and c["outcome"] == "refused" and n_refuse < MAX_REFUSAL_RETRIES:
                 n_refuse += 1
@@ -659,10 +682,11 @@ def converse_text(response: Any) -> str:
     return "".join(str(b.get("text") or "") for b in (msg.get("content") or []) if isinstance(b, dict) and "text" in b)
 
 
-def classify_converse(response: Any) -> dict:
+def classify_converse(response: Any, parse: ReplyParser | None = None) -> dict:
     """One Converse response -> {outcome, score, flag, rationale, stop_reason, finish_reason, error}:
     refused iff stopReason is content_filtered / guardrail_intervened; scored iff the text parses to a
-    verdict; else errored (empty text, max_tokens without JSON, unparseable)."""
+    verdict; else errored (empty text, max_tokens without JSON, unparseable). With `parse` (brief 23),
+    `classify_parsed` decides scored / errored for non-empty text."""
     stop = (response or {}).get("stopReason")
     if stop in CONVERSE_REFUSAL_STOPS:
         return {"outcome": "refused", "score": None, "flag": None, "rationale": None, "stop_reason": stop,
@@ -671,6 +695,8 @@ def classify_converse(response: Any) -> dict:
     if not text:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": None, "stop_reason": stop,
                 "finish_reason": stop, "stop_details": None, "error": f"empty text content (stopReason={stop})"}
+    if parse is not None:
+        return classify_parsed(text, parse, {"stop_reason": stop, "finish_reason": stop, "stop_details": None})
     v = _parse_verdict(text)
     if v.get("score") is None:
         return {"outcome": "errored", "score": None, "flag": None, "rationale": text[:300], "stop_reason": stop,
@@ -704,10 +730,12 @@ class BedrockConverseJudge:
     def __init__(self, cache_path: Path | None, model: str, *, system: str, prompt_version: str,
                  concurrency: int = 4, rpm: int = 30, max_tokens: int = CONVERSE_MAX_TOKENS,
                  spend_cap_usd: float | None = None, region: str | None = None, client: Any = None,
-                 sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True):
+                 sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
+                 parse: ReplyParser | None = None):
         if model not in CONVERSE_PRICES:
             raise ValueError(f"no Converse price for model {model!r}; add it to CONVERSE_PRICES (known: {sorted(CONVERSE_PRICES)})")
         self.model, self.system, self.prompt_version = model, system, prompt_version
+        self.parse = parse  # brief 23: a reply parser in place of the verdict parser (None: unchanged)
         self.prices = CONVERSE_PRICES[model]
         self.region = region or os.environ.get("AWS_REGION")
         self.concurrency, self.rpm, self.max_tokens = concurrency, rpm, max_tokens
@@ -866,7 +894,7 @@ class BedrockConverseJudge:
             self._c["input_tokens"] += u["input_tokens"]
             self._c["output_tokens"] += u["output_tokens"]
             served = self.model
-            c = classify_converse(resp)
+            c = classify_converse(resp, self.parse)
             attempts.append({"outcome": c["outcome"], "stop_reason": c["stop_reason"]})
             if c["outcome"] == "errored" and n_parse < MAX_PARSE_RETRIES:
                 n_parse += 1

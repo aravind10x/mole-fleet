@@ -84,3 +84,37 @@ def test_spend_cap_aborts_and_fallback_keys_are_dropped(tmp_path, monkeypatch):
     monkeypatch.setenv("OPENROUTER_API_KEY_3", "y")
     assert jo.drop_fallback_keys() == ["OPENROUTER_API_KEY_2", "OPENROUTER_API_KEY_3"]
     assert "OPENROUTER_API_KEY_2" not in os.environ
+
+
+# ── brief 23 (2026-10-31): parser, temperature null, moderation as a refusal ──
+
+class Status403(Exception):
+    status_code = 403
+
+
+def test_parser_and_null_temperature(tmp_path):
+    fake = Fake([_resp("It moves the port.")])
+    j = jo.OpenRouterJudge(tmp_path / "c.jsonl", "moonshotai/kimi-k3", system="sys", prompt_version="v", prices=PRICES,
+                           price_source="test", client=fake, verbose=False, temperature=None,
+                           parse=lambda t: {"answer": t} if t.strip() else None)
+    rec = asyncio.run(j.score("legib-read", "read:r0:ab:whole", "pkt"))
+    assert rec["outcome"] == "scored" and rec["parsed"] == {"answer": "It moves the port."}
+    assert fake.calls[0]["temperature"] is None and rec["request_params"]["temperature"] is None
+    assert jo.classify(_resp("x", finish="content_filter"), parse=lambda t: {"a": t})["outcome"] == "refused"
+
+
+def test_moderation_403_is_a_refusal_only_when_asked(tmp_path):
+    class Raising(Fake):
+        async def complete(self, messages, *, temperature, max_tokens):
+            self.calls.append(1)
+            raise Status403("Error code: 403 - Your input was flagged by moderation")
+    j = jo.OpenRouterJudge(tmp_path / "c.jsonl", "anthropic/claude-sonnet-5.5", system="sys", prompt_version="v", prices=PRICES,
+                           price_source="test", client=Raising([]), verbose=False, moderation_as_refusal=True)
+    rec = asyncio.run(j.score("legib-read", "read:r0:ab:whole", "pkt"))
+    assert rec["outcome"] == "refused" and rec["finish_reason"] == "moderation_403" and j.abort is None
+    j2 = jo.OpenRouterJudge(None, "anthropic/claude-sonnet-5.5", system="sys", prompt_version="v", prices=PRICES,
+                            price_source="test", client=Raising([]), verbose=False)
+    with pytest.raises(jc.JudgeAborted):
+        asyncio.run(j2.score("legib-read", "read:r0:ab:whole", "pkt"))
+    plain = Status403("Error code: 403 - key limit")
+    assert not jo.is_moderation_403(plain)
