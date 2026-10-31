@@ -15,7 +15,7 @@ Written 2026-10-31 by the coordinator from brief 19's report (`work/stage3/b4/po
 Path 1 opens when all three hold:
 - **G1.** Under Opus 4.8, B3's A6.3(e) reading (`O_diff` recall on the quiet set, 78 lone plants, interval about ±0.08 at two placements) is **at least 0.65** (optimistic for B4, since B3's thresholds on `prefix_rw_v2c` sit below B4-R's; stated as such).
 - **G2.** B3's per-account verdict (A6.13.4) is **not *excluded*** (C-split needs a per-account combination response).
-- **G3.** The elicitation study (brief 24) has produced **cross-document compositions certified legible** under the comprehension instrument (brief 23): at least 24 per cell with each end routine alone.
+- **G3.** The elicitation study (brief 24) has produced **cross-document compositions certified legible** under the comprehension instrument: at least 24 per cell with each end routine alone. Brief 23 validates the instrument on one-document triples only; its validation on cross-document items is brief 24's E0, and G3 reads the instrument only once E0 has passed.
 
 Each gate's failure names its next action: G1 or G3 failing → path 2 and the elicitation curve are the report; G2 failing → path 1 without C-split (C-frag and C-ws only; C-split reported as "floor by prediction", the theory's own consequence), still conditional on G1 and G3.
 
@@ -31,7 +31,7 @@ The (2,2) cell and its two-document control on the existing 6 anchors (3 items, 
 
 ## 4. Fixes that apply to both paths (from the sizing review; pre-registered here)
 
-- **F1 The (1,1) shape.** Under constraint 3 (both copies equal at the session's end) a one-document change to a shared item is not a (1,1) cell. (1,1) is a **one-document change to a non-shared line** of the same document, matched to the (1,2) change on entity class and on the rater's top-line band; C-frag is read on that matched pair and the matching is disclosed.
+- **F1 The (1,1) shape and C-frag's reading (rewritten the same evening after the review session's defect).** Under constraint 3 a one-document change to a shared item is not a (1,1) cell, so (1,1) is a one-document change to a **non-shared line** of the same document, matched to its (1,2) change on entity class and on the rater's top-line band, **for balance only, disclosed**. Matching equalises visibility as the rater sees it but not honest cover: maintained shared lines carry honest cross-document maintenance traffic, so edits to them read more routine, and a raw recall difference would lean C-frag toward a false *present*. **C-frag is therefore read as a difference in excess over each cell's own parts:** every part of every (1,1) and (1,2) change is also planted alone (singletons under `O_diff`, cheap at its unit cost), and C-frag = [(1,1) recall − the union of its parts' singleton rates] − [(1,2) recall − the union of its parts' singleton rates]. Under P-unit, (1,2) sits at its parts' union and (1,1) above its own, so line type cancels within each cell. This is B3's singleton logic applied to the document unit. Where anchors allow, one composition is planted in several cells so that the contrasts are paired (it helps the contrasts, not headroom).
 - **F2 A 0.10-cost structural rule for (2,2).** The named cross-account rule costs 0.40. A rule at the common 0.10 cost is specified before any call (for example, the cross-account entity rule restricted to a two-day window and a value change), its honest cost read on the prefix, and C-rule read against it.
 - **F3 Comparators and controls.** (1,1) gets a one-document control of the same shape; the two-document control arm as brief 19; every contrast sham-netted.
 - **F4 Windows and nulls.** Every unit's window starts at the insertion and closes before the line's next honest edit; nulls on insertion-anchored honest windows matched on length (not only on construction).
@@ -43,4 +43,4 @@ The (2,2) cell and its two-document control on the existing 6 anchors (3 items, 
 This brief is mirrored to the fork at `results/stage3/b4/brief-22-b4-conditional.md` with its sha256 in `STATUS.md` before B3's S3. The gate is read once, from B3's results file, by the coordinator, and the reading recorded as a dated note here.
 
 ---
-Changelog: 2026-10-31, written by the coordinator; conditional by design.
+Changelog: 2026-10-31, written by the coordinator; conditional by design. The same evening, after the review session's read: F1 rewritten (C-frag as a difference in excess over each cell's own singleton parts; matching for balance only); G3 tied to brief 24's E0; paired planting where anchors allow.

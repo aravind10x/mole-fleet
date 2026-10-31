@@ -47,6 +47,7 @@ The first run (`power-simulation-v3.md` a2ca0044…, `.json` 953e91b9…) stays 
 
 1. **m_s per instrument under A6.13.2:** form (a)'s error-free coefficient × 25 at β_b, from the calibration already in the inputs table; the old values beside, labelled superseded.
 2. **The gate under A6.13.1:** per instrument, form and layout, P(*excluded* | 0), P(*excluded* | margin), P(LB > 0 | 0), and P(*present* | 1.5 × margin) beside; readable as A6.13.1 defines it; the adopted layout as A6.6 chooses among readable layouts (the singleton arm preferred, power first), restricted to the carrier and second reading of A6.13.3; (b) with the Firth fit and the ceiling clause; the (b) bias trigger at 0.05.
+2b. **The combined verdict's operating characteristics (A6.13.4):** on the same simulated plants, with the carrier's and the second instrument's readings correlated through the shared stimuli, P(holds | 0), P(falsified | 0), P(holds | margin), P(falsified | margin) per layout, under the carrier-first rule with (b)'s bias-corrected downgrade; reported beside the per-instrument gate before the layout is adopted.
 3. **If no layout is readable:** the layout with the highest P(*excluded* | 0) for the carrier, labelled descriptive (A6.13.6). B3 does not end.
 4. **Report** `power-simulation-v3b.{md,json}` (first line: the adopted layout and whether it is readable or descriptive; the m_s table old and new; the gate table; the estimate per layout from P4 unchanged), one STATUS line with hashes, fork mirror; do not push. S1 starts from this file.
 
