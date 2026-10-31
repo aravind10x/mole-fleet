@@ -831,3 +831,20 @@ $49.45 of Bedrock: Sonnet 5 $8.37 and Opus 4.8 $41.08, against the $65 line and 
 ### Spend
 
 OpenRouter $109.34: rehearsals $1.79 and $1.25, the stopped day 1 $26.33, the restart $18.37, day 2 $23.68, day 3 $37.92; key 1 $64.35, key 2 $44.99. Bedrock $70.45 (Sonnet 5 $10.92, Opus 4.8 $59.55). Total $179.79 against the $240 ceiling.
+
+## Brief 23 (2026-10-31): the comprehension-based legibility instrument v0 ($18.22: Bedrock $14.17, OpenRouter key 2 $4.05)
+
+**First line. The instrument is not valid on the existing T1 items, under every reader family, on the full set and on the resolved-anchor subset alike.** The null is clean (sentence 1 holds: honest and control answers are almost never credited with another item's declared consequence), but the whole adds credit beyond its best single line on only 29 to 38 percent of the 48 v2 conforming and v3 middle test items (sentence 2 fails; v3 38 to 50, v2 17 to 29 percent), and one line alone often lets the reader state the declared consequence (sentence 3 fails: test D_part 0.44 to 0.63 against 0.00 to 0.02). Scoring is reliable (kappa 0.90 to 0.94); reader families agree only moderately on which test items gain (0.27 to 0.50; sentence 4 fails on that clause). The own-edit positive control holds for Sonnet 5.5 only (Kimi K3 and Sol credit a one-or-two-sentence description of all three honest edits 0.69 and 0.61).
+
+- **What follows under the brief's named actions:** B3's S1 adds no L dose; brief 24's E0 falls back to the rater's composition item, with scope; the T1 items' lines carrying the effect is reported as a property of those items; the S4 action (a second scorer family) addresses a clause that held, which the coordinator may weigh; the S4b action (a dated amendment loosening the own-edit scorer instruction one step, honest items re-scored) is not taken here.
+- **Built:** `work/checks/stage3_legibility.py` (items, prices, dry-run, routes, run, report; whitelisted output; a run manifest pinning inputs, script, configuration, dependencies, the seeder's day-0 texts and every rendered packet), the judge clients' reply parser, shared request guard, refusal settings, bedrock-runtime endpoint and OpenRouter key selection, and the fork client's omission of a None temperature. Three codex rounds (20, 5 and 1 required findings) and an L17 dry run of the verdict rules, all before any call.
+- **Pre-run amendments (named in the report):** sentence 2 over all 48 test items; 90 percent completeness; test-item agreement for sentence 4 with "valid" needing an agreeing pair; Aravind's resolved-anchor rule (the subset whose replace anchors resolve in the day-0 text governs downstream use); Sonnet 5.5 through bedrock-runtime's global profile and Kimi K3 on OpenRouter key 2 (key 1's weekly limit spent).
+
+### Sealed defender parameters produced by brief 23 (never read by a scenario-side session)
+
+- `legibility/items-v0.json`, `legibility/rubrics-v0.json` (the test items' declared effects and the honest own-edit rubrics; main checkout only), `legibility/amendment-resolved-anchor-2026-10-31.md`, `legibility/estimate-v0.json`, `legibility/models-v0.json`, `legibility/routes-v0.json`, `legibility/run-summary.json`, `legibility/run-batches.jsonl`, `legibility/instrument-v0.{md,json}`, `legibility/instrument-v0-reading.md`, `legibility/dryrun/`, `legibility/review/`; the reader, scorer and route caches under `legibility/cache/` (main checkout only; answers and scorer reasons, never printed).
+- The script `stage3_legibility.py` and `test_stage3_legibility.py` (canonical in `work/checks/`, byte-identical in the fork's `scripts/stage3/`).
+
+### Spend
+
+Bedrock $14.17 (Sonnet 5 scorer $10.35 on mantle, Sonnet 5.5 reader $2.02 on bedrock-runtime, GPT-6 Sol reader $1.80 on Converse); OpenRouter key 2 $4.05 (Kimi K3); route probes $0.002. Total $18.22 against the $28.23 estimate (stop $56.47) and Aravind's $60 approval.
