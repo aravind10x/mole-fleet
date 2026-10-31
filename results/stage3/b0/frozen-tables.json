@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 64,
+ "n_files": 66,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -638,6 +638,26 @@
    "copies_identical": true,
    "tag": "confirmatory",
    "tag_source": "b4r/plan.md R0.6: the honest null of one view and judge, its 11.12(d) check and threshold rule"
+  },
+  {
+   "path": "b4r/world-dynamics-v3.md",
+   "sha256": "4d2e3c9c0be56158a25a094ee39715e2a2362baf22015dc7da31a4d3b09a2edb",
+   "bytes": 12463,
+   "sha256_fork_copy": "4d2e3c9c0be56158a25a094ee39715e2a2362baf22015dc7da31a4d3b09a2edb",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md 'Amendment (b) sentences, written 2026-10-31 before any reading' (brief 18 A1, fork 15020f0): definitions, cutoffs and outcome sentences committed before the script existed; not blind on (b1)'s per-day turn-cap counts, the release-gate and README rewrites and the 16/12/7 line survival, which the plan's record already showed (disclosed there); the consumption null reported beside B4; pooled turn-cap rate and per-account counts are beside, not read",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "b4r/world-dynamics-v3.json",
+   "sha256": "c3926f65ff8716d5f0032bfc1e0f390e6dd0df76524e6c75a72999a768c80d7f",
+   "bytes": 36837,
+   "sha256_fork_copy": "c3926f65ff8716d5f0032bfc1e0f390e6dd0df76524e6c75a72999a768c80d7f",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "b4r/plan.md 'Amendment (b) sentences, written 2026-10-31 before any reading' (brief 18 A1, fork 15020f0): definitions, cutoffs and outcome sentences committed before the script existed; not blind on (b1)'s per-day turn-cap counts, the release-gate and README rewrites and the 16/12/7 line survival, which the plan's record already showed (disclosed there); the consumption null reported beside B4; pooled turn-cap rate and per-account counts are beside, not read",
+   "added_beyond_brief_list": false
   }
  ],
  "amendments": [
@@ -686,6 +706,15 @@
     "b4r/nulls/P_author_doc_iso.sonnet.json",
     "b4r/nulls/P_author_doc_live.opus48.json",
     "b4r/nulls/P_author_doc_live.sonnet.json"
+   ],
+   "note": "additive; no earlier entry changed"
+  },
+  {
+   "date": "2026-10-31",
+   "by": "brief 18 (B4 sizing) Part A2",
+   "added": [
+    "b4r/world-dynamics-v3.md",
+    "b4r/world-dynamics-v3.json"
    ],
    "note": "additive; no earlier entry changed"
   }
