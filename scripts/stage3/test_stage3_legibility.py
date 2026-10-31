@@ -648,3 +648,75 @@ def test_main_prints_only_the_error_type(tmp_path, capsys):
     err = capsys.readouterr().err
     assert json.loads(err) == {"error": "FileNotFoundError", "mode": "report", "traceback": "errors.log"}
     assert (tmp_path / "errors.log").exists()
+
+
+# ── codex round 2 regressions (2026-10-31) ────────────────────────────────────────────────────────────
+
+def test_d_part_does_not_need_the_whole_and_s3_keeps_those_items():
+    iid = "ab" * 32
+    row = {"item_id": iid, "regime": "v2_conforming", "retest": False}
+    reads = [rec_read("f", 0, iid, c) for c in lg.PARTS]   # the whole is missing
+    scores = [rec_score("f", 0, iid, c, "rubric", p, 1) for c in lg.PARTS for p in lg.PASSES]
+    st = lg.Records({"f": reads}, scores).item_stat("f", 0, row, "rubric")
+    assert st["D_whole"] is None and st["D_part"] == 1.0 and st["L"] is None
+    assert st["D_whole_status"] == "missing" and st["D_part_status"] == "computed" and st["status"] == "missing"
+
+
+def test_s4b_gates_both_own_denominators(small):
+    _t, _k, _p, items, _r = small
+    rows = items["items"]
+    reads, scores = [], []
+    honest = [r for r in rows if r["regime"] in lg.HONEST_REGIMES]
+    for row in rows:
+        for c in lg.CONDS:
+            if not (row is honest[0] and c == "part1"):   # one honest part missing: D_part_own on 4 of 5
+                reads.append(rec_read("f", 0, row["item_id"], c))
+            for t in lg.scoring_targets(row, 0):
+                for p in lg.PASSES:
+                    scores.append(rec_score("f", 0, row["item_id"], c, t, p, 1 if t == "own" else 0))
+    s4b = lg.family_analysis(lg.Records({"f": reads}, scores), "f", rows)["sentences"]["S4b"]
+    assert s4b["n"] == len(honest) and s4b["n_part"] == len(honest) - 1 and s4b["holds"] is None
+
+
+def test_within_regime_correlation_centres_each_repeat_and_bootstrap_refits():
+    x = (-0.5, 0.0, 0.5)
+    pairs = [("A", v + 0.5, v - 0.5) for v in x] + [("B", v - 0.5, v + 0.5) for v in x]
+    assert lg.within_regime_pearson(pairs) == pytest.approx(1.0)
+    assert lg.pooled_pearson(pairs) < 0.5
+    ci = lg.bootstrap_ci(pairs * 3, lg.within_regime_pearson)
+    assert ci is not None and ci[0] == pytest.approx(1.0) and ci[1] == pytest.approx(1.0)
+    assert lg.bootstrap_ci(pairs[:2], lg.pooled_pearson) is None
+
+
+def test_malformed_envelopes_and_arrays_never_supply_a_score():
+    assert lg.parse_score('{"outer": {"score":1,"declined":false}') is None
+    assert lg.parse_score('[{"score": 1, "declined": false}]') is None
+    assert lg.parse_score('{"score": 1, "declined": false} {"oops": ') is None
+    assert lg.parse_score('{"score": 1, "declined": false} then {"score": 1.0, "declined": false}')["score"] == 1
+    assert lg.parse_score('{"reason": null, "score": 1, "declined": false}') is None
+    assert lg.parse_score('{"reason": 3, "score": 1, "declined": false} {"reason": "ok", "score": 1, "declined": false}') is None
+    assert lg.parse_score('Here: {"reason": "a \\"quoted\\" } brace", "declined": false, "score": 0}')["score"] == 0
+
+
+def test_rendering_pin_detects_day0_and_packet_drift(small):
+    triples, _k, _p, items, _r = small
+    tr = {t["triple_id"]: t for t in triples}
+    pk = lg.all_packets(items["items"], tr, DAY0)
+    pinned = {"day0_sha256": lg.day0_sha256(DAY0), "packets_sha256": lg.packets_sha256(pk)}
+    inp = {"day0": DAY0, "day0_in_md": True}
+    assert lg.check_rendering(pinned, inp, pk) == []
+    day0b = {**DAY0, DOCS[0]: DAY0[DOCS[0]] + "- Extra: 1\n"}
+    pk2 = lg.all_packets(items["items"], tr, day0b)
+    assert lg.check_rendering(pinned, {"day0": day0b, "day0_in_md": True}, pk2) == ["day0_texts", "packets"]
+    assert lg.check_rendering(pinned, {"day0": DAY0, "day0_in_md": False}, pk) == ["day0_not_in_doc_states_md"]
+
+
+def test_kappa_without_prose_refusals_excludes_those_conditions():
+    iid = "cd" * 32
+    row = {"item_id": iid, "regime": "v2_conforming", "retest": False}
+    reads = [rec_read("f", 0, iid, c) for c in lg.CONDS]
+    scores = [rec_score("f", 0, iid, "whole", "rubric", p, 0, declined=True) for p in lg.PASSES]
+    scores += [rec_score("f", 0, iid, c, "rubric", p, 1) for c in lg.PARTS for p in lg.PASSES]
+    rec = lg.Records({"f": reads}, scores)
+    assert len(rec.pass_pairs("f")[0]) == 4
+    assert len(rec.pass_pairs("f", exclude={(0, iid, "whole")})[0]) == 3

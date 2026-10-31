@@ -2139,13 +2139,15 @@
   "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
  },
- "script_sha256": "1439550add065578a3163558e6e2480e5a6e328cc61801fb9622e2061b4eae60",
+ "script_sha256": "3d41f2152dfb5b4c200dac25e3c77452d488f0c5a940cb389e945413e16d0207",
  "dependency_sha256": {
   "work/checks/judge_client.py": "8abb6079b96165f5533c9a1dd79a8b7406a23ac0f41f5aa2792875ae1ae3e248",
   "work/checks/judge_openrouter.py": "dd1c3f3524997099ab0152e7e067ce86a561401ba5d1a4314354693d23406ede",
   "work/mole-fork/mole/llm/openrouter.py": "addf8a119de489c466d76ce8ef75fc7eeaf7f3822d4a55f161782d4a9cd4b215",
   "work/checks/stage3_rater_strip.py": "016e61b168af31ae4aa42a5b6e6ac864f3685cf4d71471ff92d7632c8b4998ac"
  },
+ "day0_sha256": "bade5fab9999a67b307f305a2f5828cdec2d7adc51ea4b1a56117036e667da00",
+ "packets_sha256": "4ca2d554dc6a36c52393ffa945b576da3883723d6cb45f002f04df10b943f438",
  "brief": {
   "path": "briefs/23-legibility-instrument-2026-10-31.md",
   "sha256": "95fa07cc21cea1d11b0acbee3bb97fc4d1844923149523a7430ebc63ccff1991"

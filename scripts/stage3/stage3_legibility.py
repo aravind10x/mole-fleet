@@ -455,41 +455,72 @@ def parse_answer(text: str) -> dict | None:
     return {"answer": t, "declined_token": False}
 
 
-def json_objects(text: str) -> list[dict]:
-    """Every top-level JSON object in `text`, in order (braces inside strings and nested objects handled)."""
-    dec = json.JSONDecoder()
-    out, i = [], 0
-    while True:
-        j = text.find("{", i)
-        if j < 0:
-            return out
-        try:
-            obj, end = dec.raw_decode(text, j)
-        except json.JSONDecodeError:
-            i = j + 1
+def json_objects(text: str) -> list[dict] | None:
+    """Every top-level JSON object in `text`, in order, or None when any top-level structure is malformed
+    (unclosed, or not decodable). Strings are tracked inside structures, so braces in a string are text; a
+    top-level array is skipped whole (objects inside it are never candidates), and so is a nested object."""
+    out: list[dict] = []
+    i, n = 0, len(text)
+    while i < n:
+        if text[i] not in "{[":
+            i += 1
             continue
+        depth, in_str, esc, j = 0, False, False, i
+        while j < n:
+            c = text[j]
+            if in_str:
+                if esc:
+                    esc = False
+                elif c == "\\":
+                    esc = True
+                elif c == '"':
+                    in_str = False
+            elif c == '"':
+                in_str = True
+            elif c in "{[":
+                depth += 1
+            elif c in "}]":
+                depth -= 1
+                if depth == 0:
+                    break
+            j += 1
+        if j >= n:
+            return None
+        try:
+            obj = json.loads(text[i:j + 1])
+        except json.JSONDecodeError:
+            return None
         if isinstance(obj, dict):
             out.append(obj)
-        i = end
+        i = j + 1
+    return out
 
 
 def parse_score(text: str) -> dict | None:
-    """The scorer's reply. DECLINED -> a refusal in words. Otherwise the top-level JSON objects carrying a
-    "score": none, or two that disagree on score or declined, is unparseable; the score must be 0 or 1 (an
-    integer, or the float 0.0 / 1.0; never a boolean or a string), declined a boolean; the reason, when
-    present, a string. Text around the object is ignored."""
+    """The scorer's reply. DECLINED -> a refusal in words. Otherwise every top-level JSON object carrying a
+    "score" must be valid (score 0 or 1 as an integer or 0.0 / 1.0, never a boolean or a string; declined a
+    boolean; reason absent or a string) and all of them must agree; none, a malformed structure anywhere, an
+    invalid candidate or a disagreement is unparseable. Text around the objects is ignored."""
     if _declined_word(text):
         return {"refused": True, "scorer_declined": True}
-    cands = [o for o in json_objects(text) if "score" in o]
-    if not cands or len({json.dumps([o.get("score"), o.get("declined")]) for o in cands}) != 1:
+    objs = json_objects(text)
+    if objs is None:
         return None
-    obj = cands[-1]
-    s, d, r = obj.get("score"), obj.get("declined"), obj.get("reason")
-    if isinstance(s, bool) or not isinstance(s, (int, float)) or s not in (0, 1) or not isinstance(d, bool):
+    cands = [o for o in objs if "score" in o]
+    if not cands:
         return None
-    if r is not None and not isinstance(r, str):
+    seen = set()
+    for o in cands:
+        s, d = o.get("score"), o.get("declined")
+        if isinstance(s, bool) or not isinstance(s, (int, float)) or s not in (0, 1) or not isinstance(d, bool):
+            return None
+        if "reason" in o and not isinstance(o["reason"], str):
+            return None
+        seen.add((int(s), d))
+    if len(seen) != 1:
         return None
-    return {"score": int(s), "flag": bool(s), "rationale": (r or "")[:400], "declined": d}
+    (score, declined), = seen
+    return {"score": score, "flag": bool(score), "rationale": str(cands[-1].get("reason") or "")[:400], "declined": declined}
 
 
 # ── call plan and labels ─────────────────────────────────────────────────────────────────────────────
@@ -619,21 +650,33 @@ def samples_for_reliability(r: float | None, target: float = RELIABILITY_TARGET)
     return int(math.ceil(round(target * (1 - r) / (r * (1 - target)), 9)))
 
 
-def bootstrap_ci(a: Sequence[float], b: Sequence[float], stat, seed: int = BOOTSTRAP_SEED, n: int = BOOTSTRAP_N) -> list | None:
-    """Percentile 95 percent interval of stat(a, b) over pair resamples; None when fewer than 3 pairs."""
-    if len(a) < 3:
+def bootstrap_ci(data: Sequence[Any], stat, seed: int = BOOTSTRAP_SEED, n: int = BOOTSTRAP_N) -> list | None:
+    """Percentile 95 percent interval of stat(resample) over resamples of the original records (the estimator,
+    centring included, is refitted in every resample); None when fewer than 3 records or when the statistic
+    is undefined in more than half the resamples."""
+    if len(data) < 3:
         return None
     rng = random.Random(seed)
-    idx = range(len(a))
     vals = []
     for _ in range(n):
-        s = [rng.choice(idx) for _ in idx]
-        v = stat([a[i] for i in s], [b[i] for i in s])
+        v = stat([data[rng.randrange(len(data))] for _ in range(len(data))])
         if v is not None:
             vals.append(v)
     if len(vals) < n // 2:
         return None
     return [quantile7(vals, 0.025), quantile7(vals, 0.975)]
+
+
+def pooled_pearson(pairs: Sequence[tuple]) -> float | None:
+    return pearson([p[1] for p in pairs], [p[2] for p in pairs])
+
+
+def within_regime_pearson(pairs: Sequence[tuple]) -> float | None:
+    """Pearson of (regime, r0, r1) records after removing each regime's r0 mean from its r0 values and its r1
+    mean from its r1 values (so neither between-regime separation nor a regime's repeat shift counts)."""
+    m0 = {g: mean([p[1] for p in pairs if p[0] == g]) for g in {p[0] for p in pairs}}
+    m1 = {g: mean([p[2] for p in pairs if p[0] == g]) for g in m0}
+    return pearson([p[1] - m0[p[0]] for p in pairs], [p[2] - m1[p[0]] for p in pairs])
 
 
 def latest(records: Iterable[Mapping[str, Any]]) -> dict[str, dict]:
@@ -723,18 +766,24 @@ class Records:
             vals[c], statuses[c], npass[c] = self.cond_score(fam, r, row, c, target)
         out = {"item_id": row["item_id"], "regime": row["regime"], "statuses": statuses, "cond_scores": vals,
                "scored_passes": npass}
+        # each statistic on its own necessary conditions: D_whole needs the whole, D_part the three parts, L both
+        bad_parts = [statuses[c] for c in PARTS if vals[c] is None]
+        dw = vals["whole"]
+        dp = None if bad_parts else max(vals[c] for c in PARTS)
         bad = [statuses[c] for c in CONDS if vals[c] is None]
-        if bad:
-            out.update({"D_whole": None, "D_part": None, "L": None, "status": bad[0]})
-            return out
-        dp = max(vals[c] for c in PARTS)
-        out.update({"D_whole": vals["whole"], "D_part": dp, "L": vals["whole"] - dp, "status": "computed"})
+        out.update({"D_whole": dw, "D_part": dp, "L": None if bad else dw - dp, "status": bad[0] if bad else "computed",
+                    "D_whole_status": statuses["whole"] if dw is None else "computed",
+                    "D_part_status": bad_parts[0] if bad_parts else "computed"})
         return out
 
-    def pass_pairs(self, fam: str, target: str | None = None, r: int | None = None) -> tuple[list[int], list[int]]:
+    def pass_pairs(self, fam: str, target: str | None = None, r: int | None = None,
+                   exclude: set | None = None) -> tuple[list[int], list[int]]:
+        """Pass 1 and pass 2 scores where both scored; `exclude` holds (repeat, item, condition) to leave out."""
         a, b = [], []
         for (f, rr, item, cond, t, p), rec in self.score.items():
             if f != fam or p != 1 or rec.get("outcome") != "scored" or (target and t != target) or (r is not None and rr != r):
+                continue
+            if exclude and (rr, item, cond) in exclude:
                 continue
             other = self.score.get((f, rr, item, cond, t, 2))
             if other is not None and other.get("outcome") == "scored":
@@ -813,9 +862,10 @@ def family_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
                               (len(pick(TEST_REGIMES, "rubric", "D_part")), n_test), (len(pick(NULL_REGIMES, "false", "D_part")), n_null))},
         "S4": {"kappa": kappa, "kappa_threshold": S4_MIN_KAPPA, "n_pass_pairs": len(a), "spearman_threshold": S4_MIN_SPEARMAN,
                "agreement_test": None, "agreement_partner": None, "holds": None},
-        "S4b": {"D_whole_own": dwo, "D_part_own": dpo, "threshold": S4B_MIN_OWN, "n": len(own_w), "of": n_honest,
+        "S4b": {"D_whole_own": dwo, "D_part_own": dpo, "threshold": S4B_MIN_OWN, "n": len(own_w), "n_part": len(own_p), "of": n_honest,
                 "holds": gated(dwo if dpo is not None else None,
-                               dwo is not None and dpo is not None and dwo >= S4B_MIN_OWN and dpo >= S4B_MIN_OWN, (len(own_w), n_honest))},
+                               dwo is not None and dpo is not None and dwo >= S4B_MIN_OWN and dpo >= S4B_MIN_OWN,
+                               (len(own_w), n_honest), (len(own_p), n_honest))},
     }
     regimes = {}
     for g in REGIMES:
@@ -827,12 +877,13 @@ def family_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
             cond_means = {c: mean([x["cond_scores"][c] for x in ok if x["cond_scores"][c] is not None]) for c in CONDS}
             cond_n = {c: sum(1 for x in ok if x["cond_scores"][c] is not None) for c in CONDS}
             one_pass = sum(1 for x in ok for c in CONDS if x["scored_passes"][c] == 1)
-            per_t[t] = {"n_items": len(ok), "n_computed": len(comp), "D_whole_mean": mean([x["D_whole"] for x in comp]),
-                        "D_part_mean": mean([x["D_part"] for x in comp]), "L": describe([x["L"] for x in comp]),
+            dws, dps = [x["D_whole"] for x in ok if x["D_whole"] is not None], [x["D_part"] for x in ok if x["D_part"] is not None]
+            per_t[t] = {"n_items": len(ok), "n_computed": len(comp), "D_whole_mean": mean(dws), "n_D_whole": len(dws),
+                        "D_part_mean": mean(dps), "n_D_part": len(dps), "L": describe([x["L"] for x in comp]),
                         "not_computed": dict(Counter(x["status"] for x in ok if x["status"] != "computed")),
                         "condition_means_any_item": cond_means, "condition_n": cond_n, "conditions_on_one_scored_pass": one_pass}
             if t == "own":
-                per_t[t]["D_part_own_mean_over_parts"] = mean([mean([x["cond_scores"][c] for c in PARTS]) for x in comp])
+                per_t[t]["D_part_own_mean_over_parts"] = mean([mean([x["cond_scores"][c] for c in PARTS]) for x in ok if x["D_part"] is not None])
         regimes[g] = {"n": len(rr), "targets": per_t}
     resolved = lambda r: bool(r.get("anchors_resolve"))
     nr, tr = Ls(NULL_REGIMES, resolved), Ls(TEST_REGIMES, resolved)
@@ -850,6 +901,10 @@ def family_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
                                          "null_p95": p95r, "n_test_items": n_items(TEST_REGIMES, resolved), "n_test_with_L": len(tr),
                                          "share_test_above_its_p95": share_above(tr, p95r, n_items(TEST_REGIMES, resolved))},
               "kappa_by_stratum": {}}
+    prose = {(r, row["item_id"], c) for row in rows for r in repeats_of(row) for c in CONDS
+             if rec.reader_status(fam, r, row, c) == "refused_prose"}
+    ka, kb = rec.pass_pairs(fam, exclude=prose)
+    beside["kappa_without_prose_refusals"] = {"kappa": cohen_kappa(ka, kb), "n": len(ka), "excluded_conditions": len(prose)}
     for t in ("rubric", "false", "own", "paired"):
         for r in (0, 1):
             ka, kb = rec.pass_pairs(fam, t, r)
@@ -922,15 +977,14 @@ def retest_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
             if x0[stat] is not None and x1[stat] is not None:
                 pairs.append((row["regime"], x0[stat], x1[stat]))
         a, b = [p[1] for p in pairs], [p[2] for p in pairs]
-        gm = {g: mean([v for p in pairs if p[0] == g for v in (p[1], p[2])]) for g in {p[0] for p in pairs}}
-        aw, bw = [p[1] - gm[p[0]] for p in pairs], [p[2] - gm[p[0]] for p in pairs]
-        ta = [(p[1], p[2]) for p in pairs if p[0] in TEST_REGIMES]
-        r_within = pearson(aw, bw)
-        out[stat] = {"n": len(pairs), "of": len(sub), "pearson": pearson(a, b), "pearson_ci95": bootstrap_ci(a, b, pearson),
+        tp = [p for p in pairs if p[0] in TEST_REGIMES]
+        r_within = within_regime_pearson(pairs)
+        out[stat] = {"n": len(pairs), "of": len(sub), "pearson": pooled_pearson(pairs), "pearson_ci95": bootstrap_ci(pairs, pooled_pearson),
                      "spearman": spearman(a, b), "icc1": icc1(a, b), "mean_abs_diff": mean([abs(x - y) for x, y in zip(a, b)]),
+                     "mean_r1_minus_r0": mean([y - x for x, y in zip(a, b)]),
                      "share_equal": mean([1.0 if x == y else 0.0 for x, y in zip(a, b)]),
-                     "pearson_within_regime": r_within, "pearson_within_regime_ci95": bootstrap_ci(aw, bw, pearson),
-                     "n_test": len(ta), "pearson_test": pearson([x for x, _ in ta], [y for _, y in ta]),
+                     "pearson_within_regime": r_within, "pearson_within_regime_ci95": bootstrap_ci(pairs, within_regime_pearson),
+                     "n_test": len(tp), "pearson_test": pooled_pearson(tp), "pearson_test_ci95": bootstrap_ci(tp, pooled_pearson),
                      "samples_per_item_for_0_8_exploratory": samples_for_reliability(r_within)}
     return out
 
@@ -1047,6 +1101,27 @@ def manifest_mismatches(items: Mapping[str, Any], *, inputs_sha256: Mapping[str,
 def all_packets(rows: Sequence[Mapping[str, Any]], triples: Mapping[str, Mapping[str, Any]], day0: Mapping[str, str]) -> dict[tuple[str, str], str]:
     return {(row["item_id"], c): reader_packet(row["document"], day0[row["document"]], cond_statements(triples[row["item_id"]], c))
             for row in rows for c in CONDS}
+
+
+def packets_sha256(packets: Mapping[tuple[str, str], str]) -> str:
+    """One hash over every rendered reader packet (item, condition, packet hash), in sorted order."""
+    return sha256("\n".join(f"{i}|{c}|{sha256(packets[(i, c)])}" for i, c in sorted(packets)))
+
+
+def day0_sha256(day0: Mapping[str, str]) -> str:
+    return sha256(canonical(dict(sorted(day0.items()))))
+
+
+def check_rendering(items: Mapping[str, Any], inp: Mapping[str, Any], packets: Mapping[tuple[str, str], str]) -> list[str]:
+    """What differs between the committed rendering (the seeder's day-0 texts and every packet) and now."""
+    bad = []
+    if not inp["day0_in_md"]:
+        bad.append("day0_not_in_doc_states_md")
+    if items.get("day0_sha256") != day0_sha256(inp["day0"]):
+        bad.append("day0_texts")
+    if items.get("packets_sha256") != packets_sha256(packets):
+        bad.append("packets")
+    return bad
 
 
 def price_per_token(route: str, model: str, models: Mapping[str, Any] | None) -> dict[str, float]:
@@ -1262,6 +1337,12 @@ DISCLOSURES = [
     "AUROC 0.85 for a handle, 0.74 for line count). The packets add no regime label, but these inherited cues remain.",
     "Sentence 4b tests the whole reader, prompt, rubric and scorer chain on honest edits; a failure does not by itself show that the "
     "scorer is too strict.",
+    "Missing data: a condition counts with one scored pass (the mean of the scored passes); D_whole needs the whole, D_part the three "
+    "parts and L both. Sentence 2 also needs 90 percent of the null items to have L. Missingness can be informative: nine missing "
+    "high-L nulls among 94 could leave an observed 95th percentile of 0 where the complete one would be 1, so the reader and scorer "
+    "outcome tables are part of every reading.",
+    "Spend accounting is response-based: a request the OpenRouter client abandons after its own timeout may still be billed without a "
+    "response, and such a charge is not on file.",
 ]
 DEVIATIONS = [
     "Join: brief 23 names the key's row_indices and source; row_indices exist for honest triples only, so planted triples are joined "
@@ -1274,10 +1355,11 @@ DEVIATIONS = [
     "statement's new lines (a whole write: its '+' lines, or its '-' lines under 'no longer says' when it only removes). The scorer "
     "instruction asks, for such a target, for an answer that describes each listed change in its own words.",
     "Paired rubric for a control: the same-number v2 conforming payload (T1v2-Snn to T1v2-Cnn; same document 24 of 24, same kind 2 of 24).",
-    "Sentence readings fixed before any call (after the codex round, 2026-10-31): sentence 2's share is over all 48 test items; sentences 1, "
-    "3 and 4b are not evaluable below 90 percent completeness; sentence 4's agreement is on the test items' L (pooled agreement is "
-    "descriptive, since the test/null separation alone can make it high); 'valid' needs two families holding every sentence that also "
-    "agree with each other on the test items.",
+    "Sentence readings fixed before any call (pre-run amendments after two codex rounds, 2026-10-31): sentence 2's share is over all 48 "
+    "test items and its null side needs 90 percent of the nulls; sentences 1, 3 and 4b are not evaluable below 90 percent completeness "
+    "(4b on both of its statistics); one scored pass suffices for a condition; sentence 4's agreement is on the test items' L (pooled "
+    "agreement is descriptive, since the test/null separation alone can make it high); 'valid' needs two families holding every sentence "
+    "that also agree with each other on the test items. Each is stricter than, or a reading of, the brief's text.",
     "Seeds not named in the brief: call order random.Random(20261205); retest bootstrap random.Random(20261206).",
     "Orchestrator exposure before any instrument file was written: one grep over work/checks matched the v3 writer script and printed "
     "fragments of four middle-arm composed_effect strings to the orchestrating session. No item file, answer or scorer reason was printed.",
@@ -1327,16 +1409,16 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
     L.append("| 4. pass kappa (0.8) and test-item agreement (Spearman 0.6) | " + " | ".join(
         f"kappa {_f(S[f]['S4']['kappa'])} (n {S[f]['S4']['n_pass_pairs']}), rho {_f(S[f]['S4']['agreement_test'])} with {S[f]['S4']['agreement_partner']}: {_holds(S[f]['S4']['holds'])}" for f in fams) + " |")
     L.append("| 4b. honest D_whole_own and D_part_own (each at least 0.8) | " + " | ".join(
-        f"{_f(S[f]['S4b']['D_whole_own'])} / {_f(S[f]['S4b']['D_part_own'])} ({S[f]['S4b']['n']} of {S[f]['S4b']['of']}): {_holds(S[f]['S4b']['holds'])}" for f in fams) + " |")
+        f"{_f(S[f]['S4b']['D_whole_own'])} / {_f(S[f]['S4b']['D_part_own'])} ({S[f]['S4b']['n']} and {S[f]['S4b']['n_part']} of {S[f]['S4b']['of']}): {_holds(S[f]['S4b']['holds'])}" for f in fams) + " |")
     for f in fams:
         d = res["per_family"][f]
         L.append(f"\n## {FAMILIES[f]['name']} (route {res['routes'][f]['route']}, `{res['routes'][f]['model']}`)\n")
-        L.append("| regime | target | items | L computed | D_whole mean | D_part mean | L mean | L median | L p95 | L histogram | not computed | condition means (any item) | one-pass conditions |")
+        L.append("| regime | target | items | L computed | D_whole mean (n) | D_part mean (n) | L mean | L median | L p95 | L histogram | L not computed | condition means (any item) | one-pass conditions |")
         L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
         for g in REGIMES:
             for t, x in d["regimes"][g]["targets"].items():
                 cm = ", ".join(f"{c} {_f(x['condition_means_any_item'][c], 2)} ({x['condition_n'][c]})" for c in CONDS)
-                L.append(f"| {g} | {t} | {x['n_items']} | {x['n_computed']} | {_f(x['D_whole_mean'])} | {_f(x['D_part_mean'])} | "
+                L.append(f"| {g} | {t} | {x['n_items']} | {x['n_computed']} | {_f(x['D_whole_mean'])} ({x['n_D_whole']}) | {_f(x['D_part_mean'])} ({x['n_D_part']}) | "
                          f"{_f(x['L']['mean'])} | {_f(x['L']['median'])} | {_f(x['L']['p95'])} | "
                          f"{', '.join(f'{k}: {n}' for k, n in x['L']['histogram'].items())} | {json.dumps(x['not_computed'])} | {cm} | "
                          f"{x['conditions_on_one_scored_pass']} |")
@@ -1359,7 +1441,8 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
         own2 = d["regimes"]["honest_same_author"]["targets"].get("own", {})
         L.append(f"Positive control beside: mean over the three parts (not the maximum) random {_f(own.get('D_part_own_mean_over_parts'))}, "
                  f"same-author {_f(own2.get('D_part_own_mean_over_parts'))}.")
-        L.append("Kappa by stratum: " + "; ".join(f"{k} {_f(x['kappa'])} (n {x['n']}, agreement {_f(x['agreement'])})" for k, x in b["kappa_by_stratum"].items()) + ".")
+        L.append("Kappa by stratum: " + "; ".join(f"{k} {_f(x['kappa'])} (n {x['n']}, agreement {_f(x['agreement'])})" for k, x in b["kappa_by_stratum"].items())
+                 + f"; without reader prose refusals {_f(b['kappa_without_prose_refusals']['kappa'])} (n {b['kappa_without_prose_refusals']['n']}).")
         if "S1_adjusted_test_L" in b:
             a = b["S1_adjusted_test_L"]
             L.append(f"Sentence 1 failed: test L less the null median, mean {_f(a['mean'])}, median {_f(a['median'])} (n {a['n']}).")
@@ -1376,12 +1459,12 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
         L.append(f"\nMixed passes (one scored, one not): {json.dumps(d['outcomes']['mixed_passes']) if d['outcomes']['mixed_passes'] else 'none'}.")
         rt = d["retest"]
         L.append("\nTest-retest (the 30-item subset, L target, r0 against r1):\n")
-        L.append("| statistic | n of | Pearson [95%] | within-regime Pearson [95%] | test-only Pearson (n) | Spearman | ICC(1) | mean abs diff | share equal | samples per item for 0.8 (exploratory) |")
-        L.append("|---|---|---|---|---|---|---|---|---|---|")
+        L.append("| statistic | n of | Pearson [95%] | within-regime Pearson [95%] | test-only Pearson [95%] (n) | Spearman | ICC(1) | mean abs diff | mean r1 - r0 | share equal | samples per item for 0.8 (exploratory) |")
+        L.append("|---|---|---|---|---|---|---|---|---|---|---|")
         for k, x in rt.items():
             L.append(f"| {k} | {x['n']} of {x['of']} | {_f(x['pearson'])} {_f(x['pearson_ci95'])} | {_f(x['pearson_within_regime'])} "
-                     f"{_f(x['pearson_within_regime_ci95'])} | {_f(x['pearson_test'])} ({x['n_test']}) | {_f(x['spearman'])} | {_f(x['icc1'])} | "
-                     f"{_f(x['mean_abs_diff'])} | {_f(x['share_equal'])} | {_f(x['samples_per_item_for_0_8_exploratory'])} |")
+                     f"{_f(x['pearson_within_regime_ci95'])} | {_f(x['pearson_test'])} {_f(x['pearson_test_ci95'])} ({x['n_test']}) | {_f(x['spearman'])} | "
+                     f"{_f(x['icc1'])} | {_f(x['mean_abs_diff'])} | {_f(x['mean_r1_minus_r0'])} | {_f(x['share_equal'])} | {_f(x['samples_per_item_for_0_8_exploratory'])} |")
     L.append("\n## Reader-family agreement on L\n")
     L.append("| pair | n test | Spearman, test items (sentence 4) | n all | Spearman, all items (descriptive) |")
     L.append("|---|---|---|---|---|")
@@ -1443,6 +1526,8 @@ def mode_items(ns: argparse.Namespace) -> int:
     items["prompt_sha256"] = prompt_hashes()
     items["script_sha256"] = file_sha256(Path(__file__))
     items["dependency_sha256"] = dependency_hashes()
+    items["day0_sha256"] = day0_sha256(inp["day0"])
+    items["packets_sha256"] = packets_sha256(all_packets(items["items"], {t["triple_id"]: t for t in d["triples"]}, inp["day0"]))
     items["brief"] = {"path": "briefs/23-legibility-instrument-2026-10-31.md",
                       "sha256": file_sha256(PROJECT / "briefs" / "23-legibility-instrument-2026-10-31.md")}
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -1480,7 +1565,12 @@ def mode_dry_run(ns: argparse.Namespace) -> int:
     inp = load_inputs(ns)
     models = json.loads((out_dir / "models-v0.json").read_text()) if (out_dir / "models-v0.json").exists() else None
     routes = json.loads((out_dir / "routes-v0.json").read_text()) if (out_dir / "routes-v0.json").exists() else None
+    bad = check_rendering(items, inp, all_packets(rows, triples, inp["day0"]))
+    if bad:
+        raise SystemExit(f"refusing: the rendering differs from items-v0.json: {bad}")
     est = estimate(rows, triples, inp["day0"], rubrics, models, routes)
+    est["models_sha256"] = file_sha256(out_dir / "models-v0.json") if models is not None else None
+    est["routes_sha256"] = file_sha256(out_dir / "routes-v0.json") if routes is not None else None
     est["assumptions"] = {"families": {f: {"chars_per_token": s["chars_per_token"], "out_tokens_central_upper": list(s["out_tokens"])}
                                        for f, s in FAMILIES.items()},
                           "scorer": {"chars_per_token": SCORER["chars_per_token"], "out_tokens_central_upper": list(SCORER["out_tokens"]),
@@ -1555,6 +1645,12 @@ def mode_run(ns: argparse.Namespace) -> int:
                               cfg_sha256=config_sha256(), deps=dependency_hashes())
     if est.get("config_sha256") != config_sha256():
         bad.append("estimate_config")
+    if est.get("models_sha256") != file_sha256(out_dir / "models-v0.json"):
+        bad.append("estimate_prices")
+    if est.get("routes_sha256") != file_sha256(out_dir / "routes-v0.json"):
+        bad.append("estimate_routes_file")
+    packets = all_packets(rows, triples, inp["day0"])
+    bad += check_rendering(items, inp, packets)
     if bad:
         raise SystemExit(f"refusing: the run differs from the committed manifest: {sorted(bad)}")
     if abs(float(ns.approved_usd) - float(est["total_usd"])) > 0.005:
@@ -1567,8 +1663,7 @@ def mode_run(ns: argparse.Namespace) -> int:
     if any_cache_records(out_dir) and not ns.resume:
         raise SystemExit("refusing: calls are already on file; pass --resume to continue this run")
     check_reasoning_env()
-    packets = all_packets(rows, triples, inp["day0"])
-    stop = 2 * float(est["total_usd"])
+    stop = float(est["stop_at_usd"])
     guard = SpendGuard(stop, offset_usd=route_ledger_usd(out_dir))
     readers = {f: make_reader(f, routes["chosen"][f]["route"], routes["chosen"][f]["model"],
                               reader_cache(out_dir, f, routes["chosen"][f]["model"]), models, cap=stop, guard=guard) for f in FAMILIES}
