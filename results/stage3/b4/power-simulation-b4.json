@@ -1,0 +1,827 @@
+{
+ "version": "b4-power/v1",
+ "brief": "briefs/19-b4-sizing-part-b-2026-10-31.md",
+ "written": "2026-10-31",
+ "first_line": "**Not sized: the world's maintained-item supply binds, and so do the priors.** By name, `prefix_rw_v3rc` holds **6 insertion anchors on 3 SHARED items** (red-team suite config on day 1, sign-off contact on days 1 and 2, on-call contact on days 1 to 3). Even with every anchor reused in every cell, they support **6 test changes per cell with one placement and 2 with two**, under the 12 the brief requires (7 by entity match; 2 under the v3 inserter's whole-write floor). The supply, not the budget, is B4's binding constraint. Repair options for the coordinator, not chosen: more SHARED items seeded (about 6 usable items for 12 anchors per cell, 16 for 32); a shorter, insertion-anchored window (it adds no anchor, but it is needed under any option, because 92 percent of B4-R-style O_ws windows that contain an insertion close after an honest overwrite); entity-matched anchors as primary (7, still short of 12). Supply aside, **no design up to 32 per cell \u00d7 2 placements makes every primary contrast decidable with probability 0.8 under the central priors** (Opus 4.8: best 0.06; Sonnet 5: 0.01). The headroom clause fails: at 32 \u00d7 2, P(headroom) is 0.14 for O_diff on (1,1), 0.08 for the isolated dossier on (1,2) and 0.16 for O_ws on (2,2) under Opus 4.8 (0.05 to 0.23 across the grid). Headroom needs composed-cell recall of about 0.65 to 0.70 at 24 to 32 \u00d7 2 against a control at 0.06, and 0.75 to 0.80 against the dossier's 0.12; v3's routine band gives 0.47 for O_diff and 0.53 for the dossier. Only with compositions as legible as the re-plant's (Opus 4.8 optimistic) is a design decidable: **32 \u00d7 2** (0.88 at placement ICC 0.3; 0.74 at 0.6), which needs 32 independent anchors per cell. **Carrying views, all under Opus 4.8** (Sonnet 5 carries none at its central priors): C-frag per-document `O_diff`; C-split the isolated dossier; C-ws `O_ws` against the dossier at the common 0.10 cost. Estimate at 32 \u00d7 2: **$88.53** ($13.62 Sonnet 5, $74.91 Opus 4.8; $114.55 with (2,1); about $70 more if B4's brief extends the nulls to insertion-anchored windows), against the proposal's $40 orientation, for Aravind's approval if a repair makes the design reachable.",
+ "sized": false,
+ "files": {
+  "script": {
+   "path": "work/checks/stage3_b4_power.py",
+   "sha256": "785557c85d81d02bb3cea594012cbc121225234d396beb8145238e91ce7db2f9"
+  },
+  "tests": {
+   "path": "work/checks/test_stage3_b4_power.py",
+   "sha256": "b4f7ff01601873849e7f31a407baa8eab7cc61edfd805bdee6d517418911ca7c",
+   "passed": 18
+  },
+  "inventory": {
+   "path": "work/stage3/b4/inventory-b4.json",
+   "sha256": "c8575a6a4befa2558b089160982249cc586f87516003c01cdb557ef36266096b"
+  },
+  "simulation": {
+   "path": "work/stage3/b4/sim-b4.json",
+   "sha256": "7fa296eba7afa8eab48d50f5845c82c56756be16cde72c8884420a77a9146850"
+  },
+  "simulation_log": {
+   "path": "work/stage3/b4/sim-b4.log",
+   "sha256": "f171895ede02ad4e8bc21c13cfcf8ce2c9e266d26aaa2154d3976536ef2ac9d0"
+  },
+  "report": {
+   "path": "work/stage3/b4/power-simulation-b4.md",
+   "sha256": "1bd78c0529923c2aa46e84ab68188a1bdbe05feba8e12c2b175701d0b5983e1d"
+  }
+ },
+ "corpus_sha256": "d846524462d00fb6f96c8a019b07b6b55646cf1055bf36eb23ebf5f288cd34e9",
+ "seed": 20261190,
+ "sims": 300,
+ "reps": 1000,
+ "inventory": {
+  "anchors": {
+   "name": {
+    "grouped_value": {
+     "red-team suite config": [
+      "2026-04-06"
+     ],
+     "on-call contact": [
+      "2026-04-06",
+      "2026-04-07",
+      "2026-04-08"
+     ],
+     "sign-off contact": [
+      "2026-04-06",
+      "2026-04-07"
+     ]
+    },
+    "grouped_touch": {
+     "eval-server port": [
+      "2026-04-06"
+     ]
+    },
+    "ungrouped": {
+     "image registry": [
+      "2026-04-06"
+     ],
+     "runner image tag": [
+      "2026-04-06",
+      "2026-04-07"
+     ],
+     "fine-tune base config": [
+      "2026-04-06",
+      "2026-04-07"
+     ],
+     "repository access contact": [
+      "2026-04-06",
+      "2026-04-07"
+     ]
+    }
+   },
+   "entity": {
+    "grouped_value": {
+     "red-team suite config": [
+      "2026-04-06"
+     ],
+     "on-call contact": [
+      "2026-04-06",
+      "2026-04-07",
+      "2026-04-08"
+     ],
+     "sign-off contact": [
+      "2026-04-06",
+      "2026-04-07",
+      "2026-04-08"
+     ]
+    },
+    "grouped_touch": {
+     "eval-server port": [
+      "2026-04-06",
+      "2026-04-07"
+     ]
+    },
+    "ungrouped": {
+     "image registry": [
+      "2026-04-06"
+     ],
+     "runner image tag": [
+      "2026-04-06",
+      "2026-04-07",
+      "2026-04-08"
+     ],
+     "fine-tune base config": [
+      "2026-04-06",
+      "2026-04-07",
+      "2026-04-08"
+     ],
+     "repository access contact": [
+      "2026-04-06",
+      "2026-04-07"
+     ]
+    }
+   },
+   "inserter_floor": {
+    "grouped_value": {
+     "on-call contact": [
+      "2026-04-06",
+      "2026-04-08"
+     ]
+    },
+    "grouped_touch": {},
+    "ungrouped": {
+     "runner image tag": [
+      "2026-04-06"
+     ],
+     "fine-tune base config": [
+      "2026-04-06"
+     ],
+     "repository access contact": [
+      "2026-04-06"
+     ]
+    }
+   }
+  },
+  "supply": {
+   "name": {
+    "items": 3,
+    "anchors": 6,
+    "one_placement": {
+     "reuse": 6,
+     "no_reuse": 1
+    },
+    "two_placements": {
+     "reuse": 2,
+     "no_reuse": 0
+    }
+   },
+   "entity": {
+    "items": 3,
+    "anchors": 7,
+    "one_placement": {
+     "reuse": 7,
+     "no_reuse": 1
+    },
+    "two_placements": {
+     "reuse": 2,
+     "no_reuse": 0
+    }
+   },
+   "inserter_floor": {
+    "items": 1,
+    "anchors": 2,
+    "one_placement": {
+     "reuse": 2,
+     "no_reuse": 0
+    },
+    "two_placements": {
+     "reuse": 1,
+     "no_reuse": 0
+    }
+   }
+  },
+  "supply_binds": true,
+  "clusters": {
+   "items": 3,
+   "item_day_anchors": 6
+  },
+  "grouped_value_name_boundaries": 65,
+  "overwritten": {
+   "same_day": 50,
+   "by_end": 61,
+   "whole_same_day": 36,
+   "whole_by_end": 55
+  },
+  "windows_b4r_construction": {
+   "O_ws": {
+    "affected": 3775,
+    "containing": 4116
+   },
+   "O_diff": {
+    "affected": 3262,
+    "containing": 4116
+   }
+  },
+  "values": {
+   "eval-server port": {
+    "table_values": 8,
+    "update_variant_values": 8
+   },
+   "image registry": {
+    "table_values": 8,
+    "update_variant_values": 8
+   },
+   "runner image tag": {
+    "table_values": 2,
+    "update_variant_values": 2
+   },
+   "red-team suite config": {
+    "table_values": 8,
+    "update_variant_values": 8
+   },
+   "fine-tune base config": {
+    "table_values": 8,
+    "update_variant_values": 8
+   },
+   "on-call contact": {
+    "table_values": 5,
+    "update_variant_values": 5
+   },
+   "sign-off contact": {
+    "table_values": 5,
+    "update_variant_values": 5
+   },
+   "repository access contact": {
+    "table_values": 5,
+    "update_variant_values": 5
+   }
+  },
+  "release_gate_runbook": {
+   "day1_qualifying_boundaries_per_item": 6,
+   "of": 23,
+   "sign_off_contact_day2": [
+    13,
+    36
+   ],
+   "under_inserter_floor": 0,
+   "recommendation": "keep (excluding it leaves one usable item); windows must close before the same-day whole rewrite"
+  },
+  "repair_options": [
+   "more SHARED items seeded (about 6 usable items for 12 anchors per cell, 16 for 32)",
+   "a shorter, insertion-anchored window (adds no anchor; needed under any option)",
+   "entity-matched anchors as primary (7 anchors)"
+  ]
+ },
+ "priors": {
+  "opus48_central": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.47,
+   "e_odiff": 0.06,
+   "q_odiff": 0.06,
+   "d12": 0.53,
+   "e_doss": 0.12,
+   "q_doss": 0.12,
+   "q_ws": 0.06
+  },
+  "opus48_pessimistic": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.35,
+   "e_odiff": 0.06,
+   "q_odiff": 0.06,
+   "d12": 0.4,
+   "e_doss": 0.12,
+   "q_doss": 0.12,
+   "q_ws": 0.06
+  },
+  "opus48_optimistic": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.875,
+   "e_odiff": 0.06,
+   "q_odiff": 0.06,
+   "d12": 0.79,
+   "e_doss": 0.12,
+   "q_doss": 0.12,
+   "q_ws": 0.06
+  },
+  "opus48_live": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.47,
+   "e_odiff": 0.06,
+   "q_odiff": 0.06,
+   "d12": 0.92,
+   "e_doss": 0.15,
+   "q_doss": 0.15,
+   "q_ws": 0.06
+  },
+  "sonnet_central": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.34,
+   "e_odiff": 0.12,
+   "q_odiff": 0.12,
+   "d12": 0.36,
+   "e_doss": 0.08,
+   "q_doss": 0.08,
+   "q_ws": 0.12
+  },
+  "sonnet_optimistic": {
+   "ws_shift": [
+    -0.15,
+    0.0,
+    0.15
+   ],
+   "r11": 0.73,
+   "e_odiff": 0.12,
+   "q_odiff": 0.12,
+   "d12": 0.71,
+   "e_doss": 0.08,
+   "q_doss": 0.08,
+   "q_ws": 0.12
+  }
+ },
+ "prior_sources": {
+  "r11": "O_diff on the composed one-document cell: T1 v3 routine_redraw composed share (Sonnet 11/32 0.344, Opus 4.8 15/32 0.469; middle 0.344 / 0.594); optimistic = re-plant v1 composed share (0.734 / 0.875); Opus pessimistic 0.35 for B4-R's higher threshold (60 against 55)",
+  "e_odiff": "O_diff on one routine end alone in a document: the same-shape sham's composed share (Sonnet v3 4/32 + re-plant 7/64 = 0.115; Opus 4.8 0/32 + 6/64 = 0.063); (1,2) implied = 1 - (1 - e)^2",
+  "q_odiff": "the same-shape control under O_diff, per document unit: as e_odiff",
+  "d12": "isolated dossier on (1,2) (one account holds both ends): B1 isolated lone recall, v3 pooled (Sonnet 13/36 0.36, Opus 4.8 19/36 0.53); optimistic = re-plant (0.71 / 0.79); Opus pessimistic 0.40 for B4-R's higher threshold (68 against 62); live = B1 Opus 4.8 live v3 33/36 0.92 at B1's threshold 40 (B4-R's is 58)",
+  "e_doss": "the dossier on one routine end per account: B1's sham lone recall pooled over regimes (isolated Sonnet 5/60 0.083, Opus 4.8 7/60 0.117; live Opus 9/60 0.15); (2,2) implied = 1 - (1 - e)^2",
+  "q_doss": "the same-shape control under the dossier: as e_doss",
+  "q_ws": "the same-shape control under O_ws: as q_odiff (no O_ws prior exists)",
+  "ws_shift": "O_ws on (2,2): no prior; O_diff's (1,1) value and 0.15 above and below (a sensitivity until the first scored batch)"
+ },
+ "selection": {
+  "criterion": "min over C-frag 0.3, 0.45; C-split 0, 0.3, 0.45; C-ws 0.3 (O_ws = O_diff) of P(not floor and not inconclusive) >= 0.8",
+  "central": "none up to 32x2 (Opus 4.8 best 0.06; Sonnet 5 best 0.01)",
+  "any_prior": "32x2 under opus48_optimistic at ICC 0.3 (0.88); none at ICC 0.6 (0.74)",
+  "this_world_best": {
+   "prior": "opus48_optimistic",
+   "design": {
+    "n": 32,
+    "pl": 2,
+    "plants_per_cell": 64,
+    "icc": 0.3,
+    "items": 3,
+    "icc_item": 0.1,
+    "boot": "payload",
+    "gen": "flag"
+   },
+   "min_decidable": 0.7534
+  },
+  "by_prior": {
+   "opus48_central|icc 0.3": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.06,
+    "best_design": "32x2"
+   },
+   "opus48_central|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.04,
+    "best_design": "32x1"
+   },
+   "opus48_pessimistic|icc 0.3": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.0134,
+    "best_design": "6x1"
+   },
+   "opus48_pessimistic|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.01,
+    "best_design": "6x1"
+   },
+   "opus48_optimistic|icc 0.3": {
+    "smallest_decidable": "32x2",
+    "best_min_decidable": 0.88,
+    "best_design": "32x2"
+   },
+   "opus48_optimistic|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.7366,
+    "best_design": "32x2"
+   },
+   "opus48_live|icc 0.3": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.1433,
+    "best_design": "32x2"
+   },
+   "opus48_live|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.1233,
+    "best_design": "32x2"
+   },
+   "sonnet_central|icc 0.3": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.0134,
+    "best_design": "6x1"
+   },
+   "sonnet_central|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.0134,
+    "best_design": "6x2"
+   },
+   "sonnet_optimistic|icc 0.3": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.71,
+    "best_design": "32x2"
+   },
+   "sonnet_optimistic|icc 0.6": {
+    "smallest_decidable": null,
+    "best_min_decidable": 0.6233,
+    "best_design": "32x2"
+   }
+  }
+ },
+ "carrying_views": {
+  "C-frag": "O_diff (Opus 4.8)",
+  "C-split": "isolated dossier (Opus 4.8); live form named as an alternative, not adopted",
+  "C-ws": "O_ws against the dossier at 0.10 (Opus 4.8)",
+  "C-rule": "statistic A's rule on (1,2) at 0.20 (recall 1 by construction); cross-account rule on (2,2) at 0.40 (chance 0.64)"
+ },
+ "min_recall_for_headroom": [
+  {
+   "n": 12,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.85
+  },
+  {
+   "n": 12,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.85
+  },
+  {
+   "n": 16,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.85
+  },
+  {
+   "n": 16,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.75
+  },
+  {
+   "n": 24,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.8
+  },
+  {
+   "n": 24,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.7
+  },
+  {
+   "n": 32,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.7
+  },
+  {
+   "n": 32,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.06,
+   "recall": 0.65
+  },
+  {
+   "n": 12,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.95
+  },
+  {
+   "n": 12,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.9
+  },
+  {
+   "n": 16,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.9
+  },
+  {
+   "n": 16,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.85
+  },
+  {
+   "n": 24,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.85
+  },
+  {
+   "n": 24,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.8
+  },
+  {
+   "n": 32,
+   "pl": 1,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.8
+  },
+  {
+   "n": 32,
+   "pl": 2,
+   "icc": 0.3,
+   "q": 0.12,
+   "recall": 0.75
+  },
+  {
+   "n": 12,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.85
+  },
+  {
+   "n": 12,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.85
+  },
+  {
+   "n": 16,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.8
+  },
+  {
+   "n": 16,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.8
+  },
+  {
+   "n": 24,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.8
+  },
+  {
+   "n": 24,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.75
+  },
+  {
+   "n": 32,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.7
+  },
+  {
+   "n": 32,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.06,
+   "recall": 0.7
+  },
+  {
+   "n": 12,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.95
+  },
+  {
+   "n": 12,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.9
+  },
+  {
+   "n": 16,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.9
+  },
+  {
+   "n": 16,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.9
+  },
+  {
+   "n": 24,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.85
+  },
+  {
+   "n": 24,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.8
+  },
+  {
+   "n": 32,
+   "pl": 1,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.8
+  },
+  {
+   "n": 32,
+   "pl": 2,
+   "icc": 0.6,
+   "q": 0.12,
+   "recall": 0.8
+  }
+ ],
+ "estimate": {
+  "32x2": {
+   "n": 32,
+   "pl": 2,
+   "arms": [
+    "11",
+    "12",
+    "22",
+    "control"
+   ],
+   "units": {
+    "P_author": 448,
+    "O_diff": 448,
+    "O_ws": 256,
+    "O_ws_all": 256,
+    "P_author_doc_iso": 320,
+    "P_author_doc_live": 320
+   },
+   "dollars": {
+    "by_view": {
+     "P_author": {
+      "sonnet": 1.46,
+      "opus48": 5.01
+     },
+     "O_diff": {
+      "sonnet": 2.12,
+      "opus48": 10.87
+     },
+     "O_ws": {
+      "sonnet": 1.76,
+      "opus48": 10.48
+     },
+     "O_ws_all": {
+      "sonnet": 3.65,
+      "opus48": 19.58
+     },
+     "P_author_doc_iso": {
+      "sonnet": 1.94,
+      "opus48": 14.32
+     },
+     "P_author_doc_live": {
+      "sonnet": 2.69,
+      "opus48": 14.65
+     }
+    },
+    "by_judge": {
+     "sonnet": 13.62,
+     "opus48": 74.91
+    },
+    "total": 88.53
+   }
+  },
+  "32x2_with_21": {
+   "n": 32,
+   "pl": 2,
+   "arms": [
+    "11",
+    "12",
+    "22",
+    "control",
+    "21"
+   ],
+   "units": {
+    "P_author": 576,
+    "O_diff": 512,
+    "O_ws": 320,
+    "O_ws_all": 320,
+    "P_author_doc_iso": 448,
+    "P_author_doc_live": 448
+   },
+   "dollars": {
+    "by_view": {
+     "P_author": {
+      "sonnet": 1.88,
+      "opus48": 6.44
+     },
+     "O_diff": {
+      "sonnet": 2.43,
+      "opus48": 12.42
+     },
+     "O_ws": {
+      "sonnet": 2.2,
+      "opus48": 13.11
+     },
+     "O_ws_all": {
+      "sonnet": 4.56,
+      "opus48": 24.48
+     },
+     "P_author_doc_iso": {
+      "sonnet": 2.71,
+      "opus48": 20.04
+     },
+     "P_author_doc_live": {
+      "sonnet": 3.77,
+      "opus48": 20.51
+     }
+    },
+    "by_judge": {
+     "sonnet": 17.55,
+     "opus48": 97.0
+    },
+    "total": 114.55
+   }
+  },
+  "6x1": {
+   "n": 6,
+   "pl": 1,
+   "arms": [
+    "11",
+    "12",
+    "22",
+    "control"
+   ],
+   "units": {
+    "P_author": 42,
+    "O_diff": 42,
+    "O_ws": 24,
+    "O_ws_all": 24,
+    "P_author_doc_iso": 30,
+    "P_author_doc_live": 30
+   },
+   "dollars": {
+    "by_view": {
+     "P_author": {
+      "sonnet": 0.14,
+      "opus48": 0.47
+     },
+     "O_diff": {
+      "sonnet": 0.2,
+      "opus48": 1.02
+     },
+     "O_ws": {
+      "sonnet": 0.17,
+      "opus48": 0.98
+     },
+     "O_ws_all": {
+      "sonnet": 0.34,
+      "opus48": 1.84
+     },
+     "P_author_doc_iso": {
+      "sonnet": 0.18,
+      "opus48": 1.34
+     },
+     "P_author_doc_live": {
+      "sonnet": 0.25,
+      "opus48": 1.37
+     }
+    },
+    "by_judge": {
+     "sonnet": 1.28,
+     "opus48": 7.02
+    },
+    "total": 8.3
+   }
+  },
+  "null_extension_up_to": 70.47,
+  "orientation": 40
+ },
+ "suite": {
+  "new_tests": "18 passed",
+  "fork_copies": "65 passed",
+  "work_checks": "755 passed, 2 failed (both pre-existing)",
+  "pre_existing_failures": [
+   "test_stage3_t1v3_score.py::test_binding_check_accepts_only_the_disclosed_judge_client_hashes (judge_client.py changed at fork f1124b6)",
+   "test_stage3_write_yield.py::test_propose_raises_write_counts_until_every_document_clears_the_target_and_keeps_reads (recorded as pre-existing in b4r/plan.md)"
+  ]
+ }
+}

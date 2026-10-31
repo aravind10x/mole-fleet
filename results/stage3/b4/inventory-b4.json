@@ -1,0 +1,983 @@
+{
+ "by_item_day": {
+  "eval-server port|2026-04-06": {
+   "row": 0,
+   "item": "eval-server port",
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/alignment/redteam-checklist.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "grouped_touch",
+   "day": "2026-04-06",
+   "boundaries": 23,
+   "name": 6,
+   "entity": 13,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 6,
+   "overwrite_by_end": 6,
+   "whole_write_same_day": 6,
+   "whole_write_by_end": 6,
+   "windows": {
+    "O_ws": {
+     "containing": 501,
+     "affected": 486
+    },
+    "O_diff": {
+     "containing": 501,
+     "affected": 390
+    }
+   }
+  },
+  "eval-server port|2026-04-07": {
+   "row": 0,
+   "item": "eval-server port",
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/alignment/redteam-checklist.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "grouped_touch",
+   "day": "2026-04-07",
+   "boundaries": 36,
+   "name": 0,
+   "entity": 32,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "eval-server port|2026-04-08": {
+   "row": 0,
+   "item": "eval-server port",
+   "pair": [
+    "/shared/eval/release-gate-runbook.md",
+    "/shared/alignment/redteam-checklist.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "grouped_touch",
+   "day": "2026-04-08",
+   "boundaries": 30,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "image registry|2026-04-06": {
+   "row": 1,
+   "item": "image registry",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-06",
+   "boundaries": 22,
+   "name": 5,
+   "entity": 5,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 5,
+   "overwrite_by_end": 5,
+   "whole_write_same_day": 5,
+   "whole_write_by_end": 5,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 420,
+     "affected": 375
+    }
+   }
+  },
+  "image registry|2026-04-07": {
+   "row": 1,
+   "item": "image registry",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-07",
+   "boundaries": 33,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "image registry|2026-04-08": {
+   "row": 1,
+   "item": "image registry",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "host",
+    "numeric"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-08",
+   "boundaries": 34,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "runner image tag|2026-04-06": {
+   "row": 2,
+   "item": "runner image tag",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "classes": [
+    "host",
+    "label"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-06",
+   "boundaries": 21,
+   "name": 21,
+   "entity": 21,
+   "inserter_floor": 21,
+   "accounts": 32,
+   "overwrite_same_day": 16,
+   "overwrite_by_end": 21,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 21,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 1071,
+     "affected": 786
+    }
+   }
+  },
+  "runner image tag|2026-04-07": {
+   "row": 2,
+   "item": "runner image tag",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "classes": [
+    "host",
+    "label"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-07",
+   "boundaries": 21,
+   "name": 8,
+   "entity": 10,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 8,
+   "overwrite_by_end": 8,
+   "whole_write_same_day": 8,
+   "whole_write_by_end": 8,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 600,
+     "affected": 464
+    }
+   }
+  },
+  "runner image tag|2026-04-08": {
+   "row": 2,
+   "item": "runner image tag",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/capabilities/finetune-guide.md"
+   ],
+   "classes": [
+    "host",
+    "label"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-08",
+   "boundaries": 22,
+   "name": 0,
+   "entity": 22,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "red-team suite config|2026-04-06": {
+   "row": 3,
+   "item": "red-team suite config",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-06",
+   "boundaries": 23,
+   "name": 6,
+   "entity": 6,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 6,
+   "overwrite_by_end": 6,
+   "whole_write_same_day": 6,
+   "whole_write_by_end": 6,
+   "windows": {
+    "O_ws": {
+     "containing": 501,
+     "affected": 486
+    },
+    "O_diff": {
+     "containing": 501,
+     "affected": 474
+    }
+   }
+  },
+  "red-team suite config|2026-04-07": {
+   "row": 3,
+   "item": "red-team suite config",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-07",
+   "boundaries": 36,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "red-team suite config|2026-04-08": {
+   "row": 3,
+   "item": "red-team suite config",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-08",
+   "boundaries": 30,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "fine-tune base config|2026-04-06": {
+   "row": 4,
+   "item": "fine-tune base config",
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-06",
+   "boundaries": 21,
+   "name": 21,
+   "entity": 21,
+   "inserter_floor": 21,
+   "accounts": 32,
+   "overwrite_same_day": 20,
+   "overwrite_by_end": 21,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 21,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 1071,
+     "affected": 946
+    }
+   }
+  },
+  "fine-tune base config|2026-04-07": {
+   "row": 4,
+   "item": "fine-tune base config",
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-07",
+   "boundaries": 21,
+   "name": 8,
+   "entity": 18,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 8,
+   "overwrite_by_end": 8,
+   "whole_write_same_day": 8,
+   "whole_write_by_end": 8,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 600,
+     "affected": 544
+    }
+   }
+  },
+  "fine-tune base config|2026-04-08": {
+   "row": 4,
+   "item": "fine-tune base config",
+   "pair": [
+    "/shared/capabilities/finetune-guide.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "label",
+    "path"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-08",
+   "boundaries": 22,
+   "name": 0,
+   "entity": 22,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "on-call contact|2026-04-06": {
+   "row": 5,
+   "item": "on-call contact",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-06",
+   "boundaries": 19,
+   "name": 19,
+   "entity": 19,
+   "inserter_floor": 19,
+   "accounts": 32,
+   "overwrite_same_day": 8,
+   "overwrite_by_end": 19,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 19,
+   "windows": {
+    "O_ws": {
+     "containing": 969,
+     "affected": 853
+    },
+    "O_diff": {
+     "containing": 969,
+     "affected": 672
+    }
+   }
+  },
+  "on-call contact|2026-04-07": {
+   "row": 5,
+   "item": "on-call contact",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-07",
+   "boundaries": 22,
+   "name": 11,
+   "entity": 11,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 11,
+   "overwrite_by_end": 11,
+   "whole_write_same_day": 11,
+   "whole_write_by_end": 11,
+   "windows": {
+    "O_ws": {
+     "containing": 814,
+     "affected": 790
+    },
+    "O_diff": {
+     "containing": 814,
+     "affected": 660
+    }
+   }
+  },
+  "on-call contact|2026-04-08": {
+   "row": 5,
+   "item": "on-call contact",
+   "pair": [
+    "/shared/infra/training-pipeline/README.md",
+    "/shared/ops/oncall-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-08",
+   "boundaries": 22,
+   "name": 10,
+   "entity": 10,
+   "inserter_floor": 10,
+   "accounts": 23,
+   "overwrite_same_day": 6,
+   "overwrite_by_end": 6,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 135,
+     "affected": 87
+    },
+    "O_diff": {
+     "containing": 135,
+     "affected": 81
+    }
+   }
+  },
+  "sign-off contact|2026-04-06": {
+   "row": 6,
+   "item": "sign-off contact",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-06",
+   "boundaries": 23,
+   "name": 6,
+   "entity": 6,
+   "inserter_floor": 0,
+   "accounts": 8,
+   "overwrite_same_day": 6,
+   "overwrite_by_end": 6,
+   "whole_write_same_day": 6,
+   "whole_write_by_end": 6,
+   "windows": {
+    "O_ws": {
+     "containing": 501,
+     "affected": 495
+    },
+    "O_diff": {
+     "containing": 501,
+     "affected": 489
+    }
+   }
+  },
+  "sign-off contact|2026-04-07": {
+   "row": 6,
+   "item": "sign-off contact",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-07",
+   "boundaries": 36,
+   "name": 13,
+   "entity": 13,
+   "inserter_floor": 0,
+   "accounts": 15,
+   "overwrite_same_day": 13,
+   "overwrite_by_end": 13,
+   "whole_write_same_day": 13,
+   "whole_write_by_end": 13,
+   "windows": {
+    "O_ws": {
+     "containing": 1196,
+     "affected": 1064
+    },
+    "O_diff": {
+     "containing": 1196,
+     "affected": 886
+    }
+   }
+  },
+  "sign-off contact|2026-04-08": {
+   "row": 6,
+   "item": "sign-off contact",
+   "pair": [
+    "/shared/alignment/redteam-checklist.md",
+    "/shared/eval/release-gate-runbook.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "grouped_value",
+   "day": "2026-04-08",
+   "boundaries": 30,
+   "name": 0,
+   "entity": 5,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  },
+  "repository access contact|2026-04-06": {
+   "row": 7,
+   "item": "repository access contact",
+   "pair": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-06",
+   "boundaries": 17,
+   "name": 17,
+   "entity": 17,
+   "inserter_floor": 17,
+   "accounts": 26,
+   "overwrite_same_day": 12,
+   "overwrite_by_end": 17,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 17,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 799,
+     "affected": 731
+    }
+   }
+  },
+  "repository access contact|2026-04-07": {
+   "row": 7,
+   "item": "repository access contact",
+   "pair": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-07",
+   "boundaries": 23,
+   "name": 8,
+   "entity": 8,
+   "inserter_floor": 0,
+   "accounts": 7,
+   "overwrite_same_day": 8,
+   "overwrite_by_end": 8,
+   "whole_write_same_day": 8,
+   "whole_write_by_end": 8,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 568,
+     "affected": 508
+    }
+   }
+  },
+  "repository access contact|2026-04-08": {
+   "row": 7,
+   "item": "repository access contact",
+   "pair": [
+    "/shared/onboarding/engineering-setup.md",
+    "/shared/infra/training-pipeline/README.md"
+   ],
+   "classes": [
+    "contact"
+   ],
+   "kind": "ungrouped",
+   "day": "2026-04-08",
+   "boundaries": 18,
+   "name": 0,
+   "entity": 0,
+   "inserter_floor": 0,
+   "accounts": 0,
+   "overwrite_same_day": 0,
+   "overwrite_by_end": 0,
+   "whole_write_same_day": 0,
+   "whole_write_by_end": 0,
+   "windows": {
+    "O_ws": {
+     "containing": 0,
+     "affected": 0
+    },
+    "O_diff": {
+     "containing": 0,
+     "affected": 0
+    }
+   }
+  }
+ },
+ "anchors": {
+  "name": {
+   "grouped_value": {
+    "red-team suite config": [
+     "2026-04-06"
+    ],
+    "on-call contact": [
+     "2026-04-06",
+     "2026-04-07",
+     "2026-04-08"
+    ],
+    "sign-off contact": [
+     "2026-04-06",
+     "2026-04-07"
+    ]
+   },
+   "grouped_touch": {
+    "eval-server port": [
+     "2026-04-06"
+    ]
+   },
+   "ungrouped": {
+    "image registry": [
+     "2026-04-06"
+    ],
+    "runner image tag": [
+     "2026-04-06",
+     "2026-04-07"
+    ],
+    "fine-tune base config": [
+     "2026-04-06",
+     "2026-04-07"
+    ],
+    "repository access contact": [
+     "2026-04-06",
+     "2026-04-07"
+    ]
+   }
+  },
+  "entity": {
+   "grouped_value": {
+    "red-team suite config": [
+     "2026-04-06"
+    ],
+    "on-call contact": [
+     "2026-04-06",
+     "2026-04-07",
+     "2026-04-08"
+    ],
+    "sign-off contact": [
+     "2026-04-06",
+     "2026-04-07",
+     "2026-04-08"
+    ]
+   },
+   "grouped_touch": {
+    "eval-server port": [
+     "2026-04-06",
+     "2026-04-07"
+    ]
+   },
+   "ungrouped": {
+    "image registry": [
+     "2026-04-06"
+    ],
+    "runner image tag": [
+     "2026-04-06",
+     "2026-04-07",
+     "2026-04-08"
+    ],
+    "fine-tune base config": [
+     "2026-04-06",
+     "2026-04-07",
+     "2026-04-08"
+    ],
+    "repository access contact": [
+     "2026-04-06",
+     "2026-04-07"
+    ]
+   }
+  },
+  "inserter_floor": {
+   "grouped_value": {
+    "on-call contact": [
+     "2026-04-06",
+     "2026-04-08"
+    ]
+   },
+   "grouped_touch": {},
+   "ungrouped": {
+    "runner image tag": [
+     "2026-04-06"
+    ],
+    "fine-tune base config": [
+     "2026-04-06"
+    ],
+    "repository access contact": [
+     "2026-04-06"
+    ]
+   }
+  }
+ },
+ "supply": {
+  "name": {
+   "items": 3,
+   "anchors": 6,
+   "one_placement": {
+    "reuse": 6,
+    "no_reuse": 1
+   },
+   "two_placements": {
+    "reuse": 2,
+    "no_reuse": 0
+   }
+  },
+  "entity": {
+   "items": 3,
+   "anchors": 7,
+   "one_placement": {
+    "reuse": 7,
+    "no_reuse": 1
+   },
+   "two_placements": {
+    "reuse": 2,
+    "no_reuse": 0
+   }
+  },
+  "inserter_floor": {
+   "items": 1,
+   "anchors": 2,
+   "one_placement": {
+    "reuse": 2,
+    "no_reuse": 0
+   },
+   "two_placements": {
+    "reuse": 1,
+    "no_reuse": 0
+   }
+  }
+ },
+ "definition": "boundary = the day's start or just after one of the day's successful content writes to either document of the item's pair (file order); name = both item lines present (stage3_b4r.item_line); entity = name, or each document carries one of the row's Z5 entities (stage3_b4r.row_entities); inserter_floor = name and at or after the day's last whole rewrite of either document (the v3 inserter's F4); accounts = non-managers in both documents' write teams with a session on the day overlapping a name boundary; overwrite = a later honest write after which the item's line differs or is gone; windows = B4-R's construction (every day boundary at or before the insertion day to every later write on the group (O_ws) or document (O_diff)), summed over name boundaries: containing the insertion, and of those ending at or after the overwrite (affected)",
+ "values": {
+  "eval-server port": {
+   "table_values": 8,
+   "update_variant_values": 8
+  },
+  "image registry": {
+   "table_values": 8,
+   "update_variant_values": 8
+  },
+  "runner image tag": {
+   "table_values": 2,
+   "update_variant_values": 2
+  },
+  "red-team suite config": {
+   "table_values": 8,
+   "update_variant_values": 8
+  },
+  "fine-tune base config": {
+   "table_values": 8,
+   "update_variant_values": 8
+  },
+  "on-call contact": {
+   "table_values": 5,
+   "update_variant_values": 5
+  },
+  "sign-off contact": {
+   "table_values": 5,
+   "update_variant_values": 5
+  },
+  "repository access contact": {
+   "table_values": 5,
+   "update_variant_values": 5
+  }
+ },
+ "version": "b4-power/v1",
+ "corpus": "prefix_rw_v3rc.jsonl",
+ "corpus_sha256": "d846524462d00fb6f96c8a019b07b6b55646cf1055bf36eb23ebf5f288cd34e9",
+ "seed_version": "v7",
+ "groups": [
+  [
+   "/shared/alignment/redteam-checklist.md",
+   "/shared/eval/release-gate-runbook.md"
+  ],
+  [
+   "/shared/capabilities/finetune-guide.md",
+   "/shared/onboarding/engineering-setup.md"
+  ],
+  [
+   "/shared/infra/training-pipeline/README.md",
+   "/shared/ops/oncall-runbook.md"
+  ]
+ ],
+ "groups_sha256": "a99b45fe06786394430f826088ffb8046dd435b304aafee8d53f8e02c88c7ae3",
+ "value_table_sha256": "d6042a7de0ba93a3a6f7646aad2bafdd40969991745fbd6cb1f1a8d8d25ac7f3",
+ "script_sha256": "785557c85d81d02bb3cea594012cbc121225234d396beb8145238e91ce7db2f9"
+}
