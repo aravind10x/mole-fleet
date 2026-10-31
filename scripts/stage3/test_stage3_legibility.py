@@ -4,6 +4,7 @@
 """
 from __future__ import annotations
 
+import argparse
 import asyncio
 import json
 import random
@@ -720,3 +721,57 @@ def test_kappa_without_prose_refusals_excludes_those_conditions():
     rec = lg.Records({"f": reads}, scores)
     assert len(rec.pass_pairs("f")[0]) == 4
     assert len(rec.pass_pairs("f", exclude={(0, iid, "whole")})[0]) == 3
+
+
+# ── codex round 3 regressions (2026-10-31) ────────────────────────────────────────────────────────────
+
+def test_run_refuses_changed_prices_or_routes_before_reading_items(tmp_path):
+    (tmp_path / "models-v0.json").write_text(json.dumps({"models": {"m": {"pricing": {"prompt": "1", "completion": "2"}}}}))
+    (tmp_path / "routes-v0.json").write_text(json.dumps({"chosen": {}}))
+    est = {"config_sha256": lg.config_sha256(), "models_sha256": lg.file_sha256(tmp_path / "models-v0.json"),
+           "routes_sha256": lg.file_sha256(tmp_path / "routes-v0.json"), "total_usd": 1.0, "stop_at_usd": 2.0}
+    (tmp_path / "estimate-v0.json").write_text(json.dumps(est))
+    assert lg.estimate_mismatches(est, tmp_path) == []
+    ns = argparse.Namespace(out_dir=str(tmp_path), approved_usd=1.0, triples=str(tmp_path / "absent.json"), resume=False)
+    with pytest.raises(FileNotFoundError):   # unchanged pins: it goes on to read the (absent) items
+        lg.mode_run(ns)
+    (tmp_path / "models-v0.json").write_text(json.dumps({"models": {"m": {"pricing": {"prompt": "9", "completion": "2"}}}}))
+    with pytest.raises(SystemExit, match="estimate_prices"):
+        lg.mode_run(ns)
+    assert lg.estimate_mismatches(est, tmp_path) == ["estimate_prices"]
+    (tmp_path / "models-v0.json").write_text(json.dumps({"models": {"m": {"pricing": {"prompt": "1", "completion": "2"}}}}))
+    (tmp_path / "routes-v0.json").write_text(json.dumps({"chosen": {"kimi": {"route": "openrouter"}}}))
+    with pytest.raises(SystemExit, match="estimate_routes_file"):
+        lg.mode_run(ns)
+    assert lg.estimate_mismatches({**est, "config_sha256": "x"}, tmp_path) == ["estimate_config", "estimate_routes_file"]
+
+
+def test_s3_reads_d_part_over_items_without_a_whole(small):
+    _t, _k, _p, items, _r = small
+    rows = items["items"]
+    tests = sorted((r for r in rows if r["regime"] in lg.TEST_REGIMES), key=lambda r: r["item_id"])
+    high = {r["item_id"] for r in tests[:4]}          # D_part = 1 on four of eight test items
+    no_whole = {r["item_id"] for r in tests[:2]}      # two of those have no whole answer
+    reads, scores = [], []
+    for row in rows:
+        iid = row["item_id"]
+        for c in lg.CONDS:
+            if not (c == "whole" and iid in no_whole):
+                reads.append(rec_read("f", 0, iid, c))
+            for t in lg.scoring_targets(row, 0):
+                for p in lg.PASSES:
+                    v = 1 if (iid in high and c == "part0") or t == "own" else 0
+                    scores.append(rec_score("f", 0, iid, c, t, p, v))
+    d = lg.family_analysis(lg.Records({"f": reads}, scores), "f", rows)
+    s3 = d["sentences"]["S3"]
+    assert s3["n_test"] == 8 and s3["value"] == pytest.approx(0.5) and s3["holds"] is False
+    rt = d["regimes"]
+    assert sum(rt[g]["targets"]["rubric"]["n_D_part"] for g in lg.TEST_REGIMES) == 8
+    assert sum(rt[g]["targets"]["rubric"]["n_D_whole"] for g in lg.TEST_REGIMES) == 6
+    exported = [x["r0"] for x in d["items"].values() if x["regime"] in lg.TEST_REGIMES and x["r0"]["D_whole"] is None]
+    assert len(exported) == 2 and all(x["D_part_status"] == "computed" and x["D_whole_status"] == "missing" for x in exported)
+
+
+def test_a_bracket_in_prose_makes_the_reply_unparseable_by_policy():
+    assert lg.parse_score('Note [draft. {"declined": false, "score": 1}') is None
+    assert lg.parse_score('Note (draft). {"declined": false, "score": 1}')["score"] == 1

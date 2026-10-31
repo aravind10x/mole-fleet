@@ -500,7 +500,9 @@ def parse_score(text: str) -> dict | None:
     """The scorer's reply. DECLINED -> a refusal in words. Otherwise every top-level JSON object carrying a
     "score" must be valid (score 0 or 1 as an integer or 0.0 / 1.0, never a boolean or a string; declined a
     boolean; reason absent or a string) and all of them must agree; none, a malformed structure anywhere, an
-    invalid candidate or a disagreement is unparseable. Text around the objects is ignored."""
+    invalid candidate or a disagreement is unparseable. Text around the objects is ignored, except that an
+    opening bracket in prose ("Note [draft") makes the reply unparseable too (re-asked by the client): the
+    strict reading was kept so that no malformed envelope can ever supply a score."""
     if _declined_word(text):
         return {"refused": True, "scorer_declined": True}
     objs = json_objects(text)
@@ -958,15 +960,18 @@ def item_records(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -> d
         d = {}
         for r in repeats_of(row):
             x = rec.item_stat(fam, r, row, t)
-            d[f"r{r}"] = {"D_whole": x["D_whole"], "D_part": x["D_part"], "L": x["L"], "status": x["status"], "statuses": x["statuses"]}
+            d[f"r{r}"] = {"D_whole": x["D_whole"], "D_part": x["D_part"], "L": x["L"], "status": x["status"],
+                          "D_whole_status": x["D_whole_status"], "D_part_status": x["D_part_status"], "statuses": x["statuses"]}
         out[row["item_id"]] = {"regime": row["regime"], "target": t, **d}
     return out
 
 
 def retest_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -> dict:
-    """r0 against r1 on the retest subset (L target): pooled over regimes, within regime (each regime's mean
-    over both repeats removed, so between-regime separation does not count as reliability) and on test items
-    only; bootstrap intervals; the samples-per-item figure from the within-regime correlation is exploratory."""
+    """r0 against r1 on the retest subset (L target): pooled over regimes, within regime (each regime's r0 mean
+    removed from its r0 values and its r1 mean from its r1 values, so neither between-regime separation nor a
+    regime's repeat shift counts as reliability; `within_regime_pearson`) and on test items only; bootstrap
+    intervals refit in each resample; the samples-per-item figure from the within-regime correlation is
+    exploratory."""
     out: dict[str, Any] = {}
     sub = [r for r in rows if r["retest"]]
     for stat in ("L", "D_whole", "D_part"):
@@ -1634,27 +1639,36 @@ def mode_routes(ns: argparse.Namespace) -> int:
     return 0
 
 
-def mode_run(ns: argparse.Namespace) -> int:
-    out_dir = Path(ns.out_dir)
-    est = json.loads((out_dir / "estimate-v0.json").read_text())
-    routes = json.loads((out_dir / "routes-v0.json").read_text())
-    models = json.loads((out_dir / "models-v0.json").read_text())
-    items, rows, triples, rubrics = rows_and_triples(out_dir, Path(ns.triples))
-    inp = load_inputs(ns)
-    bad = manifest_mismatches(items, inputs_sha256=inp["sha256"], script_sha256=file_sha256(Path(__file__)),
-                              cfg_sha256=config_sha256(), deps=dependency_hashes())
+def estimate_mismatches(est: Mapping[str, Any], out_dir: Path) -> list[str]:
+    """What differs between the approved estimate and the configuration, price snapshot and routes file now."""
+    bad = []
     if est.get("config_sha256") != config_sha256():
         bad.append("estimate_config")
     if est.get("models_sha256") != file_sha256(out_dir / "models-v0.json"):
         bad.append("estimate_prices")
     if est.get("routes_sha256") != file_sha256(out_dir / "routes-v0.json"):
         bad.append("estimate_routes_file")
+    return bad
+
+
+def mode_run(ns: argparse.Namespace) -> int:
+    out_dir = Path(ns.out_dir)
+    est = json.loads((out_dir / "estimate-v0.json").read_text())
+    routes = json.loads((out_dir / "routes-v0.json").read_text())
+    models = json.loads((out_dir / "models-v0.json").read_text())
+    bad = estimate_mismatches(est, out_dir)   # first: nothing below reads an item or builds a client before this
+    if bad:
+        raise SystemExit(f"refusing: the approved estimate does not match: {sorted(bad)}")
+    if abs(float(ns.approved_usd) - float(est["total_usd"])) > 0.005:
+        raise SystemExit(f"refusing: --approved-usd differs from the estimate's total ({est['total_usd']})")
+    items, rows, triples, rubrics = rows_and_triples(out_dir, Path(ns.triples))
+    inp = load_inputs(ns)
+    bad = manifest_mismatches(items, inputs_sha256=inp["sha256"], script_sha256=file_sha256(Path(__file__)),
+                              cfg_sha256=config_sha256(), deps=dependency_hashes())
     packets = all_packets(rows, triples, inp["day0"])
     bad += check_rendering(items, inp, packets)
     if bad:
         raise SystemExit(f"refusing: the run differs from the committed manifest: {sorted(bad)}")
-    if abs(float(ns.approved_usd) - float(est["total_usd"])) > 0.005:
-        raise SystemExit(f"refusing: --approved-usd differs from the estimate's total ({est['total_usd']})")
     if set(routes["chosen"]) != set(FAMILIES) or not routes["checks"]["scorer:bedrock"]["accepted"]:
         raise SystemExit("refusing: a reader or the scorer has no accepted route")
     if not est.get("routes_known") or any(est["families"][f]["route"] != c["route"] or est["families"][f]["model"] != c["model"]
