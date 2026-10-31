@@ -98,3 +98,9 @@ Changelog:
   - E4: fixed counts tied to G3 and the pre-test.
   - E5: the futility stop no longer ends a curve after one zero round; at least two rounds, futility on round-2 improvement.
   - E6: outcome sentences, each with its next action.
+
+## Amendment, 2026-11-01 (coordinator, from the review session's P3 after brief 23's result)
+
+**E0 is replaced.** The instrument-level condition ("the instrument reads valid", with its fallback to the rater's composition item) is withdrawn: brief 23 showed the null and the scorer sound and the T1 items not composed, so validity as separation was never reachable on those items. In its place, an **item-level component gate**: a candidate passes legibility when **D_whole > 0 and D_part = 0 in at least two reader families, each from outside the writer's family**, at E2's sample count (at least two samples per item and condition). On brief 23's single-sample run this bar passes 0, 1 and 0 of the 94 null items by family (safe on the null) and 11 of 48 T1 items in at least two families (reachable and binding); its reachability and null safety are recomputed at the chosen sample count before any writer round (L17). Disclosed in every table: separation was not shown on the T1 items, and certification is item-level. The human anchor stays. G3 (brief 22) inherits this gate unchanged. The rater's quietness gate (E2) and composition item stay beside, as scope. The constructed-item validation set proposed earlier is withdrawn.
+
+Changelog addition: 2026-11-01, E0 replaced by the item-level component gate.
