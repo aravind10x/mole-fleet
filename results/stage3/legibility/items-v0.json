@@ -2121,6 +2121,7 @@
    "quantile": 0.95,
    "min_complete": 0.9
   },
+  "downstream_rule": "S1 and S2 are read on the full set (the instrument verdict) and on the resolved-anchor subset (the downstream verdict, cut at the resolved nulls' p95); the downstream verdict governs B3's dose and brief 24's gate; a disagreement on S1 or S2 is named (Aravind, 2026-10-31)",
   "seeds": {
    "item": 20261201,
    "false_target": 20261203,
@@ -2129,7 +2130,7 @@
    "bootstrap": 20261206
   }
  },
- "config_sha256": "2cb93114b8ef6a2db3a678930180801383bd46c1a832a1a9b12e95c3038d5649",
+ "config_sha256": "a87e89c81e8763cbafc02ceefcd938cd3f647d235f0ca1bd13330f6a54a01682",
  "prompt_sha256": {
   "reader_system": "29d127823d28f266c63d71959cb19302d2274cbc77ee8ac06a36a429a74e4267",
   "question": "6f12884a149ef14131e013d43d731c9a43e84ca87733434130978c787ffe6b9f",
@@ -2139,7 +2140,7 @@
   "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
  },
- "script_sha256": "be4f371460f18cc0f3e3c6f3afb60f0a430c0c13ad8c3e168d3a3775bf57ceaa",
+ "script_sha256": "794fa22766248e50bef2d462f6fb3c8e00eb00230225830b6745b6872c7f13a9",
  "dependency_sha256": {
   "work/checks/judge_client.py": "8abb6079b96165f5533c9a1dd79a8b7406a23ac0f41f5aa2792875ae1ae3e248",
   "work/checks/judge_openrouter.py": "dd1c3f3524997099ab0152e7e067ce86a561401ba5d1a4314354693d23406ede",

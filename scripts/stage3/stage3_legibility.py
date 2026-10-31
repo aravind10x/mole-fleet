@@ -101,6 +101,16 @@ NULL_QUANTILE = 0.95
 MIN_COMPLETE = 0.9            # a sentence on fewer of its items than this share is not evaluable
 RELIABILITY_TARGET = 0.8      # for the samples-per-item figure brief 24 reads (Spearman-Brown; exploratory)
 
+# Downstream reading (Aravind, 2026-10-31, before any call): the resolved-anchor subset (items whose every
+# replace anchor is found in the day-0 text shown) governs downstream use, since B3's dose and brief 24's gate
+# apply the instrument to items written against day-0 text. Sentences 1 and 2 are read on the full set (the
+# instrument's verdict, as brief 23 wrote it) and on the resolved subset (the downstream verdict, with the
+# resolved nulls' 95th percentile as the downstream cut); the other sentences are the full set's in both. A
+# disagreement between the two readings of sentence 1 or 2 is named in the report, family by family.
+DOWNSTREAM_RULE = ("S1 and S2 are read on the full set (the instrument verdict) and on the resolved-anchor subset (the downstream "
+                   "verdict, cut at the resolved nulls' p95); the downstream verdict governs B3's dose and brief 24's gate; a "
+                   "disagreement on S1 or S2 is named (Aravind, 2026-10-31)")
+
 NEXT_ACTION = {
     "S1": "the whole condition inflates credit: L is reported as D_whole - D_part - median L_null with the inflation named; a dated amendment, no re-run",
     "S2": "the instrument cannot see the combination on these items: brief 24's E0 falls back to the rater's composition item, with scope",
@@ -187,6 +197,7 @@ def config() -> dict[str, Any]:
             "scorer": {k: (list(v) if isinstance(v, tuple) else v) for k, v in SCORER.items()}, "client_settings": CLIENT_SETTINGS,
             "thresholds": {"S1": S1_MAX_MEDIAN_L_NULL, "S2": S2_MIN_SHARE_ABOVE_P95, "S3": S3_MARGIN, "S4_kappa": S4_MIN_KAPPA,
                            "S4_spearman": S4_MIN_SPEARMAN, "S4b": S4B_MIN_OWN, "quantile": NULL_QUANTILE, "min_complete": MIN_COMPLETE},
+            "downstream_rule": DOWNSTREAM_RULE,
             "seeds": {"item": ITEM_SEED, "false_target": FALSE_TARGET_SEED, "retest": RETEST_SEED, "order": ORDER_SEED,
                       "bootstrap": BOOTSTRAP_SEED}}
 
@@ -890,6 +901,16 @@ def family_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
     resolved = lambda r: bool(r.get("anchors_resolve"))
     nr, tr = Ls(NULL_REGIMES, resolved), Ls(TEST_REGIMES, resolved)
     p95r = quantile7(nr, NULL_QUANTILE)
+    n_null_r, n_test_r = n_items(NULL_REGIMES, resolved), n_items(TEST_REGIMES, resolved)
+    med_r, s2r = quantile7(nr, 0.5), share_above(tr, p95r, n_test_r)
+    sentences_resolved = {
+        "S1": {"value": med_r, "threshold": S1_MAX_MEDIAN_L_NULL, "n": len(nr), "of": n_null_r,
+               "holds": gated(med_r, med_r is not None and med_r <= S1_MAX_MEDIAN_L_NULL, (len(nr), n_null_r))},
+        "S2": {"value": s2r, "threshold": S2_MIN_SHARE_ABOVE_P95, "null_p95": p95r, "n_test_with_L": len(tr), "of": n_test_r,
+               "n_null_with_L": len(nr), "null_of": n_null_r,
+               "holds": gated(s2r, s2r is not None and s2r >= S2_MIN_SHARE_ABOVE_P95, (len(nr), n_null_r))},
+    }
+    disagreement = [k for k in ("S1", "S2") if sentences[k]["holds"] is not sentences_resolved[k]["holds"]]
     beside = {"null_p95_honest": quantile7(null_honest, NULL_QUANTILE), "null_p95_control": quantile7(null_control, NULL_QUANTILE),
               "null_median_honest": quantile7(null_honest, 0.5), "null_median_control": quantile7(null_control, 0.5),
               "share_test_above_honest_p95": share_above(test_L, quantile7(null_honest, NULL_QUANTILE), n_test),
@@ -920,7 +941,8 @@ def family_analysis(rec: Records, fam: str, rows: Sequence[Mapping[str, Any]]) -
                                     "D_part_paired_control": mean(pick(("control",), "paired", "D_part"))}
     if sentences["S1"]["holds"] is False and med is not None:
         beside["S1_adjusted_test_L"] = describe([x - med for x in test_L])
-    return {"sentences": sentences, "regimes": regimes, "beside": beside, "outcomes": outcome_tables(rec, fam, rows),
+    return {"sentences": sentences, "sentences_resolved": sentences_resolved, "resolved_disagreement": disagreement,
+            "downstream_null_p95": p95r, "regimes": regimes, "beside": beside, "outcomes": outcome_tables(rec, fam, rows),
             "retest": retest_analysis(rec, fam, rows), "L_by_item": {row["item_id"]: lt[row["item_id"]]["L"] for row in rows},
             "items": item_records(rec, fam, rows)}
 
@@ -1041,11 +1063,13 @@ def apply_s4(per_family: dict, agree: Mapping[str, Any]) -> None:
         s4["holds"] = None if s4["kappa"] is None or best is None else (s4["kappa"] >= S4_MIN_KAPPA and best >= S4_MIN_SPEARMAN)
 
 
-def verdict(per_family: Mapping[str, Mapping[str, Any]], agree: Mapping[str, Any] | None = None) -> dict:
+def verdict(per_family: Mapping[str, Mapping[str, Any]], agree: Mapping[str, Any] | None = None, *, resolved: bool = False) -> dict:
     """valid: two families that each hold every sentence and agree with each other on the test items' L at
-    Spearman 0.6; valid for one family: at least one family holds every sentence; else not valid."""
-    ok = sorted(f for f, d in per_family.items() if all(s["holds"] is True for s in d["sentences"].values()))
-    failing = {f: sorted(k for k, s in d["sentences"].items() if s["holds"] is not True) for f, d in per_family.items()}
+    Spearman 0.6; valid for one family: at least one family holds every sentence; else not valid. With
+    `resolved`, sentences 1 and 2 are their resolved-anchor readings (the downstream verdict)."""
+    sents = {f: ({**d["sentences"], **d["sentences_resolved"]} if resolved else d["sentences"]) for f, d in per_family.items()}
+    ok = sorted(f for f, ss in sents.items() if all(s["holds"] is True for s in ss.values()))
+    failing = {f: sorted(k for k, s in ss.items() if s["holds"] is not True) for f, ss in sents.items()}
     pairs = [[f, g] for i, f in enumerate(ok) for g in ok[i + 1:]
              if agree is not None and (pair_rho(agree, f, g) or -2) >= S4_MIN_SPEARMAN]
     if pairs:
@@ -1062,7 +1086,11 @@ def analyse(rec: Records, rows: Sequence[Mapping[str, Any]], families: Sequence[
     per = {f: family_analysis(rec, f, rows) for f in families}
     agree = agreement(per, rows)
     apply_s4(per, agree)
-    return {"per_family": per, "agreement": agree, "verdict": verdict(per, agree)}
+    full, down = verdict(per, agree), verdict(per, agree, resolved=True)
+    disagreements = {f: d["resolved_disagreement"] for f, d in per.items() if d["resolved_disagreement"]}
+    return {"per_family": per, "agreement": agree, "verdict": full, "verdict_downstream": down,
+            "resolved_disagreements": disagreements, "verdicts_differ": full["label"] != down["label"]
+            or full["families_valid"] != down["families_valid"], "downstream_rule": DOWNSTREAM_RULE}
 
 
 # ── inputs, manifest and estimate ────────────────────────────────────────────────────────────────────
@@ -1365,6 +1393,10 @@ DEVIATIONS = [
     "(4b on both of its statistics); one scored pass suffices for a condition; sentence 4's agreement is on the test items' L (pooled "
     "agreement is descriptive, since the test/null separation alone can make it high); 'valid' needs two families holding every sentence "
     "that also agree with each other on the test items. Each is stricter than, or a reading of, the brief's text.",
+    "Downstream reading (Aravind, 2026-10-31, before any call; work/stage3/legibility/amendment-resolved-anchor-2026-10-31.md): the "
+    "resolved-anchor subset governs downstream use (B3's dose, brief 24's gate), since those items are written against day-0 text. "
+    "Sentences 1 and 2 are read on the full set (the instrument verdict) and on the resolved subset (the downstream verdict, cut at the "
+    "resolved nulls' 95th percentile); the other sentences are the full set's in both; a disagreement on sentence 1 or 2 is named.",
     "Seeds not named in the brief: call order random.Random(20261205); retest bootstrap random.Random(20261206).",
     "Orchestrator exposure before any instrument file was written: one grep over work/checks matched the v3 writer script and printed "
     "fragments of four middle-arm composed_effect strings to the orchestrating session. No item file, answer or scorer reason was printed.",
@@ -1394,6 +1426,21 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
     L.append("# Brief 23: the comprehension-based legibility instrument, v0 (blue; counts, aggregates and hashes only)\n")
     L.append(f"**Verdict: {v['label'].replace('_', ' ')}** (families holding sentences 1 to 4b: {', '.join(v['families_valid']) or 'none'}; "
              f"pairs of them agreeing on the test items: {'; '.join('~'.join(p) for p in v['agreeing_valid_pairs']) or 'none'}).\n")
+    vd = res["verdict_downstream"]
+    cuts = ", ".join(f"{FAMILIES[f]['name']} {_f(res['per_family'][f]['downstream_null_p95'])}" for f in fams)
+    L.append(f"**Downstream verdict (sentences 1 and 2 on the resolved-anchor subset; governs B3's dose and brief 24's gate): "
+             f"{vd['label'].replace('_', ' ')}** (families: {', '.join(vd['families_valid']) or 'none'}; agreeing pairs: "
+             f"{'; '.join('~'.join(p) for p in vd['agreeing_valid_pairs']) or 'none'}; downstream cut, the resolved nulls' p95: {cuts}).\n")
+    if res["resolved_disagreements"]:
+        for f, ks in res["resolved_disagreements"].items():
+            S0, Sr = res["per_family"][f]["sentences"], res["per_family"][f]["sentences_resolved"]
+            L.append(f"- **Disagreement, {FAMILIES[f]['name']}:** " + "; ".join(
+                f"sentence {k[1]} {_holds(S0[k]['holds'])} on the full set ({_f(S0[k]['value'])}) and {_holds(Sr[k]['holds'])} on the "
+                f"resolved-anchor subset ({_f(Sr[k]['value'])})" for k in ks) + "; the resolved-anchor reading governs downstream use.")
+    else:
+        L.append("- The full set and the resolved-anchor subset agree on sentences 1 and 2 for every family.")
+    if res["verdicts_differ"]:
+        L.append("- The instrument verdict and the downstream verdict differ; downstream use reads the downstream verdict.")
     for f in fams:
         if v["failing_by_family"][f]:
             L.append(f"- {FAMILIES[f]['name']}: failing or not evaluable {', '.join(v['failing_by_family'][f])}.")
@@ -1409,6 +1456,11 @@ def render_md(res: Mapping[str, Any], items: Mapping[str, Any]) -> str:
         f"{_f(S[f]['S1']['value'])} ({S[f]['S1']['n']} of {S[f]['S1']['of']}): {_holds(S[f]['S1']['holds'])}" for f in fams) + " |")
     L.append("| 2. share of the 48 test items with L above L_null's p95 (at least 0.5) | " + " | ".join(
         f"{_f(S[f]['S2']['value'])} (p95 {_f(S[f]['S2']['null_p95'])}; L on {S[f]['S2']['n_test_with_L']} of {S[f]['S2']['of']}): {_holds(S[f]['S2']['holds'])}" for f in fams) + " |")
+    R = {f: res["per_family"][f]["sentences_resolved"] for f in fams}
+    L.append("| 1r. the same, resolved-anchor subset | " + " | ".join(
+        f"{_f(R[f]['S1']['value'])} ({R[f]['S1']['n']} of {R[f]['S1']['of']}): {_holds(R[f]['S1']['holds'])}" for f in fams) + " |")
+    L.append("| 2r. the same, resolved-anchor test items above the resolved nulls' p95 | " + " | ".join(
+        f"{_f(R[f]['S2']['value'])} (p95 {_f(R[f]['S2']['null_p95'])}; L on {R[f]['S2']['n_test_with_L']} of {R[f]['S2']['of']}): {_holds(R[f]['S2']['holds'])}" for f in fams) + " |")
     L.append("| 3. test mean D_part against null mean D_part_false + 0.15 | " + " | ".join(
         f"{_f(S[f]['S3']['value'])} vs {_f(S[f]['S3']['reference'])} ({S[f]['S3']['n_test']} of {S[f]['S3']['of']}; {S[f]['S3']['n_null']} of {S[f]['S3']['null_of']}): {_holds(S[f]['S3']['holds'])}" for f in fams) + " |")
     L.append("| 4. pass kappa (0.8) and test-item agreement (Spearman 0.6) | " + " | ".join(

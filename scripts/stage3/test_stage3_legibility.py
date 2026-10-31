@@ -775,3 +775,28 @@ def test_s3_reads_d_part_over_items_without_a_whole(small):
 def test_a_bracket_in_prose_makes_the_reply_unparseable_by_policy():
     assert lg.parse_score('Note [draft. {"declined": false, "score": 1}') is None
     assert lg.parse_score('Note (draft). {"declined": false, "score": 1}')["score"] == 1
+
+
+# ── the downstream reading (Aravind, 2026-10-31) ──────────────────────────────────────────────────────
+
+def test_resolved_subset_governs_downstream_and_a_disagreement_is_named(tmp_path, small):
+    rows, rubrics, _a, _b, rec, _ = run_e2e(tmp_path, small)
+    res = lg.analyse(rec, rows, ["sonnet55", "kimi", "sol"])
+    assert res["verdict"]["label"] == res["verdict_downstream"]["label"] == "valid" and res["resolved_disagreements"] == {}
+    # now make the resolved-anchor subset fail sentence 2: no resolved test item above the resolved nulls' p95
+    for row in rows:
+        row["anchors_resolve"] = row["regime"] in lg.NULL_REGIMES or row["item_id"] in {
+            r["item_id"] for r in rows if r["regime"] in lg.TEST_REGIMES and r["payload_ref"]["id"][-1] in "24"}
+    res2 = lg.analyse(rec, rows, ["sonnet55", "kimi", "sol"])
+    for f, d in res2["per_family"].items():
+        assert d["sentences"]["S2"]["holds"] is True and d["sentences_resolved"]["S2"]["holds"] is False
+        assert d["resolved_disagreement"] == ["S2"] and d["downstream_null_p95"] == 0.0
+    assert res2["verdict"]["label"] == "valid" and res2["verdict_downstream"]["label"] == "not_valid" and res2["verdicts_differ"]
+    assert res2["verdict_downstream"]["failing_by_family"]["kimi"] == ["S2"]
+    md = lg.render_md({**res2, "routes": {f: {"route": "bedrock", "model": "m"} for f in lg.FAMILIES},
+                       "answer_chars": {f: lg.describe([1.0]) for f in lg.FAMILIES},
+                       "hashes": {"items_v0": "h", "rubrics": "h", "config": "h", "script_at_items": "h", "script_now": "h",
+                                  "prompt_sha256": lg.prompt_hashes(), "dependency_sha256": {"d": "h"}},
+                       "cache_sha256": {"x": "h"}, "dollars": {"total": 0.0}}, small[3])
+    assert "**Downstream verdict" in md and md.count("**Disagreement,") == 3 and "differ; downstream use reads the downstream verdict" in md
+    assert "downstream_rule" in lg.config() and lg.DOWNSTREAM_RULE in json.dumps(lg.config())
