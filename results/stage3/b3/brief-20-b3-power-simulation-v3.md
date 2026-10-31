@@ -40,4 +40,15 @@ Units per view and judge at each layout (quiet triples × placements; singleton 
 **Do not:** insert anything, call a review view, change a sealed threshold, print a rater reason or any item text, or write a defender number into a memory or red-visible file.
 
 ---
-Changelog: 2026-10-31, written by the coordinator after A6's approval.
+
+## Part 2 (2026-10-31 evening; the same or a fresh blue session; $0): re-run under A6.13
+
+The first run (`power-simulation-v3.md` a2ca0044…, `.json` 953e91b9…) stays in the record as the outcome of A6.6's original gate. Read brief 15 **A6.13** first. Then, with `stage3_b3_power_v3.py` extended (tests extended; the extension committed before the run):
+
+1. **m_s per instrument under A6.13.2:** form (a)'s error-free coefficient × 25 at β_b, from the calibration already in the inputs table; the old values beside, labelled superseded.
+2. **The gate under A6.13.1:** per instrument, form and layout, P(*excluded* | 0), P(*excluded* | margin), P(LB > 0 | 0), and P(*present* | 1.5 × margin) beside; readable as A6.13.1 defines it; the adopted layout as A6.6 chooses among readable layouts (the singleton arm preferred, power first), restricted to the carrier and second reading of A6.13.3; (b) with the Firth fit and the ceiling clause; the (b) bias trigger at 0.05.
+3. **If no layout is readable:** the layout with the highest P(*excluded* | 0) for the carrier, labelled descriptive (A6.13.6). B3 does not end.
+4. **Report** `power-simulation-v3b.{md,json}` (first line: the adopted layout and whether it is readable or descriptive; the m_s table old and new; the gate table; the estimate per layout from P4 unchanged), one STATUS line with hashes, fork mirror; do not push. S1 starts from this file.
+
+---
+Changelog: 2026-10-31, written by the coordinator after A6's approval; Part 2 added the same evening after the first run showed the original gate could not be met by any design (A6.13).
