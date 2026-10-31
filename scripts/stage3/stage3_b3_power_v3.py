@@ -507,9 +507,11 @@ def four_outcome(lo, hi, point, margin):
     return "inconclusive"
 
 
-def irls(X, y, w, beta0=None, iters=30, tol=1e-7, ridge=1e-8, max_step=4.0):
+def irls(X, y, w, beta0=None, iters=30, tol=1e-7, ridge=1e-8, max_step=4.0, firth=False):
     """Batched weighted logistic regression. X (n, k), y (n,), w (R, n) frequency weights. Returns beta (R, k)
-    and a converged mask (R,)."""
+    and a converged mask (R,). firth=True maximises the Firth-penalised likelihood (log L + 1/2 log det I): the
+    score gains h_i (1/2 - p_i), h the hat diagonal w_i p_i (1 - p_i) x_i' I^-1 x_i, and the estimate stays
+    finite under separation (A6.13.5)."""
     R, k = w.shape[0], X.shape[1]
     beta = np.zeros((R, k)) if beta0 is None else np.broadcast_to(beta0, (R, k)).copy()
     conv = np.zeros(R, bool)
@@ -519,14 +521,41 @@ def irls(X, y, w, beta0=None, iters=30, tol=1e-7, ridge=1e-8, max_step=4.0):
         p = 1 / (1 + np.exp(-eta))
         W = w * p * (1 - p)
         H = np.matmul((W[:, :, None] * X[None]).transpose(0, 2, 1), X) + eye
-        g = (w * (y[None] - p)) @ X
-        step = np.linalg.solve(H, g[..., None])[..., 0]
+        if firth:
+            Hinv = np.linalg.inv(H)
+            hat = W * np.einsum("nk,rkj,nj->rn", X, Hinv, X)
+            g = (w * (y[None] - p) + hat * (0.5 - p)) @ X
+            full = np.clip(np.einsum("rkj,rj->rk", Hinv, g), -max_step, max_step)
+            # step halving on the penalised log-likelihood: undamped Fisher scoring can oscillate (a sparse document)
+            ll0, t = _firth_loglik(X, y, w, beta, eye), np.ones(R)
+            for _ in range(30):
+                bad = _firth_loglik(X, y, w, beta + t[:, None] * full, eye) < ll0 - 1e-12
+                if not bad.any():
+                    break
+                t = np.where(bad, t / 2, t)
+            beta = beta + t[:, None] * full
+            conv = np.abs(full).max(1) < tol
+            if conv.all():
+                break
+            continue
+        else:
+            g = (w * (y[None] - p)) @ X
+            step = np.linalg.solve(H, g[..., None])[..., 0]
         step = np.clip(step, -max_step, max_step)
         beta = beta + step
         conv = np.abs(step).max(1) < tol
         if conv.all():
             break
     return beta, conv & (np.abs(beta).max(1) < 25)
+
+
+def _firth_loglik(X, y, w, beta, eye):
+    """The Firth-penalised log-likelihood per replicate: sum w (y eta - log(1 + e^eta)) + 1/2 log det I(beta)."""
+    eta = np.clip(beta @ X.T, -35, 35)
+    p = 1 / (1 + np.exp(-eta))
+    W = w * p * (1 - p)
+    H = np.matmul((W[:, :, None] * X[None]).transpose(0, 2, 1), X) + eye
+    return (w * (y[None] * eta - np.logaddexp(0.0, eta))).sum(1) + 0.5 * np.linalg.slogdet(H)[1]
 
 
 def sigmoid(z):
@@ -570,15 +599,19 @@ def valid_rel(x):
     return x is not None and np.isfinite(x) and 0 < x <= 1
 
 
-def _verdict(point, boot, ok, margin):
-    """One reading from a point estimate and its bootstrap draws. A failed fit is 'unfit' (not read), never a verdict."""
+def _verdict(point, boot, ok, margin, state=None):
+    """One reading from a point estimate and its bootstrap draws. A failed fit is 'unfit' (not read), never a verdict;
+    `state` (e.g. 'ceiling') marks a reading the rules do not read, with its interval kept for the record."""
     if not ok:
-        return {"point": point, "lo": None, "hi": None, "outcome": "unfit"}
+        return {"point": point, "lo": None, "hi": None, "outcome": state or "unfit"}
+    if state:
+        lo, hi = np.percentile(boot, [2.5, 97.5])
+        return {"point": point, "lo": float(lo), "hi": float(hi), "outcome": state}
     lo, hi = np.percentile(boot, [2.5, 97.5])
     return {"point": point, "lo": float(lo), "hi": float(hi), "outcome": four_outcome(lo, hi, point, margin)}
 
 
-def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None):
+def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None, firth=False, ceiling_hit=False):
     """Form (b): logistic regression of the plant-level flag on composition, the line covariate, the top-two gap,
     writer, replace share and document; contrast at 75 against 50 (and Q3 against Q1), standardised over the
     sample's writer and document composition with the continuous covariates at their sample means;
@@ -603,7 +636,7 @@ def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None):
     out = {"fallback_reason": None}
     for with_doc in (True, False):
         X = rep(build(with_doc))
-        b0, c0 = irls(X, y, np.ones((1, n * P)))
+        b0, c0 = irls(X, y, np.ones((1, n * P)), firth=firth)
         # O3 read for a bootstrapped fit: the model "does not converge with" the document factor when the point fit
         # fails or more replicates fail than the percentile interval's tail mass; separated replicates otherwise
         # throw arbitrary contrasts into the interval's tails
@@ -611,7 +644,7 @@ def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None):
             out["fallback_reason"] = "point"
             continue
         wt = bootstrap_weights(rng, n, R, None if with_doc else doc)
-        bb, cb = irls(X, y, np.repeat(wt, P, axis=1), beta0=b0[0])
+        bb, cb = irls(X, y, np.repeat(wt, P, axis=1), beta0=b0[0], firth=firth)
         if with_doc and too_many_failures(cb):
             out["fallback_reason"] = "bootstrap"
             continue
@@ -621,6 +654,8 @@ def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None):
     out["boot_nonconverged"] = float(1 - cb.mean())
     ok = bool(c0[0]) and not too_many_failures(cb)
     out["fit_ok"] = ok
+    out["ceiling"] = bool(ceiling_hit)
+    st = "ceiling" if ceiling_hit else None  # A6.13.5: a cell whose quiet lone recall exceeds the ceiling is not read on (b)
     bbc = bb[cb] if cb.any() else bb
     Xb = build(with_doc)
     Zrel = np.column_stack([np.ones(n), line, gap, sonnet, edit] + ([docd] if with_doc else []))
@@ -649,15 +684,15 @@ def form_b(rng, C, line, gap, sonnet, edit, doc, F, P, R, q1q3, c12=None):
         return d
 
     qm = MARGIN * (q1q3[1] - q1q3[0]) / 25
-    out["75v50"] = _verdict(float(contrast(b0, HI_C, LO_C)[0]), contrast(bbc, HI_C, LO_C), ok, MARGIN)
-    out["q3vq1"] = _verdict(float(contrast(b0, q1q3[1], q1q3[0])[0]), contrast(bbc, q1q3[1], q1q3[0]), ok, qm)
-    out["75v50_o4"] = _verdict(float(contrast(b0, HI_C, LO_C, "line")[0]), contrast(bbc, HI_C, LO_C, "line"), ok, MARGIN)
-    out["75v50_o4_joint"] = _verdict(float(contrast(b0, HI_C, LO_C, "joint")[0]), contrast(bbc, HI_C, LO_C, "joint"), ok, MARGIN)
+    out["75v50"] = _verdict(float(contrast(b0, HI_C, LO_C)[0]), contrast(bbc, HI_C, LO_C), ok, MARGIN, state=st)
+    out["q3vq1"] = _verdict(float(contrast(b0, q1q3[1], q1q3[0])[0]), contrast(bbc, q1q3[1], q1q3[0]), ok, qm, state=st)
+    out["75v50_o4"] = _verdict(float(contrast(b0, HI_C, LO_C, "line")[0]), contrast(bbc, HI_C, LO_C, "line"), ok, MARGIN, state=st)
+    out["75v50_o4_joint"] = _verdict(float(contrast(b0, HI_C, LO_C, "joint")[0]), contrast(bbc, HI_C, LO_C, "joint"), ok, MARGIN, state=st)
     # A6.5 (ii): a log-odds-slope sensitivity, conditional on the estimated reliability (held fixed across replicates)
     if valid_rel(rel):
-        out["75v50_disatt"] = _verdict(float(contrast(disatt(b0, rel), HI_C, LO_C)[0]), contrast(disatt(bbc, rel), HI_C, LO_C), ok, MARGIN)
+        out["75v50_disatt"] = _verdict(float(contrast(disatt(b0, rel), HI_C, LO_C)[0]), contrast(disatt(bbc, rel), HI_C, LO_C), ok, MARGIN, state=st)
     if valid_rel(sb):
-        out["75v50_disatt_sb"] = _verdict(float(contrast(disatt(b0, sb), HI_C, LO_C)[0]), contrast(disatt(bbc, sb), HI_C, LO_C), ok, MARGIN)
+        out["75v50_disatt_sb"] = _verdict(float(contrast(disatt(b0, sb), HI_C, LO_C)[0]), contrast(disatt(bbc, sb), HI_C, LO_C), ok, MARGIN, state=st)
     p75 = predict(bbc, HI_C)
     out["width_at_75"] = float(np.subtract(*np.percentile(p75, [97.5, 2.5]))) if ok else None
     return out
@@ -703,7 +738,12 @@ def auroc_matrix(a, b):
     return (a[:, None] > b[None, :]) + 0.5 * (a[:, None] == b[None, :])
 
 
-def experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=REPLICATES, forms=("a", "b"), tail_copies=None):
+def experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=REPLICATES, forms=("a", "b"), tail_copies=None,
+               firth=False, ceiling=None, shared=None):
+    """One simulated planting. firth and ceiling (A6.13.5) apply to form (b); shared supplies the draws two
+    instruments have in common when they read the same plants (true composition 'Ct', the judge's standardised
+    line deviations 'eta', the control arm's standardised triple draws 'sham_z'); without it every draw is made
+    here, in the order of the first run."""
     P, Q = LAYOUTS[layout]
     r = D["r"]
     n = len(D["C"])
@@ -712,8 +752,12 @@ def experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=REPLICATES, forms=("a", "
     # true composition given the measured two-pass mean and the design: shrunk toward the design's prediction at
     # the partial reliability, so that the measurement error is independent of every design covariate
     lam = D["partial_rel"]
-    Ct = D["C_fit"] + lam * D["C_res"] + math.sqrt(lam * (1 - lam) * D["C_res_var"]) * rng.standard_normal(n)
-    lat = line_latent(rng, x, dgp["rho"], 1)[0]
+    if shared is None:
+        Ct = D["C_fit"] + lam * D["C_res"] + math.sqrt(lam * (1 - lam) * D["C_res_var"]) * rng.standard_normal(n)
+        lat = line_latent(rng, x, dgp["rho"], 1)[0]
+    else:
+        Ct = shared["Ct"]
+        lat = dgp["rho"] * x + math.sqrt(1 - dgp["rho"] ** 2) * shared["eta"]
     L = dgp["a"] + dgp["b"] * (lat - dgp["mx_mean"])  # line visibilities, score units (centred on the max)
     T = L.max(1) + beta * (Ct - mc)
     sz, sc, t, pt, h = dgp["sig_z"], dgp["sig_c"], dgp["t"], dgp["p_tie"], dgp["h"]
@@ -721,7 +765,7 @@ def experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=REPLICATES, forms=("a", "
     s_tri = to_grid(T[:, None] + noise((n, P)))
     flag = lambda s: (s > t) | ((s == t) & (rng.random(s.shape) < pt)) | (rng.random(s.shape) < h)
     F = flag(s_tri).astype(float)
-    Ts = dgp["sham_mu"] + dgp["sham_sd_between"] * rng.standard_normal(N_SHAM)
+    Ts = dgp["sham_mu"] + dgp["sham_sd_between"] * (rng.standard_normal(N_SHAM) if shared is None else shared["sham_z"])
     s_sh = to_grid(Ts[:, None] + dgp["sham_sig_z"] * rng.standard_normal((N_SHAM, P)) + sc * rng.standard_normal((N_SHAM, P)))
     F_sh = flag(s_sh).astype(float)
     out = {}
@@ -748,7 +792,8 @@ def experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=REPLICATES, forms=("a", "
     else:
         line_cov, gap = r.max(1), top_two_gap(r)
     if "b" in forms:
-        out["b"] = form_b(rng, Cobs, line_cov, gap, D["sonnet"], D["edit"], D["doc"], F, P, R, q1q3, c12=(D["c1"], D["c2"]))
+        out["b"] = form_b(rng, Cobs, line_cov, gap, D["sonnet"], D["edit"], D["doc"], F, P, R, q1q3, c12=(D["c1"], D["c2"]),
+                          firth=firth, ceiling_hit=ceiling is not None and F.mean() > ceiling)
     # partial reliability of composition given this layout's covariates (true over measured residual variance)
     doc = np.eye(len(D["docs"]))[D["doc"]][:, 1:]
     Z = np.column_stack([np.ones(n), line_cov, gap, D["sonnet"], D["edit"], doc])
@@ -807,7 +852,8 @@ def summarise_cell(rows, layout, truth):
             # floor first (A6.4), then a failed fit, then a reading this experiment could not produce (an invalid
             # reliability for the disattenuated readings): none of them is a verdict
             oc = [("floor" if not r[floor_key] else (r[form][c]["outcome"] if c in r[form] else "unavailable")) for r in rows]
-            f[c] = {o: oc.count(o) / n for o in ("floor", "unfit", "unavailable", "excluded", "attenuated", "present", "inconclusive")}
+            f[c] = {o: oc.count(o) / n for o in ("floor", "unfit", "unavailable", "ceiling", "excluded", "attenuated", "present", "inconclusive")}
+            f[c]["lb_above_0"] = f[c]["attenuated"] + f[c]["present"]  # a read verdict whose lower bound is above 0
             fc = [r for r in fit if c in r[form]]
             pts = np.array([r[form][c]["point"] for r in fc]) if fc else np.array([np.nan])
             f[c]["n_fit"] = len(fc)
@@ -1648,6 +1694,477 @@ def cmd_sensitivity(a):
                                             "which": a.which, "layouts": layouts, "cells": res, "unattainable": skipped}, indent=1))
 
 
+# ---------------------------------------------------------------- Part 2 (brief 15 A6.13): one latent margin, the corrected gate
+
+CARRIER = "dossier_iso:opus48"  # A6.13.3: form (a) on Opus 4.8's isolated dossier
+SECOND = "P_author:opus48"      # form (a) on Opus 4.8's zero-context P_author
+CEILING = 0.85                  # A6.13.5: (b) is not read where the quiet lone recall exceeds it
+BIAS_B_V3B = 0.05               # A6.13.5: (b)'s residual-bias trigger on the contrast
+REF_ICC = 0.3                   # the reference cell of the latent margin (ICC 0.3, 5-point noise; A6.13.2's verified figures)
+ROLE = {f"{CARRIER}|a": "carrier", f"{SECOND}|a": "second", f"{CARRIER}|b": "supporting", f"{SECOND}|b": "supporting"}
+PMAX = {"excluded": "holds", "present": "falsified", "attenuated": "partly_missed"}
+TWO_STEP = {("excluded", "present"), ("present", "excluded")}
+NOT_READ = ("floor", "unfit", "unavailable", "ceiling")
+
+
+def role(name, form):
+    if form == "a" and name.startswith("dossier_live"):
+        return "n/a (live view, A6.13.3)"  # a live reading of a singleton would show its co-planted siblings
+    return ROLE.get(f"{name}|{form}", "descriptive")
+
+
+def margins_v3b(D, cal, inputs):
+    """A6.13.2: the latent margin is beta_b, the latent composition effect at which form (b)'s 75-minus-50 contrast is
+    0.3, at the reference cell (ICC 0.3, 5-point noise); m_s is form (a)'s error-free coefficient x 25 at it (one
+    singleton placement). Beside: the old A6.4 value (superseded), and each form's error-free reading of the same
+    latent effect in every other ICC, noise and singleton cell (the drift from the reference)."""
+    out = {}
+    for view, judge in INSTRUMENTS:
+        name = f"{view}:{judge}"
+        ref = cal[f"{name}|{REF_ICC}|{REF_NOISE}|{RHO}"]
+        beta = ref["beta_b"]
+        drift = {}
+        for icc in ICCS:
+            for noise in NOISES:
+                c = cal[f"{name}|{icc}|{noise}|{RHO}"]
+                drift[f"{icc}|{noise}"] = {"a_x25_S1": 25 * observable_slope_a(D, c["dgp"], beta, 1),
+                                           "a_x25_S2": 25 * observable_slope_a(D, c["dgp"], beta, 2),
+                                           "b_contrast": true_contrast_conditional(D, c["dgp"], beta),
+                                           "b_contrast_x1.5": true_contrast_conditional(D, c["dgp"], 1.5 * beta)}
+        old = inputs["instruments"][name]["m_s"]
+        out[name] = {"latent_margin": beta, "latent_margin_x25": 25 * beta, "m_s": drift[f"{REF_ICC}|{REF_NOISE}"]["a_x25_S1"],
+                     "m_s_old": old["m_s"], "m_s_old_rule": old["rule"], "drift": drift}
+    return out
+
+
+def build_cells_v3b(inputs, D, cal, margins, quick=False):
+    """The corrected gate's grid: every instrument and layout, ICC 0.3 and 0.6; at 5-point noise the null, the latent
+    margin and 1.5 times it; at 0 and 10 points the null and the margin. Both forms read the same world (A6.13.2);
+    form (b) with the Firth fit and the ceiling clause."""
+    q1q3 = (inputs["moments"]["composition"]["q1"], inputs["moments"]["composition"]["q3"])
+    n_exp, R = (20, 200) if quick else (EXPERIMENTS, REPLICATES)
+    cells = []
+    for ii, (view, judge) in enumerate(INSTRUMENTS):
+        name = f"{view}:{judge}"
+        m_s, beta = margins[name]["m_s"], margins[name]["latent_margin"]
+        for ci, icc in enumerate(ICCS):
+            for ni, noise in enumerate(NOISES):
+                c = cal[f"{name}|{icc}|{noise}|{RHO}"]
+                truths = [("null", 0.0), ("margin", beta)] + ([("x1.5", 1.5 * beta)] if noise == REF_NOISE else [])
+                for li, layout in enumerate(LAYOUTS):
+                    forms = ("a", "b") if LAYOUTS[layout][1] else ("b",)
+                    for ti, (truth, b) in enumerate(truths):
+                        cells.append((f"{name}|{layout}|{icc}|{noise}|{truth}", D, c["dgp"], layout, truth, b, m_s, q1q3, forms,
+                                      n_exp, R, (200 + ii, li, ci, ni, ti), {"firth": True, "ceiling": CEILING}))
+    return cells
+
+
+def run_cell_v3b(args):
+    (key, D, dgp, layout, truth, beta, m_s, q1q3, forms, n_exp, R, seed_key, kw) = args
+    rng = np.random.default_rng([SEED] + list(seed_key))
+    rows = [experiment(rng, D, dgp, layout, beta, m_s, q1q3, R=R, forms=forms, **kw) for _ in range(n_exp)]
+    return key, summarise_cell(rows, layout, truth)
+
+
+def gate_values_v3b(cells, name, form, layout, noise=REF_NOISE, comp="75v50"):
+    """A6.13.1, per instrument, form and layout, each probability at the worse of the two ICCs: P(excluded | 0),
+    P(excluded | truth on the margin), P(LB > 0 | 0); P(present | 1.5 x margin) beside (5-point noise only).
+    Readable: P(excluded | 0) >= 0.6, P(excluded | margin) <= 0.10 and P(LB > 0 | 0) <= 0.10. A reading not read
+    (floor, unfit, ceiling) counts as neither excluded nor LB > 0."""
+    ex0, exm, lb0, p15, nr0, nrm, by = [], [], [], [], [], [], {}
+    for icc in ICCS:
+        n0 = cells.get(f"{name}|{layout}|{icc}|{noise}|null", {}).get(form, {}).get(comp)
+        nm = cells.get(f"{name}|{layout}|{icc}|{noise}|margin", {}).get(form, {}).get(comp)
+        if n0 is None or nm is None:
+            return None
+        n15 = cells.get(f"{name}|{layout}|{icc}|{noise}|x1.5", {}).get(form, {}).get(comp)
+        ex0.append(n0["excluded"]); exm.append(nm["excluded"]); lb0.append(n0["lb_above_0"])
+        p15.append(n15["present"] if n15 else None)
+        nr0.append(sum(n0.get(o, 0.0) for o in NOT_READ)); nrm.append(sum(nm.get(o, 0.0) for o in NOT_READ))
+        by[str(icc)] = {"P_excl_0": ex0[-1], "P_excl_margin": exm[-1], "P_lb_0": lb0[-1], "P_present_x1.5": p15[-1],
+                        "ceiling_0": n0.get("ceiling", 0.0), "unfit_0": n0.get("unfit", 0.0), "floor_0": n0.get("floor", 0.0)}
+    pres = min(p15) if all(x is not None for x in p15) else None
+    readable = min(ex0) >= 0.6 and max(exm) <= 0.10 and max(lb0) <= 0.10
+    return {"P_excl_0": min(ex0), "P_excl_margin": max(exm), "P_lb_0": max(lb0), "P_present_x1.5": pres,
+            "P_not_read_0": max(nr0), "P_not_read_margin": max(nrm), "readable": readable,
+            "score": (min(ex0) + pres) if pres is not None else None, "neutral": min(min(ex0), 1 - max(exm)), "by_icc": by,
+            "role": role(name, form)}
+
+
+def gate_table_v3b(cells, noise=REF_NOISE):
+    tab = {}
+    for layout, (P, Q) in LAYOUTS.items():
+        for view, judge in INSTRUMENTS:
+            name = f"{view}:{judge}"
+            for form in (("a", "b") if Q else ("b",)):
+                g = gate_values_v3b(cells, name, form, layout, noise)
+                if g is not None:
+                    tab[f"{name}|{form}|{layout}"] = g
+    return tab
+
+
+def residual_bias_v3b(cells, margins):
+    """The residual null bias (mean point under the null over successful fits, the worse ICC), against half of the new
+    m_s for (a) and 0.05 for (b) (A6.13.5); unknown never clears the trigger."""
+    out = {}
+    for view, judge in INSTRUMENTS:
+        name = f"{view}:{judge}"
+        for layout in LAYOUTS:
+            for form in ("a", "b"):
+                for noise in NOISES:
+                    vals = [cells.get(f"{name}|{layout}|{icc}|{noise}|null", {}).get(form) for icc in ICCS]
+                    if any(v is None for v in vals):
+                        continue
+                    b = [v["75v50"]["point_mean"] for v in vals]
+                    bound = margins[name]["m_s"] / 2 if form == "a" else BIAS_B_V3B
+                    if any(not np.isfinite(x) for x in b):
+                        out[f"{name}|{form}|{layout}|{noise}"] = {"bias_worse_icc": float("nan"), "by_icc": dict(zip(map(str, ICCS), b)), "bound": bound, "material": None}
+                        continue
+                    i = int(np.argmax(np.abs(b)))
+                    out[f"{name}|{form}|{layout}|{noise}"] = {"bias_worse_icc": b[i], "mcse": vals[i]["75v50"]["point_mcse"],
+                                                              "by_icc": dict(zip(map(str, ICCS), b)), "bound": bound, "material": abs(b[i]) > bound}
+    return out
+
+
+def adopt_v3b(tab, bias):
+    """A6.6's choice under A6.13, for the carrier (form (a) on Opus 4.8's isolated dossier; every form-(a) layout has
+    the singleton arm): its readable layouts in order of P(excluded | 0) + P(present | 1.5 x margin) (power first).
+    For each, A6.6's residual-bias trigger at a single-singleton layout ((a) above half of m_s, or (b) above 0.05,
+    for the carrier's instrument) moves it to the two-placement singleton variant; a candidate is adopted when the
+    carrier is readable at its final layout with a known, non-material (a) bias, else the next is tried. The second
+    named instrument never carries at adoption: A6.13.4 hands it the verdict only in an experiment where the
+    carrier is at floor or unfit, which the joint run simulates. With no eligible layout, the layout maximising
+    min(P(excluded | 0), 1 - P(excluded | margin)) for the carrier is adopted and labelled descriptive (A6.13.6, as
+    Part 2's item 3 words it)."""
+    mat = lambda form, layout: bias.get(f"{CARRIER}|{form}|{layout}|{REF_NOISE}", {}).get("material")
+    ok = sorted((l for l in LAYOUTS if LAYOUTS[l][1] > 0 and tab.get(f"{CARRIER}|a|{l}", {}).get("readable")),
+                key=lambda l: -tab[f"{CARRIER}|a|{l}"]["score"])
+    second_ok = [l for l in LAYOUTS if LAYOUTS[l][1] > 0 and tab.get(f"{SECOND}|a|{l}", {}).get("readable")]
+    out = {"carrier": f"{CARRIER}|a", "carrier_readable_layouts": ok, "second_readable_layouts": second_ok, "trail": []}
+    for cand in ok:
+        final, trig = cand, None
+        if LAYOUTS[cand][1] == 1:
+            fired = {f: mat(f, cand) for f in ("a", "b")}
+            trig = {"at": cand, "material": fired}
+            if any(v is True for v in fired.values()):
+                final = cand.replace("S1", "S2")
+                trig["moved_to"] = final
+        a_mat = mat("a", final)
+        eligible = bool(tab.get(f"{CARRIER}|a|{final}", {}).get("readable")) and a_mat is False
+        out["trail"].append({"candidate": cand, "final": final, "trigger": trig, "a_bias_material": a_mat, "eligible": eligible})
+        if eligible:
+            out.update(adopted=final, label="readable", chosen_before_trigger=cand, trigger=trig,
+                       b_bias_material_at_final=mat("b", final), reason=None)
+            return out
+    cand = [l for l in LAYOUTS if LAYOUTS[l][1] > 0 and f"{CARRIER}|a|{l}" in tab]
+    best = max(cand, key=lambda l: tab[f"{CARRIER}|a|{l}"]["neutral"])
+    out.update(adopted=best, label="descriptive", chosen_before_trigger=None, trigger=None, b_bias_material_at_final=mat("b", best),
+               reason="no layout is readable for the carrier with a non-material (a) bias after A6.6's trigger; the layout maximising "
+                      "min(P(excluded | 0), 1 - P(excluded | margin)) for the carrier")
+    return out
+
+
+# ---- A6.13.4: the combined verdict, carrier-first, simulated on shared plants
+
+def instrument_label(out, bias_b):
+    """A6.13.4 per instrument: form (a)'s label is the label; form (b) changes it only on a two-step conflict
+    (excluded against present), and counts as present or attenuated only when its lower bound stays above 0 after
+    subtracting the cell's simulated null bias. A reading not read is its own state."""
+    a = "floor" if not out.get("floor_a", False) else out["a"]["75v50"]["outcome"]
+    braw = "floor" if not out["floor_b"] else out["b"]["75v50"]["outcome"]
+    beff = None
+    if braw == "excluded":
+        beff = "excluded"
+    elif braw in ("attenuated", "present"):
+        lo = out["b"]["75v50"]["lo"]
+        if lo is not None and bias_b is not None and np.isfinite(bias_b) and lo - bias_b > 0:
+            beff = braw
+    label = "inconclusive" if (a, beff) in TWO_STEP else a
+    return {"label": label, "a": a, "b": braw, "b_effective": beff, "b_conflict": (a, beff) in TWO_STEP}
+
+
+def combine(carrier, second, second_readable):
+    """A6.13.4 across instruments, carrier-first. The carrier's label is the verdict; the second named instrument
+    confirms it when it agrees, makes it inconclusive only on a two-step conflict, and is otherwise beside; at floor,
+    unfit or unreadable it drops out. If the carrier is at floor or unfit, the second's label is the verdict (the
+    fallback carrier)."""
+    drop = ("floor", "unfit")
+    s = second if (second_readable and second not in drop) else None
+    if carrier in drop:
+        v = s if s is not None else "no_verdict"
+        return {"verdict": v, "fallback": True, "confirmed": False, "second_used": s is not None, "conflict": False}
+    if s is not None and (carrier, s) in TWO_STEP:
+        return {"verdict": "inconclusive", "fallback": False, "confirmed": False, "second_used": True, "conflict": True}
+    return {"verdict": carrier, "fallback": False, "confirmed": s == carrier, "second_used": s is not None, "conflict": False}
+
+
+def joint_cells_v3b(inputs, D, cal, margins, tab, null_b, quick=False, rhos_view=(1.0, 0.0)):
+    """A6.13.4's operating characteristics: per singleton layout, ICC and truth (null, or both instruments at their
+    latent margins), the carrier and the second named instrument read the same simulated plants (true composition,
+    the control arm's triple draws, and the judge's line deviations, shared fully or drawn independently beside);
+    placement and call noise are each view's own. (b)'s downgrade subtracts that cell's simulated null bias."""
+    q1q3 = (inputs["moments"]["composition"]["q1"], inputs["moments"]["composition"]["q3"])
+    n_exp, R = (20, 200) if quick else (EXPERIMENTS, REPLICATES)
+    cells = []
+    for li, layout in enumerate(l for l in LAYOUTS if LAYOUTS[l][1] > 0):
+        sec_ok = bool(tab.get(f"{SECOND}|a|{layout}", {}).get("readable"))
+        for ci, icc in enumerate(ICCS):
+            dc, ds = cal[f"{CARRIER}|{icc}|{REF_NOISE}|{RHO}"]["dgp"], cal[f"{SECOND}|{icc}|{REF_NOISE}|{RHO}"]["dgp"]
+            for ti, truth in enumerate(("null", "margin")):
+                for vi, rv in enumerate(rhos_view):
+                    betas = (0.0, 0.0) if truth == "null" else (margins[CARRIER]["latent_margin"], margins[SECOND]["latent_margin"])
+                    bb = (null_b.get(f"{CARRIER}|{layout}|{icc}"), null_b.get(f"{SECOND}|{layout}|{icc}"))
+                    cells.append((f"{layout}|{icc}|{truth}|eta_shared={rv}", D, dc, ds, layout, betas,
+                                  (margins[CARRIER]["m_s"], margins[SECOND]["m_s"]), q1q3, sec_ok, bb, rv, n_exp, R, (300, li, ci, ti, vi)))
+    return cells
+
+
+def run_joint(args):
+    (key, D, dc, ds, layout, betas, m_s, q1q3, sec_ok, bb, rv, n_exp, R, seed_key) = args
+    rng = np.random.default_rng([SEED] + list(seed_key))
+    n = len(D["C"]); lam = D["partial_rel"]
+    rows = []
+    for _ in range(n_exp):
+        Ct = D["C_fit"] + lam * D["C_res"] + math.sqrt(lam * (1 - lam) * D["C_res_var"]) * rng.standard_normal(n)
+        eta = rng.standard_normal((n, 3)); sham_z = rng.standard_normal(N_SHAM)
+        eta2 = rv * eta + math.sqrt(1 - rv * rv) * rng.standard_normal((n, 3))
+        kw = {"firth": True, "ceiling": CEILING}
+        oc = experiment(rng, D, dc, layout, betas[0], m_s[0], q1q3, R=R, forms=("a", "b"), shared={"Ct": Ct, "eta": eta, "sham_z": sham_z}, **kw)
+        os_ = experiment(rng, D, ds, layout, betas[1], m_s[1], q1q3, R=R, forms=("a", "b"), shared={"Ct": Ct, "eta": eta2, "sham_z": sham_z}, **kw)
+        lc, ls = instrument_label(oc, bb[0]), instrument_label(os_, bb[1])
+        v = combine(lc["label"], ls["label"], sec_ok)
+        rows.append({"carrier": lc, "second": ls, **v, "pmax": PMAX.get(v["verdict"], "inconclusive")})
+    k = len(rows)
+    share = lambda f: sum(1 for r in rows if f(r)) / k
+    summ = {"n": k, "second_readable": sec_ok, "bias_b_used": {"carrier": bb[0], "second": bb[1]},
+            **{f"P_{o}": share(lambda r, o=o: r["pmax"] == o) for o in ("holds", "falsified", "partly_missed", "inconclusive")},
+            "P_confirmed": share(lambda r: r["confirmed"]), "P_fallback": share(lambda r: r["fallback"]),
+            "P_conflict_across": share(lambda r: r["conflict"]), "P_conflict_within_carrier": share(lambda r: r["carrier"]["b_conflict"]),
+            "carrier_labels": {o: share(lambda r, o=o: r["carrier"]["label"] == o) for o in ("excluded", "attenuated", "present", "inconclusive", "floor")},
+            "second_labels": {o: share(lambda r, o=o: r["second"]["label"] == o) for o in ("excluded", "attenuated", "present", "inconclusive", "floor")}}
+    return key, summ
+
+
+def cmd_simulate_v3b(a):
+    root = Path(a.root)
+    prov, inputs = bind_inputs(root, a.inputs)
+    D = design_with_moments(_quiet_design(root), inputs["moments"])
+    cal = calibrate_all(inputs, D)
+    margins = margins_v3b(D, cal, inputs)
+    cells = build_cells_v3b(inputs, D, cal, margins, quick=a.quick)
+    if a.only:
+        cells = [c for c in cells if a.only in c[0]]
+    print(f"{len(cells)} cells", flush=True)
+    res = _pool_map(run_cell_v3b, cells, a.workers)
+    out = {"version": "b3-power-v3b/sim", **prov, "seed": SEED, "experiments": cells[0][9] if cells else None,
+           "replicates": cells[0][10] if cells else None, "rho": RHO, "margins": margins, "calibration": cal, "cells": res}
+    Path(a.out_json).write_text(json.dumps(out, indent=1))
+
+
+def null_means_b(cells):
+    """(b)'s simulated null bias per instrument, layout and ICC at 5-point noise (A6.13.4's downgrade)."""
+    out = {}
+    for k, v in cells.items():
+        name, layout, icc, noise, truth = k.split("|")
+        if truth == "null" and noise == str(REF_NOISE) and "b" in v:
+            out[f"{name}|{layout}|{icc}"] = v["b"]["75v50"]["point_mean"]
+    return out
+
+
+def cmd_joint_v3b(a):
+    root = Path(a.root)
+    prov, inputs = bind_inputs(root, a.inputs)
+    sim = json.loads(Path(a.sim).read_text())
+    if sim.get("script_sha256") != prov["script_sha256"]:
+        raise SystemExit("the v3b simulation was produced by another script version")
+    D = design_with_moments(_quiet_design(root), inputs["moments"])
+    cal, margins = sim["calibration"], sim["margins"]
+    tab = gate_table_v3b(sim["cells"])
+    cells = joint_cells_v3b(inputs, D, cal, margins, tab, null_means_b(sim["cells"]), quick=a.quick)
+    print(f"{len(cells)} joint cells", flush=True)
+    res = _pool_map(run_joint, cells, a.workers)
+    Path(a.out_json).write_text(json.dumps({"version": "b3-power-v3b/joint", **prov, "sim_sha256": sha256(a.sim), "cells": res}, indent=1))
+
+
+FIRST_RUN = {"md": "work/stage3/b3/power-simulation-v3.md", "json": "work/stage3/b3/power-simulation-v3.json"}
+
+
+def cmd_report_v3b(a):
+    root = Path(a.root)
+    prov_now, inputs = bind_inputs(root, a.inputs)
+    sim = json.loads(Path(a.sim).read_text())
+    joint = json.loads(Path(a.joint).read_text())
+    here = prov_now["script_sha256"]
+    prov = {"report_script": here, "sim_script": sim.get("script_sha256"), "joint_script": joint.get("script_sha256"),
+            "inputs_file": prov_now["inputs_sha256_file"], "sim_inputs": sim.get("inputs_sha256_file"), "joint_inputs": joint.get("inputs_sha256_file"),
+            "joint_sim": joint.get("sim_sha256"), "sim_file": sha256(a.sim)}
+    prov["consistent"] = (prov["sim_script"] == here == prov["joint_script"] and prov["sim_inputs"] == prov["inputs_file"] == prov["joint_inputs"]
+                          and prov["joint_sim"] == prov["sim_file"])
+    cells = sim["cells"]
+    tables = {str(nz): gate_table_v3b(cells, nz) for nz in NOISES}
+    tab = tables[str(REF_NOISE)]
+    bias = residual_bias_v3b(cells, sim["margins"])
+    adoption = adopt_v3b(tab, bias)
+    est = estimate(unit_costs(root))
+    first = {k: {"path": v, "sha256": sha256(root / v) if (root / v).exists() else None} for k, v in FIRST_RUN.items()}
+    R = {"version": "b3-power-v3b/report", "seed": SEED, "experiments": sim["experiments"], "replicates": sim["replicates"], "rho": sim["rho"],
+         "provenance": prov, "first_run": first, "margins": sim["margins"], "gate": tab, "gate_by_noise": tables, "bias": bias,
+         "adoption": adoption, "joint": joint["cells"], "estimate": est, "unit_costs": unit_costs(root),
+         "constants": {"carrier": f"{CARRIER}|a", "second": f"{SECOND}|a", "ceiling": CEILING, "bias_b_trigger": BIAS_B_V3B, "ref_icc": REF_ICC, "ref_noise": REF_NOISE},
+         "cells": cells, "script_sha256": here, "inputs_sha256": inputs["inputs_sha256"]}
+    Path(a.out_json).write_text(json.dumps(R, indent=1, default=str))
+    Path(a.out_md).write_text(render_v3b(R))
+
+
+def _p(x):
+    return "—" if x is None else f"{x:.2f}"
+
+
+def _joint_worse(J, layout):
+    """The combined verdict's operating characteristics at a layout, the worse ICC for each error, shared line deviations."""
+    rows = [J.get(f"{layout}|{icc}|{t}|eta_shared=1.0") for icc in ICCS for t in ("null", "margin")]
+    if any(r is None for r in rows):
+        return None
+    n0 = [J[f"{layout}|{icc}|null|eta_shared=1.0"] for icc in ICCS]
+    nm = [J[f"{layout}|{icc}|margin|eta_shared=1.0"] for icc in ICCS]
+    return {"holds_0": min(r["P_holds"] for r in n0), "falsified_0": max(r["P_falsified"] for r in n0),
+            "holds_margin": max(r["P_holds"] for r in nm), "falsified_margin": min(r["P_falsified"] for r in nm)}
+
+
+def render_v3b(R) -> str:
+    ad, M, tab, J, est = R["adoption"], R["margins"], R["gate"], R["joint"], R["estimate"]
+    L = []
+    lay = ad["adopted"]
+    ck = f"{ad['carrier'].split('|')[0]}|a|{lay}"
+    cg = tab.get(ck, {})
+    jw = _joint_worse(J, lay)
+    L.append(f"**Adopted layout (A6.13): {lay}, {ad['label']}.** Carried by form (a) on {ad['carrier'].split('|')[0]} (the carrier); "
+             f"P(excluded | 0) {_p(cg.get('P_excl_0'))}, P(excluded | margin) {_p(cg.get('P_excl_margin'))}, P(LB > 0 | 0) {_p(cg.get('P_lb_0'))}, "
+             f"P(present | 1.5 × margin) {_p(cg.get('P_present_x1.5'))} (worse ICC, 5-point noise)"
+             + (f"; combined verdict P(holds | 0) {jw['holds_0']:.2f}, P(falsified | 0) {jw['falsified_0']:.2f}, P(holds | margin) {jw['holds_margin']:.2f}, P(falsified | margin) {jw['falsified_margin']:.2f}" if jw else "")
+             + (f". {ad['reason']}." if ad.get("reason") else "."))
+    L.append("")
+    prov = R["provenance"]
+    if not prov["consistent"]:
+        L.append(f"**Provenance check failed:** {json.dumps(prov)}. The numbers below are not bound to this code.")
+        L.append("")
+    fr = R["first_run"]
+    L.append(f"Brief 20 Part 2 (brief 15 A6.13; $0; `work/checks/stage3_b3_power_v3.py` {R['script_sha256'][:12]}…, simulation, joint run and report from one script and inputs: {prov['consistent']}; "
+             f"seed {R['seed']}; {R['experiments']} experiments per cell; payload-clustered percentile bootstrap, {R['replicates']} replicates). "
+             f"The first run under A6.6's original gate stays in the record: `{fr['md']['path']}` {(fr['md']['sha256'] or '')[:8]}…, `{fr['json']['path']}` {(fr['json']['sha256'] or '')[:8]}…. "
+             "Inputs are files on disk and none is a B3 outcome; counts, ids and aggregates only.")
+    L.append("")
+    # ---- summary
+    readable = sorted(k for k, g in tab.items() if g["readable"])
+    by_layout = {l: [k for k in readable if k.endswith(f"|{l}")] for l in LAYOUTS}
+    mat_b = sorted(k.rsplit("|", 1)[0] for k, v in R["bias"].items() if k.endswith(f"|{REF_NOISE}") and k.split("|")[1] == "b" and v["material"])
+    mat_a = sorted(k.rsplit("|", 1)[0] for k, v in R["bias"].items() if k.endswith(f"|{REF_NOISE}") and k.split("|")[1] == "a" and v["material"])
+    ceil = sorted({k.rsplit("|", 1)[0] for k, g in tab.items() if k.split("|")[1] == "b" and max(v["ceiling_0"] for v in g["by_icc"].values()) > 0.5})
+    L += ["## Summary", ""]
+    trail = "; ".join(f"{t['candidate']}" + (f" → {t['final']} (trigger {json.dumps(t['trigger']['material'])})" if t["trigger"] and t["trigger"].get("moved_to") else "")
+                      + f": {'eligible' if t['eligible'] else 'not eligible'}" for t in ad["trail"])
+    L.append(f"- **Adoption:** the carrier {ad['carrier']} is readable at {', '.join(ad['carrier_readable_layouts']) or 'no layout'} "
+             f"(the second named instrument at {', '.join(ad['second_readable_layouts']) or 'no layout'}; it never carries at adoption, only in an experiment where the carrier is at floor or unfit). "
+             f"Candidates in order of P(excluded | 0) + P(present | 1.5 × margin), with A6.6's residual-bias trigger: {trail or 'none'}. Final: {lay}, {ad['label']}.")
+    def cell_names(keys):
+        keys = [k for k in keys if not tab[k]["role"].startswith("n/a")]
+        return ", ".join("{} ({}, {})".format(k.split("|")[0], k.split("|")[1], tab[k]["role"]) for k in keys) or "none"
+    L.append("- **Readable cells under A6.13.1 (5-point noise, worse ICC; form (a) on the live dossiers left out, not applicable under A6.13.3):** "
+             + "; ".join(f"{l}: {cell_names(v)}" for l, v in by_layout.items()) + ".")
+    L.append(f"- **One latent margin (A6.13.2):** m_s for the carrier {M[CARRIER]['m_s']:.2f} (was {M[CARRIER]['m_s_old']:.2f}); second {M[SECOND]['m_s']:.2f} (was {M[SECOND]['m_s_old']:.2f}). Full table below.")
+    L.append(f"- **Residual null bias (5-point noise):** (b) above 0.05 at: {', '.join(mat_b) or 'none'}; (a) above half of m_s at: {', '.join(mat_a) or 'none'}.")
+    L.append(f"- **Ceiling clause:** (b) not read in most experiments (quiet lone recall above {CEILING}) for: {', '.join(ceil) or 'none'}.")
+    L.append(f"- **Estimate (P4, unchanged):** {lay} ${est[lay]['dollars']:.2f} (stop at ${est[lay]['stop_line_2x']:.2f}); every layout in the P4 table below.")
+    L.append("")
+    # ---- m_s
+    L += ["## m_s under A6.13.2 (old rule beside, superseded)", "",
+          f"The latent margin β* is form (b)'s β_b at the reference cell (ICC {REF_ICC}, {REF_NOISE:g}-point call noise): the latent composition effect at which (b)'s 75-minus-50 contrast, with the judge's true line maximum at its mean, is 0.3. "
+          "m_s is form (a)'s error-free coefficient × 25 at β* (excess on true composition with form (a)'s covariates, one singleton placement). Both forms' alternatives are this same latent effect. "
+          "Beside: each form's error-free reading of β* in the other ICC and singleton cells at 5-point noise (the drift from the reference; the 0- and 10-point drift is in the JSON, `margins.<instrument>.drift`).", "",
+          "| view, judge | β* × 25 | **m_s (A6.13.2)** | m_s old (A6.4, superseded) | old rule | (a) × 25 at β*: ICC 0.3 S2; ICC 0.6 S1 / S2 | (b) contrast at β*: ICC 0.6; at 1.5 β*: ICC 0.3 / 0.6 |",
+          "|---|---|---|---|---|---|---|"]
+    for view, judge in INSTRUMENTS:
+        n = f"{view}:{judge}"; m = M[n]; d = m["drift"]
+        r3, r6 = d[f"{REF_ICC}|{REF_NOISE}"], d[f"0.6|{REF_NOISE}"]
+        L.append(f"| {n} | {m['latent_margin_x25']:.1f} | **{m['m_s']:.2f}** | {m['m_s_old']:.2f} | {'primary' if 'primary' in m['m_s_old_rule'] else 'fallback'} | "
+                 f"{r3['a_x25_S2']:.2f}; {r6['a_x25_S1']:.2f} / {r6['a_x25_S2']:.2f} | {r6['b_contrast']:.3f}; {r3['b_contrast_x1.5']:.3f} / {r6['b_contrast_x1.5']:.3f} |")
+    L.append("")
+    # ---- gate
+    L += ["## The gate under A6.13.1 (5-point call noise; worse of ICC 0.3 and 0.6, both shown)", "",
+          "Readable: P(excluded | 0) ≥ 0.6 (power to confirm P-max), P(excluded | margin) ≤ 0.10 (false confirmation), P(LB > 0 | 0) ≤ 0.10 (false refutation). P(present | 1.5 × margin) beside: the ability to label a large effect. "
+          "Readings not read (floor, unfit, (b)'s ceiling) count as neither *excluded* nor LB > 0; their share is shown. Form (b): Firth fit and the ceiling clause. Role from A6.13.3; descriptive cells carry no verdict. Monte Carlo SE at 300 experiments: about 0.017 at 0.10, 0.028 at 0.6.", "",
+          "| view, judge | form | role | layout | P(excl \\| 0) (0.3 / 0.6) | P(excl \\| margin) (0.3 / 0.6) | P(LB > 0 \\| 0) (0.3 / 0.6) | P(present \\| 1.5×) | not read \\| 0 / \\| margin | readable |",
+          "|---|---|---|---|---|---|---|---|---|---|"]
+    order = sorted(tab, key=lambda k: ({"carrier": 0, "second": 1, "supporting": 2}.get(tab[k]["role"], 3), k.split("|")[0], k.split("|")[1], list(LAYOUTS).index(k.split("|")[2])))
+    for k in order:
+        g = tab[k]; n, form, layout = k.split("|"); b = g["by_icc"]
+        L.append(f"| {n} | ({form}) | {g['role']} | {layout} | {g['P_excl_0']:.2f} ({b['0.3']['P_excl_0']:.2f} / {b['0.6']['P_excl_0']:.2f}) | "
+                 f"{g['P_excl_margin']:.2f} ({b['0.3']['P_excl_margin']:.2f} / {b['0.6']['P_excl_margin']:.2f}) | {g['P_lb_0']:.2f} ({b['0.3']['P_lb_0']:.2f} / {b['0.6']['P_lb_0']:.2f}) | "
+                 f"{_p(g['P_present_x1.5'])} | {g['P_not_read_0']:.2f} / {g['P_not_read_margin']:.2f} | {'**yes**' if g['readable'] else 'no'} |")
+    L.append("")
+    L += ["### The gate at 0 and 10 points of call noise (readable cells; worse ICC: P(excl | 0) / P(excl | margin) / P(LB > 0 | 0))", ""]
+    for nz in ("0.0", "10.0"):
+        t2 = R["gate_by_noise"][nz]
+        rd = [f"{k} {g['P_excl_0']:.2f} / {g['P_excl_margin']:.2f} / {g['P_lb_0']:.2f}" for k, g in sorted(t2.items())
+              if g["readable"] and not g["role"].startswith("n/a")]
+        cr = t2.get(f"{CARRIER}|a|{lay}")
+        L.append(f"- {float(nz):g} points: readable {', '.join(rd) or 'none'}; the carrier at {lay}: " + (f"{cr['P_excl_0']:.2f} / {cr['P_excl_margin']:.2f} / {cr['P_lb_0']:.2f}" if cr else "—") + ".")
+    L.append("")
+    # ---- bias
+    L += ["## Residual null bias (A6.13.5: (b) trigger 0.05; (a) half of the new m_s)", "",
+          "Mean point estimate under the null over successful fits, the worse ICC; the Monte Carlo SE at 5 points beside. Positive (b) leans toward a false *present*.", "",
+          "| view, judge | form | layout | noise 0 | noise 5 (MC SE) | noise 10 | bound | material at 5 |", "|---|---|---|---|---|---|---|---|"]
+    for view, judge in INSTRUMENTS:
+        n = f"{view}:{judge}"
+        for form in ("a", "b"):
+            for layout in LAYOUTS:
+                bb = [R["bias"].get(f"{n}|{form}|{layout}|{nz}") for nz in NOISES]
+                if any(x is None for x in bb):
+                    continue
+                f5 = bb[1]
+                L.append(f"| {n} | ({form}) | {layout} | {bb[0]['bias_worse_icc']:+.3f} | {f5['bias_worse_icc']:+.3f} ({f5.get('mcse', float('nan')):.3f}) | {bb[2]['bias_worse_icc']:+.3f}"
+                         + f" | {f5['bound']:.3f} | {'**yes**' if f5['material'] else ('unknown' if f5['material'] is None else 'no')} |")
+    L.append("")
+    # ---- joint
+    L += ["## The combined verdict's operating characteristics (A6.13.4; 5-point noise)", "",
+          "The carrier (form (a), Opus 4.8 isolated dossier) and the second named instrument (form (a), Opus 4.8 zero-context `P_author`) read the same simulated plants: the same true composition, the same control-arm triples and, primary, the same judge line deviations (shared η); "
+          "placement and call noise are each view's own. Under 'margin' both instruments sit at their own latent margins. Per instrument (b) changes (a)'s label only on a two-step conflict and counts as *present* or *attenuated* only when its lower bound minus the cell's simulated null bias stays above 0; "
+          "the second instrument drops out where it is not readable at the layout. P-max: *holds* on *excluded*, *falsified* on *present*, *partly missed* on *attenuated*, *inconclusive* otherwise. Beside: the line deviations drawn independently for the two views (η independent).", "",
+          "| layout | ICC | η | second readable | P(holds \\| 0) | P(falsified \\| 0) | P(partly \\| 0) | P(inconcl. \\| 0) | P(holds \\| margin) | P(falsified \\| margin) | P(partly \\| margin) | P(inconcl. \\| margin) | confirmed \\| 0 / \\| margin | fallback \\| 0 / \\| margin |",
+          "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+    for layout in [l for l in LAYOUTS if LAYOUTS[l][1] > 0]:
+        for icc in ICCS:
+            for rv in ("1.0", "0.0"):
+                z, m = J.get(f"{layout}|{icc}|null|eta_shared={rv}"), J.get(f"{layout}|{icc}|margin|eta_shared={rv}")
+                if not z or not m:
+                    continue
+                L.append(f"| {layout} | {icc} | {'shared' if rv == '1.0' else 'independent'} | {z['second_readable']} | {z['P_holds']:.2f} | {z['P_falsified']:.2f} | {z['P_partly_missed']:.2f} | {z['P_inconclusive']:.2f} | "
+                         f"{m['P_holds']:.2f} | {m['P_falsified']:.2f} | {m['P_partly_missed']:.2f} | {m['P_inconclusive']:.2f} | {z['P_confirmed']:.2f} / {m['P_confirmed']:.2f} | {z['P_fallback']:.2f} / {m['P_fallback']:.2f} |")
+    L.append("")
+    # ---- estimate
+    L += ["## P4. The estimate per layout (unchanged from the first run)", "",
+          "| layout | lone plants per view | singleton plants per per-agent view | units, all views | **dollars** | stop at 2× |", "|---|---|---|---|---|---|"]
+    for l, e in est.items():
+        r0 = e["rows"][f"{INSTRUMENTS[0][0]}:{INSTRUMENTS[0][1]}"]
+        L.append(f"| {l} | {r0['lone_units']} | {r0['singleton_units']} | {e['units']} | **${e['dollars']:.2f}** | ${e['stop_line_2x']:.2f} |")
+    L.append("")
+    L += V3B_READINGS
+    return "\n".join(L) + "\n"
+
+
+V3B_READINGS = [
+    "## Readings and deviations (Part 2)", "",
+    "1. **The latent margin's reference cell.** β_b depends on the ICC and the call noise (they set the within-triple spread the conditional contrast is read against). A6.13.2's verified figures (β_b × 25 of 21.5 and 24.8 for the two Opus 4.8 instruments) are the ICC 0.3, 5-point cell, so β* is fixed there for each instrument and S1 pre-registers one m_s per instrument; the other cells' readings of the same β* are tabled as drift.",
+    "2. **Truth states.** 'margin' is β* and '1.5 × margin' is 1.5 β*, the same latent effect for both forms in every ICC and noise cell; each form is read against its own margin (0.3 for (b), m_s for (a)).",
+    "3. **The gate** holds only at the worse ICC (the smaller P(excluded | 0), the larger P(excluded | margin) and P(LB > 0 | 0)) at 5-point noise; the 0- and 10-point gates are listed. A reading not read counts as neither *excluded* nor LB > 0, so its share is shown beside: a cell that is often not read can meet the two upper bounds without information.",
+    "4. **Adoption** follows A6.6 restricted to the named readings (A6.13.3): the carrier's readable layouts (every form-(a) layout carries the singleton arm) in order of P(excluded | 0) + P(present | 1.5 × margin) ('power first'); for each, A6.6's residual-bias trigger at a single-singleton layout ((a) above half of the new m_s, (b) above 0.05, for the carrier's instrument) moves it to the two-placement singleton variant, which is adopted only if the carrier is readable there with a non-material (a) bias, else the next candidate is tried. The second named instrument does not carry at adoption: A6.13.4 makes it the verdict only in an experiment where the carrier is at floor or unfit, and the joint run simulates that. With no eligible layout, Part 2's item 3 rule applies (the layout maximising min(P(excluded | 0), 1 − P(excluded | margin)) for the carrier, labelled descriptive); A6.13.6's text says the highest P(excluded | 0), and Part 2's neutral rule is used as the later instruction.",
+    "4a. **Form (a) on the live dossiers** is simulated with independent singleton plants, but A6.13.3 rules it out (a live reading of a singleton would show its co-planted siblings); those rows are labelled not applicable and left out of the readable list.",
+    "5. **The joint run** shares the true composition, the control-arm triple draws and the judge's standardised line deviations between the two Opus 4.8 views (the same judge reading the same lines); placement and call noise are independent. The fully independent line deviations are the other bound. The second instrument's readability is read from this file's gate table; (b)'s downgrade subtracts the null bias of the same instrument, layout and ICC at 5-point noise.",
+    "6. **Form (b)** now uses the Firth penalised fit (A6.13.5) in the point fit and every bootstrap replicate, by Fisher scoring with step halving on the penalised log-likelihood (undamped scoring can oscillate on a sparse document); O3's document-factor fallback and the unfit rule are kept and now rarely bite. The ceiling clause is applied per experiment on the observed quiet lone recall (above 0.85: (b) is not read).",
+    "7. **m_s's old values** (A6.4's rule on B1's reference plants) are kept beside as the superseded calibration; the first run's file is unchanged.",
+    "8. **The estimate** is P4's, unchanged (same units, same per-unit bases).", ""]
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--root", default=".")
@@ -1660,6 +2177,15 @@ def main(argv=None):
     s.add_argument("--which", default="all"); s.add_argument("--layouts", default=",".join(LAYOUTS))
     s.add_argument("--workers", type=int, default=1); s.add_argument("--quick", action="store_true")
     s.set_defaults(fn=cmd_sensitivity)
+    s = sub.add_parser("simulate-v3b"); s.add_argument("--inputs", required=True); s.add_argument("--out-json", required=True)
+    s.add_argument("--workers", type=int, default=1); s.add_argument("--quick", action="store_true"); s.add_argument("--only", default="")
+    s.set_defaults(fn=cmd_simulate_v3b)
+    s = sub.add_parser("joint-v3b"); s.add_argument("--inputs", required=True); s.add_argument("--sim", required=True); s.add_argument("--out-json", required=True)
+    s.add_argument("--workers", type=int, default=1); s.add_argument("--quick", action="store_true")
+    s.set_defaults(fn=cmd_joint_v3b)
+    s = sub.add_parser("report-v3b"); s.add_argument("--inputs", required=True); s.add_argument("--sim", required=True); s.add_argument("--joint", required=True)
+    s.add_argument("--out-json", required=True); s.add_argument("--out-md", required=True)
+    s.set_defaults(fn=cmd_report_v3b)
     s = sub.add_parser("report"); s.add_argument("--inputs", required=True); s.add_argument("--sim", required=True)
     s.add_argument("--sensitivity", default=""); s.add_argument("--out-json", required=True); s.add_argument("--out-md", required=True)
     s.set_defaults(fn=cmd_report)

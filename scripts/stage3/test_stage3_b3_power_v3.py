@@ -460,3 +460,160 @@ def test_too_thin_needs_full_coverage():
     # an alternative recorded as unattainable under the doubled tail is covered (it cannot clear)
     r = bp.too_thin_check(gates, {"tail_doubled": tab}, cut, ["T1", "T2"], ["x|T2|0.3|5.0|alt_b|tail_doubled"])
     assert r["state"] == "not_too_thin" and r["unattainable_under_tail"] == ["x|b|T2|0.3|alt"]
+
+
+# ---------------------------------------------------------------- Part 2 (brief 15 A6.13)
+
+def test_firth_matches_the_penalised_likelihood_and_survives_separation():
+    rng = np.random.default_rng(8)
+    n = 60
+    X = np.column_stack([np.ones(n), rng.standard_normal((n, 2))])
+    y = (rng.random(n) < bp.sigmoid(X @ np.array([0.2, 1.0, -0.6]))).astype(float)
+
+    def neg_pen(b):
+        eta = X @ b; p = bp.sigmoid(eta)
+        info = (X * (p * (1 - p))[:, None]).T @ X
+        return -(np.sum(y * eta - np.log1p(np.exp(eta))) + 0.5 * np.linalg.slogdet(info)[1])
+    ref = optimize.minimize(neg_pen, np.zeros(3), method="BFGS", options={"gtol": 1e-9}).x
+    b, conv = bp.irls(X, y, np.ones((1, n)), firth=True, iters=60)
+    assert conv[0] and np.allclose(b[0], ref, atol=1e-4)
+    # complete separation: plain MLE diverges, Firth stays finite and converges
+    ys = (X[:, 1] > 0).astype(float)
+    bf, cf = bp.irls(X, ys, np.ones((1, n)), firth=True, iters=100)
+    assert cf[0] and np.all(np.isfinite(bf)) and np.abs(bf).max() < 25
+    # frequency weights equal row duplication under Firth too
+    w = rng.integers(0, 3, n).astype(float)
+    Xd, yd = np.repeat(X, w.astype(int), 0), np.repeat(y, w.astype(int))
+    bd, _ = bp.irls(Xd, yd, np.ones((1, len(yd))), firth=True, iters=60)
+    bw, _ = bp.irls(X, y, w[None], firth=True, iters=60)
+    assert np.allclose(bd, bw, atol=1e-6)
+
+
+def test_ceiling_clause_marks_b_not_read():
+    rng = np.random.default_rng(2)
+    n = 78
+    C = rng.uniform(20, 85, n); line = rng.uniform(10, 60, n); gap = rng.uniform(0, 30, n)
+    son = (rng.random(n) < 0.5).astype(float); edit = rng.integers(0, 4, n) / 3; doc = np.arange(n) % 2
+    F = (rng.random((n, 1)) < 0.9).astype(float)
+    out = bp.form_b(rng, C, line, gap, son, edit, doc, F, 1, 100, (47.5, 68.0), firth=True, ceiling_hit=True)
+    assert out["ceiling"] and all(out[c]["outcome"] == "ceiling" for c in ("75v50", "q3vq1", "75v50_o4"))
+
+
+def _out(a="excluded", b="excluded", b_lo=0.1, floor_a=True, floor_b=True):
+    return {"floor_a": floor_a, "floor_b": floor_b, "a": {"75v50": {"outcome": a}}, "b": {"75v50": {"outcome": b, "lo": b_lo}}}
+
+
+def test_instrument_label_rules():
+    assert bp.instrument_label(_out("excluded", "present", 0.10), 0.02)["label"] == "inconclusive"  # two-step conflict
+    assert bp.instrument_label(_out("excluded", "present", 0.04), 0.05)["label"] == "excluded"      # (b) fails the bias-corrected LB
+    assert bp.instrument_label(_out("excluded", "attenuated", 0.2), 0.0)["label"] == "excluded"     # one-step: (a) stands
+    assert bp.instrument_label(_out("present", "excluded"), 0.0)["label"] == "inconclusive"
+    assert bp.instrument_label(_out("attenuated", "excluded"), 0.0)["label"] == "attenuated"
+    assert bp.instrument_label(_out("present", "excluded", floor_b=False), 0.0)["label"] == "present"  # (b) at floor: no effect
+    assert bp.instrument_label(_out(floor_a=False), 0.0)["label"] == "floor"
+
+
+def test_combine_is_carrier_first():
+    assert bp.combine("excluded", "excluded", True) == {"verdict": "excluded", "fallback": False, "confirmed": True, "second_used": True, "conflict": False}
+    assert bp.combine("excluded", "present", True)["verdict"] == "inconclusive"
+    assert bp.combine("excluded", "attenuated", True)["verdict"] == "excluded"       # one-step: beside
+    assert bp.combine("excluded", "present", False)["verdict"] == "excluded"         # unreadable second drops out
+    assert bp.combine("floor", "present", True) == {"verdict": "present", "fallback": True, "confirmed": False, "second_used": True, "conflict": False}
+    assert bp.combine("unfit", "floor", True)["verdict"] == "no_verdict"
+    assert bp.PMAX.get(bp.combine("attenuated", "excluded", True)["verdict"]) == "partly_missed"
+
+
+def _vcell(excl=0.0, att=0.0, pres=0.0, floor=0.0, ceiling=0.0, form="a"):
+    d = {"floor": floor, "ceiling": ceiling, "unfit": 0.0, "unavailable": 0.0, "excluded": excl, "attenuated": att, "present": pres,
+         "inconclusive": max(0.0, 1 - excl - att - pres - floor - ceiling), "lb_above_0": att + pres, "point_mean": 0.0, "point_mcse": 0.0}
+    return {form: {"75v50": d}}
+
+
+def test_gate_v3b_readability():
+    name, sim = "dossier_iso:opus48", {}
+    for icc in bp.ICCS:
+        sim[f"{name}|T1+S1|{icc}|5.0|null"] = _vcell(excl=0.8, att=0.05)
+        sim[f"{name}|T1+S1|{icc}|5.0|margin"] = _vcell(excl=0.05, att=0.9)
+        sim[f"{name}|T1+S1|{icc}|5.0|x1.5"] = _vcell(pres=0.7)
+    g = bp.gate_values_v3b(sim, name, "a", "T1+S1")
+    assert g["readable"] and g["P_present_x1.5"] == 0.7 and g["role"] == "carrier"
+    sim[f"{name}|T1+S1|0.6|5.0|margin"] = _vcell(excl=0.12, att=0.8)  # false confirmation above 0.10 at one ICC
+    assert not bp.gate_values_v3b(sim, name, "a", "T1+S1")["readable"]
+    sim[f"{name}|T1+S1|0.6|5.0|margin"] = _vcell(excl=0.05, att=0.8)
+    sim[f"{name}|T1+S1|0.3|5.0|null"] = _vcell(excl=0.8, att=0.11)       # false refutation above 0.10
+    assert not bp.gate_values_v3b(sim, name, "a", "T1+S1")["readable"]
+
+
+def _gate(readable, score, neutral=0.5):
+    return {"readable": readable, "score": score, "neutral": neutral}
+
+
+def test_adopt_v3b_carrier_trigger_and_descriptive():
+    C, S2 = bp.CARRIER, bp.SECOND
+    tab = {f"{C}|a|T1+S1": _gate(True, 1.6), f"{C}|a|T2+S1": _gate(True, 1.8), f"{C}|a|T2+S2": _gate(True, 1.7), f"{S2}|a|T2+S1": _gate(True, 1.9)}
+    bias = {f"{C}|a|T2+S1|5.0": {"material": False}, f"{C}|b|T2+S1|5.0": {"material": False}, f"{C}|a|T2+S2|5.0": {"material": False}}
+    ad = bp.adopt_v3b(tab, bias)
+    assert ad["adopted"] == "T2+S1" and ad["label"] == "readable" and ad["carrier"] == f"{C}|a"
+    bias[f"{C}|b|T2+S1|5.0"] = {"material": True}  # (b) above 0.05 at the single-singleton layout
+    ad = bp.adopt_v3b(tab, bias)
+    assert ad["trigger"]["moved_to"] == "T2+S2" and ad["adopted"] == "T2+S2" and ad["label"] == "readable"
+    # codex (Part 2): the second instrument never carries at adoption; with the carrier unreadable it is descriptive
+    tab2 = {f"{C}|a|T2+S1": _gate(False, 1.0, 0.4), f"{C}|a|T1+S1": _gate(False, 1.0, 0.6), f"{S2}|a|T2+S1": _gate(True, 1.5)}
+    ad = bp.adopt_v3b(tab2, {})
+    assert ad["label"] == "descriptive" and ad["adopted"] == "T1+S1" and ad["second_readable_layouts"] == ["T2+S1"]
+
+
+def test_adopt_v3b_tries_the_next_layout_after_a_failed_move():
+    # codex (Part 2): T1+S1 scores best and its trigger fires; T1+S2 is not readable; T2+S2 is readable and clean
+    C = bp.CARRIER
+    tab = {f"{C}|a|T1+S1": _gate(True, 1.9), f"{C}|a|T1+S2": _gate(False, 1.0), f"{C}|a|T2+S2": _gate(True, 1.8)}
+    bias = {f"{C}|a|T1+S1|5.0": {"material": False}, f"{C}|b|T1+S1|5.0": {"material": True},
+            f"{C}|a|T1+S2|5.0": {"material": False}, f"{C}|a|T2+S2|5.0": {"material": False}}
+    ad = bp.adopt_v3b(tab, bias)
+    assert ad["adopted"] == "T2+S2" and ad["label"] == "readable"
+    assert [t["eligible"] for t in ad["trail"]] == [False, True]
+
+
+def test_firth_converges_on_a_sparse_document():
+    # codex (Part 2): an indicator present on one observation; undamped scoring oscillated short of the optimum
+    n = 78
+    X = np.column_stack([np.ones(n), (np.arange(n) == n - 1).astype(float)])
+    y = np.r_[np.ones(20), np.zeros(57), 1.0]
+
+    def neg_pen(b):
+        eta = X @ b; p = bp.sigmoid(eta)
+        return -(np.sum(y * eta - np.logaddexp(0, eta)) + 0.5 * np.linalg.slogdet((X * (p * (1 - p))[:, None]).T @ X)[1])
+    ref = optimize.minimize(neg_pen, np.zeros(2), method="BFGS", options={"gtol": 1e-10}).x
+    b, conv = bp.irls(X, y, np.ones((1, n)), firth=True)
+    assert conv[0] and np.allclose(b[0], ref, atol=1e-4) and b[0][1] == pytest.approx(2.129972, abs=1e-4)
+
+
+def test_margins_v3b_put_both_forms_on_one_latent_effect(monkeypatch):
+    D = _toy_design()
+    inp = dict(_toy_inputs()); inp["m_s"] = {"m_s": 30.0, "rule": "A6.4 primary"}
+    name = "dossier_iso:opus48"
+    monkeypatch.setattr(bp, "INSTRUMENTS", (("dossier_iso", "opus48"),))
+    cal = {}
+    for icc in bp.ICCS:
+        for noise in bp.NOISES:
+            dgp = bp.calibrate(D, inp, icc, noise)
+            cal[f"{name}|{icc}|{noise}|{bp.RHO}"] = {"dgp": dgp, "beta_b": bp.beta_for_contrast(D, dgp)}
+    m = bp.margins_v3b(D, cal, {"instruments": {name: {"m_s": inp["m_s"]}}})
+    ref = cal[f"{name}|{bp.REF_ICC}|{bp.REF_NOISE}|{bp.RHO}"]
+    assert m[name]["latent_margin"] == ref["beta_b"] and m[name]["m_s_old"] == 30.0
+    assert m[name]["m_s"] == pytest.approx(25 * bp.observable_slope_a(D, ref["dgp"], ref["beta_b"], 1))
+    # the latent margin is the effect at which (b)'s contrast is the margin, at the reference cell
+    assert bp.true_contrast_conditional(D, ref["dgp"], m[name]["latent_margin"]) == pytest.approx(0.3, abs=1e-3)
+
+
+def test_shared_draws_make_two_views_read_the_same_plants():
+    D = _toy_design()
+    dgp = bp.calibrate(D, _toy_inputs(), 0.3, 5.0)
+    rng = np.random.default_rng(4)
+    n = len(D["C"])
+    sh = {"Ct": D["C"].copy(), "eta": rng.standard_normal((n, 3)), "sham_z": rng.standard_normal(bp.N_SHAM)}
+    a = bp.experiment(np.random.default_rng(1), D, dgp, "T1+S1", 0.0, 20.0, (47.5, 68.0), R=50, shared=sh, firth=True, ceiling=0.85)
+    b = bp.experiment(np.random.default_rng(1), D, dgp, "T1+S1", 0.0, 20.0, (47.5, 68.0), R=50, shared=sh, firth=True, ceiling=0.85)
+    assert json.dumps(a, sort_keys=True) == json.dumps(b, sort_keys=True)
+    c = bp.experiment(np.random.default_rng(1), D, dgp, "T1+S1", 0.0, 20.0, (47.5, 68.0), R=50, firth=True, ceiling=0.85)
+    assert json.dumps(a, sort_keys=True) != json.dumps(c, sort_keys=True)
