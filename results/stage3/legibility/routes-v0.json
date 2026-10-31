@@ -1,0 +1,48 @@
+{
+ "checked_at": "2026-10-31T17:09:18+00:00",
+ "checks": {
+  "sonnet55:bedrock": {
+   "accepted": true,
+   "outcome": "scored",
+   "input_tokens": 64,
+   "output_tokens": 5,
+   "cost_usd": 0.000178
+  },
+  "kimi:openrouter": {
+   "accepted": true,
+   "outcome": "scored",
+   "input_tokens": 133,
+   "output_tokens": 122,
+   "cost_usd": 0.00151586
+  },
+  "sol:converse": {
+   "accepted": true,
+   "outcome": "scored",
+   "input_tokens": 48,
+   "output_tokens": 6,
+   "cost_usd": 0.0001716
+  },
+  "scorer:bedrock": {
+   "accepted": true,
+   "outcome": "scored",
+   "input_tokens": 36,
+   "output_tokens": 19,
+   "cost_usd": 0.000262
+  }
+ },
+ "chosen": {
+  "sonnet55": {
+   "route": "bedrock",
+   "model": "global.anthropic.claude-sonnet-5-5"
+  },
+  "kimi": {
+   "route": "openrouter",
+   "model": "moonshotai/kimi-k3"
+  },
+  "sol": {
+   "route": "converse",
+   "model": "us.openai.gpt-6-sol"
+  }
+ },
+ "ledger_usd": 0.002127
+}

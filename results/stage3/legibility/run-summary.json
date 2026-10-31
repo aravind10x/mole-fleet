@@ -1,0 +1,68 @@
+{
+ "stop_at_usd": 56.47,
+ "resume": false,
+ "nulls": {
+  "read": {
+   "sonnet55": {
+    "done": 456,
+    "of": 456,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "kimi": {
+    "done": 456,
+    "of": 456,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "done": 456,
+    "of": 456,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 4962,
+   "of": 4962,
+   "aborted": false,
+   "abort_reason": null
+  }
+ },
+ "tests": {
+  "read": {
+   "sonnet55": {
+    "done": 232,
+    "of": 232,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "kimi": {
+    "done": 232,
+    "of": 232,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "done": 232,
+    "of": 232,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 1372,
+   "of": 1372,
+   "aborted": false,
+   "abort_reason": null
+  }
+ },
+ "dollars": {
+  "sonnet55": 2.0218,
+  "kimi": 4.053,
+  "sol": 1.796,
+  "scorer": 10.3508,
+  "routes": 0.002127,
+  "total": 18.2237
+ }
+}
