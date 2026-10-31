@@ -138,3 +138,24 @@ def test_score_many_settles_every_call_before_raising(tmp_path):
         asyncio.run(j.score_many([("v", "a", "bad"), ("v", "b", "ok1"), ("v", "c", "ok2")]))
     assert sorted(fake.calls) == ["bad", "ok1", "ok2"]
     assert len([ln for ln in (tmp_path / "c.jsonl").read_text().splitlines() if ln.strip()]) == 2
+
+
+def test_api_key_env_selects_one_key_and_survives_the_drop(monkeypatch):   # brief 23
+    monkeypatch.setenv("OPENROUTER_API_KEY", "test-key-one")
+    monkeypatch.setenv("OPENROUTER_API_KEY_2", "test-key-two")
+    seen = []
+    import mole.llm.openrouter as orc
+
+    class FakeClient:
+        def __init__(self, model, api_key):
+            seen.append(api_key)
+    monkeypatch.setattr(orc, "OpenRouterClient", FakeClient)
+    a = jo.OpenRouterJudge(None, "moonshotai/kimi-k3", system="s", prompt_version="v", prices=PRICES, price_source="t",
+                           api_key_env="OPENROUTER_API_KEY_2", verbose=False)
+    b = jo.OpenRouterJudge(None, "anthropic/claude-sonnet-5.5", system="s", prompt_version="v", prices=PRICES, price_source="t",
+                           api_key_env="OPENROUTER_API_KEY_2", verbose=False)
+    a._get_client()
+    assert "OPENROUTER_API_KEY_2" not in os.environ   # dropped: the fork client cannot rotate to it
+    b._get_client()
+    assert seen == ["test-key-two", "test-key-two"]
+    jo._STASHED.pop("OPENROUTER_API_KEY_2", None)

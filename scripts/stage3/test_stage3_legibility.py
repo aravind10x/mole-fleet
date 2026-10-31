@@ -801,3 +801,15 @@ def test_resolved_subset_governs_downstream_and_a_disagreement_is_named(tmp_path
                        "cache_sha256": {"x": "h"}, "dollars": {"total": 0.0}}, small[3])
     assert "**Downstream verdict" in md and md.count("**Disagreement,") == 3 and "differ; downstream use reads the downstream verdict" in md
     assert "downstream_rule" in lg.config() and lg.DOWNSTREAM_RULE in json.dumps(lg.config())
+
+
+def test_reader_factory_wires_the_routes(tmp_path, monkeypatch):   # Aravind, 2026-10-31
+    monkeypatch.delenv("OPENROUTER_REASONING_EFFORT", raising=False)
+    models = {"models": {m: {"pricing": {"prompt": "0.000001", "completion": "0.00001"}} for m in ("moonshotai/kimi-k3", "anthropic/claude-sonnet-5.5")}}
+    s = lg.make_reader("sonnet55", "bedrock", lg.FAMILIES["sonnet55"]["bedrock"], tmp_path / "a.jsonl", models, cap=1.0)
+    assert s.endpoint == "runtime" and s.model == "global.anthropic.claude-sonnet-5-5" and s.refusal_retries == 0
+    for fam in ("kimi", "sonnet55"):
+        k = lg.make_reader(fam, "openrouter", lg.FAMILIES[fam]["openrouter"], tmp_path / f"{fam}.jsonl", models, cap=1.0)
+        assert k.api_key_env == "OPENROUTER_API_KEY_2" and k.temperature is None
+    sc = lg.make_scorer(tmp_path / "s.jsonl", cap=1.0)
+    assert sc.endpoint == "mantle" and sc.model == "anthropic.claude-sonnet-5"

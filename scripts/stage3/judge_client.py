@@ -18,7 +18,10 @@ Facts this module relies on (established 2026-10-14, not re-derived here):
   anthropic.claude-sonnet-5 in us-east-1 returned stop_reason=end_turn, 11 in / 5 out.
   This module never reads, prints or stores the token.
 * Model ids carry the `anthropic.` prefix and no region prefix. anthropic.claude-sonnet-5-5
-  returned 404 on this account (access not enabled); anthropic.claude-sonnet-5,
+  returned 404 on this account; corrected 2026-10-31 (brief 23): not an access problem, the
+  bedrock-mantle endpoint does not serve Sonnet 5.5 in us-east-1, while bedrock-runtime serves it
+  through the `us.` and `global.` inference profiles (`endpoint="runtime"`, AsyncAnthropicBedrock,
+  which reads the same AWS_BEARER_TOKEN_BEDROCK); anthropic.claude-sonnet-5,
   anthropic.claude-opus-4-7 and anthropic.claude-haiku-4-5 work in us-east-1; us-west-2
   returns 403/404 for everything. Hence JUDGE_MODEL (env, default sonnet-5-5) and every
   record carries `model` (requested) and `model_served` (response.model).
@@ -158,7 +161,11 @@ PRICES: dict[str, dict[str, float]] = {
     # Added 2026-10-26 (brief 07n part C): Claude Opus 4.8, Anthropic list price (the claude-api reference
     # table cached 2026-10-06: $5 / $25 per MTok; cache multipliers as above), applied to Bedrock usage.
     "anthropic.claude-opus-4-8":   {"input": 5.00, "output": 25.00, "cache_read": 0.50, "cache_write": 6.25},
+    # Added 2026-10-31 (brief 23): Sonnet 5.5 through bedrock-runtime's global inference profile, at the
+    # Anthropic list price as the sonnet-5-5 entry (the global endpoint carries no premium; see above).
+    "global.anthropic.claude-sonnet-5-5": {"input": 2.00, "output": 10.00, "cache_read": 0.10, "cache_write": 2.50},
 }
+ENDPOINTS = ("mantle", "runtime")   # brief 23: bedrock-mantle (the default) or bedrock-runtime
 
 # ── second provider path (2026-10-29, brief 09 amendment, Aravind's decision): OpenAI models on Bedrock ──
 # GPT-6 Sol is served on Bedrock in us-east-1 only through an inference profile (the on-demand id
@@ -395,7 +402,8 @@ class JudgeClient:
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
                  system: str | None = None, prompt_version: str | None = None,
                  effort: str | None = None, parse: ReplyParser | None = None,
-                 refusal_retries: int = MAX_REFUSAL_RETRIES, request_guard: Callable[[], None] | None = None):
+                 refusal_retries: int = MAX_REFUSAL_RETRIES, request_guard: Callable[[], None] | None = None,
+                 endpoint: str = "mantle"):
         # Stage 3 (brief 07f B2): a scorer may give this client its own system prompt and
         # prompt version (the shared-harm views); both default to the frozen release judge, so
         # every earlier caller is unchanged. A cache file holds one prompt version.
@@ -404,6 +412,9 @@ class JudgeClient:
         # the module's one re-ask) and `request_guard` (called before every request; it raises
         # JudgeAborted to stop, e.g. a spend limit shared by several clients) default to the old behaviour.
         self.parse = parse
+        if endpoint not in ENDPOINTS:
+            raise ValueError(f"endpoint must be one of {ENDPOINTS}")
+        self.endpoint = endpoint   # brief 23: "runtime" builds AsyncAnthropicBedrock (bedrock-runtime) instead of mantle
         self.refusal_retries = refusal_retries
         self.request_guard = request_guard
         self.system = JUDGE_SYSTEM if system is None else system
@@ -477,6 +488,8 @@ class JudgeClient:
             self.abort = "AWS_REGION is not set (source work/mole-fork/.env)"
             raise JudgeAborted(self.abort)
         try:
+            if self.endpoint == "runtime":
+                return anthropic.AsyncAnthropicBedrock(aws_region=self.region, max_retries=0, timeout=REQUEST_TIMEOUT_S)
             return anthropic.AsyncAnthropicBedrockMantle(
                 aws_region=self.region, max_retries=0, timeout=REQUEST_TIMEOUT_S)
         except anthropic.AnthropicError as exc:   # e.g. no AWS_BEARER_TOKEN_BEDROCK
@@ -643,6 +656,7 @@ class JudgeClient:
             "request_params": request_params(self.model, max_tokens, system, self.effort),
             "parse_retries": n_parse + n_refuse, "attempts": attempts,
             "latency_s": round(time.monotonic() - t0, 3), "ts": _now_iso(),
+            **({"endpoint": "bedrock-runtime"} if self.endpoint == "runtime" else {}),
         }
 
     async def score_many(self, items: Iterable[tuple[str, str, str]]) -> list[dict]:

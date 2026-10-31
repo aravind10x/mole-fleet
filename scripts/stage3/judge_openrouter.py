@@ -57,13 +57,21 @@ def reasoning_setting() -> str:
     return f"effort {effort} ({REASONING_ENV})" if effort in ("low", "medium", "high") else "provider default"
 
 
+_STASHED: dict[str, str] = {}   # brief 23: values of the keys drop_fallback_keys removed (never printed)
+
+
 def drop_fallback_keys() -> list[str]:
-    """Remove OPENROUTER_API_KEY_<n> from this process so the fork client holds key 1 only
-    (names returned, never values)."""
+    """Remove OPENROUTER_API_KEY_<n> from this process so the fork client holds one key only
+    (names returned, never values). The values are kept in this module so that a judge built
+    with api_key_env naming one of them still finds its key."""
     names = sorted(k for k in os.environ if k.startswith(KEY_FALLBACK_PREFIX) and k[len(KEY_FALLBACK_PREFIX):].isdigit())
     for k in names:
-        os.environ.pop(k, None)
+        _STASHED[k] = os.environ.pop(k)
     return names
+
+
+def key_from_env(name: str) -> str | None:
+    return os.environ.get(name) or _STASHED.get(name)
 
 
 def classify(resp: Any, parse: jc.ReplyParser | None = None) -> dict:
@@ -111,12 +119,13 @@ class OpenRouterJudge:
                  spend_cap_usd: float | None = None, client: Any = None,
                  sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True,
                  parse: jc.ReplyParser | None = None, moderation_as_refusal: bool = False,
-                 request_guard: Callable[[], None] | None = None):
+                 request_guard: Callable[[], None] | None = None, api_key_env: str = "OPENROUTER_API_KEY"):
         self.model, self.system, self.prompt_version = model, system, prompt_version
         self.parse = parse
         # brief 23: a moderation 403 is that unit's refusal (recorded, not re-asked) instead of a run stop
         self.moderation_as_refusal = moderation_as_refusal
         self.request_guard = request_guard   # brief 23: called before every request; raises JudgeAborted to stop
+        self.api_key_env = api_key_env       # brief 23: which one key the fork client holds (key 1 by default)
         self.prices, self.price_source = prices, price_source
         self.concurrency, self.rpm, self.max_tokens, self.temperature = concurrency, rpm, max_tokens, temperature
         self.spend_cap_usd = spend_cap_usd
@@ -163,9 +172,10 @@ class OpenRouterJudge:
         if self._injected is not None:
             return self._injected
         if self._client is None:
+            key = key_from_env(self.api_key_env)
             drop_fallback_keys()
             from mole.llm.openrouter import OpenRouterClient
-            self._client = OpenRouterClient(model=self.model, api_key=os.environ.get("OPENROUTER_API_KEY"))
+            self._client = OpenRouterClient(model=self.model, api_key=key)
         return self._client
 
     def _log(self, msg: str) -> None:
@@ -312,6 +322,7 @@ class OpenRouterJudge:
                 "request_params": {"model": self.model, "max_tokens": self.max_tokens,
                                    "temperature": "not sent (provider default)" if self.temperature is None else self.temperature,
                                    "reasoning": reasoning_setting(), "system_sha256": jc.sha256(self.system),
+                                   **({"api_key_env": self.api_key_env} if self.api_key_env != "OPENROUTER_API_KEY" else {}),
                                    "system_chars": len(self.system)},
                 "parse_retries": n_parse, "attempts": attempts, "latency_s": round(time.monotonic() - t0, 3),
                 "ts": jc._now_iso()}

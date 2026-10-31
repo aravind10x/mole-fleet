@@ -4,7 +4,7 @@
  "families": {
   "sonnet55": {
    "route": "bedrock",
-   "model": "anthropic.claude-sonnet-5-5",
+   "model": "global.anthropic.claude-sonnet-5-5",
    "calls": 688,
    "est_input_tokens": 296689,
    "est_output_tokens": 103200,
@@ -30,7 +30,7 @@
    "usd_upper": 7.3187
   }
  },
- "routes_known": false,
+ "routes_known": true,
  "scorer": {
   "route": "bedrock",
   "model": "anthropic.claude-sonnet-5",
@@ -44,9 +44,9 @@
  "total_usd": 28.23,
  "total_usd_upper": 54.02,
  "stop_at_usd": 56.47,
- "config_sha256": "a87e89c81e8763cbafc02ceefcd938cd3f647d235f0ca1bd13330f6a54a01682",
+ "config_sha256": "7649d40b9d76801a177d6d31b851e351577a99d093d256eb0cb64488910e860c",
  "models_sha256": "f32cfc638b26a39c6f4b660bb4e01b39ee978b6f8ab425cf2b3e78c94284a810",
- "routes_sha256": null,
+ "routes_sha256": "fbf790591a3f227ec0ab01e2aa13b9a86af3ab4373be04a5f05b43acde121639",
  "assumptions": {
   "families": {
    "sonnet55": {

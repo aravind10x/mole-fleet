@@ -154,9 +154,13 @@ READ_VIEW, SCORE_VIEW = "legib-read", "legib-score"
 # answer; Sol from 07p (244.9 output tokens a call, 166 of them reasoning) with room for a longer answer;
 # Sonnet 5.5 without thinking (between_tools); the scorer's JSON with a 25-word reason.
 FAMILIES: dict[str, dict[str, Any]] = {
-    "sonnet55": {"name": "Claude Sonnet 5.5", "bedrock": "anthropic.claude-sonnet-5-5",
-                 "openrouter": "anthropic/claude-sonnet-5.5", "chars_per_token": 3.5, "out_tokens": (150, 300)},
-    "kimi": {"name": "Kimi K3", "openrouter": "moonshotai/kimi-k3", "chars_per_token": 3.636, "out_tokens": (1100, 2200)},
+    # Sonnet 5.5 through bedrock-runtime's global inference profile (mantle does not serve it; Aravind, 2026-10-31);
+    # the OpenRouter readers on key 2 only (key 1's weekly limit was spent; Aravind, 2026-10-31).
+    "sonnet55": {"name": "Claude Sonnet 5.5", "bedrock": "global.anthropic.claude-sonnet-5-5", "bedrock_endpoint": "runtime",
+                 "openrouter": "anthropic/claude-sonnet-5.5", "openrouter_key_env": "OPENROUTER_API_KEY_2",
+                 "chars_per_token": 3.5, "out_tokens": (150, 300)},
+    "kimi": {"name": "Kimi K3", "openrouter": "moonshotai/kimi-k3", "openrouter_key_env": "OPENROUTER_API_KEY_2",
+             "chars_per_token": 3.636, "out_tokens": (1100, 2200)},
     "sol": {"name": "GPT-6 Sol", "converse": "us.openai.gpt-6-sol", "chars_per_token": 3.814, "out_tokens": (400, 800)},
 }
 SCORER = {"name": "Claude Sonnet 5", "bedrock": "anthropic.claude-sonnet-5", "chars_per_token": 3.5, "out_tokens": (90, 150)}
@@ -170,7 +174,8 @@ CHUNK = 32
 CLIENT_SETTINGS = {"reader_concurrency": READER_CONCURRENCY, "reader_rpm": READER_RPM, "scorer_concurrency": SCORER_CONCURRENCY,
                    "scorer_rpm": SCORER_RPM, "refusal_retries": 0, "openrouter_temperature": "not sent",
                    "openrouter_reasoning": "provider default (OPENROUTER_REASONING_EFFORT must be unset)",
-                   "bedrock_temperature": "not sent", "max_tokens": "client defaults (Bedrock 900, OpenRouter and Converse 4000)"}
+                   "bedrock_temperature": "not sent", "max_tokens": "client defaults (Bedrock 900, OpenRouter and Converse 4000)",
+                   "scorer_endpoint": "bedrock-mantle"}
 DEPENDENCIES = ("work/checks/judge_client.py", "work/checks/judge_openrouter.py", "work/mole-fork/mole/llm/openrouter.py",
                 "work/checks/stage3_rater_strip.py")
 
@@ -1264,10 +1269,11 @@ def make_reader(fam: str, route: str, model: str, cache_path: Path | None, model
     import judge_client as jc
     import judge_openrouter as jo
     g = guard.check if guard is not None else None
+    spec = FAMILIES.get(fam, {})
     if route == "bedrock":
         return jc.JudgeClient(cache_path, concurrency=READER_CONCURRENCY, rpm=READER_RPM, model=model, spend_cap_usd=cap,
                               system=READER_SYSTEM, prompt_version=READER_PROMPT_VERSION, parse=parse_answer, verbose=False,
-                              refusal_retries=0, request_guard=g)
+                              refusal_retries=0, request_guard=g, endpoint=spec.get("bedrock_endpoint", "mantle"))
     if route == "converse":
         return jc.BedrockConverseJudge(cache_path, model, system=READER_SYSTEM, prompt_version=READER_PROMPT_VERSION,
                                        concurrency=READER_CONCURRENCY, rpm=READER_RPM, spend_cap_usd=cap, parse=parse_answer,
@@ -1277,7 +1283,8 @@ def make_reader(fam: str, route: str, model: str, cache_path: Path | None, model
     return jo.OpenRouterJudge(cache_path, model, system=READER_SYSTEM, prompt_version=READER_PROMPT_VERSION,
                               prices={"prompt": pr["in"], "completion": pr["out"]}, price_source=(models or {}).get("price_source", ""),
                               concurrency=READER_CONCURRENCY, rpm=READER_RPM, temperature=None, spend_cap_usd=cap,
-                              parse=parse_answer, moderation_as_refusal=True, verbose=False, request_guard=g)
+                              parse=parse_answer, moderation_as_refusal=True, verbose=False, request_guard=g,
+                              api_key_env=spec.get("openrouter_key_env", "OPENROUTER_API_KEY"))
 
 
 def make_scorer(cache_path: Path | None, cap: float | None, guard: Any = None, parse=parse_score) -> Any:
@@ -1365,6 +1372,9 @@ DISCLOSURES = [
     "judge in brief 15 A6.3(e); a B3 dose built from L leaves Sol out). None is Opus 4.8 (the B3 carrier judge) and none is GLM.",
     "Scorer: Claude Sonnet 5 on Bedrock, a B3 judge, here scoring agreement between an answer and a rubric. It never receives the "
     "reader packet or the day-0 document; the own-edit rubrics it scores against do contain the honest statements' new lines.",
+    "Routes (Aravind, 2026-10-31, before any reader call): Sonnet 5.5 through bedrock-runtime's global inference profile "
+    "(global.anthropic.claude-sonnet-5-5; bedrock-mantle, which the judge client used until now and the scorer still uses for "
+    "Sonnet 5, does not serve Sonnet 5.5); Kimi K3 on OpenRouter key 2 only (key 1's weekly limit was spent).",
     "Sampling settings: temperature is not sent on any route (the fork's OpenRouter client leaves the field out when it is None, a "
     "change made for this brief); OpenRouter reasoning is the provider default (the run refuses when OPENROUTER_REASONING_EFFORT is "
     "set); Bedrock Sonnet 5.5 runs without thinking (between_tools), Sonnet 5 with thinking disabled, Sol and Kimi at their default "

@@ -2064,8 +2064,10 @@
   "families": {
    "sonnet55": {
     "name": "Claude Sonnet 5.5",
-    "bedrock": "anthropic.claude-sonnet-5-5",
+    "bedrock": "global.anthropic.claude-sonnet-5-5",
+    "bedrock_endpoint": "runtime",
     "openrouter": "anthropic/claude-sonnet-5.5",
+    "openrouter_key_env": "OPENROUTER_API_KEY_2",
     "chars_per_token": 3.5,
     "out_tokens": [
      150,
@@ -2075,6 +2077,7 @@
    "kimi": {
     "name": "Kimi K3",
     "openrouter": "moonshotai/kimi-k3",
+    "openrouter_key_env": "OPENROUTER_API_KEY_2",
     "chars_per_token": 3.636,
     "out_tokens": [
      1100,
@@ -2109,7 +2112,8 @@
    "openrouter_temperature": "not sent",
    "openrouter_reasoning": "provider default (OPENROUTER_REASONING_EFFORT must be unset)",
    "bedrock_temperature": "not sent",
-   "max_tokens": "client defaults (Bedrock 900, OpenRouter and Converse 4000)"
+   "max_tokens": "client defaults (Bedrock 900, OpenRouter and Converse 4000)",
+   "scorer_endpoint": "bedrock-mantle"
   },
   "thresholds": {
    "S1": 0.1,
@@ -2130,7 +2134,7 @@
    "bootstrap": 20261206
   }
  },
- "config_sha256": "a87e89c81e8763cbafc02ceefcd938cd3f647d235f0ca1bd13330f6a54a01682",
+ "config_sha256": "7649d40b9d76801a177d6d31b851e351577a99d093d256eb0cb64488910e860c",
  "prompt_sha256": {
   "reader_system": "29d127823d28f266c63d71959cb19302d2274cbc77ee8ac06a36a429a74e4267",
   "question": "6f12884a149ef14131e013d43d731c9a43e84ca87733434130978c787ffe6b9f",
@@ -2140,10 +2144,10 @@
   "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
  },
- "script_sha256": "c0ddb2b4373d980317194027408364fb86ffd572b70ffe88387cc508d05ddd84",
+ "script_sha256": "378c88dbac5fec436d9a9d3be2464b0aa4f9c9f85a030570485f75cf005ea01b",
  "dependency_sha256": {
-  "work/checks/judge_client.py": "8abb6079b96165f5533c9a1dd79a8b7406a23ac0f41f5aa2792875ae1ae3e248",
-  "work/checks/judge_openrouter.py": "dd1c3f3524997099ab0152e7e067ce86a561401ba5d1a4314354693d23406ede",
+  "work/checks/judge_client.py": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+  "work/checks/judge_openrouter.py": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
   "work/mole-fork/mole/llm/openrouter.py": "addf8a119de489c466d76ce8ef75fc7eeaf7f3822d4a55f161782d4a9cd4b215",
   "work/checks/stage3_rater_strip.py": "016e61b168af31ae4aa42a5b6e6ac864f3685cf4d71471ff92d7632c8b4998ac"
  },
