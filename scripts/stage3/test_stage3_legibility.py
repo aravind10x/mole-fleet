@@ -813,3 +813,17 @@ def test_reader_factory_wires_the_routes(tmp_path, monkeypatch):   # Aravind, 20
         assert k.api_key_env == "OPENROUTER_API_KEY_2" and k.temperature is None
     sc = lg.make_scorer(tmp_path / "s.jsonl", cap=1.0)
     assert sc.endpoint == "mantle" and sc.model == "anthropic.claude-sonnet-5"
+
+
+def test_per_part_records_re_emit_the_parts_behind_d_part(tmp_path, small):   # brief 25, A6.14.5
+    rows, _rubrics, _a, _b, rec, _ = run_e2e(tmp_path, small)
+    per = lg.per_part_records(rec, rows, ["sonnet55", "kimi", "sol"])
+    for f in ("sonnet55", "kimi", "sol"):
+        for row in rows:
+            x = rec.item_stat(f, 0, row, lg.l_target(row["regime"]))
+            d = per[f][row["item_id"]]
+            assert d["target"] == lg.l_target(row["regime"]) and set(d) >= {"r0"} and (("r1" in d) == row["retest"])
+            assert d["r0"]["whole"]["score"] == x["D_whole"]
+            assert max(d["r0"][c]["score"] for c in lg.PARTS) == x["D_part"]
+            assert all(d["r0"][c]["status"] == "scored" and d["r0"][c]["scored_passes"] == 2 for c in lg.CONDS)
+    lg.check_safe(per)

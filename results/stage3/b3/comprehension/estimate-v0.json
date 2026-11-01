@@ -1,0 +1,91 @@
+{
+ "samples_per_condition": 2,
+ "families": {
+  "sonnet55": {
+   "route": "bedrock",
+   "model": "global.anthropic.claude-sonnet-5-5",
+   "items": 47,
+   "calls": 376,
+   "est_input_tokens": 148545,
+   "usd": 0.8611,
+   "usd_upper": 1.5676
+  },
+  "kimi": {
+   "route": "openrouter",
+   "model": "moonshotai/kimi-k3",
+   "items": 124,
+   "calls": 992,
+   "est_input_tokens": 378866,
+   "usd": 16.4407,
+   "usd_upper": 36.0896
+  },
+  "sol": {
+   "route": "converse",
+   "model": "us.openai.gpt-6-sol",
+   "items": 124,
+   "calls": 992,
+   "est_input_tokens": 361184,
+   "usd": 5.1594,
+   "usd_upper": 10.4766
+  }
+ },
+ "routes_known": false,
+ "scorer": {
+  "route": "bedrock",
+  "model": "anthropic.claude-sonnet-5",
+  "calls": 5504,
+  "est_input_tokens": 2409495,
+  "usd": 9.7726,
+  "usd_upper": 15.9393
+ },
+ "route_probes_usd_allowance": 0.05,
+ "total_usd": 32.28,
+ "total_usd_upper": 64.12,
+ "stop_at_usd": 64.57,
+ "approval": {
+  "cap_usd": 40.0,
+  "within_cap": true
+ },
+ "config_sha256": "a79d49b8347616d1626adf1cff7be521059f612b545415084133982bace12961",
+ "models_sha256": "eb2024b5610dfd5e7e053349419f68c12fc97265de3fb61fedf33fced3b9df83",
+ "routes_sha256": null,
+ "assumptions": {
+  "families": {
+   "sonnet55": {
+    "chars_per_token": 3.5,
+    "out_tokens_central_upper": [
+     150,
+     300
+    ]
+   },
+   "kimi": {
+    "chars_per_token": 3.636,
+    "out_tokens_central_upper": [
+     1100,
+     2200
+    ]
+   },
+   "sol": {
+    "chars_per_token": 3.814,
+    "out_tokens_central_upper": [
+     400,
+     800
+    ]
+   }
+  },
+  "scorer": {
+   "chars_per_token": 3.5,
+   "out_tokens_central_upper": [
+    90,
+    150
+   ],
+   "assumed_answer_chars_central_upper": [
+    450,
+    900
+   ]
+  },
+  "every_answer_scored": true,
+  "upper_reask_factor": 1.1,
+  "method": "brief23_dry_run_pricing_unchanged"
+ }
+}

@@ -1798,6 +1798,25 @@ def read_jsonl(p: Path) -> list[dict]:
     return [json.loads(ln) for ln in p.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
 
+def per_part_records(rec: Records, rows: Sequence[Mapping[str, Any]], families: Sequence[str]) -> dict:
+    """Brief 25 (A6.14.5): every condition's score against the L target, per family, repeat and item (the score is the
+    mean of the scored passes; status as in cond_score), so that a line's own D_part can be joined to other data."""
+    out: dict[str, Any] = {}
+    for fam in families:
+        per: dict[str, Any] = {}
+        for row in rows:
+            t = l_target(row["regime"])
+            d: dict[str, Any] = {"regime": row["regime"], "target": t}
+            for r in repeats_of(row):
+                d[f"r{r}"] = {}
+                for c in CONDS:
+                    score, status, npass = rec.cond_score(fam, r, row, c, t)
+                    d[f"r{r}"][c] = {"score": score, "status": status, "scored_passes": npass}
+            per[row["item_id"]] = d
+        out[fam] = per
+    return out
+
+
 def mode_report(ns: argparse.Namespace) -> int:
     out_dir = Path(ns.out_dir)
     items, rows, _triples, _rubrics = rows_and_triples(out_dir, Path(ns.triples))
@@ -1805,6 +1824,16 @@ def mode_report(ns: argparse.Namespace) -> int:
     reader_files = {f: reader_cache(out_dir, f, routes["chosen"][f]["model"]) for f in FAMILIES}
     sfile = scorer_cache(out_dir)
     rec = Records({f: read_jsonl(p) for f, p in reader_files.items()}, read_jsonl(sfile))
+    if ns.per_part_out:   # brief 25: the per-part re-emit alone; instrument-v0.{md,json} are left as they are
+        dest = Path(ns.per_part_out)
+        doc = {"version": f"{VERSION}/per-part", "per_part": per_part_records(rec, rows, list(FAMILIES)),
+               "items_v0_sha256": file_sha256(out_dir / "items-v0.json"),
+               "cache_sha256": {**{f: file_sha256(p) if p.exists() else None for f, p in reader_files.items()},
+                                "scorer": file_sha256(sfile) if sfile.exists() else None}}
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(json.dumps(doc, indent=1), encoding="utf-8")
+        emit({"per_part_sha256": file_sha256(dest), "items": len(rows), "families": list(FAMILIES), "cache_sha256": doc["cache_sha256"]})
+        return 0
     res = analyse(rec, rows, list(FAMILIES))
     res["cache_sha256"] = {**{f: file_sha256(p) if p.exists() else None for f, p in reader_files.items()},
                            "scorer": file_sha256(sfile) if sfile.exists() else None}
@@ -1842,6 +1871,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--approved-usd", type=float, default=None)
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--per-part-out", default=None, help="report mode: write the per-part scores here and nothing else (brief 25)")
     ns = ap.parse_args(argv)
     if ns.mode in ("run", "routes") and ns.approved_usd is None:
         raise SystemExit("refusing: this mode needs --approved-usd (the estimate Aravind approved)")

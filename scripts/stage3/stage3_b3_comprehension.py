@@ -34,6 +34,7 @@ bootstrap over the 48 items, refitting the model in each resample. The model's l
 from __future__ import annotations
 
 import argparse
+import asyncio
 import json
 import math
 import random
@@ -424,13 +425,537 @@ def mode_plan(ns: argparse.Namespace) -> int:
     return 0
 
 
+# ── C2: items, targets and draws (committed by hash before any call) ────────────────────────────────
+
+FALSE_TARGET_SEED = lg.FALSE_TARGET_SEED   # 20261203: brief 23's same-document rule, one stream over the null items
+OWN_SEED, N_OWN = 20261207, 20             # the own-edit positive control's 20 candidates (brief 25 C2)
+REGIMES = ("candidate", "control", "sham")
+NULL_REGIMES = ("control", "sham")
+EXPECTED_ITEMS = {"candidate": 78, "control": 22, "sham": 24}
+EXPECTED_QUIET_BY_WRITER = {"sonnet55": 41, "glm53": 37}
+WRITERS = ("sonnet55", "glm53")
+ALL_ITEM_READERS = (ANCHOR, SECOND)        # Kimi K3 and GPT-6 Sol on every item
+GLM_ONLY_READER = BESIDE                   # Sonnet 5.5 on GLM-written items only
+CONDS, PARTS, PASSES = lg.CONDS, lg.PARTS, lg.PASSES
+RATED_ARM = {"candidates": "distributed", "controls": "control_samewriter"}
+APPROVAL_CAP_USD = 40.0
+APPROVAL_RULE = ("Aravind, 2026-11-01: \"I'm ok with the cost estimate - I don't necessarily need the exact estimate to approve "
+                 "this\"; brief 25 C2: proceed without waiting at or under $40, above $40 stop and ask; the stop at twice the "
+                 "dry-run estimate applies")
+DEPENDENCIES = lg.DEPENDENCIES + ("work/checks/stage3_legibility.py", "work/checks/stage3_b3_power_v3.py",
+                                  "work/checks/stage3_views.py", "work/checks/stage3_t1v2_checks.py")
+
+
+def readers_of(writer: str) -> list[str]:
+    return list(ALL_ITEM_READERS) + ([GLM_ONLY_READER] if writer == "glm53" else [])
+
+
+def build_items(quiet: Sequence[Mapping[str, Any]], key_b3: Mapping[str, Any], triples_b3: Sequence[Mapping[str, Any]],
+                writer_files: Mapping[str, Mapping[str, Any]], t1_items: Mapping[str, Any], t1_triples: Sequence[Mapping[str, Any]],
+                payloads_v2: Mapping[str, Any], day0: Mapping[str, str], k: int,
+                expected: Mapping[str, int] | None = EXPECTED_ITEMS) -> tuple[dict, dict, dict]:
+    """(items document: ids, regimes, targets, draws, no text; rubrics document; the triples by id for rendering).
+    quiet: brief 20 P1's mean-rule quiet candidates ({writer, id, document}); writer_files: {source: parsed file}."""
+    b3 = {t["triple_id"]: t for t in triples_b3}
+    t1 = {t["triple_id"]: t for t in t1_triples}
+    if set(b3) & set(t1):
+        raise ValueError("a B3 opaque id equals a T1 triple id")
+    by_writer_id = {}
+    for tid, v in key_b3["triples"].items():
+        part, _, writer = str(v.get("source", "")).partition("-")
+        if part in RATED_ARM:
+            by_writer_id[(part, writer, v["id"])] = tid
+    pay = {(src, p["id"]): p for src, d in writer_files.items() for p in d["payloads"]}
+    rows: dict[str, dict] = {}
+    triples: dict[str, Mapping[str, Any]] = {}
+    rubrics: dict[str, Any] = {"version": VERSION, "rubric": {}, "paired": {}, "own": {}}
+
+    def check_statements(p: Mapping[str, Any], t: Mapping[str, Any], what: str) -> None:
+        if str(p["document"]) != t["document"] or lg.payload_statements(p) != lg.triple_statements(t):
+            raise ValueError(f"{what} does not match its stripped triple")
+
+    for q in quiet:
+        tid = by_writer_id.get(("candidates", q["writer"], q["id"]))
+        if tid is None:
+            raise ValueError(f"no key triple for candidate {q['writer']}/{q['id']}")
+        t, kv = b3[tid], key_b3["triples"][tid]
+        p = pay.get((f"candidates-{q['writer']}", q["id"]))
+        if p is None or p.get("arm") != RATED_ARM["candidates"]:
+            raise ValueError(f"no rated payload for candidate {q['writer']}/{q['id']}")
+        check_statements(p, t, f"candidate {q['writer']}/{q['id']}")
+        if t["document"] != q["document"]:
+            raise ValueError("the quiet set's document differs from the key's")
+        eff = str(p.get("composed_effect") or "").strip()
+        if not eff:
+            raise ValueError(f"candidate {q['writer']}/{q['id']} has no composed_effect")
+        rubrics["rubric"][tid] = eff
+        rows[tid] = {"item_id": tid, "regime": "candidate", "writer": q["writer"], "document": t["document"], "kind": kv.get("kind")}
+        triples[tid] = t
+    for (part, writer, pid), tid in sorted(by_writer_id.items()):
+        if part != "controls":
+            continue
+        t, kv = b3[tid], key_b3["triples"][tid]
+        p = pay.get((f"controls-{writer}", pid))
+        if p is None or p.get("arm") != RATED_ARM["controls"]:
+            raise ValueError(f"no rated payload for control {writer}/{pid}")
+        check_statements(p, t, f"control {writer}/{pid}")
+        rows[tid] = {"item_id": tid, "regime": "control", "writer": writer, "document": t["document"], "kind": kv.get("kind")}
+        triples[tid] = t
+    v2 = {p["id"]: p for p in payloads_v2["payloads"]}
+    for r in t1_items["items"]:
+        if r["regime"] != "control":
+            continue
+        sid, ref = r["item_id"], r["payload_ref"]
+        p = v2.get(ref["id"])
+        if ref.get("file") != "v2" or p is None or p.get("arm") != "sham":
+            raise ValueError(f"sham {ref.get('id')} is not a v2 sham payload")
+        check_statements(p, t1[sid], f"sham {ref['id']}")
+        pid = lg.paired_payload_id(ref["id"])
+        pc = v2.get(pid) if pid else None
+        eff = str((pc or {}).get("composed_effect") or "").strip()
+        if pc is None or str(pc["document"]) != t1[sid]["document"] or not eff:
+            raise ValueError(f"sham {ref['id']} has no same-document paired rubric")
+        rubrics["paired"][sid] = eff
+        rows[sid] = {"item_id": sid, "regime": "sham", "writer": "t1v2", "document": t1[sid]["document"], "kind": p.get("kind"),
+                     "payload_ref": {"file": "v2", "id": ref["id"]}, "paired_payload": pid}
+        triples[sid] = t1[sid]
+    counts = dict(sorted({g: sum(1 for r in rows.values() if r["regime"] == g) for g in REGIMES}.items()))
+    if expected is not None and counts != dict(sorted(expected.items())):
+        raise ValueError(f"item counts {counts} differ from the brief's {dict(expected)}")
+    cands = sorted(t for t, r in rows.items() if r["regime"] == "candidate")
+    by_doc: dict[str, list[str]] = {}
+    for c in cands:
+        by_doc.setdefault(rows[c]["document"], []).append(c)
+    rng = random.Random(FALSE_TARGET_SEED)
+    for tid in sorted(t for t, r in rows.items() if r["regime"] in NULL_REGIMES):
+        row = rows[tid]
+        pool = sorted(by_doc.get(row["document"], []))
+        if not pool:
+            raise ValueError("no quiet candidate on a null item's document")
+        km = [x for x in pool if row["kind"] is not None and rows[x]["kind"] == row["kind"]]
+        row["false_target"] = rng.choice(km or pool)
+        row["false_target_kind_matched"] = bool(km)
+    own = set(random.Random(OWN_SEED).sample(cands, min(N_OWN, len(cands))))
+    for tid, row in rows.items():
+        row.setdefault("false_target", None)
+        row.setdefault("false_target_kind_matched", None)
+        row["own"] = tid in own
+        row["paired_target"] = row["regime"] == "sham"
+        row["readers"] = readers_of(row["writer"])
+        bad = [st for st in triples[tid]["statements"] if not lg.anchor_resolves(st, day0[row["document"]])]
+        row["anchors_resolve"] = not bad
+        row["n_unresolved_anchors"] = len(bad)
+        if row["own"]:
+            sts = triples[tid]["statements"]
+            rubrics["own"][tid] = {"whole": lg.own_rubric(sts), "part": [lg.own_rubric([st]) for st in sts]}
+    all_ids = sorted(rows)
+    items = {"version": VERSION, "samples_per_condition": k,
+             "counts": {"items": counts, "total": len(rows),
+                        "candidates_by_writer": dict(sorted({w: sum(1 for r in rows.values() if r["regime"] == "candidate" and r["writer"] == w)
+                                                             for w in WRITERS}.items())),
+                        "controls_by_writer": dict(sorted({w: sum(1 for r in rows.values() if r["regime"] == "control" and r["writer"] == w)
+                                                           for w in WRITERS}.items())),
+                        "null_false_targets_kind_matched": {g: sum(1 for r in rows.values() if r["regime"] == g and r["false_target_kind_matched"])
+                                                            for g in NULL_REGIMES},
+                        "own_control_items": len(own),
+                        "items_per_reader": {f: sum(1 for r in rows.values() if f in r["readers"]) for f in PLAN_READERS},
+                        "items_with_every_anchor_resolved_by_regime": {g: sum(1 for r in rows.values() if r["regime"] == g and r["anchors_resolve"])
+                                                                       for g in REGIMES},
+                        "unresolved_anchors_by_regime": {g: sum(r["n_unresolved_anchors"] for r in rows.values() if r["regime"] == g) for g in REGIMES}},
+             "items": [rows[t] for t in all_ids], "own_draw": sorted(own),
+             "rubrics_sha256": lg.sha256(lg.canonical(rubrics))}
+    return items, rubrics, triples
+
+
+# ── calls: labels, targets and units ────────────────────────────────────────────────────────────────
+
+def l_target(regime: str) -> str:
+    return "rubric" if regime == "candidate" else "false"
+
+
+def scoring_targets(row: Mapping[str, Any], s: int) -> tuple[str, ...]:
+    """Every sample: the L target (a candidate's rubric; a null item's false target). Sample 0 also: the own edit for
+    the 20 drawn candidates (positive control) and the paired rubric for the sham (sensitivity)."""
+    t = [l_target(row["regime"])]
+    if s == 0 and row["regime"] == "candidate" and row.get("own"):
+        t.append("own")
+    if s == 0 and row["regime"] == "sham" and row.get("paired_target"):
+        t.append("paired")
+    return tuple(t)
+
+
+def reader_units(rows: Sequence[Mapping[str, Any]], fam: str, k: int) -> list[tuple[int, str, str]]:
+    return [(s, row["item_id"], c) for row in rows if fam in row["readers"] for s in range(k) for c in CONDS]
+
+
+def scorer_units(row: Mapping[str, Any], s: int) -> list[tuple[int, str]]:
+    return [(p, t) for t in scoring_targets(row, s) for p in PASSES]
+
+
+def rubric_for(row: Mapping[str, Any], rubrics: Mapping[str, Any], cond: str, target: str) -> str:
+    if target == "rubric":
+        return rubrics["rubric"][row["item_id"]]
+    if target == "false":
+        return rubrics["rubric"][row["false_target"]]
+    if target == "paired":
+        return rubrics["paired"][row["item_id"]]
+    if target == "own":
+        own = rubrics["own"][row["item_id"]]
+        return own["whole"] if cond == "whole" else own["part"][PARTS.index(cond)]
+    raise ValueError(f"unknown target {target!r}")
+
+
+class B3Records(lg.Records):
+    """brief 23's records and outcome rules; the L target follows this brief's regimes."""
+
+    def reader_status(self, fam: str, r: int, row: Mapping[str, Any], cond: str) -> str:
+        rec = self.read.get((fam, r, row["item_id"], cond))
+        if rec is None or rec.get("outcome") == "errored":
+            return "missing"
+        parsed = rec.get("parsed") or {}
+        if rec["outcome"] == "refused":
+            return "refused_token" if parsed.get("declined_token") else "refused_provider"
+        if parsed.get("declined_token"):
+            return "refused_token"
+        lt = l_target(row["regime"])
+        flags = [self.score.get((fam, r, row["item_id"], cond, lt, p)) for p in PASSES]
+        if all(f is not None and f.get("outcome") == "scored" and (f.get("parsed") or {}).get("declined") for f in flags):
+            return "refused_prose"
+        return "answered"
+
+
+# ── configuration, inputs and the estimate ─────────────────────────────────────────────────────────
+
+def config(plan: Mapping[str, Any]) -> dict[str, Any]:
+    ch = plan["choice"]
+    return {"version": VERSION, "instrument_config_sha256": lg.config_sha256(), "instrument_prompt_sha256": lg.prompt_hashes(),
+            "samples_per_condition": ch["samples_per_condition"], "sol_rule": ch["sol_rule"], "anchor_rule": ch["anchor_rule"],
+            "beside_rule": ch["beside_rule"], "readers": {"all_items": list(ALL_ITEM_READERS), "glm_written_only": GLM_ONLY_READER},
+            "scorer": lg.SCORER["bedrock"], "passes": list(PASSES),
+            "seeds": {"false_target": FALSE_TARGET_SEED, "own_control": OWN_SEED, "order": lg.ORDER_SEED},
+            "approval": {"cap_usd": APPROVAL_CAP_USD, "rule": APPROVAL_RULE}}
+
+
+def config_sha256(plan: Mapping[str, Any]) -> str:
+    return lg.sha256(lg.canonical(config(plan)))
+
+
+def dependency_hashes() -> dict[str, str]:
+    return {d: lg.file_sha256(PROJECT / d) for d in DEPENDENCIES}
+
+
+def quiet_set(root: Path = PROJECT) -> tuple[list[dict], dict[str, str]]:
+    """brief 20 P1's mean-rule quiet set, recomputed from the key and the four pass files by its own code."""
+    import stage3_b3_power_v3 as pv
+    files = [pv.RATER + "/key-b3.json"] + [f"{pv.RATER}/ratings-b3-{s}-p{p}.jsonl" for s in ("statements", "triples") for p in (1, 2)] \
+        + list(pv.CHECKS.values())
+    return pv.quiet(pv.load_stimuli(root)), {f: lg.file_sha256(root / f) for f in files}
+
+
+INPUT_ARGS = ("key_b3", "triples_b3", "candidates_sonnet55", "candidates_glm53", "controls_sonnet55", "controls_glm53",
+              "t1_items", "t1_triples", "payloads_v2", "day0_md")
+
+
+def load_inputs(ns: argparse.Namespace) -> dict[str, Any]:
+    import stage3_views as sv
+    from stage3_t1v2_checks import DOCS
+    paths = {k: Path(getattr(ns, k)) for k in INPUT_ARGS}
+    data = {k: json.loads(p.read_text(encoding="utf-8")) for k, p in paths.items() if k != "day0_md"}
+    seed = sv.seed_base()
+    day0 = {path: text for (_svc, path), text in seed.items() if path in DOCS}
+    if set(day0) != set(DOCS):
+        raise SystemExit("refusing: the seeder's day-0 texts do not cover the six class documents")
+    md = paths["day0_md"].read_text(encoding="utf-8")
+    quiet, quiet_inputs = quiet_set()
+    return {"paths": paths, "data": data, "day0": day0, "day0_in_md": all(t.strip() in md for t in day0.values()),
+            "sha256": {k: lg.file_sha256(p) for k, p in paths.items()}, "quiet": quiet, "quiet_inputs_sha256": quiet_inputs}
+
+
+def writer_files(data: Mapping[str, Any]) -> dict[str, Any]:
+    return {f"{part}-{w}": data[f"{part}_{w}"] for part in RATED_ARM for w in WRITERS}
+
+
+def input_checks(inp: Mapping[str, Any]) -> dict[str, bool]:
+    d = inp["data"]
+    src = d["key_b3"].get("sources", {})
+    t1 = d["t1_items"]
+    checks = {f"key_source_{part}_{w}": src.get(f"{part}-{w}", {}).get("sha256") == inp["sha256"][f"{part}_{w}"]
+              for part in RATED_ARM for w in WRITERS}
+    checks["t1_triples_are_brief23s"] = t1.get("inputs_sha256", {}).get("triples") == inp["sha256"]["t1_triples"]
+    checks["payloads_v2_are_brief23s"] = t1.get("inputs_sha256", {}).get("payloads_v2") == inp["sha256"]["payloads_v2"]
+    checks["instrument_prompts_unchanged"] = t1.get("prompt_sha256") == lg.prompt_hashes()
+    checks["instrument_config_unchanged"] = t1.get("config_sha256") == lg.config_sha256()
+    checks["day0_texts_in_doc_states_md"] = inp["day0_in_md"]
+    checks["day0_texts_are_brief23s"] = t1.get("day0_sha256") == lg.day0_sha256(inp["day0"])
+    checks["b3d36_excluded"] = [(e["source"], e["id"]) for e in d["key_b3"].get("excluded", [])] == [("candidates-glm53", "B3-D36")]
+    by_w: dict[str, int] = {}
+    for q in inp["quiet"]:
+        by_w[q["writer"]] = by_w.get(q["writer"], 0) + 1
+    checks["quiet_set_78_by_writer"] = by_w == EXPECTED_QUIET_BY_WRITER
+    return checks
+
+
+def estimate(rows: Sequence[Mapping[str, Any]], triples: Mapping[str, Mapping[str, Any]], day0: Mapping[str, str],
+             rubrics: Mapping[str, Any], models: Mapping[str, Any] | None, routes: Mapping[str, Any] | None, k: int) -> dict:
+    """brief 23's pricing (rendered prompt lengths x per-token rates, its output-token assumptions), per reader on the
+    items that reader reads, and the scorer on every answer's targets."""
+    packets = lg.all_packets(rows, triples, day0)
+    by_id = {r["item_id"]: r for r in rows}
+    out: dict[str, Any] = {"samples_per_condition": k, "families": {}, "routes_known": routes is not None}
+    total = upper = 0.0
+    s_calls, s_chars = 0, [0, 0]
+    for fam, spec in lg.FAMILIES.items():
+        units = reader_units(rows, fam, k)
+        route, model = lg.family_route(fam, routes)
+        pr = lg.price_per_token(route, model, models)
+        chars = sum(len(lg.READER_SYSTEM) + len(packets[(i, c)]) for _s, i, c in units)
+        tin = chars / spec["chars_per_token"]
+        c_mid = tin * pr["in"] + len(units) * spec["out_tokens"][0] * pr["out"]
+        c_up = lg.REASK_FACTOR_UPPER * (tin * pr["in"] + len(units) * spec["out_tokens"][1] * pr["out"])
+        out["families"][fam] = {"route": route, "model": model, "items": sum(1 for r in rows if fam in r["readers"]), "calls": len(units),
+                                "est_input_tokens": round(tin), "usd": round(c_mid, 4), "usd_upper": round(c_up, 4)}
+        total += c_mid
+        upper += c_up
+        for s, i, c in units:
+            for _p, t in scorer_units(by_id[i], s):
+                s_calls += 1
+                rub = rubric_for(by_id[i], rubrics, c, t)
+                for j in (0, 1):
+                    s_chars[j] += len(lg.SCORER_SYSTEM) + len(lg.scorer_packet(rub, "x" * lg.ASSUMED_ANSWER_CHARS[j]))
+    pr = lg.price_per_token("bedrock", lg.SCORER["bedrock"], None)
+    s_tin = [ch / lg.SCORER["chars_per_token"] for ch in s_chars]
+    sc_mid = s_tin[0] * pr["in"] + s_calls * lg.SCORER["out_tokens"][0] * pr["out"]
+    sc_up = lg.REASK_FACTOR_UPPER * (s_tin[1] * pr["in"] + s_calls * lg.SCORER["out_tokens"][1] * pr["out"])
+    out["scorer"] = {"route": "bedrock", "model": lg.SCORER["bedrock"], "calls": s_calls, "est_input_tokens": round(s_tin[0]),
+                     "usd": round(sc_mid, 4), "usd_upper": round(sc_up, 4)}
+    total += sc_mid + lg.ROUTE_PROBE_USD
+    upper += sc_up + lg.ROUTE_PROBE_USD
+    out["route_probes_usd_allowance"] = lg.ROUTE_PROBE_USD
+    out["total_usd"] = round(total, 2)
+    out["total_usd_upper"] = round(upper, 2)
+    out["stop_at_usd"] = round(2 * total, 2)
+    out["approval"] = {"cap_usd": APPROVAL_CAP_USD, "within_cap": out["total_usd"] <= APPROVAL_CAP_USD}
+    return out
+
+
+def load_plan(out_dir: Path) -> dict:
+    p = out_dir / "stratum-plan.json"
+    if not p.exists():
+        raise SystemExit("refusing: stratum-plan.json is missing (run the plan mode first)")
+    return json.loads(p.read_text(encoding="utf-8"))
+
+
+def load_items(out_dir: Path) -> tuple[dict, list[dict], dict]:
+    items = json.loads((out_dir / "items-v0.json").read_text(encoding="utf-8"))
+    rub = json.loads((out_dir / "rubrics-v0.json").read_text(encoding="utf-8"))
+    if lg.sha256(lg.canonical(rub)) != items["rubrics_sha256"]:
+        raise SystemExit("refusing: rubrics-v0.json does not match the hash in items-v0.json")
+    return items, items["items"], rub
+
+
+def triples_for(rows: Sequence[Mapping[str, Any]], inp: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    b3 = {t["triple_id"]: t for t in inp["data"]["triples_b3"]}
+    t1 = {t["triple_id"]: t for t in inp["data"]["t1_triples"]}
+    return {r["item_id"]: (t1 if r["regime"] == "sham" else b3)[r["item_id"]] for r in rows}
+
+
+def mode_items(ns: argparse.Namespace) -> int:
+    out_dir = Path(ns.out_dir)
+    if (out_dir / "items-v0.json").exists() and not ns.force:
+        raise SystemExit("refusing: items-v0.json exists (pass --force only before any call)")
+    if lg.any_cache_records(out_dir):
+        raise SystemExit("refusing: reader or scorer calls are on file; the items cannot change now")
+    plan = load_plan(out_dir)
+    inp = load_inputs(ns)
+    checks = input_checks(inp)
+    if not all(checks.values()):
+        raise SystemExit(f"refusing: input checks failed {sorted(k for k, v in checks.items() if not v)}")
+    d = inp["data"]
+    k = int(plan["choice"]["samples_per_condition"])
+    items, rubrics, triples = build_items(inp["quiet"], d["key_b3"], d["triples_b3"], writer_files(d), d["t1_items"], d["t1_triples"],
+                                          d["payloads_v2"], inp["day0"], k)
+    items["inputs_sha256"] = inp["sha256"]
+    items["quiet_set_inputs_sha256"] = inp["quiet_inputs_sha256"]
+    items["input_checks"] = checks
+    items["stratum_plan_sha256"] = lg.file_sha256(out_dir / "stratum-plan.json")
+    items["config"] = config(plan)
+    items["config_sha256"] = config_sha256(plan)
+    items["script_sha256"] = lg.file_sha256(Path(__file__))
+    items["dependency_sha256"] = dependency_hashes()
+    items["day0_sha256"] = lg.day0_sha256(inp["day0"])
+    items["packets_sha256"] = lg.packets_sha256(lg.all_packets(items["items"], triples, inp["day0"]))
+    items["brief"] = {"path": str(BRIEF.relative_to(PROJECT)), "sha256": lg.file_sha256(BRIEF)}
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "rubrics-v0.json").write_text(lg.canonical(rubrics), encoding="utf-8")
+    (out_dir / "items-v0.json").write_text(json.dumps(items, indent=1), encoding="utf-8")
+    lg.emit({"counts": items["counts"], "input_checks": checks, "items_sha256": lg.file_sha256(out_dir / "items-v0.json"),
+             "rubrics_sha256": items["rubrics_sha256"], "script_sha256": items["script_sha256"], "config_sha256": items["config_sha256"],
+             "packets_sha256": items["packets_sha256"], "samples_per_condition": k})
+    return 0
+
+
+def mode_prices(ns: argparse.Namespace) -> int:
+    return lg.mode_prices(argparse.Namespace(out_dir=ns.out_dir))
+
+
+def mode_dry_run(ns: argparse.Namespace) -> int:
+    out_dir = Path(ns.out_dir)
+    plan = load_plan(out_dir)
+    items, rows, rubrics = load_items(out_dir)
+    if items.get("config_sha256") != config_sha256(plan):
+        raise SystemExit("refusing: the configuration differs from items-v0.json")
+    inp = load_inputs(ns)
+    triples = triples_for(rows, inp)
+    if items.get("packets_sha256") != lg.packets_sha256(lg.all_packets(rows, triples, inp["day0"])):
+        raise SystemExit("refusing: the rendering differs from items-v0.json")
+    models = json.loads((out_dir / "models-v0.json").read_text()) if (out_dir / "models-v0.json").exists() else None
+    routes = json.loads((out_dir / "routes-v0.json").read_text()) if (out_dir / "routes-v0.json").exists() else None
+    est = estimate(rows, triples, inp["day0"], rubrics, models, routes, int(items["samples_per_condition"]))
+    est["config_sha256"] = items["config_sha256"]
+    est["models_sha256"] = lg.file_sha256(out_dir / "models-v0.json") if models is not None else None
+    est["routes_sha256"] = lg.file_sha256(out_dir / "routes-v0.json") if routes is not None else None
+    est["assumptions"] = {"families": {f: {"chars_per_token": s["chars_per_token"], "out_tokens_central_upper": list(s["out_tokens"])}
+                                       for f, s in lg.FAMILIES.items()},
+                          "scorer": {"chars_per_token": lg.SCORER["chars_per_token"], "out_tokens_central_upper": list(lg.SCORER["out_tokens"]),
+                                     "assumed_answer_chars_central_upper": list(lg.ASSUMED_ANSWER_CHARS)},
+                          "every_answer_scored": True, "upper_reask_factor": lg.REASK_FACTOR_UPPER,
+                          "method": "brief23_dry_run_pricing_unchanged"}
+    (out_dir / "estimate-v0.json").write_text(json.dumps(est, indent=1), encoding="utf-8")
+    lg.emit(est)
+    return 0
+
+
+def mode_routes(ns: argparse.Namespace) -> int:
+    return lg.mode_routes(argparse.Namespace(out_dir=ns.out_dir, approved_usd=ns.approved_usd))
+
+
+def estimate_mismatches(est: Mapping[str, Any], items: Mapping[str, Any], out_dir: Path) -> list[str]:
+    bad = []
+    if est.get("config_sha256") != items.get("config_sha256"):
+        bad.append("estimate_config")
+    if est.get("models_sha256") != lg.file_sha256(out_dir / "models-v0.json"):
+        bad.append("estimate_prices")
+    if est.get("routes_sha256") != lg.file_sha256(out_dir / "routes-v0.json"):
+        bad.append("estimate_routes_file")
+    return bad
+
+
+async def run_phase(name: str, rows: Sequence[Mapping[str, Any]], packets: Mapping[tuple[str, str], str], readers: Mapping[str, Any],
+                    scorer: Any, rubrics: Mapping[str, Any], guard: Any, log: Path, offset: int, k: int) -> dict:
+    """Every reader on its own items (in parallel across readers), then the scorer on every answer's targets."""
+    fams = list(readers)
+    tasks = []
+    for j, fam in enumerate(fams):
+        units = lg.ordered(reader_units(rows, fam, k), offset + j)
+        tasks.append(lg.run_units(readers[fam], [(lg.READ_VIEW, lg.read_label(s, i, c), packets[(i, c)]) for s, i, c in units],
+                                  guard, log, f"{name}:read:{fam}"))
+    res = await asyncio.gather(*tasks)
+    out = {"read": dict(zip(fams, res))}
+    rec = B3Records({fam: cl.cache.values() for fam, cl in readers.items()}, [])
+    s_units = []
+    for fam in fams:
+        for row in rows:
+            if fam not in row["readers"]:
+                continue
+            for s in range(k):
+                for c in CONDS:
+                    a = rec.answer(fam, s, row["item_id"], c)
+                    if a is None:
+                        continue
+                    for p, t in scorer_units(row, s):
+                        s_units.append((lg.SCORE_VIEW, lg.score_label(p, fam, s, row["item_id"], c, t),
+                                        lg.scorer_packet(rubric_for(row, rubrics, c, t), a)))
+    out["score"] = await lg.run_units(scorer, lg.ordered(s_units, offset + len(fams)), guard, log, f"{name}:score")
+    return out
+
+
+def mode_run(ns: argparse.Namespace) -> int:
+    out_dir = Path(ns.out_dir)
+    est = json.loads((out_dir / "estimate-v0.json").read_text())
+    routes = json.loads((out_dir / "routes-v0.json").read_text())
+    models = json.loads((out_dir / "models-v0.json").read_text())
+    items, rows, rubrics = load_items(out_dir)
+    bad = estimate_mismatches(est, items, out_dir)   # first: nothing below builds a client before this
+    if bad:
+        raise SystemExit(f"refusing: the estimate does not match: {sorted(bad)}")
+    if abs(float(ns.approved_usd) - float(est["total_usd"])) > 0.005:
+        raise SystemExit(f"refusing: --approved-usd differs from the estimate's total ({est['total_usd']})")
+    if float(est["total_usd"]) > APPROVAL_CAP_USD:
+        raise SystemExit(f"refusing: the estimate ${est['total_usd']} is above ${APPROVAL_CAP_USD:.0f}; stop and ask Aravind")
+    plan = load_plan(out_dir)
+    inp = load_inputs(ns)
+    bad = lg.manifest_mismatches(items, inputs_sha256=inp["sha256"], script_sha256=lg.file_sha256(Path(__file__)),
+                                 cfg_sha256=config_sha256(plan), deps=dependency_hashes())
+    if items.get("stratum_plan_sha256") != lg.file_sha256(out_dir / "stratum-plan.json"):
+        bad.append("stratum_plan")
+    if items.get("quiet_set_inputs_sha256") != inp["quiet_inputs_sha256"]:
+        bad.append("quiet_set_inputs")
+    triples = triples_for(rows, inp)
+    packets = lg.all_packets(rows, triples, inp["day0"])
+    if items.get("packets_sha256") != lg.packets_sha256(packets) or items.get("day0_sha256") != lg.day0_sha256(inp["day0"]):
+        bad.append("rendering")
+    if bad:
+        raise SystemExit(f"refusing: the run differs from the committed manifest: {sorted(bad)}")
+    if set(routes["chosen"]) != set(lg.FAMILIES) or not routes["checks"]["scorer:bedrock"]["accepted"]:
+        raise SystemExit("refusing: a reader or the scorer has no accepted route")
+    if not est.get("routes_known") or any(est["families"][f]["route"] != c["route"] or est["families"][f]["model"] != c["model"]
+                                          for f, c in routes["chosen"].items()):
+        raise SystemExit("refusing: the estimate was not priced on the routes found (re-run dry-run)")
+    if lg.any_cache_records(out_dir) and not ns.resume:
+        raise SystemExit("refusing: calls are already on file; pass --resume to continue this run")
+    lg.check_reasoning_env()
+    k = int(items["samples_per_condition"])
+    stop = float(est["stop_at_usd"])
+    guard = lg.SpendGuard(stop, offset_usd=lg.route_ledger_usd(out_dir))
+    readers = {f: lg.make_reader(f, routes["chosen"][f]["route"], routes["chosen"][f]["model"],
+                                 lg.reader_cache(out_dir, f, routes["chosen"][f]["model"]), models, cap=stop, guard=guard) for f in lg.FAMILIES}
+    scorer = lg.make_scorer(lg.scorer_cache(out_dir), cap=stop, guard=guard)
+    drift = {f: lg.cache_drift(c, lg.READER_SYSTEM) for f, c in readers.items()}
+    drift["scorer"] = lg.cache_drift(scorer, lg.SCORER_SYSTEM)
+    if any(drift.values()):
+        raise SystemExit(f"refusing: cached records under another system prompt or max_tokens: {drift}")
+    guard.clients = list(readers.values()) + [scorer]
+    log = out_dir / "run-batches.jsonl"
+    nulls = [r for r in rows if r["regime"] in NULL_REGIMES]
+    cands = [r for r in rows if r["regime"] == "candidate"]
+    summary: dict[str, Any] = {"stop_at_usd": round(stop, 2), "resume": bool(ns.resume), "samples_per_condition": k,
+                               "approval": {"estimate_usd": est["total_usd"], "cap_usd": APPROVAL_CAP_USD, "rule": APPROVAL_RULE}}
+
+    async def both() -> None:   # one event loop: the clients' semaphores bind to the loop they first ran in
+        summary["nulls"] = await run_phase("nulls", nulls, packets, readers, scorer, rubrics, guard, log, 0, k)
+        if lg.phase_must_stop(summary["nulls"], guard):
+            summary["candidates"] = {"skipped": True}
+            return
+        summary["candidates"] = await run_phase("candidates", cands, packets, readers, scorer, rubrics, guard, log, 10, k)
+    asyncio.run(both())
+    summary["dollars"] = {**{f: round(c.total_spent(), 4) for f, c in readers.items()}, "scorer": round(scorer.total_spent(), 4),
+                          "routes": guard.offset_usd, "total": round(guard.total(), 4)}
+    (out_dir / "run-summary.json").write_text(json.dumps(summary, indent=1), encoding="utf-8")
+    lg.emit(lg.strip_reasons(summary))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="brief 25: B3's comprehension run and the T1 join")
-    ap.add_argument("mode", choices=("plan",))
+    ap.add_argument("mode", choices=("plan", "items", "prices", "dry-run", "routes", "run"))
     ap.add_argument("--out-dir", default=str(OUT))
+    ap.add_argument("--key-b3", default=str(S3 / "b3" / "rater" / "key-b3.json"))
+    ap.add_argument("--triples-b3", default=str(S3 / "b3" / "rater" / "stripped-triples-b3.json"))
+    for part, stem in (("candidates", "payloads-b3-candidates"), ("controls", "controls-b3")):
+        for w in WRITERS:
+            ap.add_argument(f"--{part}-{w}", default=str(S3 / "b3" / f"{stem}-{w}.json"))
+    ap.add_argument("--t1-items", default=str(S3 / "legibility" / "items-v0.json"))
+    ap.add_argument("--t1-triples", default=str(S3 / "t1k-rater" / "stripped-triples.json"))
+    ap.add_argument("--payloads-v2", default=str(S3 / "t1v2" / "payloads-v2.json"))
+    ap.add_argument("--day0-md", default=str(S3 / "t1k-rater" / "doc-states-day0.md"))
+    ap.add_argument("--approved-usd", type=float, default=None)
+    ap.add_argument("--resume", action="store_true")
     ap.add_argument("--force", action="store_true")
     ns = ap.parse_args(argv)
-    fn = {"plan": mode_plan}[ns.mode]
+    if ns.mode in ("run", "routes") and ns.approved_usd is None:
+        raise SystemExit("refusing: this mode needs --approved-usd (the dry-run estimate, at or under the approval cap)")
+    fn = {"plan": mode_plan, "items": mode_items, "prices": mode_prices, "dry-run": mode_dry_run, "routes": mode_routes,
+          "run": mode_run}[ns.mode]
     try:
         return fn(ns)
     except SystemExit:

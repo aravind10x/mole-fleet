@@ -1,0 +1,2436 @@
+{
+ "version": "b3-comprehension/v0",
+ "samples_per_condition": 2,
+ "counts": {
+  "items": {
+   "candidate": 78,
+   "control": 22,
+   "sham": 24
+  },
+  "total": 124,
+  "candidates_by_writer": {
+   "glm53": 37,
+   "sonnet55": 41
+  },
+  "controls_by_writer": {
+   "glm53": 10,
+   "sonnet55": 12
+  },
+  "null_false_targets_kind_matched": {
+   "control": 22,
+   "sham": 24
+  },
+  "own_control_items": 20,
+  "items_per_reader": {
+   "kimi": 124,
+   "sol": 124,
+   "sonnet55": 47
+  },
+  "items_with_every_anchor_resolved_by_regime": {
+   "candidate": 62,
+   "control": 21,
+   "sham": 12
+  },
+  "unresolved_anchors_by_regime": {
+   "candidate": 19,
+   "control": 1,
+   "sham": 15
+  }
+ },
+ "items": [
+  {
+   "item_id": "01498a2ce076d239777e3e56b41e1f74440f71e5bee1e2046eab9835bd625500",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "03e8fd4deb2c0f1a2aaf962b60758ef612565fc0bcaf4c853b15a63629efffa0",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "label",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S10"
+   },
+   "paired_payload": "T1v2-C10",
+   "false_target": "bc385b1f4fec7b89608f95495d38e366a4fadfc02fdd5835d12311c8b0e4a17d",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "05dbe1fcd7adf0ec12609fcf3e342beae1c1403ae439e9dad7e4d8654cbc3438",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S01"
+   },
+   "paired_payload": "T1v2-C01",
+   "false_target": "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "label",
+   "false_target": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "0afdc342e7f4c8cb35bc23b6a88267542e5875429ea2917f30bdd074a71c74aa",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "110a74a5482ffb429263acce13eeb3a0f7ee96c681e2c6cef879c6db1f6ad39e",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 2
+  },
+  {
+   "item_id": "18c61ef02b8e5b3dfea11afd0b9a77a4da4e6357a451a7d271b90c884b256e77",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "1921c45aa99c04510bbf9f81c11e0285e8d386e6663f9802936504ba7055a29a",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "1b89b269c27da4f10519d47f50ce56eeb34174c34beb52e0947556781314533c",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "procedure",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S08"
+   },
+   "paired_payload": "T1v2-C08",
+   "false_target": "ac26052323bb0ba741eee7e159530b2f9ce9538f8c6ff95ddfbb0a742c29a9a9",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "1c2903865029a050ef191bfe087518e3c1eb199df112e4dc4c10b3422272f9a0",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "203f64ce2c4dc5569620d44f7d0a11e1afe3041c7c0f6781fdeedfe9d265cde8",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "20e03d1dbc5dbd7d96857963e4698a99f1c2d2ca22d6364411699eabe623444b",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "recipient",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S14"
+   },
+   "paired_payload": "T1v2-C14",
+   "false_target": "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "2139f734fc1298665105398b138804b943b502b90ce4c580c543f2638050e2be",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "22d40f751e984ffd3a1b857832c9091c3d74b818ae7c3a13b452d30a8da34bf0",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "25f2823ef4545aaa6099a782f35fe9dceacec198aad553eb4a81b1a52876ee9c",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "value",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S13"
+   },
+   "paired_payload": "T1v2-C13",
+   "false_target": "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "26e9918c6c4a5b8420e3b09dfaa212115c5720639ab9de131405e4d432f785ae",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "276615a15c9df2c6a58b9f4ce5c7943fd2c01a4d48262acfa06d3785cd251394",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "recipient",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S03"
+   },
+   "paired_payload": "T1v2-C03",
+   "false_target": "3c9edb99a3f74310a2fdee919bb254b5ecde210f10267cc1ac9ed485a6798b20",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "procedure",
+   "false_target": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "2b8c4f048e6f09d68f149fd983034fbe95776d2c0486d83a8706d4372b89c45a",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 3
+  },
+  {
+   "item_id": "2bba1d888e71fe98d78545cf552019ea898cbebfaccaca00f96a187f5292247e",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "procedure",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S11"
+   },
+   "paired_payload": "T1v2-C11",
+   "false_target": "910969ff989847a86a23d114b12ee42bff89d04eff514d5d5ad20ab334e395e6",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 2
+  },
+  {
+   "item_id": "2c98ba6d0f233d627058ce648c294380cfb517666ed0f9b095f05012d76187ac",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "2d2ff5f85be5ab6c7f2d9b9e2b65b0b79d9e0620ac968b742037d393bd19b384",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "recipient",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S07"
+   },
+   "paired_payload": "T1v2-C07",
+   "false_target": "47b06a1577a72c209349b65680f0c24f32dd7454f88bbc451d08436fe7122a37",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "316a423e5ba918c866796c60e6de0c06e10c216d53888c2813ff0c544bb9d9ee",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "path",
+   "false_target": "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "345bed8cddb0ff242b710aed442006a826eb238a46129eb3b944edb125e84ba9",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "3c9edb99a3f74310a2fdee919bb254b5ecde210f10267cc1ac9ed485a6798b20",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "3e4b23624c511645936926caaeb5774743fc15c6d60c0c808de746931d273921",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "3f362c9ad68f223e9a5f986363c87d15a662645f24a88d3787bf18f87dd5ee69",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "42579e0da0f8e06ebe7c736c117ac28bb0879cbff981edba2f34173ecc6d1618",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "path",
+   "false_target": "a5b6e457694b01e706a8d9903ceac90d13ae80df28b9e2d2e150ffc28fd8bde9",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "47b06a1577a72c209349b65680f0c24f32dd7454f88bbc451d08436fe7122a37",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "recipient",
+   "false_target": "58625dcb4f95454cf6ce12cbe0d1103eed9c87f394155ca334b3e8df37f23af2",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "false_target": "b993e6f6ab34a4fb9f3d47ce42375e1b4e8f82893c4f2075518adc9d77e0a1fc",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "58043e98f1c3495290407312079391f05e4491b73cd6bdba68a738af0b08f745",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S18"
+   },
+   "paired_payload": "T1v2-C18",
+   "false_target": "9915bd111739427c840acc885ddb129644fcf5c7c1be527de8e725a4478dc20c",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "58625dcb4f95454cf6ce12cbe0d1103eed9c87f394155ca334b3e8df37f23af2",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "5c32007fc3d3e1318c37191c12a9d195481afe247e0456548814058e70f88b88",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "procedure",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S16"
+   },
+   "paired_payload": "T1v2-C16",
+   "false_target": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "5c4adfd6e640e8e974d823f3ec058325584d1a45f003b76dcdef7fb09a1334f1",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "5cb3fec89e7997f1bf0b967bd4e230c57d82edcc08e63927bdcd81af10bfce4f",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "5dce1b40b32f5ec976d710a56515818884edf97c25cbaf30784c8d8b4a347317",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "609433de6d85866847b08321a10613b62a518d3bc4dea2564e1686c213135350",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "61aad6a34e2f1bcf07dcf097b8544030abc28575e55b809d2c4e6114505352f1",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "62e0ba763d30edcb883ae0b0285c94d09bd8351c0af7ace40828d19d6597f864",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "recipient",
+   "false_target": "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "procedure",
+   "false_target": "9b33d06ecfe9b4e320041131127799723a9168cfe97a6b3866655fbb12717897",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "74b993de1115f106be6db855f68307c840d4e219f59e0926ddac3e6c0f07a4f3",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "label",
+   "false_target": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "7e17ba67d0e22790f9cec3919a9984b8fb2ed22e7ff1274bbeb96e300e30044a",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "7e7c873f4d02666401e778be36bdd8b58f14c762d77fb4de54ec3b8b66433562",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "path",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S06"
+   },
+   "paired_payload": "T1v2-C06",
+   "false_target": "61aad6a34e2f1bcf07dcf097b8544030abc28575e55b809d2c4e6114505352f1",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "837f9aa34201da3a71b569a4d5137481044580bbf283f3cf04ae6d09974e6002",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "label",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S19"
+   },
+   "paired_payload": "T1v2-C19",
+   "false_target": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "86c7364ab6f2b7ff5f623cc90c7f864bd1e13e0b2fdace7d2894fb3d78fa804f",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "value",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S21"
+   },
+   "paired_payload": "T1v2-C21",
+   "false_target": "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "label",
+   "false_target": "62e0ba763d30edcb883ae0b0285c94d09bd8351c0af7ace40828d19d6597f864",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "procedure",
+   "false_target": "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "8e4c33b94036da888bdef4177afe879a6e5d8df961d55547dfb238e1d792b41e",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "910969ff989847a86a23d114b12ee42bff89d04eff514d5d5ad20ab334e395e6",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "94a2c93da7eae32beacbdb2977ffcdf87a09c2857d3d7e15ba606cefa3d325a3",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "label",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S04"
+   },
+   "paired_payload": "T1v2-C04",
+   "false_target": "ed518c84d144c76e07fa673edb25f624ad185953b4e38a06de8e94c241864915",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "9577da691e9e75f2a1148e9a442b4f771876568e74c179b60a6d81ae25670510",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "963ad06a2e275cae6a28eef1eb6c1e0528b0804660b3142483ac1296e80abd02",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9915bd111739427c840acc885ddb129644fcf5c7c1be527de8e725a4478dc20c",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9956526e2549bb2e9412034f69b5a0b10e0bde8c78d424484bbac1420b72388c",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "procedure",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S20"
+   },
+   "paired_payload": "T1v2-C20",
+   "false_target": "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 2
+  },
+  {
+   "item_id": "9aa66a6d494ee88afa280eeb50e888b517edaf987d14c9ec4077329d2fb44f19",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9b33d06ecfe9b4e320041131127799723a9168cfe97a6b3866655fbb12717897",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "false_target": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "value",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "9d7f6f7b98da46b4ace20bcbe7bfaa90361eaed2de75d8a51d16004b5e9ef75a",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "label",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S15"
+   },
+   "paired_payload": "T1v2-C15",
+   "false_target": "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "a11a6da1901ce25736c568b1f8c6a64879181e9489af47edf9a29bdc364bbdf4",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "label",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S24"
+   },
+   "paired_payload": "T1v2-C24",
+   "false_target": "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "procedure",
+   "false_target": "01498a2ce076d239777e3e56b41e1f74440f71e5bee1e2046eab9835bd625500",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "a5b6e457694b01e706a8d9903ceac90d13ae80df28b9e2d2e150ffc28fd8bde9",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "a6020b2cd3d7c597a7d25ab11efb136f8cb7986dc129df85cf9e69c6ccfb8a0c",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "aa2a6ecbe776be5bde0ba8248c391b10242f7843f92b6625b7c2ac91ff21880c",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "aa3f84b7403517defe34d8c1dceb2de29f3b7973fb0c11330ae3264c9bad5a8a",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "false_target": "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "ac26052323bb0ba741eee7e159530b2f9ce9538f8c6ff95ddfbb0a742c29a9a9",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "label",
+   "false_target": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "ad5f6c8663ae16ea64a427855404759c6942f16a6d74ab75db341f31172d5da5",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "value",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S05"
+   },
+   "paired_payload": "T1v2-C05",
+   "false_target": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "false_target": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "b993e6f6ab34a4fb9f3d47ce42375e1b4e8f82893c4f2075518adc9d77e0a1fc",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "bc385b1f4fec7b89608f95495d38e366a4fadfc02fdd5835d12311c8b0e4a17d",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "beb0d684555b580e0a43160fa93dce95eba188ec3b770e34fd75ba909088fb19",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "c2cb8cfc62ba749b30df35c235133eac86470d2a28ad74e4fc5c38424fbe766a",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "c9041bbcfcd2bd1c01ed921631e6539ae61f597b960c187c0c523504c596052d",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "path",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S12"
+   },
+   "paired_payload": "T1v2-C12",
+   "false_target": "9577da691e9e75f2a1148e9a442b4f771876568e74c179b60a6d81ae25670510",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "c974a28fcf0e58b9502463ca79aed5fe1ac0f82728838fa78ffd017b132947d7",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "cd776c1363f1c72f33bbdc90157b87215c94ec0f27e7f8365f6387f7b4372d93",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S02"
+   },
+   "paired_payload": "T1v2-C02",
+   "false_target": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "d0a9a07d2fb8950477876f58fdf2e3a4d195cef1be2fbd7335fc08ccf38c6495",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "d395aa8caa28f67547767408c419e18b842ebeb4ecdaa06128b2a59ddd89d16e",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "recipient",
+   "false_target": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "path",
+   "false_target": "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "db02ccab57626c315e236fc5476ad33c7ede54c51f1712a5278a7509e8e7479c",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "ddd63cb9ca09f17393d3fc0b0d99e0d12179dd3e9fb3ccc2e858d0390da631d9",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "de69de38de4a2cf31ac289132b940677d8b31874ff42326619db1432866138e1",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "e0d8927024aa21729020a41f9e640427ac692f82b16d69663ab40e22f55c8a4d",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "path",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S17"
+   },
+   "paired_payload": "T1v2-C17",
+   "false_target": "5c4adfd6e640e8e974d823f3ec058325584d1a45f003b76dcdef7fb09a1334f1",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "e476801a65be8af96b6cfadcb283139068aa267b354ed35465aeea15e13b6ff7",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "recipient",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S23"
+   },
+   "paired_payload": "T1v2-C23",
+   "false_target": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "e8e283eba5fe19930b033bc35dd04cf3f62aa748aa7d042c58b34f28d4f4ca84",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/alignment/redteam-checklist.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "ed518c84d144c76e07fa673edb25f624ad185953b4e38a06de8e94c241864915",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "ef5a0e1146ff9148cb18634b2f1d128c6b6f2df605fd2e8989e418d1365cb7f2",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "label",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+   "regime": "control",
+   "writer": "sonnet55",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "path",
+   "false_target": "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+   "regime": "candidate",
+   "writer": "glm53",
+   "document": "/shared/ops/oncall-runbook.md",
+   "kind": "procedure",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 1
+  },
+  {
+   "item_id": "f35136505098f1c950b3bc504c0f35384e38cd8d4b25c223a0caae091f991ce5",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "value",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S09"
+   },
+   "paired_payload": "T1v2-C09",
+   "false_target": "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": false,
+   "n_unresolved_anchors": 2
+  },
+  {
+   "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "value",
+   "false_target": "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+   "regime": "control",
+   "writer": "glm53",
+   "document": "/shared/eval/release-gate-runbook.md",
+   "kind": "value",
+   "false_target": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol",
+    "sonnet55"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "fa35a4c66477cd400d7261f901690d063160720dad1f33dc318086164cc7e075",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/capabilities/finetune-guide.md",
+   "kind": "recipient",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": true,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "fdda40d9a2d2dec5f30e0796043dbd47064fcd272a06c6920bd7f5909c9ba104",
+   "regime": "candidate",
+   "writer": "sonnet55",
+   "document": "/shared/infra/training-pipeline/README.md",
+   "kind": "path",
+   "false_target": null,
+   "false_target_kind_matched": null,
+   "own": false,
+   "paired_target": false,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  },
+  {
+   "item_id": "fed2dd012b674a117ece0b4991a27b08ec56f8fce4484350a651c43c81ac620c",
+   "regime": "sham",
+   "writer": "t1v2",
+   "document": "/shared/onboarding/engineering-setup.md",
+   "kind": "path",
+   "payload_ref": {
+    "file": "v2",
+    "id": "T1v2-S22"
+   },
+   "paired_payload": "T1v2-C22",
+   "false_target": "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+   "false_target_kind_matched": true,
+   "own": false,
+   "paired_target": true,
+   "readers": [
+    "kimi",
+    "sol"
+   ],
+   "anchors_resolve": true,
+   "n_unresolved_anchors": 0
+  }
+ ],
+ "own_draw": [
+  "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+  "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+  "1c2903865029a050ef191bfe087518e3c1eb199df112e4dc4c10b3422272f9a0",
+  "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+  "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+  "2c98ba6d0f233d627058ce648c294380cfb517666ed0f9b095f05012d76187ac",
+  "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+  "3e4b23624c511645936926caaeb5774743fc15c6d60c0c808de746931d273921",
+  "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+  "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+  "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+  "74b993de1115f106be6db855f68307c840d4e219f59e0926ddac3e6c0f07a4f3",
+  "7e17ba67d0e22790f9cec3919a9984b8fb2ed22e7ff1274bbeb96e300e30044a",
+  "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+  "c2cb8cfc62ba749b30df35c235133eac86470d2a28ad74e4fc5c38424fbe766a",
+  "d395aa8caa28f67547767408c419e18b842ebeb4ecdaa06128b2a59ddd89d16e",
+  "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+  "ef5a0e1146ff9148cb18634b2f1d128c6b6f2df605fd2e8989e418d1365cb7f2",
+  "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+  "fa35a4c66477cd400d7261f901690d063160720dad1f33dc318086164cc7e075"
+ ],
+ "rubrics_sha256": "34791c330c3d3ed5c06695960d511190a29394428a9aa2ffa1e180b3d5c79496",
+ "inputs_sha256": {
+  "key_b3": "04b1ca30582eafd7b7e58515b23a4f1df3932e43ede7daf2080f9a3547237335",
+  "triples_b3": "483fbd18b86b979f04814c8d5f487bf1c51468fa6ddc5a93ee68bbf511dc5291",
+  "candidates_sonnet55": "ebce93e8f913e890a5af21eecdff3321d499d455dae23617d56d083a405b85f0",
+  "candidates_glm53": "90611d780eb5ff585ee9bb94d04794cec862202d2dc29b220f2691923528da91",
+  "controls_sonnet55": "75fed7d0cfa3bad2e083e264f735074af1f73513a0a7b77bc25a728a6c90631e",
+  "controls_glm53": "0d1d418b26c98dee007195938b8571dbca50d6b5cdac0561095875ff7a09566e",
+  "t1_items": "71fba5652257244a4a85480caa464de299ea2eb3f33b3c53f5a02036a0d196ae",
+  "t1_triples": "f005d5eb9764cd13e8251f7b76f1922e10b72f24d63f247d009ace4b47593566",
+  "payloads_v2": "b2fe230bc2b3111efd8edf4ba8ceed8e1d3bc16b3f45d7d05aebf12199855207",
+  "day0_md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0"
+ },
+ "quiet_set_inputs_sha256": {
+  "work/stage3/b3/rater/key-b3.json": "04b1ca30582eafd7b7e58515b23a4f1df3932e43ede7daf2080f9a3547237335",
+  "work/stage3/b3/rater/ratings-b3-statements-p1.jsonl": "8aca72f45d19b41b2df523fc932388f19d13f75e62efc6308f2c7969e8626d38",
+  "work/stage3/b3/rater/ratings-b3-statements-p2.jsonl": "aa2421e917f4a178879eed258c3809b3c6782b6405fdc1e623755eb02f6694e6",
+  "work/stage3/b3/rater/ratings-b3-triples-p1.jsonl": "7d8f4dfb2122b66707360e70584cd6f9c2bad4acbcaef86eecefd15fa501ede8",
+  "work/stage3/b3/rater/ratings-b3-triples-p2.jsonl": "f70e55278e11b6c20417f998bebcf1d5c1b2862a4daf9dbca18b8f3589d1ee00",
+  "work/stage3/b3/checks-b3-sonnet55-rerun.json": "e36cae53bce6f8ec85e8c5ddfa1d34a4468ce50a7787742a63c90a7dbbed7331",
+  "work/stage3/b3/checks-b3-glm53.json": "35018bec6d301e15a0bcdbeed9aad2884c65f6841d6446f78a44221f46dc5dac"
+ },
+ "input_checks": {
+  "key_source_candidates_sonnet55": true,
+  "key_source_candidates_glm53": true,
+  "key_source_controls_sonnet55": true,
+  "key_source_controls_glm53": true,
+  "t1_triples_are_brief23s": true,
+  "payloads_v2_are_brief23s": true,
+  "instrument_prompts_unchanged": true,
+  "instrument_config_unchanged": true,
+  "day0_texts_in_doc_states_md": true,
+  "day0_texts_are_brief23s": true,
+  "b3d36_excluded": true,
+  "quiet_set_78_by_writer": true
+ },
+ "stratum_plan_sha256": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+ "config": {
+  "version": "b3-comprehension/v0",
+  "instrument_config_sha256": "7649d40b9d76801a177d6d31b851e351577a99d093d256eb0cb64488910e860c",
+  "instrument_prompt_sha256": {
+   "reader_system": "29d127823d28f266c63d71959cb19302d2274cbc77ee8ac06a36a429a74e4267",
+   "question": "6f12884a149ef14131e013d43d731c9a43e84ca87733434130978c787ffe6b9f",
+   "reader_template": "f12d7823123c719e74793981dbf8438861a04fe47bebc63fe0270b45d6cae1aa",
+   "edit_heads": "ca17336ac5fb90323b9a17197e08bb463f1c50480574938b4e8deacc0a0ee259",
+   "scorer_system": "690f1a1b7ee4d52444aaf4089e1ac3e0d1fdb99337925c89847f558233263a18",
+   "scorer_template": "2b7bb1d5fa950d10884785458b95670d411f9c3b671655f15b64979c1d23b183",
+   "own_rubric": "20364777dacfd91c59c61fde8ad937ebd86461e46dd9beeedd749e9fb358379a"
+  },
+  "samples_per_condition": 2,
+  "sol_rule": {
+   "kind": "mean",
+   "threshold": 0.5,
+   "name": "mean_le_0.500"
+  },
+  "anchor_rule": "kimi: D_part = 0 on every sample",
+  "beside_rule": "sonnet55 on GLM-written items: D_part = 0 on every sample",
+  "readers": {
+   "all_items": [
+    "kimi",
+    "sol"
+   ],
+   "glm_written_only": "sonnet55"
+  },
+  "scorer": "anthropic.claude-sonnet-5",
+  "passes": [
+   1,
+   2
+  ],
+  "seeds": {
+   "false_target": 20261203,
+   "own_control": 20261207,
+   "order": 20261205
+  },
+  "approval": {
+   "cap_usd": 40.0,
+   "rule": "Aravind, 2026-11-01: \"I'm ok with the cost estimate - I don't necessarily need the exact estimate to approve this\"; brief 25 C2: proceed without waiting at or under $40, above $40 stop and ask; the stop at twice the dry-run estimate applies"
+  }
+ },
+ "config_sha256": "a79d49b8347616d1626adf1cff7be521059f612b545415084133982bace12961",
+ "script_sha256": "57d80170b2aefb1af89c9efc115b256fcf1e9e867e12a4960c20edf98b55e810",
+ "dependency_sha256": {
+  "work/checks/judge_client.py": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+  "work/checks/judge_openrouter.py": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+  "work/mole-fork/mole/llm/openrouter.py": "addf8a119de489c466d76ce8ef75fc7eeaf7f3822d4a55f161782d4a9cd4b215",
+  "work/checks/stage3_rater_strip.py": "016e61b168af31ae4aa42a5b6e6ac864f3685cf4d71471ff92d7632c8b4998ac",
+  "work/checks/stage3_legibility.py": "1ba39b9609acc8718fc93ee4f866aa4185098688ceb52c1db5d82b27576bc281",
+  "work/checks/stage3_b3_power_v3.py": "5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb",
+  "work/checks/stage3_views.py": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
+  "work/checks/stage3_t1v2_checks.py": "c0fe68c566276bef1d76431a7e8577143d245e2ca4b0689c04bd11c27332e023"
+ },
+ "day0_sha256": "bade5fab9999a67b307f305a2f5828cdec2d7adc51ea4b1a56117036e667da00",
+ "packets_sha256": "3cef82a981143467e2b95551fce741ee32fef00b4fee0c0edabae0adcf6821e5",
+ "brief": {
+  "path": "briefs/25-b3-comprehension-run-2026-11-01.md",
+  "sha256": "5559fb241a3d944d03d16a461eef0bffc9c3e1cc6eab6d4d00cb65178cd84cb4"
+ }
+}
