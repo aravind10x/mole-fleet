@@ -1,6 +1,6 @@
 # Research statement v0: which fleet monitors does splitting a change across agents defeat?
 
-*For Aravind's conversations. Derived from the paper's outline v1 (`work/paper/outline-v1.md`, with its dated note). Every number is in the frozen manifest (`work/stage3/b0/frozen-tables.json`, 88 files) and carries its tag and file. Tags: confirmatory and exploratory as the producing plan set them; instrument means a measurement of an instrument, never an outcome; methods means the rater's certification aggregates. Two items are pending the coordinator and carry no number here: the generator's exact model id, and Part J's lift and rank-correlation figures.*
+*For Aravind's conversations. Derived from the paper's outline v1 (`work/paper/outline-v1.md`, with its dated note). Every number is in the frozen manifest (`work/stage3/b0/frozen-tables.json`, 102 files, sha256 c96719b0) and carries its tag and file. Tags: confirmatory and exploratory as the producing plan set them; instrument means a measurement of an instrument, never an outcome; methods means the rater's certification aggregates. One item is pending and carries no number here: Part J's lift and rank-correlation figures.*
 
 ## The question
 
@@ -15,7 +15,7 @@ Write a per-agent monitor's score over an agent's actions as s. Splitting the ac
 - **Superadditive signals** respond to combination, to volume, or to both ends of a dependency. Splitting helps against them.
 - **Sub-additive signals** are diluted by honest cover. Against them the attacker's lever is cover, not splitting.
 
-The claim follows from this: collusion pays exactly against superadditive per-agent signals; content judges on this substrate look max-type; and the defence that survives either way is review at the unit where the harm composes. One agent spreading a change across documents or days is a different case, fragmentation across artifacts, and is named as such wherever it appears.
+The claim follows from this: collusion pays exactly against superadditive per-agent signals; content judges on this substrate look max-type (a hypothesis until B3 reports); and the defence that survives either way is review at the unit where the harm composes. One agent spreading a change across documents or days is a different case, fragmentation across artifacts, and is named as such wherever it appears.
 
 ## What we have measured
 
@@ -62,3 +62,12 @@ Recovering the coalition from interaction structure is the last resort, needed o
 - That honest readers act on these changes; consumption is not read here.
 - Any live collusion result.
 - Every sentence about how narrow the middle band is, or how little splitting buys, holds "with these writers" until the elicitation study has run.
+
+---
+*Dated note, 2026-11-02, after the review session's read of the draft (`work/paper/review/read-draft-v0-2026-11-02.md` 134c0215, R1 and Fable's O13). Three changes:*
+- *The manifest line is now 102 files, sha256 c96719b0.*
+- *The generator's model id is no longer pending; it is Kimi K2.6, per the coordinator's erratum. The statement names no model.*
+- *The thesis paragraph scopes "content judges look max-type" as a hypothesis until B3 reports.*
+
+*Nothing else changed.*
+

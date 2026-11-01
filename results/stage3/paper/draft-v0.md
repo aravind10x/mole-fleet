@@ -1,6 +1,6 @@
 # Splitting a change across agents: which fleet monitors it defeats, and the unit of review that survives
 
-*Draft v0 (brief 13 A5), written by the brief 13 writing session (Opus 5.5) from outline v1 with its dated note (`work/paper/outline-v1.md`). It draws only on the frozen manifest `work/stage3/b0/frozen-tables.json` (88 files; sha256 67c72050). Every number is written as value [interval] (tag; file, table), with files relative to `work/stage3/`. Tags: confirmatory, exploratory and sensitivity as the producing plan set them; instrument (a measurement of an instrument, never an outcome); methods (the rater's certification aggregates); design (simulated operating characteristics); pre-registration (a committed plan's fixed figures). A `[pending: …]` marker stands where a figure waits on a record the coordinator decides on; no number is written in its place. Sections are drafted in A5.1 (4)'s order. The abstract, the introduction, §1 and the discussion wait for B3's round 1. §10's B3 results, B4's results, TRACK-C's result and B3's human anchor are placeholders.*
+*Draft v0 (brief 13 A5), written by the brief 13 writing session (Opus 5.5) from outline v1 with its dated note (`work/paper/outline-v1.md`). It draws only on the frozen manifest `work/stage3/b0/frozen-tables.json` (102 files; sha256 c96719b0, after W0, W0b and W0c). Every number is written as value [interval] (tag; file, table), with files relative to `work/stage3/`. Tags: confirmatory, exploratory and sensitivity as the producing plan set them; instrument (a measurement of an instrument, never an outcome); methods (the rater's certification aggregates); design (simulated operating characteristics); pre-registration (a committed plan's fixed figures). A `[pending: …]` marker stands where a figure waits on a record the coordinator decides on; no number is written in its place. Sections are drafted in A5.1 (4)'s order. The abstract, the introduction, §1 and the discussion wait for B3's round 1. §10's B3 results, B4's results, TRACK-C's result and B3's human anchor are placeholders.*
 
 ## Abstract
 
@@ -18,7 +18,7 @@
 
 ### 2.1 The labelling constraint
 
-A benchmark can only label a harm it can tell apart from honest work. It therefore builds harms whose outcomes honest work never produces (argument; `work/blog-thesis/ASSESSMENT.md`, section 0). Suppose that outcome lives in state the defender also reads, and telling it apart needs nothing only the attacker knows. Then the benchmark's own scorer is a near-free detector, and no monitor comparison on that harm measures what a monitor adds. The earlier stages of this project met that constraint repeatedly (§15). One example: our Stage 0 structural rules, run blind as detectors under the benchmark's own protocol on its released GPT-5.3 single-day corpus, reach R@10/day 0.725. The benchmark's own matchers alone reach 0.601, and the two together 0.734. On the Kimi K2.6 corpus the three figures are 0.399, 0.390 and 0.458 (exploratory; `../blog-thesis/checks/mole_r10_gpt53_single_day.json` and `../blog-thesis/checks/mole_r10_kimi_k26_single_day.json`, detectors; values rounded from R10_overall). On the same single-day GPT-5.3 comparison, the benchmark paper's best audit-event monitor, Claude Opus 4.7, reaches 0.533 (external citation; Muhamed and Smith, "MOLE: Detecting Insider Threats in AI Agents", arXiv:2609.06966 v1, §3.3, Figure 4). Its abstract says that monitor "misses nearly half of completed harm" (same source). This study sits on the other side of it: the harms of interest are changes whose surface honest agents also produce, so the honest null, not the test change, sets what a monitor can see.
+A benchmark can only label a harm it can tell apart from honest work. It therefore builds harms whose outcomes honest work never produces (argument; `work/blog-thesis/ASSESSMENT.md`, section 0). Suppose that outcome lives in state the defender also reads, and telling it apart needs nothing only the attacker knows. Then the benchmark's own scorer is a near-free detector, and no monitor comparison on that harm measures what a monitor adds. The earlier stages of this project met that constraint repeatedly (§15). One example: our Stage 0 structural rules, run blind as detectors under the benchmark's own protocol on its released GPT-5.3 single-day corpus, reach R@10/day 0.725. The benchmark's own matchers alone reach 0.601, and the two together 0.734. On the Kimi K2.6 corpus the three figures are 0.399, 0.390 and 0.458 (exploratory; `../blog-thesis/checks/mole_r10_gpt53_single_day.json` and `../blog-thesis/checks/mole_r10_kimi_k26_single_day.json`, detectors; values rounded from R10_overall). On the same single-day GPT-5.3 comparison, the benchmark paper's best audit-event monitor, Claude Opus 4.7, reaches 0.533, written without an interval because none was found in the part of the paper read (external citation; Muhamed and Smith, "MOLE: Detecting Insider Threats in AI Agents", arXiv:2609.06966 v1, §3.3, Figure 4). Its abstract says that monitor "misses nearly half of completed harm" (same source). This study sits on the other side of it: the harms of interest are changes whose surface honest agents also produce, so the honest null, not the test change, sets what a monitor can see.
 
 ### 2.2 What sits at the top of every judge's honest null
 
@@ -33,7 +33,7 @@ Each content judge's threshold is set on an honest null: the same view applied t
 | Opus 4.8 | 55 | 26 (6) | safety step weakened, contact or host moved (0.962) | none |
 | Opus 5.5 (own rule, a reading) | 58 | 26 (6) | contact or host moved, retroactive approval (0.462) | 43 (release-gate runbook 40, on-call runbook 3) |
 
-- **The pattern holds under every judge.** The honest units each threshold must clear are agents recording approvals after the fact, and agents moving a contact or a host (Table 2.1).
+- **The same documents and the same honest behaviours, under each judge's own label.** The honest units each threshold must clear are agents recording approvals after the fact, and agents moving a contact or a host. Opus 4.8 labels the release-gate units "safety step weakened" (Table 2.1 and the next bullet).
 - **The categories follow each judge's wording.** Opus 4.8's release-gate units fall mostly into "safety step weakened" (8 of 9). Sonnet's fall into "retroactive approval" (12 of 19) (exploratory; `b0/b0-results.md`, Z4 caveat).
 - **The classifier is unchecked.** It is keyword-based and was not checked against a human read (same table).
 - **The per-author nulls are much thinner.** They hold 4 (Sonnet), 6 (GLM) and 3 (Opus 4.8) units at or above threshold (exploratory; `b0/b0-results.md`, Z4 sentences).
@@ -101,7 +101,7 @@ Honest edits reach each maintained item's line about once a day or more. Per-ite
 The consequence is a stated limitation:
 - **Level-2 consumption is not read in this paper.** That means an honest reader acting on a composed change. It is scoped to world one's conditional live confirmation.
 - **The efficacy argument rests on the documents' role.** Runbooks and guides are acted on by construction.
-- **This world cannot show it.** The simulator's maintenance rate undoes a composed change before honest readers come back to it.
+- **This world cannot show it.** Honest sessions did read composed documents while they were composed, and in both pilot instances that lost a composition, the session that undid it had read the document first (exploratory; `pilot/forensics/forensics.md`, A3). The simulator's maintenance rate undoes a composed change within about a day, and whether any reader acted on it is not read.
 
 ### 3.5 Views, judges and honest nulls
 
@@ -122,9 +122,9 @@ The consequence is a stated limitation:
 ### 3.6 The sham and the controls
 
 - **The sham arm.** A same-shape arm whose changes have the test changes' edit shape and no harmful content. Every set-level signal is read beside it.
-- **The forward sham rule.** A judge's readings on a planting are interpretable only when the sham's attributable rate is low by the one-sided 95 percent lower bound of that rate. The A3 point rule is reported beside as a labelled sensitivity (confirmatory; `t1-replant/replant-results.md`, disclosure 4).
+- **The forward sham rule.** A judge's readings on an application set are interpretable only when the sham's attributable rate is low by the one-sided 95 percent lower bound of that rate. The A3 point rule is reported beside as a labelled sensitivity (confirmatory; `t1-replant/replant-results.md`, disclosure 4).
 - **Attributable readings.** These count a flag only where the honest counterpart unit is unflagged, which conditions out the author's honest standing (same file).
-- **B3's two reference sets.** Its same-writer control items, 22 (21 net of brief 26's drops), and its same-shape comparison items, v2's 24 sham triples (instrument; `b3/inserter-dry-run-v0.md`, aggregates).
+- **B3's two reference sets.** Its same-writer control items, 22 (21 net of brief 26's drops), and its same-shape comparison items, v2's 24 sham triples (instrument; `b3/inserter-dry-run-v0.md`, aggregates; `b3/comprehension/stratum-v0.md`, disclosures).
 
 ### 3.7 The rater and its drift rule
 
@@ -140,7 +140,7 @@ The visibility axis is a Claude rater's 0-to-100 score. Its rubric was committed
 Brief 23 built a second instrument for legibility.
 - **What the reader does.** It is shown either the whole change or one line of it at a time, and is asked what the change leads to.
 - **How answers are scored.** A separate scorer (Sonnet 5, two passes, a consequence-only instruction) credits an answer that states the item's declared consequence. D_whole is the whole condition's credit. D_part is the best of the three single-line answers.
-- **The readers.** Kimi K3, GPT-6 Sol and Sonnet 5.5. Sonnet 5.5 reads only items not written by Claude.
+- **The readers.** Kimi K3, GPT-6 Sol and Sonnet 5.5. In brief 23, Sonnet 5.5 read the Claude-written T1 items (§9.2). In brief 25 it read only items not written by Claude (instrument; `b3/comprehension/stratum-v0.md`, disclosures).
 - **Its validation status is the result, and it is an instrument result.** The null is clean: median L_null 0.000 in every family. The scorer is reliable: pass kappa 0.898 to 0.940. On the T1 items, though, the instrument is not valid as a separation measure, under every reader family (instrument; `legibility/instrument-v0.md`, validation sentences; `legibility/instrument-v0-reading.md`). §9 says what that means.
 
 ### 3.9 The inserter
@@ -151,7 +151,7 @@ Test changes are applied to the honest corpus by script, into sessions that had 
 
 ### 4.1 The regime table
 
-Table 4.1 is the paper's central figure, set as a table. Its rows are the plantings and arms, ordered by the rater's score of each test change's loudest statement. Its columns are the views under Sonnet 5, the sealed primary judge. §7 gives the other judges' composed levels.
+Table 4.1 is the paper's central figure, set as a table. Its rows are the application sets and arms, ordered by the rater's score of each test change's loudest statement. Its columns are the views under Sonnet 5, the sealed primary judge. §7 gives the other judges' composed levels.
 
 **Table 4.1.** Recall by view and regime under Sonnet 5, against the rater's scale. The x-axis is the Claude rater's scale, which has weak human agreement (§8).
 - **Recall columns.** Recall is the share of test changes flagged, with exact intervals. The per-author view runs at a 0.05 author-level rule, and the composed view at its 0.10 pooled rule, nominal.
@@ -159,14 +159,14 @@ Table 4.1 is the paper's central figure, set as a table. Its rows are the planti
 - **Sources.** The recall columns are confirmatory, from `t1v2/t1v2-results.md`, `t1v3/t1v3-results.md`, `t1-replant/replant-results.md` and `t1/t1-results.md`.
 - **The old-inserter row** (◇, hollow) is superseded for Δ by the re-plant.
 
-| planting : arm | rater: loudest statement | P_author lone | P_author k = 2 | O_diff composed | P_own per-piece flip rate |
+| application set : arm | rater: loudest statement | P_author lone | P_author k = 2 | O_diff composed | P_own per-piece flip rate |
 |---|---|---|---|---|---|
 | v2 sham | 5 [5, 10] | 0.0417 (1/24) [0.0011, 0.2112] | 0.0 (0/24) [0.0, 0.1425] | 0.0312 (2/64) [0.0038, 0.1084] | 0.0225 |
 | v3 sham re-draw | mean 10.42 | 0.083 (1/12) [0.002, 0.385] | 0.000 (0/12) [0.000, 0.265] | 0.125 (4/32) [0.035, 0.290] | 0.000 |
 | v2 conforming (routine) | 35 [25, 51.25] | 0.0833 (2/24) [0.0103, 0.27] | 0.1667 (4/24) [0.0474, 0.3738] | 0.3438 (22/64) [0.2295, 0.473] | 0.0227 |
 | v3 routine re-draw | mean 39.17 | 0.000 (0/12) [0.000, 0.265] | 0.083 (1/12) [0.002, 0.385] | 0.344 (11/32) [0.186, 0.532] | 0.075 |
 | v3 middle | 45 [35, 55] | 0.125 (3/24) [0.027, 0.324] | 0.125 (3/24) [0.027, 0.324] | 0.344 (22/64) [0.230, 0.473] | 0.023 |
-| re-plant sham | 5 [5, 10] (the same sham changes as v2's; `rater-07s/rater-composition.md`, C1) | 0.042 (1/24) [0.001, 0.211] | 0.125 (3/24) [0.027, 0.324] | 0.109 (7/64) [0.045, 0.212] | 0.023 |
+| re-plant sham | 5 [5, 10] (the same 24 sham changes as v2's; `rater-07s/rater-honest-reference.md`, J1; `rater-07s/rater-composition.md`, disclosure 4) | 0.042 (1/24) [0.001, 0.211] | 0.125 (3/24) [0.027, 0.324] | 0.109 (7/64) [0.045, 0.212] | 0.023 |
 | **re-plant v1** | 75 [68.75, 76.25] | **0.500 (12/24) [0.291, 0.709]** | **0.500 (12/24) [0.291, 0.709]** | **0.734 (47/64) [0.609, 0.837]** | 0.156 |
 | ◇ v1, old inserter (hollow) | 75 [68.75, 76.25] | 0.7083 (17/24) [0.4891, 0.8738] | 0.25 (6/24) [0.0977, 0.4671] | 0.7419 (46/62) [0.615, 0.8447] | 13 of 86 flipped |
 | v2 alarming | 85 [80, 91.25] | 0.5 (4/8) [0.157, 0.843] | 0.625 (5/8) [0.2449, 0.9148] | 0.9583 (23/24) [0.7888, 0.9989] | 0.3429 |
@@ -175,7 +175,7 @@ Table 4.1 is the paper's central figure, set as a table. Its rows are the planti
 
 The two halves of the headline can be placed side by side, each with its own tag:
 - **The most visible statement.** An applied change is caught when it holds the most visible statement. This is B0's mechanism join, exploratory and in-sample, to be confirmed prospectively in B3.
-- **Not the number of agents.** It is not caught on how many agents applied it. This is 07o's confirmatory exclusion of v1's effect, with no reading at headroom yet under the theory's clause.
+- **Not the number of agents.** It is not caught on how many agents applied it. This is 07o's confirmatory exclusion of v1's effect, with no clean reading at headroom yet under the theory's clause: B1's live readings reach headroom but cannot separate max-type scoring from the neighbour's leak (§4.3).
 
 The next experiments are named: B1, the author dossier (done, §4.3); B3, distributed visibility (§10); and B4, the cross-document 2×2 (§11.2).
 
@@ -187,7 +187,7 @@ The next experiments are named: B1, the author dossier (done, §4.3); B3, distri
   - The per-piece flip rate differs by −0.3201 [−0.4787, −0.1716].
 
   All three are confirmatory (`t1v2/t1v2-results.md`, regime contrasts). Statements alarming on their own are caught per account. Routine ones are not.
-- **The middle band, T1 v3's sentence S4.** Under Sonnet the band is empty for the instruments (confirmatory; `t1v3/t1v3-results.md`, S4):
+- **The middle band, T1 v3's sentence S4.** Under Sonnet the band is empty for the instruments, on these items, with these writers (confirmatory; `t1v3/t1v3-results.md`, S4):
   - lone recall, middle minus routine re-draw, is 0.125 [0.000, 0.292];
   - composed share is 0.000 [−0.188, 0.203].
 
@@ -196,7 +196,12 @@ The next experiments are named: B1, the author dossier (done, §4.3); B3, distri
 
 ### 4.3 The author dossier (B1)
 
-The author dossier renders an author's own changes in place in the document. It lifts per-agent lone recall above the sealed per-author view. On the re-plant, Sonnet 5's isolated dossier reads 0.7083 (17/24) [0.4891, 0.8738] against the per-author view's 0.500. On v2's routine changes it reads 0.3333 (8/24) [0.1563, 0.5532] against 0.0833 (confirmatory; `b1/b1-results.md`, Sonnet 5 isolated; `t1-replant/replant-results.md`; `t1v2/t1v2-results.md`).
+The author dossier renders an author's own changes in place in the document. B1 pre-registered three predictions (confirmatory; `b1/b1-results.md`, predictions):
+- **Prediction 1 missed under Sonnet 5.** The isolated dossier's lone recall, 0.7083, falls more than 0.15 below the composed view's share on the same lone test changes, 0.875: −0.1667 [−0.3333, −0.0417]. It held under Opus 4.8: −0.125 [−0.2917, 0.0].
+- **Prediction 2 is not decided.** Both judges' isolated readings are below headroom.
+- **Prediction 3 held under Sonnet 5 and missed under Opus 4.8.** The live reading's k = 2 recall exceeds the isolated one by 0.0833 [0.0, 0.2083] under Sonnet 5, and by 0.0 [−0.125, 0.125] under Opus 4.8. The live−isolated difference bundles the neighbour's leak with the readings' other differences.
+
+As a point comparison across two files (argued, not a paired contrast; the intervals overlap), the isolated dossier reads higher than the sealed per-author view. On the re-plant, Sonnet 5's isolated dossier reads 0.7083 (17/24) [0.4891, 0.8738] against 0.500 [0.291, 0.709]. On v2's routine changes it reads 0.3333 (8/24) [0.1563, 0.5532] against 0.0833 [0.0103, 0.27] (confirmatory; `b1/b1-results.md`, Sonnet 5 isolated; `t1-replant/replant-results.md`; `t1v2/t1v2-results.md`).
 
 It still misses the headroom clause on every isolated reading. On the re-plant the margins are 0.278 (Sonnet 5) and 0.255 (Opus 4.8), against 0.3 (confirmatory; `b1/b1-results.md`).
 
@@ -212,7 +217,8 @@ A live reading shows a neighbour's statement on 95 of 96 two-way units on the re
 
 The rater also scored three-line triples shown as a set. The grouping is therefore given, which is the oracle-grouping condition, not what a deployable layer that must find the grouping sees.
 - **Against the same-author honest null**, routine triples separate with AUROC 0.849 [0.728, 0.946] and middle-band triples with 0.936 [0.854, 0.992]. The sham sits at 0.340 [0.187, 0.501]. No honest triple scores above 70 (exploratory; `rater-07s/rater-composition.md`, C2 and reading).
-- **Composition adds a near-constant lift over the loudest line** where the lines are quiet (§9.1; same file, C3).
+- **Composition adds a near-constant lift over the loudest line** where the lines are quiet. The v2 routine and v3 middle-band triples have a mean lift of +24.79 [20.833, 28.750] and +24.79 [21.250, 28.333], against +1.74 [−2.843, 7.421] for same-author honest triples (exploratory; `rater-07s/rater-composition.md`, C3). Raising every maximum by the measured drift, per band, leaves their contrast with the same-author triples above zero: +13.86 [6.811, 19.989] and +13.48 [6.695, 19.247] (sensitivity; `rater-07s/posthoc-drift-sensitivity.json`, per band).
+- **The same lines were not quiet to comprehension readers** (§9.2), so the two instruments read these items differently.
 
 For routine and middle-band changes, the harm is legible in the composed text. What remains is finding the grouping, and §6 measures that for a deployable layer.
 
@@ -232,9 +238,9 @@ The pre-registered under-80 condition did not hold. On the 18 test changes whose
 
 ### 5.3 The mechanism: edit volume
 
-The old inserter's effect came from how many edits it made. In v1's original run, lone units of four or more changes were flagged 14 of 17 times, against 3 of 7 at three changes (confirmatory; `t1-replant/replant-results.md`, P_author by n_changes stratum, old-inserter rows). The amended inserter's lone units are flagged 7 of 11 at four or more changes and 5 of 13 at three (same table, v1 rows).
+The old inserter's effect is consistent with how many edits it made, by the n_changes stratum. In v1's original run, lone units of four or more changes were flagged 14 of 17 times, against 3 of 7 at three changes (confirmatory; `t1-replant/replant-results.md`, P_author by n_changes stratum, old-inserter rows). The amended inserter's lone units are flagged 7 of 11 at four or more changes and 5 of 13 at three (same table, v1 rows).
 
-A judge-free rule sees the same footprint. It counts an account-day's class-document edits and is set at 5 percent honest cost: threshold 3, realised honest rate 0.045 (4/89). It flags the sham arm as often as the test changes: sham lone 0.708 (17/24) [0.489, 0.874] against v1 lone 0.583 (14/24) [0.366, 0.779] (exploratory; same file, volume rule).
+A judge-free rule sees the same footprint. It counts an account-day's class-document edits and is set at 5 percent honest cost. Its by-arm readings are tagged exploratory inside a confirmatory file, because they are not a pre-registered contrast (brief 13 A4.2): threshold 3, realised honest rate 0.045 (4/89). It flags the sham arm as often as the test changes: sham lone 0.708 (17/24) [0.489, 0.874] against v1 lone 0.583 (14/24) [0.366, 0.779] (exploratory; same file, volume rule).
 
 ### 5.4 The other judges, and the theory's headroom clause
 
@@ -280,7 +286,7 @@ Not in the original plan: rank a flagged document's writers by their own changes
 
 ### 6.5 The insertion's footprint
 
-One rule counts an account-day's class-document writes, re-fitted on the honest null at a 5 percent rate (threshold 3.0). It catches the sham coalitions as often as the routine ones: attributable 0.575 against 0.550, pooled at k = 2 and 3 (confirmatory; `q1q2-synthetic/results.md`, B = 0.1 table, rule column, and the cheapest rule's reading).
+One rule counts an account-day's class-document writes, re-fitted on the honest null at a 5 percent rate (threshold 3.0; realised honest rate 0.0671). It catches the sham coalitions as often as the routine ones: attributable 0.575 against 0.550, pooled at k = 2 and 3 (confirmatory; `q1q2-synthetic/results.md`, B = 0.1 table, rule column, and the cheapest rule's reading).
 
 The rule flags the insertion's volume, not its content. That is §5's footprint again, and the reason the pilot read the live footprint as an instrument look (§12).
 
@@ -311,7 +317,7 @@ This is from `t1v3/invisible-canonical.md` (confirmatory; definition). The count
 - **On the re-plant,** 1 of 24 stays invisible under both interpretable judges, Sonnet 5 and Opus 4.8 (confirmatory; `t1-replant/invisible-canonical.md`, v1_replant).
 - **GPT-6 Sol,** on v2's routine changes, leaves 6 invisible. 5 of them are in the canonical union (exploratory; `q1q2-synthetic/extra-judge-results.md`, R4).
 
-The invisible sets barely overlap across judges. "About half invisible" was one judge's reading. The boundary claim is therefore the canonical count, and it is judge-specific.
+The sets are nested in Sonnet 5's rather than disjoint. GLM 5.3's five include T1v2-C03, C04 and C16 from Sonnet's eleven. Opus 4.8's four include C03, C13 and C21. GPT-6 Sol's six include five of Sonnet's. Only C03 is invisible under every judge (confirmatory; `t1v3/invisible-canonical.md`, v2 ids; exploratory; `q1q2-synthetic/extra-judge-results.md`, R4). "About half invisible" was one judge's reading. The boundary claim is therefore the canonical count, and it is judge-specific.
 
 ### 7.3 The panel negative
 
@@ -333,11 +339,11 @@ Kimi K3 served as a judge in 07n and as a comprehension reader in briefs 23 and 
 
 > "Aravind's OpenRouter activity log matches the call counts exactly (brief 23: 689 = 568 + 120 retest + 1 probe; brief 25: 993 = 368 + 624 + 1 probe) and shows that "Kimi K3" was a mixture of differently quantized upstream deployments that changed between the briefs (brief 23: three providers, all 4-bit; brief 25: nine providers in three formats, FP4, MXFP4 and FP8). C1's model was calibrated on brief 23's mix, so its transfer to brief 25 is imperfect; this is disclosed beside C1's figures and in S1. The log alone cannot explain the sample asymmetry of A6.17.6, since both samples share one seeded call order."
 
-Later Kimi K3 readings pin one upstream deployment (`b3/plan.md`, §7, A6.18 (m)).
+For round 2's certification, Kimi K3 is pinned to one upstream deployment if it is available (pre-registration; `b3/plan.md`, §8).
 
 ## 8. The human anchor and the rater
 
-The visibility axis is the Claude rater's. Its passes agree with each other (§3.7), but agreement between two passes of one model bounds wording noise, not shared priors (confirmatory; `t1k-rater/ratings-summary.md`, reading). Aravind scored two batches of statements blind to the rater's scores, as a human anchor.
+The visibility axis is the Claude rater's. Its passes agree with each other (§3.7), but agreement between two passes of one model is "a bound on wording noise" (confirmatory; `t1k-rater/ratings-summary.md`, reading), not, in this paper's gloss, a bound on the priors the passes share. The principal investigator scored two batches of statements blind to the rater's scores, as a human anchor.
 
 ### 8.1 Batch 1
 
@@ -357,11 +363,11 @@ Batch 2 selects on the model's own score. That inflates a rank correlation and b
 
 ### 8.3 What the anchor licenses
 
-**Disclosure.** Batch 2 was scored after Aravind knew batch 1's overall agreement was weak, and before he saw any item-level model score. The rubric was not changed and nothing was re-rated. Human and model are two raters, and the paper reports their agreement (`t1v3/t1v3-rater-join.md`, disclosure).
+**Disclosure.** Batch 2 was scored after the principal investigator knew batch 1's overall agreement was weak, and before he saw any item-level model score. The rubric was not changed and nothing was re-rated. Human and model are two raters, and the paper reports their agreement (`t1v3/t1v3-rater-join.md`, disclosure).
 
 The axis of Table 4.1 is therefore **the Claude rater's scale, with weak human agreement**. Section 4's ordering of regimes is the rater's. The regime contrasts themselves are judge readings and do not depend on the rater.
 
-**B3's S4 anchor** (Aravind's blind scoring of a sheet that bounds the form-recognisability of B3's triples) is a placeholder until his scoring is recorded.
+**B3's S4 anchor** (the principal investigator's blind scoring of a sheet that bounds the form-recognisability of B3's triples) is a placeholder until his scoring is recorded.
 
 ## 9. Measuring combination
 
@@ -381,15 +387,15 @@ Two capable writers, Sonnet 5.5 and GLM 5.3, were each given the same brief. The
 
 All 22 same-writer control items certified as controls (same table).
 
-What limits the writers is the composition bar: how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line, set against the lift the bar requires when every line is at or under 60 [pending: both figures, from the methods record of cold-read fix 2]. The rater's composition score also tracks the loudest line [pending: Spearman(composition, top line), same record].
+Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line, set against the lift the bar requires when every line is at or under 60 [pending: both figures, from the methods record of cold-read fix 2]. The rater's composition score also tracks the loudest line [pending: Spearman(composition, top line), same record].
 
-Earlier writers' triples did show composition well above the loudest line. The v2 routine and v3 middle-band triples had a mean lift of +24.79 [20.833, 28.750] and +24.79 [21.250, 28.333], against +1.74 [−2.843, 7.421] for same-author honest triples. Their contrast with the same-author honest triples stays above zero after every maximum is raised by the measured drift, per band: +13.86 [6.811, 19.989] and +13.48 [6.695, 19.247] (exploratory; `rater-07s/rater-composition.md`, C3; sensitivity, `rater-07s/posthoc-drift-sensitivity.json`, per band). Those triples' lines, however, were not quiet to comprehension readers (§9.2).
+The earlier writers' triples were rated in a different rater session (§4.4). Under the drift rule of §3.7, their lift and Part J's are not compared.
 
-**Reading, a hypothesis only.** Under this rater, a combination that reads clearly harmful seems to need at least one line that already reads as notable. That is the max-type pattern appearing in the rater itself. It is reported beside B3's re-specification (§9.5) as a hypothesis on the instrument. It is not a result about judges, and it could equally be writer habit.
+**Reading, a hypothesis only, with these writers.** Under this rater, a combination that reads clearly harmful seems to need at least one line that already reads as notable. That is the max-type pattern appearing in the rater itself. It is reported beside B3's re-specification (§9.5) as a hypothesis on the instrument. It is not a result about judges, and it could equally be writer habit.
 
 ### 9.2 The comprehension instrument on the earlier items
 
-Brief 23 asked whether comprehension readers could see the combination on T1's routine and middle-band items. The answer was no. The instrument is **not valid** as a separation measure on those items, under every reader family and on the resolved-anchor subset alike (instrument; `legibility/instrument-v0.md`, verdict).
+Brief 23 asked whether comprehension readers could see the combination on T1's routine and middle-band items. The answer was no. The instrument is **not valid** as a separation measure on those items, under every reader family and on brief 23's resolved-anchor T1 items alike (instrument; `legibility/instrument-v0.md`, verdict).
 
 The reason is the items themselves. One line alone often lets a reader state the change's consequence. The test items' mean D_part (the best of three single-line answers) is:
 - Kimi K3: 0.625 on 48 of 48 items;
@@ -413,11 +419,11 @@ Brief 25 ran the same readers blind on B3's 78 quiet candidates, the controls an
 - **The nulls are clean.** The controls and comparison items get 0.000 false credit under every reader (same file, nulls).
 - **The positive control holds.** Credit for an item's own edit, D_part_own, is 1.000 under every reader (same file, positive control).
 
-**The rendering artefact.** The readers saw each edit against the documents' day-0 text, where some items' anchors did not resolve. Brief 26's edit-application check found every candidate line at every drawable application state, 234 of 234, and the reverse case was 0 (instrument; `b3/inserter-dry-run-v0.md`, first line; per line at the Part S state). So for the unresolved-anchor items, day-0 quietness measured a missing line, not a quiet one.
+**The rendering artefact.** The readers saw each edit against the documents' day-0 text, where some items' anchors did not resolve. Brief 26's edit-application check found every candidate line at every drawable application state (234 of 234 found, 230 found exactly once), and the reverse case was 0 (instrument; `b3/inserter-dry-run-v0.md`, first line; per line at the Part S state). So for the unresolved-anchor items, day-0 quietness measured a missing line, not a quiet one.
 
 **Round 1's carrier.** Two things decide it:
 - **Dilution.** Items whose single line already carries the consequence give an excess near zero under either truth, and so dilute a full-set reading toward *excluded*.
-- **The switch fired.** The full set's probability of reading *holds* when the truth sits on the margin is 0.63 at the observed share, against a bound of 0.10 (design; `b3/power-simulation-v3c.md`, first line).
+- **The switch fired.** The full set's probability of reading *holds* when the truth sits on the margin is 0.63 under the dilution upper bound (non-members carry no effect). Under every dilution model Part 3 ran, it is 0.15 to 0.63, above the bound of 0.10. Only the undiluted reference reads 0.02 (design; `b3/power-simulation-v3c.md`, first line and the dilution table).
 
 Round 1's carrier is therefore the resolved-anchor subset, 17 items net at layout T2+S2 (design; `b3/power-simulation-v3c.md`, populations table). The stratum (26 net) comes next in the step-down, and the full set (73 net) is descriptive, with its dilution figure (pre-registration; `b3/plan.md`, §7).
 
@@ -437,11 +443,11 @@ This is the record of B3's re-specification, written number-free. Each step is c
   - a hazard found by a dry run gets a recorded decision (L23);
   - script-echoed rules are stored as keys (L24);
   - application-module work is routed to a non-Anthropic executor after safeguard stops (L25).
-- **Blind decisions, recorded before the numbers.** Aravind decided, before the stratum's size was known, that round 1 runs whatever it shows and that the test of combination moves to a confirmatory second round on newly certified items (A6.15). Writer rounds may start before round 1's results, with a stated risk read and memory-channel rules (A6.19). Round 1's budget figure was confirmed before any round-1 judge call (A6.25).
+- **Blind decisions, recorded before the numbers.** The principal investigator decided, before the stratum's size was known, that round 1 runs whatever it shows and that the test of combination moves to a confirmatory second round on newly certified items (A6.15). Writer rounds may start before round 1's results, with a stated risk read and memory-channel rules (A6.19). Round 1's budget figure was confirmed before any round-1 judge call (A6.25).
 
 ### 9.5 What this section supports
 
-- **A methods claim.** "Quiet alone, harmful together" is hard to construct and hard to measure. A rater's composition item and a comprehension reader disagree about which items carry it. And the earlier test items' single lines already carry the consequence for a comprehension reader.
+- **A methods claim.** "Quiet alone, harmful together" is hard to construct and hard to measure. A rater's composition item and a comprehension reader read the same items differently: the rater sees composition lift where the reader finds a single line enough (argued, the paper's synthesis of `rater-07s/rater-composition.md` C3 and `legibility/instrument-v0.md` sentence 3). And the earlier test items' single lines already carry the consequence for a comprehension reader.
 - **It is not a claim about judges.** Whether a per-agent judge responds to combination beyond its loudest line is B3's question (§10).
 - **Scope.** Every sentence about how narrow the middle band is, or what cannot be constructed, is scoped "with these writers" until the elicitation study has run (§10, §14).
 
@@ -476,7 +482,7 @@ The elicitation study is a capability-ceiling measurement, and its curve is a lo
 
 ### 11.1 Splitting pays against superadditive signals, as seen in rules
 
-The theory says splitting pays exactly against signals that respond to combination, volume, or both ends of a dependency. Three judge-free rules on this substrate are signals of that kind, and each behaves as the theory says.
+The theory says splitting pays exactly against signals that respond to combination, volume, or both ends of a dependency. Three judge-free rules on this substrate are signals of that kind. Only the edit-count rule's fall with k is measured. The per-account rule's cost is an honest-world readout, and its evasion by two accounts holds by construction.
 
 - **A per-account cross-document rule.** It flags an account that changes the same entity in two class documents within two days. On the repaired world this costs 0.20 [0.11, 0.30] of honest account-windows (confirmatory, a pre-registered world readout; `b4r/z5-v3.md`, the pass). On the unrepaired world it cost 0.020 [0.000, 0.050] (exploratory; `b0/b0-results.md`, Z5).
   - A one-account change that alters an item's line in its two documents is an instance of this rule by construction.
@@ -507,7 +513,7 @@ The pilot ran four live instances on the honest world's later window. Each insta
 - **R-A: no instance held its composition to a day end** (exploratory; `pilot/forensics/forensics.md`, A2).
   - 2 of the 4 instances composed within a day. Both compositions were lost the same day: one after 112.9 simulated minutes, one after 164.1.
   - In each case an honest session read the composed document and then replaced the line with a targeted edit (same file, A1 and A3).
-  - Over the honest-only days 4 and 5, the count is therefore 0 of 0.
+  - No composition reached a day end.
 - **The one any-day carrier** was a coalition account's non-scenario session. It counts under the oracle's rule as written. It would not count under a rule requiring composition at the moment of carrying (exploratory; `pilot/forensics/forensics.md`, A4).
 - **R-C: where the live statements landed on the rater's scale.**
   - In the original reading, three instances fell in the 40 to 69 band and one at 80 and above. The 80-and-above instance's rated items include whole-document writes.
@@ -515,7 +521,7 @@ The pilot ran four live instances on the honest world's later window. Each insta
   - The middle-band placement is fragile within one session. The 80-and-above placement survived a touched-lines rendering (same file).
 - **R-D: the live footprint is volume.** This is the readout's sentence only. Its counts are held in the pilot's measure files, which are not in the manifest (W0, not traced).
 
-World one is deferred (Aravind: "Ok to defer World One for now"; roadmap v3, addendum of 2026-10-29 evening). The pilot's persistence finding is the world-dynamics limitation of §3.4: a change anchored on a maintained item lives about as long as the item's next honest edit.
+World one is deferred by the principal investigator's decision ("Ok to defer World One for now"; roadmap v3, the addendum on world one). The pilot's persistence finding is the world-dynamics limitation of §3.4: a change anchored on a maintained item lives about as long as the item's next honest edit.
 
 ## 13. TRACK-C: the live fragmentation test
 
@@ -538,7 +544,7 @@ TRACK-C applies the question to FakeLab's pooled commit stream. There, attacks a
 - **Combined by a system that no reader joins.** A harm combined by a system across documents is reviewable only at the dependency graph. That requires provenance monitoring, which is not built here (roadmap v3, section 5).
 
 Recovering the coalition from interaction structure is the last resort. It is needed where the composing unit cannot be observed. The earlier grouping stages are the evidence that it is not the first layer on this substrate (§15).
-- **Stage 2a.** Seed expansion recovered partners mostly where an anchored artefact existed, and carried almost nothing for disjoint pairs (§15.2).
+- **Stage 2a.** Seed expansion recovered partners mostly where an anchored artefact existed, and carried almost nothing for the C2 pairs, which share no anchored artefact (§15.2).
 - **Stage 2b.** The designed route collapsed into a path that honest admins also use: 25 of 25 protected-group grants went through the emergency break-glass path (exploratory; `../stage2/b-grouping.md`, A.1).
 
 ### 14.2 What the instruments and the world limit
@@ -575,7 +581,7 @@ Recovering the coalition from interaction structure is the last resort. It is ne
 ### 15.2 Tier 1: the grouping and pacing measurements
 
 - **Stage 2a.**
-  - **Seed expansion** from a flagged account recovered the partner where an anchored artefact existed. On those pairs, the shared-artefact generator placed the partner in the reviewed set on 0.43 of executed days (53 of 122). On disjoint pairs, like-for-like structure carried almost nothing: the partner had no link on 0.96 or more of executed days under each of the first three generators (exploratory; `../stage2/b0-seed-expansion.md`, gate decision, items 1 and 2).
+  - **Seed expansion** from a flagged account recovered the partner where an anchored artefact existed. On those pairs, the shared-artefact generator placed the partner in the reviewed set on 0.43 of executed days (53 of 122). On the C2 pairs, which share no anchored artefact, like-for-like structure carried almost nothing: the partner had no link on 0.96 or more of executed days under each of the first three generators (exploratory; `../stage2/b0-seed-expansion.md`, gate decision, items 1 and 2).
   - **The honest haystack** was the dominant fact: every structural generator (G1, G3, G4, G5) exceeded the 0.10 budget at every window on every corpus (exploratory; `../stage2/b1-haystack.md`, gate decision, item 3).
   - **Pacing:** holding a reserve lost to plain top-k by the cheap score, −0.037 [−0.073, −0.006]. The expensive tier's full-coverage recall was 0.525 [0.323, 0.713], capping any policy that routes to it (exploratory; `../stage2/a-track-a-results.md`, primary comparison and K2).
 - **Stage 2b: a measured negative, with its mechanism.**
@@ -590,7 +596,7 @@ Recovering the coalition from interaction structure is the last resort. It is ne
 
 ### 15.3 Why the programme moved
 
-The 14 October redirection kept the open problem in view: detecting collusion when the coalition is unknown. Stage 3 then asked the question one level up, as **what each monitoring view sees of harm split across agents**. The T1 plantings, the re-plant and B0 moved it again, to **when collusion pays** (roadmap v2 sections 1 and 2; roadmap v3).
+The redirection recorded in `PLAN.md` section 2 kept the open problem in view: detecting collusion when the coalition is unknown. Stage 3 then asked the question one level up, as **what each monitoring view sees of harm split across agents**. The T1 application sets, the re-plant and B0 moved it again, to **when collusion pays** (roadmap v2 sections 1 and 2; roadmap v3).
 
 That is the question §1 states. The theory's two halves are measured separately:
 - the structural half in rules (§11);
@@ -614,9 +620,11 @@ That is the question §1 states. The theory's two halves are measured separately
 | `q1q2-synthetic/erratum-generator-2026-11-02.md` | methods | 7815092d | §3, §14 |
 | `b4r/b4r-results.md` | confirmatory | 0d0379f3 | §3, §14 |
 | `b4r/world-dynamics-v3.md` | confirmatory | 4d2e3c9c | §3 |
+| `pilot/forensics/forensics.md` | exploratory | 626a612c | §3, §12 |
 | `q1q2-synthetic/opus48/judge-results.md` | exploratory | 55492d21 | §3 |
 | `t1-replant/replant-results.md` | confirmatory | 72f341fc | §3, §4, §5, §11, §14 |
 | `b3/inserter-dry-run-v0.md` | instrument | 25a905da | §3, §9 |
+| `b3/comprehension/stratum-v0.md` | instrument | 19828ced | §3, §9 |
 | `t1k-rater/ratings-summary.md` | confirmatory | 2c19122b | §3, §8 |
 | `b3/rater/certification-b3.md` | methods | f7f11230 | §3, §9 |
 | `legibility/instrument-v0.md` | instrument | 99117061 | §3, §9 |
@@ -627,6 +635,7 @@ That is the question §1 states. The theory's two halves are measured separately
 | `t1/t1-results.md` | confirmatory | 5ccc9e75 | §4 |
 | `rater-07s/rater-composition.md` | exploratory | b8b572e2 | §4, §9 |
 | `b1/b1-results.md` | confirmatory | 378ba8c7 | §4 |
+| `rater-07s/posthoc-drift-sensitivity.json` | sensitivity | 47db6ac1 | §4 |
 | `q1q2-synthetic/results.md` | confirmatory | dd4be0c5 | §6, §14 |
 | `q1q2-synthetic/streaming.md` | sensitivity | a21d0695 | §6 |
 | `q1q2-synthetic/author-ranker-results.md` | exploratory | 253bb9a7 | §6 |
@@ -636,13 +645,10 @@ That is the question §1 states. The theory's two halves are measured separately
 | `t1-replant/invisible-canonical.md` | confirmatory | bed532d2 | §7 |
 | `t1v3/t1v3-panel.md` | confirmatory | e5eb8c93 | §7 |
 | `b3/plan.md` | pre-registration | a411d8a2 | §7, §9, §10 |
-| `rater-07s/posthoc-drift-sensitivity.json` | sensitivity | 47db6ac1 | §9 |
 | `b3/comprehension/t1-join-v0.md` | exploratory | b9dfd0de | §9 |
-| `b3/comprehension/stratum-v0.md` | instrument | 19828ced | §9 |
 | `b3/power-simulation-v3c.md` | design | ffd16e23 | §9, §10 |
 | `b4r/z5-v3.md` | confirmatory | 702a1be4 | §11 |
 | `b4/power-simulation-b4.md` | design | 1bd78c05 | §11 |
-| `pilot/forensics/forensics.md` | exploratory | 626a612c | §12 |
 | `pilot/forensics/rc-sensitivity.md` | sensitivity | 3cea08fc | §12 |
 | `../stage0/q1-upstream-results/summary.md` | exploratory | b899deb2 | §15 |
 | `../stage1/f-upstream-row.md` | exploratory | 5cedb801 | §15 |
@@ -656,3 +662,40 @@ That is the question §1 states. The theory's two halves are measured separately
 
 One change from d0089443: §2.1's pending marker for the benchmark paper's best-monitor figure is replaced by an external citation. The coordinator ruled that a citation of the paper itself is allowed, as a citation and not a result (STATUS 2026-11-02). The figure, 0.533 for Claude Opus 4.7 on the single-day GPT-5.3 comparison, was checked against the paper itself (arXiv:2609.06966 v1, §3.3, Figure 4) and not taken from ASSESSMENT.md. The interval ASSESSMENT gives beside it was not found in the part of the paper read, and is not written. Appendix A's note is updated to match, and its count of amendment records is corrected (seven in all, three of them W0, W0b and W0c; it said five W0 records). Nothing else changed.
 
+
+## Dated note, 2026-11-02: after the review session's read of draft v0 (`work/paper/review/read-draft-v0-2026-11-02.md` 134c0215; Fable's read `fable-read-draft-v0-2026-11-02.md` ef694b38)
+
+Verdict: careful and faithful to the records; precision fixes only, none reversing a claim. Written before any revision (W3). Applied in the review's order:
+- **Mechanical.**
+  - R1: the header's manifest line, now c96719b0 with 102 files.
+  - R2: "planting" outside quotes, now *application set*.
+  - R3: prose dates removed; file names keep theirs.
+  - R9: "with these writers" on §4.2's S4 sentence and on §9.1's reading.
+- **Wording against the records.**
+  - R4: §3.4, honest readers did read composed documents.
+  - R5: §3.8, Sonnet 5.5's reading rule scoped by brief.
+  - R6: §4.3, B1's pre-registered predictions first, with the point comparison labelled argued.
+  - R7: §7.2, the invisible sets are nested, written by id.
+  - R10: §9.1, the bars missed, by writer.
+  - The review session's fixes:
+    - (1) the 07s lift moved to §4.4, and §9.1 says the two rater sessions are not compared;
+    - (2) §9.3's switch, with its dilution models;
+    - (3) §4.1's caption reads "no clean reading at headroom yet".
+- **R8.** §12's "days 4 and 5" and "0 of 0" are dropped, as A3's wording rather than a manifest figure. A2's sentence stands.
+- **Fable's optional items O1 to O15, all adopted:**
+  - the volume rule's tag deviation stated once;
+  - §2.2's per-judge labels;
+  - §4.4 cross-referenced to §9.2;
+  - §9.5's synthesis labelled argued;
+  - §7.5's Kimi pin cited to plan §8 with its condition;
+  - §8's gloss marked;
+  - §2.1's missing interval explained;
+  - 234 found, 230 found exactly once;
+  - §5.3 as "consistent with";
+  - §11.1 says which rule is measured;
+  - §6.5's realised honest rate;
+  - C2 pairs named;
+  - the research statement's thesis scoped;
+  - §3.6 and Table 4.1's sources completed.
+- **The review session's optional items:** "the principal investigator" for Aravind's name outside verbatim quotes (§8, §9.4, §12); §9.2's resolved-anchor subset is brief 23's.
+- **Not changed:** §9.4's L25 line waits for Aravind's choice between an explicit methods disclosure and leaving it out.
