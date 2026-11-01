@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 66,
+ "n_files": 88,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -658,6 +658,329 @@
    "tag": "confirmatory",
    "tag_source": "b4r/plan.md 'Amendment (b) sentences, written 2026-10-31 before any reading' (brief 18 A1, fork 15020f0): definitions, cutoffs and outcome sentences committed before the script existed; not blind on (b1)'s per-day turn-cap counts, the release-gate and README rewrites and the 16/12/7 line survival, which the plan's record already showed (disclosed there); the consumption null reported beside B4; pooled turn-cap rate and per-account counts are beside, not read",
    "added_beyond_brief_list": false
+  },
+  {
+   "path": "legibility/instrument-v0.md",
+   "sha256": "99117061e0ed1aa0ad343bd2f286b3074a63e3bfb1d25d9740a34b382bec5620",
+   "bytes": 34745,
+   "sha256_fork_copy": "99117061e0ed1aa0ad343bd2f286b3074a63e3bfb1d25d9740a34b382bec5620",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "brief 23 v2.2: the comprehension instrument's validation sentences 1 to 4b, pre-registered; verdict not valid; every figure an instrument look, never an outcome (brief 13 A5.3)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "header verdict",
+    "Validation sentences per reader family (sentences 1 to 4b)"
+   ]
+  },
+  {
+   "path": "legibility/instrument-v0.json",
+   "sha256": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782",
+   "bytes": 320210,
+   "sha256_fork_copy": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "as instrument-v0.md (the numbers behind the report)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "sentences",
+    "families"
+   ]
+  },
+  {
+   "path": "legibility/instrument-v0-reading.md",
+   "sha256": "a1ed8d17518c5005fd600b2dab0781b3ff13c7e797c5047e089241cf191c5cb5",
+   "bytes": 6211,
+   "sha256_fork_copy": "a1ed8d17518c5005fd600b2dab0781b3ff13c7e797c5047e089241cf191c5cb5",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "brief 23: the blue reading written after the run, and the coordinator's dated note of 2026-11-01 (the cause is the validation items)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "verdict table",
+    "What the run shows 1 to 6",
+    "dated note 2026-11-01"
+   ]
+  },
+  {
+   "path": "b3/comprehension/stratum-v0.md",
+   "sha256": "19828ceda135f9f74e131eb95e241d40e3f6030f4995c4a43423e559e8c1cc14",
+   "bytes": 9576,
+   "sha256_fork_copy": "19828ceda135f9f74e131eb95e241d40e3f6030f4995c4a43423e559e8c1cc14",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "brief 25 (brief 15 A6.14.1, A6.14.2): the comprehension-quiet stratum under C1's rule, committed before any reader call",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "first line (28 of 78)",
+    "C1's expectation",
+    "Nulls",
+    "Positive control",
+    "Reliability"
+   ]
+  },
+  {
+   "path": "b3/comprehension/stratum-v0.json",
+   "sha256": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+   "bytes": 173414,
+   "sha256_fork_copy": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "as stratum-v0.md (per-item membership by opaque id; aggregates only are read)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "summary"
+   ]
+  },
+  {
+   "path": "b3/comprehension/stratum-plan.json",
+   "sha256": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+   "bytes": 23690,
+   "sha256_fork_copy": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "brief 25 C1: the stratum rule and its expected error rates, committed before any reader call",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "the chosen rule"
+   ]
+  },
+  {
+   "path": "b3/comprehension/t1-join-v0.md",
+   "sha256": "b9dfd0de8d8e08a21c69b3a28496ad2d65516562188366d4d531cdebcfdf9e3a",
+   "bytes": 2806,
+   "sha256_fork_copy": "b9dfd0de8d8e08a21c69b3a28496ad2d65516562188366d4d531cdebcfdf9e3a",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 15 A6.14.5 (exploratory) and A6.17.7 (the one permitted sentence)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "Rater line score: two-pass mean"
+   ]
+  },
+  {
+   "path": "b3/comprehension/t1-join-v0.json",
+   "sha256": "90ef98673989be25005ee737fd7ce7b84df4bbf0b6ffb1eb44f25741731e15a3",
+   "bytes": 58469,
+   "sha256_fork_copy": "90ef98673989be25005ee737fd7ce7b84df4bbf0b6ffb1eb44f25741731e15a3",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "as t1-join-v0.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "two_pass_mean"
+   ]
+  },
+  {
+   "path": "b3/rater/certification-b3.md",
+   "sha256": "f7f112303abc20a845a69bc618c5a1977dcca799244521a375581c28897b31a7",
+   "bytes": 10487,
+   "sha256_fork_copy": "f7f112303abc20a845a69bc618c5a1977dcca799244521a375581c28897b31a7",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 17 Part J (brief 15 Part R, A5.7): the rater's certification of round 1, aggregates and counts only",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "J1 bars",
+    "J2 certification by writer (pooled; of which both passes)",
+    "Pass agreement per scale",
+    "Reference drift"
+   ]
+  },
+  {
+   "path": "b3/rater/certification-b3.json",
+   "sha256": "bec5b02fd657ba046a2fb0e77486949e802c504d7c3e0b8c8f2b01c0d193c485",
+   "bytes": 57063,
+   "sha256_fork_copy": "bec5b02fd657ba046a2fb0e77486949e802c504d7c3e0b8c8f2b01c0d193c485",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "as certification-b3.md (the rater's aggregates; per-item fields are not read)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "bars",
+    "pooled",
+    "by_writer",
+    "agreement_and_drift"
+   ]
+  },
+  {
+   "path": "b3/inserter-dry-run-v0.md",
+   "sha256": "25a905da68d758f973ad2ab764fb58e88aa0a05b9fda2a38c31d00db7ab57e64",
+   "bytes": 16929,
+   "sha256_fork_copy": "25a905da68d758f973ad2ab764fb58e88aa0a05b9fda2a38c31d00db7ab57e64",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "brief 26 (brief 15 A6.17.10 (c), A6.17.11): the edit-application check on every B3 item, $0; the rendering artefact confirmed",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "first line (drop list 8; reverse case 0)",
+    "Aggregates",
+    "Per line at the Part S state"
+   ]
+  },
+  {
+   "path": "b3/inserter-dry-run-v0.json",
+   "sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+   "bytes": 1205390,
+   "sha256_fork_copy": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "as inserter-dry-run-v0.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "summaries"
+   ]
+  },
+  {
+   "path": "b0/b0-results.md",
+   "sha256": "95684dfda533e38edf59aef1239aa7678b88853771a55ee09c442f9edf942082",
+   "bytes": 41406,
+   "sha256_fork_copy": "95684dfda533e38edf59aef1239aa7678b88853771a55ee09c442f9edf942082",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 11 (B0) prespec Z0: Z2 to Z5 exploratory; the R checks are reproductions; each table carries its own label inside",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "First lines",
+    "Z2 (i) flag against visibility and volume",
+    "Z2 strata and pools",
+    "Z3",
+    "Z4 the honest-null taxonomy",
+    "Z5"
+   ]
+  },
+  {
+   "path": "b0/b0-results.json",
+   "sha256": "c54e20290c2a62e6aebc2ba06cfeda3fccf4e0c717f8cda95112ae4f80474c88",
+   "bytes": 157956,
+   "sha256_fork_copy": "c54e20290c2a62e6aebc2ba06cfeda3fccf4e0c717f8cda95112ae4f80474c88",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "as b0-results.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "z2",
+    "z3",
+    "z4",
+    "z5"
+   ]
+  },
+  {
+   "path": "b3/power-simulation-v3b.md",
+   "sha256": "5f6b0eaeba031732220ebcc2044b393e3b72f514acddc31543fa779788d0f8a9",
+   "bytes": 31254,
+   "sha256_fork_copy": "5f6b0eaeba031732220ebcc2044b393e3b72f514acddc31543fa779788d0f8a9",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "brief 20 Part 2 (brief 15 A6.13): $0 simulation; operating characteristics, never outcomes",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "Summary (adopted layout T2+S2; one latent margin)"
+   ]
+  },
+  {
+   "path": "b3/power-simulation-v3b.json",
+   "sha256": "031795d5f6ae160e4f55cc21bc8cc1594df9cd39015214f8843f22c4d538664c",
+   "bytes": 2829702,
+   "sha256_fork_copy": "031795d5f6ae160e4f55cc21bc8cc1594df9cd39015214f8843f22c4d538664c",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "as power-simulation-v3b.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "summary"
+   ]
+  },
+  {
+   "path": "b3/power-simulation-v3c.md",
+   "sha256": "ffd16e23838e6fba46b8478e3011244864929a5f222797be64b4fc6ad96bceaf",
+   "bytes": 16855,
+   "sha256_fork_copy": "ffd16e23838e6fba46b8478e3011244864929a5f222797be64b4fc6ad96bceaf",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "brief 20 Part 3 (brief 15 A6.14.3, A6.18): $0 simulation; the switch and the carrier",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "first line",
+    "populations table",
+    "2 and 3"
+   ]
+  },
+  {
+   "path": "b3/power-simulation-v3c.json",
+   "sha256": "2086e72fea1adbf9818e7f25737b598fb4dd6f82afb8f3f22df156d9fec710b2",
+   "bytes": 178692,
+   "sha256_fork_copy": "2086e72fea1adbf9818e7f25737b598fb4dd6f82afb8f3f22df156d9fec710b2",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "as power-simulation-v3c.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "summary"
+   ]
+  },
+  {
+   "path": "b3/s1-populations-v0.json",
+   "sha256": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+   "bytes": 69321,
+   "sha256_fork_copy": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "brief 28 S1: B3's populations by hash, committed with plan.md",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "populations"
+   ]
+  },
+  {
+   "path": "b3/plan.md",
+   "sha256": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+   "bytes": 114196,
+   "sha256_fork_copy": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "brief 28 S1 with its dated notes (brief 15 A6.18 (p), A6.24 (2), brief 33 A1b); hashed as on disk; see status_recorded_sha256",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "1 Populations",
+    "5 The readings and the cascade",
+    "6 Every outcome sentence",
+    "7 The disclosures",
+    "8 Round 2"
+   ],
+   "status_recorded_sha256": "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13",
+   "status_recorded_bytes": 111603,
+   "prefix_equals_status_version": true,
+   "note": "STATUS's latest record of plan.md is 58b0c121 (fork 58b0c24); the file on disk carries S3 Stage A's appended dated note (fork be0a600), which STATUS has not yet recorded. Hashed as on disk; prefix_equals_status_version checks that nothing above the note changed. Re-run with --rerun-plan when STATUS records the move (A5.1 W0). Only sections 1 to 8 are read."
+  },
+  {
+   "path": "pilot/forensics/forensics.md",
+   "sha256": "626a612c8b157456561f0ad2f94910c8c397c8ff00e8782aa0ab08c3a241e62a",
+   "bytes": 12157,
+   "sha256_fork_copy": "626a612c8b157456561f0ad2f94910c8c397c8ff00e8782aa0ab08c3a241e62a",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "brief 16 part A spec (sha256 7c9bf41b, fork e541f1c): 'counts only; exploratory'; A5 lists brief 16 as sensitivity, and the file's own plan labels part A exploratory, so the manifest takes the plan's label (disclosed)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "A1 Fact losses",
+    "A2 How long each composition lasted",
+    "A4 The carrier write"
+   ]
+  },
+  {
+   "path": "pilot/forensics/rc-sensitivity.md",
+   "sha256": "3cea08fc5d6d95376203aea16d452454c9e3b649e1be91582b5ff6b21f131983",
+   "bytes": 2986,
+   "sha256_fork_copy": "3cea08fc5d6d95376203aea16d452454c9e3b649e1be91582b5ff6b21f131983",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "brief 16 part B: R-C sensitivities (exploratory), the mapped cut points committed by hash before any rating",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "same-session sensitivity table (brief 09 band, moved)",
+    "touched-lines rendering"
+   ]
   }
  ],
  "amendments": [
@@ -717,6 +1040,704 @@
     "b4r/world-dynamics-v3.json"
    ],
    "note": "additive; no earlier entry changed"
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 A5 W0 (the writing session, Opus 5.5)",
+   "added": [
+    "legibility/instrument-v0.md",
+    "legibility/instrument-v0.json",
+    "legibility/instrument-v0-reading.md",
+    "b3/comprehension/stratum-v0.md",
+    "b3/comprehension/stratum-v0.json",
+    "b3/comprehension/stratum-plan.json",
+    "b3/comprehension/t1-join-v0.md",
+    "b3/comprehension/t1-join-v0.json",
+    "b3/rater/certification-b3.md",
+    "b3/rater/certification-b3.json",
+    "b3/inserter-dry-run-v0.md",
+    "b3/inserter-dry-run-v0.json",
+    "b0/b0-results.md",
+    "b0/b0-results.json",
+    "b3/power-simulation-v3b.md",
+    "b3/power-simulation-v3b.json",
+    "b3/power-simulation-v3c.md",
+    "b3/power-simulation-v3c.json",
+    "b3/s1-populations-v0.json",
+    "b3/plan.md",
+    "pilot/forensics/forensics.md",
+    "pilot/forensics/rc-sensitivity.md"
+   ],
+   "entries": [
+    {
+     "path": "legibility/instrument-v0.md",
+     "sha256": "99117061e0ed1aa0ad343bd2f286b3074a63e3bfb1d25d9740a34b382bec5620",
+     "bytes": 34745,
+     "sha256_fork_copy": "99117061e0ed1aa0ad343bd2f286b3074a63e3bfb1d25d9740a34b382bec5620",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "brief 23 v2.2: the comprehension instrument's validation sentences 1 to 4b, pre-registered; verdict not valid; every figure an instrument look, never an outcome (brief 13 A5.3)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "header verdict",
+      "Validation sentences per reader family (sentences 1 to 4b)"
+     ]
+    },
+    {
+     "path": "legibility/instrument-v0.json",
+     "sha256": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782",
+     "bytes": 320210,
+     "sha256_fork_copy": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "as instrument-v0.md (the numbers behind the report)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "sentences",
+      "families"
+     ]
+    },
+    {
+     "path": "legibility/instrument-v0-reading.md",
+     "sha256": "a1ed8d17518c5005fd600b2dab0781b3ff13c7e797c5047e089241cf191c5cb5",
+     "bytes": 6211,
+     "sha256_fork_copy": "a1ed8d17518c5005fd600b2dab0781b3ff13c7e797c5047e089241cf191c5cb5",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "brief 23: the blue reading written after the run, and the coordinator's dated note of 2026-11-01 (the cause is the validation items)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "verdict table",
+      "What the run shows 1 to 6",
+      "dated note 2026-11-01"
+     ]
+    },
+    {
+     "path": "b3/comprehension/stratum-v0.md",
+     "sha256": "19828ceda135f9f74e131eb95e241d40e3f6030f4995c4a43423e559e8c1cc14",
+     "bytes": 9576,
+     "sha256_fork_copy": "19828ceda135f9f74e131eb95e241d40e3f6030f4995c4a43423e559e8c1cc14",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "brief 25 (brief 15 A6.14.1, A6.14.2): the comprehension-quiet stratum under C1's rule, committed before any reader call",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "first line (28 of 78)",
+      "C1's expectation",
+      "Nulls",
+      "Positive control",
+      "Reliability"
+     ]
+    },
+    {
+     "path": "b3/comprehension/stratum-v0.json",
+     "sha256": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+     "bytes": 173414,
+     "sha256_fork_copy": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "as stratum-v0.md (per-item membership by opaque id; aggregates only are read)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "summary"
+     ]
+    },
+    {
+     "path": "b3/comprehension/stratum-plan.json",
+     "sha256": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+     "bytes": 23690,
+     "sha256_fork_copy": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "brief 25 C1: the stratum rule and its expected error rates, committed before any reader call",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "the chosen rule"
+     ]
+    },
+    {
+     "path": "b3/comprehension/t1-join-v0.md",
+     "sha256": "b9dfd0de8d8e08a21c69b3a28496ad2d65516562188366d4d531cdebcfdf9e3a",
+     "bytes": 2806,
+     "sha256_fork_copy": "b9dfd0de8d8e08a21c69b3a28496ad2d65516562188366d4d531cdebcfdf9e3a",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "brief 15 A6.14.5 (exploratory) and A6.17.7 (the one permitted sentence)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "Rater line score: two-pass mean"
+     ]
+    },
+    {
+     "path": "b3/comprehension/t1-join-v0.json",
+     "sha256": "90ef98673989be25005ee737fd7ce7b84df4bbf0b6ffb1eb44f25741731e15a3",
+     "bytes": 58469,
+     "sha256_fork_copy": "90ef98673989be25005ee737fd7ce7b84df4bbf0b6ffb1eb44f25741731e15a3",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "as t1-join-v0.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "two_pass_mean"
+     ]
+    },
+    {
+     "path": "b3/rater/certification-b3.md",
+     "sha256": "f7f112303abc20a845a69bc618c5a1977dcca799244521a375581c28897b31a7",
+     "bytes": 10487,
+     "sha256_fork_copy": "f7f112303abc20a845a69bc618c5a1977dcca799244521a375581c28897b31a7",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "brief 17 Part J (brief 15 Part R, A5.7): the rater's certification of round 1, aggregates and counts only",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "J1 bars",
+      "J2 certification by writer (pooled; of which both passes)",
+      "Pass agreement per scale",
+      "Reference drift"
+     ]
+    },
+    {
+     "path": "b3/rater/certification-b3.json",
+     "sha256": "bec5b02fd657ba046a2fb0e77486949e802c504d7c3e0b8c8f2b01c0d193c485",
+     "bytes": 57063,
+     "sha256_fork_copy": "bec5b02fd657ba046a2fb0e77486949e802c504d7c3e0b8c8f2b01c0d193c485",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "as certification-b3.md (the rater's aggregates; per-item fields are not read)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "bars",
+      "pooled",
+      "by_writer",
+      "agreement_and_drift"
+     ]
+    },
+    {
+     "path": "b3/inserter-dry-run-v0.md",
+     "sha256": "25a905da68d758f973ad2ab764fb58e88aa0a05b9fda2a38c31d00db7ab57e64",
+     "bytes": 16929,
+     "sha256_fork_copy": "25a905da68d758f973ad2ab764fb58e88aa0a05b9fda2a38c31d00db7ab57e64",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "brief 26 (brief 15 A6.17.10 (c), A6.17.11): the edit-application check on every B3 item, $0; the rendering artefact confirmed",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "first line (drop list 8; reverse case 0)",
+      "Aggregates",
+      "Per line at the Part S state"
+     ]
+    },
+    {
+     "path": "b3/inserter-dry-run-v0.json",
+     "sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+     "bytes": 1205390,
+     "sha256_fork_copy": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "as inserter-dry-run-v0.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "summaries"
+     ]
+    },
+    {
+     "path": "b0/b0-results.md",
+     "sha256": "95684dfda533e38edf59aef1239aa7678b88853771a55ee09c442f9edf942082",
+     "bytes": 41406,
+     "sha256_fork_copy": "95684dfda533e38edf59aef1239aa7678b88853771a55ee09c442f9edf942082",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "brief 11 (B0) prespec Z0: Z2 to Z5 exploratory; the R checks are reproductions; each table carries its own label inside",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "First lines",
+      "Z2 (i) flag against visibility and volume",
+      "Z2 strata and pools",
+      "Z3",
+      "Z4 the honest-null taxonomy",
+      "Z5"
+     ]
+    },
+    {
+     "path": "b0/b0-results.json",
+     "sha256": "c54e20290c2a62e6aebc2ba06cfeda3fccf4e0c717f8cda95112ae4f80474c88",
+     "bytes": 157956,
+     "sha256_fork_copy": "c54e20290c2a62e6aebc2ba06cfeda3fccf4e0c717f8cda95112ae4f80474c88",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "as b0-results.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "z2",
+      "z3",
+      "z4",
+      "z5"
+     ]
+    },
+    {
+     "path": "b3/power-simulation-v3b.md",
+     "sha256": "5f6b0eaeba031732220ebcc2044b393e3b72f514acddc31543fa779788d0f8a9",
+     "bytes": 31254,
+     "sha256_fork_copy": "5f6b0eaeba031732220ebcc2044b393e3b72f514acddc31543fa779788d0f8a9",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 20 Part 2 (brief 15 A6.13): $0 simulation; operating characteristics, never outcomes",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "Summary (adopted layout T2+S2; one latent margin)"
+     ]
+    },
+    {
+     "path": "b3/power-simulation-v3b.json",
+     "sha256": "031795d5f6ae160e4f55cc21bc8cc1594df9cd39015214f8843f22c4d538664c",
+     "bytes": 2829702,
+     "sha256_fork_copy": "031795d5f6ae160e4f55cc21bc8cc1594df9cd39015214f8843f22c4d538664c",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "as power-simulation-v3b.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "summary"
+     ]
+    },
+    {
+     "path": "b3/power-simulation-v3c.md",
+     "sha256": "ffd16e23838e6fba46b8478e3011244864929a5f222797be64b4fc6ad96bceaf",
+     "bytes": 16855,
+     "sha256_fork_copy": "ffd16e23838e6fba46b8478e3011244864929a5f222797be64b4fc6ad96bceaf",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 20 Part 3 (brief 15 A6.14.3, A6.18): $0 simulation; the switch and the carrier",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "first line",
+      "populations table",
+      "2 and 3"
+     ]
+    },
+    {
+     "path": "b3/power-simulation-v3c.json",
+     "sha256": "2086e72fea1adbf9818e7f25737b598fb4dd6f82afb8f3f22df156d9fec710b2",
+     "bytes": 178692,
+     "sha256_fork_copy": "2086e72fea1adbf9818e7f25737b598fb4dd6f82afb8f3f22df156d9fec710b2",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "as power-simulation-v3c.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "summary"
+     ]
+    },
+    {
+     "path": "b3/s1-populations-v0.json",
+     "sha256": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+     "bytes": 69321,
+     "sha256_fork_copy": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "brief 28 S1: B3's populations by hash, committed with plan.md",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "populations"
+     ]
+    },
+    {
+     "path": "b3/plan.md",
+     "sha256": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+     "bytes": 114196,
+     "sha256_fork_copy": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "brief 28 S1 with its dated notes (brief 15 A6.18 (p), A6.24 (2), brief 33 A1b); hashed as on disk; see status_recorded_sha256",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "1 Populations",
+      "5 The readings and the cascade",
+      "6 Every outcome sentence",
+      "7 The disclosures",
+      "8 Round 2"
+     ],
+     "status_recorded_sha256": "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13",
+     "status_recorded_bytes": 111603,
+     "prefix_equals_status_version": true,
+     "note": "STATUS's latest record of plan.md is 58b0c121 (fork 58b0c24); the file on disk carries S3 Stage A's appended dated note (fork be0a600), which STATUS has not yet recorded. Hashed as on disk; prefix_equals_status_version checks that nothing above the note changed. Re-run with --rerun-plan when STATUS records the move (A5.1 W0). Only sections 1 to 8 are read."
+    },
+    {
+     "path": "pilot/forensics/forensics.md",
+     "sha256": "626a612c8b157456561f0ad2f94910c8c397c8ff00e8782aa0ab08c3a241e62a",
+     "bytes": 12157,
+     "sha256_fork_copy": "626a612c8b157456561f0ad2f94910c8c397c8ff00e8782aa0ab08c3a241e62a",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "brief 16 part A spec (sha256 7c9bf41b, fork e541f1c): 'counts only; exploratory'; A5 lists brief 16 as sensitivity, and the file's own plan labels part A exploratory, so the manifest takes the plan's label (disclosed)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "A1 Fact losses",
+      "A2 How long each composition lasted",
+      "A4 The carrier write"
+     ]
+    },
+    {
+     "path": "pilot/forensics/rc-sensitivity.md",
+     "sha256": "3cea08fc5d6d95376203aea16d452454c9e3b649e1be91582b5ff6b21f131983",
+     "bytes": 2986,
+     "sha256_fork_copy": "3cea08fc5d6d95376203aea16d452454c9e3b649e1be91582b5ff6b21f131983",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "brief 16 part B: R-C sensitivities (exploratory), the mapped cut points committed by hash before any rating",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "same-session sensitivity table (brief 09 band, moved)",
+      "touched-lines rendering"
+     ]
+    },
+    {
+     "path": "b3/review/partj-diagnostics-2026-10-31.md",
+     "sha256": "c3033e9899ae546b35dd973c210ac3a6dab8eddef08372378659ffd48d77f242",
+     "bytes": 1718,
+     "sha256_fork_copy": null,
+     "copies_identical": false,
+     "tag": "methods",
+     "tag_source": "the review session's aggregate Part J diagnostics (run on key-b3.json 04b1ca30 and the four pass files), cited by review-partj; added beyond A5's list because it holds A4.5's Spearman (a disclosed deviation)",
+     "added_beyond_brief_list": true,
+     "tables_drawn_on": [
+      "spearman comp vs top line"
+     ],
+     "note": "no fork mirror at results/stage3/b3/review/partj-diagnostics-2026-10-31.md; kept in this amendment record only, not in files, until the coordinator mirrors it"
+    },
+    {
+     "path": "b3/review/review-partj-2026-10-31.md",
+     "sha256": "2769bc14cf8b6153c614496de94a399ccd6e29868ddc0b01b3324ee5405fd5e6",
+     "bytes": 10327,
+     "sha256_fork_copy": null,
+     "copies_identical": false,
+     "tag": "methods",
+     "tag_source": "the review session's Part J review, reconciled with the independent Fable read and verified by the coordinator (STATUS 2026-10-31); added beyond A5's list because it holds A4.5's mean lift and the 16 needed (a disclosed deviation)",
+     "added_beyond_brief_list": true,
+     "tables_drawn_on": [
+      "2 Fable's read: Mechanism",
+      "3 Reconciliation: Verified from the files"
+     ],
+     "note": "no fork mirror at results/stage3/b3/review/review-partj-2026-10-31.md; kept in this amendment record only, not in files, until the coordinator mirrors it"
+    },
+    {
+     "path": "briefs/15-b3-distributed-visibility-2026-10-28.md",
+     "path_root": "project root",
+     "sha256": "d54e263c71c88d560ab44b41ba8d5e9cf34c752fe971dd67e54e4bb8d99fed30",
+     "bytes": 126790,
+     "fork_copy_path": "results/stage3/b3/brief-15-b3-distributed-visibility.md",
+     "sha256_fork_copy": "d54e263c71c88d560ab44b41ba8d5e9cf34c752fe971dd67e54e4bb8d99fed30",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 15 (B3) with amendments A5 to A6.26: cited for method and verbatim quotations (A6.17.7, A6.18 (l)), never as a number source",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "briefs/22-b4-conditional-2026-10-31.md",
+     "path_root": "project root",
+     "sha256": "3d9e83ca60641e109f53a2bd423260c5a4a68b48fb52d548ed17398cb4a5433e",
+     "bytes": 9446,
+     "fork_copy_path": "results/stage3/b4/brief-22-b4-conditional.md",
+     "sha256_fork_copy": "3d9e83ca60641e109f53a2bd423260c5a4a68b48fb52d548ed17398cb4a5433e",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 22 (B4, conditional design): cited for the gate G1 to G3 and the paths; its section-0 figures are traced to their result files below",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "briefs/24-elicitation-study-design-2026-10-31.md",
+     "path_root": "project root",
+     "sha256": "68aeefc4f57b0e6f0bc5510d11e84b391523d3774537d704ce40d369859c32b8",
+     "bytes": 15481,
+     "fork_copy_path": "results/stage3/elicitation/brief-24-elicitation-study-design.md",
+     "sha256_fork_copy": "68aeefc4f57b0e6f0bc5510d11e84b391523d3774537d704ce40d369859c32b8",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 24 (the elicitation study design): cited for its purpose line ('with these writers'), never for a number",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "work/lessons.md",
+     "path_root": "project root",
+     "sha256": "8d26c648e08769ff62da11d9c66ff459d47eef7c48d3bc6044b0879d4c3a5e6e",
+     "bytes": 22354,
+     "fork_copy_path": null,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "tag": "record",
+     "tag_source": "lessons L1 to L25: cited for method (L17 to L25), never for a number",
+     "cited_only": true,
+     "added_beyond_brief_list": false,
+     "note": "no fork mirror; cited for method only"
+    }
+   ],
+   "kept_in_amendment_only": [
+    "b3/review/partj-diagnostics-2026-10-31.md",
+    "b3/review/review-partj-2026-10-31.md",
+    "briefs/15-b3-distributed-visibility-2026-10-28.md",
+    "briefs/22-b4-conditional-2026-10-31.md",
+    "briefs/24-elicitation-study-design-2026-10-31.md",
+    "work/lessons.md"
+   ],
+   "traces": [
+    {
+     "figure": "A1 (1) the mechanism join: cells where the author's maximum rater score predicts the per-author flag",
+     "value_as_recorded": "11 of 12",
+     "file": "b0/b0-results.md",
+     "table": "First lines, item 2 (Z2)",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A1 (1) volume beyond visibility",
+     "value_as_recorded": "ΔAUC 0.005 to 0.067",
+     "file": "b0/b0-results.md",
+     "table": "First lines, item 2; Z2 (i) column ΔAUC_vol",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A1 (2) 07o's exclusion of v1's effect under Sonnet",
+     "value_as_recorded": "DiD 0.083 [-0.125, 0.292]; Δ_v1 0.000 [-0.167, 0.167]",
+     "file": "t1-replant/replant-results.md",
+     "table": "first line (outcome under Sonnet 5)",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "A1 (2) no reading at headroom: Sonnet re-plant margin",
+     "value_as_recorded": "0.080 against 0.3",
+     "file": "b0/b0-results.md",
+     "table": "Z2 strata (Sonnet P_author, re-plant)",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A1 (2) the one stratum at headroom (Opus 4.8, re-plant)",
+     "value_as_recorded": "DiD 0.250 [0.000, 0.500], inconclusive",
+     "file": "b0/b0-results.md",
+     "table": "Z2 strata (Opus 4.8 P_author, re-plant)",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "W1 item 4: the re-plant's v1 point under Sonnet, lone",
+     "value_as_recorded": "0.500 (12/24) [0.291, 0.709]",
+     "file": "t1-replant/replant-results.md",
+     "table": "Sonnet 5 table, P_author lone recall",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "W1 item 4: the re-plant's v1 point under Sonnet, k = 2",
+     "value_as_recorded": "0.500 (12/24) [0.291, 0.709]",
+     "file": "t1-replant/replant-results.md",
+     "table": "Sonnet 5 table, P_author k2 recall",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "W1 item 4: the re-plant's v1 point under Sonnet, composed",
+     "value_as_recorded": "0.734 (47/64) [0.609, 0.837]",
+     "file": "t1-replant/replant-results.md",
+     "table": "Sonnet 5 table, O_diff nominal composed share",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "W1 item 4: the old inserter's v1 point (hollow)",
+     "value_as_recorded": "Δ 0.458; lone units of four or more changes 14/17 against 3/7 at three",
+     "file": "t1-replant/replant-results.md",
+     "table": "DiD line (v1 old inserter Δ); P_author by n_changes stratum, old inserter rows",
+     "tag": "confirmatory (superseded for Δ)"
+    },
+    {
+     "figure": "A4.2 the edit-count rule's recall on the control (sham) arm by arm",
+     "value_as_recorded": "lone 0.708 (17/24) [0.489, 0.874]; k2 0.458 (11/24) [0.256, 0.672]; k3 0.250 (4/16) [0.073, 0.524]",
+     "file": "t1-replant/replant-results.md",
+     "table": "Volume rule (judge-free; edit count at 5 percent honest cost)",
+     "tag": "exploratory (not a pre-registered contrast; A4.2)"
+    },
+    {
+     "figure": "A4.2 the edit-count rule's honest cost",
+     "value_as_recorded": "t 3, honest realised 0.045 (4/89)",
+     "file": "t1-replant/replant-results.md",
+     "table": "Volume rule",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A4.4 shared item lines found by name over the first two days",
+     "value_as_recorded": "16 to 12 to 7",
+     "file": "b4r/b4r-results.md",
+     "table": "The world: honest behaviour disclosed (C.4 and the day-2 note)",
+     "tag": "confirmatory (world record)"
+    },
+    {
+     "figure": "A4.4 the day-1 stop: update tasks verified when no value was given",
+     "value_as_recorded": "1 of 11",
+     "file": "b4r/b4r-results.md",
+     "table": "The world: Bank",
+     "tag": "confirmatory (world record)"
+    },
+    {
+     "figure": "A4.4 whole-document writes, pooled share",
+     "value_as_recorded": "0.037 (7 of 188)",
+     "file": "b4r/world-dynamics-v3.md",
+     "table": "(b2) Whole-document writes against the edit tools, pooled",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "A4.4 brief 14's disclosure line",
+     "value_as_recorded": "R0.8 as filled",
+     "file": "b4r/b4r-results.md",
+     "table": "The disclosure line (R0.8, filled)",
+     "tag": "confirmatory"
+    },
+    {
+     "figure": "A4.5 Part J: triples certified on both passes",
+     "value_as_recorded": "0 of 89",
+     "file": "b3/rater/certification-b3.md",
+     "table": "J2 (pooled 1 of 89 on pass 1; of which both passes 0)",
+     "tag": "methods"
+    },
+    {
+     "figure": "A4.5 Part J: the writers' mean lift (composition minus the top line)",
+     "value_as_recorded": "13.46 (Sonnet 16.17, GLM 10.29)",
+     "file": "b3/review/review-partj-2026-10-31.md",
+     "table": "3 Reconciliation, Verified from the files",
+     "tag": "methods"
+    },
+    {
+     "figure": "A4.5 Part J: the lift needed with every line at or under 60",
+     "value_as_recorded": "at least 16",
+     "file": "b3/review/review-partj-2026-10-31.md",
+     "table": "2 Fable's read, Mechanism",
+     "tag": "methods"
+    },
+    {
+     "figure": "A4.5 Part J: Spearman(composition, top line)",
+     "value_as_recorded": "0.628",
+     "file": "b3/review/partj-diagnostics-2026-10-31.md",
+     "table": "diagnostics block, 'spearman comp vs top line'",
+     "tag": "methods"
+    },
+    {
+     "figure": "A5.3 brief 23: test items' mean D_part against the nulls",
+     "value_as_recorded": "Sonnet 5.5 0.442 vs 0.000 (not evaluable, 43 of 48); Kimi K3 0.625 vs 0.011; GPT-6 Sol 0.448 vs 0.021; no interval in the record",
+     "file": "legibility/instrument-v0.md",
+     "table": "Validation sentences per reader family, sentence 3",
+     "tag": "instrument"
+    },
+    {
+     "figure": "A5.3 the T1 join's one sentence (verbatim from brief 15 A6.17.7)",
+     "value_as_recorded": "27 of 138; v2 0.24; v3 0.15; Spearman 0.28 to 0.35 pooled",
+     "file": "b3/comprehension/t1-join-v0.md",
+     "table": "Rater line score: two-pass mean (pooled row; v2_conforming and v3_middle rows)",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A5.3 the comprehension-quiet stratum",
+     "value_as_recorded": "28 of 78 (0.359)",
+     "file": "b3/comprehension/stratum-v0.md",
+     "table": "first line",
+     "tag": "instrument"
+    },
+    {
+     "figure": "A5.3 purity, not completeness (C1's expectation)",
+     "value_as_recorded": "P(labelled quiet | truly quiet) 0.519 [0.127, 0.742]; P(labelled quiet | not quiet) 0.005 [0.000, 0.032]",
+     "file": "b3/comprehension/stratum-v0.md",
+     "table": "C1's expectation (not a bar)",
+     "tag": "instrument"
+    },
+    {
+     "figure": "A5.3 the rendering artefact confirmed (brief 26)",
+     "value_as_recorded": "unresolved-anchor candidates: 16 items, 29 of 48 lines found at day 0; every candidate line found at every Part S draw (234 of 234); reverse case 0; drop list 8",
+     "file": "b3/inserter-dry-run-v0.md",
+     "table": "first line; Aggregates (anchors_resolve false: candidates); Per line at the Part S state",
+     "tag": "instrument"
+    },
+    {
+     "figure": "A5.3 / A5.5 the resolved-anchor subset, net",
+     "value_as_recorded": "17",
+     "file": "b3/power-simulation-v3c.md",
+     "table": "populations table (resolved-anchor subset 17)",
+     "tag": "design"
+    },
+    {
+     "figure": "A5.4 the per-account cross-document entity rule's honest cost",
+     "value_as_recorded": "0.20 [0.11, 0.30] (unrepaired 0.020 [0.000, 0.050])",
+     "file": "b4r/z5-v3.md",
+     "table": "The pass (R0.1); residual rules, any_cross_document",
+     "tag": "confirmatory (pre-registered world readout)"
+    },
+    {
+     "figure": "A5.4 the cross-account rule's honest cost",
+     "value_as_recorded": "0.40 [0.27, 0.53]",
+     "file": "b4r/z5-v3.md",
+     "table": "The cross-account cell (R0.5, A.3)",
+     "tag": "confirmatory (pre-registered world readout)"
+    },
+    {
+     "figure": "A5.4 the edit-count rule's control-arm recall from lone to k = 3",
+     "value_as_recorded": "0.708, 0.458, 0.250",
+     "file": "t1-replant/replant-results.md",
+     "table": "Volume rule",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A5.5 m_L",
+     "value_as_recorded": "18.22 (a stated convention)",
+     "file": "b3/plan.md",
+     "table": "8 Round 2",
+     "tag": "pre-registration"
+    },
+    {
+     "figure": "A5.5 round 2 floor and target",
+     "value_as_recorded": "floor 12 + 12; target 26 certified and at least 12 quiet-but-illegible",
+     "file": "b3/plan.md",
+     "table": "8 Round 2, Size",
+     "tag": "pre-registration"
+    },
+    {
+     "figure": "A5.5 A6.18 (l)'s caveat",
+     "value_as_recorded": "0.67",
+     "file": "b3/plan.md",
+     "table": "7 The disclosures (A6.18 (l), verbatim)",
+     "tag": "pre-registration"
+    },
+    {
+     "figure": "A3 R-A: instances composed within a day; held to a day end",
+     "value_as_recorded": "2 of 4 composed (P2, P4), both lost the same day; 0 held to a day end",
+     "file": "pilot/forensics/forensics.md",
+     "table": "A2 How long each composition lasted",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A3 R-A: the one any-day carrier",
+     "value_as_recorded": "one carrier, a coalition account's non-scenario session; counts under the rule as written, not under a composition-at-carrying rule",
+     "file": "pilot/forensics/forensics.md",
+     "table": "A4 The carrier write",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "A3 R-C: bands per instance and the sensitivity",
+     "value_as_recorded": "brief 09 bands P1 80 and above, P2 to P4 40 to 69; P2 moved under the same-session sensitivity",
+     "file": "pilot/forensics/rc-sensitivity.md",
+     "table": "same-session sensitivity table",
+     "tag": "sensitivity"
+    }
+   ],
+   "not_traced": [
+    {
+     "figure": "A5.4 (brief 22 section 0) the chance figure beside the cross-account rule ('chance 0.64')",
+     "reason": "held only in work/stage3/b4/power-simulation-b4.md (brief 19's design record, not in the manifest), computed there as 1 - 0.6^2; not in b4r-results, z5-v3, b0-results or the re-plant table: not written (A5.4)"
+    },
+    {
+     "figure": "A3 the exact intervals beside the pilot's counts",
+     "reason": "no manifest file carries an exact interval for 2 of 4 or for the carrier count; brief 13 W3 forbids computing one: counts are written without intervals and the gap is named"
+    },
+    {
+     "figure": "A3 R-D's counts (the live footprint)",
+     "reason": "held in the pilot's measure files (m1c-footprint.md, via the checkpoint 3b memo), not in the manifest: R-D is written as its sentence only"
+    }
+   ],
+   "note": "additive; no earlier entry changed. Every other figure the paper writes carries its file and table inline as (tag; file, table); every file so cited is in this manifest. Records cited for method only (briefs 15, 22, 24; work/lessons.md) are never a number source."
   }
  ]
 }
