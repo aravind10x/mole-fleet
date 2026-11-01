@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 101,
+ "n_files": 102,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1152,6 +1152,20 @@
     "C-rule (beside every number)",
     "summary C-rule line"
    ]
+  },
+  {
+   "path": "s6-released-metadata-leak.md",
+   "sha256": "167599d822ec06bd14f1db67eb2962567e5cbaf7c3a8e4d974af604aea8bffe8",
+   "bytes": 10901,
+   "sha256_fork_copy": "167599d822ec06bd14f1db67eb2962567e5cbaf7c3a8e4d974af604aea8bffe8",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; the Stage 3 prep audit (S6) of metadata leaks on the released corpora, two features",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "Result (primary label rule)",
+    "Notes on the primary table"
+   ]
   }
  ],
  "amendments": [
@@ -2136,6 +2150,334 @@
     "outline v1 pending: the generator's model id (cold-read fix 3)"
    ],
    "note": "additive; no earlier entry changed; launch lines mirrored to the fork's results/stage3/prefix/ in the same commit"
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 W0c (the writing session, Opus 5.5): decision 5, the earlier stages' result files",
+   "added": [
+    "s6-released-metadata-leak.md"
+   ],
+   "entries": [
+    {
+     "path": "work/blog-thesis/checks/mole_r10_gpt53_single_day.json",
+     "path_root": "project root",
+     "sha256": "12c8dd96618ffb879913a4345eb7aca67e4e4c2744fd93b89fb49d484dde0526",
+     "bytes": 8868,
+     "fork_copy_path": "results/stage0/blog-thesis-checks/mole_r10_gpt53_single_day.json",
+     "sha256_fork_copy": "12c8dd96618ffb879913a4345eb7aca67e4e4c2744fd93b89fb49d484dde0526",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; the Stage 0 rules and the benchmark's matchers scored blind under the benchmark's protocol, GPT-5.3 corpus",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "detectors: D_struct, D_upstream_ceiling, D_union (R10_overall)"
+     ]
+    },
+    {
+     "path": "work/blog-thesis/checks/mole_r10_kimi_k26_single_day.json",
+     "path_root": "project root",
+     "sha256": "b7da6196fd1338db7331bd17ad1182481b81e15322d8e2adae5287cf90492f8f",
+     "bytes": 8882,
+     "fork_copy_path": "results/stage0/blog-thesis-checks/mole_r10_kimi_k26_single_day.json",
+     "sha256_fork_copy": "b7da6196fd1338db7331bd17ad1182481b81e15322d8e2adae5287cf90492f8f",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; as above, Kimi K2.6 corpus",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "detectors: D_struct, D_upstream_ceiling, D_union (R10_overall)"
+     ]
+    },
+    {
+     "path": "work/stage0/q1-upstream-results/summary.md",
+     "path_root": "project root",
+     "sha256": "b899deb216960df1f1014133ac355362606a8498a7562b08c0566e859716173e",
+     "bytes": 24933,
+     "fork_copy_path": "results/stage0/q1-upstream-results/summary.md",
+     "sha256_fork_copy": "b899deb216960df1f1014133ac355362606a8498a7562b08c0566e859716173e",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 0: the benchmark's matchers run blind on its released corpora",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "Headline reading, item 2"
+     ]
+    },
+    {
+     "path": "work/stage1/f-upstream-row.md",
+     "path_root": "project root",
+     "sha256": "5cedb801e45c02241df3bff6b6cbb693837183b1a10f12d30c431935787d7e26",
+     "bytes": 27845,
+     "fork_copy_path": "results/stage1/f-upstream-row.md",
+     "sha256_fork_copy": "5cedb801e45c02241df3bff6b6cbb693837183b1a10f12d30c431935787d7e26",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 1 F1 on the released corpus, with the corrections after review (f1_corrections.py output appended)",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "C3 rho is undefined",
+      "C5 combined pipeline"
+     ]
+    },
+    {
+     "path": "work/stage2/b0-seed-expansion.md",
+     "path_root": "project root",
+     "sha256": "dc838b915925b8e23ae94dbfdeb978f2b220b4134c7d7bb1637bc5dff582fffc",
+     "bytes": 189998,
+     "fork_copy_path": "results/stage2/b0-seed-expansion.md",
+     "sha256_fork_copy": "dc838b915925b8e23ae94dbfdeb978f2b220b4134c7d7bb1637bc5dff582fffc",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2a: seed expansion on the released corpora",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "Gate decision and interpretation, items 1 and 2"
+     ]
+    },
+    {
+     "path": "work/stage2/b1-haystack.md",
+     "path_root": "project root",
+     "sha256": "902dfc9be901fd6a26bca6f0aa3f29171e4e3b8ed9e2f1f863f5d228375101f0",
+     "bytes": 93566,
+     "fork_copy_path": "results/stage2/b1-haystack.md",
+     "sha256_fork_copy": "902dfc9be901fd6a26bca6f0aa3f29171e4e3b8ed9e2f1f863f5d228375101f0",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2a: the honest haystack",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "Gate decision and interpretation, item 3"
+     ]
+    },
+    {
+     "path": "work/stage2/a-track-a-results.md",
+     "path_root": "project root",
+     "sha256": "a417fdcd32979acb7992eb67d662dd1c5eeb45b8033eaf2d9d1a453cda48ae0e",
+     "bytes": 41818,
+     "fork_copy_path": "results/stage2/a-track-a-results.md",
+     "sha256_fork_copy": "a417fdcd32979acb7992eb67d662dd1c5eeb45b8033eaf2d9d1a453cda48ae0e",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2a: pacing (Track A)",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": true,
+     "tables_drawn_on": [
+      "1 Primary comparison",
+      "K2 expensive tier vs cheap tier"
+     ]
+    },
+    {
+     "path": "work/stage2/b-grouping.frozen.md",
+     "path_root": "project root",
+     "sha256": "be7788c7575f771a82971df93305cbd867edf97082ea539efed815f5f6af02cf",
+     "bytes": 41164,
+     "fork_copy_path": "results/stage2b/b-grouping.frozen.md",
+     "sha256_fork_copy": "be7788c7575f771a82971df93305cbd867edf97082ea539efed815f5f6af02cf",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2b: the grouping result by frozen code",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": false,
+     "tables_drawn_on": [
+      "Labels (C4 oracle)",
+      "Leak audit",
+      "Statements (K3 inputs)"
+     ]
+    },
+    {
+     "path": "work/stage2/b-grouping.md",
+     "path_root": "project root",
+     "sha256": "33007b261375542a49f5209e62df67ced89da3b75e372bcc7587387b721394a5",
+     "bytes": 60775,
+     "fork_copy_path": "results/stage2b/b-grouping.md",
+     "sha256_fork_copy": "33007b261375542a49f5209e62df67ced89da3b75e372bcc7587387b721394a5",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2b: the grouping report with the controller's reading",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": false,
+     "tables_drawn_on": [
+      "A.1 the verdict and what the cell showed (items on break-glass and density)",
+      "C.2 Density axis"
+     ]
+    },
+    {
+     "path": "work/stage2/branch-gate-stats.md",
+     "path_root": "project root",
+     "sha256": "81380d0d494db6e29b774295ecd779068b82ebc5725c0fb9cc1fd9a51f450fb3",
+     "bytes": 24941,
+     "fork_copy_path": "results/stage2b/branch-gate-stats.md",
+     "sha256_fork_copy": "81380d0d494db6e29b774295ecd779068b82ebc5725c0fb9cc1fd9a51f450fb3",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2b: branch gate statistics",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": false,
+     "tables_drawn_on": [
+      "Pooled over branches A, B, C: 2 Successful protected-group grants"
+     ]
+    },
+    {
+     "path": "work/stage2/density-anchor.md",
+     "path_root": "project root",
+     "sha256": "94c292ca3d89795ccfd06a2d7a85039a3d5b5a310fc8a691fbdcd06193400c94",
+     "bytes": 10736,
+     "fork_copy_path": "results/stage2b/density-anchor.md",
+     "sha256_fork_copy": "94c292ca3d89795ccfd06a2d7a85039a3d5b5a310fc8a691fbdcd06193400c94",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; Stage 2b: the human density anchor (Apache Jira)",
+     "added_beyond_brief_list": false,
+     "mirrored_by_this_amendment": false,
+     "tables_drawn_on": [
+      "Headline"
+     ]
+    },
+    {
+     "path": "s6-released-metadata-leak.md",
+     "sha256": "167599d822ec06bd14f1db67eb2962567e5cbaf7c3a8e4d974af604aea8bffe8",
+     "bytes": 10901,
+     "sha256_fork_copy": "167599d822ec06bd14f1db67eb2962567e5cbaf7c3a8e4d974af604aea8bffe8",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "decision 5 (the coordinator, STATUS 2026-11-02): an earlier-stage result file, tagged exploratory for the paper; the Stage 3 prep audit (S6) of metadata leaks on the released corpora, two features",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "Result (primary label rule)",
+      "Notes on the primary table"
+     ]
+    }
+   ],
+   "traces": [
+    {
+     "figure": "§2.1 the Stage 0 structural rules, R@10/day on the GPT-5.3 corpus",
+     "value_as_recorded": "0.7253 (D_struct); the benchmark's matchers alone 0.6011 (D_upstream_ceiling); union 0.7339 (D_union)",
+     "file": "work/blog-thesis/checks/mole_r10_gpt53_single_day.json",
+     "table": "detectors",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§2.1 the same on the Kimi K2.6 corpus",
+     "value_as_recorded": "0.3989 (D_struct); 0.3903 (D_upstream_ceiling); 0.4583 (D_union)",
+     "file": "work/blog-thesis/checks/mole_r10_kimi_k26_single_day.json",
+     "table": "detectors",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.1 the benchmark's quiet matchers",
+     "value_as_recorded": "eight; essentially zero false alarms and 86% to 100% recall; six of the eight depend wholly or mostly on seeded names",
+     "file": "work/stage0/q1-upstream-results/summary.md",
+     "table": "Headline reading, item 2",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.1 F1: the combined pipeline",
+     "value_as_recorded": "81/85 (0.953) at honest 0.050",
+     "file": "work/stage1/f-upstream-row.md",
+     "table": "C5 combined pipeline",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.1 F1: the cross-account layer",
+     "value_as_recorded": "recall_X - recall_P = +0.0000 (exactly zero)",
+     "file": "work/stage1/f-upstream-row.md",
+     "table": "C3 rho is undefined",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 seed expansion on the C1 pairs",
+     "value_as_recorded": "0.43 of executed days at w = 1 (53 of 122)",
+     "file": "work/stage2/b0-seed-expansion.md",
+     "table": "Gate decision, item 1",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 seed expansion on the C2 pairs",
+     "value_as_recorded": "L = 0 on 0.96 or more of executed days for G1, G2 and G3 in like-for-like scope",
+     "file": "work/stage2/b0-seed-expansion.md",
+     "table": "Gate decision, item 2",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 the haystack",
+     "value_as_recorded": "every structural generator (G1, G3, G4, G5) exceeds B = 0.10 at every window on every corpus",
+     "file": "work/stage2/b1-haystack.md",
+     "table": "Gate decision, item 3",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 pacing with a reserve against plain top-k",
+     "value_as_recorded": "-0.037 [-0.073, -0.006]",
+     "file": "work/stage2/a-track-a-results.md",
+     "table": "1 Primary comparison",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 the expensive tier's full-coverage recall",
+     "value_as_recorded": "0.525 [0.323, 0.713]",
+     "file": "work/stage2/a-track-a-results.md",
+     "table": "K2",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 Stage 2b groups that acted on the designed route",
+     "value_as_recorded": "4 of 15 (minimum 10): inconclusive by design",
+     "file": "work/stage2/b-grouping.frozen.md",
+     "table": "Labels; Statements",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 protected-group grants through break-glass",
+     "value_as_recorded": "25 of 25",
+     "file": "work/stage2/b-grouping.md",
+     "table": "A.1",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§2.5 / §15.2 the density axis",
+     "value_as_recorded": "branches 0.35 to 0.49 write co-touch a day against 0.0073 for the 50 most active humans; 'about 50 to 70 times the human anchor'",
+     "file": "work/stage2/b-grouping.md",
+     "table": "A.1 item 7; C.2",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§2.5 the prefix against the human anchor",
+     "value_as_recorded": "about 77 times below the fork prefix (0.562 any type)",
+     "file": "work/stage2/density-anchor.md",
+     "table": "Headline",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 the fork's metadata leak (four features)",
+     "value_as_recorded": "AUROC 0.698 [0.620, 0.777]",
+     "file": "work/stage2/b-grouping.frozen.md",
+     "table": "Leak audit, pooled",
+     "tag": "exploratory"
+    },
+    {
+     "figure": "§15.2 the released single-day corpora (two features)",
+     "value_as_recorded": "gpt53 0.604 [0.573, 0.639] (straddles the gate); kimi 0.652 [0.625, 0.681]; deepseek 0.682 [0.648, 0.717]; qwen 0.552 [0.511, 0.594]",
+     "file": "s6-released-metadata-leak.md",
+     "table": "Result (primary label rule); notes",
+     "tag": "exploratory"
+    }
+   ],
+   "record_discrepancies_found": [
+    "PLAN.md §2 says 'Upstream MOLE's own matchers, run blind as detectors ... reach R@10/day 0.73': the 0.725 is D_struct, the Stage 0 structural rules; the benchmark's matchers alone are 0.601 (ASSESSMENT §0 says 'your Stage 0 rules', correctly)",
+    "'nine of twelve' threats (PLAN §1, STATUS, c-paper-skeleton) is summary-only; the result file's headline names eight quiet matchers",
+    "F1's interval [0.653, 1.000] (theory-note evidence table) is the judge alone (72/85), not the 81/85 pipeline",
+    "F2's 0.006 of account-days is the Checkpoint 1 review's arithmetic, not a result file's figure; not written",
+    "the density ratio: 'about 50 to 70 times' is the branches against the anchor (b-grouping.md); density-anchor.md gives 'about 77 times' for the prefix",
+    "PLAN's 'AUROC 0.70' is the fork's four-feature audit; the released corpora's three-of-four result is a separate two-feature run (s6), not directly comparable, with gpt53 straddling the gate",
+    "Stage 2b's cost ($401; about $300 avoidable) is summary-only (retrospective, STATUS budget); not written"
+   ],
+   "note": "additive; no earlier entry changed. Entries outside work/stage3/ stay in this record (project-root path and fork copy path); the S6 audit is also appended to files. Sentences whose figures have no result file stay number-free."
   }
  ]
 }
