@@ -18,9 +18,13 @@ Written 2026-11-02 by the coordinator (Fable 5.1) after the review session's col
 4. **The cross-document items:** the pair extension is needed in four places (the legibility reader, the rater-sheet builder, the application module, the inserter dry run), named by file; constraint 5's reading (per pair, three lines; per cell, six) flagged for the coordinator's confirmation; a six-pair development pilot before 24 per cell is priced; the honest-pair null's N is brief 30's.
 5. **`b4-constraints-v0.md`** (new): the seven constraints copied verbatim from lines 25 to 33 of the B4-R results file with that provenance line, so later sessions open no result file.
 6. **INDEX:** the fork commit (712e23a) in place of the stale line; "eleven lines (eight shared items)"; the open list gains the converter, the `kind` collision (mechanism to its own field), the token decision and the four-place pair extension; a v0.1 table of hashes.
-7. **The packet check:** add a load smoke test that builds one synthetic triple, payload and key from the placeholder item and calls the reader's loader (names only; no item text), or rename the printed claim of `check_fields` to what it proves. Tests pass.
+7. **The packet check:** rename the printed claim of `check_fields` to what it proves ("the field names occur in the reader's source"); **no load smoke test here** (the placeholder is in the writer schema, while the reader's loader needs stripped triples joined to payloads by key, so a smoke test would be brief 30's converter written inside a test). The load smoke test is named in INDEX's open list as an item of brief 30's converter tests. Tests pass.
+   - When renaming to "writer round", the protocol's references to B3's round 2 (its sections 6 and 7) stay as they are. The cap table keeps its provenance line (the review session's expectation table), so it is not read as a decision.
 8. Re-run `stage3_elicitation_packet_check.py check` (PASS, 0 hits) and the tests; record every v0.1 hash in INDEX; mirror to the fork (`results/stage3/elicitation/`, `scripts/stage3/`), commit, do not push; one STATUS line listing the v0.1 hashes.
 
 **Do not:** write or edit any item; call any writer, reader, rater or judge; change the packet body; save anything to memory; print any item or document text.
 
 **Done means:** the six files and INDEX are at v0.1 with their hashes in STATUS; the packet body as sent is still cb528f5d; the checks and tests pass; the mirror is committed.
+
+---
+Changelog: 2026-11-02, written by the coordinator; v2 the same day after the review session's runnability read (`work/stage3/elicitation/review/runnability-29a-v0.1-note-2026-11-02.md` 2ae3d764): step 7 takes the rename only, the load smoke test moves to brief 30's converter tests; the two optional notes added.
