@@ -846,3 +846,104 @@ f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1  work/stage3/t1
 - `O_diff` system prompt 0dad3af9.
 
 The pre-flight may recompute these as well. No prompt text is printed here.
+
+---
+
+## Dated note, 2026-11-02: S2's record; the control items' valid-draws table; one procedural change to §9; brief 31's disclosures; the pre-flight hash list restated
+
+Written 2026-11-02 by the brief 32 session (Opus 5.5) at the coordinator's direction (`briefs/32-plan-note-direction-2026-11-02.md` 13ab9943), under brief 15 A6.23 and A6.24 (2). It is the only change to this plan between S2 and S3, and it is appended: everything above it stands as committed at 4c677dee.
+
+S2's record is `work/stage3/b3/s2-estimate-v0.md` 8254bc4f44b4aa5140175811f2ebe94213bf172aab0993f551753357f56ca0e7, with data `s2-estimate-v0.json` 46d2e153798cad2b4259bf2e708f56937c233f86295963edda234a2e057ed7a0. It was produced under brief 32 v3 (58df6ec1).
+
+**This note changes no analysis rule, no population, no seed, no view, no instrument and no outcome sentence.**
+
+**1. The valid-draws file.** §2.2's `valid_draws` argument for S3 is `work/stage3/b3/inserter-dry-run-v1.json` (sha256 021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47).
+- **How it was written.** S2 wrote it from a copy of brief 26's script, `work/checks/stage3_b3_inserter_dry_run_v1.py` (sha256 825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a). The copy applies brief 26's method, with one opt-in that adds the control items' lone lines.
+- **What differs from edd289ce.** Its `items[]` equal edd289ce's except the control items' `lone_lines`, tested by S2's tests (a) to (d). So every candidate, control-pair and sham draw is the same under either file.
+- **edd289ce keeps its role.** `inserter-dry-run-v0.json` (edd289ce) stays as brief 26's record and the candidates' source. S1's candidate figures (219 / 219 / 219 / 177 / 18,018 / 462) reproduce from v1.
+- **The restricted mode reads v1 unchanged** (`ValidDraws`, `stage3_t1.py` 240f4ed9).
+
+**2. The control items' lone-line add-on (A6.22 (2)) runs. Stream tag 6 is in.**
+
+The rule for S3, in brief 32 v3 H2's words:
+- S3 draws a control item's lone lines on tag 6 once, after every control pair of tag 3 is drawn, with `exclude` set to that control item's two authors as drawn.
+- A control item any of whose lines cannot then supply two draws by different authors leaves the add-on whole (all three lines, since form (a) needs every line), stays in the control arm, and is counted.
+- §2.4 (3) applies to an application-time refusal, as for the candidates.
+- The control arm's pairs (tag 3) never depend on the add-on.
+
+**S2's check:** all 21 net control items pass under every valid pair. None falls short under any pair, and none is in the *none* class.
+
+**The add-on's units, stated in this note only:**
+- 126 lone-line units (21 items × 3 lines × 2 placements) on each of the four per-agent rows of §2.6: `P_author_doc` isolated and `P_author` zero-context, each under Opus 4.8 and under Sonnet 5.
+- The live rows and `O_diff` stay at 0.
+- The layout's totals become 2,088 item units and 2,256 lone-line units (1,752 + 504), 4,344 in all.
+- **§2.6's table is not edited.** S2's script parses its rows, and the rows above this note stay as committed.
+
+**3. The k = 2 arm is not run.** §4.6's branch "not run" applies (sentence S-P0).
+- **Why.** S2's H3 found it fails A6.22 (3)'s cleanness tests (i) and (iii). The restricted mode refuses the k2 arm by design, and brief 26's method has no k = 2 enumeration. S2 skipped the arm by a dated note citing Aravind's words.
+- **Stream tag 5 is unused.**
+
+**4. §9: no analysis rule changes; one procedural change.**
+- **The change.** §9's dry run is replaced by Part 2's method, and the re-base moves to S3's first batch.
+  - S2's figure was computed by Part 2's method on §2.6's units (per-unit bases times units), not by `--dry-run`. A dry run needs the position draws, which §3 leaves to S3.
+  - The exact token count and the re-base happen in S3's first batch (about 20 Opus 4.8 units). They are reported before the rest of S3 runs.
+- **The figure.** H1 $68.17 plus the add-on $8.45 = **$76.62**. The stop is twice the figure Aravind confirms, **$153.25**, unless he re-confirms.
+  - Aravind confirmed both (brief 15 A6.25: "Yes, ok with the budget for S3.").
+  - §9's "about $68" is H1. Its $72.86 is confirmed as the T2+S2 remainder after the live-view lone-line strip.
+  - Decision (2)'s quoted $15.99 (about $15.26 on the net 21) becomes $8.45. The add-on's lone-line units are priced on the four per-agent rows only, as §2.6 prices the candidates' (A6.13.8, A6.8).
+- **Aravind's four decisions at S2** are A6.22's:
+  - (1) T2+S2 confirmed;
+  - (2) the add-on approved (item 2);
+  - (3) the k = 2 arm only if executionally clean (item 3);
+  - (4) A6.18 (o)'s $4 re-read, approved as a named sensitivity. It is unchanged and runs after brief 29-B's E0-7.
+
+**5. Brief 31's disclosures, carried into S3's record (§4.10).** From `work/stage3/b3/judge-client-equivalence-v0.md` (a657e7e6):
+- **G2 holds by construction, not by re-parse.** No cache holds a raw reply, only the parsed fields.
+- **Sonnet 5's sealed nulls were produced by client fdce438b, which is not on disk.** The evidence is the match of the current client's built requests against the request fields the nulls' own calls recorded.
+- **The one default-path change is read as no difference.** It is an errored cache line written after an aborted paid attempt; no request or returned value changes.
+- **The pin of §4.10 does not move.** `judge_client.py` stays at 72d394e3 and `judge_openrouter.py` at e812157c. Brief 29-B's E0-7 adds its option in a new module and leaves `judge_openrouter.py` unchanged (A6.24 (3)).
+
+**6. The `s1-preflight-sha256` block, restated in full.** The pre-flight reads the last block in this file, so the block below is the list for S3.
+- **Its 26 lines:** the 24 lines above, unchanged, plus two:
+  - line 25, the add-on's valid-draws table `work/stage3/b3/inserter-dry-run-v1.json` (item 1);
+  - line 26, the script that wrote it, `work/checks/stage3_b3_inserter_dry_run_v1.py`. Its fork copy under `scripts/stage3/` is identical.
+- **Format:** `shasum -a 256 -c`, as before.
+- **The HEAD condition.** The pre-flight accepts the block only when this file equals the fork's committed copy at HEAD (brief 31's G4).
+
+```s1-preflight-sha256
+72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198  work/checks/judge_client.py
+e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034  work/checks/judge_openrouter.py
+6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382  work/checks/stage3_views.py
+a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8  work/checks/stage3_author_doc.py
+711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197  work/checks/stage3_b1_dossier.py
+240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5  work/checks/stage3_t1.py
+54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d  work/stage3/b1/b1-null.json
+4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0  work/stage3/b1/plan.md
+6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18  work/stage3/b1/b1-results.json
+66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be  work/stage3/q1q2-synthetic/opus48/judge-null.json
+44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e  work/stage3/views/calibration-v1.json
+745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79  work/stage3/q1q2-synthetic/extra-judge-null.sol.json
+99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7  work/stage3/q1q2-synthetic/extra-judge-results.json
+9a769d68346fdbcf098d4c897fed559b3f66c02b858f9790c006ee2bf48da6ca  work/stage3/b3/power-simulation-v3-inputs.json
+5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb  work/checks/stage3_b3_power_v3.py
+2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b  work/checks/stage3_b3_power_v3c.py
+65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828  work/stage3/b3/comprehension/stratum-plan.json
+064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7  work/stage3/b3/comprehension/items-v0.json
+6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932  work/stage3/b3/comprehension/stratum-v0.json
+edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8  work/stage3/b3/inserter-dry-run-v0.json
+f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf  work/stage3/b3/s1-populations-v0.json
+ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74  work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl
+294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc  work/mole-fork/bootstrap/org_template.yaml
+f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1  work/stage3/t1v3/t1v3-plan.md
+021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47  work/stage3/b3/inserter-dry-run-v1.json
+825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a  work/checks/stage3_b3_inserter_dry_run_v1.py
+```
+
+**The configuration values, restated** (the values the pre-flight checks against S3's own configuration; not files):
+- placement seed 20261181, with arm seeds 20261181 × 100 + 10 t for t = 1 to 4 and for t = 6, the control items' lone lines, approved at S2 (2026118160);
+- tag 5, the k = 2 arm, unused: S3's configuration carries no arm-5 seed;
+- bootstrap seed 20261152 with 2,000 replicates;
+- tie seed 20261112;
+- m_s 18.22 (carrier) and 19.37 (second named instrument), with m_L 18.22.
+
+The consistency check beside the first block (the three sealed prompt components) is unchanged.

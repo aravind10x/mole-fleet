@@ -164,6 +164,9 @@ def test_the_k2_arm_is_not_executionally_clean():
 # ── the whole record, on the real files ───────────────────────────────────────────────────────────
 
 @pytest.mark.skipif(not (ROOT / se.V1).exists(), reason="inserter-dry-run-v1.json has not been written")
+# 2026-11-02, plan.md's post-S2 dated note: build() pins plan.md at 4c677dee; S2's record stays reproducible there from fork e5c270b.
+@pytest.mark.skipif(se.sha256_file(ROOT / se.PLAN) != se.SHA[se.PLAN],
+                    reason="plan.md is past 4c677dee (its post-S2 note); S2's build reproduces from fork commit e5c270b")
 def test_build_on_the_real_files():
     r = se.build()
     assert r["h1"]["sums_equal_plan"] and abs(r["h1"]["dollars"] - 68.17) < 0.01
