@@ -789,3 +789,60 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 ### 12.6 Barrier
 
 Not read or opened: Part W of brief 15 or any writer file; the anchor sheet and its draw file (the sheet's sha256 was computed only to match A6.18 (q)); `work/stage3/red/`; persona files; rater key files; judge caches; any candidate, control or sham item's text. No item line, document text, rubric or declared effect is printed here. No judge, reader or review view was called; no draw was computed; nothing was applied to any document state.
+
+---
+
+## Dated note, 2026-11-01 night: S3's pre-flight hash list (A6.21, as refined by the coordinator after the review session's cold read of brief 31)
+
+§4.9's hash list, made explicit and complete, with §4.10's two client files added. **S3's pre-flight check, written by brief 31, reads the block below from this committed `plan.md`.** It recomputes each file's sha256 from the project root (`shasum -a 256 -c` format: hash, two spaces, path) and **refuses to start on any mismatch, printing the hashes it found**.
+
+This note changes no rule above. The block is the complete list for the pre-flight check; §4.9 and §4.10 keep their text. Any later change to a listed file moves its hash only by a dated note, and a judge-client change only after brief 31's re-parse is repeated on the new hash (§4.10). S3's record names the hashes it ran on.
+
+The groups are:
+- judge clients (A6.21; §4.10): lines 1 to 2;
+- view prompts and renderers, and the application module (K2): lines 3 to 6;
+- sealed nulls and thresholds (§4.9): lines 7 to 13;
+- calibration, design and population inputs (§4.9, §1, §2.2): lines 14 to 21;
+- application state, template and v3 rules (§2.2, §2.3): lines 22 to 24.
+
+Every script listed has an identical fork copy under `scripts/stage3/`.
+
+```s1-preflight-sha256
+72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198  work/checks/judge_client.py
+e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034  work/checks/judge_openrouter.py
+6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382  work/checks/stage3_views.py
+a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8  work/checks/stage3_author_doc.py
+711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197  work/checks/stage3_b1_dossier.py
+240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5  work/checks/stage3_t1.py
+54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d  work/stage3/b1/b1-null.json
+4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0  work/stage3/b1/plan.md
+6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18  work/stage3/b1/b1-results.json
+66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be  work/stage3/q1q2-synthetic/opus48/judge-null.json
+44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e  work/stage3/views/calibration-v1.json
+745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79  work/stage3/q1q2-synthetic/extra-judge-null.sol.json
+99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7  work/stage3/q1q2-synthetic/extra-judge-results.json
+9a769d68346fdbcf098d4c897fed559b3f66c02b858f9790c006ee2bf48da6ca  work/stage3/b3/power-simulation-v3-inputs.json
+5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb  work/checks/stage3_b3_power_v3.py
+2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b  work/checks/stage3_b3_power_v3c.py
+65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828  work/stage3/b3/comprehension/stratum-plan.json
+064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7  work/stage3/b3/comprehension/items-v0.json
+6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932  work/stage3/b3/comprehension/stratum-v0.json
+edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8  work/stage3/b3/inserter-dry-run-v0.json
+f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf  work/stage3/b3/s1-populations-v0.json
+ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74  work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl
+294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc  work/mole-fork/bootstrap/org_template.yaml
+f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1  work/stage3/t1v3/t1v3-plan.md
+```
+
+**Values the pre-flight checks against its own configuration** (not files):
+- placement seed 20261181, with arm seeds 20261181 × 100 + 10 t for t = 1 to 4 (5 and 6 only if approved at S2; §3);
+- bootstrap seed 20261152 with 2,000 replicates;
+- tie seed 20261112;
+- m_s 18.22 (carrier) and 19.37 (second named instrument), with m_L 18.22.
+
+**Beside, a consistency check at S1's commit.** The prompt components sealed in `views/calibration-v1.json` are reproduced by the pinned `stage3_views.py`:
+- shared-harm/v1 a21d902f;
+- `P_author` system prompt 4ff70a48;
+- `O_diff` system prompt 0dad3af9.
+
+The pre-flight may recompute these as well. No prompt text is printed here.
