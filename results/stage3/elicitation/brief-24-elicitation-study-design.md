@@ -115,3 +115,5 @@ Changelog addition: 2026-11-01, E0 replaced by the item-level component gate.
 Changelog addition: 2026-11-01, second amendment (A6.15: round-2 supply, the target from Part 3, certification aligned to the stratum rule, Kimi withdrawn as a writer, the E6 sentence).
 
 Addition, 2026-11-01 (A6.16.3): the target counts **both arms** of round 2, certified items and quiet-but-illegible items (D_whole = 0 and D_part = 0 under the stratum rule), the latter a by-product of certification that is kept, not discarded, with matching on writer, document and composition band in view; if the slope stays a round-2 reading, the certified set also needs a composition IQR of at least 20.
+
+Addition, 2026-11-01 (A6.17.10(d)): every Kimi K3 call in this study pins one upstream provider and quantization through OpenRouter's provider preferences (a provider order with fallbacks disabled and a quantization filter), chosen before the first call and recorded with every call; a call served elsewhere is discarded and re-issued. Reason: brief 25's Kimi K3 reads were a mixture of nine differently quantized deployments, so the certification reader must not be a moving instrument.
