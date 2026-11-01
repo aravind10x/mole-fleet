@@ -29,7 +29,7 @@
    "usd_upper": 10.4766
   }
  },
- "routes_known": false,
+ "routes_known": true,
  "scorer": {
   "route": "bedrock",
   "model": "anthropic.claude-sonnet-5",
@@ -48,7 +48,7 @@
  },
  "config_sha256": "a79d49b8347616d1626adf1cff7be521059f612b545415084133982bace12961",
  "models_sha256": "eb2024b5610dfd5e7e053349419f68c12fc97265de3fb61fedf33fced3b9df83",
- "routes_sha256": null,
+ "routes_sha256": "a7d0fefc3930fd6e0c6c3330031449547f347a52076a1ab2df7642fa374f100d",
  "assumptions": {
   "families": {
    "sonnet55": {
