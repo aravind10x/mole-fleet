@@ -1,4 +1,4 @@
-# Authoring note for brief 32 v2 (a fresh blue session on Sonnet 5.5; $0): what to load, what to write
+# Authoring note for brief 32 v2 (a fresh blue session on Opus 5.5 or Sonnet 5.5; $0): what to load, what to write
 
 Written 2026-11-01 night by the coordinator, after two safeguard stops while the coordinator authored v2 itself. The review session's reading of the stops: v1's own text is clean (686 words; its vocabulary scan finds only a repository path and a directory name), so the stops more likely came from what the authoring session had loaded than from brief 32's wording. This session therefore loads only what is listed here.
 
