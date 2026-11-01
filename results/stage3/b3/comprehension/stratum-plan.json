@@ -1,0 +1,1016 @@
+{
+ "version": "b3-comprehension/v0",
+ "brief": {
+  "path": "briefs/25-b3-comprehension-run-2026-11-01.md",
+  "sha256": "5559fb241a3d944d03d16a461eef0bffc9c3e1cc6eab6d4d00cb65178cd84cb4"
+ },
+ "inputs": {
+  "instrument_v0_json": {
+   "path": "work/stage3/legibility/instrument-v0.json",
+   "sha256": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782"
+  }
+ },
+ "counts": {
+  "n_test_items": 48,
+  "flips": {
+   "kimi": 2,
+   "sol": 5,
+   "sonnet55": 1
+  },
+  "retest_pairs": {
+   "kimi": 10,
+   "sol": 10,
+   "sonnet55": 10
+  },
+  "quiet_r0": {
+   "kimi": 16,
+   "sol": 25,
+   "sonnet55": 23
+  },
+  "n_r0": {
+   "kimi": 48,
+   "sol": 48,
+   "sonnet55": 43
+  },
+  "proxy_both_quiet_r0": 12
+ },
+ "model": {
+  "classes": [
+   "Q (truly quiet)",
+   "N (not quiet)"
+  ],
+  "indicator": "D_part per sample in (0, 0.5, 1), categorical per reader and class",
+  "readers": [
+   "kimi",
+   "sol",
+   "sonnet55"
+  ],
+  "estimator": "EM to the posterior mode",
+  "prior": "Dirichlet add-0.5 on every probability",
+  "starts": 24,
+  "bootstrap": {
+   "n": 1000,
+   "over": "the 48 T1 test items, model refitted",
+   "starts_per_resample": 8,
+   "interval": "95 percent percentile"
+  },
+  "seed": 20261208,
+  "limits": [
+   "Two classes: an item of intermediate legibility (a part credited on some samples by its nature, not by noise) is forced into one class; the model then overstates how much extra samples sharpen the label.",
+   "Conditional independence across readers given the class: if two readers share an item-level difficulty beyond the class, their agreement is read as accuracy and both classes look cleaner than they are.",
+   "Ten retest pairs per reader carry the within-reader repeat information; the 48 items' r0 readings carry the cross-reader information. The intervals are wide, and the best attainable pair, not a clean 0.8 and 0.1, is the expected outcome at that n.",
+   "The T1 test items are the population of the fit; B3's candidates were written by other writers, so the operating characteristics transfer to them only if the readers' noise does.",
+   "Sonnet 5.5's five r0 refusals on test items are missing in the fit (not refusals of class membership)."
+  ]
+ },
+ "fit": {
+  "pi_quiet": 0.42337999004391913,
+  "pi_quiet_ci95": [
+   0.3228932620619145,
+   0.6556842070040325
+  ],
+  "theta": {
+   "kimi": {
+    "Q": [
+     0.7437591897872281,
+     0.1416420521151478,
+     0.1145987580976241
+    ],
+    "N": [
+     0.09500164329606998,
+     0.0405870970456423,
+     0.8644112596582877
+    ]
+   },
+   "sol": {
+    "Q": [
+     0.7497960074286834,
+     0.022588074975431492,
+     0.22761591759588518
+    ],
+    "N": [
+     0.28514318752564616,
+     0.1509033728915515,
+     0.5639534395828023
+    ]
+   },
+   "sonnet55": {
+    "Q": [
+     0.8644391752641547,
+     0.06793271894821089,
+     0.06762810578763441
+    ],
+    "N": [
+     0.2777285154887856,
+     0.043621238939655346,
+     0.6786502455715591
+    ]
+   }
+  },
+  "loglik": -131.59791829842735
+ },
+ "fit_mle_beside": {
+  "pi_quiet": 0.4068377132624945,
+  "theta": {
+   "kimi": {
+    "Q": [
+     0.8299637214936593,
+     0.17003627838929594,
+     1.170448572050095e-10
+    ],
+    "N": [
+     0.04280151869316309,
+     3.868939153068589e-13,
+     0.95719848130645
+    ]
+   },
+   "sol": {
+    "Q": [
+     0.7541088133088112,
+     0.0,
+     0.2458911866911888
+    ],
+    "N": [
+     0.29760312987431004,
+     0.14503007293732054,
+     0.5573667971883693
+    ]
+   },
+   "sonnet55": {
+    "Q": [
+     0.8214682497045405,
+     0.04607781190065174,
+     0.13245393839480776
+    ],
+    "N": [
+     0.32507102106839086,
+     0.03195297439870105,
+     0.642976004532908
+    ]
+   }
+  },
+  "chosen_rule": {
+   "quiet": 0.6471908206021239,
+   "nonquiet": 0.0009666799326108948
+  }
+ },
+ "model_checks": {
+  "kimi": {
+   "implied_flip_rate": 0.26052809682010253,
+   "observed_flip_rate": 0.2,
+   "implied_quiet_share_one_sample": 0.3696726068704139,
+   "observed_quiet_share_r0": 0.3333333333333333
+  },
+  "sol": {
+   "implied_flip_rate": 0.39392629453770867,
+   "observed_flip_rate": 0.5,
+   "implied_quiet_share_one_sample": 0.481867893790073,
+   "observed_quiet_share_r0": 0.5208333333333334
+  },
+  "sonnet55": {
+   "implied_flip_rate": 0.3305614239237576,
+   "observed_flip_rate": 0.1,
+   "implied_quiet_share_one_sample": 0.5261300687831426,
+   "observed_quiet_share_r0": 0.5348837209302325
+  }
+ },
+ "selection_rule": "Candidates: k in {2, 3, 4} samples per condition (one k for every reader) and Sol's rule in {majority (D_part = 0 on more than half of the samples), mean D_part at or under 0.25, 1/3, 0.5}; Kimi K3 always on every sample. On the point estimates of the combined rule (Kimi K3 and Sol both quiet): if some candidate gives P(labelled quiet | truly quiet) >= 0.8 and P(labelled quiet | not quiet) <= 0.1, the smallest k among them, then the highest first figure, then the lowest second, then the rule order above; otherwise the candidate with the smallest shortfall max(0, 0.8 - first) + max(0, second - 0.1), ties to the smallest k, then the highest first figure, then the rule order.",
+ "candidates": [
+  {
+   "k": 2,
+   "rule": "majority",
+   "rule_index": 0,
+   "quiet": 0.31099323126836564,
+   "nonquiet": 0.000733817788751703,
+   "kimi": {
+    "quiet": 0.553177732392954,
+    "nonquiet": 0.00902531222895372
+   },
+   "sol": {
+    "quiet": 0.5621940527559942,
+    "nonquiet": 0.08130663739228582
+   },
+   "quiet_ci95": [
+    0.04853308160152786,
+    0.5255544477495412
+   ],
+   "nonquiet_ci95": [
+    4.52878077565248e-06,
+    0.0061208522562096294
+   ],
+   "shortfall": 0.4890067687316344
+  },
+  {
+   "k": 2,
+   "rule": "mean_le_0.250",
+   "rule_index": 1,
+   "quiet": 0.32973096354526016,
+   "nonquiet": 0.001510519349615697,
+   "kimi": {
+    "quiet": 0.553177732392954,
+    "nonquiet": 0.00902531222895372
+   },
+   "sol": {
+    "quiet": 0.5960669496201508,
+    "nonquiet": 0.16736477490162216
+   },
+   "quiet_ci95": [
+    0.06055733998789463,
+    0.5445238968043086
+   ],
+   "nonquiet_ci95": [
+    1.9230641316531815e-05,
+    0.01043628425455617
+   ],
+   "shortfall": 0.4702690364547399
+  },
+  {
+   "k": 2,
+   "rule": "mean_le_0.333",
+   "rule_index": 2,
+   "quiet": 0.32973096354526016,
+   "nonquiet": 0.001510519349615697,
+   "kimi": {
+    "quiet": 0.553177732392954,
+    "nonquiet": 0.00902531222895372
+   },
+   "sol": {
+    "quiet": 0.5960669496201508,
+    "nonquiet": 0.16736477490162216
+   },
+   "quiet_ci95": [
+    0.06055733998789463,
+    0.5445238968043086
+   ],
+   "nonquiet_ci95": [
+    1.9230641316531815e-05,
+    0.01043628425455617
+   ],
+   "shortfall": 0.4702690364547399
+  },
+  {
+   "k": 2,
+   "rule": "mean_le_0.500",
+   "rule_index": 3,
+   "quiet": 0.518829921993332,
+   "nonquiet": 0.004618717663277598,
+   "kimi": {
+    "quiet": 0.553177732392954,
+    "nonquiet": 0.00902531222895372
+   },
+   "sol": {
+    "quiet": 0.9379081832324683,
+    "nonquiet": 0.5117515656090531
+   },
+   "quiet_ci95": [
+    0.1266733995476471,
+    0.7424341817439014
+   ],
+   "nonquiet_ci95": [
+    0.00010457300067119607,
+    0.03181258027560214
+   ],
+   "shortfall": 0.28117007800666804
+  },
+  {
+   "k": 3,
+   "rule": "majority",
+   "rule_index": 0,
+   "quiet": 0.34705047920171483,
+   "nonquiet": 0.00016938480250097053,
+   "kimi": {
+    "quiet": 0.41143102205291954,
+    "nonquiet": 0.0008574194930107195
+   },
+   "sol": {
+    "quiet": 0.8435204459547927,
+    "nonquiet": 0.19755184467080092
+   },
+   "quiet_ci95": [
+    0.03567811998198072,
+    0.5987898831425976
+   ],
+   "nonquiet_ci95": [
+    2.6745068194447446e-07,
+    0.003301014451817769
+   ],
+   "shortfall": 0.4529495207982852
+  },
+  {
+   "k": 3,
+   "rule": "mean_le_0.250",
+   "rule_index": 1,
+   "quiet": 0.18910501225310905,
+   "nonquiet": 5.143862851247108e-05,
+   "kimi": {
+    "quiet": 0.41143102205291954,
+    "nonquiet": 0.0008574194930107195
+   },
+   "sol": {
+    "quiet": 0.4596275003997773,
+    "nonquiet": 0.059992371215927084
+   },
+   "quiet_ci95": [
+    0.014622388534053935,
+    0.4016293044057924
+   ],
+   "nonquiet_ci95": [
+    5.402325469961017e-08,
+    0.0009478706315992598
+   ],
+   "shortfall": 0.610894987746891
+  },
+  {
+   "k": 3,
+   "rule": "mean_le_0.333",
+   "rule_index": 2,
+   "quiet": 0.347522672538102,
+   "nonquiet": 0.00018608707255958403,
+   "kimi": {
+    "quiet": 0.41143102205291954,
+    "nonquiet": 0.0008574194930107195
+   },
+   "sol": {
+    "quiet": 0.8446681312557967,
+    "nonquiet": 0.21703153949318663
+   },
+   "quiet_ci95": [
+    0.03629072677083998,
+    0.5998663815591334
+   ],
+   "nonquiet_ci95": [
+    3.6504079976877497e-07,
+    0.0034550665596041084
+   ],
+   "shortfall": 0.45247732746189806
+  },
+  {
+   "k": 3,
+   "rule": "mean_le_0.500",
+   "rule_index": 3,
+   "quiet": 0.35704382674675084,
+   "nonquiet": 0.0003138723239888258,
+   "kimi": {
+    "quiet": 0.41143102205291954,
+    "nonquiet": 0.0008574194930107195
+   },
+   "sol": {
+    "quiet": 0.8678096876730572,
+    "nonquiet": 0.3660662330951948
+   },
+   "quiet_ci95": [
+    0.04242851083932887,
+    0.6112019498986967
+   ],
+   "nonquiet_ci95": [
+    1.0529116843706692e-06,
+    0.00501254576590219
+   ],
+   "shortfall": 0.4429561732532492
+  },
+  {
+   "k": 4,
+   "rule": "majority",
+   "rule_index": 0,
+   "quiet": 0.22581284663866133,
+   "nonquiet": 5.938473160656878e-06,
+   "kimi": {
+    "quiet": 0.3060056036154106,
+    "nonquiet": 8.145626083010155e-05
+   },
+   "sol": {
+    "quiet": 0.7379369657637513,
+    "nonquiet": 0.07290382715999112
+   },
+   "quiet_ci95": [
+    0.009853036583336852,
+    0.46968177957424495
+   ],
+   "nonquiet_ci95": [
+    7.357334043330214e-10,
+    0.00032961235317674264
+   ],
+   "shortfall": 0.5741871533613387
+  },
+  {
+   "k": 4,
+   "rule": "mean_le_0.250",
+   "rule_index": 1,
+   "quiet": 0.2263395005549822,
+   "nonquiet": 6.843371132629726e-06,
+   "kimi": {
+    "quiet": 0.3060056036154106,
+    "nonquiet": 8.145626083010155e-05
+   },
+   "sol": {
+    "quiet": 0.739658025476706,
+    "nonquiet": 0.08401283170735489
+   },
+   "quiet_ci95": [
+    0.01024446236992155,
+    0.4703051627299459
+   ],
+   "nonquiet_ci95": [
+    1.1475195128368846e-09,
+    0.0003497031090608793
+   ],
+   "shortfall": 0.5736604994450178
+  },
+  {
+   "k": 4,
+   "rule": "mean_le_0.333",
+   "rule_index": 2,
+   "quiet": 0.2263395005549822,
+   "nonquiet": 6.843371132629726e-06,
+   "kimi": {
+    "quiet": 0.3060056036154106,
+    "nonquiet": 8.145626083010155e-05
+   },
+   "sol": {
+    "quiet": 0.739658025476706,
+    "nonquiet": 0.08401283170735489
+   },
+   "quiet_ci95": [
+    0.01024446236992155,
+    0.4703051627299459
+   ],
+   "nonquiet_ci95": [
+    1.1475195128368846e-09,
+    0.0003497031090608793
+   ],
+   "shortfall": 0.5736604994450178
+  },
+  {
+   "k": 4,
+   "rule": "mean_le_0.500",
+   "rule_index": 3,
+   "quiet": 0.29076152980293085,
+   "nonquiet": 3.0186092427426954e-05,
+   "kimi": {
+    "quiet": 0.3060056036154106,
+    "nonquiet": 8.145626083010155e-05
+   },
+   "sol": {
+    "quiet": 0.9501836775785368,
+    "nonquiet": 0.37058038412035615
+   },
+   "quiet_ci95": [
+    0.01800797727617031,
+    0.5885714672862543
+   ],
+   "nonquiet_ci95": [
+    1.6744320663552277e-08,
+    0.0013292442708343261
+   ],
+   "shortfall": 0.5092384701970691
+  }
+ ],
+ "beside": {
+  "kimi_every": {
+   "k2": {
+    "quiet": 0.553177732392954,
+    "nonquiet": 0.00902531222895372,
+    "quiet_ci95": [
+     0.13894752474467886,
+     0.7916390496878156
+    ],
+    "nonquiet_ci95": [
+     0.00032461743837186114,
+     0.05534501003199354
+    ]
+   },
+   "k3": {
+    "quiet": 0.41143102205291954,
+    "nonquiet": 0.0008574194930107195,
+    "quiet_ci95": [
+     0.05179362650090093,
+     0.7043538081165536
+    ],
+    "nonquiet_ci95": [
+     5.848678888906569e-06,
+     0.013020260382258486
+    ]
+   },
+   "k4": {
+    "quiet": 0.3060056036154106,
+    "nonquiet": 8.145626083010155e-05,
+    "quiet_ci95": [
+     0.019306426342079713,
+     0.6266925921209129
+    ],
+    "nonquiet_ci95": [
+     1.0537648672746468e-07,
+     0.0030631071981495
+    ]
+   }
+  },
+  "sol_every": {
+   "k2": {
+    "quiet": 0.5621940527559942,
+    "nonquiet": 0.08130663739228582,
+    "quiet_ci95": [
+     0.26230908841747547,
+     0.8304782707974949
+    ],
+    "nonquiet_ci95": [
+     0.0076175982365979935,
+     0.178824723107645
+    ]
+   },
+   "k3": {
+    "quiet": 0.421530856156595,
+    "nonquiet": 0.023184033753028268,
+    "quiet_ci95": [
+     0.13434454489885153,
+     0.7568196804134727
+    ],
+    "nonquiet_ci95": [
+     0.0006648632624502496,
+     0.0756208471118286
+    ]
+   },
+   "k4": {
+    "quiet": 0.3160621529542096,
+    "nonquiet": 0.006610769284040649,
+    "quiet_ci95": [
+     0.0688060702004529,
+     0.6896941851235356
+    ],
+    "nonquiet_ci95": [
+     5.802965947656095e-05,
+     0.03197832015783816
+    ]
+   }
+  },
+  "kimi_every_and_sol_every": {
+   "k2": {
+    "quiet": 0.31099323126836564,
+    "nonquiet": 0.000733817788751703,
+    "quiet_ci95": [
+     0.04853308160152786,
+     0.5255544477495412
+    ],
+    "nonquiet_ci95": [
+     4.52878077565248e-06,
+     0.0061208522562096294
+    ]
+   },
+   "k3": {
+    "quiet": 0.1734308709753501,
+    "nonquiet": 1.9878442466464904e-05,
+    "quiet_ci95": [
+     0.010691947199764028,
+     0.38100140374691316
+    ],
+    "nonquiet_ci95": [
+     9.637735056869805e-09,
+     0.00047887051141561114
+    ]
+   },
+   "k4": {
+    "quiet": 0.09671678989473914,
+    "nonquiet": 5.384885470884388e-07,
+    "quiet_ci95": [
+     0.0023554600663436994,
+     0.27620748092236724
+    ],
+    "nonquiet_ci95": [
+     2.0510235948698452e-11,
+     3.746488973347125e-05
+    ]
+   }
+  },
+  "kimi_every_and_sonnet55_every": {
+   "k2": {
+    "quiet": 0.41336487495033825,
+    "nonquiet": 0.0006961505662442827,
+    "quiet_ci95": [
+     0.11234411875431542,
+     0.6226085690631613
+    ],
+    "nonquiet_ci95": [
+     2.5088058865062487e-06,
+     0.0020357296412228587
+    ]
+   },
+   "k3": {
+    "quiet": 0.265766572517088,
+    "nonquiet": 1.836769973165256e-05,
+    "quiet_ci95": [
+     0.037655251994436305,
+     0.49127272662633276
+    ],
+    "nonquiet_ci95": [
+     3.974151378631753e-09,
+     9.185159339866243e-05
+    ]
+   },
+   "k4": {
+    "quiet": 0.1708705198427088,
+    "nonquiet": 4.846256108822353e-07,
+    "quiet_ci95": [
+     0.012621204538113037,
+     0.3876414639378697
+    ],
+    "nonquiet_ci95": [
+     6.295771854367376e-12,
+     4.144362766859872e-06
+    ]
+   }
+  },
+  "sonnet55_every": {
+   "k2": {
+    "quiet": 0.747255087731372,
+    "nonquiet": 0.07713312831560461,
+    "quiet_ci95": [
+     0.41833289966955345,
+     0.9229289485357559
+    ],
+    "nonquiet_ci95": [
+     0.0006121254616648445,
+     0.21481529024300086
+    ]
+   },
+   "k3": {
+    "quiet": 0.6459565717504507,
+    "nonquiet": 0.02142206922209888,
+    "quiet_ci95": [
+     0.2705736199568569,
+     0.886650375610754
+    ],
+    "nonquiet_ci95": [
+     1.5144867352763028e-05,
+     0.0995630880132139
+    ]
+   },
+   "k4": {
+    "quiet": 0.5583901661404205,
+    "nonquiet": 0.005949519483751525,
+    "quiet_ci95": [
+     0.1750050059275638,
+     0.8517978440466506
+    ],
+    "nonquiet_ci95": [
+     3.747085793470573e-07,
+     0.046145771357721035
+    ]
+   }
+  }
+ },
+ "sensitivity_reader_relative": {
+  "model": "truth relative to each reader; symmetric per-sample error from the reader's own retest flips (2e(1 - e) = flip rate); the 0.5 share among credited samples observed per reader",
+  "why": "the stratum's definition is reader-relative (no single line yields the consequence under two reader families), whereas the main fit's truly quiet class is a cross-reader consensus that reads systematic disagreement between readers as within-reader noise (its implied flip rates differ from the observed ones in model_checks)",
+  "added": "after the first computation of this plan (the main fit alone) and before its commit and before any call; the selection rule is unchanged and the choice governs from the main fit",
+  "readers": {
+   "kimi": {
+    "e": 0.1127016653792583,
+    "h": 0.10810810810810811,
+    "flip": 0.2
+   },
+   "sol": {
+    "e": 0.5,
+    "h": 0.16666666666666666,
+    "flip": 0.5
+   },
+   "sonnet55": {
+    "e": 0.05278640450004207,
+    "h": 0.08,
+    "flip": 0.1
+   }
+  },
+  "candidates": [
+   {
+    "k": 2,
+    "rule": "majority",
+    "rule_index": 0,
+    "quiet": 0.19682458365518543,
+    "nonquiet": 0.003175416344814577,
+    "kimi": {
+     "quiet": 0.7872983346207417,
+     "nonquiet": 0.012701665379258308
+    },
+    "sol": {
+     "quiet": 0.25,
+     "nonquiet": 0.25
+    },
+    "quiet_ci95": [
+     0.0625,
+     0.7618579304998303
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.0625
+    ],
+    "shortfall": 0.6031754163448146
+   },
+   {
+    "k": 2,
+    "rule": "mean_le_0.250",
+    "rule_index": 1,
+    "quiet": 0.2624327782069139,
+    "nonquiet": 0.004233888459752769,
+    "kimi": {
+     "quiet": 0.7872983346207417,
+     "nonquiet": 0.012701665379258308
+    },
+    "sol": {
+     "quiet": 0.3333333333333333,
+     "nonquiet": 0.3333333333333333
+    },
+    "quiet_ci95": [
+     0.0928030303030303,
+     0.8008226161678479
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.07213541666666665
+    ],
+    "shortfall": 0.5375672217930861
+   },
+   {
+    "k": 2,
+    "rule": "mean_le_0.333",
+    "rule_index": 2,
+    "quiet": 0.2624327782069139,
+    "nonquiet": 0.004233888459752769,
+    "kimi": {
+     "quiet": 0.7872983346207417,
+     "nonquiet": 0.012701665379258308
+    },
+    "sol": {
+     "quiet": 0.3333333333333333,
+     "nonquiet": 0.3333333333333333
+    },
+    "quiet_ci95": [
+     0.0928030303030303,
+     0.8008226161678479
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.07213541666666665
+    ],
+    "shortfall": 0.5375672217930861
+   },
+   {
+    "k": 2,
+    "rule": "mean_le_0.500",
+    "rule_index": 3,
+    "quiet": 0.5959411005115336,
+    "nonquiet": 0.009614455044021914,
+    "kimi": {
+     "quiet": 0.7872983346207417,
+     "nonquiet": 0.012701665379258308
+    },
+    "sol": {
+     "quiet": 0.7569444444444444,
+     "nonquiet": 0.7569444444444444
+    },
+    "quiet_ci95": [
+     0.1911730945821855,
+     0.9805670608274046
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.18787142761752137
+    ],
+    "shortfall": 0.20405889948846645
+   },
+   {
+    "k": 3,
+    "rule": "majority",
+    "rule_index": 0,
+    "quiet": 0.34928425057933377,
+    "nonquiet": 0.0007157494206662399,
+    "kimi": {
+     "quiet": 0.6985685011586675,
+     "nonquiet": 0.0014314988413324798
+    },
+    "sol": {
+     "quiet": 0.5,
+     "nonquiet": 0.5
+    },
+    "quiet_ci95": [
+     0.0625,
+     0.9422805780043008
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.06249999999999999
+    ],
+    "shortfall": 0.4507157494206663
+   },
+   {
+    "k": 3,
+    "rule": "mean_le_0.250",
+    "rule_index": 1,
+    "quiet": 0.13098159396725018,
+    "nonquiet": 0.00026840603274983995,
+    "kimi": {
+     "quiet": 0.6985685011586675,
+     "nonquiet": 0.0014314988413324798
+    },
+    "sol": {
+     "quiet": 0.1875,
+     "nonquiet": 0.1875
+    },
+    "quiet_ci95": [
+     0.026988636363636364,
+     0.7159853458651654
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.019238281249999996
+    ],
+    "shortfall": 0.6690184060327499
+   },
+   {
+    "k": 3,
+    "rule": "mean_le_0.333",
+    "rule_index": 2,
+    "quiet": 0.3565610057997366,
+    "nonquiet": 0.00073066086693012,
+    "kimi": {
+     "quiet": 0.6985685011586675,
+     "nonquiet": 0.0014314988413324798
+    },
+    "sol": {
+     "quiet": 0.5104166666666667,
+     "nonquiet": 0.5104166666666667
+    },
+    "quiet_ci95": [
+     0.06525482093663912,
+     0.9471017789283512
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.06277857071314102
+    ],
+    "shortfall": 0.44343899420026345
+   },
+   {
+    "k": 3,
+    "rule": "mean_le_0.500",
+    "rule_index": 3,
+    "quiet": 0.42973282218267567,
+    "nonquiet": 0.0008806037432502465,
+    "kimi": {
+     "quiet": 0.6985685011586675,
+     "nonquiet": 0.0014314988413324798
+    },
+    "sol": {
+     "quiet": 0.615162037037037,
+     "nonquiet": 0.615162037037037
+    },
+    "quiet_ci95": [
+     0.08269506358349334,
+     0.9649444047167782
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.06945515201459085
+    ],
+    "shortfall": 0.3702671778173244
+   },
+   {
+    "k": 4,
+    "rule": "majority",
+    "rule_index": 0,
+    "quiet": 0.19369958365518541,
+    "nonquiet": 5.0416344814577844e-05,
+    "kimi": {
+     "quiet": 0.6198386676965933,
+     "nonquiet": 0.0001613323034066491
+    },
+    "sol": {
+     "quiet": 0.3125,
+     "nonquiet": 0.3125
+    },
+    "quiet_ci95": [
+     0.01953125,
+     0.8956515270783747
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.01953125
+    ],
+    "shortfall": 0.6063004163448147
+   },
+   {
+    "k": 4,
+    "rule": "mean_le_0.250",
+    "rule_index": 1,
+    "quiet": 0.20015623644369163,
+    "nonquiet": 5.209688964173044e-05,
+    "kimi": {
+     "quiet": 0.6198386676965933,
+     "nonquiet": 0.0001613323034066491
+    },
+    "sol": {
+     "quiet": 0.3229166666666667,
+     "nonquiet": 0.3229166666666667
+    },
+    "quiet_ci95": [
+     0.02090866046831956,
+     0.9038819157185647
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.019670535356570516
+    ],
+    "shortfall": 0.5998437635563084
+   },
+   {
+    "k": 4,
+    "rule": "mean_le_0.333",
+    "rule_index": 2,
+    "quiet": 0.20015623644369163,
+    "nonquiet": 5.209688964173044e-05,
+    "kimi": {
+     "quiet": 0.6198386676965933,
+     "nonquiet": 0.0001613323034066491
+    },
+    "sol": {
+     "quiet": 0.3229166666666667,
+     "nonquiet": 0.3229166666666667
+    },
+    "quiet_ci95": [
+     0.02090866046831956,
+     0.9038819157185647
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.019670535356570516
+    ],
+    "shortfall": 0.5998437635563084
+   },
+   {
+    "k": 4,
+    "rule": "mean_le_0.500",
+    "rule_index": 3,
+    "quiet": 0.43764746979869906,
+    "nonquiet": 0.00011391137414046824,
+    "kimi": {
+     "quiet": 0.6198386676965933,
+     "nonquiet": 0.0001613323034066491
+    },
+    "sol": {
+     "quiet": 0.7060667438271605,
+     "nonquiet": 0.7060667438271605
+    },
+    "quiet_ci95": [
+     0.04529183897472934,
+     0.9911726720604053
+    ],
+    "nonquiet_ci95": [
+     0.0,
+     0.04323313831663385
+    ],
+    "shortfall": 0.362352530201301
+   }
+  ],
+  "choice": {
+   "k": 2,
+   "rule": "mean_le_0.500",
+   "feasible": false,
+   "quiet": 0.5959411005115336,
+   "nonquiet": 0.009614455044021914
+  },
+  "same_choice_as_main": true,
+  "limits": [
+   "symmetric error is an assumption: two samples per item cannot separate a reader's error rates on quiet and non-quiet items (the repeat pairs alone do not identify them)",
+   "at Sol's observed flip rate of 0.5 the symmetric model gives e = 0.5: Sol's label carries no information under it, so Sol's rule only scales both figures"
+  ]
+ },
+ "choice": {
+  "samples_per_condition": 2,
+  "anchor_rule": "kimi: D_part = 0 on every sample",
+  "sol_rule": {
+   "kind": "mean",
+   "threshold": 0.5,
+   "name": "mean_le_0.500"
+  },
+  "beside_rule": "sonnet55 on GLM-written items: D_part = 0 on every sample",
+  "feasible_at_0_8_and_0_1": false,
+  "p_labelled_quiet_given_quiet": 0.518829921993332,
+  "ci95": [
+   0.1266733995476471,
+   0.7424341817439014
+  ],
+  "p_labelled_quiet_given_not_quiet": 0.004618717663277598,
+  "ci95_not_quiet": [
+   0.00010457300067119607,
+   0.03181258027560214
+  ]
+ },
+ "statement": "The flip rates rest on 10 retest test items per reader; at that n the best attainable pair, not a clean 0.8 and 0.1, is the expected outcome, and the intervals above are what the figures can claim.",
+ "t1_expectation_only": {
+  "proxy_share_one_sample_both_quiet": 0.25,
+  "proxy_counts": [
+   12,
+   48
+  ],
+  "model_expected_share_at_choice": 0.2223254522330077,
+  "note": "an expectation only; there is no stop bar (T1 is the set already known to be heavy on single-line items; the stratum's size is what the run measures)"
+ },
+ "script_sha256": "3f26f0e3fbfa808381f318fd1ce4a54d5cf8fe36444d7c3c4f9a7f7088a60a40"
+}

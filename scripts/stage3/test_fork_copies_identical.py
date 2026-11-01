@@ -28,7 +28,8 @@ FILES = ["stage3_views.py", "test_stage3_views.py", "stage3_thresholds.py", "tes
          "stage3_pilot_archive.py", "test_stage3_pilot_archive.py",
          "stage3_b4_power.py", "test_stage3_b4_power.py",
          "stage3_b3_power_v3.py", "test_stage3_b3_power_v3.py",
-         "stage3_legibility.py", "test_stage3_legibility.py"]
+         "stage3_legibility.py", "test_stage3_legibility.py",
+         "stage3_b3_comprehension.py", "test_stage3_b3_comprehension.py"]
 
 
 @pytest.mark.parametrize("name", FILES)
