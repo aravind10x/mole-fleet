@@ -1,0 +1,146 @@
+{
+ "version": "judge-openrouter-pin/v0/probe",
+ "script_sha256": "0987c14cdfa1e15f54d54e3efaeeb519ee5ee54bcd2392bb48905ea7bc11a633",
+ "judge_openrouter_sha256": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+ "model": "moonshotai/kimi-k3",
+ "key_env": "OPENROUTER_API_KEY_2",
+ "pin": {
+  "order": [
+   "wafer"
+  ],
+  "allow_fallbacks": false,
+  "quantizations": [
+   "mxfp4"
+  ]
+ },
+ "endpoint_listing": {
+  "AkashML": [
+   "fp4"
+  ],
+  "Alibaba": [
+   "unknown"
+  ],
+  "Amazon Bedrock": [
+   "unknown"
+  ],
+  "BaseTen": [
+   "fp8"
+  ],
+  "Chutes": [
+   "mxfp4"
+  ],
+  "DeepInfra": [
+   "mxfp4"
+  ],
+  "DigitalOcean": [
+   "unknown"
+  ],
+  "Fireworks": [
+   "unknown"
+  ],
+  "InferenceNet": [
+   "fp4"
+  ],
+  "Makora": [
+   "fp4"
+  ],
+  "Modal": [
+   "mxfp4"
+  ],
+  "Moonshot AI": [
+   "unknown"
+  ],
+  "Morph": [
+   "fp8"
+  ],
+  "Parasail": [
+   "fp4"
+  ],
+  "ParetoAlpha": [
+   "unknown"
+  ],
+  "Phala": [
+   "unknown"
+  ],
+  "Relace": [
+   "fp4"
+  ],
+  "Sail Research": [
+   "fp4"
+  ],
+  "Together": [
+   "unknown"
+  ],
+  "Wafer": [
+   "mxfp4"
+  ]
+ },
+ "endpoint_listing_sha256": "740e6cf9adaba2604be45787fe4033c3334e229fe3d202ffe52fad83679263d6",
+ "wafer_mxfp4_listed": true,
+ "record": {
+  "outcome": "scored",
+  "error": null,
+  "finish_reason": "stop",
+  "input_tokens": 114,
+  "output_tokens": 67,
+  "reasoning_tokens": 56,
+  "cost_usd": 0.00149092,
+  "cost_source": [
+   "provider"
+  ],
+  "price_source": "openrouter-list:https://openrouter.ai/api/v1/models@2026-11-01",
+  "packet_sha256": "88306951b18d4726ab2a341566edd12498c5a9dfe96dffa3362cbb0075bad5a0",
+  "prompt_version": "judge-openrouter-pin/v0/probe",
+  "request_params": {
+   "model": "moonshotai/kimi-k3",
+   "max_tokens": 2000,
+   "temperature": "not sent (provider default)",
+   "reasoning": "provider default",
+   "system_sha256": "24094c3f26d065cda2621847b25642e184ee426e3021a3e11aca314ad6b72d3c",
+   "api_key_env": "OPENROUTER_API_KEY_2",
+   "system_chars": 49,
+   "provider": {
+    "order": [
+     "wafer"
+    ],
+    "allow_fallbacks": false,
+    "quantizations": [
+     "mxfp4"
+    ]
+   }
+  },
+  "served": [
+   {
+    "provider": "Wafer",
+    "precision": "mxfp4",
+    "precision_source": "endpoint listing",
+    "generation_id": "gen-1793559884-oWSgIgfTxsh1FQ42dlAT",
+    "on_pin": true
+   }
+  ],
+  "attempts": [
+   {
+    "outcome": "scored",
+    "finish_reason": "stop"
+   }
+  ],
+  "latency_s": 0.983,
+  "ts": "2026-11-01T19:04:45+00:00"
+ },
+ "answer_chars": 5,
+ "generation": [
+  {
+   "provider_name": "Wafer",
+   "model": "moonshotai/kimi-k3-20260715",
+   "tokens_prompt": 22,
+   "tokens_completion": 64,
+   "native_tokens_reasoning": 56,
+   "total_cost": 0.001490922,
+   "finish_reason": "stop",
+   "streamed": true,
+   "cancelled": false,
+   "created_at": "2026-11-01T19:04:44.156Z",
+   "precision_like_fields": {}
+  }
+ ]
+}
