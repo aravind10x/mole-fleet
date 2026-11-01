@@ -1,6 +1,6 @@
 # Brief 29 (blue; a fresh session on Opus 5.5 or Sonnet 5.5; $0 except as E0-5 states; in parallel with B3's S1 to S3): brief 24's E0, the elicitation study's instruments before any writer round
 
-Written 2026-11-01 by the coordinator from brief 24 (the design, with its three amendments of 2026-11-01) and brief 15 A6.15 (f) and A6.18 (m), (n), (p), at Aravind's request that E0 be prepared in parallel with B3. Working directory: the project root `/Users/aravind/KruxAI/tais-project-selection`; the fork is `work/mole-fork` (branch `stage3`). No writer round starts under this brief: writer rounds stay after B3's S3 (A6.15 (b)) unless Aravind amends that line.
+Written 2026-11-01 by the coordinator from brief 24 (the design, with its three amendments of 2026-11-01) and brief 15 A6.15 (f) and A6.18 (m), (n), (p), at Aravind's request that E0 be prepared in parallel with B3. Working directory: the project root `/Users/aravind/KruxAI/tais-project-selection`; the fork is `work/mole-fork` (branch `stage3`). No writer round starts under this brief; writer rounds follow it as brief 30, before or during B3's S3 (Aravind, 2026-11-01; brief 15 A6.19), once this brief is done and cold-read.
 
 **Conditions that hold throughout (A6.18 (p)):** no session of this study reads any B3 judge output, B3 result file or `work/stage3/b3/plan*.md`; the round-2 design stays as brief 20 Part 3 fixed it (the level contrast, m_L 18.22, floor 12 + 12, target 26 certified and at least 12 quiet-but-illegible); certification equals brief 15 A6.14.2's stratum rule; Kimi K3 is pinned to Wafer at MXFP4 if available, else the deployment with the highest part credit at zero false credit in Part 3's join (`power-simulation-v3c.json` 2086e72f, the `kimi` block), recorded with every call.
 
@@ -34,7 +34,7 @@ The five files above with their hashes; `work/stage3/elicitation/INDEX.md`; one 
 
 **Do not:** read any B3 judge output, result or plan; write any item; call any writer; change the round-2 design or the certification rule; print any rated item's text.
 
-**Done means:** the five files exist with hashes in STATUS; E0-5 reports the gate reachable and null-safe at two samples, or names what it could not compute; the open question (writer rounds before S3) is left to Aravind.
+**Done means:** the five files exist with hashes in STATUS; E0-5 reports the gate reachable and null-safe at two samples, or names what it could not compute; brief 30 (the writer rounds) can be written from these files.
 
 ---
 Changelog: 2026-11-01, written by the coordinator at Aravind's sequencing request (brief 15 A6.18 (p)).
