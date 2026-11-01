@@ -1,0 +1,217 @@
+{
+ "version": "b3-preflight/v0",
+ "plan": "work/stage3/b3/plan.md",
+ "plan_sha256": "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13",
+ "refusals": [],
+ "plan_matches_fork_head": true,
+ "blocks": 2,
+ "block_used_at_line": 914,
+ "n_files": 26,
+ "files": [
+  {
+   "path": "work/checks/judge_client.py",
+   "expected": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+   "found": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+   "status": "OK",
+   "fork_copy": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198"
+  },
+  {
+   "path": "work/checks/judge_openrouter.py",
+   "expected": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+   "found": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+   "status": "OK",
+   "fork_copy": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034"
+  },
+  {
+   "path": "work/checks/stage3_views.py",
+   "expected": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
+   "found": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
+   "status": "OK",
+   "fork_copy": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382"
+  },
+  {
+   "path": "work/checks/stage3_author_doc.py",
+   "expected": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8",
+   "found": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8",
+   "status": "OK",
+   "fork_copy": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8"
+  },
+  {
+   "path": "work/checks/stage3_b1_dossier.py",
+   "expected": "711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197",
+   "found": "711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197",
+   "status": "OK",
+   "fork_copy": "711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197"
+  },
+  {
+   "path": "work/checks/stage3_t1.py",
+   "expected": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+   "found": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+   "status": "OK",
+   "fork_copy": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5"
+  },
+  {
+   "path": "work/stage3/b1/b1-null.json",
+   "expected": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+   "found": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b1/plan.md",
+   "expected": "4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0",
+   "found": "4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b1/b1-results.json",
+   "expected": "6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18",
+   "found": "6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/q1q2-synthetic/opus48/judge-null.json",
+   "expected": "66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be",
+   "found": "66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/views/calibration-v1.json",
+   "expected": "44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e",
+   "found": "44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/q1q2-synthetic/extra-judge-null.sol.json",
+   "expected": "745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79",
+   "found": "745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/q1q2-synthetic/extra-judge-results.json",
+   "expected": "99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7",
+   "found": "99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/power-simulation-v3-inputs.json",
+   "expected": "9a769d68346fdbcf098d4c897fed559b3f66c02b858f9790c006ee2bf48da6ca",
+   "found": "9a769d68346fdbcf098d4c897fed559b3f66c02b858f9790c006ee2bf48da6ca",
+   "status": "OK"
+  },
+  {
+   "path": "work/checks/stage3_b3_power_v3.py",
+   "expected": "5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb",
+   "found": "5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb",
+   "status": "OK",
+   "fork_copy": "5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb"
+  },
+  {
+   "path": "work/checks/stage3_b3_power_v3c.py",
+   "expected": "2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b",
+   "found": "2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b",
+   "status": "OK",
+   "fork_copy": "2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b"
+  },
+  {
+   "path": "work/stage3/b3/comprehension/stratum-plan.json",
+   "expected": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+   "found": "65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/comprehension/items-v0.json",
+   "expected": "064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7",
+   "found": "064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/comprehension/stratum-v0.json",
+   "expected": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+   "found": "6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/inserter-dry-run-v0.json",
+   "expected": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+   "found": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/s1-populations-v0.json",
+   "expected": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+   "found": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+   "status": "OK"
+  },
+  {
+   "path": "work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+   "expected": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74",
+   "found": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74",
+   "status": "OK"
+  },
+  {
+   "path": "work/mole-fork/bootstrap/org_template.yaml",
+   "expected": "294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc",
+   "found": "294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/t1v3/t1v3-plan.md",
+   "expected": "f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1",
+   "found": "f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1",
+   "status": "OK"
+  },
+  {
+   "path": "work/stage3/b3/inserter-dry-run-v1.json",
+   "expected": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+   "found": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+   "status": "OK"
+  },
+  {
+   "path": "work/checks/stage3_b3_inserter_dry_run_v1.py",
+   "expected": "825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a",
+   "found": "825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a",
+   "status": "OK",
+   "fork_copy": "825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a"
+  }
+ ],
+ "prompts": [
+  {
+   "component": "shared-harm/v1",
+   "sealed": "a21d902f30655bfb5449da1acc3a9ceaeb89515c5a8529c76844ab3ba5f2eb3b",
+   "found": "a21d902f30655bfb5449da1acc3a9ceaeb89515c5a8529c76844ab3ba5f2eb3b",
+   "status": "OK"
+  },
+  {
+   "component": "P_author system prompt",
+   "sealed": "4ff70a485401096632ecb96affad609a59352ea3ecd4442b97d32748847869d3",
+   "found": "4ff70a485401096632ecb96affad609a59352ea3ecd4442b97d32748847869d3",
+   "status": "OK"
+  },
+  {
+   "component": "O_diff system prompt",
+   "sealed": "0dad3af9674834164cea8ca99f5ba88548eed771a6114741f2c7780b5688c909",
+   "found": "0dad3af9674834164cea8ca99f5ba88548eed771a6114741f2c7780b5688c909",
+   "status": "OK"
+  }
+ ],
+ "values": {
+  "config": {
+   "placement_seed": 20261181,
+   "bootstrap_seed": 20261152,
+   "bootstrap_replicates": 2000,
+   "tie_seed": 20261112,
+   "m_s_carrier": 18.22,
+   "m_s_second": 19.37,
+   "m_L": 18.22,
+   "arm_seeds": {
+    "1": 2026118110,
+    "2": 2026118120,
+    "3": 2026118130,
+    "4": 2026118140,
+    "6": 2026118160
+   }
+  },
+  "mismatches": []
+ },
+ "pass": true
+}

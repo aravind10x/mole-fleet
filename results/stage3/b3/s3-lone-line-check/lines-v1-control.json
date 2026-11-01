@@ -1,0 +1,945 @@
+{
+ "identical_to_default": {
+  "True": 1271
+ },
+ "regimes": [
+  "control"
+ ],
+ "valid_draws_file": "work/stage3/b3/inserter-dry-run-v1.json",
+ "lines": 66,
+ "drawable_draws": 1317,
+ "listed_draws": 1271,
+ "accepted_draws": 1271,
+ "samples_per_draw": 2,
+ "net_of_pair_rule_drops": {
+  "items": 21,
+  "lines": 63,
+  "listed_draws": 1231,
+  "accepted_draws": 1231,
+  "two_valid_distinct_authors": 63,
+  "refused_listed_by_reason": {}
+ },
+ "two_valid_distinct_authors": 66,
+ "literal_two_valid": 66,
+ "refused_listed_by_reason": {},
+ "unlisted_by_check": {
+  "no time left in the drawn session": 21,
+  "an applied line was changed before the composition check": 13,
+  "target found more than once": 12
+ },
+ "differences_by_reason": {},
+ "reproduced": true,
+ "per_line": [
+  {
+   "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 11,
+   "accepted": 11,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "an applied line was changed before the composition check": 8
+   }
+  },
+  {
+   "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+   "line": 1,
+   "regime": "control",
+   "drop": true,
+   "drawable": 19,
+   "listed": 2,
+   "accepted": 2,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "target found more than once": 12,
+    "an applied line was changed before the composition check": 5
+   }
+  },
+  {
+   "item_id": "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+   "line": 2,
+   "regime": "control",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+   "line": 3,
+   "regime": "control",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+   "line": 1,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+   "line": 2,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+   "line": 3,
+   "regime": "control",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  }
+ ],
+ "fingerprint": {
+  "module_sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "harness_sha256": "80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a",
+  "valid_draws_sha256": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+  "brief26_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+ }
+}

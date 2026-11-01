@@ -1,0 +1,118 @@
+{
+ "version": "b3-s3-lone-line-check/v0",
+ "brief": "33 v2.1 A3 (ii)",
+ "script": {
+  "path": "work/checks/stage3_b3_lone_line_check_s3.py",
+  "sha256": "80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a",
+  "copy_of": {
+   "path": "work/checks/stage3_b3_lone_line_check.py",
+   "sha256": "070212f7dfb417d808b242df4aa7900ed11a6be27cb0042609291d37332f03f6"
+  }
+ },
+ "candidates_default_mode": {
+  "reproduces_brief27": true,
+  "brief27_part_sha256": "4cc080cc90ac37e10f607b3f0fa21371961817fd527858c093003a6eb5b60fe7",
+  "identical_to_default": {
+   "True": 4537
+  },
+  "regimes": [
+   "candidate"
+  ],
+  "valid_draws_file": "work/stage3/b3/inserter-dry-run-v0.json",
+  "lines": 234,
+  "drawable_draws": 4692,
+  "listed_draws": 4537,
+  "accepted_draws": 4537,
+  "samples_per_draw": 2,
+  "net_of_pair_rule_drops": {
+   "items": 73,
+   "lines": 219,
+   "listed_draws": 4324,
+   "accepted_draws": 4324,
+   "two_valid_distinct_authors": 219,
+   "refused_listed_by_reason": {}
+  },
+  "two_valid_distinct_authors": 233,
+  "literal_two_valid": 233,
+  "refused_listed_by_reason": {},
+  "unlisted_by_check": {
+   "an applied line was changed before the composition check": 15,
+   "no time left in the drawn session": 81,
+   "target found more than once": 58,
+   "accepted at the drawn state": 1
+  },
+  "differences_by_reason": {},
+  "reproduced": true,
+  "fingerprint": {
+   "module_sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+   "harness_sha256": "80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a",
+   "valid_draws_sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+   "brief26_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+  },
+  "sha256": "47d6bc4f500bd7efa8aeb28482fc4db7246b3b44b3e46c9012011610ba2b6d8c",
+  "n_per_line": 234
+ },
+ "control_items_v1": {
+  "net_21_items": {
+   "items": 21,
+   "lines": 63,
+   "listed_draws": 1231,
+   "accepted_draws": 1231,
+   "two_valid_distinct_authors": 63,
+   "refused_listed_by_reason": {}
+  },
+  "gross_22_items": {
+   "lines": 66,
+   "listed_draws": 1271,
+   "accepted_draws": 1271,
+   "two_valid_distinct_authors": 66,
+   "refused_listed_by_reason": {},
+   "identical_to_default": {
+    "True": 1271
+   },
+   "unlisted_by_check": {
+    "no time left in the drawn session": 21,
+    "an applied line was changed before the composition check": 13,
+    "target found more than once": 12
+   }
+  },
+  "identical_to_default": {
+   "True": 1271
+  },
+  "regimes": [
+   "control"
+  ],
+  "valid_draws_file": "work/stage3/b3/inserter-dry-run-v1.json",
+  "lines": 66,
+  "drawable_draws": 1317,
+  "listed_draws": 1271,
+  "accepted_draws": 1271,
+  "samples_per_draw": 2,
+  "net_of_pair_rule_drops": {
+   "items": 21,
+   "lines": 63,
+   "listed_draws": 1231,
+   "accepted_draws": 1231,
+   "two_valid_distinct_authors": 63,
+   "refused_listed_by_reason": {}
+  },
+  "two_valid_distinct_authors": 66,
+  "literal_two_valid": 66,
+  "refused_listed_by_reason": {},
+  "unlisted_by_check": {
+   "no time left in the drawn session": 21,
+   "an applied line was changed before the composition check": 13,
+   "target found more than once": 12
+  },
+  "differences_by_reason": {},
+  "reproduced": true,
+  "fingerprint": {
+   "module_sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+   "harness_sha256": "80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a",
+   "valid_draws_sha256": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+   "brief26_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+  },
+  "sha256": "dec029111e57a3cf06580656f169c6d8e51e1e8cfb94a91f55c0ce430164fe61",
+  "n_per_line": 66
+ }
+}

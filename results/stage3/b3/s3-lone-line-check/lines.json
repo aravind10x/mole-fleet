@@ -1,0 +1,3258 @@
+{
+ "identical_to_default": {
+  "True": 4537
+ },
+ "regimes": [
+  "candidate"
+ ],
+ "valid_draws_file": "work/stage3/b3/inserter-dry-run-v0.json",
+ "lines": 234,
+ "drawable_draws": 4692,
+ "listed_draws": 4537,
+ "accepted_draws": 4537,
+ "samples_per_draw": 2,
+ "net_of_pair_rule_drops": {
+  "items": 73,
+  "lines": 219,
+  "listed_draws": 4324,
+  "accepted_draws": 4324,
+  "two_valid_distinct_authors": 219,
+  "refused_listed_by_reason": {}
+ },
+ "two_valid_distinct_authors": 233,
+ "literal_two_valid": 233,
+ "refused_listed_by_reason": {},
+ "unlisted_by_check": {
+  "an applied line was changed before the composition check": 15,
+  "no time left in the drawn session": 81,
+  "target found more than once": 58,
+  "accepted at the drawn state": 1
+ },
+ "differences_by_reason": {},
+ "reproduced": true,
+ "per_line": [
+  {
+   "item_id": "01498a2ce076d239777e3e56b41e1f74440f71e5bee1e2046eab9835bd625500",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "01498a2ce076d239777e3e56b41e1f74440f71e5bee1e2046eab9835bd625500",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "01498a2ce076d239777e3e56b41e1f74440f71e5bee1e2046eab9835bd625500",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0430a109a1914217efc07887bf1da2fdf7163444b94bfbe7d1241b01aae99802",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0afdc342e7f4c8cb35bc23b6a88267542e5875429ea2917f30bdd074a71c74aa",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0afdc342e7f4c8cb35bc23b6a88267542e5875429ea2917f30bdd074a71c74aa",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0afdc342e7f4c8cb35bc23b6a88267542e5875429ea2917f30bdd074a71c74aa",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "0f7157f80889d345450020f8dc8010238b6ebad2a92edfbf05e23fd665e6e561",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "110a74a5482ffb429263acce13eeb3a0f7ee96c681e2c6cef879c6db1f6ad39e",
+   "line": 1,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 11,
+   "accepted": 11,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "an applied line was changed before the composition check": 8
+   }
+  },
+  {
+   "item_id": "110a74a5482ffb429263acce13eeb3a0f7ee96c681e2c6cef879c6db1f6ad39e",
+   "line": 2,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "110a74a5482ffb429263acce13eeb3a0f7ee96c681e2c6cef879c6db1f6ad39e",
+   "line": 3,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "18c61ef02b8e5b3dfea11afd0b9a77a4da4e6357a451a7d271b90c884b256e77",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "18c61ef02b8e5b3dfea11afd0b9a77a4da4e6357a451a7d271b90c884b256e77",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "18c61ef02b8e5b3dfea11afd0b9a77a4da4e6357a451a7d271b90c884b256e77",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "1921c45aa99c04510bbf9f81c11e0285e8d386e6663f9802936504ba7055a29a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "1921c45aa99c04510bbf9f81c11e0285e8d386e6663f9802936504ba7055a29a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "1921c45aa99c04510bbf9f81c11e0285e8d386e6663f9802936504ba7055a29a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "1c2903865029a050ef191bfe087518e3c1eb199df112e4dc4c10b3422272f9a0",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "1c2903865029a050ef191bfe087518e3c1eb199df112e4dc4c10b3422272f9a0",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "1c2903865029a050ef191bfe087518e3c1eb199df112e4dc4c10b3422272f9a0",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "203f64ce2c4dc5569620d44f7d0a11e1afe3041c7c0f6781fdeedfe9d265cde8",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "203f64ce2c4dc5569620d44f7d0a11e1afe3041c7c0f6781fdeedfe9d265cde8",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "203f64ce2c4dc5569620d44f7d0a11e1afe3041c7c0f6781fdeedfe9d265cde8",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "207baba426248450be4649843524d5462a74c16aa1b33faf836957bf493b1b3a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2139f734fc1298665105398b138804b943b502b90ce4c580c543f2638050e2be",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2139f734fc1298665105398b138804b943b502b90ce4c580c543f2638050e2be",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2139f734fc1298665105398b138804b943b502b90ce4c580c543f2638050e2be",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "22d40f751e984ffd3a1b857832c9091c3d74b818ae7c3a13b452d30a8da34bf0",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "22d40f751e984ffd3a1b857832c9091c3d74b818ae7c3a13b452d30a8da34bf0",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "22d40f751e984ffd3a1b857832c9091c3d74b818ae7c3a13b452d30a8da34bf0",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "24e5377be5344c9b026a5a609fa893779ada9200df4947786b783ac6df1e050e",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "26e9918c6c4a5b8420e3b09dfaa212115c5720639ab9de131405e4d432f785ae",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "26e9918c6c4a5b8420e3b09dfaa212115c5720639ab9de131405e4d432f785ae",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "26e9918c6c4a5b8420e3b09dfaa212115c5720639ab9de131405e4d432f785ae",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "287b0e2ee25087409e07ab12cb3a3119bfff74798e5fdcab85451b5cdfb2ca42",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2afcb4a9bc9da60f1575ede672644aa55a38409bd32dc8333e3ce67ce5dfcdf2",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2b8c4f048e6f09d68f149fd983034fbe95776d2c0486d83a8706d4372b89c45a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2b8c4f048e6f09d68f149fd983034fbe95776d2c0486d83a8706d4372b89c45a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2b8c4f048e6f09d68f149fd983034fbe95776d2c0486d83a8706d4372b89c45a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2c98ba6d0f233d627058ce648c294380cfb517666ed0f9b095f05012d76187ac",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2c98ba6d0f233d627058ce648c294380cfb517666ed0f9b095f05012d76187ac",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2c98ba6d0f233d627058ce648c294380cfb517666ed0f9b095f05012d76187ac",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "2cc7fdbad035c9c9da3634c15a559c58fb506d061f10faf9d2e249724e306597",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "316a423e5ba918c866796c60e6de0c06e10c216d53888c2813ff0c544bb9d9ee",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "316a423e5ba918c866796c60e6de0c06e10c216d53888c2813ff0c544bb9d9ee",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "316a423e5ba918c866796c60e6de0c06e10c216d53888c2813ff0c544bb9d9ee",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+   "line": 1,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 3,
+   "accepted": 3,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "target found more than once": 16
+   }
+  },
+  {
+   "item_id": "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+   "line": 2,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+   "line": 3,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "345bed8cddb0ff242b710aed442006a826eb238a46129eb3b944edb125e84ba9",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "345bed8cddb0ff242b710aed442006a826eb238a46129eb3b944edb125e84ba9",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "345bed8cddb0ff242b710aed442006a826eb238a46129eb3b944edb125e84ba9",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+   "line": 1,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 2,
+   "accepted": 2,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "target found more than once": 12,
+    "an applied line was changed before the composition check": 5
+   }
+  },
+  {
+   "item_id": "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+   "line": 2,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+   "line": 3,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3c9edb99a3f74310a2fdee919bb254b5ecde210f10267cc1ac9ed485a6798b20",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3c9edb99a3f74310a2fdee919bb254b5ecde210f10267cc1ac9ed485a6798b20",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3c9edb99a3f74310a2fdee919bb254b5ecde210f10267cc1ac9ed485a6798b20",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3e4b23624c511645936926caaeb5774743fc15c6d60c0c808de746931d273921",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3e4b23624c511645936926caaeb5774743fc15c6d60c0c808de746931d273921",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3e4b23624c511645936926caaeb5774743fc15c6d60c0c808de746931d273921",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3f362c9ad68f223e9a5f986363c87d15a662645f24a88d3787bf18f87dd5ee69",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3f362c9ad68f223e9a5f986363c87d15a662645f24a88d3787bf18f87dd5ee69",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3f362c9ad68f223e9a5f986363c87d15a662645f24a88d3787bf18f87dd5ee69",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "3fb47b3da8a49c93042a96f62dcfa63391888e2f5462bedcaceb30de32f21f5e",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "42579e0da0f8e06ebe7c736c117ac28bb0879cbff981edba2f34173ecc6d1618",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "42579e0da0f8e06ebe7c736c117ac28bb0879cbff981edba2f34173ecc6d1618",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "42579e0da0f8e06ebe7c736c117ac28bb0879cbff981edba2f34173ecc6d1618",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "47b06a1577a72c209349b65680f0c24f32dd7454f88bbc451d08436fe7122a37",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "47b06a1577a72c209349b65680f0c24f32dd7454f88bbc451d08436fe7122a37",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "47b06a1577a72c209349b65680f0c24f32dd7454f88bbc451d08436fe7122a37",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "58625dcb4f95454cf6ce12cbe0d1103eed9c87f394155ca334b3e8df37f23af2",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "58625dcb4f95454cf6ce12cbe0d1103eed9c87f394155ca334b3e8df37f23af2",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "58625dcb4f95454cf6ce12cbe0d1103eed9c87f394155ca334b3e8df37f23af2",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "5c4adfd6e640e8e974d823f3ec058325584d1a45f003b76dcdef7fb09a1334f1",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "5c4adfd6e640e8e974d823f3ec058325584d1a45f003b76dcdef7fb09a1334f1",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "5c4adfd6e640e8e974d823f3ec058325584d1a45f003b76dcdef7fb09a1334f1",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "5cb3fec89e7997f1bf0b967bd4e230c57d82edcc08e63927bdcd81af10bfce4f",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "5cb3fec89e7997f1bf0b967bd4e230c57d82edcc08e63927bdcd81af10bfce4f",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "5cb3fec89e7997f1bf0b967bd4e230c57d82edcc08e63927bdcd81af10bfce4f",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "5dce1b40b32f5ec976d710a56515818884edf97c25cbaf30784c8d8b4a347317",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "5dce1b40b32f5ec976d710a56515818884edf97c25cbaf30784c8d8b4a347317",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "5dce1b40b32f5ec976d710a56515818884edf97c25cbaf30784c8d8b4a347317",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "609433de6d85866847b08321a10613b62a518d3bc4dea2564e1686c213135350",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "609433de6d85866847b08321a10613b62a518d3bc4dea2564e1686c213135350",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "609433de6d85866847b08321a10613b62a518d3bc4dea2564e1686c213135350",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "61aad6a34e2f1bcf07dcf097b8544030abc28575e55b809d2c4e6114505352f1",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "61aad6a34e2f1bcf07dcf097b8544030abc28575e55b809d2c4e6114505352f1",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "61aad6a34e2f1bcf07dcf097b8544030abc28575e55b809d2c4e6114505352f1",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "62e0ba763d30edcb883ae0b0285c94d09bd8351c0af7ace40828d19d6597f864",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "62e0ba763d30edcb883ae0b0285c94d09bd8351c0af7ace40828d19d6597f864",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "62e0ba763d30edcb883ae0b0285c94d09bd8351c0af7ace40828d19d6597f864",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "656bb31c02c4d28eb122906f914dcb0baabbb75d2323abddd39a815eb1e7f1ab",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "74b993de1115f106be6db855f68307c840d4e219f59e0926ddac3e6c0f07a4f3",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "74b993de1115f106be6db855f68307c840d4e219f59e0926ddac3e6c0f07a4f3",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "74b993de1115f106be6db855f68307c840d4e219f59e0926ddac3e6c0f07a4f3",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "7e17ba67d0e22790f9cec3919a9984b8fb2ed22e7ff1274bbeb96e300e30044a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "7e17ba67d0e22790f9cec3919a9984b8fb2ed22e7ff1274bbeb96e300e30044a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "7e17ba67d0e22790f9cec3919a9984b8fb2ed22e7ff1274bbeb96e300e30044a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+   "line": 1,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 0,
+   "accepted": 0,
+   "two_by_different_authors": false,
+   "brief26_two_by_different_authors": false,
+   "refused_listed": {},
+   "unlisted": {
+    "target found more than once": 18,
+    "accepted at the drawn state": 1
+   }
+  },
+  {
+   "item_id": "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+   "line": 2,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+   "line": 3,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "825b0ca962c9ec33c7f0e50f825d56669192d295adfa6ea8a0c8a79cb6843853",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8e4c33b94036da888bdef4177afe879a6e5d8df961d55547dfb238e1d792b41e",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8e4c33b94036da888bdef4177afe879a6e5d8df961d55547dfb238e1d792b41e",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "8e4c33b94036da888bdef4177afe879a6e5d8df961d55547dfb238e1d792b41e",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "910969ff989847a86a23d114b12ee42bff89d04eff514d5d5ad20ab334e395e6",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "910969ff989847a86a23d114b12ee42bff89d04eff514d5d5ad20ab334e395e6",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "910969ff989847a86a23d114b12ee42bff89d04eff514d5d5ad20ab334e395e6",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9577da691e9e75f2a1148e9a442b4f771876568e74c179b60a6d81ae25670510",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9577da691e9e75f2a1148e9a442b4f771876568e74c179b60a6d81ae25670510",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9577da691e9e75f2a1148e9a442b4f771876568e74c179b60a6d81ae25670510",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "963ad06a2e275cae6a28eef1eb6c1e0528b0804660b3142483ac1296e80abd02",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "963ad06a2e275cae6a28eef1eb6c1e0528b0804660b3142483ac1296e80abd02",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "963ad06a2e275cae6a28eef1eb6c1e0528b0804660b3142483ac1296e80abd02",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9915bd111739427c840acc885ddb129644fcf5c7c1be527de8e725a4478dc20c",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9915bd111739427c840acc885ddb129644fcf5c7c1be527de8e725a4478dc20c",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9915bd111739427c840acc885ddb129644fcf5c7c1be527de8e725a4478dc20c",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "9aa66a6d494ee88afa280eeb50e888b517edaf987d14c9ec4077329d2fb44f19",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9aa66a6d494ee88afa280eeb50e888b517edaf987d14c9ec4077329d2fb44f19",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9aa66a6d494ee88afa280eeb50e888b517edaf987d14c9ec4077329d2fb44f19",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9b33d06ecfe9b4e320041131127799723a9168cfe97a6b3866655fbb12717897",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9b33d06ecfe9b4e320041131127799723a9168cfe97a6b3866655fbb12717897",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9b33d06ecfe9b4e320041131127799723a9168cfe97a6b3866655fbb12717897",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a5b6e457694b01e706a8d9903ceac90d13ae80df28b9e2d2e150ffc28fd8bde9",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a5b6e457694b01e706a8d9903ceac90d13ae80df28b9e2d2e150ffc28fd8bde9",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a5b6e457694b01e706a8d9903ceac90d13ae80df28b9e2d2e150ffc28fd8bde9",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "a6020b2cd3d7c597a7d25ab11efb136f8cb7986dc129df85cf9e69c6ccfb8a0c",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "a6020b2cd3d7c597a7d25ab11efb136f8cb7986dc129df85cf9e69c6ccfb8a0c",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "a6020b2cd3d7c597a7d25ab11efb136f8cb7986dc129df85cf9e69c6ccfb8a0c",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "aa2a6ecbe776be5bde0ba8248c391b10242f7843f92b6625b7c2ac91ff21880c",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "aa2a6ecbe776be5bde0ba8248c391b10242f7843f92b6625b7c2ac91ff21880c",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "aa2a6ecbe776be5bde0ba8248c391b10242f7843f92b6625b7c2ac91ff21880c",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "aa3f84b7403517defe34d8c1dceb2de29f3b7973fb0c11330ae3264c9bad5a8a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "aa3f84b7403517defe34d8c1dceb2de29f3b7973fb0c11330ae3264c9bad5a8a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "aa3f84b7403517defe34d8c1dceb2de29f3b7973fb0c11330ae3264c9bad5a8a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ac26052323bb0ba741eee7e159530b2f9ce9538f8c6ff95ddfbb0a742c29a9a9",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ac26052323bb0ba741eee7e159530b2f9ce9538f8c6ff95ddfbb0a742c29a9a9",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ac26052323bb0ba741eee7e159530b2f9ce9538f8c6ff95ddfbb0a742c29a9a9",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "b993e6f6ab34a4fb9f3d47ce42375e1b4e8f82893c4f2075518adc9d77e0a1fc",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "b993e6f6ab34a4fb9f3d47ce42375e1b4e8f82893c4f2075518adc9d77e0a1fc",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "b993e6f6ab34a4fb9f3d47ce42375e1b4e8f82893c4f2075518adc9d77e0a1fc",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "bc385b1f4fec7b89608f95495d38e366a4fadfc02fdd5835d12311c8b0e4a17d",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "bc385b1f4fec7b89608f95495d38e366a4fadfc02fdd5835d12311c8b0e4a17d",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "bc385b1f4fec7b89608f95495d38e366a4fadfc02fdd5835d12311c8b0e4a17d",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "beb0d684555b580e0a43160fa93dce95eba188ec3b770e34fd75ba909088fb19",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "beb0d684555b580e0a43160fa93dce95eba188ec3b770e34fd75ba909088fb19",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "beb0d684555b580e0a43160fa93dce95eba188ec3b770e34fd75ba909088fb19",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c2cb8cfc62ba749b30df35c235133eac86470d2a28ad74e4fc5c38424fbe766a",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c2cb8cfc62ba749b30df35c235133eac86470d2a28ad74e4fc5c38424fbe766a",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c2cb8cfc62ba749b30df35c235133eac86470d2a28ad74e4fc5c38424fbe766a",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+   "line": 1,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 7,
+   "accepted": 7,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "target found more than once": 12
+   }
+  },
+  {
+   "item_id": "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+   "line": 2,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+   "line": 3,
+   "regime": "candidate",
+   "drop": true,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "c974a28fcf0e58b9502463ca79aed5fe1ac0f82728838fa78ffd017b132947d7",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "c974a28fcf0e58b9502463ca79aed5fe1ac0f82728838fa78ffd017b132947d7",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "c974a28fcf0e58b9502463ca79aed5fe1ac0f82728838fa78ffd017b132947d7",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d0a9a07d2fb8950477876f58fdf2e3a4d195cef1be2fbd7335fc08ccf38c6495",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d0a9a07d2fb8950477876f58fdf2e3a4d195cef1be2fbd7335fc08ccf38c6495",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d0a9a07d2fb8950477876f58fdf2e3a4d195cef1be2fbd7335fc08ccf38c6495",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 28,
+   "listed": 28,
+   "accepted": 28,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "d395aa8caa28f67547767408c419e18b842ebeb4ecdaa06128b2a59ddd89d16e",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d395aa8caa28f67547767408c419e18b842ebeb4ecdaa06128b2a59ddd89d16e",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d395aa8caa28f67547767408c419e18b842ebeb4ecdaa06128b2a59ddd89d16e",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "d790f29be2b98a5ef75d7b1944f8076ffb9e55bfc69bd9b1d272f74e3f0a7c69",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 14,
+   "accepted": 14,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1,
+    "an applied line was changed before the composition check": 2
+   }
+  },
+  {
+   "item_id": "db02ccab57626c315e236fc5476ad33c7ede54c51f1712a5278a7509e8e7479c",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "db02ccab57626c315e236fc5476ad33c7ede54c51f1712a5278a7509e8e7479c",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "db02ccab57626c315e236fc5476ad33c7ede54c51f1712a5278a7509e8e7479c",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "dba97b122978ace8af17fdeab6829a06c65897efd12a9a44fd217b3948f4fa10",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ddd63cb9ca09f17393d3fc0b0d99e0d12179dd3e9fb3ccc2e858d0390da631d9",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ddd63cb9ca09f17393d3fc0b0d99e0d12179dd3e9fb3ccc2e858d0390da631d9",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ddd63cb9ca09f17393d3fc0b0d99e0d12179dd3e9fb3ccc2e858d0390da631d9",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "de69de38de4a2cf31ac289132b940677d8b31874ff42326619db1432866138e1",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "de69de38de4a2cf31ac289132b940677d8b31874ff42326619db1432866138e1",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "de69de38de4a2cf31ac289132b940677d8b31874ff42326619db1432866138e1",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e183b740a4cfe32208c6fbf1b2fe9fe391601e44651861b232667584d2fa9bb2",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e40fc8ec5b9fccbf850e8641948590adb3a6da7ee267f32da1dfa124674ca1ab",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e8e283eba5fe19930b033bc35dd04cf3f62aa748aa7d042c58b34f28d4f4ca84",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "e8e283eba5fe19930b033bc35dd04cf3f62aa748aa7d042c58b34f28d4f4ca84",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "e8e283eba5fe19930b033bc35dd04cf3f62aa748aa7d042c58b34f28d4f4ca84",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "e9274bc42e116e0e70949c0cc494b81429aa86bfa3a59550e123d4373dd72063",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 19,
+   "listed": 19,
+   "accepted": 19,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ed518c84d144c76e07fa673edb25f624ad185953b4e38a06de8e94c241864915",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ed518c84d144c76e07fa673edb25f624ad185953b4e38a06de8e94c241864915",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ed518c84d144c76e07fa673edb25f624ad185953b4e38a06de8e94c241864915",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "ef5a0e1146ff9148cb18634b2f1d128c6b6f2df605fd2e8989e418d1365cb7f2",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ef5a0e1146ff9148cb18634b2f1d128c6b6f2df605fd2e8989e418d1365cb7f2",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "ef5a0e1146ff9148cb18634b2f1d128c6b6f2df605fd2e8989e418d1365cb7f2",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "f3229503701dbebbe0bf0421f3255da2ff9473db2edc98b8c3b04ae9bc962b0d",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 26,
+   "listed": 25,
+   "accepted": 25,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "fa35a4c66477cd400d7261f901690d063160720dad1f33dc318086164cc7e075",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "fa35a4c66477cd400d7261f901690d063160720dad1f33dc318086164cc7e075",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "fa35a4c66477cd400d7261f901690d063160720dad1f33dc318086164cc7e075",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 17,
+   "listed": 16,
+   "accepted": 16,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {
+    "no time left in the drawn session": 1
+   }
+  },
+  {
+   "item_id": "fdda40d9a2d2dec5f30e0796043dbd47064fcd272a06c6920bd7f5909c9ba104",
+   "line": 1,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "fdda40d9a2d2dec5f30e0796043dbd47064fcd272a06c6920bd7f5909c9ba104",
+   "line": 2,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  },
+  {
+   "item_id": "fdda40d9a2d2dec5f30e0796043dbd47064fcd272a06c6920bd7f5909c9ba104",
+   "line": 3,
+   "regime": "candidate",
+   "drop": false,
+   "drawable": 12,
+   "listed": 12,
+   "accepted": 12,
+   "two_by_different_authors": true,
+   "brief26_two_by_different_authors": true,
+   "refused_listed": {},
+   "unlisted": {}
+  }
+ ],
+ "fingerprint": {
+  "module_sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "harness_sha256": "80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a",
+  "valid_draws_sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+  "brief26_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+ }
+}

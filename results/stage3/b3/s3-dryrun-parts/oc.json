@@ -1,0 +1,316 @@
+{
+ "seed": 20261171,
+ "tag": 500,
+ "icc": 0.3,
+ "experiments": 300,
+ "replicates": 2000,
+ "layout": "T2+S2",
+ "cells": {
+  "null|subset|none": {
+   "truth": "null",
+   "mult": 0.0,
+   "population": "subset",
+   "membership_model": "none",
+   "form_a": {
+    "C": {
+     "excluded": 0.64,
+     "attenuated": 0.023333333333333334,
+     "present": 0.0,
+     "inconclusive": 0.33666666666666667,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.62,
+     "attenuated": 0.013333333333333334,
+     "present": 0.01,
+     "inconclusive": 0.3566666666666667,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.5366666666666666,
+     "attenuated": 0.023333333333333334,
+     "present": 0.01,
+     "inconclusive": 0.41333333333333333,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.016666666666666666
+    },
+    "S": {
+     "excluded": 0.5133333333333333,
+     "attenuated": 0.03,
+     "present": 0.006666666666666667,
+     "inconclusive": 0.42,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.03
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 272
+  },
+  "null|full|zero": {
+   "truth": "null",
+   "mult": 0.0,
+   "population": "full",
+   "membership_model": "zero",
+   "form_a": {
+    "C": {
+     "excluded": 0.9733333333333334,
+     "attenuated": 0.02666666666666667,
+     "present": 0.0,
+     "inconclusive": 0.0,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.9466666666666667,
+     "attenuated": 0.03,
+     "present": 0.0,
+     "inconclusive": 0.023333333333333334,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.9,
+     "attenuated": 0.06333333333333334,
+     "present": 0.0,
+     "inconclusive": 0.03666666666666667,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.8566666666666667,
+     "attenuated": 0.09666666666666666,
+     "present": 0.0,
+     "inconclusive": 0.04666666666666667,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 495
+  },
+  "margin|subset|none": {
+   "truth": "margin",
+   "mult": 1.0,
+   "population": "subset",
+   "membership_model": "none",
+   "form_a": {
+    "C": {
+     "excluded": 0.09,
+     "attenuated": 0.23,
+     "present": 0.35333333333333333,
+     "inconclusive": 0.32666666666666666,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.043333333333333335,
+     "attenuated": 0.20333333333333334,
+     "present": 0.3233333333333333,
+     "inconclusive": 0.43,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.09,
+     "attenuated": 0.11666666666666667,
+     "present": 0.13,
+     "inconclusive": 0.62,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.043333333333333335
+    },
+    "S": {
+     "excluded": 0.04,
+     "attenuated": 0.12,
+     "present": 0.16333333333333333,
+     "inconclusive": 0.6233333333333333,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.05333333333333334
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 768
+  },
+  "margin|full|zero": {
+   "truth": "margin",
+   "mult": 1.0,
+   "population": "full",
+   "membership_model": "zero",
+   "form_a": {
+    "C": {
+     "excluded": 0.57,
+     "attenuated": 0.3466666666666667,
+     "present": 0.0,
+     "inconclusive": 0.08333333333333333,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.61,
+     "attenuated": 0.2733333333333333,
+     "present": 0.01,
+     "inconclusive": 0.10666666666666667,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.5866666666666667,
+     "attenuated": 0.31333333333333335,
+     "present": 0.013333333333333334,
+     "inconclusive": 0.08666666666666667,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.5533333333333333,
+     "attenuated": 0.31,
+     "present": 0.016666666666666666,
+     "inconclusive": 0.12,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 986
+  },
+  "x1.5|subset|none": {
+   "truth": "x1.5",
+   "mult": 1.5,
+   "population": "subset",
+   "membership_model": "none",
+   "form_a": {
+    "C": {
+     "excluded": 0.0,
+     "attenuated": 0.15,
+     "present": 0.73,
+     "inconclusive": 0.12,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.0033333333333333335,
+     "attenuated": 0.13,
+     "present": 0.69,
+     "inconclusive": 0.17666666666666667,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.03333333333333333,
+     "attenuated": 0.10666666666666667,
+     "present": 0.27,
+     "inconclusive": 0.48,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.11
+    },
+    "S": {
+     "excluded": 0.013333333333333334,
+     "attenuated": 0.08333333333333333,
+     "present": 0.2833333333333333,
+     "inconclusive": 0.51,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.11
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 1287
+  },
+  "x1.5|full|zero": {
+   "truth": "x1.5",
+   "mult": 1.5,
+   "population": "full",
+   "membership_model": "zero",
+   "form_a": {
+    "C": {
+     "excluded": 0.3466666666666667,
+     "attenuated": 0.48333333333333334,
+     "present": 0.013333333333333334,
+     "inconclusive": 0.15666666666666668,
+     "floor": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.32,
+     "attenuated": 0.5,
+     "present": 0.006666666666666667,
+     "inconclusive": 0.17333333333333334,
+     "floor": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "form_b": {
+    "C": {
+     "excluded": 0.44333333333333336,
+     "attenuated": 0.38333333333333336,
+     "present": 0.02666666666666667,
+     "inconclusive": 0.14666666666666667,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    },
+    "S": {
+     "excluded": 0.37333333333333335,
+     "attenuated": 0.45666666666666667,
+     "present": 0.02666666666666667,
+     "inconclusive": 0.14333333333333334,
+     "floor": 0.0,
+     "ceiling": 0.0,
+     "unfit": 0.0
+    }
+   },
+   "floor_a": {
+    "C|a|True": 300,
+    "S|a|True": 300
+   },
+   "seconds": 1533
+  }
+ },
+ "seeding": "one stream per experiment: default_rng([20261171, 500, truth index, model index, experiment index])",
+ "acceptance": {
+  "P_excl_0_subset_C": 0.64,
+  "P_present_x1.5_subset_C": 0.73,
+  "reference": {
+   "P_excl_0": 0.68,
+   "P_present_x1.5": 0.72
+  },
+  "tolerance": 0.08,
+  "accepted": true
+ },
+ "wall_seconds": 1533
+}
