@@ -1,0 +1,2829 @@
+{
+ "version": "b3-comprehension/report-v0/t1-join",
+ "n_lines": 144,
+ "families": [
+  "kimi",
+  "sol",
+  "sonnet55"
+ ],
+ "primary": {
+  "v2_conforming": {
+   "n_lines": 72,
+   "at_or_under_60": {
+    "n_lines": 70,
+    "n_with_two_families": 70,
+    "n_yield_alone": 17,
+    "share": 0.24285714285714285
+   },
+   "over_60": {
+    "n_lines": 2,
+    "n_with_two_families": 2,
+    "n_yield_alone": 0,
+    "share": 0.0
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 72,
+     "spearman": 0.4838513379207301
+    },
+    "sol": {
+     "n": 72,
+     "spearman": 0.3587897954806559
+    },
+    "sonnet55": {
+     "n": 70,
+     "spearman": 0.4204121788615504
+    },
+    "mean_over_families": {
+     "n": 72,
+     "spearman": 0.5322425599344993
+    }
+   }
+  },
+  "v3_middle": {
+   "n_lines": 72,
+   "at_or_under_60": {
+    "n_lines": 68,
+    "n_with_two_families": 68,
+    "n_yield_alone": 10,
+    "share": 0.14705882352941177
+   },
+   "over_60": {
+    "n_lines": 4,
+    "n_with_two_families": 4,
+    "n_yield_alone": 2,
+    "share": 0.5
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 72,
+     "spearman": 0.1753363357967716
+    },
+    "sol": {
+     "n": 72,
+     "spearman": 0.26902326802307563
+    },
+    "sonnet55": {
+     "n": 68,
+     "spearman": 0.2083983346432864
+    },
+    "mean_over_families": {
+     "n": 72,
+     "spearman": 0.24589204551416963
+    }
+   }
+  },
+  "pooled": {
+   "n_lines": 144,
+   "at_or_under_60": {
+    "n_lines": 138,
+    "n_with_two_families": 138,
+    "n_yield_alone": 27,
+    "share": 0.1956521739130435
+   },
+   "over_60": {
+    "n_lines": 6,
+    "n_with_two_families": 6,
+    "n_yield_alone": 2,
+    "share": 0.3333333333333333
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 144,
+     "spearman": 0.30039244251721264
+    },
+    "sol": {
+     "n": 144,
+     "spearman": 0.27641875273647093
+    },
+    "sonnet55": {
+     "n": 138,
+     "spearman": 0.2972922426582682
+    },
+    "mean_over_families": {
+     "n": 144,
+     "spearman": 0.3514070895071121
+    }
+   }
+  }
+ },
+ "pass1_beside": {
+  "v2_conforming": {
+   "n_lines": 72,
+   "at_or_under_60": {
+    "n_lines": 70,
+    "n_with_two_families": 70,
+    "n_yield_alone": 17,
+    "share": 0.24285714285714285
+   },
+   "over_60": {
+    "n_lines": 2,
+    "n_with_two_families": 2,
+    "n_yield_alone": 0,
+    "share": 0.0
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 72,
+     "spearman": 0.43430610044275997
+    },
+    "sol": {
+     "n": 72,
+     "spearman": 0.32995840858682557
+    },
+    "sonnet55": {
+     "n": 70,
+     "spearman": 0.4181995187362925
+    },
+    "mean_over_families": {
+     "n": 72,
+     "spearman": 0.48550046519092527
+    }
+   }
+  },
+  "v3_middle": {
+   "n_lines": 72,
+   "at_or_under_60": {
+    "n_lines": 69,
+    "n_with_two_families": 69,
+    "n_yield_alone": 10,
+    "share": 0.14492753623188406
+   },
+   "over_60": {
+    "n_lines": 3,
+    "n_with_two_families": 3,
+    "n_yield_alone": 2,
+    "share": 0.6666666666666666
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 72,
+     "spearman": 0.21109801942012815
+    },
+    "sol": {
+     "n": 72,
+     "spearman": 0.3040445817383936
+    },
+    "sonnet55": {
+     "n": 68,
+     "spearman": 0.20250373920225995
+    },
+    "mean_over_families": {
+     "n": 72,
+     "spearman": 0.27697408762313686
+    }
+   }
+  },
+  "pooled": {
+   "n_lines": 144,
+   "at_or_under_60": {
+    "n_lines": 139,
+    "n_with_two_families": 139,
+    "n_yield_alone": 27,
+    "share": 0.19424460431654678
+   },
+   "over_60": {
+    "n_lines": 5,
+    "n_with_two_families": 5,
+    "n_yield_alone": 2,
+    "share": 0.4
+   },
+   "spearman_line_score_vs_D_part_line": {
+    "kimi": {
+     "n": 144,
+     "spearman": 0.2968606259670983
+    },
+    "sol": {
+     "n": 144,
+     "spearman": 0.2787915369778145
+    },
+    "sonnet55": {
+     "n": 138,
+     "spearman": 0.29338327245813084
+    },
+    "mean_over_families": {
+     "n": 144,
+     "spearman": 0.3465037518511303
+    }
+   }
+  }
+ },
+ "statuses": {
+  "kimi": {
+   "scored": 144
+  },
+  "sol": {
+   "scored": 144
+  },
+  "sonnet55": {
+   "refused_prose": 1,
+   "refused_provider": 5,
+   "scored": 138
+  }
+ },
+ "lines": [
+  {
+   "item_id": "00ae0ebd30b445f831a542acb0da5085189b5054558095a64ea061fde058bdc3",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 45.0,
+   "rater_p2": 45.0,
+   "rater_mean": 45.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "00ae0ebd30b445f831a542acb0da5085189b5054558095a64ea061fde058bdc3",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 20.0,
+   "rater_p2": 22.0,
+   "rater_mean": 21.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "00ae0ebd30b445f831a542acb0da5085189b5054558095a64ea061fde058bdc3",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0240f66fa7543c23d5d70a4d3af1b322219adf6e0976477c8d162524e7204865",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 35.0,
+   "rater_p2": 20.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0240f66fa7543c23d5d70a4d3af1b322219adf6e0976477c8d162524e7204865",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 5.0,
+   "rater_p2": 5.0,
+   "rater_mean": 5.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0240f66fa7543c23d5d70a4d3af1b322219adf6e0976477c8d162524e7204865",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 35.0,
+   "rater_p2": 25.0,
+   "rater_mean": 30.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0c48935a06935ce393a7c69f0112d40955d2069f259fd5cbddc178bd7fab9332",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0c48935a06935ce393a7c69f0112d40955d2069f259fd5cbddc178bd7fab9332",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 40.0,
+   "rater_mean": 32.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0c48935a06935ce393a7c69f0112d40955d2069f259fd5cbddc178bd7fab9332",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 45.0,
+   "rater_mean": 42.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "0e0a9bc5c40d2ecafaeb6620a4d1949c55a8cca39d0b51b5e43cc96007b75298",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 55.0,
+   "rater_p2": 55.0,
+   "rater_mean": 55.0,
+   "D_part_line": {
+    "sonnet55": 0.5,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 40.0,
+   "rater_mean": 40.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 60.0,
+   "rater_p2": 55.0,
+   "rater_mean": 57.5,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "refused_provider",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1d7d857c036e3fc60ae452a0b0bb7c65f99f40ae0fe47e7ea261466fc7ec87ea",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 45.0,
+   "rater_mean": 45.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 15.0,
+   "rater_p2": 20.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 40.0,
+   "rater_p2": 45.0,
+   "rater_mean": 42.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "1da4537d37aa79371c121971e903247338f0be1583392b391a1d648d798c07de",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 25.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 30.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 40.0,
+   "rater_p2": 40.0,
+   "rater_mean": 40.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "29d1d8ff98b2a2300e692c61ea60c88c399790663e9d6a381aaf2f85e9f6c749",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 40.0,
+   "rater_p2": 30.0,
+   "rater_mean": 35.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 30.0,
+   "rater_p2": 35.0,
+   "rater_mean": 32.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "32d644a00eab480ce881ba8f8cd7b0fdf01b3efe950e2c82d56fbce4b122cc0e",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 30.0,
+   "rater_p2": 35.0,
+   "rater_mean": 32.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 10.0,
+   "rater_p2": 15.0,
+   "rater_mean": 12.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 12.0,
+   "rater_mean": 13.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "341918b88712bc57c3f8816d74d5a1f757039caace5513dcccb888701aaf649c",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 55.0,
+   "rater_mean": 50.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 10.0,
+   "rater_p2": 8.0,
+   "rater_mean": 9.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 35.0,
+   "rater_p2": 40.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "343094eddae54624548e74866293f17e2d1d76933be40ca556d1f7ece846c40c",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 35.0,
+   "rater_p2": 25.0,
+   "rater_mean": 30.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 30.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.5,
+    "kimi": 0.5,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 15.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3679cf26a6ba8db3cfd9c87e230967227234aeb686f141790b01709560508290",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 25.0,
+   "rater_p2": 25.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 55.0,
+   "rater_p2": 60.0,
+   "rater_mean": 57.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "370c8aa8bbc8a989121c10b1c764d3494c78570deca5f3cac50e7f516a549a3b",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 40.0,
+   "rater_p2": 45.0,
+   "rater_mean": 42.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 35.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 8.0,
+   "rater_mean": 9.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3a5613321e2402e54b8567734127ff999ddf4a737f3e00bc15c95d21224addf4",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 25.0,
+   "rater_p2": 20.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 15.0,
+   "rater_p2": 30.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 20.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3b53c0dc5b37649f72615dbfefc23ecd43811d11e9d299f429e6b2510d2febbd",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 35.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3f54e67c7c913c1d62b41131533400d996784029c22d0feb68ad5be809dddbec",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 25.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3f54e67c7c913c1d62b41131533400d996784029c22d0feb68ad5be809dddbec",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 10.0,
+   "rater_mean": 12.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "3f54e67c7c913c1d62b41131533400d996784029c22d0feb68ad5be809dddbec",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 25.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "59c27ad4ed1f808e80dfd060d8fc20e5fa8264f457f94af7b4259bf7eac518de",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 30.0,
+   "rater_p2": 30.0,
+   "rater_mean": 30.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "59c27ad4ed1f808e80dfd060d8fc20e5fa8264f457f94af7b4259bf7eac518de",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 30.0,
+   "rater_p2": 30.0,
+   "rater_mean": 30.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "59c27ad4ed1f808e80dfd060d8fc20e5fa8264f457f94af7b4259bf7eac518de",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 30.0,
+   "rater_p2": 25.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "5d503325083deeadef724b7c0f7c7bfeab8e7e3c7f82493af23d595c74aae92a",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 45.0,
+   "rater_mean": 42.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "5d503325083deeadef724b7c0f7c7bfeab8e7e3c7f82493af23d595c74aae92a",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 45.0,
+   "rater_p2": 45.0,
+   "rater_mean": 45.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "5d503325083deeadef724b7c0f7c7bfeab8e7e3c7f82493af23d595c74aae92a",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 42.0,
+   "rater_mean": 43.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 42.0,
+   "rater_mean": 41.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 70.0,
+   "rater_p2": 72.0,
+   "rater_mean": 71.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "61b9cab2370150fa7f30b6af472be9f1a09ff33cf23d48ffb94895e055f1ab7c",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "63dd73a9bf3e0f5712471b262954cbd77402d559311614721bdf3237a1112959",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 55.0,
+   "rater_p2": 55.0,
+   "rater_mean": 55.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "63dd73a9bf3e0f5712471b262954cbd77402d559311614721bdf3237a1112959",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 25.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "63dd73a9bf3e0f5712471b262954cbd77402d559311614721bdf3237a1112959",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 25.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "6e741a4b69c91d0720d7abae26f8a83abb35e5aeb0ae1b8dbc9717c315bf4fbc",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 35.0,
+   "rater_p2": 40.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "6e741a4b69c91d0720d7abae26f8a83abb35e5aeb0ae1b8dbc9717c315bf4fbc",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 15.0,
+   "rater_mean": 12.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "6e741a4b69c91d0720d7abae26f8a83abb35e5aeb0ae1b8dbc9717c315bf4fbc",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 45.0,
+   "rater_mean": 45.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "790829c7b53eb0c1ec3f5485853db6557a7fef3240b3fc6b2f22ae09fdb675d5",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "790829c7b53eb0c1ec3f5485853db6557a7fef3240b3fc6b2f22ae09fdb675d5",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 50.0,
+   "rater_p2": 50.0,
+   "rater_mean": 50.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "790829c7b53eb0c1ec3f5485853db6557a7fef3240b3fc6b2f22ae09fdb675d5",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 50.0,
+   "rater_mean": 47.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 25.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "809ff4af62fd878b20d1557700608e0beeddbb807952dfb652aff3a0431a910b",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 5.0,
+   "rater_p2": 8.0,
+   "rater_mean": 6.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 35.0,
+   "rater_p2": 40.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "974b379674ff2486448127b5ead6bf7cf01847cdc4c1b95ef165016b4128726e",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 50.0,
+   "rater_mean": 35.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "97913eaf0d43542b8e1993a9b2d9987ee541db7432d4373d2c648b739c4bdc8c",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 25.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "97913eaf0d43542b8e1993a9b2d9987ee541db7432d4373d2c648b739c4bdc8c",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 80.0,
+   "rater_p2": 85.0,
+   "rater_mean": 82.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "97913eaf0d43542b8e1993a9b2d9987ee541db7432d4373d2c648b739c4bdc8c",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 70.0,
+   "rater_p2": 55.0,
+   "rater_mean": 62.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 20.0,
+   "rater_p2": 25.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9896e89c1a969bb5e2f93e9deda5f34e885933135aab83bbcc1a82f08eea6740",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 10.0,
+   "rater_p2": 8.0,
+   "rater_mean": 9.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 30.0,
+   "rater_p2": 40.0,
+   "rater_mean": 35.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 8.0,
+   "rater_mean": 9.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9c9ec02763cdbb6f7372ce5e037352f09a5e469bb7aa8c98c845f365bcac9ae2",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 35.0,
+   "rater_p2": 40.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 5.0,
+   "rater_p2": 5.0,
+   "rater_mean": 5.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "9da40ce60edbbd92cfbd17653d6edb7db5d7ec3e7bd8a68286d9bc5c87956c77",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 30.0,
+   "rater_p2": 25.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.5
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 45.0,
+   "rater_p2": 50.0,
+   "rater_mean": 47.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 20.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a48722cfb55f27b81c2df530637fa0eedda0334c2c9b4d937a0f986d0c261601",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 1.0,
+    "sol": 0.5
+   },
+   "status": {
+    "sonnet55": "refused_provider",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 15.0,
+   "rater_p2": 30.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 30.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "a5ab260974d484ddc26a66bebf03942571a2c365ce828b8e3bdf7d03eb44b27c",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 30.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 5.0,
+   "rater_p2": 3.0,
+   "rater_mean": 4.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "aa328e09f4fbb2e3de098f7b63948a6553fac459f2ecdd09f7e76e5399e835fa",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 5.0,
+   "rater_p2": 5.0,
+   "rater_mean": 5.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 15.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 10.0,
+   "rater_mean": 12.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ae7d529b5abe8be78d38ec3591d0bcd2ee0663e083b1a2307e2227a8b090b67a",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "af6ca2335018595e21e82cee35a13120a666a1f7a3eed2a4286f2ef64cbe2b23",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 15.0,
+   "rater_p2": 12.0,
+   "rater_mean": 13.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 40.0,
+   "rater_p2": 35.0,
+   "rater_mean": 37.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b44a03ff15f051e1cb330a624966bdecf1bab5f14170b8454bd8d43a4f7774c4",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 25.0,
+   "rater_p2": 30.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 45.0,
+   "rater_p2": 55.0,
+   "rater_mean": 50.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "b583354bc098b735106fa96d70ecfaec56ae45af4e7d289f04f27daac8897c47",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 55.0,
+   "rater_p2": 60.0,
+   "rater_mean": 57.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "bd368ce01f1e43ad3b0189a0b6d32e8ebc6d8853ea97427f7b3d4f20bfa9731e",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 30.0,
+   "rater_p2": 35.0,
+   "rater_mean": 32.5,
+   "D_part_line": {
+    "sonnet55": 0.5,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "bd368ce01f1e43ad3b0189a0b6d32e8ebc6d8853ea97427f7b3d4f20bfa9731e",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 50.0,
+   "rater_p2": 55.0,
+   "rater_mean": 52.5,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "refused_prose",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "bd368ce01f1e43ad3b0189a0b6d32e8ebc6d8853ea97427f7b3d4f20bfa9731e",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 30.0,
+   "rater_p2": 28.0,
+   "rater_mean": 29.0,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "refused_provider",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 5.0,
+   "rater_p2": 8.0,
+   "rater_mean": 6.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c17cc19490b9694716d601da9138f4f70f22530b41c7df458d1188aac5be2125",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 65.0,
+   "rater_p2": 65.0,
+   "rater_mean": 65.0,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "refused_provider",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 35.0,
+   "rater_p2": 35.0,
+   "rater_mean": 35.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 30.0,
+   "rater_p2": 20.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c23c2e9d549de61cd5b9a71bc630518184d4bf8c9d8aad4c251d1d04e6bcabfa",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 30.0,
+   "rater_p2": 30.0,
+   "rater_mean": 30.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 48.0,
+   "rater_mean": 44.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 60.0,
+   "rater_p2": 75.0,
+   "rater_mean": 67.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c77e6f634ec610276f72d4220215ea00dd866350b9c793c43040c9e2414c5453",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 45.0,
+   "rater_p2": 50.0,
+   "rater_mean": 47.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 35.0,
+   "rater_p2": 35.0,
+   "rater_mean": 35.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 30.0,
+   "rater_p2": 20.0,
+   "rater_mean": 25.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "c890c20452d69628657cddb0791de386aa74086042920f5d88c8e17ffac2f622",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 45.0,
+   "rater_p2": 48.0,
+   "rater_mean": 46.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 30.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "de37eb62cb78ab0a8e3fc2ee0ed8da6f1aec4e53fa177bd6c581b03d8630dadd",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 15.0,
+   "rater_mean": 15.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "df47ca261f6a7bcfc86a4adc7b8895f739908ab79dc444d854094b762f961d29",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 15.0,
+   "rater_p2": 12.0,
+   "rater_mean": 13.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "df47ca261f6a7bcfc86a4adc7b8895f739908ab79dc444d854094b762f961d29",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 35.0,
+   "rater_p2": 20.0,
+   "rater_mean": 27.5,
+   "D_part_line": {
+    "sonnet55": null,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "refused_provider",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "df47ca261f6a7bcfc86a4adc7b8895f739908ab79dc444d854094b762f961d29",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 10.0,
+   "rater_p2": 10.0,
+   "rater_mean": 10.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 55.0,
+   "rater_p2": 55.0,
+   "rater_mean": 55.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 70.0,
+   "rater_p2": 65.0,
+   "rater_mean": 67.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.5,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e078b2d1849f5adca0d04441f6dd6993039aa18c0bf53ae0b334a7a559a4a074",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 15.0,
+   "rater_p2": 20.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 40.0,
+   "rater_p2": 40.0,
+   "rater_mean": 40.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 55.0,
+   "rater_p2": 60.0,
+   "rater_mean": 57.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5a022ab59278b5b92bcab576924bc087be1a5caa472a5854e449e2a45bf09d3",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 15.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 25.0,
+   "rater_p2": 20.0,
+   "rater_mean": 22.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "e5c9f188cfd88dd477999fc60caa0963602d30abe2bf74edac4b33bc160d82b0",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 40.0,
+   "rater_p2": 40.0,
+   "rater_mean": 40.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 45.0,
+   "rater_p2": 42.0,
+   "rater_mean": 43.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 0.5
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 10.0,
+   "rater_p2": 8.0,
+   "rater_mean": 9.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f0de818ad709f568e97f1ee8e77d0f5bd01e505deab86c6a13248f0ee8beeabf",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 50.0,
+   "rater_p2": 45.0,
+   "rater_mean": 47.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.5
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 20.0,
+   "rater_p2": 20.0,
+   "rater_mean": 20.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 20.0,
+   "rater_mean": 17.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f47d870ea960167996f00acf6a6ef4219fac104b8b99044242d491780b646980",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 60.0,
+   "rater_p2": 55.0,
+   "rater_mean": 57.5,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
+   "regime": "v2_conforming",
+   "part": "part0",
+   "rater_p1": 55.0,
+   "rater_p2": 50.0,
+   "rater_mean": 52.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
+   "regime": "v2_conforming",
+   "part": "part1",
+   "rater_p1": 15.0,
+   "rater_p2": 10.0,
+   "rater_mean": 12.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "f90f29d2081f0724a654710564996aaac8e670ee3316ff6b3fa1152f512cb3c2",
+   "regime": "v2_conforming",
+   "part": "part2",
+   "rater_p1": 55.0,
+   "rater_p2": 55.0,
+   "rater_mean": 55.0,
+   "D_part_line": {
+    "sonnet55": 1.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ff37128739faceefcb03c98c0558c5eb455b677181806d79167fa0029ed67a91",
+   "regime": "v3_middle",
+   "part": "part0",
+   "rater_p1": 60.0,
+   "rater_p2": 60.0,
+   "rater_mean": 60.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ff37128739faceefcb03c98c0558c5eb455b677181806d79167fa0029ed67a91",
+   "regime": "v3_middle",
+   "part": "part1",
+   "rater_p1": 40.0,
+   "rater_p2": 45.0,
+   "rater_mean": 42.5,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 0.0,
+    "sol": 0.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  },
+  {
+   "item_id": "ff37128739faceefcb03c98c0558c5eb455b677181806d79167fa0029ed67a91",
+   "regime": "v3_middle",
+   "part": "part2",
+   "rater_p1": 55.0,
+   "rater_p2": 55.0,
+   "rater_mean": 55.0,
+   "D_part_line": {
+    "sonnet55": 0.0,
+    "kimi": 1.0,
+    "sol": 1.0
+   },
+   "status": {
+    "sonnet55": "scored",
+    "kimi": "scored",
+    "sol": "scored"
+   }
+  }
+ ],
+ "hashes": {
+  "per_part": "143c5d7990185de7ae18a942bb8e5fa87a889fd30fa1c2e3c36de98ac8693d7d",
+  "instrument_v0_json": "511a150ecc20733e393533f749e9651406c324420e37f05ee67c51fe33eff782",
+  "t1_items_v0": "71fba5652257244a4a85480caa464de299ea2eb3f33b3c53f5a02036a0d196ae",
+  "07k_key": "f0bc17d6eeeb6a2ece6f17fed463d36fc097f6ac26efd9ebf6aa6d78f7149606",
+  "07k_ratings": "289a9fe1ba46b0c8e87ab103c998be3fb7faf3925667989a8444cd0197565b37",
+  "07k_statements": "db3af7f474e11fd6b851e3c953d846e5edd1839e760e21e24d338ec86f0a2dfa",
+  "07k_triples": "f005d5eb9764cd13e8251f7b76f1922e10b72f24d63f247d009ace4b47593566",
+  "report_script": "b794769d42c31f241f8262cda174478a27e545a23c459b674d6a985c3ea043aa",
+  "stage3_legibility": "1ba39b9609acc8718fc93ee4f866aa4185098688ceb52c1db5d82b27576bc281"
+ }
+}
