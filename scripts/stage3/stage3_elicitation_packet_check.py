@@ -17,7 +17,9 @@ prints a line of the packet or a matched word.
   4. the schema blocks of the body parse as JSON once their placeholders are filled, and carry exactly the key sets
      the reader code reads (item: id, document, kind, composed_effect, statements; pair: id, documents, kind,
      composed_effect, statements; statement: op, anchor_or_region, text, plus document for pairs; results layout).
-`fields` checks that `stage3_legibility.py` indexes every field name the schema uses (the "verified by name" of E0-2).
+`fields` checks that every field name the schema uses occurs in the reader's source (`stage3_legibility.py`) as a subscript
+or a `.get` key. That is all it proves: the names occur in the reader's source. It does not show that a writer's file loads;
+the reader's loader takes stripped triples joined to payloads by key, so a load test belongs to the converter of brief 30.
 """
 from __future__ import annotations
 
@@ -147,6 +149,7 @@ def check_schema(blocks: list[dict]) -> list[str]:
 
 
 def check_fields(legibility_src: str) -> dict[str, bool]:
+    """Per field name: does it occur in the reader's source as a subscript or a `.get` key? Not a load test."""
     return {f: bool(re.search(r"\[\s*[\"']" + re.escape(f) + r"[\"']\s*\]|\.get\(\s*[\"']" + re.escape(f) + r"[\"']", legibility_src))
             for f in READER_FIELDS}
 
@@ -185,7 +188,8 @@ def cmd_extract(args) -> int:
 def cmd_fields(args) -> int:
     res = check_fields(Path(args.legibility).read_text(encoding="utf-8"))
     for k, v in res.items():
-        print(f"field {k}: {'indexed' if v else 'NOT FOUND'}")
+        print(f"field {k}: {'occurs in the reader source' if v else 'NOT FOUND in the reader source'}")
+    print("claim: the field names occur in the reader's source; this is not a load test of a writer's file")
     return 0 if all(res.values()) else 1
 
 

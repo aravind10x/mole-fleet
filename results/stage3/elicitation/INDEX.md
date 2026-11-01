@@ -1,75 +1,96 @@
-# work/stage3/elicitation index (brief 29, session 29-A, 2026-11-01)
+# work/stage3/elicitation index (brief 29, session 29-A, 2026-11-01; v0.1 revision 2026-11-02)
 
-Brief 24's E0, part A: the taxonomy, the writer packet, the certification protocol, the rules and sentences, and the cross-document items. Session 29-B (E0-5 gate reachability, E0-7 pinning in the client) has not opened. No writer has been called, no item written. Hashes are full sha256 in the table; the short form (first 8 hex) is what STATUS carries.
+Brief 24's E0, part A: the taxonomy, the writer packet, the certification protocol, the rules and sentences, and the cross-document items. No writer has been called, no item written. Hashes are full sha256 in the tables; the short form (first 8 hex) is what STATUS carries. Session 29-B (E0-5 gate reachability, E0-7 pinning) is not part of this index.
 
-## Files
+**v0.1 (2026-11-02, a Sonnet 5.5 session under the authoring note; brief 29 dated notes 1 to 7).** The cold read's fixes (`review/cold-read-29a-2026-11-02.md` 43b2f01b; `review/fable-read-29a-2026-11-02.md` 3f4a413c): the packet header's schema sentence (the body as sent is unchanged, cb528f5d); the certification protocol, the rules and sentences and the cross-document items as the cold read's per-file fix lists say; the seven constraints extracted to `b4-constraints-v0.md`; the packet check's printed claim renamed to what it proves; this index. No gate, reader, arm, target, floor or eligible line changed. The file names keep `-v0`; the revision is carried by the hashes below.
 
-| id | file | sha256 | bytes |
-|---|---|---|---|
-| E0-1 | `taxonomy-v0.md` | `ec195e238e64c9db65fff7f35e279b32e6733a13b22321ba34851d6a71d2a687` | 7960 |
-| E0-2 | `writer-packet-v0.md` | `4b5d6027b4700ba385f4491ef54893e97e952ded6ea62ff5ae95ebec9564eac6` | 19871 |
-| E0-2 | **the packet as sent** (text between its `PACKET` markers; `stage3_elicitation_packet_check.py extract`) | `cb528f5d4cf0875b00f5351ccbafd29ce1777968543e102fb4fdccfde1192886` | 13541 |
-| E0-2 | `writer-launch-notes-v0.md` | `147dae26126f870467e89d44382c59e0668f57e715c76c66c095b10d5f567fba` | 8090 |
-| E0-3 | `certification-protocol-v0.md` | `57ec87e707713cb90c997cd04525cbbc50fc48a2d7e8a587f109a120e10d69ce` | 13460 |
-| E0-4 | `rules-and-sentences-v0.md` | `b666cb32113fd27dc3e1ca7bdcfe666294bf6acfe1d473e6c3dc4e7380aa4a4a` | 10076 |
-| E0-6 | `cross-document-items-v0.md` | `941524292f5bad9bcea751faf6e3fd6125fe73951d0d288df36180dd25ac6ba0` | 12254 |
-| input | `doc-states-day0-v7.md` (the cross-document arm's document state, seed version v7) | `9c6933940d19a3dddd606cec08cef3324bb404b2a74cd4abc6b42c60f4ce7207` | 5454 |
-| input | `work/stage3/t1k-rater/doc-states-day0.md` (the one-document arm's state, seed version v6; existing) | `d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0` | 4753 |
-| code | `work/checks/stage3_elicitation_render_docs.py` | `33607749140f8dc4e8c254c944d8663c8db63313c0247864bfff392b9ccfefeb` | 3533 |
-| code | `work/checks/stage3_elicitation_packet_check.py` | `f00ac28068485e34ec68e6949c70df1f6d8b4a0e14139ca59e450cd5c47889fe` | 10255 |
-| code | `work/checks/test_stage3_elicitation_packet_check.py` | `f57efe01b83dcbe6431d51f3be7a513b9e98f54010f48fcc40b371655cc079d0` | 2944 |
+## Files at v0.1
+
+| id | file | sha256 | bytes | at v0.1 |
+|---|---|---|---|---|
+| E0-1 | `taxonomy-v0.md` | `ec195e238e64c9db65fff7f35e279b32e6733a13b22321ba34851d6a71d2a687` | 7960 | unchanged |
+| E0-2 | `writer-packet-v0.md` | `486ac7f96c77401438100707bc9a069b2c87bc8e1d0df52c13068ce41e29cc79` | 20914 | header schema sentence only |
+| E0-2 | **the packet as sent** (text between its `PACKET` markers; `stage3_elicitation_packet_check.py extract`) | `cb528f5d4cf0875b00f5351ccbafd29ce1777968543e102fb4fdccfde1192886` | 13541 | unchanged, re-extracted |
+| E0-2 | `writer-launch-notes-v0.md` | `147dae26126f870467e89d44382c59e0668f57e715c76c66c095b10d5f567fba` | 8090 | unchanged |
+| E0-3 | `certification-protocol-v0.md` | `3a071bd09c05d83e5c86d252e95a3995832d4878954f06be002b146111577203` | 16279 | revised |
+| E0-4 | `rules-and-sentences-v0.md` | `7ff64d4b77b1d29ba4939492a11c4cb2d62a9fe5ea885b98790a7da344cff981` | 13538 | revised |
+| E0-6 | `cross-document-items-v0.md` | `8482508c0c6e4927432af66edaf58c1b90841c1850b0f77b28080a3a914c92da` | 15789 | revised |
+| new | `b4-constraints-v0.md` (constraints 1 to 7, verbatim from lines 25 to 33 of the B4-R results file; its block hash is in its provenance line) | `25d42f6817280d009f47010917d031013f4fb8f16f0c8603f0946e66d81a4db4` | 2153 | new |
+| input | `doc-states-day0-v7.md` (the cross-document arm's document state, seed version v7) | `9c6933940d19a3dddd606cec08cef3324bb404b2a74cd4abc6b42c60f4ce7207` | 5454 | unchanged |
+| input | `work/stage3/t1k-rater/doc-states-day0.md` (the one-document arm's state, seed version v6; existing) | `d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0` | 4753 | unchanged |
+| code | `work/checks/stage3_elicitation_render_docs.py` | `33607749140f8dc4e8c254c944d8663c8db63313c0247864bfff392b9ccfefeb` | 3533 | unchanged |
+| code | `work/checks/stage3_elicitation_packet_check.py` | `c800102b4d2f1d34fb486481412d1c56f5543a697270f1158583190f9d34190d` | 10770 | `fields` claim renamed |
+| code | `work/checks/test_stage3_elicitation_packet_check.py` | `3f41f0cd3ba4c9de81ddc37f22d8ce575b41cd767c9e0af8e3dbe90fcdd8c707` | 3686 | one test added |
+| index | `INDEX.md` (this file) | in STATUS (a file cannot carry its own hash) | | revised |
+
+**v0 hashes, for the record** (the files as first written and cold-read; the coordinator's fork commit 712e23a holds them): `taxonomy-v0.md` ec195e23 and `writer-launch-notes-v0.md` 147dae26 (both unchanged); `writer-packet-v0.md` 4b5d6027 (sent body cb528f5d); `certification-protocol-v0.md` 57ec87e7; `rules-and-sentences-v0.md` b666cb32; `cross-document-items-v0.md` 94152429; `INDEX.md` 9346b11b; `stage3_elicitation_packet_check.py` f00ac280; its test f57efe01.
 
 Referenced, not changed: `work/stage3/t1k-rater/rubric.md` `20962e5a…c1662`; `work/checks/stage3_legibility.py` `1ba39b96…bc281`; `work/checks/stage3_t1v2_checks.py` `c0fe68c5…e023e`; `work/mole-fork/mole/seeders/seed_class_docs.py` `43eb1cae…8ae8344`.
 
-## Checks run (all $0, no API call)
+## Checks run (all $0, no API call; re-run for v0.1)
 
-- `stage3_elicitation_packet_check.py check`: **PASS**. The taxonomy text embedded in the packet equals the taxonomy file's marked region byte for byte; zero hits in every scan class (filter-field, framing and weakening vocabulary from `stage3_t1v2_checks.py`; brief and amendment numbers; repository paths; model, vendor and instrument names; the words brief 26 v2 replaced; nonce-like strings); the three schema blocks parse once placeholders are filled and carry exactly the key sets below.
-- `stage3_elicitation_packet_check.py fields`: `document`, `kind`, `composed_effect`, `statements`, `op`, `anchor_or_region` and `text` are all indexed by `stage3_legibility.py`. `id` is the writer's own and is mapped to an opaque id before any reading. **Brief 25's items file was not opened** (it is barred to 29-A); its field names are verified through the reader code that consumes it.
-- `test_stage3_elicitation_packet_check.py`: 6 passed.
-- `stage3_elicitation_render_docs.py v6 --check` reproduces `doc-states-day0.md` byte for byte (the test that the renderer is the rendering briefs 23 and 25 used); the v7 render differs from it only by the eight shared lines of `SHARED_LINES_V7` (checked by `diff`).
-- Seeds chosen (`20261211` human anchor, `20261212` null pairs, `20261213` false targets): no earlier brief or script in `briefs/`, `work/checks/` or `work/stage3/` uses them.
+- `stage3_elicitation_packet_check.py check`: **PASS**. The taxonomy text embedded in the packet equals the taxonomy file's marked region byte for byte; the body is cb528f5d with zero hits in every scan class (filter-field, framing and weakening vocabulary from `stage3_t1v2_checks.py`; brief and amendment numbers; repository paths; model, vendor and instrument names; the words brief 26 v2 replaced; nonce-like strings); the three schema blocks parse once placeholders are filled and carry exactly the key sets below.
+- `stage3_elicitation_packet_check.py fields`: `document`, `kind`, `composed_effect`, `statements`, `op`, `anchor_or_region` and `text` all **occur in the reader's source** (`stage3_legibility.py`). That is all it proves; **it is not a load test**. The reader's loader takes a stripped-triples file joined by key to a payload file, so a writer's file does not load as it stands (see "Open for brief 30", 1). `id` is the writer's own and is mapped to an opaque id before any reading. Brief 25's items file was not opened (it is barred to 29-A); the names are checked in the reader code that consumes it.
+- `test_stage3_elicitation_packet_check.py`: 7 passed (6 at v0; the added test pins the printed claim of `fields`).
+- `stage3_elicitation_render_docs.py v6 --check` and `v7 --check`: both IDENTICAL against the stored files (d0f3fbae, 9c693394). The renderer reproduces the file briefs 23 and 25 used (v6); v7 adds to v6 the eleven lines of `SHARED_LINES_V7`, the copies of the eight shared items (3 + 3 + 2 + 2 + 1).
+- Seeds chosen (`20261211` human anchor, `20261212` null pairs, `20261213` false targets): no earlier brief or script in `briefs/`, `work/checks/` or `work/stage3/` uses them. (The cold read's one textual hit for `2026121x` is in `work/stage3/b3/power-v3c/raw.json`, which it identified as the digits of a float and not a seed; the claim stands.)
 
-Schema (E0-2): item `id, document, statements, composed_effect, kind`; statement `op, anchor_or_region, text`. Cross-document pairs use `documents` on the item and `document` on each statement (an extension for that arm only). `kind` carries the mechanism label (see "Readings adopted", 1).
+Schema (E0-2): item `id, document, statements, composed_effect, kind`; statement `op, anchor_or_region, text`. Cross-document pairs use `documents` on the item and `document` on each statement (an extension for that arm only). `kind` carries the mechanism label (see "Readings adopted", 1); the converter writes it to its own field `mechanism` and assigns the application path's content `kind` (brief 29 dated note 2).
 
-## Authoring record (brief 29, addition of 2026-11-01 night)
+## Authoring record
 
-- **Author:** Sonnet 5.5 (`claude-sonnet-5-5`), Claude Code desktop app, on the project root. In the fallback order Opus 5.5, Sonnet 5.5, GLM 5.3 on Cursor this is the second; this session did not establish whether an Opus 5.5 attempt was stopped first. Not Cursor, so there are no Cursor user rules to state.
+**v0 (brief 29, addition of 2026-11-01 night)**
+
+- **Author:** Sonnet 5.5 (`claude-sonnet-5-5`), Claude Code desktop app, on the project root. In the fallback order Opus 5.5, Sonnet 5.5, GLM 5.3 on Cursor this is the second; the v0 session did not establish whether an Opus 5.5 attempt was stopped first. Not Cursor, so there are no Cursor user rules to state.
 - **Also writes or reads in round 2?** Sonnet 5.5 is the second reader of GPT-6.1-sol-written items (certification protocol, section 5), so the author's family reads. Disclosed in every round-2 table; not blocked.
 - **Loaded at start:** the auto-memory index for this project (`MEMORY.md`, 29 lines), which lists prior states by title and one line each, among them lines that mention earlier rater, judge and pilot findings; and the `superpowers` plugin's session-start text with the skill list. No `CLAUDE.md` or `AGENTS.md` was loaded (neither exists at `~/.claude/CLAUDE.md`, `~/AGENTS.md` or in the project). **Nothing from those lines was used to define a mechanism, a gate or a rule;** the taxonomy's mechanisms are brief 24 E3's list, and the counts quoted in `rules-and-sentences-v0.md` are marked as orientation from the amendments.
 - **Written to memory:** nothing.
+
+**v0.1 (2026-11-02)**
+
+- **Author:** a Sonnet 5.5 session (`claude-sonnet-5-5`), Claude Code desktop app, on the project root; not Cursor. The family that authored the taxonomy and the packet is unchanged, and it still reads Sol-written items as the second reader.
+- **Loaded at start:** the auto-memory index (it lists, by title, states of earlier briefs and rater, judge and reader work) and the `superpowers` session-start text. No `CLAUDE.md` or `AGENTS.md`. Nothing in the revision draws on those lines.
+- **Opened:** the pasted load list only: brief 29 with its dated notes, the two cold-read files, the six 29-A files and this index, the packet check and its test, and `work/stage3/b4r/b4r-results.md` lines 25 to 33. Beyond the list, for the converter and four-place findings (names and line numbers, no item text): lines 1 to 80 and 225 to 430 of `stage3_legibility.py`, lines 55 to 80 of `stage3_rater_strip.py`, and a grep for three-statement assertions in `stage3_legibility.py`, `stage3_t1.py`, `stage3_rater_strip.py`, `stage3_b3_rater_prep.py` and `stage3_b3_inserter_dry_run*.py`. The folder listing showed `review/runnability-29a-v0.1-note-2026-11-02.md` and the briefs folder an authoring note; neither was opened. No result file other than the B4-R lines, no judge cache, no `plan*.md`, no item or document text beyond the placeholder schema lines of the packet.
+- **Called:** no writer, reader, rater or judge. **Written to memory:** nothing.
 
 ## Barrier audit: what 29-A read
 
 Read: briefs 29, 24 (with its three amendments), 22, 23, 25, 26, 32's authoring note, 08e, 07s's composition amendment; brief 15 lines 33 to 62 (Part W), 128, 238 to 243, 248 to 269, 271, 273 to 294 and 300 (A5.4, A6.14.2 to A6.21; not A6.17.9); `work/stage3/INDEX.md`; the first 60 lines of `STATUS.md`; `work/stage3/b3/writer-spec-b3.md`; `work/stage3/t1k-rater/rubric.md` sections 1, 2 and 2b and `doc-states-day0.md`; the codex and zsh memory notes; code only for names and constants (`stage3_legibility.py` by grep and lines 322 to 346; `stage3_t1v2_checks.py` by grep; `stage3_b3_trace_audit.py` first 40 lines; `seed_class_docs.py` lines 155 to 210; `stage3_b4r_design.py` lines 1 to 100); `codex --version` and `codex exec --help`; the existence (never contents) of `~/.codex` and `~/.claude` instruction files, and the section headers of `~/.codex/config.toml`.
 
-**One result file was opened:** `work/stage3/b4r/b4r-results.md`, **lines 1 to 34**, because brief 29 E0-2 names its "Constraints this world puts on B4" section as the source. That span also contains the world-repair summary and Z5 figures (lines 1 to 24). None of those figures is used anywhere in these files; the constraints (lines 25 to 33) are cited in `cross-document-items-v0.md`. The cold read should decide whether that reading, which the brief's "reads no result file at all" does not strictly allow, matters.
+**One result file was opened:** `work/stage3/b4r/b4r-results.md`, **lines 1 to 34**, because brief 29 E0-2 names its "Constraints this world puts on B4" section as the source. That span also contains the world-repair summary and Z5 figures (lines 1 to 24). None of those figures is used anywhere in these files; the constraints (lines 25 to 33) are cited in `cross-document-items-v0.md`. The cold read found the span holds no B3 rater or judge figure, and that the brief's own input list induced the read (brief 29, dated note 5). **From v0.1 the constraints are in `b4-constraints-v0.md`, and no later session opens the result file for them.**
 
-Not opened: S3's outputs, any judge cache, `work/stage3/b3/b3-results.*`, `plan*.md`, the anchor sheet and its draw file, `work/stage3/red/`, persona and rater-key files, brief 23's and brief 25's result files (`work/stage3/legibility/`, `work/stage3/b3/comprehension/`, including `stratum-plan.json`, whose `sol_rule` is quoted from brief 15 A6.17.1), any candidate, control or paste file, and any item text.
+Not opened: S3's outputs, any judge cache, `work/stage3/b3/b3-results.*`, `plan*.md`, the anchor sheet and its draw file, `work/stage3/red/`, persona and rater-key files, brief 23's and brief 25's result files (`work/stage3/legibility/`, `work/stage3/b3/comprehension/`, including `stratum-plan.json`, whose `sol_rule` is quoted from brief 15 A6.17.1; its location is `choice.sol_rule`), any candidate, control or paste file, and any item text.
 
-## Readings adopted by 29-A (for the cold read; each is marked where it is used)
+## Readings adopted by 29-A (each is marked where it is used)
 
 1. **`kind` carries the mechanism label.** Brief 29's schema has one categorical field, brief 24 E3 asks for yield by mechanism, and the reader code only compares `kind` for equality when it matches false targets. The earlier content kinds (value, path, recipient, label, procedure) are not asked of writers. (`taxonomy-v0.md`, notes 1 and 3.)
-2. **Cross-document spread.** "At least three mechanisms per round" is applied to the one-document arm as written. For pairs the constraints admit one mechanism, so it becomes "at least two of the three eligible shared lines per round". (`taxonomy-v0.md`, note 1; packet section 7.)
+2. **Cross-document spread.** "At least three mechanisms per round" is applied to the one-document arm as written. For pairs the constraints admit one mechanism, so it becomes "at least two of the three eligible shared lines per writer round". (`taxonomy-v0.md`, note 1; packet section 7.)
 3. **Eligible shared lines** are three: the red-team suite config and the sign-off contact (red-team checklist with release-gate runbook) and the on-call contact (README with on-call runbook), from constraints 1, 4 and 5 read together. This is narrow. (`cross-document-items-v0.md`, section 3.)
-4. **Gate (iii)** is read per reader on at least one of its own two samples, from brief 29's arms sentence. E0-5 should also report the same-sample reading. (`certification-protocol-v0.md`, section 4.)
+4. **Gate (iii)** is read per reader on at least one of its own two samples, from brief 29's arms sentence. E0-5 also reports the same-sample reading and both readers on both samples. (`certification-protocol-v0.md`, section 4.)
 5. **Quiet-but-illegible includes gate (ii).** Brief 29 E0-3's shorthand omits it; A6.16.3 and A6.17.5 include it. (Section 6.)
 6. **The comparison arm also passes the edit-application check,** since round 2 plants both arms. Brief 29 names certified items. (Section 7.)
 7. **Readers run only on items that pass gate (i)** (a saving of calls; the arithmetic is an upper bound); development reads every valid item. (Section 3.)
 8. **Mechanical status in the feedback.** Brief 29 lists the rater score and the comprehension rates; the results file also carries `valid` and `failed_checks`, because a writer cannot repair a draft that was never rated. The packet states the rating's direction and a `within_target` flag, not the number 60 or any band. (Protocol section 2; packet section 8.)
-9. **Raising rule, cap of 48 and rounding to 6** for the counts per round, and the definition of "development mean L" for the futility test. (`rules-and-sentences-v0.md`, rules 1 and 3.)
-10. **The yield orientation** in the rules file uses brief 25's counts as quoted in A6.17.5 (11 and 7 of 78); it shows the certified count binding the target (about 31 per writer-round) and the illegible count binding the floor.
+9. **Raising rule, cap of 48 and rounding to 6** for the counts per writer round, and the definition of "development mean L" for the futility test. (`rules-and-sentences-v0.md`, rules 1 and 3.)
+10. **The yield orientation** in the rules file uses brief 25's counts as quoted in A6.17.5 (11 and 7 of 78); it shows the certified count binding the target (about 31 per writer round) and the illegible count binding the floor.
 11. **Human anchor:** per arm, once, after the last certification reading; 20 items, half certified and half other items passing gate (i); seed 20261211. (Protocol section 9.)
 12. **Statement-shape rule paraphrased** in neutral words (no "harm", no "safeguard"); the constraints are the same. The header of the packet records the mapping.
 
+**Status after the cold read (2026-11-02).** The cold read adopted: the per-reader gate (iii); quiet-but-illegible with gate (ii); the comparison arm's edit-application check (dated note 4); the mechanical status in feedback; readers only on gate-(i) passers; the statement-shape paraphrase; the yield orientation with the denominator fix; the raising rule with the rounding fix. `kind` is adopted for the reader path, with the mechanism going to its own field and a content `kind` assigned (dated note 2). The three shared lines are adopted **provisionally**, until constraint 5's reading is confirmed (cross-document items, section 3: per pair three lines, per cell six). The development readers are the certification pair per writer, a recorded deviation (dated note 3). The cap of 48 is Aravind's capacity call (rules, section 6). The human anchor's size (20 or 20 per arm) awaits Aravind.
+
 ## Open for brief 30 (and 29-B)
 
-- **A per-statement `token` is not in the schema.** B3's application step carries a consequence token per statement for carrier matching (B3 spec: distinct, six characters or more, zero occurrences in the documents and the corpus). Either writers are asked for it, or blue extracts and checks one by script. Not decided here.
-- **Reader-code extension for pairs** (`stage3_legibility.py` requires exactly three statements and one document per item), the same for the rater-sheet builder, and the amended composition wording for pairs. A named prerequisite of any pair reading.
-- **Harness configuration at start.** Both CLIs on this machine load plugin and skill text at start (launch notes, section 3). Clean `CLAUDE_CONFIG_DIR` / `CODEX_HOME` or record-and-accept is brief 30's decision; 29-A recommends the clean configuration where the login allows.
-- **Counts and cost:** the dry-run price of development and certification, the cap of 48, which arm each round writes, the pair null's N.
-- **Muse Wonder's harness** is unknown; Aravind records it when it is used.
-- **29-B:** E0-5 (gate reachability and null safety at two samples, with both readings of gate iii) and E0-7 (provider pinning in `judge_openrouter.py`, opt-in, defaults unchanged under A6.21, one cents probe). The rule that Kimi K3 is pinned (Wafer at MXFP4 if available) is carried into the protocol by reference to E0-7.
+1. **The two-target converter, with tests** (the most consequential open item). The writer schema does not load into the reader or the application path as it stands. Needed: (a) writer schema → the reader's inputs, a stripped-triples file, a payload file carrying `kind` and `composed_effect`, the key, and opaque ids (`stage3_rater_strip.py` is the forward direction to copy); (b) writer schema → the application path's payload form (`anchor` and `replace` for a replace, `region` and `text` for an append; `arm`; `harm_needs`; per-statement content `kind`, `region`, `token`, `alone`). **A load smoke test of the reader's loader on converted items is an item of these converter tests**, not of the packet check (the placeholder is in the writer schema, while the loader needs triples joined to payloads by key, so a smoke test in the packet check would be the converter written inside a test).
+2. **The `kind` collision.** `kind` is the mechanism label in the writer schema, while the application path requires a content `kind` from a five-value class (`KINDS`, `stage3_t1v2_checks.py`). The converter writes the mechanism to its own field, `mechanism`, and assigns the content `kind`; the writer packet is not changed for this (brief 29 dated note 2).
+3. **The token decision.** A per-statement `token` is not in the schema. B3's application step carries a consequence token per statement for carrier matching (B3 spec: distinct, six characters or more, zero occurrences in the documents and the corpus). Either writers are asked for it, which changes the packet and re-hashes it, or blue extracts and checks one by script under B3's rule, which leaves the packet unchanged (the cold read's recommendation, softened to "either works"; an item with no extractable token is dropped at certification with its reason counted, and the extractor is tested first on round 1's items by count only). Decide before writer round 1.
+4. **The pair extension in four places,** each assuming three statements on one document: the legibility reader (`stage3_legibility.py`), the rater-sheet builder (`stage3_rater_strip.py`, with the sheet wording of `stage3_b3_rater_prep.py`), the application module (`stage3_t1.py`) and the inserter dry run (`stage3_b3_inserter_dry_run.py`); lines are in `cross-document-items-v0.md`, section 4. A named prerequisite of any pair reading or planting. With it, rubric 2b's pair wording ("the two changes, across the two documents"), committed by hash before the first pair is rated. The one-document arm needs none of these.
+5. **Constraint 5's reading,** for the coordinator (brief 22's owner): three lines per pair or six per cell. And the six-pair development pilot before 24 per cell is priced, and the honest-pair null's N, both brief 30's.
+6. **Harness configuration at start.** Both CLIs on this machine load plugin and skill text at start (launch notes, section 3). Clean `CLAUDE_CONFIG_DIR` / `CODEX_HOME` or record-and-accept is brief 30's decision; 29-A recommends the clean configuration where the login allows. Harness text differs between writer families, so instruction bytes are identical within the packet, not across harnesses.
+7. **Counts and cost:** the dry-run price of development and certification, the cap of 48 (Aravind's call, after writer round 1's yields; rules, section 6), which arm each writer round writes.
+8. **For Aravind:** the human anchor's size (certification protocol, section 9).
+9. **Muse Wonder's harness** is unknown; Aravind records it when it is used.
+10. **29-B:** E0-5 (gate reachability and null safety at two samples; the three readings of gate iii, gate (i) as a single session, gate (ii)'s pass rate under each second-reader rule, and the Wafer-served proxy from Part 3's join file; dated note 7) and E0-7 (provider preferences in a **new module** under `work/checks/`, opt-in, used by the elicitation readers; `judge_openrouter.py` stays at e812157c; one cents probe; dated note 1). The rule that Kimi K3 is pinned (Wafer at MXFP4 if available) is carried into the protocol by reference to E0-7.
 
-## Records not done by this session
+## Records
 
-The fork mirror (`results/stage3/elicitation/`, `scripts/stage3/`) is not written and nothing is committed or pushed; `briefs/INDEX.md` has no row for brief 29 from this session. One `STATUS.md` line is appended (see the log).
+The fork mirror was first written and committed by the coordinator at fork commit **712e23a** (2026-11-01 22:45; all eight files and both scripts equal by sha256 to the v0 files). The v0.1 files are mirrored to `results/stage3/elicitation/` and `scripts/stage3/` of the fork in a further commit on branch `stage3`, not pushed; its hash is in the STATUS line. `briefs/INDEX.md` carries brief 29's row, written by the coordinator, not by this session (its description of the v0.1 note mentions a load smoke test, which the brief as updated moves to brief 30's converter tests). One `STATUS.md` line per revision is appended.

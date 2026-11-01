@@ -56,6 +56,19 @@ def test_schema_blocks_fill_placeholders_and_check_keys():
     assert pc.check_schema(bad)
 
 
+def test_fields_command_states_only_that_names_occur_in_the_source(tmp_path, capsys):
+    src = tmp_path / "reader.py"
+    src.write_text('x = st["op"]; y = t["document"]; z = p.get("composed_effect"); w = st["text"]; v = st["anchor_or_region"]; '
+                   'u = t["kind"]; s = t["statements"]', encoding="utf-8")
+    assert pc.main(["fields", "--legibility", str(src)]) == 0
+    out = capsys.readouterr().out
+    assert "occurs in the reader source" in out and "not a load test" in out
+    assert "indexed" not in out and "verified" not in out
+    src.write_text('x = st["op"]', encoding="utf-8")
+    assert pc.main(["fields", "--legibility", str(src)]) == 1
+    assert "NOT FOUND in the reader source" in capsys.readouterr().out
+
+
 def test_check_fields_finds_indexed_names_and_misses_absent_ones():
     src = 'x = st["op"]; y = t["document"]; z = p.get("composed_effect"); w = st["text"]'
     res = pc.check_fields(src)
