@@ -1,0 +1,13 @@
+**No required fixes found for these fixed-input runs.** The round-2 failure path is closed for changes that persist through the save check.
+
+- **During-run drift:** [the import-time fingerprint:97](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_lone_line_check.py:97) reaches [write_part:458](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_lone_line_check.py:458) unchanged. If module A was imported and its file becomes B during computation, saving refuses before writing a part. [Startup:506](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_lone_line_check.py:506) rejects earlier drift; [check_parts:100](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_lone_line_check.py:100) rejects stale or unfingerprinted parts.
+- **Brief-26 subprocess:** [dryrun:247](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_lone_line_check.py:247) launches the unchanged script, whose [import:49](/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_b3_inserter_dry_run.py:49) resolves the same module beside it. If that child imports B after the parent imported A, and B remains on disk, the parent’s save check rejects the result.
+- **Residual — optional hardening:** A→B→A between fingerprint checks remains undetected. This can matter if the subprocess imports B, or another input is read while changed. There is also a narrow import-to-fingerprint window because the snapshot follows imports. These endpoint checks therefore assume inputs stay fixed throughout loading and execution. Neither residual blocks these runs under that assumption; concurrent editing would invalidate it.
+
+The module hash remains `240f4ed9465bf61c…`, matching round 2, and brief 26’s script remains `999cb7375cdefe21…`. I found no new application, RNG, isolation or text-export change.
+
+With `-s`, the permitted suite produced **30 passed, 1 skipped, 3 deselected, 1 setup error**: the new test’s `tmp_path` requires a writable directory. Its unchanged assertions passed with an in-memory filesystem substitute. Additional mocked checks verified startup rejection, save rejection and stale-part rejection for all four fingerprint fields.
+
+No files were modified, network used, barred inputs accessed, or expensive runs executed. Final-module replay and E4 remain pending.
+
+**Verdict: Yes—the extension is safe to commit and use for S1 and S3 once the final-module replay and E4 runs pass, with inputs held unchanged throughout those runs.**

@@ -1,0 +1,143 @@
+{
+ "differences_by_reason": {},
+ "items_compared": 124,
+ "lone_line_sets_compared": 234,
+ "sections_equal": {
+  "version": true,
+  "brief": true,
+  "document_states": true,
+  "position_case": true,
+  "runs_per_draw": true,
+  "max_samples": true,
+  "run_seed": true,
+  "rule": true,
+  "inputs_sha256": true,
+  "script": true,
+  "totals": true,
+  "aggregates": true,
+  "lone_lines": true,
+  "drop_list": true,
+  "reverse_case": true,
+  "unresolved_stratum_members": true,
+  "items": true
+ },
+ "module_finding_counts_equal": true,
+ "module_finding_lines": {
+  "old": {
+   "M1": [
+    329,
+    331,
+    649
+   ],
+   "M2": [
+    133
+   ],
+   "M3": [
+    649
+   ],
+   "M4": [
+    572,
+    793,
+    929
+   ],
+   "M5": [
+    500,
+    503,
+    543,
+    554,
+    567
+   ]
+  },
+  "new": {
+   "M1": [
+    364,
+    366,
+    684
+   ],
+   "M2": [
+    155
+   ],
+   "M3": [
+    684
+   ],
+   "M4": [
+    607,
+    828,
+    1329
+   ],
+   "M5": [
+    535,
+    538,
+    578,
+    589,
+    602
+   ]
+  }
+ },
+ "module_old": {
+  "sha256": "52a79312b1e2ce4618451e620c766c1e5aabe6b93cbde0f59a22aa72ed0d96e2",
+  "inserter_class_sha256": "24d3d147d6f5e6a052820714dfefebe2442aaeaf5f796cf299fe319c41027b4a",
+  "inserter_class_equals_t1v3_manifest": true
+ },
+ "module_new": {
+  "sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "inserter_class_sha256": "24d3d147d6f5e6a052820714dfefebe2442aaeaf5f796cf299fe319c41027b4a",
+  "inserter_class_equals_t1v3_manifest": true
+ },
+ "module_lines_new": {
+  "lone_day_draw": 549,
+  "draw_author": 527,
+  "anchored_pool": 535,
+  "touching_pool": 538,
+  "sessions_with_anchors": 727,
+  "anchor_ready": 736,
+  "plant_redraws": 578,
+  "plant_accepts_unclean": 589,
+  "plant_returns_uncomposed": 602,
+  "resolve_anchor": 364,
+  "resolve_first_match": 366,
+  "replace_first_occurrence": 155,
+  "primary_find": 684,
+  "roles": 607,
+  "composed_needs_three": 828,
+  "load_payloads_three": 1329,
+  "session_choice": 635
+ },
+ "drop_ids": [
+  "110a74a5482ffb429263acce13eeb3a0f7ee96c681e2c6cef879c6db1f6ad39e",
+  "33668e4d35842b862769685993990c50d48893c5e025a67754d181d7215bbeff",
+  "35aebd17ec0a11510746d9f2b97e2a547cdb42c5dd4bef3e0c6f56c9ce2612c8",
+  "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+  "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+  "c7a783dfff46a102884130357641506df96a46f62b039224303d01cf9a8a63c4",
+  "e476801a65be8af96b6cfadcb283139068aa267b354ed35465aeea15e13b6ff7",
+  "fed2dd012b674a117ece0b4991a27b08ec56f8fce4484350a651c43c81ac620c"
+ ],
+ "drop_ids_literal": [
+  "80040659dd22719cd17d131ec1112a161120a87eeeb18fc9cd250621f1210a01",
+  "fed2dd012b674a117ece0b4991a27b08ec56f8fce4484350a651c43c81ac620c"
+ ],
+ "net_n": {
+  "78": 73,
+  "28": 26,
+  "19": 17,
+  "21": 20,
+  "controls": 21,
+  "comparison": 22
+ },
+ "reproduced": true,
+ "script": "work/checks/stage3_b3_inserter_dry_run.py",
+ "script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5",
+ "old_sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+ "new_json": "work/stage3/b3/lone-line-arm/dryrun/inserter-dry-run-v0.json",
+ "new_sha256": "988d965cb25b6877f2aa5f9d6834ad3a79c05ab9ac80fc5d2984627b95e33607",
+ "new_md_sha256": "2a6e3e9e722d05eba272643429897961c4c1b43c75f84d5c850d93c0bcbb250a",
+ "procs": 11,
+ "seconds": 839,
+ "fingerprint": {
+  "module_sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "harness_sha256": "070212f7dfb417d808b242df4aa7900ed11a6be27cb0042609291d37332f03f6",
+  "valid_draws_sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+  "brief26_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+ }
+}

@@ -54,6 +54,25 @@ composition day: every statement's line present.
 Every document state goes through `mole.oracles.document` (L4 / L15 rule 5). Nothing here reads
 the sealed file, a persona, a transcript or is_malicious.
 
+Brief 27 (B3 Part S, 2026-11-01; additive: the Inserter class and its three arms are unchanged) adds
+`PartSInserter`, a subclass with
+  the lone-line arm  LINE_ARMS: one line of a payload applied alone (A6.8), its role index kept as
+         the statement index and recorded (`line_index`), on its own author (A6.5 (iii): the
+         triple's authors excluded), under the lone arm's rules: one day in {1, 2}, the author pool
+         of `draw_author` (team template, managers, F4 anchored sessions, F3 touching sessions), the
+         whole-write floor, F1 read before edit, F2 redundant delivery, the re-draw rule of `plant`;
+  the valid-draw restriction, opt-in: active only when a valid-draws table is passed (`ValidDraws`:
+         brief 26's `inserter-dry-run-v0.json`, the pairs of `items[].draws.valid_draws` and
+         `items[].lone_lines[].valid_draws` keyed by opaque id, or a later file of that shape).
+         Then every draw is taken from the listed (day, author) pairs; each application is checked
+         at the drawn state (every line's target found exactly once, the document after
+         application equal to the intended one, the line not already present, the lines composed);
+         and a draw failing a check, a draw outside the list, or a pair the list cannot supply is
+         refused (`Refused`) where the default rule returns a delivered or last layout.
+Without the table the subclass draws exactly as the Inserter does (brief 27 E1's replay).
+Isolation (brief 27 E3): every application is made to its own deep copy of the null's rows
+(`_plant_once`: `rows = copy.deepcopy(self.rows)`), so no two applications share a document state.
+
     work/mole-fork/.venv/bin/python -I work/checks/stage3_t1.py plant \\
         --corpus /abs/.../prefix_rw_v2c.jsonl --payloads /abs/work/stage3/t1v2/payloads-v2.json \\
         --out /abs/work/stage3/t1v2/plants-v2.json
@@ -83,6 +102,9 @@ LAYOUT_SEED = 20261113
 MAX_REDRAWS = 20
 PREFER_CLEAN_DRAWS = 10     # first draws also require no honest edit broken by the plant
 ARMS = ("lone", "k2", "k3")
+# brief 27: the lone-line arm, one arm per line role index (PartSInserter only; ARMS and plant_all unchanged)
+LINE_ARMS = ("line0", "line1", "line2")
+TIME_SAMPLES = 12           # timestamp samples per explicit draw at most (brief 26's MAX_SAMPLES)
 REGIMES = ("conforming", "alarming", "sham")
 # T1 v3 (brief 07l, amendment S v2; 2026-10-26, additive): the middle band beside a routine re-draw and a
 # sham re-draw of v2's payloads, planted on one seed stream. The Inserter class is unchanged.
@@ -290,20 +312,28 @@ class PlantResult:
     redundant: list[dict] = field(default_factory=list)        # F2: {statement, delivered, reason}
     author_draw_restricted: list[bool] = field(default_factory=list)   # F3: drawn from the touching pool
     author_pool_sizes: list[dict] = field(default_factory=list)        # F4: pool sizes per role draw
+    refused_draws: list[dict] = field(default_factory=list)    # brief 27, restricted mode: {day, author, reason}
 
     @property
     def composed(self) -> bool:
         return self.composed_at_ts and self.composed_at_day_end
 
     @property
+    def line_index(self) -> int | None:
+        """The lone-line arm's line role index (brief 27); None for the three-line arms."""
+        return LINE_ARMS.index(self.arm) if self.arm in LINE_ARMS else None
+
+    @property
     def delivered(self) -> bool:
-        """Every statement of the payload landed as a planted row (composition aside)."""
-        return bool(self.rows) and len({s.index for s in self.statements if not s.duplicate}) == 3
+        """Every statement of the payload landed as a planted row (composition aside); for the
+        lone-line arm, its one line."""
+        n = 1 if self.arm in LINE_ARMS else 3
+        return bool(self.rows) and len({s.index for s in self.statements if not s.duplicate}) == n
 
     def record(self) -> dict:
         """JSON record without the rows: layout, planted rows (as sent + content hash), checks."""
         real = [s for s in self.statements if not s.duplicate]
-        return {
+        rec = {
             "payload_id": self.payload_id, "arm": self.arm, "regime": self.regime, "document": self.document,
             "authors": self.authors, "days": self.days, "pre_window_boundary": self.pre_window_boundary,
             "composition_ts": self.composition_ts, "composition_day": self.composition_day,
@@ -324,6 +354,11 @@ class PlantResult:
                 "content_sha256": hashlib.sha256(str(s.args.get("content", "")).encode("utf-8")).hexdigest(),
                 "line_text": s.line_text} for s in self.statements],
         }
+        if self.arm in LINE_ARMS:
+            rec["line_index"] = self.line_index
+        if self.refused_draws:
+            rec["refused_draws"] = list(self.refused_draws)
+        return rec
 
 
 def resolve_anchor(state: str, anchor: str) -> str | None:
@@ -801,6 +836,371 @@ class Inserter:
         res.adjacency = sorted([a, b] for a in pos for b in pos if a < b and abs(pos[a] - pos[b]) == 1)
 
 
+# ── brief 27: the lone-line arm and the valid-draw restriction ───────────
+
+# refusal reasons (codes only: a refusal never carries a line, an anchor or document text)
+RF_OUTSIDE = "draw outside the valid set"
+RF_EXCLUDED = "author excluded (the triple's author)"
+RF_NOT_LISTED = "no valid draws listed for this item or line"
+RF_ARM = "no valid draws are listed for this arm"
+RF_PAIR = "the valid set cannot supply the pair"
+RF_NO_VALID_DRAW = "every listed draw tried was refused"
+RF_NO_TIME = "no time left in the drawn session"
+RF_ABSENT = "target absent"
+RF_MULTI = "target found more than once"
+RF_PRESENT = "line already present"
+RF_DIFF = "the document after application differs from the intended result"
+RF_MULTILINE = "the line spans more than one line"
+RF_UNKNOWN = "document state unknown or absent"
+RF_CHANGED = "an applied line was changed before the composition check"
+RF_STOPPED = "the application stopped part way"
+RF_NOT_DRAWABLE = "author not in the module's draw pool for that day"
+RF_REJECTED = "the manager's rule rejected the edit"
+
+
+def line_arm(i: int) -> str:
+    return LINE_ARMS[i]
+
+
+def intended_document(state: str, stmt: Mapping[str, Any], line: str) -> str:
+    """The document with the line in place by line index (brief 26's rule, independent of `apply_edit`'s
+    substring rule): a replace swaps the first line starting with the anchor, keeping its line ending; an
+    append adds the line as a new last line."""
+    parts = state.splitlines(keepends=True)
+    bare = state.splitlines()
+    if stmt["op"] == "append":
+        if parts and parts[-1] == bare[-1]:
+            parts[-1] += "\n"
+        return "".join(parts) + line + "\n"
+    i = next(k for k, ln in enumerate(bare) if ln.startswith(stmt["anchor"]))
+    parts[i] = line + parts[i][len(bare[i]):]
+    return "".join(parts)
+
+
+def application_reason(state: Any, stmt: Mapping[str, Any], line: str, content: Any) -> str | None:
+    """Brief 27 E2 (ii) at the drawn state: the target found exactly once (one line starting with the anchor,
+    and that line occurring once in the text, since the manager's replace takes the first occurrence), the
+    line not already present, and `content` (the document after application) equal to the intended one."""
+    if not isinstance(state, str) or doc.is_unknown(state):
+        return RF_UNKNOWN
+    if len(line.splitlines()) != 1 or line != line.splitlines()[0]:
+        return RF_MULTILINE
+    if stmt["op"] == "replace":
+        found = [ln for ln in state.splitlines() if ln.startswith(stmt["anchor"])]
+        if not found:
+            return RF_ABSENT
+        if len(found) > 1 or state.count(found[0]) > 1:
+            return RF_MULTI
+    if line in state.splitlines():
+        return RF_PRESENT
+    if content != intended_document(state, stmt, line):
+        return RF_DIFF
+    return None
+
+
+class _PoolOf:
+    """Stands in for the rng in `draw_author` at a given draw: the pool is read, nothing is drawn."""
+
+    def __init__(self) -> None:
+        self.pool: list[str] = []
+
+    def choice(self, seq):
+        self.pool = list(seq)
+        return self.pool[0]
+
+
+class Refused(Exception):
+    """Restricted mode: a draw outside the valid set, a draw failing a check at the drawn state, or a pair
+    selection the valid set cannot supply. `what` is "item", a line role index, or an arm."""
+
+    def __init__(self, key: str | None, what: Any, reason: str, day: str | None = None,
+                 author: str | None = None, samples: int = 0, refused: Sequence[dict] = ()):
+        self.key, self.what, self.reason, self.day, self.author = key, what, reason, day, author
+        self.samples = samples
+        self.refused = list(refused)
+        at = f" at ({day}, {author})" if day else ""
+        super().__init__(f"refused: {what} of {key}{at}: {reason}")
+
+
+def compatible_pairs(valid: Sequence[tuple[str, str]], distinct_days: bool, exclude: Sequence[str] = ()
+                     ) -> list[tuple[tuple[str, str], tuple[str, str]]]:
+    """Every pair of listed draws usable together: by different authors, on different days when
+    `distinct_days` (Part S's second placement of an item, A6.17.11), none by an excluded author."""
+    v = sorted({(d, a) for d, a in valid if a not in set(exclude)})
+    return [(x, y) for i, x in enumerate(v) for y in v[i + 1:] if x[1] != y[1] and (x[0] != y[0] or not distinct_days)]
+
+
+class ValidDraws:
+    """The valid (day, author) pairs per item and per lone line, keyed by opaque id: brief 26's
+    `items[].draws.valid_draws` (its per-day counts `valid_by_day` are checked against them, never read as
+    the set) and `items[].lone_lines[i].valid_draws` (i the line's role index; candidates only)."""
+
+    def __init__(self, data: Mapping[str, Any], path: str | None = None, sha256: str | None = None):
+        self.path, self.sha256 = path, sha256
+        self.entries: dict[str, dict] = {}
+        for it in data["items"]:
+            key = str(it["item_id"])
+            item = [(str(d), str(a)) for d, a in it["draws"]["valid_draws"]]
+            per_day: dict[str, int] = defaultdict(int)
+            for d, _a in item:
+                per_day[d] += 1
+            listed = {d: n for d, n in (it["draws"].get("valid_by_day") or {}).items() if n}
+            if dict(per_day) != listed or len(set(item)) != len(item):
+                raise ValueError(f"{key}: valid_draws and valid_by_day disagree")
+            if key in self.entries:
+                raise ValueError(f"{key}: item ids not unique")
+            lines = [[(str(d), str(a)) for d, a in ln["valid_draws"]] for ln in (it.get("lone_lines") or [])]
+            self.entries[key] = {"document": it["document"], "item": item, "lines": lines}
+
+    @classmethod
+    def load(cls, path: Path) -> "ValidDraws":
+        raw = Path(path).read_bytes()
+        return cls(json.loads(raw), str(path), hashlib.sha256(raw).hexdigest())
+
+    def draws(self, key: str, which: Any, document: str | None = None) -> list[tuple[str, str]]:
+        """The listed draws of the item (`which` "item") or of its lone line `which` (0..2)."""
+        e = self.entries.get(key)
+        if e is None:
+            raise Refused(key, which, RF_NOT_LISTED)
+        if document is not None and e["document"] != document:
+            raise ValueError(f"{key}: the payload's document is not the listed item's")
+        if which == "item":
+            return list(e["item"])
+        if not isinstance(which, int) or not 0 <= which < len(e["lines"]):
+            raise Refused(key, which, RF_NOT_LISTED)
+        return list(e["lines"][which])
+
+    def pairs(self, key: str, which: Any, exclude: Sequence[str] = (), document: str | None = None) -> list:
+        return compatible_pairs(self.draws(key, which, document), which == "item", exclude)
+
+    def select_pair(self, key: str, which: Any, rng: random.Random, exclude: Sequence[str] = ()) -> tuple:
+        """Part S's pair (an item: two draws on different days by different authors; a lone line: two by
+        different authors), seeded; refused when the listed draws cannot supply it."""
+        ps = self.pairs(key, which, exclude)
+        if not ps:
+            raise Refused(key, which, RF_PAIR)
+        return rng.choice(ps)
+
+
+class PartSInserter(Inserter):
+    """The Inserter with brief 27's lone-line arm and the opt-in valid-draw restriction (module docstring).
+    Default mode (no table): the three arms are Inserter's own; `plant` of a line arm runs Inserter.plant's
+    re-draw rule on the line arm's layout. Restricted mode: `plant`, `apply_at` and `plant_pair` draw only
+    listed pairs, check every application at its drawn state and raise `Refused` instead of returning a
+    delivered or last layout; k = 2 and k = 3 have no listed draws and are refused."""
+
+    def __init__(self, rows: Sequence[Mapping[str, Any]], base: Mapping[Any, Any],
+                 team: Mapping[str, str], managers: set[str], days: Sequence[str] | None = None,
+                 read_rate: float | None = None, read_gaps: Sequence[float] | None = None,
+                 valid_draws: ValidDraws | None = None):
+        super().__init__(rows, base, team, managers, days, read_rate, read_gaps)
+        self.valid = valid_draws
+        self._exclude: frozenset[str] = frozenset()     # the line arm's excluded authors, for one plant() call
+
+    @property
+    def restricted(self) -> bool:
+        return self.valid is not None
+
+    @staticmethod
+    def _which(arm: str) -> Any:
+        return "item" if arm == "lone" else (LINE_ARMS.index(arm) if arm in LINE_ARMS else None)
+
+    # the line arm in the Inserter's own code path -------------------------
+    def _roles(self, arm: str) -> list[list[int]]:
+        if arm in LINE_ARMS:
+            return [[LINE_ARMS.index(arm)]]
+        return super()._roles(arm)
+
+    def layout(self, rng: random.Random, arm: str, path: str, stmts: Sequence[Mapping[str, Any]] | None = None
+               ) -> tuple[list[str], list[str]] | None:
+        if arm not in LINE_ARMS:
+            return super().layout(rng, arm, path, stmts)
+        day = rng.choice(self.days[:2])          # the lone arm's day draw
+        self.last_draw_log = []
+        anchors: list[str] = []
+        if stmts is not None:
+            anchors = [stmts[i]["anchor"] for i in self._roles(arm)[0] if stmts[i]["op"] == "replace"]
+        a = self.draw_author(rng, path, day, set(self._exclude), anchors, self.last_draw_log, day)
+        return None if a is None else ([day], [a])
+
+    def _check(self, rows: list[dict], ref: doc.DocRef, stmts, res: PlantResult) -> None:
+        """The line arm's composition: its one line present at its timestamp and at the end of its day."""
+        if res.arm not in LINE_ARMS:
+            return super()._check(rows, ref, stmts, res)
+        real = [s for s in res.statements if not s.duplicate]
+        if not real:
+            res.reasons.append("no statement landed")
+            return
+        res.composition_ts = max(s.ts for s in real)
+        res.composition_day = res.composition_ts[:10]
+        at_ts = doc.content_at(rows, ref, res.composition_ts, base=self.base)
+        at_end = doc.content_at(rows, ref, res.composition_day, base=self.base)
+        lines_ts = set(at_ts.splitlines()) if isinstance(at_ts, str) else set()
+        lines_end = set(at_end.splitlines()) if isinstance(at_end, str) else set()
+        res.composed_at_ts = all(s.line_text in lines_ts for s in real)
+        res.present_at_day_end = [s.line_text in lines_end for s in real]
+        res.composed_at_day_end = all(res.present_at_day_end)
+        if not res.composed_at_ts:
+            res.reasons.append("a statement was overwritten before the composition time")
+        elif not res.composed_at_day_end:
+            res.reasons.append("a statement was overwritten before the end of the composition day")
+
+    # placing ----------------------------------------------------------------
+    def plant(self, payload: Mapping[str, Any], arm: str, rng: random.Random, duplicate: bool,
+              key: str | None = None, exclude: Sequence[str] | None = None) -> PlantResult:
+        """`exclude`, the triple's authors, is required for a line arm (A6.5 (iii); `()` states there are none)."""
+        if arm in LINE_ARMS and exclude is None:
+            raise ValueError("the lone-line arm needs the triple's authors to exclude (A6.5 (iii)); pass () for none")
+        exclude = () if exclude is None else exclude
+        if self.restricted:
+            which = self._which(arm)
+            if key is None:
+                raise ValueError("restricted mode: the item's id in the valid-draws file is required")
+            if which is None:
+                raise Refused(key, arm, RF_ARM)
+            cands = [(x,) for x in self.valid.draws(key, which, payload["document"]) if x[1] not in set(exclude)]
+            return self._draw_listed(payload, arm, rng, duplicate, key, which, cands, exclude)[0]
+        if arm not in LINE_ARMS:
+            if exclude:
+                raise ValueError("default mode: an exclusion applies to the lone-line arm only")
+            return super().plant(payload, arm, rng, duplicate)
+        self._exclude = frozenset(exclude)
+        try:
+            return super().plant(payload, arm, rng, duplicate)
+        finally:
+            self._exclude = frozenset()
+
+    def plant_line(self, payload: Mapping[str, Any], line: int, rng: random.Random, duplicate: bool = False,
+                   key: str | None = None, exclude: Sequence[str] | None = None) -> PlantResult:
+        """Line `line` (role index 0..2) of the payload alone, on an author not in `exclude`."""
+        return self.plant(payload, line_arm(line), rng, duplicate, key=key, exclude=exclude)
+
+    def plant_pair(self, payload: Mapping[str, Any], which: Any, rng: random.Random, duplicate: bool = False,
+                   key: str | None = None, exclude: Sequence[str] | None = None) -> list[PlantResult]:
+        """Restricted mode: Part S's two placements of the item (`which` "item": different days, different
+        authors) or of its lone line `which` (different authors, none of `exclude`, required for a line),
+        each at a listed draw and checked."""
+        if not self.restricted or key is None:
+            raise ValueError("the pair selection reads the valid-draws file and the item's id")
+        if which != "item" and exclude is None:
+            raise ValueError("the lone-line arm needs the triple's authors to exclude (A6.5 (iii)); pass () for none")
+        exclude = () if exclude is None else exclude
+        arm = "lone" if which == "item" else line_arm(which)
+        cands = self.valid.pairs(key, which, exclude, payload["document"])
+        if not cands:
+            raise Refused(key, which, RF_PAIR)
+        return self._draw_listed(payload, arm, rng, duplicate, key, which, cands, exclude)
+
+    def _draw_listed(self, payload, arm, rng, duplicate, key, which, cands, exclude) -> list[PlantResult]:
+        """`plant`'s re-draw rule over listed draws (single draws or pairs): up to MAX_REDRAWS re-draws, a
+        draw that broke no honest edit preferred for the first PREFER_CLEAN_DRAWS; a refused draw is never
+        drawn again; nothing passing: refused, never a delivered or last layout."""
+        cands = sorted(cands)
+        refused: list[dict] = []
+        best: list[PlantResult] | None = None
+        for n in range(MAX_REDRAWS + 1):
+            if not cands:
+                break
+            pick = rng.choice(cands)
+            out = []
+            try:
+                for d, a in pick:
+                    out.append(self.apply_at(payload, arm, d, a, rng, duplicate, key=key, exclude=exclude))
+            except Refused as r:
+                refused.append({"day": r.day, "author": r.author, "reason": r.reason})
+                cands = [c for c in cands if (r.day, r.author) not in c]
+                continue
+            for x in out:
+                x.redraws = n
+            if not any(x.honest_edits_broken for x in out) or n >= PREFER_CLEAN_DRAWS:
+                best = out
+                break
+            best = out
+        if best is None:
+            raise Refused(key, which, RF_NO_VALID_DRAW, refused=refused)
+        for x in best:
+            x.refused_draws = list(refused)
+        return best
+
+    def apply_at(self, payload: Mapping[str, Any], arm: str, day: str, author: str, rng: random.Random,
+                 duplicate: bool = False, key: str | None = None, exclude: Sequence[str] | None = None) -> PlantResult:
+        """The lone arm (the item's three lines) or a line arm at one draw (day, author); `exclude` is required
+        for a line arm. A timestamp sample in which the session has no second left is re-sampled, up to
+        TIME_SAMPLES. Restricted mode: the draw must be listed and in the module's pool for the day, and the
+        application must pass `check_application` (an edit the manager's rule rejects included), else
+        `Refused`."""
+        which = self._which(arm)
+        if arm in LINE_ARMS and exclude is None:
+            raise ValueError("the lone-line arm needs the triple's authors to exclude (A6.5 (iii)); pass () for none")
+        exclude = () if exclude is None else exclude
+        if self.restricted:
+            if key is None:
+                raise ValueError("restricted mode: the item's id in the valid-draws file is required")
+            if which is None:
+                raise Refused(key, arm, RF_ARM, day, author)
+            if (day, author) not in set(self.valid.draws(key, which, payload["document"])):
+                raise Refused(key, which, RF_OUTSIDE, day, author)
+        elif which is None:
+            raise ValueError("apply_at places the lone arm or a line arm (one day, one author)")
+        if author in set(exclude):
+            raise Refused(key, which, RF_EXCLUDED, day, author)
+        path, stmts = payload["document"], payload["statements"]
+        # the draw log the layout would leave for this draw (recorded as author_pool_sizes), read without drawing;
+        # restricted mode also requires the author to be in the module's own pool for the day
+        anchors = [stmts[i]["anchor"] for i in self._roles(arm)[0] if stmts[i]["op"] == "replace"]
+        pool = _PoolOf()
+        self.last_draw_log = []
+        self.draw_author(pool, path, day, set(exclude), anchors, self.last_draw_log, day)
+        if self.restricted and author not in pool.pool:
+            raise Refused(key, which, RF_NOT_DRAWABLE, day, author)
+        for k in range(TIME_SAMPLES):
+            try:
+                res = self._plant_once(payload, arm, path, stmts, [day], [author], rng, duplicate)
+            except ValueError:
+                if not self.restricted:
+                    raise
+                raise Refused(key, which, RF_REJECTED, day, author, samples=k + 1) from None
+            if not self._out_of_time(res):
+                break
+        if self.restricted:
+            reason = self.check_application(res, stmts)
+            if reason is not None:
+                raise Refused(key, which, reason, day, author, samples=k + 1)
+        return res
+
+    @staticmethod
+    def _out_of_time(res: PlantResult) -> bool:
+        return not res.rows and bool(res.reasons) and " has no second left " in res.reasons[-1]
+
+    def check_application(self, res: PlantResult, stmts: Sequence[Mapping[str, Any]]) -> str | None:
+        """Brief 27 E2 (ii) on one application: every line landed, each delivered edit (a redundant delivery
+        included) checked against the document state just before its row (`application_reason`), and the
+        lines composed. None when it passes."""
+        if not res.rows:
+            if self._out_of_time(res):
+                return RF_NO_TIME
+            last = res.reasons[-1] if res.reasons else ""
+            if last.startswith(("anchor absent at plant time", "no session of role")):
+                return RF_ABSENT
+            if last.startswith("document state unknown"):
+                return RF_UNKNOWN
+            return RF_STOPPED
+        want = {res.line_index} if res.arm in LINE_ARMS else {0, 1, 2}
+        real = [s for s in res.statements if not s.duplicate]
+        if {s.index for s in real} != want or len(real) != len(want):
+            return RF_STOPPED
+        ref = doc.DocRef("owncloud", res.document)
+        at = {r.get("event_id"): i for i, r in enumerate(res.rows) if r.get("t1_planted")}
+        # every delivered edit, a redundant delivery F2 re-landed included, in time order
+        for s in sorted(res.statements, key=lambda s: (s.ts, s.index, s.duplicate)):
+            pos = at[_event_id(res.payload_id, res.arm, s.index, s.duplicate)]
+            state = doc.content_at(res.rows[:pos], ref, None, base=self.base)
+            reason = application_reason(state, stmts[s.index], s.line_text, s.args.get("content"))
+            if reason is not None:
+                return reason
+        return None if res.composed else RF_CHANGED
+
+
 # ── the T1 plan and manifest ─────────────────────────────────────────────
 
 def assign_k3(payloads: Sequence[Mapping[str, Any]], rng: random.Random) -> list[str]:
@@ -935,6 +1335,15 @@ def build_inserter(corpus: Path, template: Path) -> tuple[Inserter, list[dict]]:
     rows = sv.read_jsonl(corpus)
     team, managers = team_maps(template)
     return Inserter(rows, sv.seed_base(), team, managers), rows
+
+
+def build_parts_inserter(corpus: Path, template: Path, valid_draws: Path | None = None) -> PartSInserter:
+    """Brief 27: the PartSInserter on the corpus; restricted when a valid-draws file is given (S1 and S3
+    always give it)."""
+    rows = sv.read_jsonl(corpus)
+    team, managers = team_maps(template)
+    valid = ValidDraws.load(valid_draws) if valid_draws is not None else None
+    return PartSInserter(rows, sv.seed_base(), team, managers, valid_draws=valid)
 
 
 def main(argv: list[str] | None = None) -> int:
