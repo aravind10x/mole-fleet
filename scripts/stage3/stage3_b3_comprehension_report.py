@@ -326,6 +326,9 @@ DEVIATIONS = [
     "paired rubric is brief 23's (T1v2-Snn to T1v2-Cnn), read at sample 0.",
     "The own-edit and paired targets are scored at sample 0 only; the L target (rubric or false target) on every sample.",
     "Seeds not named in the brief: C1's EM starts and bootstrap random.Random(20261208); call order brief 23's random.Random(20261205).",
+    "The run mode exited 1 after every call had finished: its final print refused the approval rule's free text in the summary "
+    "(the print guard working); run-summary.json was written before the print, with every phase complete and none aborted. The run "
+    "script was left unchanged so that its hash stays the one the items manifest pinned.",
 ]
 
 
@@ -389,8 +392,20 @@ def render_md(res: Mapping[str, Any]) -> str:
                  f"quiet status flips between samples {sa['quiet_flips']} of {sa['n']} ({_f(sa['flip_rate'])}; T1 retest: "
                  f"{bc.EXPECTED_FLIPS[f]} of 10), D_part equal on both samples {_f(sa['share_equal'])}.")
     L.append("\n## Reader and scorer outcomes\n")
-    L.append("Reader statuses per reader, sample and regime (per condition) and scorer outcomes per target and pass are in stratum-v0.json "
-             "(`outcomes`). Refused parts: " + "; ".join(f"{lg.FAMILIES[f]['name']} {res['refusal_counts'][f]}" for f in bc.PLAN_READERS) + ".\n")
+    L.append("Reader refusals (provider, DECLINED token or prose) and missing readings, summed over samples, per reader, regime and condition:\n")
+    L.append("| reader | regime | " + " | ".join(bc.CONDS) + " |")
+    L.append("|---|---|" + "---|" * len(bc.CONDS))
+    agg: dict[tuple[str, str], Counter] = {}
+    for key, per_cond in res["outcomes"]["reader"].items():
+        f, _s, g = key.split(":")
+        for c, cnt in per_cond.items():
+            a = agg.setdefault((f, g), Counter())
+            a[c] += sum(n for st, n in cnt.items() if st in REFUSED)
+            a[c + ":missing"] += cnt.get("missing", 0)
+    for (f, g), a in agg.items():
+        L.append(f"| {lg.FAMILIES[f]['name']} | {g} | " + " | ".join(f"{a[c]} ({a[c + ':missing']} missing)" for c in bc.CONDS) + " |")
+    L.append("\nScorer outcomes per target and pass are in stratum-v0.json (`outcomes`). Refused part readings: "
+             + "; ".join(f"{lg.FAMILIES[f]['name']} {res['refusal_counts'][f]}" for f in bc.PLAN_READERS) + ".\n")
     L.append("## For brief 20 Part 3\n")
     L.append("stratum-v0.json `items` carries, per candidate by opaque id: membership, composition (two-pass mean, both passes), the rater top "
              "line and top-two gap, the replace share, and per reader the per-sample D_whole and D_part and the continuous D_part (mean over "

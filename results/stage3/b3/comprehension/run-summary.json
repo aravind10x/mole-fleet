@@ -1,0 +1,74 @@
+{
+ "stop_at_usd": 64.57,
+ "resume": false,
+ "samples_per_condition": 2,
+ "approval": {
+  "estimate_usd": 32.28,
+  "cap_usd": 40.0,
+  "rule": "Aravind, 2026-11-01: \"I'm ok with the cost estimate - I don't necessarily need the exact estimate to approve this\"; brief 25 C2: proceed without waiting at or under $40, above $40 stop and ask; the stop at twice the dry-run estimate applies"
+ },
+ "nulls": {
+  "read": {
+   "sonnet55": {
+    "done": 80,
+    "of": 80,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "kimi": {
+    "done": 368,
+    "of": 368,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "done": 368,
+    "of": 368,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 2016,
+   "of": 2016,
+   "aborted": false,
+   "abort_reason": null
+  }
+ },
+ "candidates": {
+  "read": {
+   "sonnet55": {
+    "done": 296,
+    "of": 296,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "kimi": {
+    "done": 624,
+    "of": 624,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "done": 624,
+    "of": 624,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 3488,
+   "of": 3488,
+   "aborted": false,
+   "abort_reason": null
+  }
+ },
+ "dollars": {
+  "sonnet55": 1.0593,
+  "kimi": 7.1967,
+  "sol": 2.5797,
+  "scorer": 8.6065,
+  "routes": 0.003208,
+  "total": 19.4453
+ }
+}
