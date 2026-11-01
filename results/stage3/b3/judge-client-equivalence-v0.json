@@ -1,0 +1,1587 @@
+{
+ "version": "b3-judge-client-equivalence/v0",
+ "brief": "31 (645ceb96)",
+ "script_sha256": "fdfc0bf39e9d962ca72f9dab028951ab4d56fc1a44c72d3b8bd010118dc25f3a",
+ "clients": {
+  "jc_1675a966": {
+   "sha256": "1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd",
+   "source": "fork afeeb5b:results/stage3/q1q2-synthetic/judge_client.amended-2026-10-26.py",
+   "role": "bound: the last hash test_stage3_t1v3_score.py accepts (07n part C, 2026-10-26); B1's nulls recorded it"
+  },
+  "jc_80f1bdba": {
+   "sha256": "80f1bdbaba92327d89a15ee9e1dde9e513350e9a6b96627c6ae1351a3d6a34c2",
+   "source": "fork dc4af84:results/stage3/q1q2-synthetic/judge_client.amended-2026-10-26.py",
+   "role": "07i part 2 (2026-10-26), the hash before the bound one"
+  },
+  "jc_8390cfd7": {
+   "sha256": "8390cfd789c98e65cd6362adaed62a55c2f792e50907636b37006b3efb093e3e",
+   "source": "fork f1124b6:scripts/stage3/judge_client.py",
+   "role": "brief 09 (2026-10-29): BedrockConverseJudge added; Sol's provider check ran on it"
+  },
+  "jc_72d394e3": {
+   "sha256": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+   "source": "work/checks/judge_client.py",
+   "role": "current; pinned by plan.md (S1)"
+  },
+  "jo_29f5157a": {
+   "sha256": "29f5157a5ca6c185eae93eb5229afeb06db65741171f9e14cf7661db7796cefa",
+   "source": "fork aeddf52:scripts/stage3/judge_openrouter.py",
+   "role": "the OpenRouter client before brief 23 (fork history's only earlier version; 07p's records carry no client hash)"
+  },
+  "jo_e812157c": {
+   "sha256": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+   "source": "work/checks/judge_openrouter.py",
+   "role": "current; pinned by plan.md (S1)"
+  }
+ },
+ "corpus": {
+  "path": "work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+  "sha256": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74"
+ },
+ "pinned_view_modules": {
+  "stage3_views.py": "6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382",
+  "stage3_author_doc.py": "a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8",
+  "stage3_b1_dossier.py": "711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197"
+ },
+ "g1_cells": [
+  {
+   "cell": "P_author_doc_iso|opus48",
+   "view": "P_author_doc_iso",
+   "judge": "Opus 4.8",
+   "model": "anthropic.claude-opus-4-8",
+   "family": "anthropic",
+   "caller": "stage3_b1_dossier.make_client",
+   "cache": {
+    "path": "work/stage3/b1/judge-cache.b1opus-default.P_author_doc_iso.anthropic-claude-opus-4-8.jsonl",
+    "sha256": "4859f6b7968aedd0ff1ec10ad6befccad87db8f6e6dd30986f1b2cb1af4b9477",
+    "records": 857
+   },
+   "null": {
+    "path": "work/stage3/b1/b1-null.json",
+    "sha256": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+    "rows": 89,
+    "client": "1675a966 (recorded: b1-null.json judges.<judge>.step.judge_client)"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 89
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "40ded4cdf257a95d759ec65cdba721a7cf50bf930f140465513ac83f8809ce7f",
+    "requests_digest_current": "40ded4cdf257a95d759ec65cdba721a7cf50bf930f140465513ac83f8809ce7f",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "P_author|opus48",
+   "view": "P_author",
+   "judge": "Opus 4.8",
+   "model": "anthropic.claude-opus-4-8",
+   "family": "anthropic",
+   "caller": "judge_opus_q1q2.make_client (effort default)",
+   "cache": {
+    "path": "work/stage3/q1q2-synthetic/opus48/judge-cache.q1q2opus-default.P_author.anthropic-claude-opus-4-8.jsonl",
+    "sha256": "2a7cd7ad3649c9b7dc5a987d655cafdd6f9eb6920901b0dc583b07e7ba2874ec",
+    "records": 377
+   },
+   "null": {
+    "path": "work/stage3/q1q2-synthetic/opus48/judge-null.json",
+    "sha256": "66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be",
+    "rows": 89,
+    "client": "not recorded in the null; 1675a966 is 07n part C's own amendment (t1v3-plan.md section 8)"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 89
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "6571e534e90142d7500c8d56697de8a43231901e0ece0f8619a35658f2f3499d",
+    "requests_digest_current": "6571e534e90142d7500c8d56697de8a43231901e0ece0f8619a35658f2f3499d",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "P_author_doc_iso|sonnet",
+   "view": "P_author_doc_iso",
+   "judge": "Sonnet 5",
+   "model": "anthropic.claude-sonnet-5",
+   "family": "anthropic",
+   "caller": "stage3_b1_dossier.make_client",
+   "cache": {
+    "path": "work/stage3/b1/judge-cache.b1.P_author_doc_iso.anthropic-claude-sonnet-5.jsonl",
+    "sha256": "42d3fec47cd28c07eee29bec5eff27935f6e2212081041eb445614d3429842e6",
+    "records": 857
+   },
+   "null": {
+    "path": "work/stage3/b1/b1-null.json",
+    "sha256": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+    "rows": 89,
+    "client": "1675a966 (recorded: b1-null.json judges.<judge>.step.judge_client)"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 89
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "7c0da7b03e8bdd909c09466a633494347d3ce5dfdbe6a953da1bc98540325e02",
+    "requests_digest_current": "7c0da7b03e8bdd909c09466a633494347d3ce5dfdbe6a953da1bc98540325e02",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   },
+   "chain_80f1bdba_to_bound": {
+    "pair": [
+     "80f1bdba",
+     "1675a966"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "7c0da7b03e8bdd909c09466a633494347d3ce5dfdbe6a953da1bc98540325e02",
+    "requests_digest_current": "7c0da7b03e8bdd909c09466a633494347d3ce5dfdbe6a953da1bc98540325e02",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "P_author|sonnet",
+   "view": "P_author",
+   "judge": "Sonnet 5",
+   "model": "anthropic.claude-sonnet-5",
+   "family": "anthropic",
+   "caller": "stage3_views.make_client (max_tokens left at the client default)",
+   "cache": {
+    "path": "work/stage3/views/judge-cache.P_author.anthropic-claude-sonnet-5.jsonl",
+    "sha256": "7f1bbb031ec42dcdd4fbf52c7f61c660d4350718d11c6f2655149836ad120c9a",
+    "records": 200
+   },
+   "null": {
+    "path": "work/stage3/views/calibration-v1.json",
+    "sha256": "44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e",
+    "rows": 89,
+    "rows_from": "work/stage3/views/p_author_c0.json",
+    "rows_from_sha256": "3c61dd4d499b6bc009fa1bc8786e5be5d407da7280377a823a47a04c52c95922",
+    "client": "fdce438b (recorded: views/p_author_c0.json, o_diff_cumulative.json meta.judge_client_sha256); not on disk; bridged to 1675a966 by t1v3-plan.md section 8"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 89
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "b78f77faf1e6f68b6f496d0d1b030190ab2c803c7cd3cc4b02161a27a29336d3",
+    "requests_digest_current": "b78f77faf1e6f68b6f496d0d1b030190ab2c803c7cd3cc4b02161a27a29336d3",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   },
+   "chain_80f1bdba_to_bound": {
+    "pair": [
+     "80f1bdba",
+     "1675a966"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "b78f77faf1e6f68b6f496d0d1b030190ab2c803c7cd3cc4b02161a27a29336d3",
+    "requests_digest_current": "b78f77faf1e6f68b6f496d0d1b030190ab2c803c7cd3cc4b02161a27a29336d3",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "P_author_doc_live|opus48",
+   "view": "P_author_doc_live",
+   "judge": "Opus 4.8",
+   "model": "anthropic.claude-opus-4-8",
+   "family": "anthropic",
+   "caller": "stage3_b1_dossier.make_client",
+   "cache": {
+    "path": "work/stage3/b1/judge-cache.b1opus-default.P_author_doc_live.anthropic-claude-opus-4-8.jsonl",
+    "sha256": "62ddfbdb14e3f9311ec0b5f2cc3143ed6cd71fa1ad926136dc36f1561ed62508",
+    "records": 857
+   },
+   "null": {
+    "path": "work/stage3/b1/b1-null.json",
+    "sha256": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+    "rows": 89,
+    "client": "1675a966 (recorded: b1-null.json judges.<judge>.step.judge_client)"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 1,
+    "attempt_sequences": {
+     "scored": 88,
+     "errored>scored": 1
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "90ecdda1817da2f4f537b28785d5553c3bb3059b1b9f7b55589b06d00075d578",
+    "requests_digest_current": "90ecdda1817da2f4f537b28785d5553c3bb3059b1b9f7b55589b06d00075d578",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "P_author_doc_live|sonnet",
+   "view": "P_author_doc_live",
+   "judge": "Sonnet 5",
+   "model": "anthropic.claude-sonnet-5",
+   "family": "anthropic",
+   "caller": "stage3_b1_dossier.make_client",
+   "cache": {
+    "path": "work/stage3/b1/judge-cache.b1.P_author_doc_live.anthropic-claude-sonnet-5.jsonl",
+    "sha256": "9497898e61a9b4aafe624238c050c66cb3653ca06aa04ca01b025daf7088e2ea",
+    "records": 857
+   },
+   "null": {
+    "path": "work/stage3/b1/b1-null.json",
+    "sha256": "54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d",
+    "rows": 89,
+    "client": "1675a966 (recorded: b1-null.json judges.<judge>.step.judge_client)"
+   },
+   "units_rebuilt": 89,
+   "reproduced_in_cache": 89,
+   "null_labels_reproduced": 89,
+   "null_records": {
+    "outcomes": {
+     "scored": 89
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 89
+    },
+    "stop_labels": {
+     "end_turn": 89
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "3b5ad037ec80935c188c54b3a295630e4de517f087c7a96c27ff5b684ee375fc",
+    "requests_digest_current": "3b5ad037ec80935c188c54b3a295630e4de517f087c7a96c27ff5b684ee375fc",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   },
+   "chain_80f1bdba_to_bound": {
+    "pair": [
+     "80f1bdba",
+     "1675a966"
+    ],
+    "compared": 89,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 89,
+    "request_diff_fields": {},
+    "records_equal": 89,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "3b5ad037ec80935c188c54b3a295630e4de517f087c7a96c27ff5b684ee375fc",
+    "requests_digest_current": "3b5ad037ec80935c188c54b3a295630e4de517f087c7a96c27ff5b684ee375fc",
+    "sent_vs_recorded_equal": 89,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "O_diff|sonnet",
+   "view": "O_diff",
+   "judge": "Sonnet 5",
+   "model": "anthropic.claude-sonnet-5",
+   "family": "anthropic",
+   "caller": "stage3_views.make_client (max_tokens left at the client default)",
+   "cache": {
+    "path": "work/stage3/views/judge-cache.O_diff.anthropic-claude-sonnet-5.jsonl",
+    "sha256": "332e48209656ae2db701e6681d0834fe903e59be0458664a22695f9da55721cf",
+    "records": 254
+   },
+   "null": {
+    "path": "work/stage3/views/calibration-v1.json",
+    "sha256": "44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e",
+    "rows": 254,
+    "rows_from": "work/stage3/views/o_diff_cumulative.json",
+    "rows_from_sha256": "d6f38941bf750ae4e2019fb64b145e216a3f4864fd89bd3c4494d4177ccda914",
+    "client": "fdce438b (recorded: views/p_author_c0.json, o_diff_cumulative.json meta.judge_client_sha256); not on disk; bridged to 1675a966 by t1v3-plan.md section 8"
+   },
+   "units_rebuilt": 254,
+   "reproduced_in_cache": 254,
+   "null_labels_reproduced": 254,
+   "null_records": {
+    "outcomes": {
+     "scored": 254
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 254
+    },
+    "stop_labels": {
+     "end_turn": 254
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 254,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 254,
+    "request_diff_fields": {},
+    "records_equal": 254,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "eb317361ea301c19634917235ffc6e949b54029781099365c30de9c4d6edcc4d",
+    "requests_digest_current": "eb317361ea301c19634917235ffc6e949b54029781099365c30de9c4d6edcc4d",
+    "sent_vs_recorded_equal": 254,
+    "sent_vs_recorded_diff_fields": {}
+   },
+   "chain_80f1bdba_to_bound": {
+    "pair": [
+     "80f1bdba",
+     "1675a966"
+    ],
+    "compared": 254,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 254,
+    "request_diff_fields": {},
+    "records_equal": 254,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "eb317361ea301c19634917235ffc6e949b54029781099365c30de9c4d6edcc4d",
+    "requests_digest_current": "eb317361ea301c19634917235ffc6e949b54029781099365c30de9c4d6edcc4d",
+    "sent_vs_recorded_equal": 254,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "O_diff|opus48",
+   "view": "O_diff",
+   "judge": "Opus 4.8",
+   "model": "anthropic.claude-opus-4-8",
+   "family": "anthropic",
+   "caller": "judge_opus_q1q2.make_client (effort default)",
+   "cache": {
+    "path": "work/stage3/q1q2-synthetic/opus48/judge-cache.q1q2opus-default.O_diff.anthropic-claude-opus-4-8.jsonl",
+    "sha256": "b1c6360e68a39ae5101d62ca601c80bce7463c9f70559cc47cc1beea37bdec4c",
+    "records": 406
+   },
+   "null": {
+    "path": "work/stage3/q1q2-synthetic/opus48/judge-null.json",
+    "sha256": "66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be",
+    "rows": 254,
+    "client": "not recorded in the null; 1675a966 is 07n part C's own amendment (t1v3-plan.md section 8)"
+   },
+   "units_rebuilt": 254,
+   "reproduced_in_cache": 254,
+   "null_labels_reproduced": 254,
+   "null_records": {
+    "outcomes": {
+     "scored": 254
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 254
+    },
+    "stop_labels": {
+     "end_turn": 254
+    }
+   },
+   "comparison": {
+    "pair": [
+     "1675a966",
+     "72d394e3"
+    ],
+    "compared": 254,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 254,
+    "request_diff_fields": {},
+    "records_equal": 254,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "model",
+     "system",
+     "thinking"
+    ],
+    "requests_digest_bound": "5a96b23918deee2358ad85ee6b094d145438c29f0b0b6f28eb417c937c8887df",
+    "requests_digest_current": "5a96b23918deee2358ad85ee6b094d145438c29f0b0b6f28eb417c937c8887df",
+    "sent_vs_recorded_equal": 254,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  },
+  {
+   "cell": "O_diff|sol",
+   "view": "O_diff",
+   "judge": "GPT-6 Sol",
+   "model": "us.openai.gpt-6-sol",
+   "family": "converse",
+   "caller": "stage3_sol_provider_check / stage3_pilot_archive (BedrockConverseJudge defaults)",
+   "cache": {
+    "path": "work/stage3/q1q2-synthetic/judge-cache.q1q2extra.O_diff.openai_gpt-6-sol.jsonl",
+    "sha256": "6bbbe9722f3fc88153413db1653a1c230356a0577484c42c772c61a80cf31225",
+    "records": 406
+   },
+   "null": {
+    "path": "work/stage3/q1q2-synthetic/extra-judge-null.sol.json",
+    "sha256": "745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79",
+    "rows": 254,
+    "client": "OpenRouter (judge_openrouter, 07p; inferred 29f5157a); reused on Bedrock after brief 09's provider check (8390cfd7)"
+   },
+   "units_rebuilt": 254,
+   "reproduced_in_cache": 254,
+   "null_labels_reproduced": 254,
+   "null_records": {
+    "outcomes": {
+     "scored": 254
+    },
+    "with_reasks": 0,
+    "attempt_sequences": {
+     "scored": 254
+    },
+    "stop_labels": {
+     "stop": 254
+    }
+   },
+   "comparison": {
+    "pair": [
+     "8390cfd7",
+     "72d394e3"
+    ],
+    "compared": 254,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 254,
+    "request_diff_fields": {},
+    "records_equal": 254,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "inferenceConfig",
+     "messages",
+     "modelId",
+     "system"
+    ],
+    "requests_digest_bound": "dc7b6bfb041d0054cd9776418f7f9d555a1065e6daed60376ab821d037ee84d6",
+    "requests_digest_current": "dc7b6bfb041d0054cd9776418f7f9d555a1065e6daed60376ab821d037ee84d6",
+    "sent_vs_recorded_equal": 0,
+    "sent_vs_recorded_diff_fields": {
+     "model": 254,
+     "temperature": 254
+    }
+   },
+   "off_path_openrouter": {
+    "pair": [
+     "29f5157a",
+     "e812157c"
+    ],
+    "compared": 254,
+    "not_sent_by_one_client": 0,
+    "requests_byte_equal": 254,
+    "request_diff_fields": {},
+    "records_equal": 254,
+    "record_diff_fields": {},
+    "request_keys_current": [
+     "max_tokens",
+     "messages",
+     "temperature"
+    ],
+    "requests_digest_bound": "5d6ae05c6a1159966c20c716c598ad077175b6aa9410e77d665945d3c82c7e5f",
+    "requests_digest_current": "5d6ae05c6a1159966c20c716c598ad077175b6aa9410e77d665945d3c82c7e5f",
+    "sent_vs_recorded_equal": 254,
+    "sent_vs_recorded_diff_fields": {}
+   }
+  }
+ ],
+ "g2_cache_shapes": {
+  "work/stage3/b1/judge-cache.b1opus-default.P_author_doc_iso.anthropic-claude-opus-4-8.jsonl": {
+   "records": 857,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/q1q2-synthetic/opus48/judge-cache.q1q2opus-default.P_author.anthropic-claude-opus-4-8.jsonl": {
+   "records": 377,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/b1/judge-cache.b1.P_author_doc_iso.anthropic-claude-sonnet-5.jsonl": {
+   "records": 857,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/views/judge-cache.P_author.anthropic-claude-sonnet-5.jsonl": {
+   "records": 200,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/b1/judge-cache.b1opus-default.P_author_doc_live.anthropic-claude-opus-4-8.jsonl": {
+   "records": 857,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/b1/judge-cache.b1.P_author_doc_live.anthropic-claude-sonnet-5.jsonl": {
+   "records": 857,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/views/judge-cache.O_diff.anthropic-claude-sonnet-5.jsonl": {
+   "records": 254,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/q1q2-synthetic/opus48/judge-cache.q1q2opus-default.O_diff.anthropic-claude-opus-4-8.jsonl": {
+   "records": 406,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_usd",
+    "error",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "outcome",
+     "stop_reason"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "system_chars",
+     "system_sha256",
+     "thinking"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  },
+  "work/stage3/q1q2-synthetic/judge-cache.q1q2extra.O_diff.openai_gpt-6-sol.jsonl": {
+   "records": 406,
+   "keys": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_source",
+    "cost_usd",
+    "error",
+    "finish_reason",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "reasoning_tokens",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "keys_on_every_record": [
+    "attempts",
+    "cache_key",
+    "cache_read_tokens",
+    "cache_write_tokens",
+    "cost_source",
+    "cost_usd",
+    "error",
+    "finish_reason",
+    "flag",
+    "input_tokens",
+    "label",
+    "latency_s",
+    "model",
+    "model_served",
+    "outcome",
+    "output_tokens",
+    "packet_chars",
+    "packet_sha256",
+    "parse_retries",
+    "price_source",
+    "prompt_version",
+    "provider",
+    "rationale",
+    "reasoning_tokens",
+    "region",
+    "request_params",
+    "score",
+    "stop_details",
+    "stop_reason",
+    "ts",
+    "view"
+   ],
+   "nested_keys": {
+    "attempts[]": [
+     "finish_reason",
+     "outcome"
+    ],
+    "request_params": [
+     "max_tokens",
+     "model",
+     "reasoning",
+     "system_chars",
+     "system_sha256",
+     "temperature"
+    ]
+   },
+   "raw_reply_field": [],
+   "holds_raw_reply_text": false
+  }
+ },
+ "g2_parser": {
+  "label": "by construction, not by re-parse",
+  "default_parser": {
+   "module": "work/mole-fork/scripts/first_cut_monitors.py",
+   "function": "_parse_verdict",
+   "sha256": "a778486de2966f039abc2a928243c25ef0767fb27146080817a8ebfe5bcad62b",
+   "same_object_in_every_client": true
+  },
+  "anthropic_classify": {
+   "shapes": 51,
+   "equal": 51,
+   "differences": {},
+   "outcomes_bound": {
+    "scored": 33,
+    "errored": 14,
+    "refused": 4
+   }
+  },
+  "anthropic_classify_80f1bdba_to_bound": {
+   "shapes": 51,
+   "equal": 51,
+   "differences": {},
+   "outcomes_bound": {
+    "scored": 33,
+    "errored": 14,
+    "refused": 4
+   }
+  },
+  "anthropic_loop_80f1bdba_to_bound": {
+   "sequences": 15,
+   "equal": 15,
+   "differences": {}
+  },
+  "anthropic_loop": {
+   "sequences": 15,
+   "equal": 13,
+   "differences": {
+    "refusal then HTTP 403 (abort after a paid attempt)": [
+     "cache_lines (length)"
+    ],
+    "unparseable then HTTP 404 (abort after a paid attempt)": [
+     "cache_lines (length)"
+    ]
+   }
+  },
+  "converse_classify": {
+   "shapes": 49,
+   "equal": 49,
+   "differences": {},
+   "outcomes_bound": {
+    "scored": 31,
+    "errored": 15,
+    "refused": 3
+   }
+  },
+  "converse_loop": {
+   "sequences": 8,
+   "equal": 7,
+   "differences": {
+    "unparseable then AccessDenied (abort after a paid attempt)": [
+     "cache_lines (length)"
+    ]
+   }
+  },
+  "openrouter_classify_off_path": {
+   "shapes": 43,
+   "equal": 43,
+   "differences": {},
+   "outcomes_bound": {
+    "scored": 29,
+    "errored": 12,
+    "refused": 2
+   }
+  },
+  "sol_null_to_s3_cross_provider": {
+   "texts": 36,
+   "equal": 36,
+   "differences": {},
+   "refusal_signals": "provider-specific by construction: OpenRouter finish_reason content_filter / refusal; Converse stopReason content_filtered / guardrail_intervened"
+  },
+  "defaults": {
+   "MAX_TOKENS": {
+    "bound": 900,
+    "current": 900
+   },
+   "DEFAULT_MODEL": {
+    "bound": "anthropic.claude-sonnet-5-5",
+    "current": "anthropic.claude-sonnet-5-5"
+   },
+   "MAX_PARSE_RETRIES": {
+    "bound": 2,
+    "current": 2
+   },
+   "MAX_REFUSAL_RETRIES": {
+    "bound": 1,
+    "current": 1
+   },
+   "MAX_429_RETRIES": {
+    "bound": 2,
+    "current": 2
+   },
+   "MAX_TRANSIENT_RETRIES": {
+    "bound": 3,
+    "current": 3
+   },
+   "TRANSIENT_BACKOFF_S": {
+    "bound": 5.0,
+    "current": 5.0
+   },
+   "RATE_LIMIT_PAUSE_S": {
+    "bound": 60.0,
+    "current": 60.0
+   },
+   "DEFAULT_SPEND_CAP_USD": {
+    "bound": 50.0,
+    "current": 50.0
+   },
+   "REQUEST_TIMEOUT_S": {
+    "bound": 300.0,
+    "current": 300.0
+   },
+   "PROVIDER": {
+    "bound": "bedrock",
+    "current": "bedrock"
+   },
+   "ABORT_STATUSES": {
+    "bound": [
+     400,
+     401,
+     403,
+     404
+    ],
+    "current": [
+     400,
+     401,
+     403,
+     404
+    ]
+   },
+   "PRICES[sonnet-5, opus-4-8]": {
+    "bound": {
+     "anthropic.claude-sonnet-5": {
+      "input": 2.0,
+      "output": 10.0,
+      "cache_read": 0.2,
+      "cache_write": 2.5
+     },
+     "anthropic.claude-opus-4-8": {
+      "input": 5.0,
+      "output": 25.0,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+     }
+    },
+    "current": {
+     "anthropic.claude-sonnet-5": {
+      "input": 2.0,
+      "output": 10.0,
+      "cache_read": 0.2,
+      "cache_write": 2.5
+     },
+     "anthropic.claude-opus-4-8": {
+      "input": 5.0,
+      "output": 25.0,
+      "cache_read": 0.5,
+      "cache_write": 6.25
+     }
+    }
+   },
+   "CONVERSE_MAX_TOKENS": {
+    "bound": 4000,
+    "current": 4000
+   },
+   "CONVERSE_PRICES[us.openai.gpt-6-sol]": {
+    "bound": {
+     "input": 2.2,
+     "output": 11.0
+    },
+    "current": {
+     "input": 2.2,
+     "output": 11.0
+    }
+   },
+   "openrouter MAX_TOKENS, TEMPERATURE": {
+    "bound": [
+     4000,
+     0.0
+    ],
+    "current": [
+     4000,
+     0.0
+    ]
+   }
+  }
+ }
+}

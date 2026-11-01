@@ -83,12 +83,26 @@ def test_expected_writes_follows_the_model_term_by_term():
     assert abs(e[DOCS[1]]["expected"] - 5 * 2 * 0.9 * (2.5 / 53) * 2 * 0.8) < 1e-9
 
 
+# Dated note, 2026-11-01 (brief 31, G5): this test read rc.CLASS as the design to raise, but the commit that added it
+# (fork 019db8a, brief 07e E3) also replaced CLASS's write counts with the proposal's output (bank v6, 155 write
+# variants), so propose had nothing left to raise and the test failed from that commit on (155 > 155), for a reason
+# unrelated to any judge route. The design it raises is now bank v5's write counts (68 variants; 019db8a's diff and
+# rung1-class.md's version table), and the proposal is checked to reproduce the shipped v6 counts.
+V5_WRITE_TEAMS = [{"platform": 4, "capabilities": 3, "evaluations": 2, "alignment": 2},
+                  {"evaluations": 5, "platform": 3, "alignment": 2, "capabilities": 3},
+                  {"capabilities": 5, "platform": 3, "alignment": 2, "evaluations": 3},
+                  {"alignment": 4, "evaluations": 2, "capabilities": 2, "platform": 3},
+                  {"platform": 4, "evaluations": 3, "capabilities": 2, "alignment": 1},
+                  {"platform": 4, "hr": 4, "capabilities": 1, "evaluations": 1}]
+
+
 def test_propose_raises_write_counts_until_every_document_clears_the_target_and_keeps_reads():
     sizes = {"platform": 15, "capabilities": 8, "evaluations": 7, "alignment": 7, "hr": 7, "legal": 6}
     shipped = {t: 143 for t in sizes}
-    cur = [{"path": d["path"], "write_teams": dict(d["write_teams"]), "read_teams": dict(d["read_teams"])}
-           for d in rc.CLASS]
+    cur = [{"path": d["path"], "write_teams": dict(w), "read_teams": dict(d["read_teams"])}
+           for d, w in zip(rc.CLASS, V5_WRITE_TEAMS)]
     new = wy.propose(cur, sizes, shipped, f=2.58, y=0.84, presence=0.91, target=5.0)
+    assert [d["write_teams"] for d in new] == [d["write_teams"] for d in rc.CLASS]   # the shipped v6 counts
     e = wy.expected_writes(new, sizes, shipped, f=2.58, y=0.84, presence=0.91)
     assert all(v["expected"] >= 5.0 for v in e.values())
     for a, b in zip(cur, new):

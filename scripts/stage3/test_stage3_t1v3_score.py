@@ -165,23 +165,44 @@ def test_canonical_invisibility_clauses():
     assert v3.invisible_from(res["regimes"], "middle", arule)["invisible"] == 0
 
 
+# Dated note, 2026-11-01 (brief 31, G3): this test bound judge_client.py to the three hashes T1 v3's scorer accepts
+# (fdce438b sealed; 80f1bdba and 1675a966 the dated additive amendments of 2026-10-26) and failed once the client
+# moved to 8390cfd7 (brief 09: BedrockConverseJudge) and 72d394e3 (brief 23: opt-in reply parser, refusal re-asks,
+# request guard and endpoint). Brief 31 compared 1675a966 and 72d394e3 on S3's default path before re-binding: built
+# requests byte-equal on every reproduced null packet of the nine view-and-judge cells (8390cfd7 against 72d394e3 on
+# Sol's Converse path), the request each sends equal to the one the null's own call recorded, the parser equal by
+# construction, not by re-parse (the caches hold parsed fields only). The one default-path change, an aborted unit's
+# paid attempts written to the cache as an errored line, changes no request and no returned value. Record:
+# work/stage3/b3/judge-client-equivalence-v0.md. The binding moves to 72d394e3 here; T1 v3's scorer keeps its three
+# hashes (its runs are done), so its binding check still refuses under 72d394e3, and the test checks that it does.
+JUDGE_CLIENT_SHA256_REBOUND = "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198"
+
+
 def test_binding_check_accepts_only_the_disclosed_judge_client_hashes(tmp_path, monkeypatch):
     corpus = tmp_path / "c.jsonl"
     corpus.write_text("", encoding="utf-8")
-    cur_jc = sv.file_sha256(Path(sv.jc_mod.__file__).resolve())
+    jc_path = Path(sv.jc_mod.__file__).resolve()
+    assert sv.file_sha256(jc_path) == JUDGE_CLIENT_SHA256_REBOUND   # the binding, moved by the dated note above
     seal = {"binding": {"model": "m", "views_module_sha256": sv.file_sha256(Path(sv.__file__).resolve()),
                         "document_module_sha256": sv.file_sha256(Path(v3.doc.__file__).resolve()),
                         "judge_client_sha256": v3.JUDGE_CLIENT_SHA256_ACCEPTED[0], "corpus_sha256": sv.file_sha256(corpus),
                         "prompt_records": {k: sv.prompt_record("P_author" if k.startswith("P_author") else k, 3 if k == "P_author_ctx" else 0) for k in ("P_own", "P_author", "P_author_ctx", "O_diff")}},
             "instruments": {"gate3_per_account": "P_own", "gate4_jointness": "P_author", "gate5_composed": "O_diff"}}
-    chk = v3.sonnet_binding_check(seal, "m", corpus)
-    assert cur_jc in v3.JUDGE_CLIENT_SHA256_ACCEPTED
-    assert chk["bad"] == {} and (chk["judge_client_note"] is None) == (cur_jc == v3.JUDGE_CLIENT_SHA256_ACCEPTED[0])
+    real = sv.file_sha256
+
+    def check_as_if(client_sha):   # the binding check as it reads a client file with this hash
+        monkeypatch.setattr(sv, "file_sha256", lambda p: client_sha if Path(p).resolve() == jc_path else real(p))
+        return v3.sonnet_binding_check(seal, "m", corpus)
+    chk = check_as_if(v3.JUDGE_CLIENT_SHA256_ACCEPTED[0])
+    assert chk["bad"] == {} and chk["judge_client_note"] is None
+    for h in v3.JUDGE_CLIENT_SHA256_ACCEPTED[1:]:
+        chk = check_as_if(h)
+        assert chk["bad"] == {} and chk["judge_client_note"]["judge_client_sha256_current"] == h
+    assert "judge_client_sha256" in check_as_if(JUDGE_CLIENT_SHA256_REBOUND)["bad"]
     monkeypatch.setattr(v3, "JUDGE_CLIENT_SHA256_ACCEPTED", (v3.JUDGE_CLIENT_SHA256_ACCEPTED[0],))
-    chk2 = v3.sonnet_binding_check(seal, "m", corpus)
-    assert ("judge_client_sha256" in chk2["bad"]) == (cur_jc != v3.JUDGE_CLIENT_SHA256_ACCEPTED[0])
+    assert "judge_client_sha256" in check_as_if("1675a966514326bb0c8467495cc7db424a557f3deae8b732b283ec869cdf43cd")["bad"]
     seal["binding"]["model"] = "other"
-    assert "model" in v3.sonnet_binding_check(seal, "m", corpus)["bad"]
+    assert "model" in check_as_if(v3.JUDGE_CLIENT_SHA256_ACCEPTED[0])["bad"]
 
 
 def test_join_helpers_sheet_parse_bands_weights_and_permutation():
