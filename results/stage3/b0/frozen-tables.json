@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 88,
+ "n_files": 101,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -981,6 +981,177 @@
     "same-session sensitivity table (brief 09 band, moved)",
     "touched-lines rendering"
    ]
+  },
+  {
+   "path": "q1q2-synthetic/erratum-generator-2026-11-02.md",
+   "sha256": "7815092db43b3cad06e7933bb9ac8582bbce2fadfe62fc3d37e603f98cc55115",
+   "bytes": 3665,
+   "sha256_fork_copy": "7815092db43b3cad06e7933bb9ac8582bbce2fadfe62fc3d37e603f98cc55115",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the coordinator's erratum against 07p's disclosure sentence (the generator is Kimi K2.6, not Kimi K3); 07p's frozen files unchanged",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "What the launch records say (table)",
+    "What changes"
+   ]
+  },
+  {
+   "path": "prefix/launch-line.txt",
+   "sha256": "8d7f4b4b3f7727eedfabbbe799a3fcddd679c2e0c6af776bac02d67a3085c458",
+   "bytes": 1983,
+   "sha256_fork_copy": "8d7f4b4b3f7727eedfabbbe799a3fcddd679c2e0c6af776bac02d67a3085c458",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v1b.txt",
+   "sha256": "44f1bd4a20dc60aec9ee066d32769fae8e1a509e23bf6013123d32f461d3f3c0",
+   "bytes": 1938,
+   "sha256_fork_copy": "44f1bd4a20dc60aec9ee066d32769fae8e1a509e23bf6013123d32f461d3f3c0",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v2.txt",
+   "sha256": "44c6c17b2f089299118b20377fc12ea709ff1f3722c68296059a029c2c5136b7",
+   "bytes": 2033,
+   "sha256_fork_copy": "44c6c17b2f089299118b20377fc12ea709ff1f3722c68296059a029c2c5136b7",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v2b.txt",
+   "sha256": "5f2e25abb274e9b4b6de14021120fadae13c508587b1963dc930a2545150595f",
+   "bytes": 1988,
+   "sha256_fork_copy": "5f2e25abb274e9b4b6de14021120fadae13c508587b1963dc930a2545150595f",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v2c.txt",
+   "sha256": "44bd205bfdd6a5aff2fa2eb2c1be5ed910e743e8192950f710b8959276f1884d",
+   "bytes": 1929,
+   "sha256_fork_copy": "44bd205bfdd6a5aff2fa2eb2c1be5ed910e743e8192950f710b8959276f1884d",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3.txt",
+   "sha256": "9cc90fc5bcc7c7e2fbd96d96d1b596185d7ca700879172cfd97a8726f9ec045a",
+   "bytes": 1961,
+   "sha256_fork_copy": "9cc90fc5bcc7c7e2fbd96d96d1b596185d7ca700879172cfd97a8726f9ec045a",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3b.txt",
+   "sha256": "672aecb8e00660a111b49260fa3abe5d1ddfeeb5527417964f2a9539dc383cfb",
+   "bytes": 1947,
+   "sha256_fork_copy": "672aecb8e00660a111b49260fa3abe5d1ddfeeb5527417964f2a9539dc383cfb",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3c.txt",
+   "sha256": "99945129c1df1c8ab72191063abe38c5c4510648e4fab2db14f4c7afd94dc43c",
+   "bytes": 1948,
+   "sha256_fork_copy": "99945129c1df1c8ab72191063abe38c5c4510648e4fab2db14f4c7afd94dc43c",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3r.txt",
+   "sha256": "aa1c9c04f60c07d3d401c00fb262415cd3196f3f5d918cb8a2270d36611337e7",
+   "bytes": 1965,
+   "sha256_fork_copy": "aa1c9c04f60c07d3d401c00fb262415cd3196f3f5d918cb8a2270d36611337e7",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3rb.txt",
+   "sha256": "dc662d8560f8e20581d9c9a73b8d39f71ec5b29dbb3ac388e8545c9cac700370",
+   "bytes": 1951,
+   "sha256_fork_copy": "dc662d8560f8e20581d9c9a73b8d39f71ec5b29dbb3ac388e8545c9cac700370",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "prefix/launch-line-v3rc.txt",
+   "sha256": "7343be1f7e51324ffcfb83f78bb58c854e460f32e361a3ec8ebe324ace5fcf2c",
+   "bytes": 1952,
+   "sha256_fork_copy": "7343be1f7e51324ffcfb83f78bb58c854e460f32e361a3ec8ebe324ace5fcf2c",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "OPENROUTER_MODEL"
+   ]
+  },
+  {
+   "path": "b4/power-simulation-b4.md",
+   "sha256": "1bd78c0529923c2aa46e84ab68188a1bdbe05feba8e12c2b175701d0b5983e1d",
+   "bytes": 127280,
+   "sha256_fork_copy": "1bd78c0529923c2aa46e84ab68188a1bdbe05feba8e12c2b175701d0b5983e1d",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "brief 19 (B4 sizing part B), $0 simulation; added for brief 22 §0's chance figure by the coordinator's decision (STATUS 2026-11-02)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "C-rule (beside every number)",
+    "summary C-rule line"
+   ]
   }
  ],
  "amendments": [
@@ -1738,6 +1909,233 @@
     }
    ],
    "note": "additive; no earlier entry changed. Every other figure the paper writes carries its file and table inline as (tag; file, table); every file so cited is in this manifest. Records cited for method only (briefs 15, 22, 24; work/lessons.md) are never a number source."
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 W0b (the writing session, Opus 5.5): the coordinator's decisions on cold-read fix 3 and decision 5 (chance figure)",
+   "added": [
+    "q1q2-synthetic/erratum-generator-2026-11-02.md",
+    "prefix/launch-line.txt",
+    "prefix/launch-line-v1b.txt",
+    "prefix/launch-line-v2.txt",
+    "prefix/launch-line-v2b.txt",
+    "prefix/launch-line-v2c.txt",
+    "prefix/launch-line-v3.txt",
+    "prefix/launch-line-v3b.txt",
+    "prefix/launch-line-v3c.txt",
+    "prefix/launch-line-v3r.txt",
+    "prefix/launch-line-v3rb.txt",
+    "prefix/launch-line-v3rc.txt",
+    "b4/power-simulation-b4.md"
+   ],
+   "entries": [
+    {
+     "path": "q1q2-synthetic/erratum-generator-2026-11-02.md",
+     "sha256": "7815092db43b3cad06e7933bb9ac8582bbce2fadfe62fc3d37e603f98cc55115",
+     "bytes": 3665,
+     "sha256_fork_copy": "7815092db43b3cad06e7933bb9ac8582bbce2fadfe62fc3d37e603f98cc55115",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the coordinator's erratum against 07p's disclosure sentence (the generator is Kimi K2.6, not Kimi K3); 07p's frozen files unchanged",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "What the launch records say (table)",
+      "What changes"
+     ]
+    },
+    {
+     "path": "prefix/launch-line.txt",
+     "sha256": "8d7f4b4b3f7727eedfabbbe799a3fcddd679c2e0c6af776bac02d67a3085c458",
+     "bytes": 1983,
+     "sha256_fork_copy": "8d7f4b4b3f7727eedfabbbe799a3fcddd679c2e0c6af776bac02d67a3085c458",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v1b.txt",
+     "sha256": "44f1bd4a20dc60aec9ee066d32769fae8e1a509e23bf6013123d32f461d3f3c0",
+     "bytes": 1938,
+     "sha256_fork_copy": "44f1bd4a20dc60aec9ee066d32769fae8e1a509e23bf6013123d32f461d3f3c0",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v2.txt",
+     "sha256": "44c6c17b2f089299118b20377fc12ea709ff1f3722c68296059a029c2c5136b7",
+     "bytes": 2033,
+     "sha256_fork_copy": "44c6c17b2f089299118b20377fc12ea709ff1f3722c68296059a029c2c5136b7",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v2b.txt",
+     "sha256": "5f2e25abb274e9b4b6de14021120fadae13c508587b1963dc930a2545150595f",
+     "bytes": 1988,
+     "sha256_fork_copy": "5f2e25abb274e9b4b6de14021120fadae13c508587b1963dc930a2545150595f",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v2c.txt",
+     "sha256": "44bd205bfdd6a5aff2fa2eb2c1be5ed910e743e8192950f710b8959276f1884d",
+     "bytes": 1929,
+     "sha256_fork_copy": "44bd205bfdd6a5aff2fa2eb2c1be5ed910e743e8192950f710b8959276f1884d",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3.txt",
+     "sha256": "9cc90fc5bcc7c7e2fbd96d96d1b596185d7ca700879172cfd97a8726f9ec045a",
+     "bytes": 1961,
+     "sha256_fork_copy": "9cc90fc5bcc7c7e2fbd96d96d1b596185d7ca700879172cfd97a8726f9ec045a",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3b.txt",
+     "sha256": "672aecb8e00660a111b49260fa3abe5d1ddfeeb5527417964f2a9539dc383cfb",
+     "bytes": 1947,
+     "sha256_fork_copy": "672aecb8e00660a111b49260fa3abe5d1ddfeeb5527417964f2a9539dc383cfb",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3c.txt",
+     "sha256": "99945129c1df1c8ab72191063abe38c5c4510648e4fab2db14f4c7afd94dc43c",
+     "bytes": 1948,
+     "sha256_fork_copy": "99945129c1df1c8ab72191063abe38c5c4510648e4fab2db14f4c7afd94dc43c",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3r.txt",
+     "sha256": "aa1c9c04f60c07d3d401c00fb262415cd3196f3f5d918cb8a2270d36611337e7",
+     "bytes": 1965,
+     "sha256_fork_copy": "aa1c9c04f60c07d3d401c00fb262415cd3196f3f5d918cb8a2270d36611337e7",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3rb.txt",
+     "sha256": "dc662d8560f8e20581d9c9a73b8d39f71ec5b29dbb3ac388e8545c9cac700370",
+     "bytes": 1951,
+     "sha256_fork_copy": "dc662d8560f8e20581d9c9a73b8d39f71ec5b29dbb3ac388e8545c9cac700370",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "prefix/launch-line-v3rc.txt",
+     "sha256": "7343be1f7e51324ffcfb83f78bb58c854e460f32e361a3ec8ebe324ace5fcf2c",
+     "bytes": 1952,
+     "sha256_fork_copy": "7343be1f7e51324ffcfb83f78bb58c854e460f32e361a3ec8ebe324ace5fcf2c",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the world's launch records: one OPENROUTER_MODEL line each, moonshotai/kimi-k2.6; added by the coordinator's decision on cold-read fix 3 (STATUS 2026-11-02), with the erratum; the API key is a variable reference, never a literal",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "OPENROUTER_MODEL"
+     ]
+    },
+    {
+     "path": "b4/power-simulation-b4.md",
+     "sha256": "1bd78c0529923c2aa46e84ab68188a1bdbe05feba8e12c2b175701d0b5983e1d",
+     "bytes": 127280,
+     "sha256_fork_copy": "1bd78c0529923c2aa46e84ab68188a1bdbe05feba8e12c2b175701d0b5983e1d",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 19 (B4 sizing part B), $0 simulation; added for brief 22 §0's chance figure by the coordinator's decision (STATUS 2026-11-02)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "C-rule (beside every number)",
+      "summary C-rule line"
+     ]
+    }
+   ],
+   "traces": [
+    {
+     "figure": "§3.1 the generator's model id",
+     "value_as_recorded": "moonshotai/kimi-k2.6",
+     "file": "prefix/launch-line-v2c.txt",
+     "table": "OPENROUTER_MODEL (the T1 and B3 world)",
+     "tag": "methods"
+    },
+    {
+     "figure": "§3.2 the generator for B4's world",
+     "value_as_recorded": "moonshotai/kimi-k2.6",
+     "file": "prefix/launch-line-v3rc.txt",
+     "table": "OPENROUTER_MODEL",
+     "tag": "methods"
+    },
+    {
+     "figure": "§3.1 the erratum against 07p's disclosure",
+     "value_as_recorded": "Kimi K2.6, not Kimi K3",
+     "file": "q1q2-synthetic/erratum-generator-2026-11-02.md",
+     "table": "What the launch records say",
+     "tag": "methods"
+    },
+    {
+     "figure": "§11.1 chance for a two-account change beside the cross-account rule",
+     "value_as_recorded": "1 − 0.6² = 0.64",
+     "file": "b4/power-simulation-b4.md",
+     "table": "C-rule (beside every number)",
+     "tag": "design"
+    }
+   ],
+   "resolves": [
+    "W0 not_traced: brief 22 §0's chance figure (now traced to b4/power-simulation-b4.md, design)",
+    "outline v1 pending: the generator's model id (cold-read fix 3)"
+   ],
+   "note": "additive; no earlier entry changed; launch lines mirrored to the fork's results/stage3/prefix/ in the same commit"
   }
  ]
 }
