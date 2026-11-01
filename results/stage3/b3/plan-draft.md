@@ -2,7 +2,7 @@ DRAFT, not committed
 
 # B3 S1: the pre-registered plan (draft of `work/stage3/b3/plan.md`)
 
-Drafted 2026-11-01 under brief 28 v2.1 (`briefs/28-b3-s1-plan-2026-11-01.md` b6ff7b02) by a blue session (Opus 5.5); $0, no API call. Nothing was applied to any document state, no draw was computed, and no judge, reader or review view was called. Sources, and only these: brief 15's Section 0, Part S and amendments A6 to A6.19.1 (`briefs/15-b3-distributed-visibility-2026-10-28.md` 1ed2d6b9; where Part S and an amendment conflict, the amendment governs; Part W, Part R and the amendments before A6 were not read); brief 20 Parts 2 and 3 (`power-simulation-v3b.md` 5f6b0eae, `power-simulation-v3c.md` ffd16e23, `power-simulation-v3c.json` 2086e72f); brief 25 (`comprehension/stratum-v0.json` 6113bd8d); brief 26 v2 (`inserter-dry-run-v0.json` edd289ce, `.md` 25a905da); brief 22's gate (`briefs/22-b4-conditional-2026-10-31.md` 3d9e83ca); brief 27 v3 (`briefs/27-b3-lone-line-arm-2026-11-01.md` c2bbf0af), whose record does not exist yet (§0). Ids, counts and aggregates only: no item line, document text, rubric or declared effect was read, and none appears here. Paths are relative to `work/stage3/b3/` unless they start with `work/`, `briefs/` or `scripts/`.
+**Draft v2** (2026-11-01 evening), after the review session's cold read (`review/cold-read-s1-draft-2026-11-01.md` 32e8b0e8; v1 was d6bf4440, fork 9f02b5b). Drafted under brief 28 v2.1 (`briefs/28-b3-s1-plan-2026-11-01.md`, now 6e55d1d9 with its dated key note; v1 was drafted under b6ff7b02) by a blue session (Opus 5.5); $0, no API call. Nothing was applied to any document state, no draw was computed, and no judge, reader or review view was called. Sources, and only these: brief 15's Section 0, Part S and amendments A6 to A6.20 (`briefs/15-b3-distributed-visibility-2026-10-28.md` 3a2c8b48, with A6.20's decisions on this draft; v1 read 1ed2d6b9, A6 to A6.19.1; where Part S and an amendment conflict, the amendment governs; Part W, Part R and the amendments before A6 were not read); brief 20 Parts 2 and 3 (`power-simulation-v3b.md` 5f6b0eae, `power-simulation-v3c.md` ffd16e23, `power-simulation-v3c.json` 2086e72f); brief 25 (`comprehension/stratum-v0.json` 6113bd8d); brief 26 v2 (`inserter-dry-run-v0.json` edd289ce, `.md` 25a905da); brief 22's gate (`briefs/22-b4-conditional-2026-10-31.md` 3d9e83ca); brief 27 v3 with its dated notes (`briefs/27-b3-lone-line-arm-2026-11-01.md` c418550e), whose record does not exist yet (§0). Ids, counts and aggregates only: no item line, document text, rubric or declared effect was read, and none appears here. Paths are relative to `work/stage3/b3/` unless they start with `work/`, `briefs/` or `scripts/`.
 
 **What S1 is.** The plan is committed by hash before any application or judge call in S3. It fixes the populations by id hash, the layout and seed, the views, instruments and readings, and every outcome sentence for every outcome. S3 selects each sentence by its rule and fills only the bracketed slots, each with a number computed by a rule written here or a name from a closed list (§6.0). S3 composes nothing.
 
@@ -13,16 +13,16 @@ Drafted 2026-11-01 under brief 28 v2.1 (`briefs/28-b3-s1-plan-2026-11-01.md` b6f
 | | condition (brief 28 F0) | state at this draft | at commit |
 |---|---|---|---|
 | (a) | brief 27's E4 reproduction passes | **pending**: `lone-line-arm-v0.md` does not exist | If E4 (a) or (b) differs, brief 20 Part 3's Step 0 re-runs on the re-run counts (a dated note on A6.17.11). This draft is then re-issued on those counts and read again. No count here is edited by hand. |
-| (b) | A6.18 recorded on A6.14.3 | **holds** (brief 15 1ed2d6b9: A6.14.3's dated note; A6.18 (a) to (q)) | none |
+| (b) | A6.18 recorded on A6.14.3 | **holds** (brief 15 3a2c8b48: A6.14.3's dated note; A6.18 (a) to (q)) | none |
 | (c) | brief 26's JSON and brief 27's module and record hashes cited | brief 26: **cited** (§2.3, §7); brief 27: **slots K1 to K5** | fill K1 to K5 |
-| (d) | the review session's cold read of this draft | **requested** with this draft's commit (§11) | adopt the fixes; record the read's file and hash |
+| (d) | the review session's cold read of this draft | **done**: `review/cold-read-s1-draft-2026-11-01.md` 32e8b0e8, "ready with fixes"; the fixes are in this v2 (§11); D3, D5 and D7 await the coordinator's dated note | the coordinator's sign-off line |
 
-**Who commits.** A fresh blue session on this same text, when the coordinator's STATUS line says the gate holds. It (1) fills K1 to K5 from brief 27's record, (2) replaces the first line with "S1, committed [date] by hash", (3) saves the file as `plan.md`, (4) commits it by hash to the fork with one STATUS line, and (5) mirrors it under `results/stage3/b3/`. Any change beyond these five steps means re-issue and re-read. S1 precedes S2 (Aravind confirms T2+S2 and the estimate) and S3.
+**The order to commit.** (1) This draft v2, with the cold read's fixes. (2) The coordinator's sign-off line in STATUS, which records its decisions on D3, D5 and D7 (§11) and says that F0 holds; if a decision differs from this v2's text, the draft is re-issued as v3 first. (3) A fresh blue session on the signed-off text then (i) fills K1 to K5 from brief 27's record, (ii) replaces the first line with "S1, committed [date] by hash", (iii) saves the file as `plan.md`, (iv) commits it by hash to the fork with one STATUS line, and (v) mirrors it under `results/stage3/b3/`. After the sign-off, any change beyond (i) to (v) means re-issue and re-read. S1 precedes S2 (Aravind confirms T2+S2 and the estimate) and S3.
 
 **Slots filled at commit (closed list):**
 - **K1** `work/stage3/b3/lone-line-arm-v0.md`, sha256.
 - **K2** `work/checks/stage3_t1.py` after brief 27, sha256, and its fork copy `scripts/stage3/stage3_t1.py` (equal).
-- **K3** the application class hash after brief 27; the name of the lone-line arm; the restricted-mode entry point and its valid-draws argument, as brief 27's record names them.
+- **K3** the application class hash after brief 27; the name of the lone-line arm; the restricted-mode entry point and its valid-draws argument, as brief 27's record names them; and the keys it reads, which must be `items[].draws.valid_draws` per item and `items[].lone_lines[].valid_draws` per lone line (brief 27's executor reports this; STATUS records it as not yet verified against the files).
 - **K4** brief 27's test file(s) with sha256 and pass counts; E3's isolation finding; E4 (a) and (b) both "reproduced exactly".
 - **K5** the seed form brief 27's restricted mode takes: one integer, or a (seed, tag) key (§3 fixes both forms).
 
@@ -107,7 +107,7 @@ There is one application set on the honest prefix `prefix_rw_v2c` (`work/mole-fo
 ### 2.2 Draws
 
 - **Valid-draw file.** Every draw comes from brief 26's `inserter-dry-run-v0.json` (edd289ce), passed to brief 27's restricted mode (K3):
-  - `items[].draws.valid_draws` holds the item's valid (day, author) pairs, and `items[].draws.valid_by_day` their per-day counts (brief 28 F0 (c) and brief 27 v3's E2 name the latter as the item key; it holds counts only, D2);
+  - `items[].draws.valid_draws` holds the item's valid (day, author) pairs; `items[].draws.valid_by_day` holds only their per-day counts and is not the valid set (briefs 27 and 28 corrected by dated note, 2026-11-01 evening, fork 0f88e77);
   - `items[].lone_lines[].valid_draws` holds each lone line's pairs.
 - **Author exclusion for the lone lines.** After the item draws, S3 writes a file of the same shape (brief 27 E2 accepts "a later file of the same shape"). It is the same file, except that for each lone line the draws whose author is one of the item's two drawn authors are removed. S3 commits it by hash before the first lone-line application.
 - **What the restricted mode refuses (brief 27 E2):**
@@ -127,7 +127,7 @@ The team template, the whole-write floor, the read-before-edit, redundant-delive
 Brief 26 found every line of every net item exactly once at every state its valid draws reach. That includes the nine unresolved-anchor stratum members: all 35 day-0-absent lines are found once in every Part S state of both days (`inserter-dry-run-v0.json` `reverse_case`, `unresolved_stratum_members`). **The rule:**
 1. An item or a lone line is applied only at a valid draw, against the drawn Part S state, through the restricted mode.
 2. A line is never applied against text in which its target is absent or not unique, and never by any other route.
-3. If the restricted mode nevertheless refuses a draw at application time, S3 takes the next draw of the same stream for that item or line, before any judge call, and counts it.
+3. If the restricted mode nevertheless refuses a draw at application time, S3 takes the next draw of the same stream for that item or line, before any judge call, and counts it. When an item's draw changes this way, S3 regenerates the author-exclusion file of §2.2 for that item's lone lines, and commits it by hash again, before any of those lone lines is applied.
 4. An item that cannot complete its need this way leaves every population it belongs to before any judge call, with its reason (S3's own drops; sentence S-S). Every n in §1 is then reported net of it.
 5. **No draw is repeated after any judge call.**
 
@@ -186,7 +186,7 @@ m_s is pinned (A6.16.1 (v)). Part 3's net-set reading of the same latent margin 
 ### 4.2 Models and intervals, as A6.3 fits them
 
 - **Form (a).** For item i, s̄(triple_i) is the mean of its two application scores, and s̄(line_ij) the mean of line j's two lone-line application scores. Each score is the judge's own score for the applied unit under the per-agent view. The outcome is **excess_i = s̄(triple_i) − max_j s̄(line_ij)**. It is fitted by OLS on composition (the two-pass mean) plus four covariates: the judge's own top-two singleton gap (the top two of the three s̄(line_ij)); the writer; the replace share (A5.12; O1); and, **on the full set only, the document factor**. **Contrast (a) = 25 × the composition coefficient** (the 75-minus-50 span), read against the instrument's m_s.
-- **Form (b).** A Firth-penalised logistic regression of each item application's lone-author per-agent flag at the sealed rule on composition. The covariates are the judge's continuous singleton maximum (max_j s̄(line_ij); O5), the writer, the replace share and, on the full set only, the document factor (O3's document-stratified bootstrap when that model does not converge).
+- **Form (b).** A Firth-penalised logistic regression of each item application's lone-author per-agent flag at the sealed rule on composition. The covariates are the judge's continuous singleton maximum (max_j s̄(line_ij); O5), the writer, the replace share and, on the full set only, the document factor (O3; the order when that fit fails is in §4.3).
   - **Contrast (b)** = the predicted flag probability at composition 75 minus at 50, with the line covariate at its sample mean and the writer at the share-weighted pooled level (O2). The same contrast with the covariate at its conditional mean at each composition point is beside (O4).
   - Per-writer slopes are descriptive.
 - **Intervals.** 95 % percentile intervals, 2,000 replicates, seed 20261152, on every reading.
@@ -208,6 +208,13 @@ m_s is pinned (A6.16.1 (v)). Part 3's net-set reading of the same latent margin 
   - (iii) a pooled stratum is empty after S3's own drops.
 
   This rule governs S3. Part 3's simulated rule (a constant covariate in the point fit or in more than 2.5 % of replicates) is not it, and Part 3's simulated fit rate of 1.00 is by construction and is not evidence of fit (A6.18 (d)).
+- **The full set's order (O3, with (i) and (ii) above), for form (b) and, by the same rule, form (a).**
+  1. Fit with the document factor, payload-clustered.
+  2. If the point fit fails by (i), or more than 10 % of replicates fail, refit **without the document factor**, under the document-stratified bootstrap (documents with fewer than four members pooled, A6.17.3; on the full set every document has eight or more).
+  3. Only if that also fails is the reading unfit (S-C5 for form (b); for form (a), S-C3b at the third branch).
+
+  The same order holds wherever the full set is fitted: the third branch, the D_part interaction and the descriptive full-set reading. Form (a) follows it because A6.16.2 already replaces the document factor with this bootstrap where the factor cannot be carried; that extension to the full set is argued here, not stated in an amendment.
+- **Precedence, per form, instrument and population.** Floor first (a reading at floor is reported as "floor" and nothing else is checked); then the ceiling (form (b) only); then fit. So a [floor \| ceiling \| unfit] slot always takes the first of these that applies.
 
 ### 4.4 The composed view and brief 22's G1 (A6.3 (e), A6.14.1, A6.16.1 (vi))
 
@@ -309,17 +316,21 @@ A reading that is at floor, unfit or past the ceiling carries no label: it is "f
 - If C fails and S passes, the lead is **S, named as the fallback carrier** (A6.13.4). **No population step is taken for a floor.**
 - If both fail, there is no verdict (S-A3).
 
-**Then the population steps down on fit failure, before any further instrument fallback.** The lead's form (a) is tried in this order:
+**Then the population steps down on fit failure, and the instrument fallback leads from step 1 (A6.20 D3).** Whenever S takes the lead, on C's floor failure or after C's fit fails on both 17 and 26, S starts the cascade at the subset: S on 17, then on 26, then the third branch, each step reported, S labelled the fallback carrier. It does not enter only at the third branch. Form (a) is tried in this order:
 
-| step | population | lead | taken when |
+| step | population | instrument | taken when |
 |---|---|---|---|
-| 1 | resolved-anchor subset (17) | the lead | always first |
-| 2 | comprehension-quiet stratum (26) | the lead | the lead is unfit at step 1 (S-C1) |
-| 3 | **the third branch** of A6.14.3: the full set (73), descriptive, and **only a full-set *present* may issue** (A6.18 (c)) | the lead | the lead is unfit at step 2 (S-C2) |
-| 4 | the third branch, as step 3 | **S as the fallback carrier** (A6.13.4's instrument fallback) | the lead is C and C is unfit at step 3 too, and S passed its floor (S-C3) |
-| 5 | no verdict | | nothing above fits (S-C4) |
+| 1 | resolved-anchor subset (17) | the lead: C, or S after C's floor failure | always first |
+| 2 | comprehension-quiet stratum (26) | the same | it is unfit at step 1 (S-C1) |
+| 3 | resolved-anchor subset (17) | **S, as the fallback carrier** | C led, C is unfit at steps 1 and 2, and S passed its floor (S-C3) |
+| 4 | comprehension-quiet stratum (26) | S | S is unfit at step 3 (S-C1) |
+| 5 | **the third branch** of A6.14.3: the full set (73), descriptive, and **only a full-set *present* may issue** (A6.18 (c)) | the current lead (S if it has taken the lead, else C) | the step-2 instrument is unfit and step 3 does not apply (S already leads, or S is at floor), or S is unfit at step 4 (S-C2) |
+| 6 | the third branch, as step 5 | the other named instrument, if it passed its floor | the current lead is unfit at step 5 (A6.13.4's fallback-carrier clause; S-C3b) |
+| 7 | no verdict | | nothing above fits (S-C4) |
 
-The first step that fits is the reading. Every step taken is reported with its reason. A step is taken only on a fit failure or a floor, never on a value. Once the carrier fits on the subset, S's own unfit or floor never moves the population: S drops out, named (S-C6).
+The first step that fits is the reading. Every step taken is reported with its reason. A step is taken only on a fit failure or a floor, never on a value. While C fits as the lead, S's own unfit or floor never moves the population: S drops out, named (S-C6). On the five-parameter form (a) a fit failure is near-impossible in practice (A6.18 (d)), so steps 2 to 6 are written for completeness.
+
+**No joint operating characteristics exist for a cascade led by S** (A6.20). Part 3 simulated the carrier-led cascade only. A result S carries is reported with that population's own figures under S at T2+S2 (Part 3): the subset 0.66 / 0.04 / 0.04 / 0.69 and the stratum 0.81 / 0.07 / 0.04 / 0.77 (P(*excluded* | 0) / P(*excluded* | margin) / P(LB > 0 | 0) / P(*present* | 1.5 ×)). Both are readable.
 
 ---
 
@@ -369,9 +380,10 @@ Every family's rules are exhaustive and mutually exclusive. **Next actions** nam
 
 | id | rule | sentence | next action |
 |---|---|---|---|
-| S-C1 | the lead is unfit on the subset | "[instrument] form (a) does not fit on the resolved-anchor subset (n = [n]): [reason]. The reading steps down to the comprehension-quiet stratum (A6.17.9 (4)); the step was taken on a fit failure, never on a value." | read step 2 |
-| S-C2 | the lead is unfit on the stratum too | "[instrument] form (a) does not fit on the comprehension-quiet stratum either (n = [n]): [reason]. The third branch of A6.14.3 applies (S-H)." | read step 3 |
-| S-C3 | C unfit on the full set at the third branch, S passed its floor | "The carrier does not fit on the full quiet set either: [reason]. The second named instrument reads the third branch as the fallback carrier (A6.13.4)." | read step 4 |
+| S-C1 | the current lead is unfit on the subset (steps 1, 3) | "[instrument] form (a) does not fit on the resolved-anchor subset (n = [n]): [reason]. The reading steps down to the comprehension-quiet stratum (A6.17.9 (4)); the step was taken on a fit failure, never on a value." | read step 2 or 4 |
+| S-C2 | the current lead is unfit on the stratum too, and no step 3 is available (S already leads, or S is at floor) | "[instrument] form (a) does not fit on the comprehension-quiet stratum either (n = [n]): [reason]. The third branch of A6.14.3 applies (S-H)." | read step 5 |
+| S-C3 | C is unfit on both 17 and 26, and S passed its floor | "The carrier does not fit on the comprehension-quiet stratum either (n = [n]): [reason]. The second named instrument takes the lead as the fallback carrier and starts the cascade at the resolved-anchor subset (A6.20); no joint operating characteristics exist for a cascade it leads." | read step 3 |
+| S-C3b | the current lead is unfit on the full set at the third branch, and the other named instrument passed its floor | "[instrument] does not fit on the full quiet set either: [reason]. The other named instrument reads the third branch (A6.13.4)." | read step 6 |
 | S-C4 | nothing fits | "No named instrument fits on any population of the cascade: round 1 issues no verdict on P-max; every cell is descriptive." | round 2 is the test; brief 22's G2 reads this; the paper reports round 1 as unfit |
 | S-C5 | form (b) unfit (any instrument, population) | "form (b) does not fit under [instrument] on [population]: [reason]; reported as unfit, without effect on form (a)'s label." | none |
 | S-C6 | the other named instrument is unfit on the population the lead reads | "[instrument] does not fit on [population]: [reason]; it drops out, named (A6.13.4)." | none |
@@ -393,17 +405,17 @@ Form (a) uses score points against m = m_s of that instrument; form (b) uses pro
 |---|---|---|
 | S-E1 | no conflict, or a one-step conflict | "[instrument]'s label is form (a)'s, [label]; form (b) beside reads [label] ([counts \| does not count, its bias-net lower bound [value] at or under 0] for the conflict rule)." |
 | S-E2 | two-step conflict | "[instrument] is *inconclusive*: form (a) reads [*excluded* \| *present*] and form (b) reads [*present* \| *excluded*] (a two-step conflict, A6.13.4); both shown." |
-| S-E3 | form (b) not read (floor, ceiling or unfit) | "[instrument]'s label is form (a)'s, [label]; form (b) is not read ([floor \| ceiling \| unfit])." |
+| S-E3 | form (b) not read (floor, ceiling or unfit; the first that applies, in that order, §4.3) | "[instrument]'s label is form (a)'s, [label]; form (b) is not read ([floor \| ceiling \| unfit])." |
 
-### S-F. The verdict on P-max (§5.4 (2) and (3)), per state of §5.5 reached at steps 1 or 2
+### S-F. The verdict on P-max (§5.4 (2) and (3)), per state of §5.5 reached at steps 1 to 4
 
-S-F1 to S-F6 each end with the suffix that applies (S-Fs1 to S-Fs3). Every *excluded* and *attenuated* reading also has S-G beside it. [population] is the population of the step reached (subset or stratum); [instrument] is the lead.
+S-F1 to S-F6 each end with the suffix that applies (S-Fs1 to S-Fs3). Every *excluded* and *attenuated* reading also has S-G beside it. [population] is the population of the step reached (subset or stratum); [instrument] is the lead. **Every operating characteristic quoted in S-F1 to S-F6 is Part 3's at the pre-registered n; it is not recomputed after S3's own drops**, and S-F1 to S-F3 say so in their last clause ("at the pre-registered n").
 
 | id | rule | sentence | next action |
 |---|---|---|---|
-| S-F1 | lead label *excluded* (not overturned) | "**P-max holds** on [population] (n = [n]) under [instrument]: contrast [value] [interval] against m_s [m]." + **S-Fscope** + "Under a true effect at the margin this design reads *holds* with probability 0.04 to 0.06 (Part 3, the carrier population at T2+S2, ICC 0.3 and 0.6), and that bound is seed-sensitive for the subset (1.8 Monte Carlo SE below 0.10, A6.18 (e)); 0.03 to 0.08 for the stratum." | round 2 is the confirmatory test of combination (§8); brief 22's G2 reads this verdict; the paper's claim is scoped to [population] and its share |
-| S-F2 | lead label *attenuated* | "**P-max is partly missed** on [population] (n = [n]) under [instrument]: contrast [value] [interval], above zero and below m_s [m]. 'Partly missed' is the modal label at the margin because of attenuation, not evidence of a sub-margin effect (A6.16.1 (i); for this population at T2+S2 Part 3 gives P(*partly missed* \| margin) [0.23 to 0.36 for the subset \| 0.41 to 0.56 for the stratum] over ICC 0.3 and 0.6); the disattenuated reading stands beside it. Under a true max-type null the carrier reads *holds* about two times in three (0.67), so a non-*holds* reading in round 1 is weak evidence and round 2 is the test (A6.18 (l))." | round 2; brief 22's G2 reads this verdict; the paper reports a combination component of unsettled size on [population] |
-| S-F3 | lead label *present* | "**P-max is falsified** on [population] (n = [n]) under [instrument]: contrast [value] [interval], at or above m_s [m]; this design is volume-free by construction, the same-shape sham and the controls beside. For this design P(*falsified* \| 0) is 0.00 and P(*falsified* \| margin) [0.34 to 0.37 for the subset \| 0.31 to 0.34 for the stratum] over ICC 0.3 and 0.6 (Part 3; Part 2's full-set range 0.24 to 0.41, A6.16.1 (ii))." | round 2 (confirmatory); brief 22's G2 reads this verdict; the paper: P-max falsified for this view in this design in round 1, scoped to [population] |
+| S-F1 | lead label *excluded* (not overturned) | "**P-max holds** on [population] (n = [n]) under [instrument]: contrast [value] [interval] against m_s [m]." + **S-Fscope** + "Under a true effect at the margin this design reads *holds* with probability 0.04 to 0.06 (Part 3, the carrier population at T2+S2, ICC 0.3 and 0.6), and that bound is seed-sensitive for the subset (1.8 Monte Carlo SE below 0.10, A6.18 (e)); 0.03 to 0.08 for the stratum; at the pre-registered n." | round 2 is the confirmatory test of combination (§8); brief 22's G2 reads this verdict; the paper's claim is scoped to [population] and its share |
+| S-F2 | lead label *attenuated* | "**P-max is partly missed** on [population] (n = [n]) under [instrument]: contrast [value] [interval], above zero and below m_s [m]. 'Partly missed' is the modal label at the margin because of attenuation, not evidence of a sub-margin effect (A6.16.1 (i); for this population at T2+S2 Part 3 gives P(*partly missed* \| margin) [0.23 to 0.36 for the subset \| 0.41 to 0.56 for the stratum] over ICC 0.3 and 0.6, at the pre-registered n); the disattenuated reading stands beside it. Under a true max-type null the carrier reads *holds* about two times in three (0.67), so a non-*holds* reading in round 1 is weak evidence and round 2 is the test (A6.18 (l))." | round 2; brief 22's G2 reads this verdict; the paper reports a combination component of unsettled size on [population] |
+| S-F3 | lead label *present* | "**P-max is falsified** on [population] (n = [n]) under [instrument]: contrast [value] [interval], at or above m_s [m]; this design is volume-free by construction, the same-shape sham and the controls beside. For this design P(*falsified* \| 0) is 0.00 and P(*falsified* \| margin) [0.34 to 0.37 for the subset \| 0.31 to 0.34 for the stratum] over ICC 0.3 and 0.6 (Part 3, at the pre-registered n; Part 2's full-set range 0.24 to 0.41, A6.16.1 (ii))." | round 2 (confirmatory); brief 22's G2 reads this verdict; the paper: P-max falsified for this view in this design in round 1, scoped to [population] |
 | S-F4 | lead label *inconclusive* by the table | "**P-max is inconclusive** in round 1 on [population] (n = [n]): under [instrument] the interval [interval] cannot tell zero from m_s [m] (point [value]). Under a true max-type null the carrier reads *holds* about two times in three (0.67), so a non-*holds* reading in round 1 is weak evidence and round 2 is the test (A6.18 (l))." | round 2; brief 22's G2 reads this verdict; the paper reports round 1 as inconclusive |
 | S-F5 | lead *inconclusive* by its own two-step (a)/(b) conflict (S-E2) | "**P-max is inconclusive** on [population]: under [instrument] form (a) reads [*excluded* \| *present*] and form (b) [*present* \| *excluded*] (a two-step conflict, A6.13.4); both shown. [A6.18 (l)'s sentence as in S-F4]" | as S-F4 |
 | S-F6 | two-step conflict between the lead and the other named instrument | "**P-max is inconclusive** on [population]: [instrument] reads [*excluded* \| *present*] ([value] [interval]) and the other named instrument [*present* \| *excluded*] ([value] [interval]) (a two-step conflict across instruments, A6.13.4); both shown. [A6.18 (l)'s sentence as in S-F4]" | as S-F4 |
@@ -411,11 +423,11 @@ S-F1 to S-F6 each end with the suffix that applies (S-Fs1 to S-Fs3). Every *excl
 | S-Fs2 | it differs by one step | "The [second named instrument \| carrier] reads [label] ([value] [interval]), beside." | |
 | S-Fs3 | it is at floor or unfit | "The [second named instrument \| carrier] is [at floor \| unfit] on [population] and drops out, named." | |
 
-When the lead is S as the fallback carrier, [instrument] reads "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, as the fallback carrier (the carrier [at floor \| unfit])", and m_s is 19.37.
+**When the lead is S as the fallback carrier** (A6.20), [instrument] reads "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, as the fallback carrier (the carrier [at floor \| unfit on both stratum populations])", and m_s is 19.37. The operating-characteristic clauses of S-F1 to S-F4 are then replaced by one clause: "No joint operating characteristics exist for a cascade led by the second instrument (A6.20); this population's own figures under it at T2+S2 are P(*excluded* \| 0) [0.66 \| 0.81], P(*excluded* \| margin) [0.04 \| 0.07], P(LB > 0 \| 0) 0.04 and P(*present* \| 1.5 ×) [0.69 \| 0.77] (Part 3, [subset \| stratum], at the pre-registered n)." A6.18 (l)'s sentence is kept where S-F2 and S-F4 carry it, since it concerns the carrier and round 1's evidence.
 
-**S-Fscope** (A6.14.4's scoping sentence in the stratum branch, with A6.17.1's bracket and shares on net counts; it is attached to every *holds*, A6.16.1 (iii)). A6.14.4's own wording begins "P-max holds on the full quiet set", which is the first branch's carrier, and the switch has fired, so it is not used as written:
-- *subset carrying:* "The resolved-anchor subset is 0.23 of the full quiet set (17 of 73); the comprehension-quiet stratum (no single line yields the consequence to one reader family on either of two samples, a second family not contradicting) is 0.36 of it (26 of 73), and on the stratum the reading is [label] with [interval]; on the full quiet set (n = 73) it is [label] with [interval], descriptive and diluted; items whose single line carries the consequence are not a test of combination and are reported as such."
-- *stratum carrying (after S-C1):* "The comprehension-quiet stratum (no single line yields the consequence to one reader family on either of two samples, a second family not contradicting) is 0.36 of the full quiet set (26 of 73); on the full quiet set (n = 73) the reading is [label] with [interval], descriptive and diluted; items whose single line carries the consequence are not a test of combination and are reported as such."
+**S-Fscope** (A6.14.4's scoping sentence adapted to the stratum branch, **accepted by A6.20 D5**: A6.17.1's bracket and A6.14.4's last clause kept, both net shares stated, the full set read descriptively with its dilution figure; it is attached to every *holds*, A6.16.1 (iii)). A6.14.4's own wording begins "P-max holds on the full quiet set", which is the first branch's carrier; the switch has fired, so it is not used as written:
+- *subset carrying:* "The resolved-anchor subset is 0.23 of the full quiet set (17 of 73); the comprehension-quiet stratum (no single line yields the consequence to one reader family on either of two samples, a second family not contradicting) is 0.36 of it (26 of 73), and on the stratum the reading is [label] with [interval]; on the full quiet set (n = 73) it is [label] with [interval], descriptive, with its dilution figure (this design reads *holds* at the margin with probability 0.63 under the upper bound on dilution, S-J1); items whose single line carries the consequence are not a test of combination and are reported as such."
+- *stratum carrying (after S-C1):* "The comprehension-quiet stratum (no single line yields the consequence to one reader family on either of two samples, a second family not contradicting) is 0.36 of the full quiet set (26 of 73); on the full quiet set (n = 73) the reading is [label] with [interval], descriptive, with its dilution figure (0.63, S-J1); items whose single line carries the consequence are not a test of combination and are reported as such."
 
 ### S-G. The disattenuated reading beside every *excluded* and *attenuated* (A6.5 (ii), A6.16.1 (i))
 
@@ -423,7 +435,7 @@ When the lead is S as the fallback carrier, [instrument] reads "the second named
 |---|---|---|
 | S-G1 | every *excluded* or *attenuated* label (any instrument, form, population) | "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives [value] [interval], which the same table would label [label]; a sensitivity, never the verdict." For form (b), the logit-scale coefficient is divided and contrast (b) recomputed. |
 
-### S-H. The third branch (A6.14.3; A6.18 (c)), reached at steps 3 or 4 of §5.5
+### S-H. The third branch (A6.14.3; A6.18 (c)), reached at steps 5 or 6 of §5.5
 
 | id | rule | sentence | next action |
 |---|---|---|---|
@@ -442,7 +454,7 @@ When the lead is S as the fallback carrier, [instrument] reads "the second named
 
 | id | rule | sentence |
 |---|---|---|
-| S-J1 | always (steps 1 and 2) | "On the full quiet set (n = [n]), descriptive under the switch (A6.14.3, A6.18 (a)), [instrument] form (a) reads contrast [value] [interval] ([label], descriptive); its dilution figure: with non-members at excess zero this design reads *holds* at the margin with probability 0.63 (0.36 with a small excess, 0.15 at the latent share 0.69, 0.48 at 0.46; Part 3); no verdict is issued from it." |
+| S-J1 | always (steps 1 to 4) | "On the full quiet set (n = [n]), descriptive under the switch (A6.14.3, A6.18 (a)), [instrument] form (a) reads contrast [value] [interval] ([label], descriptive); its dilution figure: with non-members at excess zero this design reads *holds* at the margin with probability 0.63 (0.36 with a small excess, 0.15 at the latent share 0.69, 0.48 at 0.46; Part 3); no verdict is issued from it." |
 
 ### S-K. The D_part interaction on the full set (A6.14.2), carrier and second instrument, form (a)
 
@@ -457,11 +469,11 @@ Form (a) on the full set is refitted with Kimi K3's mean D_part over its two sam
 
 ### S-L. The Q1-against-Q3 sensitivity (A6.4), form (b)
 
-The contrast is P(flag | Q3) − P(flag | Q1) at the **population's own net quartiles** (§1.2; for the full set 47.5 and 66.5, against A6.4's 47.5 and 68.0 on the gross 78). It is read under the same table against the scaled margin 0.3 × (Q3 − Q1) / 25. For form (a) it is identical to the 75-against-50 reading, because the model is linear in composition, so it is not repeated.
+The contrast is P(flag | 66.5) − P(flag | 47.5): **the full net set's quartiles, for every population** (A6.20 D7; §1.2; A6.4's 47.5 and 68.0 were the gross 78's; a population's own quartiles are not used). It is read under the same table against the scaled margin 0.3 × 19 / 25 = 0.228. For form (a) it is identical to the 75-against-50 reading, because the model is linear in composition, so it is not repeated.
 
 | id | rule | sentence |
 |---|---|---|
-| S-L1 | per instrument and population read | "Q1-against-Q3 sensitivity (A6.4), form (b), [instrument], [population]: P(flag \| [value]) − P(flag \| [value]) = [value] [interval] against the scaled margin [value]: [label]; a sensitivity, never primary." |
+| S-L1 | per instrument and population read | "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), [instrument], [population]: P(flag \| 66.5) − P(flag \| 47.5) = [value] [interval] against the scaled margin 0.228: [label]; a sensitivity, never primary." |
 | S-L2 | form (b) not read there | "Q1-against-Q3 sensitivity: not read ([floor \| ceiling \| unfit])." |
 
 ### S-M. The descriptive populations
@@ -577,13 +589,13 @@ The contrast is P(flag | Q3) − P(flag | Q1) at the **population's own net quar
 
 ## 9. S2's estimate line
 
-- **About $68** for T2+S2 on net units: 73 / 78 × $72.86, where $72.86 is Part 2's T2+S2 figure ($98.17) less the stripped live-view singleton units (A6.13.8). Item units scale by 232 / 248 and lone-line units by 438 / 468; both ratios are 0.936, so the figure is $68.16 to $68.19 whatever the per-cell split. **S2 does the exact arithmetic** with `--dry-run` on every view and judge, re-basing after the first batch of about 20 Opus 4.8 units (Part S S2).
+- **About $68** for T2+S2 on net units: 73 / 78 × $72.86, where $72.86 is Part 2's T2+S2 figure ($98.17) less the stripped live-view singleton units (A6.13.8). Item units scale by 232 / 248 and lone-line units by 438 / 468; both ratios are 0.936, so the figure is $68.16 to $68.19 whatever the per-cell split. **S2 confirms that $72.86 is the T2+S2 remainder after the live-view singleton strip, and does the exact arithmetic** with `--dry-run` on every view and judge, re-basing after the first batch of about 20 Opus 4.8 units (Part S S2).
 - **Aravind's decisions at S2:**
   - (1) T2+S2 and its estimate (A6.12, A6.13.8);
   - (2) the controls' lone-line add-on, $15.99 as A6.13.8 records it on the gross 22 (about $15.26 pro rata on the net 21). If approved, its valid draws are first checked through brief 27's harness at $0, under the candidates' lone-line need and author exclusion, on stream tag 6. A control short of its need leaves the add-on only.
   - (3) the k = 2 arm (§4.6), priced by S2, both branches written;
   - (4) A6.18 (o)'s optional re-read of the 16 unresolved-anchor items (about $4; after S1 commits, so that it cannot touch this plan; never a carrier change).
-- **Cap and stop as A6 sets them.** No cap gates the run (A6.12); Aravind approves the chosen layout's estimate before S3. The run stops at twice its estimate (CONTEXT section 4; about $136 on $68).
+- **Cap and stop as A6 sets them.** No cap gates the run (A6.12); Aravind approves the chosen layout's estimate before S3. The run stops at **twice S2's dry-run estimate** (CONTEXT section 4).
 
 ---
 
@@ -600,30 +612,38 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 
 ---
 
-## 11. The cold read (requested), and the choices this draft makes
+## 11. The cold read (done), the coordinator's decisions, and the choices this draft makes
 
-**Request.** The review session is asked to cold-read this draft against brief 28 v2.1 and brief 15 Section 0, Part S and A6 to A6.19.1 (F0 (d)). It should be briefed with this file and the sources named in its header, not with this section's conclusions. Per the standing note, a rater-style pass should not be briefed with STATUS reads.
+**The cold read.** `review/cold-read-s1-draft-2026-11-01.md` (32e8b0e8): the review session's read of v1 (d6bf4440), reconciled with an independent Fable 5.1 read. Verdict "ready with fixes". Fable reproduced `s1-populations-v0.json` byte for byte (f17e7a72) and verified every count, hash and simulation figure cited; nothing lets S1 depend on S3 data. This fills F0 (d). **What v2 changes, by the read:**
+- **Required (1):** the sources re-cited, with the key correction settled (header; §2.2 as a one-line note; K3 still confirms the keys brief 27's restricted mode reads).
+- **Required (2):** the full set's document-factor fallback ordered before the fit-failure rule, for both forms (§4.3).
+- **Required (3):** D3, D5 and D7 sent to the coordinator and decided by **brief 15 A6.20** (3a2c8b48), applied below.
+- **Optional, all adopted:** the order draft v2 → the coordinator's sign-off → commit (§0); the precedence floor → ceiling → fit (§4.3, S-E3); operating characteristics stated "at the pre-registered n" (S-F); S2 confirms the $72.86 reading and the stop is twice S2's dry-run estimate (§9); the author-exclusion file regenerated when an item draw changes (§2.4 (3)).
 
-**Choices made here that no amendment fixes word for word** (each argued; each is the cold read's to accept or change):
-- **D1. The lone-line author rule (§2.1).** The two lone placements are by different authors, neither of them an author of the item's two applications (A6.5 (iii)), and the days need not differ (A6.17.11's lone-line need). The cold read of brief 28 suggested "the same pair rule as items". With the A6.5 (iii) exclusion that would leave 42 of 219 lines short under some item draws (enumerated), so it is not adopted. Without the exclusion every line meets both, but A6.5 (iii) is pre-registered text.
-- **D2. The JSON keys (F0 (c)); this one also bears on brief 27.** Brief 28 F0 (c) and brief 27 v3's E2 (c2bbf0af, "E2's file keys corrected") both name `items[].draws.valid_by_day` as the per-item key the restricted mode reads. In `inserter-dry-run-v0.json` that key holds **per-day counts** (for example {"2026-04-06": 9, "2026-04-07": 9}). The item's valid (day, author) pairs are in **`items[].draws.valid_draws`**, a list of [day, author], the same shape as `items[].lone_lines[].valid_draws`. A restricted mode that reads only `valid_by_day` cannot restrict item draws to valid (day, author) pairs. §2.2 cites all three keys. K3 records which ones brief 27's restricted mode actually reads, and the commit checks that it reads `items[].draws.valid_draws` for items.
-- **D3. The fallback order when the carrier is unfit everywhere (§5.5).** A6.13.4's instrument fallback is taken at the third branch (step 4), after the population steps. It does not restart S at the subset. This is the literal reading of brief 28 F1 item 5 ("population steps down first …, and only then A6.13.4's instrument fallback"). A floor failure starts S at step 1.
+**Decided by A6.20 (coordinator, 2026-11-01 evening):**
+- **D3.** Whenever the second instrument takes the lead, on the carrier's floor failure or after the carrier's fit fails on both 17 and 26, it starts the cascade at step 1: 17, then 26, then the third branch, each step reported, labelled the fallback carrier. No joint operating characteristics exist for that cascade; the population's own figures under it are reported (§5.5, S-C3, S-F).
+- **D5.** The adaptation of A6.14.4's sentence to the stratum branch is accepted (S-Fscope).
+- **D7.** The Q1-against-Q3 sensitivity uses the full net set's quartiles, 47.5 and 66.5, for every population (S-L).
+
+**Choices the cold read accepted as drafted** (argued here; no amendment fixes them word for word):
+- **D1. The lone-line author rule (§2.1).** The two lone placements are by different authors, neither of them an author of the item's two applications (A6.5 (iii)), and the days need not differ (A6.17.11's lone-line need). It is feasible on all 219 lines, and brief 28 v2.1's "two different (day, author) pairs" covers it. Requiring different days as well would leave 42 lines short under some item draws (enumerated).
+- **D2. The per-item key** is settled by the dated corrections to briefs 27 and 28 (fork 0f88e77): `items[].draws.valid_draws`.
 - **D4. Where the floor and ceiling are computed (§4.3).** The floor is computed once, on the full set against the sham (brief 28 calls it population-independent); the ceiling on the population read.
-- **D5. A6.14.4's sentence in the stratum branch (S-Fscope).** A6.14.4's fixed wording begins "P-max holds on the full quiet set", which is the first branch's carrier. The stratum-branch form keeps its bracket (A6.17.1) and last clause, and carries both net shares (0.23, 0.36).
-- **D6. A6.18 (l)'s sentence** is attached to *partly missed* and *inconclusive*. For *falsified* the sentence quotes P(*falsified* | 0) = 0.00 instead (Part 3), since a *present* does not occur under the null in this design. The (l) text is still carried verbatim in §7.
-- **D7. The Q1-against-Q3 sensitivity (S-L)** is on form (b) only, because form (a) is linear, so it would repeat the main reading. It uses the population's own net quartiles, not A6.4's 47.5 and 68.0, which are the gross 78's.
-- **D8. The D_part interaction (S-K)** uses Kimi K3's mean D_part over both samples (the anchor reader of A6.14.2), with Sol beside. It runs under C and S, form (a), on the full set.
-- **D9. The disattenuation divisor (S-G)** is 0.846 (the partial reliability, since every model has covariates), with 0.915 beside. It is not recomputed per population.
-- **D10. Part S's mechanism join (S-Q)** is kept as descriptive on the quiet set and the controls. It needs no matched controls; the sham is left out because it is unrated on this axis.
-- **D11. The integer form of the stream seeds (§3)**: 20261181 × 100 + 10 t.
+- **D6. A6.18 (l)'s sentence** is attached to *partly missed* and *inconclusive*. For *falsified* the sentence quotes P(*falsified* | 0) = 0.00 instead (Part 3). The (l) text is still carried verbatim in §7.
+- **D8. The D_part interaction (S-K)** uses Kimi K3's mean D_part over both samples (the anchor reader of A6.14.2), with Sol beside, under C and S, form (a), on the full set.
+- **D9. The disattenuation divisor (S-G)** is 0.846 (the partial reliability, since every model has covariates), with 0.915 beside, not recomputed per population.
+- **D10. Part S's mechanism join (S-Q)** is kept as descriptive on the quiet set and the controls; there are no matched controls, and the sham is unrated on this axis.
+- **D11. The integer form of the stream seeds (§3):** 20261181 × 100 + 10 t.
 - **D12. S3's own drops (§2.4)** take the next draw of the same stream, before any judge call, counted.
-- **D13. The fit-failure rule (§4.3)** is brief 28's (more than 10 % of replicates). Part 3's simulated rule differs, and A6.18 (d) says the simulated fit rate is not evidence.
-- **D14. Valid draws for the controls' add-on and the k = 2 arm.** Brief 26 did not check either, so each is a $0 prerequisite if approved (§4.6, §9).
+- **D13. The fit-failure rule (§4.3)** is brief 28's (more than 10 % of replicates); Part 3's simulated rule differs, and A6.18 (d) says the simulated fit rate is not evidence.
+- **D14. Valid draws for the controls' add-on and the k = 2 arm.** Brief 26 checked neither, so each is a $0 prerequisite if approved (§4.6, §9).
 - **D15. Round 2's matching** band width and algorithm are left to round 2's own plan, committed before any round-2 judge call (§8).
 - **D16. G1 is read on the point estimate** (brief 22: "at least 0.65"), with its interval beside.
 - **D17. Sol's exclusion (A6.14.1)** covers every population derived from the stratum, not only the 26.
 
----
+**Two points v2 adds, applying rules already written** (for the coordinator's sign-off to confirm):
+- **D18. The third branch's handover (§5.5 step 6).** If the current lead is unfit on the full set too, the other named instrument reads the third branch, if it passed its floor. This is A6.13.4's fallback-carrier clause applied at the third branch; A6.20 does not say what follows a lead's failure there.
+- **D19. Form (a) on the full set follows O3's order** (§4.3): it refits without the document factor under the document-stratified bootstrap before it is called unfit. A6.16.2 does the same for the stratum populations; the extension to the full set is argued.
 
 ## 12. Checklist
 
@@ -637,24 +657,28 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 | switch 0.63 / 0.36 / 0.15 / 0.48; carrier 0.68 / 0.07 / 0.03 / 0.72 and 0.82 / 0.07 / 0.03 / 0.80; stratum 0.85 / 0.09 / 0.04 / 0.80; strict 0.67 / 0.08 / 0.03 / 0.71; full 0.97 / 0.03 / 0.03 / 0.92 (§5.1, S-J, S-H) | `power-simulation-v3c.md` / `.json`; A6.18 (a), (b) | ffd16e23… / 2086e72f… | `selection.pair.switch`; `gates["pair\|T2+S2\|subset\|dossier_iso:opus48\|none"]` and the stratum, strict and full rows |
 | combined verdict on the subset: 0.67 / 0.00 / 0.06 / 0.34 / 0.71; by ICC partly 0.23 / 0.36, falsified 0.37 / 0.34; stratum's partly 0.41 / 0.56, falsified 0.34 / 0.31, holds at margin 0.08 / 0.03 (§5.1, S-F) | `power-simulation-v3c.json` | 2086e72f… | `verdicts["pair\|T2+S2\|subset\|none"]`, `["pair\|T2+S2\|stratum\|none"]` `.by_icc` |
 | cascade 0.67 / 0.05 / 0.03 / 0.03 / 0.00 / 0.72 / 0.74 (§5.1) | `power-simulation-v3c.md` §5 | ffd16e23… | the cascade table, bar 0.9 |
-| full-set present 0.00; power 0.01 / 0.36 / 0.00 to 0.02 (S-H2) | A6.18 (c); `power-simulation-v3c.md` §4 | brief 15 1ed2d6b9; ffd16e23… | |
+| full-set present 0.00; power 0.01 / 0.36 / 0.00 to 0.02 (S-H2) | A6.18 (c); `power-simulation-v3c.md` §4 | brief 15 3a2c8b48; ffd16e23… | |
 | m_s 18.22 and 19.37; net-set 18.49 and 19.75 (§4.1) | A6.16.1 (v); `power-simulation-v3c.json` | 2086e72f… | `instruments.*.m_s`, `.m_s_net` |
 | form (b) null bias 0.040, 0.036, 0.050, 0.045, −0.004, +0.006 (MC SE 0.004) (§4.1, §5.4) | `power-simulation-v3b.md`, residual null bias table, T2+S2 (live T2) rows | 5f6b0eae… | |
 | Sonnet's m_s 19.07 and 22.47 (§4.1, descriptive rows) | `power-simulation-v3b.json` | 031795d5… | `margins.dossier_iso:sonnet.m_s`, `margins.P_author:sonnet.m_s` |
 | $98.17, units 248 / 468 / 5,040 (§2.6, §9) | `power-simulation-v3b.md` P4 | 5f6b0eae… | the P4 table |
-| $72.86, $15.99 (§9) | A6.13.8 | brief 15 1ed2d6b9 | |
+| $72.86, $15.99 (§9) | A6.13.8 | brief 15 3a2c8b48 | |
 | reliabilities 0.915 (r 0.843) and 0.846 (S-G) | A6.5 (ii), A6.13.5; `power-simulation-v3b.md` P1 | 5f6b0eae… | |
 | round 2: 12 / 44 per arm; 0.57 / 0.72 / 0.82 / 0.87 / 0.94; SD 17.6; slope 26 / 34 / 110; floor 12 + 12; target 26 + 12; yield 0.09 (§8) | A6.18 (n); `power-simulation-v3c.md` §6 / `.json` `round2` | ffd16e23… / 2086e72f… | `round2.level_table` |
-| m_L 18.22, latent 23.6 to 23.9 and 41.5 to 42.1 (§8) | A6.17.4, A6.18 (k) | brief 15 1ed2d6b9 | |
+| m_L 18.22, latent 23.6 to 23.9 and 41.5 to 42.1 (§8) | A6.17.4, A6.18 (k) | brief 15 3a2c8b48 | |
 | Kimi K3 routing figures (§7) | A6.17.10 (a), A6.18 (m); `power-simulation-v3c.md` §7 | brief 15; ffd16e23… | |
 | 0.36 / 0.23 shares (§1.2, S-Fscope) | A6.18 (j); `s1-populations-v0.json` | f17e7a72… | 26 / 73, 17 / 73 |
 | G1 0.65 (S-N) | brief 22 §1 | 3d9e83ca… | G1 |
-| seeds 20261181, 20261152, 20261112, 20261171, 20261190 (§3) | brief 28 F1 item 3; Part S S1; `views/calibration-v1.json`; Part 3; `work/checks/stage3_b4_power.py` line 51 | b6ff7b02; 1ed2d6b9; 44ea1c26; 2c1cf8cf | |
-| certified 11 / 10; matched-n bar 12 (§4.7) | A6.2 and its wording note; `s1-populations-v0.json` | 1ed2d6b9; f17e7a72… | `populations.certified` |
+| seeds 20261181, 20261152, 20261112, 20261171, 20261190 (§3) | brief 28 F1 item 3; Part S S1; `views/calibration-v1.json`; Part 3; `work/checks/stage3_b4_power.py` line 51 | brief 28 6e55d1d9; brief 15 3a2c8b48; 44ea1c26; 2c1cf8cf | |
+| certified 11 / 10; matched-n bar 12 (§4.7) | A6.2 and its wording note; `s1-populations-v0.json` | brief 15 3a2c8b48; f17e7a72… | `populations.certified` |
 | preview 11 / 7 gross, 11 / 6 net (S-M3) | A6.17.5; `s1-populations-v0.json` | f17e7a72… | `preview_*` |
 | module, class, corpus, day-0, T1 v3 plan hashes (§2) | `inserter-dry-run-v0.json` `module`, `document_states`; `work/stage3/t1v3/t1v3-plan.md` | edd289ce…; f667ab36… | |
 | nulls and rules (§4.9) | as listed in §4.9 | as listed | |
-| human anchor sheet 3857e1a9; 30 items (§10) | A6.18 (q) | brief 15 1ed2d6b9 | |
+| human anchor sheet 3857e1a9; 30 items (§10) | A6.18 (q) | brief 15 3a2c8b48 | |
+| the second instrument's own figures: subset 0.66 / 0.04 / 0.04 / 0.69, stratum 0.81 / 0.07 / 0.04 / 0.77, both readable (§5.5, S-F fallback-carrier clause) | `power-simulation-v3c.json`; A6.20 D3 | 2086e72f…; brief 15 3a2c8b48 | `gates["pair\|T2+S2\|subset\|P_author:opus48\|none"]`, `["pair\|T2+S2\|stratum\|P_author:opus48\|none"]` |
+| Q1-against-Q3 at 47.5 and 66.5; scaled margin 0.228 = 0.3 × 19 / 25 (S-L) | A6.20 D7; `s1-populations-v0.json` | brief 15 3a2c8b48; f17e7a72… | `populations.full.net_pair.composition.iqr` |
+| the cold read and its verdict (§0, §11) | `review/cold-read-s1-draft-2026-11-01.md` | 32e8b0e8… | |
+| brief 27's text and its dated notes (header) | `briefs/27-b3-lone-line-arm-2026-11-01.md` | c418550e… (e390ade7 at the key correction, fork 0f88e77; c418550e after the day-count correction, a6f6ec9) | |
 | brief 27's hashes | brief 27's record | **K1 to K4, at commit** | |
 
 ### 12.2 Every sentence selectable by a rule; nothing for S3 to compose
@@ -663,6 +687,7 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 - [x] Every slot is a computed number or a name from a closed list (§6.0). No slot takes free prose; the [reason] slot is closed (§4.3).
 - [x] Every verdict sentence names its next action (round 2, brief 22's gate, or the paper's scoped claim).
 - [x] The four-outcome table with m_s in place of 0.3 (S-D); the combination verdict, *holds*, *partly missed*, *falsified* and no verdict, including the two-step-conflict *inconclusive* within and across instruments (S-E2, S-F5, S-F6); the floor (S-A); form (b)'s ceiling (S-B); the disattenuated reading beside every *excluded* and *attenuated* (S-G); A6.14.3's three branches (the first is not reachable, since the switch fired before S3; the second is S-F; the third is S-H1 and S-H2 with the *present* sentence); the step-down sentences (S-C); the subset-against-stratum disagreement (S-I2); the D_part interaction (S-K); the Q1-against-Q3 sensitivity (S-L).
+- [x] Every "not read" slot is deterministic: floor, then ceiling, then fit (§4.3); the full set refits without the document factor before it is called unfit (§4.3).
 - [x] **The slots S3 fills are numbers and names.** The only text filled at commit is K1 to K5 (§0).
 
 ### 12.3 Brief 28 F1, item by item
@@ -685,8 +710,8 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 | A6.18 | implemented at |
 |---|---|
 | (a) the switch fires under every membership model | §5.1 first bullet; S-J1 |
-| (b) the carrier is the subset (17) at T2+S2; step-down 17 → 26 → third; strict and full beside | §1.1 (roles); §5.1; §5.2; §5.5 steps 1 to 3 |
-| (c) a full-set *present* stands, with its power | §5.5 step 3; S-H2 |
+| (b) the carrier is the subset (17) at T2+S2; step-down 17 → 26 → third; strict and full beside | §1.1 (roles); §5.1; §5.2; §5.5 steps 1, 2 and 5 |
+| (c) a full-set *present* stands, with its power | §5.5 steps 5 and 6; S-H2 |
 | (d) the fit bar cannot bind; 1.00 is not evidence | §4.3 (last sentence); §7; D13 |
 | (e) Monte Carlo margins; bound (ii) seed-sensitive for the subset | S-F1; §7 |
 | (f) the pooling rule stands | §4.2 (intervals) |
@@ -702,6 +727,17 @@ Aravind is scoring `rater/human-anchor-b3-sheet.md` (3857e1a9; 30 items, R3's) i
 | (p) sequencing: S1 drafted now, committed after brief 27's E4, citing briefs 26 and 27; S1 before S2 and S3 | §0 |
 | (q) the human anchor | §10 |
 
-### 12.5 Barrier
+### 12.5 A6.20 and the cold read's fixes, each mapped to the line that implements it
+
+| item | implemented at |
+|---|---|
+| A6.20 D3: S leads from step 1, on C's floor failure or after C is unfit on 17 and 26; each step reported; labelled the fallback carrier; no joint operating characteristics, the population's own figures | §5.5 (table and the paragraph under it); S-C3; S-F (the fallback-carrier form) |
+| A6.20 D5: A6.14.4 adapted to the stratum branch, bracket and last clause kept, both net shares, the full set descriptive with its dilution figure | S-Fscope |
+| A6.20 D7: Q1-against-Q3 at 47.5 and 66.5 for every population | S-L |
+| A6.20 "also": briefs 27 and 28 re-cited with the key settled | header; §2.2; K3; §12.1 |
+| A6.20 "also": the document-factor fallback before the fit-failure rule | §4.3 (the full set's order); §4.2 form (b) |
+| cold read optional items: commit order; precedence; "at the pre-registered n"; S2's confirmation and stop; the exclusion file regenerated | §0; §4.3 and S-E3; S-F; §9; §2.4 (3) |
+
+### 12.6 Barrier
 
 Not read or opened: Part W of brief 15 or any writer file; the anchor sheet and its draw file (the sheet's sha256 was computed only to match A6.18 (q)); `work/stage3/red/`; persona files; rater key files; judge caches; any candidate, control or sham item's text. No item line, document text, rubric or declared effect is printed here. No judge, reader or review view was called; no draw was computed; nothing was applied to any document state.
