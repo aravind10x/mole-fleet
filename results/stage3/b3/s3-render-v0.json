@@ -1,0 +1,204 @@
+{
+ "version": "b3-s3-driver/v0",
+ "written": "2026-11-01T20:18:22Z",
+ "applications_sha256": "02edac2a88fbdd3d9cfd4404e496aac6991c2f917fd27ca191394dc225c229bc",
+ "rows": {
+  "P_author_doc_iso|opus48": {
+   "view": "P_author_doc_iso",
+   "judge": "opus48",
+   "model": "anthropic.claude-opus-4-8",
+   "n_units": 796,
+   "n_item_units": 232,
+   "n_line_units": 564,
+   "packets_sha256": "56f1eefaf900da109465a15b09bfc58ee665717066bd90313f2ad407e618252e",
+   "estimate": {
+    "n_calls": 796,
+    "packet_chars": 1111546,
+    "system_chars": 1948,
+    "est_input_tokens": 1238211,
+    "est_output_tokens": 278998,
+    "output_tokens_per_call": 350.5,
+    "est_cost_usd": 13.166,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.044715000000000005,
+   "s2_dollars_at_basis": 35.5931
+  },
+  "P_author|opus48": {
+   "view": "P_author",
+   "judge": "opus48",
+   "model": "anthropic.claude-opus-4-8",
+   "n_units": 796,
+   "n_item_units": 232,
+   "n_line_units": 564,
+   "packets_sha256": "97037737425219a235011eaaa36717cb8691d22687676b24dfad87ee2499d881",
+   "estimate": {
+    "n_calls": 796,
+    "packet_chars": 810125,
+    "system_chars": 1554,
+    "est_input_tokens": 952144,
+    "est_output_tokens": 278998,
+    "output_tokens_per_call": 350.5,
+    "est_cost_usd": 11.7357,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.0129891875,
+   "s2_dollars_at_basis": 10.3394
+  },
+  "P_author_doc_iso|sonnet": {
+   "view": "P_author_doc_iso",
+   "judge": "sonnet",
+   "model": "anthropic.claude-sonnet-5",
+   "n_units": 796,
+   "n_item_units": 232,
+   "n_line_units": 564,
+   "packets_sha256": "56f1eefaf900da109465a15b09bfc58ee665717066bd90313f2ad407e618252e",
+   "estimate": {
+    "n_calls": 796,
+    "packet_chars": 1111546,
+    "system_chars": 1948,
+    "est_input_tokens": 1238211,
+    "est_output_tokens": 183080,
+    "output_tokens_per_call": 230.0,
+    "est_cost_usd": 4.3072,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.005964157894736842,
+   "s2_dollars_at_basis": 4.7475
+  },
+  "P_author|sonnet": {
+   "view": "P_author",
+   "judge": "sonnet",
+   "model": "anthropic.claude-sonnet-5",
+   "n_units": 796,
+   "n_item_units": 232,
+   "n_line_units": 564,
+   "packets_sha256": "97037737425219a235011eaaa36717cb8691d22687676b24dfad87ee2499d881",
+   "estimate": {
+    "n_calls": 796,
+    "packet_chars": 810125,
+    "system_chars": 1554,
+    "est_input_tokens": 952144,
+    "est_output_tokens": 183080,
+    "output_tokens_per_call": 230.0,
+    "est_cost_usd": 3.7351,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.0033760083333333334,
+   "s2_dollars_at_basis": 2.6873
+  },
+  "P_author_doc_live|opus48": {
+   "view": "P_author_doc_live",
+   "judge": "opus48",
+   "model": "anthropic.claude-opus-4-8",
+   "n_units": 232,
+   "n_item_units": 232,
+   "n_line_units": 0,
+   "packets_sha256": "ab4f2ba0483663585b86b3626a8b8a6cffcd8a9ccf97fb2e9ff83880b70093ec",
+   "estimate": {
+    "n_calls": 232,
+    "packet_chars": 873697,
+    "system_chars": 1694,
+    "est_input_tokens": 589165,
+    "est_output_tokens": 81316,
+    "output_tokens_per_call": 350.5,
+    "est_cost_usd": 4.9787,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.045700526315789476,
+   "s2_dollars_at_basis": 10.6025
+  },
+  "P_author_doc_live|sonnet": {
+   "view": "P_author_doc_live",
+   "judge": "sonnet",
+   "model": "anthropic.claude-sonnet-5",
+   "n_units": 232,
+   "n_item_units": 232,
+   "n_line_units": 0,
+   "packets_sha256": "ab4f2ba0483663585b86b3626a8b8a6cffcd8a9ccf97fb2e9ff83880b70093ec",
+   "estimate": {
+    "n_calls": 232,
+    "packet_chars": 873697,
+    "system_chars": 1694,
+    "est_input_tokens": 589165,
+    "est_output_tokens": 53360,
+    "output_tokens_per_call": 230.0,
+    "est_cost_usd": 1.7119,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.008382052631578948,
+   "s2_dollars_at_basis": 1.9446
+  },
+  "O_diff|sonnet": {
+   "view": "O_diff",
+   "judge": "sonnet",
+   "model": "anthropic.claude-sonnet-5",
+   "n_units": 232,
+   "n_item_units": 232,
+   "n_line_units": 0,
+   "packets_sha256": "19f2a1eac6326add970545d0f9d0849884576a65c2e68c6dea7edb0e867fd0e6",
+   "estimate": {
+    "n_calls": 232,
+    "packet_chars": 496454,
+    "system_chars": 1495,
+    "est_input_tokens": 392230,
+    "est_output_tokens": 53360,
+    "output_tokens_per_call": 230.0,
+    "est_cost_usd": 1.3181,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.005978078125,
+   "s2_dollars_at_basis": 1.3869
+  },
+  "O_diff|opus48": {
+   "view": "O_diff",
+   "judge": "opus48",
+   "model": "anthropic.claude-opus-4-8",
+   "n_units": 232,
+   "n_item_units": 232,
+   "n_line_units": 0,
+   "packets_sha256": "19f2a1eac6326add970545d0f9d0849884576a65c2e68c6dea7edb0e867fd0e6",
+   "estimate": {
+    "n_calls": 232,
+    "packet_chars": 496454,
+    "system_chars": 1495,
+    "est_input_tokens": 392230,
+    "est_output_tokens": 178060,
+    "output_tokens_per_call": 767.5,
+    "est_cost_usd": 6.4126,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.0333674609375,
+   "s2_dollars_at_basis": 7.7413
+  },
+  "O_diff|sol": {
+   "view": "O_diff",
+   "judge": "sol",
+   "model": "us.openai.gpt-6-sol",
+   "n_units": 232,
+   "n_item_units": 232,
+   "n_line_units": 0,
+   "packets_sha256": "19f2a1eac6326add970545d0f9d0849884576a65c2e68c6dea7edb0e867fd0e6",
+   "estimate": {
+    "n_calls": 232,
+    "packet_chars": 496454,
+    "system_chars": 1495,
+    "est_input_tokens": 392230,
+    "est_output_tokens": 58000,
+    "output_tokens_per_call": 250.0,
+    "est_cost_usd": 1.5009,
+    "n_truncated": 0
+   },
+   "s2_basis_per_unit": 0.006809999999999999,
+   "s2_dollars_at_basis": 1.5799
+  }
+ },
+ "labels_unique": true,
+ "n_labels": 4344,
+ "pre_signal_total_usd": 48.87,
+ "s2_total_usd": 76.62,
+ "s2_figure_usd": 76.62,
+ "ratio_to_figure": 0.638,
+ "escalate": false,
+ "note": "a pre-signal only: no exact token count exists before a request is sent; the exact count and the re-base are B1's (the plan's note of 2026-11-02, item 4)"
+}

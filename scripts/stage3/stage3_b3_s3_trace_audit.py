@@ -93,7 +93,7 @@ def is_allowed_category(p: str, root: Path = PROJECT) -> bool:
         return False
     r = rel(p, root)
     if r is None:
-        return any(p.startswith(x) for x in ALLOW_ABSOLUTE_PREFIXES)
+        return any(p.startswith(x) or p == x.rstrip("/") for x in ALLOW_ABSOLUTE_PREFIXES)   # a directory token is its own prefix
     return r == "." or any(r == x.rstrip("/") or r.startswith(x) for x in ALLOW_PREFIXES)
 
 

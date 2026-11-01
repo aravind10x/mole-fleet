@@ -498,7 +498,7 @@ def mode_render(ns) -> int:
     for view, judge in ORDER:
         us = cell_units(app, view, judge)
         for u in us:
-            labels[(view, u["packets"][view]["label"])] += 1
+            labels[(view, judge, u["packets"][view]["label"])] += 1       # unique within a cell (one cache per view and model)
         e = estimate_cell(us, view, judge)
         ph = hashlib.sha256("\n".join(sorted(sha256_text(u["packets"][view]["packet"]) for u in us)).encode()).hexdigest()
         cell = S2_CELL[(view, judge)]
