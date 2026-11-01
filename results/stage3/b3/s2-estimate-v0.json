@@ -1,0 +1,1661 @@
+{
+ "version": "b3-s2-estimate/v0",
+ "brief": "32 v3 (S2)",
+ "written": "2026-11-01T23:08:29+05:30",
+ "inputs_sha256": {
+  "work/stage3/b3/plan.md": "4c677dee2e825e7250e1bb94893011d7b8464c967cc9b22817b39a204ed8d507",
+  "work/stage3/b3/power-simulation-v3b.json": "031795d5f6ae160e4f55cc21bc8cc1594df9cd39015214f8843f22c4d538664c",
+  "work/stage3/b3/inserter-dry-run-v0.json": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8",
+  "work/stage3/b3/s1-populations-v0.json": "f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf",
+  "work/checks/stage3_b3_s1_populations.py": "9ea7d6879471eacbad1d2f85cc86ccf957bb864ac7882ae603c8ac3e848b7541",
+  "work/checks/stage3_b3_inserter_dry_run.py": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5",
+  "work/checks/stage3_t1.py": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "work/checks/test_stage3_t1_line_arm.py": "0ee5057bcb59037a3fa16e821bda495f810e38e189ab79e0a1eda8917c94559f",
+  "work/stage3/b3/inserter-dry-run-v1.json": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+  "work/checks/stage3_b3_inserter_dry_run_v1.py": "825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a"
+ },
+ "script": {
+  "path": "work/checks/stage3_b3_s2_estimate.py",
+  "sha256": "f8f102d9af9248d9a3c8e0fd42e57d479bf4d4e99515290f32e5d5731f26fb82"
+ },
+ "h1": {
+  "method": "units times Part 2's per-unit basis (`unit_costs[cell].used`), as Part 2 did; no packet, token or draw",
+  "rows": [
+   {
+    "view": "`P_author_doc` isolated, Opus 4.8",
+    "cell": "dossier_iso:opus48",
+    "item_units": 232,
+    "lone_units": 438,
+    "basis": 0.044715000000000005,
+    "basis_source": "B4-R",
+    "bases_listed": {
+     "B1/T1v3": 0.019360017502917153,
+     "B4-R": 0.044715000000000005
+    },
+    "dollars": 29.959050000000005
+   },
+   {
+    "view": "`P_author` zero-context (sealed), Opus 4.8",
+    "cell": "P_author:opus48",
+    "item_units": 232,
+    "lone_units": 438,
+    "basis": 0.0129891875,
+    "basis_source": "B1/T1v3",
+    "bases_listed": {
+     "B1/T1v3": 0.0129891875,
+     "B4-R": 0.011139752475247526
+    },
+    "dollars": 8.702755625
+   },
+   {
+    "view": "`P_author_doc` isolated, Sonnet 5",
+    "cell": "dossier_iso:sonnet",
+    "item_units": 232,
+    "lone_units": 438,
+    "basis": 0.005964157894736842,
+    "basis_source": "B4-R",
+    "bases_listed": {
+     "B1/T1v3": 0.0038840886814469075,
+     "B4-R": 0.005964157894736842
+    },
+    "dollars": 3.9959857894736843
+   },
+   {
+    "view": "`P_author` zero-context, Sonnet 5",
+    "cell": "P_author:sonnet",
+    "item_units": 232,
+    "lone_units": 438,
+    "basis": 0.0033760083333333334,
+    "basis_source": "B1/T1v3",
+    "bases_listed": {
+     "B1/T1v3": 0.0033760083333333334,
+     "B4-R": 0.0032205544554455446
+    },
+    "dollars": 2.2619255833333334
+   },
+   {
+    "view": "`P_author_doc` live, Opus 4.8",
+    "cell": "dossier_live:opus48",
+    "item_units": 232,
+    "lone_units": 0,
+    "basis": 0.045700526315789476,
+    "basis_source": "B4-R",
+    "bases_listed": {
+     "B1/T1v3": 0.028578844807467908,
+     "B4-R": 0.045700526315789476
+    },
+    "dollars": 10.602522105263159
+   },
+   {
+    "view": "`P_author_doc` live, Sonnet 5",
+    "cell": "dossier_live:sonnet",
+    "item_units": 232,
+    "lone_units": 0,
+    "basis": 0.008382052631578948,
+    "basis_source": "B4-R",
+    "bases_listed": {
+     "B1/T1v3": 0.0058838203033838975,
+     "B4-R": 0.008382052631578948
+    },
+    "dollars": 1.944636210526316
+   },
+   {
+    "view": "`O_diff`, Sonnet 5",
+    "cell": "O_diff:sonnet",
+    "item_units": 232,
+    "lone_units": 0,
+    "basis": 0.005978078125,
+    "basis_source": "B1/T1v3",
+    "bases_listed": {
+     "B1/T1v3": 0.005978078125,
+     "B4-R": 0.004741175257731959
+    },
+    "dollars": 1.386914125
+   },
+   {
+    "view": "`O_diff`, Opus 4.8",
+    "cell": "O_diff:opus48",
+    "item_units": 232,
+    "lone_units": 0,
+    "basis": 0.0333674609375,
+    "basis_source": "B1/T1v3",
+    "bases_listed": {
+     "B1/T1v3": 0.0333674609375,
+     "B4-R": 0.02424926546391753
+    },
+    "dollars": 7.7412509375
+   },
+   {
+    "view": "`O_diff`, GPT-6 Sol",
+    "cell": "O_diff:sol",
+    "item_units": 232,
+    "lone_units": 0,
+    "basis": 0.006809999999999999,
+    "basis_source": "brief09 estimate basis",
+    "bases_listed": {
+     "brief09 realised": 0.003425725,
+     "brief09 estimate basis": 0.006809999999999999
+    },
+    "dollars": 1.5799199999999998
+   }
+  ],
+  "item_units": 2088,
+  "lone_units": 1752,
+  "units": 3840,
+  "dollars": 68.1749603760965,
+  "plan_stated_totals": {
+   "item_units": 2088,
+   "lone_units": 1752,
+   "units": 3840
+  },
+  "sums_equal_plan": true,
+  "lone_line_cells": [
+   "P_author:opus48",
+   "P_author:sonnet",
+   "dossier_iso:opus48",
+   "dossier_iso:sonnet"
+  ],
+  "gap": {
+   "part2_dollars_file": 98.17345748311403,
+   "part2_dollars_recomputed": 98.17345748311403,
+   "part2_item_units_per_cell": [
+    248
+   ],
+   "part2_lone_units_per_cell": {
+    "468": 6,
+    "0": 3
+   },
+   "step1_net_counts": 91.86312995504386,
+   "step1_less": 6.310327528070175,
+   "step2_live_lone_stripped": 68.1749603760965,
+   "step2_less": 23.688169578947367,
+   "plan9_remainder_after_live_strip_gross": 72.86281053574561,
+   "plan9_pro_rata_73_of_78": 68.19211755268499,
+   "ratios": {
+    "item": 0.9354838709677419,
+    "lone": 0.9358974358974359
+   }
+  },
+  "checks": {
+   "part2": 98.17,
+   "net_counts": 91.86,
+   "h1": 68.17
+  }
+ },
+ "h2": {
+  "table": {
+   "path": "work/stage3/b3/inserter-dry-run-v1.json",
+   "sha256": "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
+   "version": "b3-inserter-dry-run/v1",
+   "script": {
+    "path": "work/checks/stage3_b3_inserter_dry_run_v1.py",
+    "sha256": "825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a",
+    "copy_of": {
+     "path": "work/checks/stage3_b3_inserter_dry_run.py",
+     "sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5",
+     "sha256_now": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5"
+    },
+    "controls_lone_lines": true,
+    "table_of_shape": {
+     "path": "work/stage3/b3/inserter-dry-run-v0.json",
+     "sha256": "edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8"
+    }
+   },
+   "compare_to_v0": {
+    "items": 124,
+    "diffs": [
+     {
+      "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "67d562f5d0bcdec705c066f87eaa95d724eee8cba552f1446ae5a918c9954981",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+      "regime": "control",
+      "field": "lone_lines"
+     },
+     {
+      "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+      "regime": "control",
+      "field": "lone_lines"
+     }
+    ],
+    "only_control_lone_lines": true
+   },
+   "candidates_reproduced": {
+    "net_candidate_lines": 219,
+    "two_valid_by_different_authors": 219,
+    "every_item_pair_leaves_two_by_different_authors": 219,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 177,
+    "beside_item_pair_cases": 18018,
+    "beside_item_pair_cases_short_with_different_days": 462
+   }
+  },
+  "how": "the pinned `lone_line_feasibility()` called on a copy of the table in which the net control items carry the regime it reads and the candidates do not (all at once and per item); the per-pair counts by this script with the function's own predicate `_two_by_different_authors`; the two agree on every item",
+  "function_fields_all_controls": {
+   "net_candidate_lines": 63,
+   "two_valid_by_different_authors": 63,
+   "every_item_pair_leaves_two_by_different_authors": 63,
+   "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 50,
+   "beside_item_pair_cases": 4974,
+   "beside_item_pair_cases_short_with_different_days": 142
+  },
+  "function_fields_per_item": {
+   "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 405,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 231,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 2,
+    "beside_item_pair_cases": 30,
+    "beside_item_pair_cases_short_with_different_days": 10
+   },
+   "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 231,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 477,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 405,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 147,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 0,
+    "beside_item_pair_cases": 33,
+    "beside_item_pair_cases_short_with_different_days": 33
+   },
+   "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 147,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 477,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 204,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 147,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 231,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 0,
+    "beside_item_pair_cases": 33,
+    "beside_item_pair_cases_short_with_different_days": 33
+   },
+   "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 147,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 0,
+    "beside_item_pair_cases": 33,
+    "beside_item_pair_cases_short_with_different_days": 33
+   },
+   "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 204,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 477,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 405,
+    "beside_item_pair_cases_short_with_different_days": 0
+   },
+   "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 0,
+    "beside_item_pair_cases": 33,
+    "beside_item_pair_cases_short_with_different_days": 33
+   },
+   "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3": {
+    "net_candidate_lines": 3,
+    "two_valid_by_different_authors": 3,
+    "every_item_pair_leaves_two_by_different_authors": 3,
+    "beside_every_item_pair_leaves_two_on_different_days_by_different_authors": 3,
+    "beside_item_pair_cases": 477,
+    "beside_item_pair_cases_short_with_different_days": 0
+   }
+  },
+  "agrees_with_function": {
+   "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0": true,
+   "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee": true,
+   "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b": true,
+   "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42": true,
+   "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23": true,
+   "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af": true,
+   "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397": true,
+   "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9": true,
+   "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f": true,
+   "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67": true,
+   "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da": true,
+   "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d": true,
+   "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f": true,
+   "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e": true,
+   "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8": true,
+   "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa": true,
+   "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde": true,
+   "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3": true,
+   "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3": true,
+   "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837": true,
+   "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3": true
+  },
+  "controls": [
+   {
+    "item_id": "07d10150487e9a8e1ebae7bf09573c0c028348f3de4e3e57fdabcd5b9fb998c0",
+    "writer": "glm53",
+    "n_pairs": 135,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "291fbb5aefba0ed9b8ff298e315ac627ba0485c55a81c375d7f859da236aa1ee",
+    "writer": "sonnet55",
+    "n_pairs": 77,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+    "writer": "sonnet55",
+    "n_pairs": 10,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 11,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       10,
+       10,
+       10
+      ],
+      "pairs_all_three_lines_met": 10,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       10,
+       10,
+       0
+      ],
+      "pairs_all_three_lines_met": 0,
+      "pairs_short": 10,
+      "lines_short_under_some_pair": [
+       3
+      ],
+      "class": "none: no pair meets the need"
+     }
+    }
+   },
+   {
+    "item_id": "4294f4264c9447780f8fa488d0e36cf7b5355913d4a5d8498178a53bf7933f42",
+    "writer": "glm53",
+    "n_pairs": 77,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "4e610424e8a6c6d2209dd61bcfac4f514f826397d635396fa330ea027301da23",
+    "writer": "sonnet55",
+    "n_pairs": 159,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "575e0912a4bc37102f211c3bde850b6da9502d2bbd2d34e878315f922020b2af",
+    "writer": "sonnet55",
+    "n_pairs": 135,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "58b590cfd78cbe14066dc77df9a6752cb96c4ab058b6f5cd618093b9686a1397",
+    "writer": "glm53",
+    "n_pairs": 49,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "6e285c364ccdbf4189681ce185b507def213666980a41927a4919e900bd4eef9",
+    "writer": "glm53",
+    "n_pairs": 11,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       11,
+       11,
+       11
+      ],
+      "pairs_all_three_lines_met": 11,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       0,
+       0,
+       0
+      ],
+      "pairs_all_three_lines_met": 0,
+      "pairs_short": 11,
+      "lines_short_under_some_pair": [
+       1,
+       2,
+       3
+      ],
+      "class": "none: no pair meets the need"
+     }
+    }
+   },
+   {
+    "item_id": "7aada045116d76491fb8f2f223293ff29072b38a7d06f3eaa9a1611f56dc328f",
+    "writer": "glm53",
+    "n_pairs": 49,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "87782fda619907162e7df9f7bce2b15e93bd434e6b7981427172071df9db6f67",
+    "writer": "sonnet55",
+    "n_pairs": 159,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+    "writer": "sonnet55",
+    "n_pairs": 68,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       68,
+       68,
+       68
+      ],
+      "pairs_all_three_lines_met": 68,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       68,
+       68,
+       68
+      ],
+      "pairs_all_three_lines_met": 68,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "9c5e5ca84db06e45825e0cc7abc72305950933539a239739f88402cf0918a21d",
+    "writer": "sonnet55",
+    "n_pairs": 49,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "a26878edbd3c286c7471cb9c67d523d98cf3fea1793a1a2ca220716339a39f5f",
+    "writer": "glm53",
+    "n_pairs": 77,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       77,
+       77,
+       77
+      ],
+      "pairs_all_three_lines_met": 77,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "abc2eb57fabc425d5dfe685c93832f3949cd2705276003498e165aa7372ca30e",
+    "writer": "sonnet55",
+    "n_pairs": 11,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       11,
+       11,
+       11
+      ],
+      "pairs_all_three_lines_met": 11,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       0,
+       0,
+       0
+      ],
+      "pairs_all_three_lines_met": 0,
+      "pairs_short": 11,
+      "lines_short_under_some_pair": [
+       1,
+       2,
+       3
+      ],
+      "class": "none: no pair meets the need"
+     }
+    }
+   },
+   {
+    "item_id": "ad08e7e720fa12c993bd9ebf6e2482716bce0458f7d49988472d51fe65df9cc8",
+    "writer": "sonnet55",
+    "n_pairs": 49,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 16,
+      "drawable": 17,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       49,
+       49,
+       49
+      ],
+      "pairs_all_three_lines_met": 49,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "b4ba62b8befe9bcb7395c606c48db0461856d554de54bc1b84385309ae28bbfa",
+    "writer": "sonnet55",
+    "n_pairs": 11,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       11,
+       11,
+       11
+      ],
+      "pairs_all_three_lines_met": 11,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       0,
+       0,
+       0
+      ],
+      "pairs_all_three_lines_met": 0,
+      "pairs_short": 11,
+      "lines_short_under_some_pair": [
+       1,
+       2,
+       3
+      ],
+      "class": "none: no pair meets the need"
+     }
+    }
+   },
+   {
+    "item_id": "d42fc02e615255d78684e0a509f5d742d9bcc93bb51cb109add91517bc612cde",
+    "writer": "glm53",
+    "n_pairs": 68,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 19,
+      "drawable": 19,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       68,
+       68,
+       68
+      ],
+      "pairs_all_three_lines_met": 68,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       68,
+       68,
+       68
+      ],
+      "pairs_all_three_lines_met": 68,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "d80fe1cdb75b5578466aaa9c4e8d678c9f57db57cff980b53a0c3e3709d342b3",
+    "writer": "glm53",
+    "n_pairs": 159,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "ef6e19101a67bc43d33f351e96b3e714dfc9f613796b130f6362ef0d9ee559b3",
+    "writer": "sonnet55",
+    "n_pairs": 135,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 25,
+      "drawable": 26,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       135,
+       135,
+       135
+      ],
+      "pairs_all_three_lines_met": 135,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   },
+   {
+    "item_id": "f4585252612697c7ea4a714cee48769697d4f732a11db3761a26dbeef02ff837",
+    "writer": "glm53",
+    "n_pairs": 11,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 12,
+      "drawable": 12,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       11,
+       11,
+       11
+      ],
+      "pairs_all_three_lines_met": 11,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       0,
+       0,
+       0
+      ],
+      "pairs_all_three_lines_met": 0,
+      "pairs_short": 11,
+      "lines_short_under_some_pair": [
+       1,
+       2,
+       3
+      ],
+      "class": "none: no pair meets the need"
+     }
+    }
+   },
+   {
+    "item_id": "f4c98ad9ff4d7730ff1f09e5e23d317b82468ccb9688337e667e66d45550f9b3",
+    "writer": "glm53",
+    "n_pairs": 159,
+    "lines": [
+     {
+      "role": 1,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 2,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     },
+     {
+      "role": 3,
+      "valid_draws": 28,
+      "drawable": 28,
+      "two_valid_by_different_authors": true
+     }
+    ],
+    "variants": {
+     "different_authors": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     },
+     "beside_different_days_too": {
+      "pairs_meeting_need_per_line": [
+       159,
+       159,
+       159
+      ],
+      "pairs_all_three_lines_met": 159,
+      "pairs_short": 0,
+      "lines_short_under_some_pair": [],
+      "class": "all pairs pass"
+     }
+    }
+   }
+  ],
+  "net_controls": {
+   "n": 21,
+   "ids_sha256": "3db4d199cc3dc9edf215a91de84de2861b0cd42b81c21f984318345b2afdfb4c"
+  },
+  "classes": {
+   "different_authors": {
+    "all pairs pass": 21
+   },
+   "beside_different_days_too": {
+    "all pairs pass": 16,
+    "none: no pair meets the need": 5
+   }
+  },
+  "none_ids": [],
+  "addon": {
+   "remaining_items": 21,
+   "units_per_view": 126,
+   "views": [
+    "dossier_iso:opus48",
+    "P_author:opus48",
+    "dossier_iso:sonnet",
+    "P_author:sonnet"
+   ],
+   "basis_sum_per_unit": 0.06704435372807017,
+   "dollars": 8.447588569736842,
+   "dollars_max_all_net": 8.447588569736842,
+   "check_max": 8.45,
+   "gap_to_part2": {
+    "part2_gross": 15.988755113157897,
+    "part2_recomputed": 15.988755113157895,
+    "net_pro_rata": 15.261993517105266,
+    "live_cells_stripped": 6.814404947368422,
+    "units_part2": 132,
+    "cells_part2": 6,
+    "cells_here": 4
+   }
+  }
+ },
+ "h3": {
+  "price": {
+   "items": 10,
+   "ids_sha256": "e2182f06d4b2a0afffd8110f22f2cbe52f960afeabca983ec1ea72ea01975c98",
+   "placements": 2,
+   "views": [
+    "dossier_iso:opus48",
+    "dossier_live:opus48",
+    "P_author:sonnet",
+    "O_diff:sonnet",
+    "P_author:opus48",
+    "O_diff:opus48",
+    "O_diff:sol"
+   ],
+   "units_per_view": 20,
+   "dollars": 3.0587252242324565,
+   "check": 3.06,
+   "beside_both_authors_scored_on_per_agent_views": 5.194339667214913
+  },
+  "cleanness": {
+   "(i) no new application code": {
+    "passes": false,
+    "finding": "restricted mode maps an arm to the table's draws through `PartSInserter._which`, which returns None for k2 (\"item\" for the lone arm, a role index for a line arm); `plant` and `apply_at` then refuse k2 with RF_ARM (\"no valid draws are listed for this arm\"), and brief 27's test `test_every_restricted_draw_comes_from_the_valid_set` asserts that refusal for k2 and k3. `apply_at` places one (day, author); a k = 2 placement is two roles on two days and two authors. `ValidDraws` reads only the keys `document`, `draws`, `item_id`, `lone_lines` per item (no k = 2 split). Default mode has the k2 arm (`Inserter._roles`: lines [0, 1] on one author, [2] on another; `layout` draws days i, i + 1 for i in {0, 1}) but without the valid-draw restriction, which A6.17.11 requires in code; so the arm needs new code in restricted mode."
+   },
+   "(ii) no new arm or stream beyond tag 5": {
+    "passes": true,
+    "finding": "plan §3 reserves tag 5 for the k = 2 arm; no further tag or stream change is needed for it."
+   },
+   "(iii) valid draws at $0 by brief 26's method, read by restricted mode unchanged": {
+    "passes": false,
+    "finding": "brief 26's `enumerate_draws` enumerates the lone arm's (day, author) draws over `days[:2]` with one author per draw, and `run` adds one-statement lone lines; neither enumerates a k = 2 split (two roles, two authors, days i and i + 1, the third bank day included, with the roles' interference). A k = 2 table would need new enumeration code, and restricted mode has no key to read it by (i)."
+   },
+   "clean": false
+  },
+  "skipped": true
+ },
+ "confirmation": [
+  {
+   "form": "H1 + H2",
+   "dollars": 76.62254894583333,
+   "stop_2x": 153.24509789166666
+  }
+ ]
+}
