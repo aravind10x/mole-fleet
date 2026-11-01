@@ -147,6 +147,13 @@ Verdict: ready for prose once four fixes are in. Applied here, and nothing else 
 - **Fixes 2 and 3 and decision 5 are the coordinator's calls**, so they stay marked pending in §9, §3, §14, §2 and §15. Fix 2's recomputation needs Part J's rating files, which this session does not open (A5.6). Until the coordinator records each one, the prose carries a pending marker in place of Part J's lift and Spearman, and of the generator's model id. The Stage 0 to 2 sentences stay number-free.
 - **Prose starts on this version**, with A5.1 (4)'s order: the research statement first, then the sections.
 
+## Dated note, 2026-11-02: the coordinator's decisions on fixes 2 and 3 and decision 5 (STATUS 2026-11-02)
+
+- **Fix 3, resolved.** The generator is Kimi K2.6, per the erratum `q1q2-synthetic/erratum-generator-2026-11-02.md` (7815092d) and the world's launch lines (`prefix/launch-line-v2c.txt` 44bd205b; `prefix/launch-line-v3rc.txt` 7343be1f). These and the other nine launch lines were added to the manifest by W0b (manifest 914a318b, 101 files; fork 467c510). §3 and §14 name Kimi K2.6 and cite them; 07p's frozen files are unchanged.
+- **Brief 22 §0's chance figure** is now traced to `b4/power-simulation-b4.md`, tagged design (W0b). §11 writes it with that tag.
+- **Decision 5, accepted.** The committed Stage 0 to 2 result files that §2 and §15 need are added by W0c, tagged exploratory and mirrored under the fork's results/stage0 to stage2. A sentence with no such file stays number-free.
+- **Fix 2, still pending.** Part J's lift and Spearman wait for brief 34's record (`b3/rater/partj-lift-v0.{json,md}`). It enters the manifest by a W0 amendment once STATUS records it, tagged methods. §9 keeps its pending markers until then.
+
 ## Changelog
 
 - v1, 2026-11-02: from A5.2; W0 done first (manifest 88 files, 67c72050).
