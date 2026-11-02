@@ -160,7 +160,8 @@ def cell_items(rows: Sequence[Mapping[str, Any]], view: str, judge: str) -> dict
         sc = r.get("score")
         sc = float(sc) if (r["outcome"] == "scored" and sc is not None) else None
         if r["arm"] == "item":
-            it["tri"][int(r["placement"])] = {"score": sc, "flag": bool(r.get("flag")) if sc is not None else None, "outcome": r["outcome"]}
+            it["tri"][int(r["placement"])] = {"score": sc, "flag": bool(r.get("flag")) if sc is not None else None,
+                                              "flag_unit": bool(r.get("flag_unit", r.get("flag"))) if sc is not None else None, "outcome": r["outcome"]}
         else:
             it["lines"][int(r["role"])][int(r["placement"])] = {"score": sc, "outcome": r["outcome"]}
     return out
@@ -180,6 +181,7 @@ def item_summary(it: Mapping[str, Any], need_lines: bool) -> dict[str, Any]:
         else:
             lines_ok = False
     out = {"tri_scores": [t["score"] if t else None for t in tri], "tri_flags": [t["flag"] if t else None for t in tri],
+           "tri_flags_unit": [t["flag_unit"] if t else None for t in tri],
            "tri_ok": tri_ok, "n_tri_scored": sum(1 for t in tri if t is not None and t["score"] is not None),
            "lines": lines, "lines_ok": lines_ok}
     if tri_ok:
@@ -363,16 +365,21 @@ def form_b(C, line, gap, sonnet, edit, doc, F, strata, with_doc, rng, bias, indi
 
 def clustered_mean(rng, v: np.ndarray, strata=None) -> dict[str, Any]:
     """The mean of an item-level quantity (or of its applications, v (n, P)) with a clustered or stratified percentile
-    interval over items."""
+    interval over items. A NaN application is unscored and leaves the denominator (the note's rule (b)); an item with
+    no scored application leaves too."""
     v = np.asarray(v, float)
     if v.ndim == 1:
         v = v[:, None]
+    valid = ~np.isnan(v)
+    keep = valid.any(1)
+    v, valid = v[keep], valid[keep]
     n = len(v)
-    wt = weights_for(rng, n, strata)
-    m = (wt @ v.sum(1)) / (wt.sum(1) * v.shape[1])
+    wt = weights_for(rng, n, strata[keep] if strata is not None else None)
+    m = (wt @ np.nansum(v, 1)) / np.maximum(wt @ valid.sum(1), 1e-12)
     lo, hi = (float(x) for x in np.percentile(m, [2.5, 97.5]))
-    return {"point": float(v.mean()), "lo": lo, "hi": hi, "n": n, "k": int(v.sum()) if np.all(np.isin(v, (0, 1))) else None,
-            "applications": int(v.size)}
+    vals = v[valid]
+    return {"point": float(vals.mean()), "lo": lo, "hi": hi, "n": n, "k": int(vals.sum()) if np.all(np.isin(vals, (0, 1))) else None,
+            "applications": int(valid.sum()), "unscored_applications": int((~valid).sum())}
 
 
 def clopper_pearson(k: int, n: int) -> list[float]:
@@ -382,14 +389,18 @@ def clopper_pearson(k: int, n: int) -> list[float]:
 
 
 def auroc_clustered(rng, a: np.ndarray, b: np.ndarray) -> dict[str, Any]:
-    """AUROC of a (n_a, P) against b (n_b, P) application scores with a bootstrap clustered on both sets' items."""
-    Pa, Pb = a.shape[1], b.shape[1]
-    M = pv.auroc_matrix(a.ravel(), b.ravel())
+    """AUROC of a (n_a, P) against b (n_b, P) application scores with a bootstrap clustered on both sets' items. A NaN
+    application is unscored and leaves (the note's rule (b)); an item with none scored leaves too."""
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    a, b = a[~np.isnan(a).all(1)], b[~np.isnan(b).all(1)]
+    va, vb = ~np.isnan(a), ~np.isnan(b)
+    ia, ib = np.repeat(np.arange(len(a)), a.shape[1])[va.ravel()], np.repeat(np.arange(len(b)), b.shape[1])[vb.ravel()]
+    M = pv.auroc_matrix(a[va], b[vb])
     wa, wb = weights_for(rng, len(a), None), weights_for(rng, len(b), None)
-    Wa, Wb = np.repeat(wa, Pa, axis=1), np.repeat(wb, Pb, axis=1)
+    Wa, Wb = wa[:, ia], wb[:, ib]
     au = ((Wa @ M) * Wb).sum(1) / (Wa.sum(1) * Wb.sum(1))
     lo, hi = (float(x) for x in np.percentile(au, [2.5, 97.5]))
-    return {"point": float(M.mean()), "lo": lo, "hi": hi, "n_a": len(a), "n_b": len(b)}
+    return {"point": float(M.mean()), "lo": lo, "hi": hi, "n_a": len(a), "n_b": len(b), "applications_a": int(va.sum()), "applications_b": int(vb.sum())}
 
 
 # ── one instrument ────────────────────────────────────────────────────────────────────────────────
@@ -448,6 +459,7 @@ class Instrument:
                 "line": np.array([S[i].get("line_max", np.nan) for i in ids], float) if not self.live else np.array([M[i]["line_max"] for i in ids], float),
                 "tri": np.array([S[i]["tri_scores"] for i in ids], float),
                 "F": np.array([S[i]["tri_flags"] for i in ids], float),
+                "F_unit": np.array([S[i]["tri_flags_unit"] for i in ids], float),
                 "kimi": np.array([M[i]["readers"]["kimi"]["D_part_mean"] for i in ids], float),
                 "sol": np.array([M[i]["readers"]["sol"]["D_part_mean"] for i in ids], float)}
 
@@ -461,47 +473,59 @@ class Instrument:
         """Section 4.3: once, on the full quiet set's evaluable items against the sham's scored applications."""
         ids = self.evaluable_ids("full")
         A = self.arrays(ids, "full")
-        sh = [s for s in sham.values() if s["tri_ok"]]
-        tri_sh = np.array([s["tri_scores"] for s in sh], float)
-        F_sh = np.array([s["tri_flags"] for s in sh], float)
-        out: dict[str, Any] = {"n_quiet": len(ids), "n_sham": len(sh)}
+        sh = [s for s in sham.values() if s["n_tri_scored"] > 0]          # the note's rule (b): an unscored application leaves, not its item
+        nan = float("nan")
+        tri_sh = np.array([[x if x is not None else nan for x in s["tri_scores"]] for s in sh], float)
+        F_sh = np.array([[x if x is not None else nan for x in s["tri_flags"]] for s in sh], float)
+        F_sh_u = np.array([[x if x is not None else nan for x in s["tri_flags_unit"]] for s in sh], float)
+        out: dict[str, Any] = {"n_quiet": len(ids), "n_sham": len(sh), "sham_applications_scored": int((~np.isnan(tri_sh)).sum()) if len(sh) else 0}
         if not self.live:
             au = auroc_clustered(self.rng("floor_a"), A["tri"], tri_sh)
             out["a"] = {**au, "pass": au["lo"] > 0.5}
         rq, rs = clustered_mean(self.rng("floor_b_q"), A["F"]), clustered_mean(self.rng("floor_b_s"), F_sh)
         kq, nq = int(A["F"].sum()), A["F"].size
-        ks, ns = int(F_sh.sum()), F_sh.size
+        ks, ns = rs["k"], rs["applications"]
         out["b"] = {"quiet": rq, "sham": rs, "pass": rq["lo"] > rs["hi"], "cp_quiet": clopper_pearson(kq, nq), "cp_sham": clopper_pearson(ks, ns),
-                    "cp_pass": clopper_pearson(kq, nq)[0] > clopper_pearson(ks, ns)[1]}
+                    "cp_pass": clopper_pearson(kq, nq)[0] > clopper_pearson(ks, ns)[1], "flag": "the sealed author-level reading (union)"}
+        rqu, rsu = clustered_mean(self.rng("floor_b_q_unit"), A["F_unit"]), clustered_mean(self.rng("floor_b_s_unit"), F_sh_u)
+        out["b_unit"] = {"quiet": rqu, "sham": rsu, "pass": rqu["lo"] > rsu["hi"], "flag": "the planted unit's own flag, beside"}
         return out
 
     # readings ------------------------------------------------------------------------------------
-    def read(self, pop: str, floor_b_pass: bool, extra_a: Mapping[str, np.ndarray] | None = None) -> dict[str, Any]:
+    def read(self, pop: str, floor_a_pass: bool, floor_b_pass: bool, extra_a: Mapping[str, np.ndarray] | None = None,
+             ids: Sequence[str] | None = None) -> dict[str, Any]:
         """Form (a) and form (b) on one population: the full set under section 4.3's order (document factor, then without
         it under the document-stratified bootstrap), a stratum population without the document factor under the pooled
-        strata; the ceiling for (b); the precedence floor, ceiling, fit."""
-        ids = self.evaluable_ids(pop)
-        A = self.arrays(ids, pop)
-        out: dict[str, Any] = {"population": pop, "loss": self.loss(pop), "ids_sha256": ids_sha256(ids)}
-        if len(ids) < 4:
-            out["a"] = {"fit_ok": False, "reason": "the design is singular", "n": len(ids)}
-            out["b"] = {"fit_ok": False, "reason": "the design is singular", "n": len(ids)}
+        strata; the precedence floor, then the ceiling (form (b)), then fit (section 4.3). An instrument at floor (a) is
+        not read: both forms carry `not_read` "floor" and no label (G3). `ids` restricts the items (G6's clean set)."""
+        ids = list(ids) if ids is not None else self.evaluable_ids(pop)
+        out: dict[str, Any] = {"population": pop, "loss": self.loss(pop), "ids_sha256": ids_sha256(ids), "n": len(ids)}
+        if not floor_a_pass and not self.live:
+            out["a"] = {"fit_ok": False, "not_read": "floor", "n": len(ids)}
+            out["b"] = {"fit_ok": False, "not_read": "floor", "n": len(ids)}
             out["recall"] = None
             return out
-        rq = clustered_mean(self.rng(f"recall|{pop}"), A["F"], A["strata"])
-        out["recall"] = rq
-        out["ceiling"] = rq["point"] > CEILING
-        if A["empty_stratum"] is not None:
-            reason = f"pooled stratum {A['empty_stratum']} is empty"
-            out["a"] = {"fit_ok": False, "reason": reason, "n": len(ids)}
-            out["b"] = {"fit_ok": False, "reason": reason, "n": len(ids)}
-            return out
+        A = self.arrays(ids, pop) if ids else None
+        if ids:
+            rq = clustered_mean(self.rng(f"recall|{pop}"), A["F"], A["strata"])
+            out["recall"] = rq
+            out["recall_unit"] = clustered_mean(self.rng(f"recall_unit|{pop}"), A["F_unit"], A["strata"])
+            out["ceiling"] = rq["point"] > CEILING
+        else:
+            out["recall"], out["recall_unit"], out["ceiling"] = None, None, False
+        fit_reason = None
+        if len(ids) < 4:
+            fit_reason = "the design is singular"
+        elif A["empty_stratum"] is not None:
+            fit_reason = f"pooled stratum {A['empty_stratum']} is empty"
         if not self.live:
-            out["a"] = self._fit_order(pop, A, "a", extra_a)
+            out["a"] = {"fit_ok": False, "reason": fit_reason, "n": len(ids)} if fit_reason else self._fit_order(pop, A, "a", extra_a)
         if floor_b_pass is False:
             out["b"] = {"fit_ok": False, "not_read": "floor", "n": len(ids)}
         elif out["ceiling"]:
-            out["b"] = {"fit_ok": False, "not_read": "ceiling", "n": len(ids), "recall": rq["point"]}
+            out["b"] = {"fit_ok": False, "not_read": "ceiling", "n": len(ids), "recall": out["recall"]["point"]}
+        elif fit_reason:
+            out["b"] = {"fit_ok": False, "reason": fit_reason, "n": len(ids)}
         else:
             out["b"] = self._fit_order(pop, A, "b", None)
         return out
@@ -635,29 +659,35 @@ def composed(rows: Sequence[Mapping[str, Any]], matrix: Mapping[str, Any], judge
         ids = [i for i in matrix["populations"]["full"]["ids"] if i in summ and i in I.summary]
         pairs = [(summ[i]["tri_flags"][p], I.summary[i]["tri_flags"][p]) for i in ids for p in (0, 1)
                  if summ[i]["tri_scores"][p] is not None and I.summary[i]["tri_scores"][p] is not None]
-        by_item: dict[str, list] = defaultdict(list)
-        for i in ids:
-            for p in (0, 1):
-                if summ[i]["tri_scores"][p] is not None and I.summary[i]["tri_scores"][p] is not None:
-                    by_item[i].append(summ[i]["tri_flags"][p] - I.summary[i]["tri_flags"][p])
-        its = sorted(by_item)
-        d = np.array([np.mean(by_item[i]) for i in its])
-        wt = weights_for(rng, len(its), None)
-        m = (wt @ d) / wt.sum(1)
-        lo, hi = (float(x) for x in np.percentile(m, [2.5, 97.5]))
-        out["gap"][k] = {"point": float(np.mean([a - b for a, b in pairs])), "lo": lo, "hi": hi, "applications": len(pairs),
-                         "o_share": float(np.mean([a for a, _ in pairs])), "per_agent_recall": float(np.mean([b for _, b in pairs]))}
+        def gap(flag_key):
+            by_item: dict[str, list] = defaultdict(list)
+            prs = []
+            for i in ids:
+                for p in (0, 1):
+                    if summ[i]["tri_scores"][p] is not None and I.summary[i]["tri_scores"][p] is not None:
+                        by_item[i].append(summ[i]["tri_flags"][p] - I.summary[i][flag_key][p])
+                        prs.append((summ[i]["tri_flags"][p], I.summary[i][flag_key][p]))
+            its = sorted(by_item)
+            d = np.array([np.mean(by_item[i]) for i in its])
+            wt = weights_for(rng, len(its), None)
+            m = (wt @ d) / wt.sum(1)
+            lo, hi = (float(x) for x in np.percentile(m, [2.5, 97.5]))
+            return {"point": float(np.mean([a - b for a, b in prs])), "lo": lo, "hi": hi, "applications": len(prs),
+                    "o_share": float(np.mean([a for a, _ in prs])), "per_agent_recall": float(np.mean([b for _, b in prs]))}
+        out["gap"][k] = {**gap("tri_flags"), "flag": "the sealed author-level reading (union)", "unit_beside": gap("tri_flags_unit")}
     return out
 
 
 # ── the readings, assembled ───────────────────────────────────────────────────────────────────────
 
-def compute(matrix: Mapping[str, Any], scores: Mapping[str, Any], own_drops: Mapping[str, Any] | None = None) -> dict[str, Any]:
+def compute(matrix: Mapping[str, Any], scores: Mapping[str, Any], own_drops: Mapping[str, Any] | None = None,
+            clean_items: Mapping[str, Any] | None = None) -> dict[str, Any]:
     lock = analysis_lock(scores)
     rows = scores["rows"]
     complete = set(lock["complete_cells"])
     R: dict[str, Any] = {"version": VERSION, "lock": lock, "instruments": {}, "floors": {}, "readings": {}, "labels": {},
-                         "own_drops": own_drops or {"n": 0, "ids": [], "reasons": {}}}
+                         "own_drops": own_drops or {"n": 0, "ids": [], "reasons": {}},
+                         "clean_items": {"touched_ids_sha256": ids_sha256(clean_items["touched_ids"]), "n_touched": len(clean_items["touched_ids"])} if clean_items else None}
     inst: dict[str, Instrument] = {}
     for k, (view, judge) in INSTRUMENTS.items():
         inst[k] = Instrument(k, matrix, rows, f"{view}|{judge}" in complete)
@@ -673,18 +703,28 @@ def compute(matrix: Mapping[str, Any], scores: Mapping[str, Any], own_drops: Map
                                "evaluable": {p: len(I.evaluable_ids(p)) for p in READ_POPS + DESC_POPS + ("certified",)},
                                "loss": {p: I.loss(p) for p in READ_POPS}}
         R["floors"][k] = I.floor(sham)
+        fa = True if I.live else R["floors"][k]["a"]["pass"]
         fb = R["floors"][k]["b"]["pass"]
         pops = READ_POPS + DESC_POPS if k in NAMED else READ_POPS
-        R["readings"][k] = {p: I.read(p, fb) for p in pops}
+        R["readings"][k] = {p: I.read(p, fa, fb) for p in pops}
         R["labels"][k] = {p: instrument_label(R["readings"][k][p].get("a", {}), R["readings"][k][p].get("b", {})) for p in pops}
-        # anchors (S-O1): the controls' and the sham's lone recall and mean scores
+        if not fa:                                   # G3: an instrument at floor (a) is not read; only its floor sentence issues
+            R["readings"][k].update({"anchors": {"not_read": "floor"}, "secondary": {"not_read": "floor"}, "mechanism": {"not_read": "floor"},
+                                     "certified": {"not_read": "floor"}, "preview": {"not_read": "floor"}, "dpart": {"not_read": "floor"},
+                                     "stratum_without_nine": {"not_read": "floor"}, "clean": {"not_read": "floor"}})
+            continue
+        # anchors (S-O1): the controls' and the sham's lone recall (the union, the unit's own flag beside) and mean scores; an unscored
+        # application leaves the denominator (the note's rule (b))
         rng = I.rng("anchors")
         anc = {}
+        nan = float("nan")
         for name, grp in (("controls", ctrl), ("sham", sham)):
-            ok = [s for s in grp.values() if s["tri_ok"]]
+            ok = [s for s in grp.values() if s["n_tri_scored"] > 0]
             if ok:
-                F = np.array([s["tri_flags"] for s in ok], float)
-                anc[name] = {"recall": clustered_mean(rng, F), "mean_score": float(np.mean([s["tri_mean"] for s in ok])), "n_items": len(ok),
+                F = np.array([[x if x is not None else nan for x in s["tri_flags"]] for s in ok], float)
+                Fu = np.array([[x if x is not None else nan for x in s["tri_flags_unit"]] for s in ok], float)
+                scored = [x for s in ok for x in s["tri_scores"] if x is not None]
+                anc[name] = {"recall": clustered_mean(rng, F), "recall_unit": clustered_mean(rng, Fu), "mean_score": float(np.mean(scored)), "n_items": len(ok),
                              "unscored_applications": int(sum(2 - s["n_tri_scored"] for s in grp.values()))}
             else:
                 anc[name] = None
@@ -695,7 +735,8 @@ def compute(matrix: Mapping[str, Any], scores: Mapping[str, Any], own_drops: Map
             R["readings"][k]["certified"] = certified(I)
             R["readings"][k]["preview"] = preview(I)
             R["readings"][k]["dpart"] = dpart(I)
-            R["readings"][k]["stratum_without_nine"] = I.read("subset", fb)["a"]   # the stratum less its nine unresolved members is the subset
+            R["readings"][k]["stratum_without_nine"] = I.read("subset", fa, fb)["a"]   # the stratum less its nine unresolved members is the subset
+            R["readings"][k]["clean"] = clean_readings(I, clean_items, fa, fb)         # G6: form (a) on the items none of whose applications broke a later honest edit
     R["cascade"] = cascade(inst, R["floors"], R["readings"])
     R["composed"] = {}
     for j in O_JUDGES:
@@ -706,6 +747,26 @@ def compute(matrix: Mapping[str, Any], scores: Mapping[str, Any], own_drops: Map
 
 def view_of(k: str) -> str:
     return INSTRUMENTS[k][0]
+
+
+def clean_readings(I: Instrument, clean_items: Mapping[str, Any] | None, fa: bool, fb: bool) -> dict[str, Any]:
+    """G6 (brief 33's dated note 3): beside the reading, never in its place, form (a) on the population's items none of whose
+    applications broke a later honest edit, for the subset and the stratum; descriptive, no label, no effect on the cascade.
+    The exclusion set is read from the file the A3b script fixed."""
+    if clean_items is None:
+        return {"not_read": "no clean-items file"}
+    touched = set(clean_items["touched_ids"])
+    out = {}
+    for pop in ("subset", "stratum"):
+        ev = I.evaluable_ids(pop)
+        keep = [i for i in ev if i not in touched]
+        n_pop = len(I.pop_ids(pop))
+        r = I.read(pop, fa, fb, ids=keep)
+        a = r.get("a", {})
+        out[pop] = {"n_population": n_pop, "n_evaluable": len(ev), "n_excluded": len(ev) - len(keep), "n": len(keep), "fit_ok": bool(a.get("fit_ok")),
+                    "reason": a.get("reason") or a.get("not_read"),
+                    "contrast": ({kk: a["contrast"][kk] for kk in ("point", "lo", "hi")} if a.get("fit_ok") else None), "ids_sha256": ids_sha256(keep)}
+    return out
 
 
 def secondary(I: Instrument, ctrl: Mapping[str, dict]) -> dict[str, Any]:
@@ -728,7 +789,7 @@ def secondary(I: Instrument, ctrl: Mapping[str, dict]) -> dict[str, Any]:
     ind = np.array([0.0] * len(qids) + [1.0] * len(cids))
     r = form_b(C, line, gap, sonnet, edit, doc, F, None, True, I.rng("secondary"), I.bias, indicator=ind)
     if not r["fit_ok"]:
-        r2 = form_b(C, line, gap, sonnet, edit, doc, F, np.unique(doc, return_inverse=True)[1], False, I.rng("secondary|nodoc"), I.bias, indicator=ind)
+        r2 = form_b(C, line, gap, sonnet, edit, doc, F, pooled_codes(doc), False, I.rng("secondary|nodoc"), I.bias, indicator=ind)   # O7: section 4.3's pooling
         r2["attempts"] = [{"with_doc": True, "fit_ok": False, "reason": r.get("reason")}, {"with_doc": False, "fit_ok": r2["fit_ok"], "reason": r2.get("reason")}]
         r = r2
     r["n_quiet"], r["n_controls"] = len(qids), len(cids)
@@ -820,8 +881,9 @@ def _name(k: str, fallback: bool) -> str:
     return INSTRUMENT_NAME[k]
 
 
-def s_d(k: str, form: str, pop: str, r: Mapping[str, Any], n: int, fallback: bool, provisional: Mapping[str, Any] | None) -> dict:
-    """S-D1 to S-D4 for one reading (section 5.3), with clause E; form (b) adds its bias-net lower bound."""
+def s_d(k: str, form: str, pop: str, r: Mapping[str, Any], n: int, fallback: bool, provisional: Mapping[str, Any] | None, descriptive: bool = False) -> dict:
+    """S-D1 to S-D4 for one reading (section 5.3), with clause E; form (b) adds its bias-net lower bound; outside the verdict
+    population (or under an instrument that is not the lead) the reading is marked descriptive, section 5.4 (4) (O4)."""
     c = r["contrast"]
     lab = c["label"]
     d = 1 if form == "a" else 2
@@ -838,6 +900,8 @@ def s_d(k: str, form: str, pop: str, r: Mapping[str, Any], n: int, fallback: boo
     text = head + tail
     if form == "b":
         text += f"; its lower bound net of the simulated null bias {_d(c['bias'], 3)} is {_d(c['lo_net_of_bias'], 3)}"
+    if descriptive:
+        text += " (descriptive; no verdict, section 5.4 (4))"
     text += " " + CLAUSE_E
     if provisional and provisional.get("provisional"):
         text = f"provisional: {provisional['lost']} of {provisional['n']} items not evaluable under {_name(k, fallback)}. " + text
@@ -858,7 +922,12 @@ def s_g(k: str, form: str, pop: str, r: Mapping[str, Any], fallback: bool) -> di
 def s_e(k: str, pop: str, L: Mapping[str, Any], r: Mapping[str, Any], fallback: bool) -> dict:
     name = _name(k, fallback)
     if L["a"] is None:
-        return {"id": "S-E3", "family": "S-E", "instrument": k, "population": pop, "text": f"{name} is not read on {POP_NAME[pop]} (unfit); form (b) is not read."}
+        a_reason = r.get("a", {}).get("reason") or r.get("a", {}).get("not_read") or "unfit"
+        if L.get("b") is not None:
+            return {"id": "S-E3", "family": "S-E", "instrument": k, "population": pop,
+                    "text": f"{name} form (a) is unfit on {POP_NAME[pop]} ({a_reason}), so the instrument carries no label there; form (b) beside reads {_lab(L['b'])} (descriptive; no instrument label)."}
+        return {"id": "S-E3", "family": "S-E", "instrument": k, "population": pop,
+                "text": f"{name} carries no label on {POP_NAME[pop]} (form (a) {a_reason}); form (b) is not read ({r.get('b', {}).get('not_read') or r.get('b', {}).get('reason') or 'unfit'})."}
     if L.get("b") is None:
         nr = L.get("b_not_read", "unfit")
         return {"id": "S-E3", "family": "S-E", "instrument": k, "population": pop,
@@ -968,8 +1037,6 @@ def s_f(R: Mapping[str, Any]) -> list[dict]:
             out.append({"id": "S-Fs1", "family": "S-F", "text": f"The {oname} confirms it ({_lab(Lo['label'])}; {_d(oc['point'])} {_iv(oc)})."})
         else:
             out.append({"id": "S-Fs2", "family": "S-F", "text": f"The {oname} reads {_lab(Lo['label'])} ({_d(oc['point'])} {_iv(oc)}), beside."})
-    if label in ("excluded", "attenuated"):
-        out.append(s_g(lead, "a", pop, R["readings"][lead][pop]["a"], fb))
     return out
 
 
@@ -1006,21 +1073,24 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
                                                                                  f"{interval(fa['lo'], fa['hi'])}; the lower bound is at or under 0.5)."})
     if cas["state"] == "no_verdict" and cas.get("sentence") == "S-A3":
         out.append({"id": "S-A3", "family": "S-A", "text": "floor; not read under either named instrument: round 1 issues no verdict on P-max in this design; every cell is descriptive."})
+    at_floor_a = {k for k in NAMED if R["instruments"][k].get("complete") and not R["floors"][k]["a"]["pass"]}   # G3: only the floor sentence
     for k in NAMED + D_ROWS:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         fb = R["floors"][k]["b"]
         q, s = fb["quiet"], fb["sham"]
+        bu = R["floors"][k]["b_unit"]
+        beside = f"; the planted unit's own flag beside: quiet {fmt(bu['quiet']['point'])} {interval(bu['quiet']['lo'], bu['quiet']['hi'])} against the sham's upper bound {fmt(bu['sham']['hi'])}"
         if fb["pass"]:
             out.append({"id": "S-A5", "family": "S-A", "instrument": k, "text": f"form (b) is above the floor under {INSTRUMENT_NAME[k]} (quiet lone recall {fmt(q['point'])} "
                                                                                  f"{interval(q['lo'], q['hi'])}; sham upper bound {fmt(s['hi'])}; application-level Clopper-Pearson "
-                                                                                 f"{interval(*fb['cp_quiet'])} beside)."})
+                                                                                 f"{interval(*fb['cp_quiet'])} beside{beside})."})
         else:
             out.append({"id": "S-A4", "family": "S-A", "instrument": k, "text": f"floor; form (b) is not read under {INSTRUMENT_NAME[k]} (quiet lone recall {fmt(q['point'])} "
-                                                                                 f"{interval(q['lo'], q['hi'])} against the sham's upper bound {fmt(s['hi'])}); form (a)'s label is unaffected."})
+                                                                                 f"{interval(q['lo'], q['hi'])} against the sham's upper bound {fmt(s['hi'])}{beside}); form (a)'s label is unaffected."})
     # S-B and S-C5 for the named instruments on the populations read
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         for pop in READ_POPS:
             rd = R["readings"][k][pop]
@@ -1061,8 +1131,9 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
             out.append({"id": "S-C6", "family": "S-C", "instrument": other, "population": pop,
                         "text": f"{INSTRUMENT_NAME[other]} does not fit on {POP_NAME[pop]}: {R['readings'][other][pop]['a'].get('reason')}; it drops out, named (A6.13.4)."})
     # S-D and S-E per named instrument, form and population read
+    verdict_at = (cas.get("instrument"), cas.get("population")) if cas["state"] == "read" else (None, None)
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         fb = cas.get("fallback", False) and k == "S"
         for pop in READ_POPS:
@@ -1072,7 +1143,9 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
             for form in ("a", "b"):
                 r = rd.get(form, {})
                 if r.get("fit_ok"):
-                    out.append(s_d(k, form, pop, r, n, fb, prov))
+                    out.append(s_d(k, form, pop, r, n, fb, prov, descriptive=(k, pop) != verdict_at))
+                    if r["contrast"]["label"] in ("excluded", "attenuated"):
+                        out.append(s_g(k, form, pop, r, fb))            # G4: S-G1 beside every excluded or attenuated reading
             out.append(s_e(k, pop, R["labels"][k][pop], rd, fb))
     # S-F with S-G
     out += s_f(R)
@@ -1124,9 +1197,24 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
                                                                f"{_name(k, cas['fallback'])} form (a) reads contrast {_d(c['point'])} {_iv(c)} ({_lab(R['labels'][k]['full']['label'])}, descriptive); its dilution "
                                                                f"figure: with non-members at excess zero this design reads *holds* at the margin with probability 0.63 (0.36 with a small excess, 0.15 at the "
                                                                f"latent share 0.69, 0.48 at 0.46; Part 3); no verdict is issued from it."})
+    # S-G6: form (a) on the items none of whose applications broke a later honest edit (brief 33's dated note 3), beside, descriptive
+    for k in NAMED:
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
+            continue
+        cl = R["readings"][k].get("clean") or {}
+        if cl.get("not_read"):
+            continue
+        for pop in ("subset", "stratum"):
+            c = cl[pop]
+            head = (f"Beside the reading (descriptive; brief 33's dated note 3, G6): {INSTRUMENT_NAME[k]} form (a) on the {POP_NAME[pop]} items none of whose applications broke "
+                    f"a later honest edit (n = {c['n']} of {c['n_evaluable']} evaluable, {c['n_excluded']} excluded; population {c['n_population']})")
+            if c["fit_ok"]:
+                out.append({"id": "S-G6", "family": "S-G6", "instrument": k, "population": pop, "text": f"{head}: contrast {_d(c['contrast']['point'])} {interval(c['contrast']['lo'], c['contrast']['hi'], 1)}; no label, no effect on the cascade or the verdict."})
+            else:
+                out.append({"id": "S-G6b", "family": "S-G6", "instrument": k, "population": pop, "text": f"{head}: too few items for the fit ({c['reason']}); no label, no effect on the cascade or the verdict."})
     # S-K: the D_part interaction, carrier and second instrument
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         dp = R["readings"][k]["dpart"]
         ki, so = dp["kimi"], dp["sol"]
@@ -1150,7 +1238,7 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
                                                                                 f"{_iv(so['interaction_fit']['coef_interaction'])}."})
     # S-L: the Q1-against-Q3 sensitivity, form (b), per named instrument and population read
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         for pop in READ_POPS:
             b = R["readings"][k][pop].get("b", {})
@@ -1199,7 +1287,8 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
         if not co or co.get("complete") is False or not co.get("full"):
             continue
         f, c, s = co["full"], co.get("controls"), co.get("sham")
-        gaps = "; ".join(f"its gap over {INSTRUMENT_NAME[k]} on the same applications {_d(g['point'], 2)} {_iv(g, 2)}" for k, g in co["gap"].items() if g)
+        gaps = "; ".join(f"its gap over {INSTRUMENT_NAME[k]} on the same applications {_d(g['point'], 2)} {_iv(g, 2)} (the planted unit's own flag beside: {_d(g['unit_beside']['point'], 2)})"
+                         for k, g in co["gap"].items() if g)
         text = (f"The composed view (`O_diff`, {JUDGE_NAME[j]}, at its sealed rule) flags {_d(f['point'], 2)} {_iv(f, 2)} of the full quiet set's item applications (n = {f['n_items']} items, "
                 f"{f['applications']} applications); controls {_d(c['point'], 2) if c else 'n/a'}; sham {_d(s['point'], 2) if s else 'n/a'}; {gaps}; not a P-max reading and no partition (A6.3 (e))")
         if j != "sol" and co.get("stratum"):
@@ -1217,15 +1306,16 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
                                                                f"{_iv(f, 2)}, below 0.65; the stratum's {_d(st.get('point'), 2)} beside (A6.16.1 (vi))."})
     # S-O: anchors per per-agent view, and the named secondary
     for k in NAMED + D_ROWS:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         an = R["readings"][k]["anchors"]
         c, s = an.get("controls"), an.get("sham")
         if c and s:
             out.append({"id": "S-O1", "family": "S-O", "instrument": k, "text": f"Anchors under {INSTRUMENT_NAME[k]}: lone recall, controls {_d(c['recall']['point'], 2)} {_iv(c['recall'], 2)} and sham "
-                                                                                 f"{_d(s['recall']['point'], 2)} {_iv(s['recall'], 2)}; mean scores, controls {_d(c['mean_score'])} and sham {_d(s['mean_score'])}; descriptive."})
+                                                                                 f"{_d(s['recall']['point'], 2)} {_iv(s['recall'], 2)} (the sealed author-level reading; the planted unit's own flag beside: controls "
+                                                                                 f"{_d(c['recall_unit']['point'], 2)}, sham {_d(s['recall_unit']['point'], 2)}); mean scores, controls {_d(c['mean_score'])} and sham {_d(s['mean_score'])}; descriptive."})
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         sec = R["readings"][k]["secondary"]
         if sec.get("fit_ok"):
@@ -1236,7 +1326,7 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
     out.append({"id": "S-P0", "family": "S-P", "text": "A6.3 (d)'s k = 2 descriptive arm was not run (not approved at S2)."})
     # S-Q
     for k in NAMED:
-        if not R["instruments"][k].get("complete"):
+        if not R["instruments"][k].get("complete") or k in at_floor_a:
             continue
         m = R["readings"][k]["mechanism"]
         if m.get("point") is None:
@@ -1265,6 +1355,8 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
                     if k in LIVE:
                         text += "; form (a) is not read on a live view"
                     out.append({"id": "S-R1", "family": "S-R", "instrument": k, "form": form, "population": pop, "text": text + "."})
+                    if c["label"] in ("excluded", "attenuated"):
+                        out.append(s_g(k, form, pop, r, False))              # G4
                 else:
                     nr = r.get("not_read") or "unfit"
                     out.append({"id": "S-R2", "family": "S-R", "instrument": k, "form": form, "population": pop,
@@ -1290,6 +1382,13 @@ def render_md(R: Mapping[str, Any], meta: Mapping[str, Any], disclosures: Mappin
     L = ["# B3 results (S3; brief 33): every sentence selected by rule from `work/stage3/b3/plan.md`", ""]
     L.append(f"Plan `{meta['plan']['path']}` {meta['plan']['sha256'][:8]} (fork commit {meta['plan'].get('commit', 'n/a')}); matrix {meta['matrix_sha256'][:8]}; scores {meta['scores_sha256'][:8]}; "
              f"readings script {meta['script_sha256'][:8]}; judge clients {', '.join(f'{k} {v[:8]}' for k, v in meta['client_sha256'].items())} (section 4.10); window rule: {meta['window_rule']}.")
+    L.append(f"Bootstrap sub-streams (O6): every reading draws its 2,000 replicates from `default_rng([20261152, sha256('<instrument>|<reading tag>')[:4]])`, one stream per reading, so each is reproducible on its own; the seed 20261152 is the plan's. "
+             f"Flags: the sealed author-level reading (the union, plan.md's dated note 3 of 2026-11-02), the planted unit's own flag beside.")
+    if meta.get("dryrun_oc"):
+        oc = meta["dryrun_oc"]
+        L.append(f"Operating characteristics (O3): the readings script's own dry run through Part 3's simulator (seed 20261171, tag 500, 300 experiments, ICC 0.3, the subset under the \"none\" model) gives the carrier P(excluded | 0) {oc['P_excl_0']:.2f}, "
+                 f"P(excluded | margin) {oc['P_excl_margin']:.2f}, P(LB > 0 | 0) {oc['P_lb_0']:.2f}, P(present | 1.5 x) {oc['P_present_x1.5']:.2f}, beside Part 3's 0.68 / 0.07 / 0.03 / 0.72 that S-F's fixed clauses quote; "
+                 f"bound (ii) sits {oc.get('se_below_bound', 'n/a')} Monte Carlo SE below 0.10 here against Part 3's 1.8 (section 7, A6.18 (e)); the cascade was selected on Part 3's figures as pre-registered.")
     L.append("")
     lock = R["lock"]
     L.append(f"Analysis lock: {lock['rows']} of {lock['expected_rows']} rows; incomplete rows {lock['incomplete'] or 'none'}; stopped: {bool(lock['stopped'])}.")
@@ -1325,12 +1424,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--plan", default=str(PROJECT / PLAN))
     ap.add_argument("--out-dir", default=str(PROJECT / "work/stage3/b3"))
     ap.add_argument("--own-drops", default=None, help="S3's own drops record (JSON: n, ids, reasons, by_population)")
+    ap.add_argument("--clean-items", default=str(PROJECT / "work/stage3/b3/s3-clean-items-v0.json"), help="G6: the items touched by a broken honest edit (ids), from the A3b script")
+    ap.add_argument("--dryrun", default=str(PROJECT / "work/stage3/b3/s3-readings-dryrun-v0.json"), help="O3: the dry run's operating characteristics, quoted beside Part 3's")
     ap.add_argument("--plan-commit", default=None)
     ap.add_argument("--window-rule", default="the corpus span (build_world: days = corpus_days(rows)); units built as planted_items (B1)")
     ns = ap.parse_args(argv)
     matrix, scores = load_json(Path(ns.matrix)), load_json(Path(ns.scores))
     own = load_json(Path(ns.own_drops)) if ns.own_drops else None
-    R = compute(matrix, scores, own)
+    clean = load_json(Path(ns.clean_items)) if ns.clean_items and Path(ns.clean_items).exists() else None
+    R = compute(matrix, scores, own, clean)
     plan_text = Path(ns.plan).read_text(encoding="utf-8")
     disc = plan_sections(plan_text)
     meta = {"version": VERSION, "plan": {"path": PLAN, "sha256": hashlib.sha256(plan_text.encode("utf-8")).hexdigest(), "commit": ns.plan_commit},
@@ -1338,7 +1440,16 @@ def main(argv: list[str] | None = None) -> int:
             "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "client_sha256": {"judge_client.py": hashlib.sha256((HERE / "judge_client.py").read_bytes()).hexdigest(),
                               "judge_openrouter.py": hashlib.sha256((HERE / "judge_openrouter.py").read_bytes()).hexdigest()},
-            "window_rule": ns.window_rule}
+            "window_rule": ns.window_rule, "clean_items_sha256": hashlib.sha256(Path(ns.clean_items).read_bytes()).hexdigest() if clean else None}
+    if ns.dryrun and Path(ns.dryrun).exists():
+        oc = load_json(Path(ns.dryrun)).get("oc") or {}
+        cells = oc.get("cells", {})
+        if cells:
+            C0, Cm, C15 = cells["null|subset|none"]["form_a"]["C"], cells["margin|subset|none"]["form_a"]["C"], cells["x1.5|subset|none"]["form_a"]["C"]
+            n = oc["experiments"]
+            pm = Cm["excluded"]
+            meta["dryrun_oc"] = {"P_excl_0": C0["excluded"], "P_excl_margin": pm, "P_lb_0": C0["attenuated"] + C0["present"], "P_present_x1.5": C15["present"],
+                                 "experiments": n, "se_below_bound": round((0.10 - pm) / max((pm * (1 - pm) / n) ** 0.5, 1e-9), 1), "dryrun_sha256": hashlib.sha256(Path(ns.dryrun).read_bytes()).hexdigest()}
     R["meta"] = meta
     R["disclosures"] = disc
     out_dir = Path(ns.out_dir)

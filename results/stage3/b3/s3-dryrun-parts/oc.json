@@ -102,7 +102,7 @@
     "C|a|True": 300,
     "S|a|True": 300
    },
-   "seconds": 495
+   "seconds": 489
   },
   "margin|subset|none": {
    "truth": "margin",
@@ -151,7 +151,7 @@
     "C|a|True": 300,
     "S|a|True": 300
    },
-   "seconds": 768
+   "seconds": 756
   },
   "margin|full|zero": {
    "truth": "margin",
@@ -200,7 +200,7 @@
     "C|a|True": 300,
     "S|a|True": 300
    },
-   "seconds": 986
+   "seconds": 971
   },
   "x1.5|subset|none": {
    "truth": "x1.5",
@@ -249,7 +249,7 @@
     "C|a|True": 300,
     "S|a|True": 300
    },
-   "seconds": 1287
+   "seconds": 1231
   },
   "x1.5|full|zero": {
    "truth": "x1.5",
@@ -298,7 +298,7 @@
     "C|a|True": 300,
     "S|a|True": 300
    },
-   "seconds": 1533
+   "seconds": 1451
   }
  },
  "seeding": "one stream per experiment: default_rng([20261171, 500, truth index, model index, experiment index])",
@@ -312,5 +312,5 @@
   "tolerance": 0.08,
   "accepted": true
  },
- "wall_seconds": 1533
+ "wall_seconds": 1451
 }

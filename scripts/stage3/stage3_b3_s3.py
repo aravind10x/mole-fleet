@@ -25,8 +25,12 @@ score   Stage B. One spend ledger across every S3 cache file, enforced through `
         (`--first-batch`), continued only with `--continue` after the coordinator's STATUS line; persistent, resumable
         state in `s3-run-v0.json` (a restart re-asks nothing cached); counts and dollars printed, never a score or flag
         aggregate. The scores file `s3-scores-v0.json` is rebuilt from the caches after every cell: unit id, view, judge,
-        outcome, score, the flag at the sealed rule (`stage3_thresholds.is_flagged`, the tie draw keyed by author for an
-        author rule and by the cache label for a unit rule, as B1 and T1 did), cache label; no text.
+        outcome, score, and two flags at the sealed rule through `stage3_thresholds.is_flagged`: `flag`, the sealed
+        author-level reading as B1 and T1 computed it (plan.md's dated note 3 of 2026-11-02: the author's maximum over the
+        unit's own score and that author's honest units on the other class documents in the view's pinned null, the tie
+        keyed by the author; `O_diff`'s unit rule keyed by the cache label), and `flag_unit`, the planted unit's own flag
+        beside (B1's `recall_planted_unit_only`); cache label; no text. A unit still errored after the client's retries
+        is unscored (the note's rule 1) and completes its cell; `--continue` clears a recorded stop.
 
 Never printed, logged or written into any record: an item line, document text, rubric or declared effect. No OpenRouter
 request of any kind.
@@ -83,6 +87,7 @@ PINNED = {CORPUS: "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaee
           TEMPLATE: "294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc",
           VALID: "021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47",
           S2: "46d2e153798cad2b4259bf2e708f56937c233f86295963edda234a2e057ed7a0"}
+PREFLIGHT_FILES = 27                           # plan.md's dated note 3 of 2026-11-02: the 26 plus work/stage3/views/p_author_c0.json
 ARMS_EXPECTED = {1: 2026118110, 2: 2026118120, 3: 2026118130, 4: 2026118140, 6: 2026118160}   # plan section 3 and its note; no tag 5
 #: plan section 1.1's net id hashes (sha256 of the sorted ids joined by newlines)
 ID_SHA256 = {"full": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
@@ -114,6 +119,14 @@ RULE_SOURCE = {(ad.ISO, "opus48"): ("work/stage3/b1/b1-null.json", ("judges", "o
                ("O_diff", "sonnet"): ("work/stage3/views/calibration-v1.json", ("views", "O_diff", "rule")),
                ("O_diff", "sol"): ("work/stage3/q1q2-synthetic/extra-judge-null.sol.json", ("views", "O_diff", "rule"))}
 SCORES_VIEW = {ad.ISO: "P_author_doc_iso", ad.LIVE: "P_author_doc_live", "P_author": "P_author", "O_diff": "O_diff"}
+#: the honest units per author and document behind the union (plan.md's dated note 3 of 2026-11-02, item 2): the sealed nulls' rows
+HONEST_SOURCE = {(ad.ISO, "opus48"): ("work/stage3/b1/b1-null.json", ("judges", "opus48", "views", ad.ISO)),
+                 (ad.ISO, "sonnet"): ("work/stage3/b1/b1-null.json", ("judges", "sonnet", "views", ad.ISO)),
+                 (ad.LIVE, "opus48"): ("work/stage3/b1/b1-null.json", ("judges", "opus48", "views", ad.LIVE)),
+                 (ad.LIVE, "sonnet"): ("work/stage3/b1/b1-null.json", ("judges", "sonnet", "views", ad.LIVE)),
+                 ("P_author", "opus48"): ("work/stage3/q1q2-synthetic/opus48/judge-null.json", ("views", "P_author")),
+                 ("P_author", "sonnet"): ("work/stage3/views/p_author_c0.json", ())}
+P_AUTHOR_C0_SHA256 = "3c61dd4d"
 
 
 def now_iso() -> str:
@@ -158,8 +171,8 @@ def assert_arm_seeds(config: Mapping[str, Any]) -> dict[int, int]:
 def preflight(config_path: Path = CONFIG) -> dict:
     config = load_json(config_path)
     out = pf.run(config=config)
-    if not out["pass"] or out["n_files"] != 26:
-        raise SystemExit("refusing: the pre-flight did not pass 26 of 26 with the configuration: " + "; ".join(out["refusals"]))
+    if not out["pass"] or out["n_files"] != PREFLIGHT_FILES:
+        raise SystemExit(f"refusing: the pre-flight did not pass {PREFLIGHT_FILES} of {PREFLIGHT_FILES} with the configuration: " + "; ".join(out["refusals"]))
     assert_arm_seeds(config)
     for p, want in PINNED.items():
         if sha256_file(p) != want:
@@ -586,6 +599,26 @@ def sealed_rule(view: str, judge: str) -> dict:
     return d
 
 
+def honest_pairs_for(view: str, judge: str) -> dict[tuple[str, str], float]:
+    """{(author, path): score} over the view's pinned honest null, as B1's `honest_pairs` reads it (a refused honest unit
+    escalated, plan amendment 2 of B1); the P_author calibration rows of Sonnet 5 are checked against their pin."""
+    path, keys = HONEST_SOURCE[(view, judge)]
+    p = PROJECT / path
+    if path.endswith("p_author_c0.json") and not sha256_file(p).startswith(P_AUTHOR_C0_SHA256):
+        raise SystemExit(f"refusing: {path} is not {P_AUTHOR_C0_SHA256}")
+    d = load_json(p)
+    for k in keys:
+        d = d[k]
+    return b1.honest_pairs(d)
+
+
+def union_max(score: float, author: str, document: str, hp: Mapping[tuple[str, str], float]) -> tuple[float, int]:
+    """The author's maximum over the planted unit's own score and the author's honest units on the other class documents
+    (B1's `planted_unit_scores`: `others` excludes the planted document's own pair)."""
+    others = [v for (a, pth), v in hp.items() if a == author and pth != document]
+    return max([float(score)] + others), len(others)
+
+
 def make_client(view: str, judge: str, ledger: Ledger, concurrency: int = CONCURRENCY, rpm: int = RPM):
     cp = cache_path(view, judge)
     model = MODELS[judge]
@@ -654,9 +687,10 @@ def cell_status(app: Mapping[str, Any], view: str, judge: str) -> dict:
             errored[r["cache_key"]] += 1
     done = [u["unit_id"] for u in us if u["packets"][view]["key"] in recs]
     oc = Counter(recs[u["packets"][view]["key"]]["outcome"] for u in us if u["packets"][view]["key"] in recs)
+    err_only = sum(1 for u in us if u["packets"][view]["key"] not in recs and u["packets"][view]["key"] in errored)
+    # the note's rule 1: a unit still errored after the client's retries is unscored; it completes its cell (G5 (i))
     return {"n_units": len(us), "completed": len(done), "scored": oc.get("scored", 0), "refused": oc.get("refused", 0),
-            "errored_only": sum(1 for u in us if u["packets"][view]["key"] not in recs and u["packets"][view]["key"] in errored),
-            "missing": len(us) - len(done), "dollars": dollars_in(cp), "complete": len(done) == len(us)}
+            "errored_only": err_only, "missing": len(us) - len(done) - err_only, "dollars": dollars_in(cp), "complete": len(done) + err_only == len(us)}
 
 
 def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
@@ -673,21 +707,32 @@ def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
             elif r.get("outcome") == "errored":
                 err.add(r["cache_key"])
         rule = sealed_rule(view, judge) if recs else None
+        hp = honest_pairs_for(view, judge) if (recs and view != "O_diff") else {}
         oc = Counter()
         for u in us:
             pk = u["packets"][view]
             r = recs.get(pk["key"])
+            umax, n_other = None, None
             if r is None:
-                outcome, score, flag = ("errored" if pk["key"] in err else "missing"), None, None
+                outcome, score, flag, flag_unit = ("errored" if pk["key"] in err else "missing"), None, None, None
             else:
                 outcome, score = r["outcome"], (float(r["score"]) if r.get("outcome") == "scored" and r.get("score") is not None else None)
-                tie = pk["author"] if rule["kind"] == "author" else pk["label"]
-                flag = bool(th.is_flagged(score, rule, tie)) if score is not None else None
+                flag = flag_unit = None
+                if score is not None:
+                    if rule["kind"] == "author":           # the per-agent rows: the sealed author-level reading (the union), the unit's own flag beside
+                        umax, n_other = union_max(score, pk["author"], u["document"], hp)
+                        flag = bool(th.is_flagged(umax, rule, pk["author"]))
+                        flag_unit = bool(th.is_flagged(score, rule, pk["author"]))
+                    else:                                  # O_diff: the unit rule keyed by the cache label
+                        flag = flag_unit = bool(th.is_flagged(score, rule, pk["label"]))
             oc[outcome] += 1
             rows.append({"unit_id": u["unit_id"], "item_id": u["item_id"], "regime": u["regime"], "arm": u["arm"], "role": u["role"], "placement": u["placement"],
-                         "view": SCORES_VIEW[view], "judge": judge, "outcome": outcome, "score": score, "flag": flag, "cache_label": pk["label"]})
+                         "view": SCORES_VIEW[view], "judge": judge, "outcome": outcome, "score": score, "flag": flag, "flag_unit": flag_unit,
+                         "union_max": umax, "n_honest_other_pairs": n_other, "cache_label": pk["label"]})
         cells["|".join((SCORES_VIEW[view], judge))] = {"n_units": len(us), **{k: oc.get(k, 0) for k in ("scored", "refused", "errored", "missing")},
-                                                      "rule_kind": rule["kind"] if rule else None, "tie_seed": rule["seed"] if rule else None}
+                                                      "rule_kind": rule["kind"] if rule else None, "tie_seed": rule["seed"] if rule else None,
+                                                      "flag": "the sealed author-level reading (union) for an author rule; the unit rule for O_diff", "flag_unit": "the planted unit's own flag, beside",
+                                                      "honest_source": HONEST_SOURCE[(view, judge)][0] if view != "O_diff" else None}
     stopped = run.get("stopped")
     incomplete = {c: {"scored_rows": v["scored"] + v["refused"], "of": v["n_units"]} for c, v in cells.items() if v["scored"] + v["refused"] < v["n_units"]}
     if stopped:
@@ -723,12 +768,15 @@ def first_batch_report(app: Mapping[str, Any], recs: Mapping[str, dict], units: 
     included) against the character-based estimate, the carrier's realised cost per unit against Part 2's basis, the re-base
     (the carrier cell re-based by realised over estimated per unit, every other cell scaled by the same ratio, as B1's
     `rebase`), the re-based total beside $76.62, and refusals. No score or flag aggregate."""
-    rs = [recs[u["unit_id"]] for u in units if u["unit_id"] in recs]
+    done = [u for u in units if u["unit_id"] in recs]
+    rs = [recs[u["unit_id"]] for u in done]
     cost = sum(float(r.get("cost_usd") or 0.0) for r in rs)
     n = len(rs)
     key = "|".join((ad.ISO, "opus48"))
     est = render["rows"][key]["estimate"]
-    est_per_unit = est["est_cost_usd"] / est["n_calls"]
+    cell_per_unit = est["est_cost_usd"] / est["n_calls"]                    # the whole cell's basis (items and lines together), shown beside
+    batch_est = estimate_cell(done, ad.ISO, "opus48") if done else None      # G5 (ii): the same units' own character-based estimate
+    est_per_unit = batch_est["est_cost_usd"] / n if n else cell_per_unit
     real_per_unit = cost / n if n else None
     ratio = (real_per_unit / est_per_unit) if real_per_unit else None
     rebased = {k: round(r["estimate"]["est_cost_usd"] * ratio, 4) for k, r in render["rows"].items()} if ratio else None
@@ -737,7 +785,9 @@ def first_batch_report(app: Mapping[str, Any], recs: Mapping[str, dict], units: 
             "input_tokens": sum(int(r.get("input_tokens") or 0) for r in rs), "output_tokens": sum(int(r.get("output_tokens") or 0) for r in rs),
             "attempts": sum(len(r.get("attempts") or []) for r in rs), "refused": sum(1 for r in rs if r["outcome"] == "refused"),
             "dollars": round(cost, 6), "realised_per_unit_usd": round(real_per_unit, 6) if real_per_unit else None,
-            "estimated_per_unit_usd": round(est_per_unit, 6), "ratio_realised_over_estimated": round(ratio, 4) if ratio else None,
+            "estimated_per_unit_usd": round(est_per_unit, 6), "batch_estimate": batch_est, "cell_estimate_per_unit_usd": round(cell_per_unit, 6),
+            "ratio_realised_over_estimated": round(ratio, 4) if ratio else None,
+            "ratio_realised_over_cell_estimate": round(real_per_unit / cell_per_unit, 4) if real_per_unit else None,
             "part2_basis_per_unit_usd": render["rows"][key]["s2_basis_per_unit"],
             "ratio_realised_over_part2_basis": round(real_per_unit / render["rows"][key]["s2_basis_per_unit"], 4) if real_per_unit else None,
             "rebased_by_cell": rebased, "rebased_total_usd": total, "figure_usd": FIGURE_USD, "stop_usd": STOP_USD,
@@ -801,6 +851,12 @@ async def run_cells(ns, app: Mapping[str, Any], render: Mapping[str, Any], run: 
     return 0
 
 
+def clear_stop(run: dict) -> None:
+    """G5 (i): the coordinator's --continue resumes a stopped run; the stop is kept on the record as cleared."""
+    run.setdefault("stops_cleared", []).append({**run["stopped"], "cleared": now_iso()})
+    run["stopped"] = None
+
+
 def mode_score(ns) -> int:
     preflight(Path(ns.config))
     app = load_json(APPLICATIONS)
@@ -810,6 +866,8 @@ def mode_score(ns) -> int:
     run = load_run()
     if run.get("stopped") and not ns.cont:
         raise SystemExit(f"refusing: the run is stopped ({run['stopped']['reason']}); the coordinator decides")
+    if run.get("stopped") and ns.cont:
+        clear_stop(run)
     if run["stage_b_started"] is None:
         if CACHE_DIR.exists() and any(CACHE_DIR.glob("*.jsonl")):
             raise SystemExit("refusing: a cache exists before Stage B started")

@@ -64,7 +64,7 @@ def test_refusal_classes_separate_the_module_induced_drop_from_section_2_4_4():
 def _app():
     def u(iid, arm, role, pl, views):
         return {"unit_id": f"{iid}:{arm}{role}:{pl}", "item_id": iid, "regime": "candidate", "arm": arm, "role": role, "placement": pl, "day": "2026-04-06",
-                "author": f"a{iid}", "packets": {v: {"packet": f"pkt {iid} {arm}{role} {pl} {v}", "truncated": False, "label": f"stem+s3:{iid}:{arm}{role}:{pl}",
+                "author": f"a{iid}", "document": "/shared/d.md", "packets": {v: {"packet": f"pkt {iid} {arm}{role} {pl} {v}", "truncated": False, "label": f"stem+s3:{iid}:{arm}{role}:{pl}",
                                                      "key": jc_mod.cache_key(v, f"stem+s3:{iid}:{arm}{role}:{pl}", f"pkt {iid} {arm}{role} {pl} {v}"), "author": f"a{iid}"}
                                                  for v in views}}
     all_views = (d.ad.ISO, d.ad.LIVE, "P_author", "O_diff")
@@ -191,6 +191,8 @@ def test_the_scores_files_flag_comes_from_stage3_thresholds_at_the_sealed_rule(m
     rule_a = {"kind": "author", "seed": 20261112, "threshold": 50.0, "p_tie": 0.5}
     rule_u = {"kind": "unit", "seed": 20261112, "threshold": 50.0, "p_tie": 0.5}
     monkeypatch.setattr(d, "sealed_rule", lambda v, j: rule_u if v == "O_diff" else rule_a)
+    # the author's honest units in the view's null: one on another document (enters the union), one on the planted document (does not)
+    monkeypatch.setattr(d, "honest_pairs_for", lambda v, j: {("aa", "/shared/other.md"): 70.0, ("aa", "/shared/d.md"): 99.0, ("zz", "/shared/x.md"): 100.0})
     us = d.cell_units(app, d.ad.ISO, "opus48")
     cp = d.cache_path(d.ad.ISO, "opus48")
     recs = [{"cache_key": us[0]["packets"][d.ad.ISO]["key"], "outcome": "scored", "score": 50, "cost_usd": 0.01},
@@ -199,12 +201,38 @@ def test_the_scores_files_flag_comes_from_stage3_thresholds_at_the_sealed_rule(m
     cp.write_text("\n".join(json.dumps(r) for r in recs) + "\n")
     sc = d.build_scores(app, {"stopped": None})
     rows = {r["unit_id"]: r for r in sc["rows"] if r["view"] == "P_author_doc_iso" and r["judge"] == "opus48"}
-    assert rows["a:item0:1"]["flag"] == th.is_flagged(50.0, rule_a, "aa")     # the tie draw keyed by the author under an author rule
+    r1 = rows["a:item0:1"]
+    assert r1["union_max"] == 70.0 and r1["n_honest_other_pairs"] == 1                   # the planted document's own honest pair is excluded
+    assert r1["flag"] == th.is_flagged(70.0, rule_a, "aa") is True                        # the sealed author-level reading, the tie keyed by the author
+    assert r1["flag_unit"] == th.is_flagged(50.0, rule_a, "aa")                           # the planted unit's own flag beside
     assert rows["a:item0:2"]["outcome"] == "refused" and rows["a:item0:2"]["score"] is None and rows["a:item0:2"]["flag"] is None
     assert rows["b:item0:1"]["outcome"] == "errored"
     assert rows["a:line1:1"]["outcome"] == "missing"
-    assert sc["cells"]["P_author_doc_iso|opus48"] == {"n_units": 5, "scored": 1, "refused": 1, "errored": 1, "missing": 2, "rule_kind": "author", "tie_seed": 20261112}
-    assert all(set(r) == {"unit_id", "item_id", "regime", "arm", "role", "placement", "view", "judge", "outcome", "score", "flag", "cache_label"} for r in sc["rows"])
+    c = sc["cells"]["P_author_doc_iso|opus48"]
+    assert {k: c[k] for k in ("n_units", "scored", "refused", "errored", "missing", "rule_kind", "tie_seed")} == {"n_units": 5, "scored": 1, "refused": 1, "errored": 1, "missing": 2, "rule_kind": "author", "tie_seed": 20261112}
+    assert c["honest_source"] == "work/stage3/b1/b1-null.json"
+    assert all(set(r) == {"unit_id", "item_id", "regime", "arm", "role", "placement", "view", "judge", "outcome", "score", "flag", "flag_unit", "union_max",
+                          "n_honest_other_pairs", "cache_label"} for r in sc["rows"])
+    # O_diff: the unit rule keyed by the cache label, both flags equal, no union
+    cpo = d.cache_path("O_diff", "sol")
+    uo = d.cell_units(app, "O_diff", "sol")
+    cpo.write_text(json.dumps({"cache_key": uo[0]["packets"]["O_diff"]["key"], "outcome": "scored", "score": 50, "cost_usd": 0.01}) + "\n")
+    ro = {r["unit_id"]: r for r in d.build_scores(app, {"stopped": None})["rows"] if r["view"] == "O_diff" and r["judge"] == "sol"}
+    assert ro["a:item0:1"]["flag"] == ro["a:item0:1"]["flag_unit"] == th.is_flagged(50.0, rule_u, uo[0]["packets"]["O_diff"]["label"]) and ro["a:item0:1"]["union_max"] is None
+    # G5 (i): a unit still errored after the client's retries is unscored and completes its cell
+    st = d.cell_status(app, d.ad.ISO, "opus48")
+    assert st["errored_only"] == 1 and st["missing"] == 2 and not st["complete"]
+    for u in us[3:]:
+        with cp.open("a") as fh:
+            fh.write(json.dumps({"cache_key": u["packets"][d.ad.ISO]["key"], "outcome": "errored", "score": None, "cost_usd": 0.01}) + "\n")
+    st = d.cell_status(app, d.ad.ISO, "opus48")
+    assert st["errored_only"] == 3 and st["missing"] == 0 and st["complete"]
+
+
+def test_continue_clears_a_recorded_stop():
+    run = {"stopped": {"reason": "x", "cell": "c", "ts": "t"}}
+    d.clear_stop(run)
+    assert run["stopped"] is None and run["stops_cleared"][0]["reason"] == "x" and "cleared" in run["stops_cleared"][0]
 
 
 def test_every_sealed_rule_carries_the_tie_seed_and_its_kind():
@@ -213,13 +241,16 @@ def test_every_sealed_rule_carries_the_tie_seed_and_its_kind():
         assert r["seed"] == 20261112 and r["kind"] == ("unit" if view == "O_diff" else "author")
 
 
-def test_the_first_batch_report_rebases_every_cell_by_the_carriers_ratio():
+def test_the_first_batch_report_rebases_every_cell_by_the_carriers_ratio_on_the_same_units(monkeypatch):
     render = {"rows": {"|".join(c): {"s2_basis_per_unit": 0.044715, "estimate": {"est_cost_usd": 10.0, "n_calls": 100}} for c in d.ORDER}}
     us = [{"unit_id": f"u{i}"} for i in range(20)]
     recs = {f"u{i}": {"outcome": "scored", "cost_usd": 0.2, "input_tokens": 1000, "output_tokens": 300, "attempts": [{}]} for i in range(20)}
+    monkeypatch.setattr(d, "estimate_cell", lambda units, view, judge: {"est_cost_usd": 2.0 * len(units) / 20, "n_calls": len(units)})   # the batch's own estimate: $0.10 a unit
     fb = d.first_batch_report({}, recs, us, render)
     assert fb["n_units"] == 20 and fb["dollars"] == pytest.approx(4.0) and fb["realised_per_unit_usd"] == pytest.approx(0.2)
+    assert fb["estimated_per_unit_usd"] == pytest.approx(0.1) and fb["cell_estimate_per_unit_usd"] == pytest.approx(0.1)   # like with like: the same units' estimate
     assert fb["ratio_realised_over_estimated"] == pytest.approx(2.0) and fb["rebased_total_usd"] == pytest.approx(180.0) and fb["escalate"]
+    assert fb["ratio_realised_over_cell_estimate"] == pytest.approx(2.0)
     assert fb["ratio_realised_over_part2_basis"] == pytest.approx(0.2 / 0.044715, abs=1e-4)
     assert fb["input_tokens"] == 20000 and fb["output_tokens"] == 6000 and fb["refused"] == 0
 

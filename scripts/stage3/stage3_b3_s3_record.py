@@ -20,7 +20,7 @@ FORK = PROJECT / "work/mole-fork"
 OUT = B3 / "s3-stage-a-v0.md"
 FILES = ["s3-config-v0.json", "s3-preflight-v0-prenote.json", "s3-preflight-v0.json", "plan.md", "s3-analysis-matrix-v0.json", "s3-readings-dryrun-v0.json",
          "s3-readings-dryrun-v0.md", "s3-lone-line-check-v0.json", "s3-applications-v0.json", "s3-applications-v0.md", "s3-render-v0.json",
-         "s3-trace-policy.json", "s3-trace-audit-stageA.json"]
+         "s3-trace-policy.json", "s3-trace-audit-stageA.json", "s3-clean-items-v0.json", "s3-trace-audit-stageA2.json"]
 SCRIPTS = ["stage3_b3_s3_matrix.py", "test_stage3_b3_s3_matrix.py", "stage3_b3_s3_readings.py", "test_stage3_b3_s3_readings.py", "stage3_b3_s3_dryrun.py",
            "stage3_b3_s3.py", "test_stage3_b3_s3.py", "stage3_b3_lone_line_check_s3.py", "test_stage3_b3_lone_line_check_s3.py",
            "stage3_b3_s3_trace_audit.py", "test_stage3_b3_s3_trace_audit.py", "stage3_b3_s3_record.py"]
@@ -58,9 +58,55 @@ def a3b(app: dict, matrix: dict) -> list[str]:
     L.append(f"| **all** | {share([x for x in units if x['arm'] == 'item'])} | {share([x for x in units if x['arm'] == 'line'])} | {share(units)} |")
     L.append("")
     by_tag = Counter(x["stream_tag"] for x in units if x["record"]["honest_edits_broken"] > 0)
-    items_touched = len({x["item_id"] for x in units if x["record"]["honest_edits_broken"] > 0})
-    L.append(f"By stream tag: {dict(sorted(by_tag.items()))}; items with at least one such application: {items_touched} of {len({x['item_id'] for x in units})}. "
+    touched = sorted({x["item_id"] for x in units if x["record"]["honest_edits_broken"] > 0})
+    items_touched = len(touched)
+    # G6 (brief 33's dated note 3): the exclusion set, fixed by this script for the readings script's clean-set sensitivity (ids and counts only)
+    clean = {"version": "b3-s3-clean-items/v0", "source": "s3-applications-v0.json honest_edits_broken > 0 (A3b)", "applications_sha256": hashlib.sha256((B3 / "s3-applications-v0.json").read_bytes()).hexdigest(),
+             "touched_ids": touched, "touched_ids_sha256": hashlib.sha256("\n".join(touched).encode()).hexdigest(),
+             "by_population": {pop: {"n": len(matrix["populations"][pop]["ids"]), "touched": sum(1 for i in matrix["populations"][pop]["ids"] if i in set(touched)),
+                                     "clean": sum(1 for i in matrix["populations"][pop]["ids"] if i not in set(touched))} for pop in ("subset", "stratum", "full", "controls", "sham")}}
+    (B3 / "s3-clean-items-v0.json").write_text(json.dumps(clean, indent=1) + "\n")
+    L.append(f"By stream tag: {dict(sorted(by_tag.items()))}; items with at least one such application: {items_touched} of {len({x['item_id'] for x in units})} "
+             f"(the exclusion set for G6, `s3-clean-items-v0.json`, ids sha256 {clean['touched_ids_sha256'][:8]}; by population {clean['by_population']}). "
              f"Every such application was delivered and composed; the module rebuilt the later honest edit's content as T1 v3's rule does (section 2.3), which the dossier and `O_diff` views then read.")
+    return L
+
+
+def addendum(h, hs, fx, oc, tr2, clean, pre) -> list[str]:
+    """Stage A addendum: brief 33's dated notes 2 and 3 of 2026-11-02 (G1 revised, G3 to G6, O1 to O8), with the new hashes."""
+    L = ["## Stage A addendum (brief 33's dated notes 2 and 3 of 2026-11-02; $0, no judge request)", ""]
+    L.append(f"- **G1 revised (the flag).** plan.md's dated note 3 of 2026-11-02 (plan.md **{h['plan.md'][:8]}**, fork 1fafa57; prefix bytes equal to a411d8a2): the flag is the sealed author-level reading, the union "
+             f"(B1's primary, `recall_by_arm` and `flagged_union`), the planted unit's own flag beside; section 4.1's form (b) null bias stands, nothing re-simulated; `work/stage3/views/p_author_c0.json` (3c61dd4d, the 89 honest "
+             f"`P_author` rows of Sonnet 5's calibration) pinned, the `s1-preflight-sha256` block restated at 27 entries; `test_stage3_b3_preflight.py` asserts 27 by a dated comment. Pre-flight on the committed plan: "
+             f"**{'PASS' if pre['pass'] else 'FAIL'} {pre['n_files']} of {pre['n_files']}** (`s3-preflight-v0.json` {h['s3-preflight-v0.json'][:8]}). The driver (`stage3_b3_s3.py` {hs['stage3_b3_s3.py'][:8]}) flags through the union "
+             f"(`honest_pairs_for`, `union_max`, B1's `honest_pairs`) and the scores file carries `flag` (union) and `flag_unit` per unit; the readings script reads both: floor (b), the ceiling, the anchors' lone recall and the "
+             f"composed gaps on the union with the unit's own flag beside. G1 (a)'s re-simulation artefacts were discarded uncommitted.")
+    L.append(f"- **G3.** An instrument at floor (a) is not read: `Instrument.read` takes the floor (a) result and returns `not_read` \"floor\" for both forms with no label; `select` issues only its floor sentence (S-A2); "
+             f"the `floor_carrier` fixture asserts the absence of every other id for that instrument.")
+    L.append(f"- **G4.** S-G1 beside every *excluded* or *attenuated* reading, every instrument, form and population (S-D and S-R), once per reading (the S-F duplicate removed); tested.")
+    L.append(f"- **G5.** (i) A unit still errored after the client's retries is unscored (the note's rule 1) and completes its cell (`cell_status`); `--continue` clears a recorded stop (`clear_stop`, kept on the run record). "
+             f"(ii) The first-batch re-base compares the about 20 item units' realised cost with those same units' character-based estimate (`estimate_cell` on the batch), the whole cell's per-unit estimate shown beside; tested.")
+    if clean:
+        bp = clean["by_population"]
+        L.append(f"- **G6.** Beside the carrier's form (a) reading, form (a) on the items none of whose applications broke a later honest edit: the exclusion set `s3-clean-items-v0.json` ({h.get('s3-clean-items-v0.json', 'n/a')[:8]}; "
+                 f"{len(clean['touched_ids'])} touched items, ids sha256 {clean['touched_ids_sha256'][:8]}; subset {bp['subset']['clean']} of {bp['subset']['n']} clean, stratum {bp['stratum']['clean']} of {bp['stratum']['n']}, "
+                 f"full set {bp['full']['clean']} of {bp['full']['n']}) is written by the A3b script from the application file and read by `--clean-items`; sentences S-G6 and S-G6b (descriptive, counts, no label, no effect on the cascade); "
+                 f"two fixtures reach them.")
+    L.append(f"- **O1 to O8.** O1 precedence in `read()` (floor, ceiling, fit); O2 an unscored application, not its item, leaves the anchors' and the floor's sham denominators; O3 the dry run's carrier figures beside Part 3's in `b3-results.md`; "
+             f"O4 the descriptive marker on S-D outside the verdict population; O5 value tests for the slot arithmetic; O6 the bootstrap sub-stream rule stated in `b3-results.md`; O7 `secondary()` pools strata as section 4.3 does; "
+             f"O8 `s_e()`'s wording when form (a) is unfit and form (b) fitted. O9: the differences list names the union as B1's primary.")
+    L.append(f"- **Re-runs.** Readings script `stage3_b3_s3_readings.py` **{hs['stage3_b3_s3_readings.py'][:8]}** (tests {hs['test_stage3_b3_s3_readings.py'][:8]}); dry run `stage3_b3_s3_dryrun.py` {hs['stage3_b3_s3_dryrun.py'][:8]}: "
+             f"{len(fx['fixtures'])} fixtures, all reaching their ids **{fx['all_ok']}**, ids not reached {fx['unreached'] or 'none'}; report `s3-readings-dryrun-v0.md` {h['s3-readings-dryrun-v0.md'][:8]}.")
+    if oc:
+        acc = oc["acceptance"]
+        c0, cm, c15 = oc["cells"]["null|subset|none"]["form_a"]["C"], oc["cells"]["margin|subset|none"]["form_a"]["C"], oc["cells"]["x1.5|subset|none"]["form_a"]["C"]
+        L.append(f"- **Operating characteristics re-run** (form (a) untouched): the carrier on the subset P(excluded | 0) **{c0['excluded']:.3f}**, P(excluded | margin) **{cm['excluded']:.3f}**, P(LB > 0 | 0) {c0['attenuated'] + c0['present']:.3f}, "
+                 f"P(present | 1.5 x) **{c15['present']:.3f}**; acceptance {'ACCEPTED' if acc['accepted'] else 'OUTSIDE'} (the first run gave 0.640 / 0.090 / 0.023 / 0.730: "
+                 f"{'unchanged' if (round(c0['excluded'], 3), round(c15['present'], 3)) == (0.64, 0.73) else 'moved'}). Beside Part 3's 0.68 / 0.07 / 0.03 / 0.72; bound (ii) 0.6 Monte Carlo SE below 0.10 against Part 3's 1.8 (section 7, A6.18 (e)).")
+    if tr2:
+        L.append(f"- **Trace audit (end of the pass)**: opened {tr2['opened']}, allowed {tr2['allowed']}, outside {tr2['outside']} (existing files {tr2['outside_existing_files']}), **never-open {tr2['never_open']}**; verdict {tr2['verdict']} (`s3-trace-audit-stageA2.json` {h.get('s3-trace-audit-stageA2.json', 'n/a')[:8]}).")
+    L.append(f"- **Disclosures corrected (the coordinator's dated note 2).** The pre-signal's carrier gap is not thinking tokens (Opus 4.8's thinking is inside `output_tokens`, as B1's bases were): S2's carrier basis was B4-R's $0.0447 per unit on the "
+             f"other prefix against B1's realised $0.01743 on this prefix, and the pre-signal is 0.95 of B1's realised, so the realised cost is likely near $49 with wide headroom under the stop; B1's re-base still decides. The executor was Fable 5.1.")
     return L
 
 
@@ -94,7 +140,8 @@ def main() -> int:
     L.append("")
     L.append(f"- Appended verbatim under the heading the brief gives, 2026-11-02; `work/stage3/b3/plan.md` **{h['plan.md'][:8]}** ({(B3 / 'plan.md').stat().st_size} bytes; its first 111,603 bytes hash to 58b0c121, so nothing above the note changed); "
              f"mirrored to `results/stage3/b3/plan.md` and committed to the fork (be0a600); the `s1-preflight-sha256` block is unchanged (26 lines).")
-    L.append(f"- Pre-flight re-run after the commit: **{'PASS' if pre['pass'] else 'FAIL'}**, {pre['n_files']} of 26, plan.md {pre['plan_sha256'][:8]} matches HEAD ({pre['plan_matches_fork_head']}); `s3-preflight-v0.json` ({h['s3-preflight-v0.json'][:8]}). `test_stage3_b3_preflight.py` 10 pass.")
+    L.append(f"- Pre-flight re-run after the commit: PASS, 26 of 26 (the run of that time, 03ed1816). After the dated note 3 of 2026-11-02 (the addendum below) the current run is "
+             f"**{'PASS' if pre['pass'] else 'FAIL'}**, {pre['n_files']} of {pre['n_files']}, plan.md {pre['plan_sha256'][:8]} matches HEAD ({pre['plan_matches_fork_head']}); `s3-preflight-v0.json` ({h['s3-preflight-v0.json'][:8]}). `test_stage3_b3_preflight.py` 10 pass.")
     L.append("")
     L.append("## A2. The analysis matrix, the readings script and the dry run")
     L.append("")
@@ -161,6 +208,9 @@ def main() -> int:
         L.append(f"- `stage3_b3_s3_trace_audit.py` ({hs['stage3_b3_s3_trace_audit.py'][:8]}; tests {hs['test_stage3_b3_s3_trace_audit.py'][:8]}, 7 pass, the positive test bound to the empty `--writer-dir`) around the pinned script 2a409344 on this session's transcript "
                  f"`{Path(tr['trace']).name}` with `--writer-dir {Path(tr['writer_dir']).relative_to(PROJECT)}` (empty; every token absolutised first) and the policy `s3-trace-policy.json` ({h['s3-trace-policy.json'][:8]}): "
                  f"opened {tr['opened']}, allowed {tr['allowed']}, outside {tr['outside']} (existing files {tr['outside_existing_files']}, non-existent tokens {tr['outside_non_existent_tokens']}), **never-open {tr['never_open']}**; verdict {tr['verdict']}.")
+    L.append("")
+    L += addendum(h, hs, fx, oc, tr2=j(B3 / "s3-trace-audit-stageA2.json") if (B3 / "s3-trace-audit-stageA2.json").exists() else None,
+                  clean=j(B3 / "s3-clean-items-v0.json") if (B3 / "s3-clean-items-v0.json").exists() else None, pre=pre)
     L.append("")
     L.append("## Differences from the brief and the plan, reported")
     L.append("")

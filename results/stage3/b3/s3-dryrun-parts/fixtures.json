@@ -59,6 +59,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -69,7 +70,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 107
   },
   "present": {
    "fixture": "present",
@@ -89,6 +90,7 @@
     "S-E2",
     "S-F3",
     "S-Fs1",
+    "S-G1",
     "S-I1",
     "S-J1",
     "S-K3",
@@ -110,6 +112,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -120,7 +123,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 80
+   "n_sentences": 91
   },
   "attenuated": {
    "fixture": "attenuated",
@@ -161,6 +164,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -171,7 +175,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "inconclusive": {
    "fixture": "inconclusive",
@@ -190,6 +194,7 @@
     "S-E1",
     "S-F4",
     "S-Fs2",
+    "S-G1",
     "S-I2",
     "S-J1",
     "S-K3",
@@ -211,6 +216,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -221,7 +227,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 80
+   "n_sentences": 102
   },
   "two_step_within": {
    "fixture": "two_step_within",
@@ -240,6 +246,7 @@
     "S-E2",
     "S-F5",
     "S-Fs1",
+    "S-G1",
     "S-I2",
     "S-J1",
     "S-K3",
@@ -261,6 +268,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -271,7 +279,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 80
+   "n_sentences": 92
   },
   "two_step_across": {
    "fixture": "two_step_across",
@@ -311,6 +319,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -321,7 +330,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 80
+   "n_sentences": 99
   },
   "one_step_across": {
    "fixture": "one_step_across",
@@ -361,6 +370,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -371,11 +381,11 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "floor_carrier": {
    "fixture": "floor_carrier",
-   "note": "the carrier's sham drawn from the quiet distribution: the carrier at floor, the second leads as the fallback carrier",
+   "note": "the carrier's sham drawn from the quiet distribution: the carrier at floor (a) issues only its floor sentence (G3), the second leads as the fallback carrier",
    "expected": [
     "S-A1",
     "S-A2",
@@ -386,7 +396,6 @@
     "S-A1",
     "S-A2",
     "S-A5",
-    "S-D2",
     "S-D3",
     "S-D4",
     "S-E1",
@@ -408,12 +417,12 @@
     "S-O2",
     "S-P0",
     "S-Q1",
-    "S-Q2",
     "S-R1",
     "S-S0",
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -437,29 +446,19 @@
     "S-A2",
     "S-A3",
     "S-A5",
-    "S-D2",
-    "S-D3",
-    "S-D4",
-    "S-E1",
-    "S-K3",
-    "S-K4",
-    "S-L1",
+    "S-G1",
     "S-M1",
-    "S-M2",
-    "S-M3",
-    "S-M4",
     "S-N1",
     "S-N2",
     "S-O1",
-    "S-O2",
     "S-P0",
-    "S-Q1",
-    "S-Q2",
     "S-R1",
+    "S-R2",
     "S-S0",
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": null,
@@ -470,7 +469,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 77
+   "n_sentences": 48
   },
   "floor_b": {
    "fixture": "floor_b",
@@ -512,6 +511,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -522,7 +522,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 75
+   "n_sentences": 88
   },
   "ceiling": {
    "fixture": "ceiling",
@@ -563,6 +563,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -573,7 +574,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 79
+   "n_sentences": 90
   },
   "fit_i_constant": {
    "fixture": "fit_i_constant",
@@ -615,6 +616,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -625,7 +627,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 78
+   "n_sentences": 93
   },
   "subset_stratum_disagree": {
    "fixture": "subset_stratum_disagree",
@@ -664,6 +666,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -674,7 +677,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 102
   },
   "fit_ii_replicates": {
    "fixture": "fit_ii_replicates",
@@ -716,6 +719,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -726,7 +730,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 78
+   "n_sentences": 94
   },
   "fit_iii_empty_stratum": {
    "fixture": "fit_iii_empty_stratum",
@@ -768,6 +772,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -778,7 +783,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 79
+   "n_sentences": 100
   },
   "stratum_too": {
    "fixture": "stratum_too",
@@ -799,6 +804,7 @@
     "S-D3",
     "S-E1",
     "S-E3",
+    "S-G1",
     "S-H1",
     "S-K3",
     "S-K4",
@@ -820,6 +826,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -830,7 +837,7 @@
     "fallback": true
    },
    "rows": 4344,
-   "n_sentences": 76
+   "n_sentences": 86
   },
   "third_present": {
    "fixture": "third_present",
@@ -868,6 +875,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -913,6 +921,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -941,6 +950,7 @@
     "S-C4",
     "S-C5",
     "S-E3",
+    "S-G1",
     "S-L2",
     "S-M1",
     "S-M2",
@@ -956,6 +966,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -966,7 +977,7 @@
     "fallback": true
    },
    "rows": 4344,
-   "n_sentences": 69
+   "n_sentences": 74
   },
   "c6_other_unfit": {
    "fixture": "c6_other_unfit",
@@ -1010,6 +1021,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1020,7 +1032,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "refused_component": {
    "fixture": "refused_component",
@@ -1059,6 +1071,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1069,7 +1082,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "stopped_lead": {
    "fixture": "stopped_lead",
@@ -1112,6 +1125,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "S",
@@ -1122,7 +1136,7 @@
     "fallback": true
    },
    "rows": 3548,
-   "n_sentences": 64
+   "n_sentences": 81
   },
   "stopped_second": {
    "fixture": "stopped_second",
@@ -1165,6 +1179,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1175,7 +1190,7 @@
     "fallback": false
    },
    "rows": 3548,
-   "n_sentences": 64
+   "n_sentences": 81
   },
   "g1_fails": {
    "fixture": "g1_fails",
@@ -1214,6 +1229,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1224,7 +1240,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "sq1": {
    "fixture": "sq1",
@@ -1266,6 +1282,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1276,7 +1293,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 99
   },
   "k1": {
    "fixture": "k1",
@@ -1315,6 +1332,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1325,7 +1343,7 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   },
   "k2": {
    "fixture": "k2",
@@ -1364,6 +1382,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1374,7 +1393,109 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
+  },
+  "g6_clean": {
+   "fixture": "g6_clean",
+   "note": "G6: three subset items and one more stratum item touched by a broken honest edit; form (a) on the rest, beside, descriptive",
+   "expected": [
+    "S-G6"
+   ],
+   "reached": [
+    "S-A1",
+    "S-A5",
+    "S-D2",
+    "S-D3",
+    "S-D4",
+    "S-E1",
+    "S-F1",
+    "S-Fs1",
+    "S-G1",
+    "S-G6",
+    "S-I2",
+    "S-J1",
+    "S-K3",
+    "S-K4",
+    "S-L1",
+    "S-M1",
+    "S-M2",
+    "S-M3",
+    "S-M4",
+    "S-N1",
+    "S-N2",
+    "S-O1",
+    "S-O2",
+    "S-P0",
+    "S-Q1",
+    "S-Q2",
+    "S-R1",
+    "S-S0",
+    "S4-2"
+   ],
+   "missing": [],
+   "forbidden_present": [],
+   "ok": true,
+   "cascade": {
+    "lead": "C",
+    "state": "read",
+    "step": 1,
+    "population": "subset",
+    "instrument": "C",
+    "fallback": false
+   },
+   "rows": 4344,
+   "n_sentences": 107
+  },
+  "g6_too_small": {
+   "fixture": "g6_too_small",
+   "note": "G6: fifteen of the subset's seventeen touched: the restricted sets too small for the fit (the subset singular, the stratum with an empty pooled stratum); the sentence says so with the counts",
+   "expected": [
+    "S-G6b"
+   ],
+   "reached": [
+    "S-A1",
+    "S-A5",
+    "S-D2",
+    "S-D3",
+    "S-D4",
+    "S-E1",
+    "S-F1",
+    "S-Fs1",
+    "S-G1",
+    "S-G6b",
+    "S-I2",
+    "S-J1",
+    "S-K3",
+    "S-K4",
+    "S-L1",
+    "S-M1",
+    "S-M2",
+    "S-M3",
+    "S-M4",
+    "S-N1",
+    "S-N2",
+    "S-O1",
+    "S-O2",
+    "S-P0",
+    "S-Q1",
+    "S-Q2",
+    "S-R1",
+    "S-S0",
+    "S4-2"
+   ],
+   "missing": [],
+   "forbidden_present": [],
+   "ok": true,
+   "cascade": {
+    "lead": "C",
+    "state": "read",
+    "step": 1,
+    "population": "subset",
+    "instrument": "C",
+    "fallback": false
+   },
+   "rows": 4344,
+   "n_sentences": 107
   },
   "own_drops": {
    "fixture": "own_drops",
@@ -1413,6 +1534,7 @@
     "S4-2"
    ],
    "missing": [],
+   "forbidden_present": [],
    "ok": true,
    "cascade": {
     "lead": "C",
@@ -1423,10 +1545,16 @@
     "fallback": false
    },
    "rows": 4344,
-   "n_sentences": 81
+   "n_sentences": 103
   }
  },
  "reachability": {
+  "S-G6": [
+   "g6_clean"
+  ],
+  "S-G6b": [
+   "g6_too_small"
+  ],
   "S-S0": [
    "baseline",
    "present",
@@ -1454,7 +1582,9 @@
    "g1_fails",
    "sq1",
    "k1",
-   "k2"
+   "k2",
+   "g6_clean",
+   "g6_too_small"
   ],
   "S-S1": [
    "own_drops"
@@ -1486,6 +1616,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-A2": [
@@ -1528,6 +1660,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-B1": [
@@ -1589,8 +1723,6 @@
    "two_step_within",
    "two_step_across",
    "one_step_across",
-   "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1604,6 +1736,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-D3": [
@@ -1615,7 +1749,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1631,6 +1764,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-D4": [
@@ -1641,7 +1776,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
@@ -1654,6 +1788,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-E1": [
@@ -1665,7 +1801,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
@@ -1680,6 +1815,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-E2": [
@@ -1715,6 +1852,8 @@
    "g1_fails",
    "sq1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-F2": [
@@ -1749,6 +1888,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-Fs2": [
@@ -1765,16 +1906,22 @@
   ],
   "S-G1": [
    "baseline",
+   "present",
    "attenuated",
+   "inconclusive",
+   "two_step_within",
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
    "fit_iii_empty_stratum",
+   "stratum_too",
+   "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
    "stopped_lead",
@@ -1783,6 +1930,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-H1": [
@@ -1813,6 +1962,8 @@
    "g1_fails",
    "sq1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-J1": [
@@ -1838,6 +1989,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-K1": [
@@ -1856,7 +2009,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1870,6 +2022,8 @@
    "stopped_second",
    "g1_fails",
    "sq1",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-K4": [
@@ -1881,7 +2035,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1898,6 +2051,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-L1": [
@@ -1909,7 +2064,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
@@ -1924,6 +2078,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-L2": [
@@ -1967,6 +2123,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-M2": [
@@ -1978,7 +2136,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1997,6 +2154,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-M3": [
@@ -2008,7 +2167,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2027,6 +2185,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-M4": [
@@ -2038,7 +2198,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "ceiling",
    "subset_stratum_disagree",
@@ -2050,6 +2209,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-N1": [
@@ -2080,6 +2241,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-N2": [
@@ -2109,6 +2272,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-N3": [
@@ -2142,6 +2307,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-O2": [
@@ -2153,7 +2320,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "floor_b",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2170,6 +2336,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-P0": [
@@ -2200,6 +2368,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-Q1": [
@@ -2210,7 +2380,6 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
    "ceiling",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2225,6 +2394,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-Q2": [
@@ -2234,8 +2405,6 @@
    "inconclusive",
    "two_step_across",
    "one_step_across",
-   "floor_carrier",
-   "floor_both",
    "floor_b",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2251,6 +2420,8 @@
    "g1_fails",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-R1": [
@@ -2280,10 +2451,13 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "S-R2": [
    "two_step_within",
+   "floor_both",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2322,6 +2496,8 @@
    "sq1",
    "k1",
    "k2",
+   "g6_clean",
+   "g6_too_small",
    "own_drops"
   ],
   "A1b-d": [
@@ -2340,7 +2516,7 @@
  },
  "all_ok": true,
  "unreached": [],
- "wall_seconds": 412,
+ "wall_seconds": 393,
  "matrix_sha256": "1b80280ad8ed14d1ec0fed26b7137d3cc50a055e8f41b19e52083439f5b3effe",
- "readings_script_sha256": "a39f6f52e9f9493e496563212660031e2278bcff842f7b3d1795b2cbfcf3e8e0"
+ "readings_script_sha256": "e31d8fbab8765630564f76b5ca06e6f0e17d5b4e89b73d8ece42332844ce8b26"
 }

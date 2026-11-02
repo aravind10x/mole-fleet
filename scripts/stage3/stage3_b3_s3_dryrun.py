@@ -48,7 +48,7 @@ OC_SEED, OC_TAG, OC_EXPERIMENTS = 20261171, 500, 300
 OC_TOL = 0.08
 OC_REF = {"P_excl_0": 0.68, "P_present_x1.5": 0.72}       # Part 3, the subset at T2+S2, ICC 0.3 (power-simulation-v3c.json)
 OC_ICC = 0.3
-ALL_SENTENCES = ["S-S0", "S-S1", "S-A1", "S-A2", "S-A3", "S-A4", "S-A5", "S-B1", "S-C1", "S-C2", "S-C3", "S-C3b", "S-C4", "S-C5", "S-C6",
+ALL_SENTENCES = ["S-G6", "S-G6b", "S-S0", "S-S1", "S-A1", "S-A2", "S-A3", "S-A4", "S-A5", "S-B1", "S-C1", "S-C2", "S-C3", "S-C3b", "S-C4", "S-C5", "S-C6",
                  "S-D1", "S-D2", "S-D3", "S-D4", "S-E1", "S-E2", "S-E3", "S-F1", "S-F2", "S-F3", "S-F4", "S-F5", "S-F6", "S-Fs1", "S-Fs2", "S-Fs3",
                  "S-G1", "S-H1", "S-H2", "S-I1", "S-I2", "S-J1", "S-K1", "S-K2", "S-K3", "S-K4", "S-L1", "S-L2", "S-M1", "S-M2", "S-M3", "S-M4",
                  "S-N1", "S-N2", "S-N3", "S-O1", "S-O2", "S-P0", "S-Q1", "S-Q2", "S-R1", "S-R2", "S4-2", "A1b-d", "A1b-provisional"]
@@ -136,7 +136,8 @@ def synthetic_scores(matrix: Mapping[str, Any], spec: Mapping[str, Any]) -> dict
 def _row(iid, reg, arm, role, pl, view, judge, sc, f, refuse) -> dict:
     refused = (iid, view, judge, arm, role, pl) in refuse
     return {"unit_id": f"{iid}:{arm}{role}:{pl}", "item_id": iid, "regime": reg, "arm": arm, "role": role, "placement": pl, "view": view, "judge": judge,
-            "outcome": "refused" if refused else "scored", "score": None if refused else round(sc, 2), "flag": None if refused else f, "cache_label": f"s3:{view}:{iid}:{arm}{role}:{pl}"}
+            "outcome": "refused" if refused else "scored", "score": None if refused else round(sc, 2), "flag": None if refused else f,
+            "flag_unit": None if refused else f, "cache_label": f"s3:{view}:{iid}:{arm}{role}:{pl}"}
 
 
 # ── fixtures ───────────────────────────────────────────────────────────────────────────────────────
@@ -223,7 +224,10 @@ def fx_one_step_across(matrix):
 def fx_floor_carrier(matrix):
     sp = _spec(**_all(beta=0.0, noise=5.0))
     sp["instruments"]["C"].update(sham_shift=0.0)
-    return matrix, sp, {"S-A2", "S-A1", "S-F1", "S-Fs3"}, "the carrier's sham drawn from the quiet distribution: the carrier at floor, the second leads as the fallback carrier"
+    forbidden = {(i, "C") for i in ("S-A4", "S-A5", "S-B1", "S-C5", "S-D1", "S-D2", "S-D3", "S-D4", "S-E1", "S-E2", "S-E3", "S-G1", "S-K1", "S-K2", "S-K3", "S-K4",
+                                    "S-L1", "S-L2", "S-O1", "S-O2", "S-Q1", "S-Q2", "S-G6", "S-G6b")}
+    return (matrix, sp, {"S-A2", "S-A1", "S-F1", "S-Fs3"},
+            "the carrier's sham drawn from the quiet distribution: the carrier at floor (a) issues only its floor sentence (G3), the second leads as the fallback carrier", forbidden)
 
 
 def fx_floor_both(matrix):
@@ -337,6 +341,24 @@ def fx_k2(matrix):
     return matrix, sp, {"S-K2"}, "the composition contrast rises with D_part: S-K2"
 
 
+def _clean(matrix, n_subset_excluded=3, n_stratum_extra=1):
+    sub = matrix["populations"]["subset"]["ids"]
+    extra = [i for i in matrix["populations"]["stratum"]["ids"] if i not in set(sub)]
+    return {"touched_ids": sorted(sub[:n_subset_excluded] + extra[:n_stratum_extra]), "source": "fixture"}
+
+
+def fx_g6_clean(matrix):
+    sp = _spec(**_all(beta=0.0, noise=5.0))
+    sp["clean_items"] = _clean(matrix, 3, 1)
+    return matrix, sp, {"S-G6"}, "G6: three subset items and one more stratum item touched by a broken honest edit; form (a) on the rest, beside, descriptive"
+
+
+def fx_g6_too_small(matrix):
+    sp = _spec(**_all(beta=0.0, noise=5.0))
+    sp["clean_items"] = _clean(matrix, 15, 0)
+    return matrix, sp, {"S-G6b"}, "G6: fifteen of the subset's seventeen touched: the restricted sets too small for the fit (the subset singular, the stratum with an empty pooled stratum); the sentence says so with the counts"
+
+
 def fx_own_drops(matrix):
     sp = _spec(**_all(beta=0.0, noise=5.0))
     sp["own_drops"] = {"n": 1, "ids": [matrix["populations"]["full"]["ids"][0]], "reasons": {"every listed draw tried was refused": 1}, "by_population": {"full": 1}}
@@ -347,20 +369,27 @@ FIXTURES: dict[str, Callable] = {f.__name__[3:]: f for f in (
     fx_baseline, fx_present, fx_attenuated, fx_inconclusive, fx_two_step_within, fx_two_step_across, fx_one_step_across, fx_floor_carrier,
     fx_floor_both, fx_floor_b, fx_ceiling, fx_fit_i_constant, fx_subset_stratum_disagree, fx_fit_ii_replicates, fx_fit_iii_empty_stratum, fx_stratum_too, fx_third_present,
     fx_nothing_fits, fx_c5_form_b_singular, fx_c6_other_unfit, fx_refused_component, fx_stopped_lead, fx_stopped_second, fx_g1_fails, fx_sq1,
-    fx_k1, fx_k2, fx_own_drops)}
+    fx_k1, fx_k2, fx_g6_clean, fx_g6_too_small, fx_own_drops)}
 
 
 def run_fixture(name: str, matrix: Mapping[str, Any]) -> dict[str, Any]:
-    m, sp, expect, note = FIXTURES[name](matrix)
+    """A fixture returns (matrix, spec, expected ids, note) and may add a fifth element: a set of (id, instrument) pairs that
+    must NOT appear (G3: an instrument at floor (a) issues only its floor sentence)."""
+    out = FIXTURES[name](matrix)
+    m, sp, expect, note = out[:4]
+    forbidden = out[4] if len(out) > 4 else set()
     scores = synthetic_scores(m, sp)
-    R = rd.compute(m, scores, sp.get("own_drops"))
+    R = rd.compute(m, scores, sp.get("own_drops"), sp.get("clean_items"))
     ids = [s["id"] for s in R["sentences"]]
     prov = any(s["text"].startswith("provisional:") for s in R["sentences"])
     if prov:
         ids.append("A1b-provisional")
     got = set(ids)
+    present_pairs = {(s["id"], s.get("instrument")) for s in R["sentences"]}
+    violated = sorted(f"{i}|{k}" for (i, k) in forbidden if (i, k) in present_pairs)
     return {"fixture": name, "note": note, "expected": sorted(expect), "reached": sorted(got), "missing": sorted(expect - got),
-            "ok": expect <= got, "cascade": {k: R["cascade"].get(k) for k in ("lead", "state", "step", "population", "instrument", "fallback")},
+            "forbidden_present": violated, "ok": expect <= got and not violated,
+            "cascade": {k: R["cascade"].get(k) for k in ("lead", "state", "step", "population", "instrument", "fallback")},
             "rows": len(scores["rows"]), "n_sentences": len(R["sentences"]), "R": R}
 
 
@@ -410,7 +439,7 @@ def _oc_one(task) -> dict[str, Any]:
         I = rd.Instrument(k, matrix, scores["rows"], True)
         sham = {i: s for i, s in I.summary.items() if I.items[i]["regime"] == "sham"}
         fl = I.floor(sham)
-        r = I.read(pop, fl["b"]["pass"])
+        r = I.read(pop, fl["a"]["pass"], fl["b"]["pass"])
         la = "floor" if not fl["a"]["pass"] else (r["a"]["contrast"]["label"] if r["a"].get("fit_ok") else "unfit")
         b = r.get("b", {})
         lb = b.get("not_read") or (b["contrast"]["label"] if b.get("fit_ok") else "unfit")

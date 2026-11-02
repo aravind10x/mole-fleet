@@ -208,3 +208,121 @@ def test_every_sentence_id_is_reached_by_some_fixture_except_the_decided_ones(fi
     missing = [s for s in dr.ALL_SENTENCES if s not in reached]
     assert missing == [], missing
     assert "S-P1" in dr.UNREACHABLE and "S4-1" in dr.UNREACHABLE
+
+
+# ── brief 33's dated notes 2 and 3 (G3, G4, G6, O1, O2, O5, O7, O8) ──────────────────────────────────
+
+def test_a_singular_instrument_at_floor_a_is_not_read_g3(matrix):
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
+    scores = dr.synthetic_scores(matrix, sp)
+    I = rd.Instrument("C", matrix, scores["rows"], True)
+    r = I.read("subset", False, True)
+    assert r["a"] == {"fit_ok": False, "not_read": "floor", "n": 17} and r["b"]["not_read"] == "floor" and r["recall"] is None
+    L = rd.instrument_label(r["a"], r["b"])
+    assert L["label"] is None and L["a"] is None
+
+
+def test_precedence_floor_then_ceiling_then_fit_o1(matrix):
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0, base=6.0))        # every flag set: past the ceiling
+    scores = dr.synthetic_scores(matrix, sp)
+    I = rd.Instrument("C", matrix, scores["rows"], True)
+    ids = I.evaluable_ids("subset")[:3]                              # too few for a fit: the ceiling still comes first
+    r = I.read("subset", True, True, ids=ids)
+    assert r["b"]["not_read"] == "ceiling" and r["a"]["reason"] == "the design is singular"
+    r = I.read("subset", True, False, ids=ids)
+    assert r["b"]["not_read"] == "floor"                             # floor before the ceiling
+
+
+def test_an_unscored_application_leaves_the_denominator_not_its_item_o2():
+    rng = np.random.default_rng(2)
+    F = np.array([[1.0, np.nan], [0.0, 0.0], [np.nan, np.nan], [1.0, 1.0]])
+    m = rd.clustered_mean(rng, F)
+    assert m["n"] == 3 and m["applications"] == 5 and m["unscored_applications"] == 1 and m["point"] == pytest.approx(3 / 5) and m["k"] == 3
+    a = np.array([[80.0, np.nan], [70.0, 75.0]])
+    b = np.array([[10.0, 20.0], [np.nan, np.nan], [30.0, np.nan]])
+    au = rd.auroc_clustered(rng, a, b)
+    assert au["n_a"] == 2 and au["n_b"] == 2 and au["applications_a"] == 3 and au["applications_b"] == 3 and au["point"] == 1.0
+
+
+def test_both_flags_are_read_and_the_unit_flag_stays_beside(matrix):
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
+    scores = dr.synthetic_scores(matrix, sp)
+    for r in scores["rows"]:
+        if r["view"] == "P_author_doc_iso" and r["judge"] == "opus48" and r["arm"] == "item" and r["flag"] is not None and r["regime"] == "candidate":
+            r["flag"] = True                                           # the union flags every candidate; the unit flag is left as drawn; the sham as drawn
+    I = rd.Instrument("C", matrix, scores["rows"], True)
+    sham = {i: s for i, s in I.summary.items() if I.items[i]["regime"] == "sham"}
+    fl = I.floor(sham)
+    assert fl["b"]["quiet"]["point"] == 1.0 and fl["b_unit"]["quiet"]["point"] < 1.0
+    r = I.read("subset", True, fl["b"]["pass"])
+    assert r["recall"]["point"] == 1.0 and r["recall_unit"]["point"] < 1.0 and r["b"]["not_read"] == "ceiling"
+
+
+def test_the_clean_set_reading_is_descriptive_and_beside_g6(matrix):
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
+    scores = dr.synthetic_scores(matrix, sp)
+    clean = dr._clean(matrix, 3, 1)
+    R = rd.compute(matrix, scores, None, clean)
+    c = R["readings"]["C"]["clean"]
+    assert c["subset"]["n"] == 14 and c["subset"]["n_excluded"] == 3 and c["subset"]["n_population"] == 17 and c["subset"]["fit_ok"]
+    assert c["stratum"]["n"] == 22 and c["stratum"]["n_excluded"] == 4
+    assert "label" not in c["subset"]["contrast"] and R["cascade"]["population"] == "subset"       # no label, no effect on the cascade
+    assert R["clean_items"]["n_touched"] == 4
+    ids = [s["id"] for s in R["sentences"]]
+    assert "S-G6" in ids
+    sub = next(s for s in R["sentences"] if s["id"] == "S-G6" and s["instrument"] == "C" and s["population"] == "subset")
+    assert "n = 14 of 17 evaluable, 3 excluded" in sub["text"] and "no label" in sub["text"]
+
+
+def test_s_g1_sits_beside_every_excluded_or_attenuated_reading_g4(matrix):
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
+    sp["seed"] = 3
+    scores = dr.synthetic_scores(matrix, sp)
+    R = rd.compute(matrix, scores, None, None)
+    S = R["sentences"]
+    for i, s in enumerate(S):
+        if s["id"] in ("S-D2", "S-D3"):
+            assert S[i + 1]["id"] == "S-G1" and S[i + 1]["instrument"] == s["instrument"] and S[i + 1]["population"] == s["population"] and S[i + 1]["form"] == s["form"]
+    assert sum(1 for s in S if s["id"] == "S-G1") == sum(1 for s in S if s["id"] in ("S-D2", "S-D3")) + sum(1 for s in S if s["id"] == "S-R1" and "*excluded*" in s["text"] or s["id"] == "S-R1" and "*attenuated*" in s["text"])
+    # O4: S-D outside the verdict population is marked descriptive, the verdict's is not
+    v = R["cascade"]
+    for s in S:
+        if s["id"].startswith("S-D"):
+            marked = "(descriptive; no verdict, section 5.4 (4))" in s["text"]
+            assert marked == ((s["instrument"], s["population"]) != (v["instrument"], v["population"]))
+
+
+def test_s_e_wording_when_a_is_unfit_and_b_fitted_o8():
+    L = {"label": None, "a": None, "b": "excluded", "b_effective": "excluded", "conflict": False, "b_counts": True, "b_lo_net": -0.1}
+    r = {"a": {"fit_ok": False, "reason": "the design is singular"}, "b": {"fit_ok": True}}
+    s = rd.s_e("C", "subset", L, r, False)
+    assert s["id"] == "S-E3" and "form (a) is unfit" in s["text"] and "form (b) beside reads *excluded*" in s["text"]
+
+
+def test_secondary_pools_strata_as_section_4_3_does_o7():
+    import inspect
+    src = inspect.getsource(rd.secondary)
+    assert "pooled_codes(doc)" in src and "np.unique(doc, return_inverse=True)" not in src
+
+
+def test_slot_arithmetic_on_hand_made_designs_o5():
+    rng = np.random.default_rng(11)
+    n = 60
+    C = rng.uniform(30, 80, n)
+    gap, sonnet, edit = rng.gamma(2, 3, n), (rng.random(n) < 0.5).astype(float), rng.random(n)
+    doc = rng.integers(0, 3, n)
+    excess = 0.4 * (C - 55) + 2.0 * gap + rng.normal(0, 0.01, n)          # a slope of 0.4 a point: the contrast is 25 x 0.4
+    a = rd.form_a(C, gap, sonnet, edit, doc, excess, 18.22, None, True, np.random.default_rng(1))
+    assert a["contrast"]["point"] == pytest.approx(10.0, abs=0.05) and a["contrast"]["label"] == "attenuated"
+    assert a["disattenuated"]["point"] == pytest.approx(10.0 / 0.846, abs=0.1)
+    # form (b): O2's contrast (line at its sample mean) against O4's (line at its conditional mean given composition)
+    line = 40 + 0.5 * (C - 55) + rng.normal(0, 1, n)
+    logit = -0.5 + 0.12 * (C - 55)
+    F = (rng.random((n, 2)) < 1 / (1 + np.exp(-logit[:, None]))).astype(float)
+    b = rd.form_b(C, line, gap, sonnet, edit, doc, F, None, False, np.random.default_rng(2), 0.04)
+    assert b["fit_ok"] and 0.3 < b["contrast"]["point"] < 0.95 and b["contrast"]["lo_net_of_bias"] == pytest.approx(b["contrast"]["lo"] - 0.04)
+    assert b["o4"]["point"] != pytest.approx(b["contrast"]["point"])
+    assert b["q1q3"]["margin"] == pytest.approx(0.228)
+    # the Clopper-Pearson pair and the paired gap's sign
+    assert rd.clopper_pearson(0, 10) == [0.0, pytest.approx(0.3085, abs=1e-3)] and rd.clopper_pearson(10, 10)[1] == 1.0
+    assert rd.four_outcome(0.05, 0.2, 0.1, 0.3) == "attenuated"

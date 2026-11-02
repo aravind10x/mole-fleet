@@ -1,0 +1,45 @@
+{
+ "version": "b3-s3-clean-items/v0",
+ "source": "s3-applications-v0.json honest_edits_broken > 0 (A3b)",
+ "applications_sha256": "02edac2a88fbdd3d9cfd4404e496aac6991c2f917fd27ca191394dc225c229bc",
+ "touched_ids": [
+  "11e6c7353fe1600e0fa68ed122187e9f49b2432209207a7f8f7b43e626e08ebe",
+  "2139f734fc1298665105398b138804b943b502b90ce4c580c543f2638050e2be",
+  "321a25304daf2f8eae5c618558d513a5be505ac790200e609b1d7974fcacec1b",
+  "42579e0da0f8e06ebe7c736c117ac28bb0879cbff981edba2f34173ecc6d1618",
+  "453865b3d60e60ed8689b161fc7ed725ae1118900ffc226367ce983aaa099c5f",
+  "86c7364ab6f2b7ff5f623cc90c7f864bd1e13e0b2fdace7d2894fb3d78fa804f",
+  "8ad9d7f60126399e5c2471ff54fbe941a91cfa9abf80cdc38715abcfad22a5da",
+  "9aa66a6d494ee88afa280eeb50e888b517edaf987d14c9ec4077329d2fb44f19",
+  "9d2837a0fda3aa5ebbd2487f7859acb140b66c8280818a1f4fd67065ff9ad86d",
+  "d0a9a07d2fb8950477876f58fdf2e3a4d195cef1be2fbd7335fc08ccf38c6495"
+ ],
+ "touched_ids_sha256": "1e9d80222143bec9b31b6852c00d421895e55b11d4b6fc9d7f25aa95d831f661",
+ "by_population": {
+  "subset": {
+   "n": 17,
+   "touched": 2,
+   "clean": 15
+  },
+  "stratum": {
+   "n": 26,
+   "touched": 3,
+   "clean": 23
+  },
+  "full": {
+   "n": 73,
+   "touched": 7,
+   "clean": 66
+  },
+  "controls": {
+   "n": 21,
+   "touched": 2,
+   "clean": 19
+  },
+  "sham": {
+   "n": 22,
+   "touched": 1,
+   "clean": 21
+  }
+ }
+}

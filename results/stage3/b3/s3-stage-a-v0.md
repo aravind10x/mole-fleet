@@ -1,4 +1,4 @@
-# S3 Stage A record (brief 33 v2.1, 99e3ec7f): the $0 stage before the gate — written 2026-11-02 04:10Z
+# S3 Stage A record (brief 33 v2.1, 99e3ec7f): the $0 stage before the gate — written 2026-11-02 05:12Z
 
 Blue session (Fable 5.1). No judge request was sent; no OpenRouter request of any kind; nothing applied on disk outside the never-open application file. Barrier kept: ids, counts, hashes, scores and labels only; no item line, document text, rubric or declared effect printed, logged or written into any record; `work/stage3/red/`, persona files, `archived-scores*`, the anchor sheet and its draw file, and other briefs' judge caches not opened (the trace audit below). Every path is from the project root.
 
@@ -10,16 +10,16 @@ Blue session (Fable 5.1). No judge request was sent; no OpenRouter request of an
 
 ## A1b. The dated note on the plan
 
-- Appended verbatim under the heading the brief gives, 2026-11-02; `work/stage3/b3/plan.md` **a411d8a2** (114196 bytes; its first 111,603 bytes hash to 58b0c121, so nothing above the note changed); mirrored to `results/stage3/b3/plan.md` and committed to the fork (be0a600); the `s1-preflight-sha256` block is unchanged (26 lines).
-- Pre-flight re-run after the commit: **PASS**, 26 of 26, plan.md a411d8a2 matches HEAD (True); `s3-preflight-v0.json` (03ed1816). `test_stage3_b3_preflight.py` 10 pass.
+- Appended verbatim under the heading the brief gives, 2026-11-02; `work/stage3/b3/plan.md` **59a98c15** (119961 bytes; its first 111,603 bytes hash to 58b0c121, so nothing above the note changed); mirrored to `results/stage3/b3/plan.md` and committed to the fork (be0a600); the `s1-preflight-sha256` block is unchanged (26 lines).
+- Pre-flight re-run after the commit: PASS, 26 of 26 (the run of that time, 03ed1816). After the dated note 3 of 2026-11-02 (the addendum below) the current run is **PASS**, 27 of 27, plan.md 59a98c15 matches HEAD (True); `s3-preflight-v0.json` (8e332d9b). `test_stage3_b3_preflight.py` 10 pass.
 
 ## A2. The analysis matrix, the readings script and the dry run
 
 - Matrix `work/stage3/b3/s3-analysis-matrix-v0.json` **1b80280a** by `stage3_b3_s3_matrix.py` (4d682443; tests b69ba67d, 11 pass): 116 net items (73 candidates, 21 control items, 22 comparison items) keyed by opaque id; every input verified by sha256 before it is read (the seven files of 9a769d68 `inputs_sha256`, stratum-v0.json 6113bd8d, s1-populations-v0.json f17e7a72, inserter-dry-run-v1.json 02138931, and the four payload and control files pinned in v1's `inputs_sha256`, read for each statement's `op` only); section 1.2's table reproduced (means, SD, IQR, writer and document counts, pooled strata; tested against s1-populations-v0.json and Part 3's Step 0 to 1e-3); the candidates' rater fields equal brief 25's file; no item text (tested).
-- Readings script `stage3_b3_s3_readings.py` **a39f6f52** (tests 567f4048); dry run `stage3_b3_s3_dryrun.py` (bd726ae5); report `s3-readings-dryrun-v0.md` (2ed8f91e) and `.json` (2809a5ab).
+- Readings script `stage3_b3_s3_readings.py` **e31d8fba** (tests a06aaf1d); dry run `stage3_b3_s3_dryrun.py` (fd6eaedb); report `s3-readings-dryrun-v0.md` (9c5a28e2) and `.json` (106d6c74).
 - The exception table against Part 3's simulator, each delta tested: replicate failure more than 10 percent of 2,000 (not 2.5 percent); form (b) with the top-two gap (the note); the floor once on the full set against the sham; 2,000 replicates at seed 20261152 (not 1,000); the fixed quartiles 47.5 and 66.5 for every population; the cascade as seven ordered steps; a rank-deficient design is a fit failure (the simulator's fitter converges on one; tested).
-- Reachability: 28 fixtures, all reaching their ids: **True**; ids not reached by any fixture: none; S-P1 unreachable by decision (the k = 2 arm is not run); S4-1 by the separate session after Aravind reports. Wall time 412 s.
-- Operating characteristics through the adapter (seed 20261171, tag 500, ICC 0.3, 300 experiments per truth, 2000 replicates; one stream per experiment: default_rng([20261171, 500, truth index, model index, experiment index])): the carrier's P(excluded | 0) on the subset under the "none" model **0.640** against Part 3's 0.68; P(present | 1.5 x) **0.730** against 0.72; tolerance ± 0.08: **ACCEPTED**. The full set under the "zero" model beside, named in the report. Wall time 1533 s.
+- Reachability: 30 fixtures, all reaching their ids: **True**; ids not reached by any fixture: none; S-P1 unreachable by decision (the k = 2 arm is not run); S4-1 by the separate session after Aravind reports. Wall time 393 s.
+- Operating characteristics through the adapter (seed 20261171, tag 500, ICC 0.3, 300 experiments per truth, 2000 replicates; one stream per experiment: default_rng([20261171, 500, truth index, model index, experiment index])): the carrier's P(excluded | 0) on the subset under the "none" model **0.640** against Part 3's 0.68; P(present | 1.5 x) **0.730** against 0.72; tolerance ± 0.08: **ACCEPTED**. The full set under the "zero" model beside, named in the report. Wall time 1451 s.
 
 ## A3. The draws and the application set, once
 
@@ -41,11 +41,11 @@ Blue session (Fable 5.1). No judge request was sent; no OpenRouter request of an
 | full quiet set (73) | 11 of 146 (0.075) | 14 of 438 (0.032) | 25 of 584 (0.043) |
 | **all** | 15 of 232 (0.065) | 16 of 564 (0.028) | 31 of 796 (0.039) |
 
-By stream tag: {1: 11, 2: 14, 3: 3, 4: 1, 6: 2}; items with at least one such application: 10 of 116. Every such application was delivered and composed; the module rebuilt the later honest edit's content as T1 v3's rule does (section 2.3), which the dossier and `O_diff` views then read.
+By stream tag: {1: 11, 2: 14, 3: 3, 4: 1, 6: 2}; items with at least one such application: 10 of 116 (the exclusion set for G6, `s3-clean-items-v0.json`, ids sha256 1e9d8022; by population {'subset': {'n': 17, 'touched': 2, 'clean': 15}, 'stratum': {'n': 26, 'touched': 3, 'clean': 23}, 'full': {'n': 73, 'touched': 7, 'clean': 66}, 'controls': {'n': 21, 'touched': 2, 'clean': 19}, 'sham': {'n': 22, 'touched': 1, 'clean': 21}}). Every such application was delivered and composed; the module rebuilt the later honest edit's content as T1 v3's rule does (section 2.3), which the dossier and `O_diff` views then read.
 
 ## A4. The driver, the packets, the caches and the pre-signal
 
-- Driver `stage3_b3_s3.py` **5d0e0899** (tests 487caf57): modes apply | render | score; the ledger (one guard through `request_guard` on every client, in-flight reservations, the stop at $153.25, each client's own cap the stop less the other caches), the view order enforced, the pause after the first about 20 carrier units, resumable state, the scores file's flag through `stage3_thresholds.is_flagged` at the sealed rule (tested).
+- Driver `stage3_b3_s3.py` **4adc0716** (tests 709fd4e7): modes apply | render | score; the ledger (one guard through `request_guard` on every client, in-flight reservations, the stop at $153.25, each client's own cap the stop less the other caches), the view order enforced, the pause after the first about 20 carrier units, resumable state, the scores file's flag through `stage3_thresholds.is_flagged` at the sealed rule (tested).
 - Packets (`s3-render-v0.json` 7c33c104): cache labels unique within S3: True (4344 labels); caches to live under `work/stage3/b3/cache-s3/`, none before Stage B (tested).
 
 | row | units (items + lines) | packets sha256 | pre-signal estimate | S2 at Part 2's basis | truncated |
@@ -65,19 +65,32 @@ By stream tag: {1: 11, 2: 14, 3: 3, 4: 1, 6: 2}; items with at least one such ap
 
 ## Trace audit (Stage A)
 
-- `stage3_b3_s3_trace_audit.py` (af2bf444; tests 84e5069a, 7 pass, the positive test bound to the empty `--writer-dir`) around the pinned script 2a409344 on this session's transcript `2043475e-6037-4bb9-8224-930e8d98c3c5.jsonl` with `--writer-dir work/stage3/b3/s3-trace-empty` (empty; every token absolutised first) and the policy `s3-trace-policy.json` (9d739792): opened 186, allowed 109, outside 77 (existing files 0, non-existent tokens 77), **never-open 0**; verdict PASS.
+- `stage3_b3_s3_trace_audit.py` (af2bf444; tests 84e5069a, 7 pass, the positive test bound to the empty `--writer-dir`) around the pinned script 2a409344 on this session's transcript `2043475e-6037-4bb9-8224-930e8d98c3c5.jsonl` with `--writer-dir work/stage3/b3/s3-trace-empty` (empty; every token absolutised first) and the policy `s3-trace-policy.json` (ba78a371): opened 186, allowed 109, outside 77 (existing files 0, non-existent tokens 77), **never-open 0**; verdict PASS.
+
+## Stage A addendum (brief 33's dated notes 2 and 3 of 2026-11-02; $0, no judge request)
+
+- **G1 revised (the flag).** plan.md's dated note 3 of 2026-11-02 (plan.md **59a98c15**, fork 1fafa57; prefix bytes equal to a411d8a2): the flag is the sealed author-level reading, the union (B1's primary, `recall_by_arm` and `flagged_union`), the planted unit's own flag beside; section 4.1's form (b) null bias stands, nothing re-simulated; `work/stage3/views/p_author_c0.json` (3c61dd4d, the 89 honest `P_author` rows of Sonnet 5's calibration) pinned, the `s1-preflight-sha256` block restated at 27 entries; `test_stage3_b3_preflight.py` asserts 27 by a dated comment. Pre-flight on the committed plan: **PASS 27 of 27** (`s3-preflight-v0.json` 8e332d9b). The driver (`stage3_b3_s3.py` 4adc0716) flags through the union (`honest_pairs_for`, `union_max`, B1's `honest_pairs`) and the scores file carries `flag` (union) and `flag_unit` per unit; the readings script reads both: floor (b), the ceiling, the anchors' lone recall and the composed gaps on the union with the unit's own flag beside. G1 (a)'s re-simulation artefacts were discarded uncommitted.
+- **G3.** An instrument at floor (a) is not read: `Instrument.read` takes the floor (a) result and returns `not_read` "floor" for both forms with no label; `select` issues only its floor sentence (S-A2); the `floor_carrier` fixture asserts the absence of every other id for that instrument.
+- **G4.** S-G1 beside every *excluded* or *attenuated* reading, every instrument, form and population (S-D and S-R), once per reading (the S-F duplicate removed); tested.
+- **G5.** (i) A unit still errored after the client's retries is unscored (the note's rule 1) and completes its cell (`cell_status`); `--continue` clears a recorded stop (`clear_stop`, kept on the run record). (ii) The first-batch re-base compares the about 20 item units' realised cost with those same units' character-based estimate (`estimate_cell` on the batch), the whole cell's per-unit estimate shown beside; tested.
+- **G6.** Beside the carrier's form (a) reading, form (a) on the items none of whose applications broke a later honest edit: the exclusion set `s3-clean-items-v0.json` (21e7ede2; 10 touched items, ids sha256 1e9d8022; subset 15 of 17 clean, stratum 23 of 26, full set 66 of 73) is written by the A3b script from the application file and read by `--clean-items`; sentences S-G6 and S-G6b (descriptive, counts, no label, no effect on the cascade); two fixtures reach them.
+- **O1 to O8.** O1 precedence in `read()` (floor, ceiling, fit); O2 an unscored application, not its item, leaves the anchors' and the floor's sham denominators; O3 the dry run's carrier figures beside Part 3's in `b3-results.md`; O4 the descriptive marker on S-D outside the verdict population; O5 value tests for the slot arithmetic; O6 the bootstrap sub-stream rule stated in `b3-results.md`; O7 `secondary()` pools strata as section 4.3 does; O8 `s_e()`'s wording when form (a) is unfit and form (b) fitted. O9: the differences list names the union as B1's primary.
+- **Re-runs.** Readings script `stage3_b3_s3_readings.py` **e31d8fba** (tests a06aaf1d); dry run `stage3_b3_s3_dryrun.py` fd6eaedb: 30 fixtures, all reaching their ids **True**, ids not reached none; report `s3-readings-dryrun-v0.md` 9c5a28e2.
+- **Operating characteristics re-run** (form (a) untouched): the carrier on the subset P(excluded | 0) **0.640**, P(excluded | margin) **0.090**, P(LB > 0 | 0) 0.023, P(present | 1.5 x) **0.730**; acceptance ACCEPTED (the first run gave 0.640 / 0.090 / 0.023 / 0.730: unchanged). Beside Part 3's 0.68 / 0.07 / 0.03 / 0.72; bound (ii) 0.6 Monte Carlo SE below 0.10 against Part 3's 1.8 (section 7, A6.18 (e)).
+- **Trace audit (end of the pass)**: opened 222, allowed 124, outside 98 (existing files 0), **never-open 0**; verdict PASS (`s3-trace-audit-stageA2.json` 5e232276).
+- **Disclosures corrected (the coordinator's dated note 2).** The pre-signal's carrier gap is not thinking tokens (Opus 4.8's thinking is inside `output_tokens`, as B1's bases were): S2's carrier basis was B4-R's $0.0447 per unit on the other prefix against B1's realised $0.01743 on this prefix, and the pre-signal is 0.95 of B1's realised, so the realised cost is likely near $49 with wide headroom under the stop; B1's re-base still decides. The executor was Fable 5.1.
 
 ## Differences from the brief and the plan, reported
 
 Each is a decision this session took where the brief, the plan or the code left a choice; the plan governs where it speaks.
 
-- **The scores file's flag is the planted unit's own flag.** `th.is_flagged(score, sealed rule, tie label)` with the tie keyed by the author under an author rule (the per-agent views) and by the cache label under a unit rule (`O_diff`): B1's `recall_planted_unit_only` and T1's `O_diff` convention. It is not the union with the author's honest pairs on other documents (B1's union reading, Part 2's `honest_path`). Reasons: plan section 4.2 names "each item application's lone-author per-agent flag at the sealed rule"; brief 33 A0 names that code path; and the honest-pair rows for Sonnet's `P_author` are not among the pinned inputs. If the reviewer reads the plan the other way, form (b), the floor (b), the anchors' lone recall and the composed gaps are recomputed on the union; form (a), the carrier, is unchanged.
+- **The flag (revised by plan.md's dated note 3 of 2026-11-02; brief 33's dated note 2, G1).** The scores file's `flag` is the sealed author-level reading, the union, which is B1's primary (`recall_by_arm`, `flagged_union`: a plant counts as flagged when the author's maximum over the planted unit and the author's honest units on the other class documents passes the sealed rule, the tie keyed by the author); `flag_unit`, the planted unit's own flag (B1's `recall_planted_unit_only`), is carried beside in every reading. Stage A's first ruling had taken unit-only as B1's convention; it was not (O9), and the union is the reading every pre-registered number (B1's recall, Part 2's form (b) null bias) was computed under. Sonnet 5's honest `P_author` rows are `work/stage3/views/p_author_c0.json`, pinned by the note; the other rows are the pinned nulls'. `O_diff`'s flag is its unit rule.
 - **A live row's form (b) takes the rater's section-2 maximum and top-two gap as its line covariates** (the live rows carry no lone-line units, A6.13.8); Part 2's T2 layout without singletons did the same (`experiment`, the `else` branch). Descriptive rows only.
 - **The harness copy writes under its own directory** (`work/stage3/b3/s3-lone-line-check/`, record `s3-lone-line-check-v0.json`), never brief 27's `lone-line-arm/` parts or `lone-line-arm-v0.json` (K1, pinned); "default output unchanged" is read as unchanged numbers, shown by the gated reproduction test.
 - **The matrix keeps each item's document path** (a class-document path, the disclosed class), not item text.
 - **The operating characteristics seed one stream per experiment**, `default_rng([20261171, 500, truth index, model index, experiment index])`: the brief fixes the seed and the tag, the sub-key is this session's, so the experiments run in parallel. Each experiment reads the two named instruments through the readings script's own `Instrument` (the floor once on the full set, the plan's precedence), form (a)'s label tallied as Part 3's `a_outcome` does, form (b) beside.
 - **The trace audit absolutises every transcript token against the project root** before the pinned script audits it, with the empty writer directory passed as an absolute path; otherwise the pinned script's location rule would allow any relative `work/stage3/b3/...` token under the empty directory. The positive test is bound to that choice. Tokens that are fragments of shell commands (non-existent paths) are counted apart from existing files.
-- **An errored unit is re-asked once on a resumed run**, by the client's own policy (an errored record is never served from the cache); the run record counts them. The note's rule (e) forbids scoring a scored unit twice and re-asking a refused unit outside the client's retry policy, which this respects.
+- **A unit still errored after the client's retries is unscored and completes its cell** (brief 33's dated note 2, G5 (i), the note's rule 1): it is never re-asked once its cell is complete, so one persistently errored unit cannot block the later cells; the coordinator's `--continue` clears a recorded stop, kept on the run record as cleared. The first-batch re-base compares the about 20 item units' realised cost with those same units' character-based estimate (G5 (ii)), the whole cell's per-unit estimate shown beside.
 - **The readings script was written before its tests**; its tests are the brief's reachability fixtures and the exception-table assertions, run RED first (six fixtures missed their ids on the first run and were tuned, as the dry-run report records) and GREEN after.
 - **The fixtures' synthetic worlds use the committed matrix's covariates** (numbers and ids) with generated scores; a fixture that needs a covariate held constant overrides the matrix copy it passes to the script (stated per fixture in the report).
 
@@ -85,27 +98,29 @@ Each is a decision this session took where the brief, the plan or the code left 
 
 - `work/stage3/b3/s3-config-v0.json` e28dca16fa9c0c809cc61a5117f15ffa9cce97a73c6e8a42ea54e24e9a1d45cc
 - `work/stage3/b3/s3-preflight-v0-prenote.json` d2adf6bccb927a5889c80274031a2c83efa989fcaa2c05a9af9636c6544e886d
-- `work/stage3/b3/s3-preflight-v0.json` 03ed1816cdeb473e18c07664b52ff344caf6b12fe80959c86d69d4496e756109
-- `work/stage3/b3/plan.md` a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0
+- `work/stage3/b3/s3-preflight-v0.json` 8e332d9be1baacbef8a8ae2e807fad8b3e5d4728beb571b94873362df970c285
+- `work/stage3/b3/plan.md` 59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db
 - `work/stage3/b3/s3-analysis-matrix-v0.json` 1b80280ad8ed14d1ec0fed26b7137d3cc50a055e8f41b19e52083439f5b3effe
-- `work/stage3/b3/s3-readings-dryrun-v0.json` 2809a5ab5f0b59bf9dcf45aeeed445db1a685adcb06d2182b773795f007c239a
-- `work/stage3/b3/s3-readings-dryrun-v0.md` 2ed8f91efbe99e842fc71d79a0bc26ead6fefc375b099809788a2e7a445e5689
+- `work/stage3/b3/s3-readings-dryrun-v0.json` 106d6c746e046a18a86ce1d1848cc85796931a8453bf7325ba9de302993357ee
+- `work/stage3/b3/s3-readings-dryrun-v0.md` 9c5a28e2e30a1cce316404a3adbda884e20d1bc73b30ccec9d5d84063af7e17c
 - `work/stage3/b3/s3-lone-line-check-v0.json` 8f64fb7ee24caaf68db82cf70633056bf95013f797001f95bfb87cef0e0f3dbe
 - `work/stage3/b3/s3-applications-v0.json` 02edac2a88fbdd3d9cfd4404e496aac6991c2f917fd27ca191394dc225c229bc
 - `work/stage3/b3/s3-applications-v0.md` d87787183713f5d253bf418adf0c2c824e1a57aa491f7c5c7904b4936a4d0d27
 - `work/stage3/b3/s3-render-v0.json` 7c33c10433784bbbab57eca7640e9cd0f381dfff796cdf9157fdcd3700ee169f
-- `work/stage3/b3/s3-trace-policy.json` 9d73979243605dbd96be914314721e44cb2c514371184e5e8b30c8566b95a6de
+- `work/stage3/b3/s3-trace-policy.json` ba78a3711bd3008bcd2e41e61854b5e7f320d8dcf8caa1bdad2af74afdf155f5
 - `work/stage3/b3/s3-trace-audit-stageA.json` e3119f8ddd594f111f311551001375ec149214ae92df376b93c1188b455c38e2
+- `work/stage3/b3/s3-clean-items-v0.json` 21e7ede2b95b49af714d9339a96c5e63d2204df9964c3b43ddbddbe502616ae7
+- `work/stage3/b3/s3-trace-audit-stageA2.json` 5e232276e78c320872162f7af0bd3188f72f751ad31fe59f0f158398dbe58f89
 - `work/checks/stage3_b3_s3_matrix.py` 4d682443ae4373ff04573625b470f87c8334e89d32dcf00f33eb42d142d5fbbe
 - `work/checks/test_stage3_b3_s3_matrix.py` b69ba67d5be15fe74cb0f01069783095758d86bcf2b8296ba1508b9ae57ea703
-- `work/checks/stage3_b3_s3_readings.py` a39f6f52e9f9493e496563212660031e2278bcff842f7b3d1795b2cbfcf3e8e0
-- `work/checks/test_stage3_b3_s3_readings.py` 567f4048e20130809ebfcd6912edd13e736e88c5d56a4aecb0fb3ca71bf5970a
-- `work/checks/stage3_b3_s3_dryrun.py` bd726ae505fc6cec78ee49d3bdeb377e89842125bb93747c1ab8dc5a4cb0074e
-- `work/checks/stage3_b3_s3.py` 5d0e08994c7235b5863b29a14e60b130dd617f45ead653faa798fa1a53638ce0
-- `work/checks/test_stage3_b3_s3.py` 487caf577f00a14295be6a95a70edd639934373023498a0d401eeb091128137b
+- `work/checks/stage3_b3_s3_readings.py` e31d8fbab8765630564f76b5ca06e6f0e17d5b4e89b73d8ece42332844ce8b26
+- `work/checks/test_stage3_b3_s3_readings.py` a06aaf1dc51b927cc40984b7b37b2c8b8a043b3eac76ff1a441403a0a97eedea
+- `work/checks/stage3_b3_s3_dryrun.py` fd6eaedb6a96ab9a37798415dfc76ec118eea1d5aa1add5a1677fa6f3ce357c5
+- `work/checks/stage3_b3_s3.py` 4adc07160c3ab89470325178e8fade32200abb99387e414a6937a63d035a12b6
+- `work/checks/test_stage3_b3_s3.py` 709fd4e79472ccee90aaef25817da963d1d1dbf2bce1bebe04d7dfdd94ca139b
 - `work/checks/stage3_b3_lone_line_check_s3.py` 80e357217e8bda7cd12514f2fc5593c416d34b2d200008f754a074e0ec66e01a
 - `work/checks/test_stage3_b3_lone_line_check_s3.py` f0f5f3ebb91f99e10c58fccd17365ae5b904006bd458ca4be39269eacc348019
 - `work/checks/stage3_b3_s3_trace_audit.py` af2bf444b398b03caac349f1958c315de1492291ff1da21445145d31c702f388
 - `work/checks/test_stage3_b3_s3_trace_audit.py` 84e5069a54726fedc9634530cea52bb546a964a028f32154f5e9939a661cfbe4
-- `work/checks/stage3_b3_s3_record.py` 453b26998dc41f64b93fb7b7b4f3fa5d80855d67691ab1e10e45f990cc3e34b3
-- fork HEAD at writing: 4dfbb51 (S3's Stage A commits are be0a600, the plan note, and 948865b, A1 to A2 and A4's code; the brief 13 writing session committed to the fork beside, ff2fc64, 8c3a490 and 39e34ab, untouched by S3)
+- `work/checks/stage3_b3_s3_record.py` 88abf3670268fb3e67b6e5e0ced54a0b5bed0f4ab8bd3cdfb60c1e74e8577a32
+- fork HEAD at writing: f09ae93 (S3's Stage A commits are be0a600, the plan note, and 948865b, A1 to A2 and A4's code; the brief 13 writing session committed to the fork beside, ff2fc64, 8c3a490 and 39e34ab, untouched by S3)
