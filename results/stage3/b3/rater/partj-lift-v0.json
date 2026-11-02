@@ -306,5 +306,277 @@
   "quartiles": "linear interpolation (numpy default)",
   "spearman": "average ranks for ties; percentile bootstrap over triples, 95%, one generator per row seeded with the seed, so every row uses the same resampled triples",
   "free_text": "each rating record's reason field is dropped at load; no id and no item text is written"
+ },
+ "v0_1": {
+  "section": "v0.1, appended by dated note 2 of brief 34; nothing above it changes",
+  "script": {
+   "name": "stage3_b3_partj_lift_v01.py",
+   "sha256": "dd26db4000c89ac4bf9884fe46e369776eaee62b97d5791f1e4f42d307b48fb8"
+  },
+  "built_on": {
+   "v0_script": {
+    "name": "stage3_b3_partj_lift.py",
+    "sha256": "aed28cb41ba892fb1d33f9233b4ea9c795054b7e40dbbdf348bf543d1c42288b"
+   },
+   "v0_json_sha256_before_append": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+   "v0_md_sha256_before_append": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5"
+  },
+  "resamples": {
+   "n": 2000,
+   "seed": 20261102
+  },
+  "own_resamples_check": {
+   "reproduced_rows": 6,
+   "all_equal": true,
+   "what": "the rho, 95% interval and degenerate count of all six v0 Spearman rows, exactly"
+  },
+  "paired_difference": {
+   "pass1": {
+    "estimate": 0.17150783163501016,
+    "ci95": [
+     0.05406249282751985,
+     0.30480969086738957
+    ],
+    "n": 89,
+    "resamples": 2000,
+    "seed": 20261102,
+    "degenerate_resamples": 0,
+    "rho_composition_vs_max_statement": 0.6279179602755552,
+    "rho_composition_vs_mean_statement": 0.4564101286405451
+   },
+   "pass2": {
+    "estimate": 0.18724756896903189,
+    "ci95": [
+     0.06938731641020868,
+     0.31553200565966416
+    ],
+    "n": 89,
+    "resamples": 2000,
+    "seed": 20261102,
+    "degenerate_resamples": 0,
+    "rho_composition_vs_max_statement": 0.6627172938552316,
+    "rho_composition_vs_mean_statement": 0.4754697248861997
+   }
+  },
+  "lift_mean_intervals_pass1": {
+   "min_lift_needed": 16,
+   "resamples": 2000,
+   "seed": 20261102,
+   "overall": {
+    "mean": 13.460674157303371,
+    "n": 89,
+    "bootstrap_ci95": [
+     10.80870786516854,
+     16.29269662921348
+    ],
+    "normal_ci95": [
+     10.612352974604299,
+     16.308995340002443
+    ],
+    "degenerate_resamples": 0,
+    "ci_includes_min_lift_needed": true
+   },
+   "by_writer": {
+    "Sonnet 5.5": {
+     "mean": 16.166666666666668,
+     "n": 48,
+     "bootstrap_ci95": [
+      12.265230846436936,
+      20.119642857142857
+     ],
+     "normal_ci95": [
+      12.023100974774477,
+      20.310232358558856
+     ],
+     "degenerate_resamples": 0,
+     "ci_includes_min_lift_needed": true
+    },
+    "GLM 5.3": {
+     "mean": 10.292682926829269,
+     "n": 41,
+     "bootstrap_ci95": [
+      6.774125000000001,
+      13.948780487804878
+     ],
+     "normal_ci95": [
+      6.640424658571028,
+      13.944941195087509
+     ],
+     "degenerate_resamples": 0,
+     "ci_includes_min_lift_needed": false
+    }
+   }
+  },
+  "composition_above_bar_pass1": {
+   "composition_above": 75,
+   "pass": "pass 1 (the bars' pass)",
+   "pooled": {
+    "n": 19,
+    "lines_more_than_10_apart": 18,
+    "every_line_at_or_under_60": 11,
+    "within_10_and_every_line_at_or_under_60": 1
+   },
+   "by_writer": {
+    "Sonnet 5.5": {
+     "n": 14,
+     "lines_more_than_10_apart": 14,
+     "every_line_at_or_under_60": 9,
+     "within_10_and_every_line_at_or_under_60": 0
+    },
+    "GLM 5.3": {
+     "n": 5,
+     "lines_more_than_10_apart": 4,
+     "every_line_at_or_under_60": 2,
+     "within_10_and_every_line_at_or_under_60": 1
+    }
+   }
+  },
+  "check_values": [
+   {
+    "name": "paired_difference_pass1_estimate",
+    "review_note": 0.172,
+    "recomputed": 0.17150783163501016,
+    "difference": -0.0004921683649898312,
+    "decimals": 3,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "paired_difference_pass1_ci_lo",
+    "review_note": 0.044,
+    "recomputed": 0.05406249282751985,
+    "difference": 0.01006249282751985,
+    "decimals": 3,
+    "matches_printed_precision": false,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "paired_difference_pass1_ci_hi",
+    "review_note": 0.308,
+    "recomputed": 0.30480969086738957,
+    "difference": -0.003190309132610425,
+    "decimals": 3,
+    "matches_printed_precision": false,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "paired_difference_pass2_estimate",
+    "review_note": 0.187,
+    "recomputed": 0.18724756896903189,
+    "difference": 0.0002475689690318861,
+    "decimals": 3,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "paired_difference_pass2_ci_lo",
+    "review_note": 0.069,
+    "recomputed": 0.06938731641020868,
+    "difference": 0.00038731641020867125,
+    "decimals": 3,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "paired_difference_pass2_ci_hi",
+    "review_note": 0.325,
+    "recomputed": 0.31553200565966416,
+    "difference": -0.00946799434033585,
+    "decimals": 3,
+    "matches_printed_precision": false,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "lift_pass1_overall_mean_normal_ci_lo",
+    "review_note": 10.6,
+    "recomputed": 10.612352974604299,
+    "difference": 0.012352974604299405,
+    "decimals": 1,
+    "matches_printed_precision": true,
+    "source": "review session's normal approximation 13.46 +/- 1.96 x 13.71 / sqrt(89), indicative",
+    "like_for_like": true
+   },
+   {
+    "name": "lift_pass1_overall_mean_normal_ci_hi",
+    "review_note": 16.3,
+    "recomputed": 16.308995340002443,
+    "difference": 0.008995340002442731,
+    "decimals": 1,
+    "matches_printed_precision": true,
+    "source": "review session's normal approximation 13.46 +/- 1.96 x 13.71 / sqrt(89), indicative",
+    "like_for_like": true
+   },
+   {
+    "name": "lift_pass1_overall_mean_bootstrap_ci_lo",
+    "review_note": 10.6,
+    "recomputed": 10.80870786516854,
+    "difference": 0.2087078651685399,
+    "decimals": 1,
+    "matches_printed_precision": false,
+    "source": "review session's normal approximation 13.46 +/- 1.96 x 13.71 / sqrt(89), indicative; against this record's bootstrap",
+    "like_for_like": false
+   },
+   {
+    "name": "lift_pass1_overall_mean_bootstrap_ci_hi",
+    "review_note": 16.3,
+    "recomputed": 16.29269662921348,
+    "difference": -0.0073033707865199915,
+    "decimals": 1,
+    "matches_printed_precision": true,
+    "source": "review session's normal approximation 13.46 +/- 1.96 x 13.71 / sqrt(89), indicative; against this record's bootstrap",
+    "like_for_like": false
+   },
+   {
+    "name": "composition_above_bar_pass1_n",
+    "review_note": 19,
+    "recomputed": 19,
+    "difference": 0,
+    "decimals": 0,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "composition_above_bar_pass1_lines_more_than_10_apart",
+    "review_note": 18,
+    "recomputed": 18,
+    "difference": 0,
+    "decimals": 0,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   },
+   {
+    "name": "composition_above_bar_pass1_every_line_at_or_under_60",
+    "review_note": 11,
+    "recomputed": 11,
+    "difference": 0,
+    "decimals": 0,
+    "matches_printed_precision": true,
+    "source": "review session's own run, another seed, indicative (read-partj-lift-record-2026-11-02.md)",
+    "like_for_like": true
+   }
+  ],
+  "agreement": {
+   "all_match": false,
+   "differing": [
+    "paired_difference_pass1_ci_lo",
+    "paired_difference_pass1_ci_hi",
+    "paired_difference_pass2_ci_hi"
+   ],
+   "summary": "3 of 11 like-for-like values differ at the printed precision (listed under differing). The review session's run used another seed and called its values indicative; both values are kept."
+  },
+  "method": {
+   "paired_difference": "rho(composition, loudest) - rho(composition, mean), per resample, then the 2.5 and 97.5 percentiles; a resample degenerate on either side is dropped and counted",
+   "lift_means": "per resample, the mean of the resampled triples' pass-1 lifts; by writer, of the resampled triples of that writer (their number varies; not a stratified bootstrap); normal: mean +/- 1.96 sd/sqrt(n)",
+   "counts": "pass 1; composition above the composition bar; lines more than 10 apart = max - min above the spread bar; every line at or under the statement bar = max at or under it",
+   "like_for_like": "the review session's bootstrap values came from another seed and its interval for (b) is a normal approximation; rows marked false are shown for the difference only and are not counted in the agreement"
+  }
  }
 }

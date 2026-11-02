@@ -90,3 +90,59 @@ No interval was computed for the lift summaries.
 - quartiles: linear interpolation (numpy default)
 - spearman: average ranks for ties; percentile bootstrap over triples, 95%, one generator per row seeded with the seed, so every row uses the same resampled triples
 - free_text: each rating record's reason field is dropped at load; no id and no item text is written
+
+# v0.1 section (appended by dated note 2 of brief 34; nothing above this line changes)
+
+$0, no request sent. Script `stage3_b3_partj_lift_v01.py` `dd26db4000c89ac4bf9884fe46e369776eaee62b97d5791f1e4f42d307b48fb8`, built on the v0 script `stage3_b3_partj_lift.py` `aed28cb41ba892fb1d33f9233b4ea9c795054b7e40dbbdf348bf543d1c42288b` (verified to be the one that wrote the v0 record). The v0 files before this append: json `e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249`, md `c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5`. Numbers and fixed labels only: no ids, no item text, no rater `reason`.
+
+Resamples: 2000, seed 20261102, the v0 record's own. Check: 6 of the v0 Spearman rows reproduced exactly (True).
+
+## Agreement with the review session's indicative values
+
+3 of 11 like-for-like values differ at the printed precision (listed under differing). The review session's run used another seed and called its values indicative; both values are kept.
+
+| value | review session | recomputed | difference | match at printed precision | like for like |
+|---|---|---|---|---|---|
+| paired_difference_pass1_estimate | 0.172 | 0.1715 | -0.00049 | yes | yes |
+| paired_difference_pass1_ci_lo | 0.044 | 0.0541 | 0.01006 | NO | yes |
+| paired_difference_pass1_ci_hi | 0.308 | 0.3048 | -0.00319 | NO | yes |
+| paired_difference_pass2_estimate | 0.187 | 0.1872 | 0.00025 | yes | yes |
+| paired_difference_pass2_ci_lo | 0.069 | 0.0694 | 0.00039 | yes | yes |
+| paired_difference_pass2_ci_hi | 0.325 | 0.3155 | -0.00947 | NO | yes |
+| lift_pass1_overall_mean_normal_ci_lo | 10.6 | 10.61 | 0.012 | yes | yes |
+| lift_pass1_overall_mean_normal_ci_hi | 16.3 | 16.31 | 0.009 | yes | yes |
+| lift_pass1_overall_mean_bootstrap_ci_lo | 10.6 | 10.81 | 0.209 | NO | no |
+| lift_pass1_overall_mean_bootstrap_ci_hi | 16.3 | 16.29 | -0.007 | yes | no |
+| composition_above_bar_pass1_n | 19 | 19 | 0 | yes | yes |
+| composition_above_bar_pass1_lines_more_than_10_apart | 18 | 18 | 0 | yes | yes |
+| composition_above_bar_pass1_every_line_at_or_under_60 | 11 | 11 | 0 | yes | yes |
+
+## Paired difference, rho(composition, loudest statement) minus rho(composition, mean statement)
+
+| pass | rho (loudest) | rho (mean) | difference | 95% interval | n | resamples | degenerate |
+|---|---|---|---|---|---|---|---|
+| pass1 | 0.628 | 0.456 | 0.172 | [0.054, 0.305] | 89 | 2000 | 0 |
+| pass2 | 0.663 | 0.475 | 0.187 | [0.069, 0.316] | 89 | 2000 | 0 |
+
+## Lift means, pass 1 (minimum lift needed 16)
+
+| group | n | mean | bootstrap 95% | normal 95% | bootstrap interval includes the minimum |
+|---|---|---|---|---|---|
+| all | 89 | 13.46 | [10.81, 16.29] | [10.61, 16.31] | yes |
+| Sonnet 5.5 | 48 | 16.17 | [12.27, 20.12] | [12.02, 20.31] | yes |
+| GLM 5.3 | 41 | 10.29 | [6.77, 13.95] | [6.64, 13.94] | no |
+
+## Candidate triples with composition above 75, pass 1 (the bars' pass)
+
+| group | n | lines more than 10 apart | every line at or under 60 | within 10 and every line at or under 60 |
+|---|---|---|---|---|
+| Sonnet 5.5 | 14 | 14 | 9 | 0 |
+| GLM 5.3 | 5 | 4 | 2 | 1 |
+| pooled | 19 | 18 | 11 | 1 |
+
+## Method (v0.1)
+
+- paired_difference: rho(composition, loudest) - rho(composition, mean), per resample, then the 2.5 and 97.5 percentiles; a resample degenerate on either side is dropped and counted
+- lift_means: per resample, the mean of the resampled triples' pass-1 lifts; by writer, of the resampled triples of that writer (their number varies; not a stratified bootstrap); normal: mean +/- 1.96 sd/sqrt(n)
+- counts: pass 1; composition above the composition bar; lines more than 10 apart = max - min above the spread bar; every line at or under the statement bar = max at or under it
+- like_for_like: the review session's bootstrap values came from another seed and its interval for (b) is a normal approximation; rows marked false are shown for the difference only and are not counted in the agreement

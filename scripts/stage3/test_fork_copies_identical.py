@@ -37,7 +37,8 @@ FILES = ["stage3_views.py", "test_stage3_views.py", "stage3_thresholds.py", "tes
          "stage3_b3_client_equivalence.py", "test_stage3_b3_client_equivalence.py", "stage3_b3_preflight.py", "test_stage3_b3_preflight.py",
          "test_stage3_write_yield.py",
          "stage3_b3_inserter_dry_run_v1.py", "test_stage3_b3_inserter_dry_run_v1.py", "stage3_b3_s2_estimate.py", "test_stage3_b3_s2_estimate.py",
-         "stage3_b3_partj_lift.py", "test_stage3_b3_partj_lift.py"]
+         "stage3_b3_partj_lift.py", "test_stage3_b3_partj_lift.py",
+         "stage3_b3_partj_lift_v01.py", "test_stage3_b3_partj_lift_v01.py"]
 
 
 @pytest.mark.parametrize("name", FILES)
