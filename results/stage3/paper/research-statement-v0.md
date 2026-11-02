@@ -1,6 +1,6 @@
 # Research statement v0: which fleet monitors does splitting a change across agents defeat?
 
-*For Aravind's conversations. Derived from the paper's outline v1 (`work/paper/outline-v1.md`, with its dated note). Every number is in the frozen manifest (`work/stage3/b0/frozen-tables.json`, 102 files, sha256 c96719b0) and carries its tag and file. Tags: confirmatory and exploratory as the producing plan set them; instrument means a measurement of an instrument, never an outcome; methods means the rater's certification aggregates. One item is pending and carries no number here: Part J's lift and rank-correlation figures.*
+*For Aravind's conversations. Derived from the paper's outline v1 (`work/paper/outline-v1.md`, with its dated note). Every number is in the frozen manifest (`work/stage3/b0/frozen-tables.json`, 104 files, sha256 d78ba7d2) and carries its tag and file. Tags: confirmatory and exploratory as the producing plan set them; instrument means a measurement of an instrument, never an outcome; methods means the rater's certification aggregates. No item is pending.*
 
 ## The question
 
@@ -38,7 +38,7 @@ The claim follows from this: collusion pays exactly against superadditive per-ag
 - Two capable writers were asked for triples whose lines are quiet alone and harmful together. One of 89 was certified, on pass 1 only; none on both passes (methods; `certification-b3.md`, J2).
 - On the earlier test items, a comprehension reader can often state a change's consequence from one line alone: mean part credit 0.625 (Kimi K3) and 0.448 (GPT-6 Sol), against null credit of 0.021 or less (instrument; `instrument-v0.md`).
 - A conservative comprehension-quiet stratum holds 28 of the 78 quiet candidates (instrument; `stratum-v0.md`).
-- The rater's composition score appears to track the loudest line. This is a hypothesis about the max-type pattern in the rater itself, not a result about judges; its figures wait for the coordinator's methods record.
+- The rater's composition score tracks the loudest line: Spearman 0.628 [0.469, 0.756]. The writers' mean lift of composition over the loudest line was 13.46, against at least 16 needed while every line stays quiet (methods; `partj-lift-v0.md`). This is a hypothesis about the max-type pattern in the rater itself, not a result about judges.
 
 ## What is running or pending
 
@@ -70,4 +70,6 @@ Recovering the coalition from interaction structure is the last resort, needed o
 - *The thesis paragraph scopes "content judges look max-type" as a hypothesis until B3 reports.*
 
 *Nothing else changed.*
+
+*Dated note, 2026-11-02: Part J's lift and Spearman are filled from brief 34's record (`b3/rater/partj-lift-v0.md`, methods; added to the manifest by W0d, 104 files, d78ba7d2). The manifest line is updated. Nothing else changed.*
 
