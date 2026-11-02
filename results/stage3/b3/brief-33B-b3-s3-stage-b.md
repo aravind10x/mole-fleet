@@ -1,0 +1,42 @@
+# Brief 33-B (B3's S3, continued in a fresh session: the last $0 pass, the gate, and Stage B; one fresh blue session on Opus 5.5, Sonnet 5.5 the named fallback on a stop; Stage B $76.62 confirmed, stop $153.25)
+
+Written 2026-11-02 by the coordinator (Fable 5.1). Status: written; awaiting the review session's cold read (L22), then Aravind opens it. Brief 33 (`briefs/33-b3-s3-2026-11-02.md`, with its dated notes 1 to 4) governs; this brief adds only what a fresh session cannot know and the order of what is left. Where the two differ, brief 33 and its notes win, and this brief is corrected by dated note.
+
+## Why a fresh session
+
+The session that ran Stage A under brief 33 (Fable 5.1, a disclosed deviation from the brief's Opus 5.5) completed Stage A and its first addendum, both verified by the coordinator and cold-read by the review session. Its context is too large to carry the remaining fixes and the judge run (Aravind, 2026-11-02: no more fixes or addendums in that session). It has been told to stop, commit nothing further, and leave a handover note. Everything it did is committed by hash; nothing is lost.
+
+## The state you start from (verify every hash before anything else; counts, names and hashes only)
+
+- Record: `work/stage3/b3/s3-stage-a-v0.md` **e2166be2** (Stage A, A3b, the addendum, the rulings, a Hashes section listing every artefact). Read it in full first.
+- Plan: `work/stage3/b3/plan.md` **59a98c15** (its first 114,196 bytes hash to a411d8a2; dated note 3 restates the `s1-preflight-sha256` block at 27 entries, adding `work/stage3/views/p_author_c0.json` 3c61dd4d). Fork HEAD holds it (1fafa57 and after). Read §1 to §8 and the dated notes of 2026-11-01 and 2026-11-02 only.
+- Pre-flight: `work/checks/stage3_b3_preflight.py` with `--config work/stage3/b3/s3-config-v0.json` (e28dca16; tags exactly {1, 2, 3, 4, 6}); PASS 27 of 27 plus the 3 prompt components; the test asserts 27.
+- Readings script `work/checks/stage3_b3_s3_readings.py` **e31d8fba** (tests a06aaf1d); dry run `stage3_b3_s3_dryrun.py` fd6eaedb, report `s3-readings-dryrun-v0.md` 9c5a28e2 (30 fixtures; OCs 0.64 / 0.09 / 0.02 / 0.73, accepted); matrix `s3-analysis-matrix-v0.json` 1b80280a; clean-items `s3-clean-items-v0.json` 21e7ede2; driver `work/checks/stage3_b3_s3.py` **4adc0716**; applications `s3-applications-v0.json` 02edac2a (**never open**; 232 + 564); trace audit `s3-trace-audit-stageA2.json` 5e232276; record generator `stage3_b3_s3_record.py` 453b2699.
+- Caches: `work/stage3/b3/cache-s3/` holds no file; no judge request has been sent. The ledger stops at $153.25 (brief 33 A4; `request_guard`).
+- Fork: `work/mole-fork`, branch `stage3`; the Stage A commits 948865b, 4545b48, 151e69b, 1fafa57, 8f816e2; the coordinator's brief 33 notes at edf0e0e, a7e07b5, 457f66c. Executors never push.
+- Handover note from the Stage A session, if it exists: `work/stage3/b3/s3-handover-v0.md` (commands, timings, uncommitted files, anything that trips a fresh session). If it does not exist, proceed from the record and this brief. The venv is `work/mole-fork/.venv/bin/python`; run from `work/checks`; the test modules by name: `test_stage3_b3_s3.py`, `test_stage3_b3_s3_matrix.py`, `test_stage3_b3_s3_readings.py`, `test_stage3_b3_s3_trace_audit.py`, `test_stage3_b3_lone_line_check_s3.py`, `test_stage3_b3_preflight.py` (together over six minutes); never the whole directory (L27).
+- Review files to read: `work/stage3/b3/review/cold-read-s3-stage-a-2026-11-02.md` (3462ed47, the reconciled read), `fable-read-s3-stage-a-2026-11-02.md` (06da4716), `cold-read-s3-addendum-2026-11-02.md` (82342a74). Brief 33's dated notes 2 to 4 are the coordinator's decisions on them; the notes govern, the reads explain.
+- Uncommitted files from the Stage A session, if its handover note lists any under G7 onward: do not use them; implement from brief 33 note 4 yourself, and delete them after your own versions are committed.
+
+## Part 1 ($0, no judge request): the last pass, exactly brief 33's dated note 4
+
+Do, in this order, what note 4 says, and nothing else: the note-3 count correction is already in the note; **G7** (an errored unit keeps its cell incomplete, the run stops at the cell's end, `--continue` re-asks it once, a second error makes it unscored; tests for one and two errored records; the rulings line restored); **G8** (no S-M sentence without a lead or with the lead at floor (a); `floor_both` gets a forbidden-by-family check); **G9** (the union's author and path keys checked by script against the application file, counts only, a refusal if any is absent); the three optional items (refuse at Stage B without the clean-items file at 21e7ede2; `flag_unit` never falls back to the union; d1 and d2 at floor (a) issue no S-A4 or S-A5). Then the six test modules, the dry run with the new fixtures (the operating characteristics reported again; form (a) untouched), the pre-flight with `--config`, the trace audit wrapper, the record's addendum extended ("Addendum 2") with G7 to G9's results, the rulings and a refreshed Hashes section; mirror and commit on `stage3` (not pushed); one STATUS line; the hashes to the coordinator and to the session named "[REVIEWER] Technical AI Safety research review". If the review session's reconciled read of the first addendum (it is still reconciling an independent Fable read) adds items, the coordinator sends them as a dated note on brief 33 before you commit; ask if unsure.
+
+**Then wait.** The gate is the coordinator's STATUS line; the coordinator messages you when it is written. No `score` mode and no `--continue` before that message.
+
+## Part 2: Stage B, exactly brief 33 B1 to B4
+
+Run brief 33's Stage B as written (B1 the first batch and pause; B2 the cells in order; B3 the readings once; B4 record and stop), with these effects of the dated notes, already in the code you verified: the union flag with `flag_unit` beside (note 2 G1); errored units per G7; the first-batch re-base on the batch's own estimate with the cell basis beside, the escalation read as the re-based total against $76.62 by more than a third, that is above $102.16 (brief 33 B1; note 4 confirms the code); the clean-set sensitivity S-G6 beside the carrier (note 3); the disclosures of notes 1 and 2 in `b3-results.md` beside §7's. B1's report goes to the coordinator with no score or flag aggregate; the run continues only on the coordinator's STATUS line and message. A stop ends the run as B2 says; report what is scored and what is not, and the coordinator decides.
+
+## Barriers and done
+
+Brief 33's "Do not" list and barriers apply unchanged, with the pinned list at 27. Done means brief 33's done list, with Part 1's addendum verified by the coordinator first. One STATUS line per stage; this brief's row in `briefs/INDEX.md`.
+
+## Dated note, 2026-11-02 (coordinator, before the cold read): two corrections
+
+1. The record generator `stage3_b3_s3_record.py` is committed at **88abf367** (fork 8f816e2), not 453b2699 (an earlier commit's hash, copied in error above). The rulings file `s3-stage-a-rulings.md` is at 2aad47b4.
+2. The Stage A session's uncommitted edits from note 4's pass exist in **`work/stage3/b3/handover-uncommitted-2026-11-02/`** (six working files and its G9 output, with a README); the working tree was restored to the fork's committed state. Read them for ideas only; implement note 4 from the brief with your own tests; re-run G9 yourself; delete the directory after your versions are committed, and say so in your STATUS line.
+
+## Dated note 2, 2026-11-02 (coordinator, after the review session's cold read of this brief, `work/stage3/b3/review/cold-read-brief33B-2026-11-02.md` 87324349: ready once one decision is in; the decision is brief 33's dated note 5)
+
+Brief 33's dated note 5 governs three things in Part 1 and Part 2: G9's refusal is narrowed to unexplained absences (two authors with no class-document write in the honest corpus are explained; 73 of 796 units have no other honest pair and are disclosed); Fable's O3 to O5 are adopted, code only; and under G7 you may run `--continue` yourself once per cell when the stop's only cause is errored units and the ledger is under the stop, logging it; every other stop, and B1's first-batch pause, wait for the coordinator. The six test modules take about fifteen minutes. The review files to read now also include `cold-read-s3-addendum-2026-11-02.md` at 9ccd711e (with its reconciliation), `fable-read-s3-addendum-2026-11-02.md` c26bb895 and this brief's cold read. Ready for Aravind to open.
