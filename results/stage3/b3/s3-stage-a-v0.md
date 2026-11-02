@@ -1,4 +1,4 @@
-# S3 Stage A record (brief 33 v2.1, 99e3ec7f): the $0 stage before the gate — written 2026-11-01 20:19Z
+# S3 Stage A record (brief 33 v2.1, 99e3ec7f): the $0 stage before the gate — written 2026-11-02 04:10Z
 
 Blue session (Fable 5.1). No judge request was sent; no OpenRouter request of any kind; nothing applied on disk outside the never-open application file. Barrier kept: ids, counts, hashes, scores and labels only; no item line, document text, rubric or declared effect printed, logged or written into any record; `work/stage3/red/`, persona files, `archived-scores*`, the anchor sheet and its draw file, and other briefs' judge caches not opened (the trace audit below). Every path is from the project root.
 
@@ -28,6 +28,20 @@ Blue session (Fable 5.1). No judge request was sent; no OpenRouter request of an
 - The draw: module 240f4ed9 in restricted mode on `inserter-dry-run-v1.json` 02138931, corpus ffc1f6cd, template 294d59d2; arm seeds {'1': 2026118110, '2': 2026118120, '3': 2026118130, '4': 2026118140, '6': 2026118160}; window ['2026-04-06', '2026-04-07', '2026-04-08'] (the corpus span (build_world); units as planted_items). Units: items 232 (expected 232), lines 564 (expected 564); by regime: candidate items 146, control items 42, comparison items 44, candidate lines 438, control lines 126; counts equal the plan's: **True**; by stream tag {'tag1': 146, 'tag2': 438, 'tag3': 42, 'tag4': 44, 'tag6': 126}; by day {'2026-04-06': 319, '2026-04-07': 477}; by writer {'glm53:items': 90, 'glm53:lines': 270, 'sonnet55:items': 98, 'sonnet55:lines': 294, 't1v2:items': 44}.
 - Refused draws at application time (section 2.4 (3), the next draw of the same stream): none; re-draws per application {'0': 748, '2': 4, '4': 2, '5': 2, '7': 2, '9': 2, '10': 36} (the module's own rule, section 2.3: a draw that broke no honest edit is preferred for the first 10 re-draws; 36 applications reached 10 and 31 applications in all carry a broken honest edit, rebuilt by the module as T1 v3 did). Every application delivered and composed: True. Items whose two applications are by different authors on different days: 116 of 116. S3's own drops: **0** ; control items leaving the add-on: **0**.
 - `s3-applications-v0.json` **02edac2a** (never-open: applied document states and packets; 796 units); record `s3-applications-v0.md` (d8778718). Wall time 626 s.
+
+### A3b. Applications that broke a later honest edit (G2; `honest_edits_broken` > 0; counts only)
+
+| group | item applications | lone-line applications | all applications |
+|---|---|---|---|
+| candidates | 11 of 146 (0.075) | 14 of 438 (0.032) | 25 of 584 (0.043) |
+| control items | 3 of 42 (0.071) | 2 of 126 (0.016) | 5 of 168 (0.030) |
+| comparison items (sham) | 1 of 44 (0.023) | 0 of 0 | 1 of 44 (0.023) |
+| resolved-anchor subset (17) | 3 of 34 (0.088) | 4 of 102 (0.039) | 7 of 136 (0.051) |
+| comprehension-quiet stratum (26) | 4 of 52 (0.077) | 4 of 156 (0.026) | 8 of 208 (0.038) |
+| full quiet set (73) | 11 of 146 (0.075) | 14 of 438 (0.032) | 25 of 584 (0.043) |
+| **all** | 15 of 232 (0.065) | 16 of 564 (0.028) | 31 of 796 (0.039) |
+
+By stream tag: {1: 11, 2: 14, 3: 3, 4: 1, 6: 2}; items with at least one such application: 10 of 116. Every such application was delivered and composed; the module rebuilt the later honest edit's content as T1 v3's rule does (section 2.3), which the dossier and `O_diff` views then read.
 
 ## A4. The driver, the packets, the caches and the pre-signal
 
@@ -93,5 +107,5 @@ Each is a decision this session took where the brief, the plan or the code left 
 - `work/checks/test_stage3_b3_lone_line_check_s3.py` f0f5f3ebb91f99e10c58fccd17365ae5b904006bd458ca4be39269eacc348019
 - `work/checks/stage3_b3_s3_trace_audit.py` af2bf444b398b03caac349f1958c315de1492291ff1da21445145d31c702f388
 - `work/checks/test_stage3_b3_s3_trace_audit.py` 84e5069a54726fedc9634530cea52bb546a964a028f32154f5e9939a661cfbe4
-- `work/checks/stage3_b3_s3_record.py` 20bd61d340d684ebb6c26c2e31a2d6eede3a4489615e1fe7a62a10f8d8f1b373
-- fork HEAD at writing: 39e34ab (S3's Stage A commits are be0a600, the plan note, and 948865b, A1 to A2 and A4's code; the brief 13 writing session committed to the fork beside, ff2fc64, 8c3a490 and 39e34ab, untouched by S3)
+- `work/checks/stage3_b3_s3_record.py` 453b26998dc41f64b93fb7b7b4f3fa5d80855d67691ab1e10e45f990cc3e34b3
+- fork HEAD at writing: 4dfbb51 (S3's Stage A commits are be0a600, the plan note, and 948865b, A1 to A2 and A4's code; the brief 13 writing session committed to the fork beside, ff2fc64, 8c3a490 and 39e34ab, untouched by S3)

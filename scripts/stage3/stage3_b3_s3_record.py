@@ -34,6 +34,36 @@ def j(p: Path):
     return json.loads(p.read_text(encoding="utf-8"))
 
 
+def a3b(app: dict, matrix: dict) -> list[str]:
+    """G2 (brief 33's dated note of 2026-11-02): applications whose draw broke a later honest edit (`honest_edits_broken` > 0,
+    the module's own rule after PREFER_CLEAN_DRAWS re-draws, plan section 2.2 unchanged), by arm, regime and population;
+    counts only, a disclosure for b3-results."""
+    from collections import Counter
+    units = list(app["units"].values())
+    pops = matrix["items"]
+    def share(sel):
+        n = len(sel)
+        k = sum(1 for x in sel if x["record"]["honest_edits_broken"] > 0)
+        return f"{k} of {n} ({k / n:.3f})" if n else "0 of 0"
+    L = ["### A3b. Applications that broke a later honest edit (G2; `honest_edits_broken` > 0; counts only)", ""]
+    L.append("| group | item applications | lone-line applications | all applications |")
+    L.append("|---|---|---|---|")
+    for reg, label in (("candidate", "candidates"), ("control", "control items"), ("sham", "comparison items (sham)")):
+        sel = [x for x in units if x["regime"] == reg]
+        L.append(f"| {label} | {share([x for x in sel if x['arm'] == 'item'])} | {share([x for x in sel if x['arm'] == 'line'])} | {share(sel)} |")
+    for pop, label in (("subset", "resolved-anchor subset (17)"), ("stratum", "comprehension-quiet stratum (26)"), ("full", "full quiet set (73)")):
+        ids = set(matrix["populations"][pop]["ids"])
+        sel = [x for x in units if x["item_id"] in ids]
+        L.append(f"| {label} | {share([x for x in sel if x['arm'] == 'item'])} | {share([x for x in sel if x['arm'] == 'line'])} | {share(sel)} |")
+    L.append(f"| **all** | {share([x for x in units if x['arm'] == 'item'])} | {share([x for x in units if x['arm'] == 'line'])} | {share(units)} |")
+    L.append("")
+    by_tag = Counter(x["stream_tag"] for x in units if x["record"]["honest_edits_broken"] > 0)
+    items_touched = len({x["item_id"] for x in units if x["record"]["honest_edits_broken"] > 0})
+    L.append(f"By stream tag: {dict(sorted(by_tag.items()))}; items with at least one such application: {items_touched} of {len({x['item_id'] for x in units})}. "
+             f"Every such application was delivered and composed; the module rebuilt the later honest edit's content as T1 v3's rule does (section 2.3), which the dossier and `O_diff` views then read.")
+    return L
+
+
 def main() -> int:
     h = {f: sha(B3 / f) for f in FILES if (B3 / f).exists()}
     hs = {f: sha(HERE / f) for f in SCRIPTS if (HERE / f).exists()}
@@ -108,6 +138,8 @@ def main() -> int:
              f"rebuilt by the module as T1 v3 did). Every application delivered and composed: {composed_all}. Items whose two applications are by different authors on different days: {pairs_ok} of {len({x['item_id'] for x in units})}. "
              f"S3's own drops: **{app['own_drops']['n']}** {app['own_drops']['by_reason'] or ''}; control items leaving the add-on: **{app['addon_left']['n']}**.")
     L.append(f"- `s3-applications-v0.json` **{h['s3-applications-v0.json'][:8]}** (never-open: applied document states and packets; {len(app['units'])} units); record `s3-applications-v0.md` ({h['s3-applications-v0.md'][:8]}). Wall time {app['seconds']} s.")
+    L.append("")
+    L += a3b(app, j(B3 / "s3-analysis-matrix-v0.json"))
     L.append("")
     L.append("## A4. The driver, the packets, the caches and the pre-signal")
     L.append("")
