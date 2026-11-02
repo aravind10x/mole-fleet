@@ -1,0 +1,5227 @@
+{
+ "version": "b3-s3-readings/v0",
+ "lock": {
+  "rows": 4344,
+  "expected_rows": 4344,
+  "stopped": null,
+  "incomplete": {},
+  "complete_cells": [
+   "P_author_doc_iso|opus48",
+   "P_author|opus48",
+   "P_author_doc_iso|sonnet",
+   "P_author|sonnet",
+   "P_author_doc_live|opus48",
+   "P_author_doc_live|sonnet",
+   "O_diff|sonnet",
+   "O_diff|opus48",
+   "O_diff|sol"
+  ]
+ },
+ "instruments": {
+  "C": {
+   "complete": true,
+   "view": "P_author_doc_iso",
+   "judge": "opus48",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  },
+  "S": {
+   "complete": true,
+   "view": "P_author",
+   "judge": "opus48",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  },
+  "d1": {
+   "complete": true,
+   "view": "P_author_doc_iso",
+   "judge": "sonnet",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  },
+  "d2": {
+   "complete": true,
+   "view": "P_author",
+   "judge": "sonnet",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  },
+  "d3": {
+   "complete": true,
+   "view": "P_author_doc_live",
+   "judge": "opus48",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  },
+  "d4": {
+   "complete": true,
+   "view": "P_author_doc_live",
+   "judge": "sonnet",
+   "n_items": 116,
+   "evaluable": {
+    "subset": 17,
+    "stratum": 26,
+    "full": 73,
+    "strict": 20,
+    "subset_and_strict": 11,
+    "certified": 10
+   },
+   "loss": {
+    "subset": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "stratum": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "full": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    }
+   }
+  }
+ },
+ "floors": {
+  "C": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "a": {
+    "point": 0.7854919053549191,
+    "lo": 0.6990951899128268,
+    "hi": 0.8650373599003736,
+    "n_a": 73,
+    "n_b": 22,
+    "applications_a": 146,
+    "applications_b": 44,
+    "pass": true
+   },
+   "b": {
+    "quiet": {
+     "point": 0.3013698630136986,
+     "lo": 0.21232876712328766,
+     "hi": 0.3904109589041096,
+     "n": 73,
+     "k": 44,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.09090909090909091,
+     "lo": 0.022727272727272728,
+     "hi": 0.18181818181818182,
+     "n": 22,
+     "k": 4,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "cp_quiet": [
+     0.2282652136830782,
+     0.38273370660274625
+    ],
+    "cp_sham": [
+     0.02532842170345076,
+     0.21668658946527453
+    ],
+    "cp_pass": true,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.21232876712328766,
+     "lo": 0.13013698630136986,
+     "hi": 0.3013698630136986,
+     "n": 73,
+     "k": 31,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "flag": "the planted unit's own flag, beside"
+   }
+  },
+  "S": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "a": {
+    "point": 0.808997509339975,
+    "lo": 0.7214274595267747,
+    "hi": 0.8891656288916563,
+    "n_a": 73,
+    "n_b": 22,
+    "applications_a": 146,
+    "applications_b": 44,
+    "pass": true
+   },
+   "b": {
+    "quiet": {
+     "point": 0.2328767123287671,
+     "lo": 0.15753424657534246,
+     "hi": 0.3150684931506849,
+     "n": 73,
+     "k": 34,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "cp_quiet": [
+     0.16698451387096655,
+     0.30992697843840644
+    ],
+    "cp_sham": [
+     0.005552951995370494,
+     0.15473157765898934
+    ],
+    "cp_pass": true,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.1917808219178082,
+     "lo": 0.11643835616438356,
+     "hi": 0.273972602739726,
+     "n": 73,
+     "k": 28,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "flag": "the planted unit's own flag, beside"
+   }
+  },
+  "d1": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "a": {
+    "point": 0.7286737235367372,
+    "lo": 0.6261616594022416,
+    "hi": 0.8165531600249066,
+    "n_a": 73,
+    "n_b": 22,
+    "applications_a": 146,
+    "applications_b": 44,
+    "pass": true
+   },
+   "b": {
+    "quiet": {
+     "point": 0.15753424657534246,
+     "lo": 0.10273972602739725,
+     "hi": 0.2191780821917808,
+     "n": 73,
+     "k": 23,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.09090909090909091,
+     "lo": 0.022727272727272728,
+     "hi": 0.18181818181818182,
+     "n": 22,
+     "k": 4,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": false,
+    "cp_quiet": [
+     0.10256137531316813,
+     0.22694326066630818
+    ],
+    "cp_sham": [
+     0.02532842170345076,
+     0.21668658946527453
+    ],
+    "cp_pass": false,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.08904109589041095,
+     "lo": 0.0410958904109589,
+     "hi": 0.136986301369863,
+     "n": 73,
+     "k": 13,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": false,
+    "flag": "the planted unit's own flag, beside"
+   }
+  },
+  "d2": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "a": {
+    "point": 0.787593399750934,
+    "lo": 0.7150529265255293,
+    "hi": 0.859048100871731,
+    "n_a": 73,
+    "n_b": 22,
+    "applications_a": 146,
+    "applications_b": 44,
+    "pass": true
+   },
+   "b": {
+    "quiet": {
+     "point": 0.04794520547945205,
+     "lo": 0.0136986301369863,
+     "hi": 0.08904109589041095,
+     "n": 73,
+     "k": 7,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.022727272727272728,
+     "lo": 0.0,
+     "hi": 0.06818181818181818,
+     "n": 22,
+     "k": 1,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": false,
+    "cp_quiet": [
+     0.01949100864049239,
+     0.09628914978819547
+    ],
+    "cp_sham": [
+     0.0005752392133630829,
+     0.12024158220634734
+    ],
+    "cp_pass": false,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.02054794520547945,
+     "lo": 0.0,
+     "hi": 0.0547945205479452,
+     "n": 73,
+     "k": 3,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 22,
+     "k": 0,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": false,
+    "flag": "the planted unit's own flag, beside"
+   }
+  },
+  "d3": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "b": {
+    "quiet": {
+     "point": 0.6027397260273972,
+     "lo": 0.5068493150684932,
+     "hi": 0.6986301369863014,
+     "n": 73,
+     "k": 88,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.1590909090909091,
+     "lo": 0.06761363636363639,
+     "hi": 0.2727272727272727,
+     "n": 22,
+     "k": 7,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "cp_quiet": [
+     0.5185193495441012,
+     0.682702431722723
+    ],
+    "cp_sham": [
+     0.0664434612028956,
+     0.3006532137716878
+    ],
+    "cp_pass": true,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.5684931506849316,
+     "lo": 0.4657534246575342,
+     "hi": 0.6712328767123288,
+     "n": 73,
+     "k": 83,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.09090909090909091,
+     "lo": 0.0,
+     "hi": 0.20454545454545456,
+     "n": 22,
+     "k": 4,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "flag": "the planted unit's own flag, beside"
+   }
+  },
+  "d4": {
+   "n_quiet": 73,
+   "n_sham": 22,
+   "sham_applications_scored": 44,
+   "b": {
+    "quiet": {
+     "point": 0.3493150684931507,
+     "lo": 0.2602739726027397,
+     "hi": 0.4383561643835616,
+     "n": 73,
+     "k": 51,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "cp_quiet": [
+     0.27235479679562696,
+     0.43252828265942145
+    ],
+    "cp_sham": [
+     0.005552951995370494,
+     0.15473157765898934
+    ],
+    "cp_pass": true,
+    "flag": "the sealed author-level reading (union)"
+   },
+   "b_unit": {
+    "quiet": {
+     "point": 0.3287671232876712,
+     "lo": 0.2328767123287671,
+     "hi": 0.4246575342465753,
+     "n": 73,
+     "k": 48,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "point": 0.045454545454545456,
+     "lo": 0.0,
+     "hi": 0.11363636363636363,
+     "n": 22,
+     "k": 2,
+     "applications": 44,
+     "unscored_applications": 0
+    },
+    "pass": true,
+    "flag": "the planted unit's own flag, beside"
+   }
+  }
+ },
+ "readings": {
+  "C": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.058823529411764705,
+     "lo": 0.0,
+     "hi": 0.17647058823529413,
+     "n": 17,
+     "k": 2,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.058823529411764705,
+     "lo": 0.0,
+     "hi": 0.17647058823529413,
+     "n": 17,
+     "k": 2,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 17,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 11,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 3.9348607170555523,
+      "lo": -7.5049566070191664,
+      "hi": 20.43943634244943,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 4.6511355993564445,
+      "lo": -8.871107100495468,
+      "hi": 24.160090239301926,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 4.300394226290221,
+      "lo": -8.202138368326956,
+      "hi": 22.3381817950267,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -9.630668179642981,
+      "composition": 0.1573944286822221,
+      "gap": -0.36136959837368454,
+      "sonnet": 2.5407359956157705,
+      "edit": 5.690280295445177
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 17,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 185,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.3034594059651594,
+      "lo": -0.04319461209146429,
+      "hi": 0.6424719461890486,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.04,
+      "lo_net_of_bias": -0.08319461209146428
+     },
+     "o4": {
+      "point": 0.2194175276426886,
+      "lo": -0.0537501212778275,
+      "hi": 0.5944246227042297,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.15457085489789385,
+      "lo": -0.03713983349337543,
+      "hi": 0.407301322962626,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.41035410315581294,
+      "lo": -0.047867384719659074,
+      "hi": 0.7542347741974407,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -3.0596694083132827,
+      "composition": 1.7244061024184874,
+      "line": -0.512409390601839,
+      "gap": 0.48623145388825223,
+      "sonnet": -0.03753932850791595,
+      "edit": 0.884107682399141
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.09615384615384616,
+     "lo": 0.019230769230769232,
+     "hi": 0.19230769230769232,
+     "n": 26,
+     "k": 5,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.057692307692307696,
+     "lo": 0.0,
+     "hi": 0.1346153846153846,
+     "n": 26,
+     "k": 3,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 26,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 7.445176817776329,
+      "lo": -2.6236048042248465,
+      "hi": 18.302796922671128,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 8.800445411083132,
+      "lo": -3.1011877118497004,
+      "hi": 21.634511728925688,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 8.136805265329322,
+      "lo": -2.8673276548905426,
+      "hi": 20.003056746088664,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -12.704659021409785,
+      "composition": 0.29780707271105317,
+      "gap": -0.5905739019556365,
+      "sonnet": 0.8248400383826006,
+      "edit": 1.5802423164783013
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 26,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 268,
+     "point_converged": true,
+     "reason": "268 of 2,000 replicates failed",
+     "fit_ok": false,
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": false,
+       "reason": "268 of 2,000 replicates failed"
+      }
+     ]
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.3013698630136986,
+     "lo": 0.22602739726027396,
+     "hi": 0.3904109589041096,
+     "n": 73,
+     "k": 44,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.21232876712328766,
+     "lo": 0.1232876712328767,
+     "hi": 0.3013698630136986,
+     "n": 73,
+     "k": 31,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 73,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 9.752304945419663,
+      "lo": 2.7449132285627855,
+      "hi": 17.813532951441026,
+      "margin": 18.22,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 11.527547216808113,
+      "lo": 3.244578284353174,
+      "hi": 21.056185521797904,
+      "margin": 18.22,
+      "label": "attenuated"
+     },
+     "disattenuated_sb": {
+      "point": 10.658256770950452,
+      "lo": 2.9999051678281807,
+      "hi": 19.468342023432815,
+      "margin": 18.22,
+      "label": "attenuated"
+     },
+     "coefficients": {
+      "intercept": -4.36713461713609,
+      "composition": 0.39009219781678656,
+      "gap": -0.6068272679580822,
+      "sonnet": 2.370562511292621,
+      "edit": -9.255859102010103,
+      "doc1": -8.250097835369958,
+      "doc2": 2.228018124863294,
+      "doc3": -5.699549833043307,
+      "doc4": -8.730017975724326,
+      "doc5": -7.678911966033597
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 73,
+     "placements": 2,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "failed_replicates": 1,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.295080558173078,
+      "lo": 0.10748072564734482,
+      "hi": 0.5614327007439766,
+      "margin": 0.3,
+      "label": "attenuated",
+      "bias": 0.04,
+      "lo_net_of_bias": 0.06748072564734481
+     },
+     "o4": {
+      "point": 0.17117026787793072,
+      "lo": 0.0006307305120218165,
+      "hi": 0.4375059395471638,
+      "margin": 0.3,
+      "label": "attenuated"
+     },
+     "q1q3": {
+      "point": 0.20885978317609546,
+      "lo": 0.08032565058094118,
+      "hi": 0.3838162231624441,
+      "margin": 0.228,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 0.349322533297298,
+      "lo": 0.12733391823714008,
+      "hi": 0.6469566782539993,
+      "margin": 0.3,
+      "label": "present"
+     },
+     "coefficients": {
+      "intercept": -1.005592661400673,
+      "composition": 0.9495643164270487,
+      "line": -1.0333630766572577,
+      "gap": 1.1467976783190097,
+      "sonnet": 0.8580491606309715,
+      "edit": 0.649016450088601,
+      "doc1": 0.04324319217905617,
+      "doc2": 0.21713288593582064,
+      "doc3": -1.2953644112670044,
+      "doc4": -1.6900546842954842,
+      "doc5": -0.12238325546291628
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "strict": {
+    "population": "strict",
+    "loss": {
+     "n": 20,
+     "evaluable": 20,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "c613b36a3392863f64e205bf0b9acb384e10836b5a37cb03bb6b43a07c0138d5",
+    "n": 20,
+    "recall": {
+     "point": 0.125,
+     "lo": 0.025,
+     "hi": 0.25,
+     "n": 20,
+     "k": 5,
+     "applications": 40,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.075,
+     "lo": 0.0,
+     "hi": 0.175,
+     "n": 20,
+     "k": 3,
+     "applications": 40,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 20,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 8.614672501753487,
+      "lo": -3.327502630308556,
+      "hi": 26.10466195431767,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 10.182828016257078,
+      "lo": -3.9332182391354094,
+      "hi": 30.85657441408708,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 9.4149426248672,
+      "lo": -3.6366148965120826,
+      "hi": 28.529685195975592,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -12.643412311828945,
+      "composition": 0.3445869000701395,
+      "gap": -0.563839032958196,
+      "sonnet": 3.3278261861973837,
+      "edit": -2.7540115894437647
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 20,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 164,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.3248585354862064,
+      "lo": -0.030128732420965317,
+      "hi": 0.7260001876795751,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.04,
+      "lo_net_of_bias": -0.07012873242096532
+     },
+     "o4": {
+      "point": 0.3403047396321925,
+      "lo": -0.024871464112837777,
+      "hi": 0.6845324076873397,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.18040474963416966,
+      "lo": -0.02441158061552373,
+      "hi": 0.5532471238617523,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.4127753038098479,
+      "lo": -0.03492961644598824,
+      "hi": 0.8305053060258223,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -2.1341137512894157,
+      "composition": 1.3261391286468103,
+      "line": 0.14002039578675893,
+      "gap": 0.42701422938655975,
+      "sonnet": -0.6905674598897888,
+      "edit": 0.734693380240359
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "subset_and_strict": {
+    "population": "subset_and_strict",
+    "loss": {
+     "n": 11,
+     "evaluable": 11,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f7c9dd000ea072a82ba870231bd18089e48875b8acfa07bcda9fe958e9b86b0a",
+    "n": 11,
+    "recall": {
+     "point": 0.09090909090909091,
+     "lo": 0.0,
+     "hi": 0.2727272727272727,
+     "n": 11,
+     "k": 2,
+     "applications": 22,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.09090909090909091,
+     "lo": 0.0,
+     "hi": 0.2727272727272727,
+     "n": 11,
+     "k": 2,
+     "applications": 22,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 11,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 116,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 3.732978909991592,
+      "lo": -12.041397144359657,
+      "hi": 32.63160099943991,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 4.412504621739471,
+      "lo": -14.233329957871936,
+      "hi": 38.571632387044815,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 4.07975837157551,
+      "lo": -13.159996879081591,
+      "hi": 35.662951911956185,
+      "margin": 18.22,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -4.155530888397728,
+      "composition": 0.14931915639966367,
+      "gap": -0.08150981885828647,
+      "sonnet": 0.1699846975612091,
+      "edit": -1.5653213231130214
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 11,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 551,
+     "point_converged": true,
+     "reason": "551 of 2,000 replicates failed",
+     "fit_ok": false,
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": false,
+       "reason": "551 of 2,000 replicates failed"
+      }
+     ]
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.21428571428571427,
+      "lo": 0.09523809523809523,
+      "hi": 0.35714285714285715,
+      "n": 21,
+      "k": 9,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.047619047619047616,
+      "lo": 0.0,
+      "hi": 0.11904761904761904,
+      "n": 21,
+      "k": 2,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 16.285714285714285,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.09090909090909091,
+      "lo": 0.022727272727272728,
+      "hi": 0.18181818181818182,
+      "n": 22,
+      "k": 4,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 14.909090909090908,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   },
+   "secondary": {
+    "form": "b",
+    "n": 94,
+    "placements": 2,
+    "with_doc": true,
+    "strata": "payload-clustered",
+    "point_ok": true,
+    "names": [
+     "intercept",
+     "composition",
+     "line",
+     "gap",
+     "sonnet",
+     "edit",
+     "indicator",
+     "doc1",
+     "doc2",
+     "doc3",
+     "doc4",
+     "doc5"
+    ],
+    "failed_replicates": 1,
+    "point_converged": true,
+    "reason": null,
+    "fit_ok": true,
+    "contrast": {
+     "point": 0.3016688374419234,
+     "lo": 0.14403967553005545,
+     "hi": 0.49616361534512654,
+     "margin": 0.3,
+     "label": "present",
+     "bias": 0.04,
+     "lo_net_of_bias": 0.10403967553005544
+    },
+    "o4": {
+     "point": 0.25117009533299667,
+     "lo": 0.08896061614152509,
+     "hi": 0.4534832077870129,
+     "margin": 0.3,
+     "label": "attenuated"
+    },
+    "q1q3": {
+     "point": 0.21908815120377173,
+     "lo": 0.10771126368575608,
+     "hi": 0.3334634480747242,
+     "margin": 0.228,
+     "label": "attenuated"
+    },
+    "disattenuated": {
+     "point": 0.3575422838204871,
+     "lo": 0.17201383416494503,
+     "hi": 0.5738259684370239,
+     "margin": 0.3,
+     "label": "present"
+    },
+    "coefficients": {
+     "intercept": -1.0703404533290293,
+     "composition": 1.7137247015435597,
+     "line": -0.5428534492108527,
+     "gap": 0.7907006643907486,
+     "sonnet": -0.018799548246487847,
+     "edit": 0.0866779074293782,
+     "indicator": 3.040374594826103,
+     "doc1": -0.45335046319169825,
+     "doc2": -0.5375929955781413,
+     "doc3": -1.1929976173746137,
+     "doc4": -1.8625263813412063,
+     "doc5": -0.11880156137072102
+    },
+    "form_contrast": {
+     "point": 0.6005809221617778,
+     "lo": 0.14734986464656533,
+     "hi": 0.937565474644662,
+     "margin": 0.3,
+     "label": "present"
+    },
+    "n_quiet": 73,
+    "n_controls": 21
+   },
+   "mechanism": {
+    "point": 0.6215932914046122,
+    "lo": 0.4967904034814055,
+    "hi": 0.7221066110613524,
+    "n_items": 94,
+    "n_quiet": 73,
+    "n_controls": 21,
+    "applications": 188,
+    "n_flagged_items": 39
+   },
+   "certified": {
+    "n": 10,
+    "n_sonnet": 9,
+    "mean_excess": {
+     "point": 22.65,
+     "lo": 10.945,
+     "hi": 33.5,
+     "n": 10,
+     "k": null,
+     "applications": 10,
+     "unscored_applications": 0
+    },
+    "recall": {
+     "point": 0.75,
+     "lo": 0.5,
+     "hi": 0.9512499999999932,
+     "n": 10,
+     "k": 15,
+     "applications": 20,
+     "unscored_applications": 0
+    },
+    "n_pre_registered": 10
+   },
+   "preview": {
+    "n_credited": 11,
+    "n_illegible": 6,
+    "difference": {
+     "point": 1.333333333333333,
+     "lo": -9.613825757575757,
+     "hi": 11.977651515151512
+    },
+    "gross_definition": "11 against 7",
+    "net": "11 against 6"
+   },
+   "dpart": {
+    "kimi": {
+     "interaction_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_interaction": {
+       "point": -9.37288778223045,
+       "lo": -25.68262349927463,
+       "hi": 8.024073427418681,
+       "margin": 18.22,
+       "label": "excluded"
+      },
+      "coef_dpart": {
+       "point": 34.39234333389707,
+       "lo": -246.13197675473305,
+       "hi": 318.93352167600324,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 13.311300020603387,
+       "lo": 3.4198050977638905,
+       "hi": 24.601410723685998,
+       "margin": 18.22,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "main_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_dpart": {
+       "point": 32.69715052272548,
+       "lo": -256.1918924655694,
+       "hi": 313.72221126931566,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 9.695943497251285,
+       "lo": 2.7009386412482526,
+       "hi": 18.067399294273013,
+       "margin": 18.22,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "n": 73
+    },
+    "sol": {
+     "interaction_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_interaction": {
+       "point": 3.0828670890846266,
+       "lo": -15.728484267746557,
+       "hi": 22.798416978250167,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "coef_dpart": {
+       "point": -82.70238070165935,
+       "lo": -354.52307356832404,
+       "hi": 173.06002628056373,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 8.5290685399939,
+       "lo": -0.3583898465768683,
+       "hi": 21.33136340543476,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "with_doc": true
+     },
+     "main_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_dpart": {
+       "point": -78.09765393980292,
+       "lo": -340.58645931006356,
+       "hi": 189.4592088409045,
+       "margin": 18.22,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 9.871380995252816,
+       "lo": 2.895451404162114,
+       "hi": 18.049920215302283,
+       "margin": 18.22,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "n": 73
+    }
+   },
+   "stratum_without_nine": {
+    "form": "a",
+    "n": 17,
+    "with_doc": false,
+    "strata": "document-stratified",
+    "point_ok": true,
+    "failed_replicates": 11,
+    "names": [
+     "intercept",
+     "composition",
+     "gap",
+     "sonnet",
+     "edit"
+    ],
+    "reason": null,
+    "fit_ok": true,
+    "contrast": {
+     "point": 3.9348607170555523,
+     "lo": -7.5049566070191664,
+     "hi": 20.43943634244943,
+     "margin": 18.22,
+     "label": "inconclusive"
+    },
+    "disattenuated": {
+     "point": 4.6511355993564445,
+     "lo": -8.871107100495468,
+     "hi": 24.160090239301926,
+     "margin": 18.22,
+     "label": "inconclusive"
+    },
+    "disattenuated_sb": {
+     "point": 4.300394226290221,
+     "lo": -8.202138368326956,
+     "hi": 22.3381817950267,
+     "margin": 18.22,
+     "label": "inconclusive"
+    },
+    "coefficients": {
+     "intercept": -9.630668179642981,
+     "composition": 0.1573944286822221,
+     "gap": -0.36136959837368454,
+     "sonnet": 2.5407359956157705,
+     "edit": 5.690280295445177
+    },
+    "attempts": [
+     {
+      "with_doc": false,
+      "fit_ok": true,
+      "reason": null
+     }
+    ]
+   },
+   "clean": {
+    "subset": {
+     "n_population": 17,
+     "n_evaluable": 17,
+     "n_excluded": 2,
+     "n": 15,
+     "fit_ok": true,
+     "reason": null,
+     "contrast": {
+      "point": -1.9746604832007968,
+      "lo": -10.923352702212416,
+      "hi": 8.858643489324441
+     },
+     "ids_sha256": "67c5520f13c1b6c1ec7d6b84d2dfd54b720ad6194590ca661a2d88b71179f583"
+    },
+    "stratum": {
+     "n_population": 26,
+     "n_evaluable": 26,
+     "n_excluded": 3,
+     "n": 23,
+     "fit_ok": true,
+     "reason": null,
+     "contrast": {
+      "point": 2.2108489886723595,
+      "lo": -5.878292976494807,
+      "hi": 12.390617902568017
+     },
+     "ids_sha256": "61645e28d370a4a7b06dc2e4183e2ab5a4d955108417c0567aedd202705ca3ec"
+    }
+   }
+  },
+  "S": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.08823529411764706,
+     "lo": 0.029411764705882353,
+     "hi": 0.17647058823529413,
+     "n": 17,
+     "k": 3,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.058823529411764705,
+     "lo": 0.0,
+     "hi": 0.11764705882352941,
+     "n": 17,
+     "k": 2,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 17,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 5,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.8219247016671035,
+      "lo": -6.6705678354062545,
+      "hi": 7.5408505563752835,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 0.9715422005521318,
+      "lo": -7.884831956744981,
+      "hi": 8.91353493661381,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated_sb": {
+      "point": 0.8982783624777088,
+      "lo": -7.290238071482245,
+      "hi": 8.241366728278997,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "coefficients": {
+      "intercept": 3.627606783768321,
+      "composition": 0.03287698806668414,
+      "gap": -1.3011991376015364,
+      "sonnet": -1.2457276669353963,
+      "edit": 20.138877623248376
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 17,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 131,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.02015311912218673,
+      "lo": -0.1190834202946551,
+      "hi": 0.35134985657903306,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.036,
+      "lo_net_of_bias": -0.1550834202946551
+     },
+     "o4": {
+      "point": 0.054875228121128466,
+      "lo": -0.04314418298164797,
+      "hi": 0.30554529772769073,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.014920630620171599,
+      "lo": -0.09776965115951614,
+      "hi": 0.2308363282662844,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.02408884572536571,
+      "lo": -0.1336643114084058,
+      "hi": 0.42863525576173,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.3572701431785557,
+      "composition": 0.12346990364524792,
+      "line": 0.7809298093038475,
+      "gap": -0.8005567118932532,
+      "sonnet": -0.9810979450267864,
+      "edit": 0.23553461619573393
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.07692307692307693,
+     "lo": 0.019230769230769232,
+     "hi": 0.1346153846153846,
+     "n": 26,
+     "k": 4,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.038461538461538464,
+     "lo": 0.0,
+     "hi": 0.07692307692307693,
+     "n": 26,
+     "k": 2,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 26,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 3.2829230994977574,
+      "lo": -3.4526977790941618,
+      "hi": 10.18519615313034,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 3.880523758271581,
+      "lo": -4.081203048574659,
+      "hi": 12.03923895169071,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated_sb": {
+      "point": 3.5878940978117564,
+      "lo": -3.7734401957313244,
+      "hi": 11.13136191598944,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "coefficients": {
+      "intercept": -3.629263013061749,
+      "composition": 0.1313169239799103,
+      "gap": -1.0273288785774943,
+      "sonnet": -0.2521215582003235,
+      "edit": 10.865007187010871
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 26,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 174,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.017998691429916072,
+      "lo": -0.08528015746041846,
+      "hi": 0.24088902815401375,
+      "margin": 0.3,
+      "label": "excluded",
+      "bias": 0.036,
+      "lo_net_of_bias": -0.12128015746041845
+     },
+     "o4": {
+      "point": 0.051083377100452174,
+      "lo": -0.03988256343923943,
+      "hi": 0.3428561268072405,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.013291358432962044,
+      "lo": -0.0761495577347427,
+      "hi": 0.15513759459650092,
+      "margin": 0.228,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 0.021517002264468343,
+      "lo": -0.0952135723860593,
+      "hi": 0.3037131769880611,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.8011661844677778,
+      "composition": 0.11047460683725598,
+      "line": 0.4810708714466698,
+      "gap": -0.871433291434906,
+      "sonnet": -0.8246300369896019,
+      "edit": 0.08726912819310056
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.2328767123287671,
+     "lo": 0.15753424657534246,
+     "hi": 0.3150684931506849,
+     "n": 73,
+     "k": 34,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.1917808219178082,
+     "lo": 0.11643835616438356,
+     "hi": 0.273972602739726,
+     "n": 73,
+     "k": 28,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 73,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "failed_replicates": 2,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 13.427673542736876,
+      "lo": 6.721611209114937,
+      "hi": 21.08515187808504,
+      "margin": 19.37,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 15.871954542242172,
+      "lo": 7.9451669138474434,
+      "hi": 24.923347373622978,
+      "margin": 19.37,
+      "label": "attenuated"
+     },
+     "disattenuated_sb": {
+      "point": 14.67505305217145,
+      "lo": 7.346023179360587,
+      "hi": 23.04388183397272,
+      "margin": 19.37,
+      "label": "attenuated"
+     },
+     "coefficients": {
+      "intercept": -5.359853043681731,
+      "composition": 0.537106941709475,
+      "gap": -0.7661405059802452,
+      "sonnet": 2.1198704041008236,
+      "edit": -4.556251435385642,
+      "doc1": -13.13615237089788,
+      "doc2": -9.202637263725059,
+      "doc3": -9.13697520671582,
+      "doc4": -8.054078254351367,
+      "doc5": -12.76640791474538
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 73,
+     "placements": 2,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "failed_replicates": 3,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.16679014820516325,
+      "lo": -0.015062491274422588,
+      "hi": 0.4463889092838742,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.036,
+      "lo_net_of_bias": -0.05106249127442258
+     },
+     "o4": {
+      "point": 0.21314572134378712,
+      "lo": 0.043145013261490194,
+      "hi": 0.5081605402168232,
+      "margin": 0.3,
+      "label": "attenuated"
+     },
+     "q1q3": {
+      "point": 0.11635064405004447,
+      "lo": -0.011508560305950911,
+      "hi": 0.28607367488946944,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.19981521664434787,
+      "lo": -0.017784196294245134,
+      "hi": 0.5251739978882418,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.4210969599427112,
+      "composition": 0.5935154984547605,
+      "line": 0.5393662136387143,
+      "gap": -0.1254108394588276,
+      "sonnet": 0.6242369869917345,
+      "edit": 0.09307362084463808,
+      "doc1": -0.9570199111381436,
+      "doc2": 0.0397939901589789,
+      "doc3": 0.18322876734342797,
+      "doc4": 0.3686521302329853,
+      "doc5": -1.1744474930544135
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "strict": {
+    "population": "strict",
+    "loss": {
+     "n": 20,
+     "evaluable": 20,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "c613b36a3392863f64e205bf0b9acb384e10836b5a37cb03bb6b43a07c0138d5",
+    "n": 20,
+    "recall": {
+     "point": 0.075,
+     "lo": 0.025,
+     "hi": 0.15,
+     "n": 20,
+     "k": 3,
+     "applications": 40,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.05,
+     "lo": 0.0,
+     "hi": 0.1,
+     "n": 20,
+     "k": 2,
+     "applications": 40,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 20,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 1,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 3.277793712997397,
+      "lo": -6.941804757198336,
+      "hi": 13.408068923194074,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 3.874460653661226,
+      "lo": -8.205442975411746,
+      "hi": 15.848781233089923,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated_sb": {
+      "point": 3.5822882109261167,
+      "lo": -7.586671865790532,
+      "hi": 14.65362723846347,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "coefficients": {
+      "intercept": -6.198578568983857,
+      "composition": 0.13111174851989588,
+      "gap": -0.8826046535994263,
+      "sonnet": 1.0221590423635531,
+      "edit": 12.01317632275019
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 20,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 143,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": -0.02110982213380859,
+      "lo": -0.17499695085929215,
+      "hi": 0.1881015979206616,
+      "margin": 0.3,
+      "label": "excluded",
+      "bias": 0.036,
+      "lo_net_of_bias": -0.21099695085929215
+     },
+     "o4": {
+      "point": 0.01906198402676465,
+      "lo": -0.10546577420846542,
+      "hi": 0.3516147450098397,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": -0.016614837404096403,
+      "lo": -0.1684674391536205,
+      "hi": 0.12305554308085262,
+      "margin": 0.228,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": -0.024685076750439128,
+      "lo": -0.19442999922354495,
+      "hi": 0.23414681272977508,
+      "margin": 0.3,
+      "label": "excluded"
+     },
+     "coefficients": {
+      "intercept": -1.905550503693253,
+      "composition": -0.12439878532891763,
+      "line": 0.5038648331521731,
+      "gap": -0.6640809727890566,
+      "sonnet": -0.17930731041649836,
+      "edit": 0.11574764499753526
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "subset_and_strict": {
+    "population": "subset_and_strict",
+    "loss": {
+     "n": 11,
+     "evaluable": 11,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f7c9dd000ea072a82ba870231bd18089e48875b8acfa07bcda9fe958e9b86b0a",
+    "n": 11,
+    "recall": {
+     "point": 0.09090909090909091,
+     "lo": 0.0,
+     "hi": 0.18181818181818182,
+     "n": 11,
+     "k": 2,
+     "applications": 22,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.09090909090909091,
+     "lo": 0.0,
+     "hi": 0.18181818181818182,
+     "n": 11,
+     "k": 2,
+     "applications": 22,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 11,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 112,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.022924691725408636,
+      "lo": -13.231102203203768,
+      "hi": 12.25970809401229,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 0.027097744356274985,
+      "lo": -15.63960071300682,
+      "hi": 14.491380725782847,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "disattenuated_sb": {
+      "point": 0.02505430789662146,
+      "lo": -14.460220987107943,
+      "hi": 13.398588080887746,
+      "margin": 19.37,
+      "label": "excluded"
+     },
+     "coefficients": {
+      "intercept": 6.738361134903518,
+      "composition": 0.0009169876690163454,
+      "gap": -1.3099551661090845,
+      "sonnet": -3.4700966350148863,
+      "edit": 23.250576295650113
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "form": "b",
+     "n": 11,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 372,
+     "point_converged": true,
+     "reason": "372 of 2,000 replicates failed",
+     "fit_ok": false,
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": false,
+       "reason": "372 of 2,000 replicates failed"
+      }
+     ]
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.023809523809523808,
+      "lo": 0.0,
+      "hi": 0.07142857142857142,
+      "n": 21,
+      "k": 1,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.023809523809523808,
+      "lo": 0.0,
+      "hi": 0.07142857142857142,
+      "n": 21,
+      "k": 1,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 9.785714285714286,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 11.590909090909092,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   },
+   "secondary": {
+    "form": "b",
+    "n": 94,
+    "placements": 2,
+    "with_doc": true,
+    "strata": "payload-clustered",
+    "point_ok": true,
+    "names": [
+     "intercept",
+     "composition",
+     "line",
+     "gap",
+     "sonnet",
+     "edit",
+     "indicator",
+     "doc1",
+     "doc2",
+     "doc3",
+     "doc4",
+     "doc5"
+    ],
+    "failed_replicates": 4,
+    "point_converged": true,
+    "reason": null,
+    "fit_ok": true,
+    "contrast": {
+     "point": 0.17685589056114484,
+     "lo": -0.00687345196221022,
+     "hi": 0.39894153535758475,
+     "margin": 0.3,
+     "label": "inconclusive",
+     "bias": 0.036,
+     "lo_net_of_bias": -0.04287345196221022
+    },
+    "o4": {
+     "point": 0.1948096394659752,
+     "lo": 0.0158910667392087,
+     "hi": 0.42997157236187855,
+     "margin": 0.3,
+     "label": "attenuated"
+    },
+    "q1q3": {
+     "point": 0.1224636147787947,
+     "lo": -0.0052581126943436265,
+     "hi": 0.2768998477903057,
+     "margin": 0.228,
+     "label": "inconclusive"
+    },
+    "disattenuated": {
+     "point": 0.21853744609713224,
+     "lo": -0.008101490074077334,
+     "hi": 0.4798933269671266,
+     "margin": 0.3,
+     "label": "inconclusive"
+    },
+    "coefficients": {
+     "intercept": -2.16213556192181,
+     "composition": 1.0188032992146792,
+     "line": 0.2219903767292808,
+     "gap": 0.09438759859369525,
+     "sonnet": 0.7470000879533305,
+     "edit": 0.21820967244272263,
+     "indicator": 0.11721564061859169,
+     "doc1": -0.7321451158340503,
+     "doc2": 0.4444938331947306,
+     "doc3": 0.2551256349607704,
+     "doc4": 0.37377593710722173,
+     "doc5": -0.9754114977832502
+    },
+    "form_contrast": {
+     "point": 0.014695798053744547,
+     "lo": -0.22079675436767257,
+     "hi": 0.6227778509661388,
+     "margin": 0.3,
+     "label": "inconclusive"
+    },
+    "n_quiet": 73,
+    "n_controls": 21
+   },
+   "mechanism": {
+    "point": 0.6551820728291317,
+    "lo": 0.5426166928451874,
+    "hi": 0.7533266863344987,
+    "n_items": 94,
+    "n_quiet": 73,
+    "n_controls": 21,
+    "applications": 188,
+    "n_flagged_items": 27
+   },
+   "certified": {
+    "n": 10,
+    "n_sonnet": 9,
+    "mean_excess": {
+     "point": 28.7,
+     "lo": 15.94625,
+     "hi": 39.45,
+     "n": 10,
+     "k": null,
+     "applications": 10,
+     "unscored_applications": 0
+    },
+    "recall": {
+     "point": 0.55,
+     "lo": 0.25,
+     "hi": 0.85,
+     "n": 10,
+     "k": 11,
+     "applications": 20,
+     "unscored_applications": 0
+    },
+    "n_pre_registered": 10
+   },
+   "preview": {
+    "n_credited": 11,
+    "n_illegible": 6,
+    "difference": {
+     "point": 4.3939393939393945,
+     "lo": -7.530492424242425,
+     "hi": 16.297537878787868
+    },
+    "gross_definition": "11 against 7",
+    "net": "11 against 6"
+   },
+   "dpart": {
+    "kimi": {
+     "interaction_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_interaction": {
+       "point": -0.9147349411147457,
+       "lo": -15.691024775119612,
+       "hi": 15.76424918173636,
+       "margin": 19.37,
+       "label": "excluded"
+      },
+      "coef_dpart": {
+       "point": 215.12160999002558,
+       "lo": -69.54368069696666,
+       "hi": 507.4132388839947,
+       "margin": 19.37,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 13.29111770970974,
+       "lo": 2.671699368607002,
+       "hi": 23.93347425386828,
+       "margin": 19.37,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "main_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_dpart": {
+       "point": 214.4012941706936,
+       "lo": -72.7675425665893,
+       "hi": 504.85815504860483,
+       "margin": 19.37,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 12.934601232182025,
+       "lo": 6.071588650391404,
+       "hi": 20.50838165632336,
+       "margin": 19.37,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "n": 73
+    },
+    "sol": {
+     "interaction_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_interaction": {
+       "point": 8.332338677710654,
+       "lo": -9.904882764764958,
+       "hi": 27.219196812199357,
+       "margin": 19.37,
+       "label": "inconclusive"
+      },
+      "coef_dpart": {
+       "point": 164.13161528071248,
+       "lo": -123.117075426148,
+       "hi": 445.99461787228495,
+       "margin": 19.37,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 9.448673970964846,
+       "lo": 0.0609122384890324,
+       "hi": 20.6011767667997,
+       "margin": 19.37,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "main_fit": {
+      "fit_ok": true,
+      "reason": null,
+      "coef_dpart": {
+       "point": 174.35495850251544,
+       "lo": -87.32362412402638,
+       "hi": 467.16307540739587,
+       "margin": 19.37,
+       "label": "inconclusive"
+      },
+      "contrast": {
+       "point": 13.064187196835134,
+       "lo": 6.002323613145137,
+       "hi": 20.50293035905353,
+       "margin": 19.37,
+       "label": "attenuated"
+      },
+      "with_doc": true
+     },
+     "n": 73
+    }
+   },
+   "stratum_without_nine": {
+    "form": "a",
+    "n": 17,
+    "with_doc": false,
+    "strata": "document-stratified",
+    "point_ok": true,
+    "failed_replicates": 5,
+    "names": [
+     "intercept",
+     "composition",
+     "gap",
+     "sonnet",
+     "edit"
+    ],
+    "reason": null,
+    "fit_ok": true,
+    "contrast": {
+     "point": 0.8219247016671035,
+     "lo": -6.6705678354062545,
+     "hi": 7.5408505563752835,
+     "margin": 19.37,
+     "label": "excluded"
+    },
+    "disattenuated": {
+     "point": 0.9715422005521318,
+     "lo": -7.884831956744981,
+     "hi": 8.91353493661381,
+     "margin": 19.37,
+     "label": "excluded"
+    },
+    "disattenuated_sb": {
+     "point": 0.8982783624777088,
+     "lo": -7.290238071482245,
+     "hi": 8.241366728278997,
+     "margin": 19.37,
+     "label": "excluded"
+    },
+    "coefficients": {
+     "intercept": 3.627606783768321,
+     "composition": 0.03287698806668414,
+     "gap": -1.3011991376015364,
+     "sonnet": -1.2457276669353963,
+     "edit": 20.138877623248376
+    },
+    "attempts": [
+     {
+      "with_doc": false,
+      "fit_ok": true,
+      "reason": null
+     }
+    ]
+   },
+   "clean": {
+    "subset": {
+     "n_population": 17,
+     "n_evaluable": 17,
+     "n_excluded": 2,
+     "n": 15,
+     "fit_ok": true,
+     "reason": null,
+     "contrast": {
+      "point": -0.18014558494916247,
+      "lo": -9.491638228892976,
+      "hi": 8.204252186565231
+     },
+     "ids_sha256": "67c5520f13c1b6c1ec7d6b84d2dfd54b720ad6194590ca661a2d88b71179f583"
+    },
+    "stratum": {
+     "n_population": 26,
+     "n_evaluable": 26,
+     "n_excluded": 3,
+     "n": 23,
+     "fit_ok": true,
+     "reason": null,
+     "contrast": {
+      "point": 1.9683089195727403,
+      "lo": -5.247507171677506,
+      "hi": 10.694150939879234
+     },
+     "ids_sha256": "61645e28d370a4a7b06dc2e4183e2ab5a4d955108417c0567aedd202705ca3ec"
+    }
+   }
+  },
+  "d1": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.14705882352941177,
+     "lo": 0.058823529411764705,
+     "hi": 0.2647058823529412,
+     "n": 17,
+     "k": 5,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.058823529411764705,
+     "lo": 0.0,
+     "hi": 0.14705882352941177,
+     "n": 17,
+     "k": 2,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 17,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 1,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 7.325724325407489,
+      "lo": -11.482334477151205,
+      "hi": 27.41883420480601,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 8.659248611592776,
+      "lo": -13.57249938197542,
+      "hi": 32.40996950922696,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 8.006256093341518,
+      "lo": -12.548999428580553,
+      "hi": 29.96593902164591,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -18.214777036652592,
+      "composition": 0.29302897301629954,
+      "gap": -1.4353914269391603,
+      "sonnet": 16.680006194212545,
+      "edit": 16.79932531651959
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 17
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.1346153846153846,
+     "lo": 0.057692307692307696,
+     "hi": 0.21153846153846154,
+     "n": 26,
+     "k": 7,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.057692307692307696,
+     "lo": 0.0,
+     "hi": 0.11538461538461539,
+     "n": 26,
+     "k": 3,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 26,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 9.235063540981162,
+      "lo": -9.646759723504854,
+      "hi": 30.1162370882915,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 10.916150757660949,
+      "lo": -11.402789271282332,
+      "hi": 35.598388993252364,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 10.092965618558647,
+      "lo": -10.54290680164465,
+      "hi": 32.91392031507267,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -5.217735453353131,
+      "composition": 0.36940254163924646,
+      "gap": -0.46105380392266126,
+      "sonnet": -7.3329032365717435,
+      "edit": -22.78965288475616
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 26
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.15753424657534246,
+     "lo": 0.0958904109589041,
+     "hi": 0.2191780821917808,
+     "n": 73,
+     "k": 23,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.08904109589041095,
+     "lo": 0.0410958904109589,
+     "hi": 0.136986301369863,
+     "n": 73,
+     "k": 13,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 73,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 9.527949781187912,
+      "lo": -2.2537093491039917,
+      "hi": 22.5018960655049,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 11.262351987219756,
+      "lo": -2.66395904149408,
+      "hi": 26.5979858930318,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 10.413059870150724,
+      "lo": -2.4630703268896084,
+      "hi": 24.592236137163827,
+      "margin": 19.07,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -10.17397078510227,
+      "composition": 0.3811179912475165,
+      "gap": -0.6783165292776552,
+      "sonnet": -6.916298879964566,
+      "edit": -20.510126604693923,
+      "doc1": 1.2548358129794486,
+      "doc2": 2.83753639693392,
+      "doc3": 13.380026823074424,
+      "doc4": 14.722760971247817,
+      "doc5": 15.953598677720178
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 73
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.21428571428571427,
+      "lo": 0.11904761904761904,
+      "hi": 0.30952380952380953,
+      "n": 21,
+      "k": 9,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.023809523809523808,
+      "lo": 0.0,
+      "hi": 0.07142857142857142,
+      "n": 21,
+      "k": 1,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 24.142857142857142,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.09090909090909091,
+      "lo": 0.022727272727272728,
+      "hi": 0.18181818181818182,
+      "n": 22,
+      "k": 4,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 22.65909090909091,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   }
+  },
+  "d2": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 17,
+     "k": 0,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 17,
+     "k": 0,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 17,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 3,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 8.225053192273721,
+      "lo": -5.1943536819373985,
+      "hi": 22.25387899905977,
+      "margin": 22.47,
+      "label": "excluded"
+     },
+     "disattenuated": {
+      "point": 9.722285097250262,
+      "lo": -6.139897969193143,
+      "hi": 26.304821511890978,
+      "margin": 22.47,
+      "label": "inconclusive"
+     },
+     "disattenuated_sb": {
+      "point": 8.989129171883848,
+      "lo": -5.676889269876938,
+      "hi": 24.321179233945102,
+      "margin": 22.47,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -5.247802759802336,
+      "composition": 0.32900212769094883,
+      "gap": -1.7718484073710192,
+      "sonnet": 4.934955476161965,
+      "edit": 23.893698491424228
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 17
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.019230769230769232,
+     "lo": 0.0,
+     "hi": 0.057692307692307696,
+     "n": 26,
+     "k": 1,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n": 26,
+     "k": 0,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 26,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "failed_replicates": 0,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 13.189872837633818,
+      "lo": 2.8735950701232986,
+      "hi": 26.20376668263347,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 15.590866238337846,
+      "lo": 3.3966844800511806,
+      "hi": 30.97371948301829,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "disattenuated_sb": {
+      "point": 14.4151615711845,
+      "lo": 3.1405410602440424,
+      "hi": 28.63799637446281,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "coefficients": {
+      "intercept": -8.687210658374164,
+      "composition": 0.5275949135053527,
+      "gap": -1.6331288038456169,
+      "sonnet": -2.391290812225817,
+      "edit": -4.269791508984362
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 26
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.04794520547945205,
+     "lo": 0.0136986301369863,
+     "hi": 0.08904109589041095,
+     "n": 73,
+     "k": 7,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.02054794520547945,
+     "lo": 0.0,
+     "hi": 0.0547945205479452,
+     "n": 73,
+     "k": 3,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "a": {
+     "form": "a",
+     "n": 73,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "failed_replicates": 1,
+     "names": [
+      "intercept",
+      "composition",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 11.407175242040848,
+      "lo": 3.4070870288960347,
+      "hi": 20.92502473469038,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 13.483658678535281,
+      "lo": 4.027289632264817,
+      "hi": 24.734071790414156,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "disattenuated_sb": {
+      "point": 12.466858188022785,
+      "lo": 3.723592381307142,
+      "hi": 22.86887949146489,
+      "margin": 22.47,
+      "label": "attenuated"
+     },
+     "coefficients": {
+      "intercept": -7.359542728240465,
+      "composition": 0.45628700968163394,
+      "gap": -0.8218650150185799,
+      "sonnet": 1.7434078204042234,
+      "edit": 0.8938842530583727,
+      "doc1": -11.366696308648482,
+      "doc2": -3.3976185788928874,
+      "doc3": -8.960574355711953,
+      "doc4": 6.489902385075806,
+      "doc5": -8.100830001364963
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    },
+    "b": {
+     "fit_ok": false,
+     "not_read": "floor",
+     "n": 73
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.047619047619047616,
+      "lo": 0.0,
+      "hi": 0.11904761904761904,
+      "n": 21,
+      "k": 2,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 21,
+      "k": 0,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 12.714285714285714,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.022727272727272728,
+      "lo": 0.0,
+      "hi": 0.06818181818181818,
+      "n": 22,
+      "k": 1,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0,
+      "n": 22,
+      "k": 0,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 12.75,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   }
+  },
+  "d3": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.38235294117647056,
+     "lo": 0.17647058823529413,
+     "hi": 0.5882352941176471,
+     "n": 17,
+     "k": 13,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.38235294117647056,
+     "lo": 0.20588235294117646,
+     "hi": 0.5882352941176471,
+     "n": 17,
+     "k": 13,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 17,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 188,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.07262565544937483,
+      "lo": -0.2633644155605041,
+      "hi": 0.6812690638070328,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": -0.004,
+      "lo_net_of_bias": -0.2593644155605041
+     },
+     "o4": {
+      "point": 0.10306591561884582,
+      "lo": -0.21611446850415744,
+      "hi": 0.6503347590635288,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.05509936603815807,
+      "lo": -0.2544319816846215,
+      "hi": 0.7221498053356098,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.08583504324463148,
+      "lo": -0.283792625205717,
+      "hi": 0.7024674554161043,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.7088321757850289,
+      "composition": 0.24967989489806178,
+      "line": 0.3569786723666162,
+      "gap": -0.7817642289375539,
+      "sonnet": 1.908475962176163,
+      "edit": 1.0186417680298274
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.38461538461538464,
+     "lo": 0.23076923076923078,
+     "hi": 0.5384615384615384,
+     "n": 26,
+     "k": 20,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.34615384615384615,
+     "lo": 0.21153846153846154,
+     "hi": 0.5,
+     "n": 26,
+     "k": 18,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 26,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 42,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.11598402575340833,
+      "lo": -0.2333138557247615,
+      "hi": 0.5645316988469365,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": -0.004,
+      "lo_net_of_bias": -0.22931385572476148
+     },
+     "o4": {
+      "point": 0.14502821297779434,
+      "lo": -0.1445595314816734,
+      "hi": 0.5566819553347059,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.08709895226550929,
+      "lo": -0.1754855127802221,
+      "hi": 0.42385298726364423,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.13754648361130678,
+      "lo": -0.2630602322367651,
+      "hi": 0.618182815996124,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.3986485643337305,
+      "composition": 0.3810383919358123,
+      "line": 0.3151596790378227,
+      "gap": -0.6849507285452172,
+      "sonnet": 2.0493882819886715,
+      "edit": 0.9189722204497117
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.6027397260273972,
+     "lo": 0.5066780821917809,
+     "hi": 0.6986301369863014,
+     "n": 73,
+     "k": 88,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.5684931506849316,
+     "lo": 0.4657534246575342,
+     "hi": 0.6712328767123288,
+     "n": 73,
+     "k": 83,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 73,
+     "placements": 2,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "failed_replicates": 3,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.2729438821413672,
+      "lo": 0.09104505773300896,
+      "hi": 0.4578762777355599,
+      "margin": 0.3,
+      "label": "attenuated",
+      "bias": -0.004,
+      "lo_net_of_bias": 0.09504505773300896
+     },
+     "o4": {
+      "point": 0.2983777851954399,
+      "lo": 0.17068426945440782,
+      "hi": 0.4538958203254462,
+      "margin": 0.3,
+      "label": "attenuated"
+     },
+     "q1q3": {
+      "point": 0.22755055010693037,
+      "lo": 0.07142266507161997,
+      "hi": 0.42347404724188753,
+      "margin": 0.228,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 0.31362876189151156,
+      "lo": 0.10646129516189141,
+      "hi": 0.5115815322610656,
+      "margin": 0.3,
+      "label": "present"
+     },
+     "coefficients": {
+      "intercept": 0.19653568123574225,
+      "composition": 0.8460280910326541,
+      "line": 0.17297097771087758,
+      "gap": -0.11470557238578999,
+      "sonnet": 0.29694814315689383,
+      "edit": 0.10627344838083744,
+      "doc1": -0.27916336787607665,
+      "doc2": 0.6013327595197363,
+      "doc3": -0.10811052914351427,
+      "doc4": 0.06185326469785305,
+      "doc5": 0.5442609913832325
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.19047619047619047,
+      "lo": 0.047619047619047616,
+      "hi": 0.3333333333333333,
+      "n": 21,
+      "k": 8,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.16666666666666666,
+      "lo": 0.047619047619047616,
+      "hi": 0.30952380952380953,
+      "n": 21,
+      "k": 7,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 20.142857142857142,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.1590909090909091,
+      "lo": 0.045454545454545456,
+      "hi": 0.2727272727272727,
+      "n": 22,
+      "k": 7,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.09090909090909091,
+      "lo": 0.0,
+      "hi": 0.20454545454545456,
+      "n": 22,
+      "k": 4,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 15.25,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   }
+  },
+  "d4": {
+   "subset": {
+    "population": "subset",
+    "loss": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "f6bee6698bf200cc590070b6845b40050860001eb6f2932afbd8404689b8ccd4",
+    "n": 17,
+    "recall": {
+     "point": 0.29411764705882354,
+     "lo": 0.11764705882352941,
+     "hi": 0.47058823529411764,
+     "n": 17,
+     "k": 10,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.2647058823529412,
+     "lo": 0.08823529411764706,
+     "hi": 0.4411764705882353,
+     "n": 17,
+     "k": 9,
+     "applications": 34,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 17,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 152,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": -0.06206883115054612,
+      "lo": -0.22563197422868903,
+      "hi": 0.5861295526079947,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.006,
+      "lo_net_of_bias": -0.23163197422868903
+     },
+     "o4": {
+      "point": -0.0945940284051551,
+      "lo": -0.26978487236078974,
+      "hi": 0.40051300584848504,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": -0.04939444574563023,
+      "lo": -0.21197778135238834,
+      "hi": 0.5295292205567008,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": -0.07189194928069581,
+      "lo": -0.24850475555255275,
+      "hi": 0.6107662527167672,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.0628590193547778,
+      "composition": -0.2657752802332539,
+      "line": -0.5772434686565511,
+      "gap": -0.9047404164243602,
+      "sonnet": -0.09648313698694319,
+      "edit": 0.787987898825844
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "stratum": {
+    "population": "stratum",
+    "loss": {
+     "n": 26,
+     "evaluable": 26,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "58089d05d97eb2b99b144e4926a03310f3636f2ce9329b3c853675db5e27a01f",
+    "n": 26,
+    "recall": {
+     "point": 0.2692307692307692,
+     "lo": 0.1346153846153846,
+     "hi": 0.4230769230769231,
+     "n": 26,
+     "k": 14,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.25,
+     "lo": 0.11538461538461539,
+     "hi": 0.38461538461538464,
+     "n": 26,
+     "k": 13,
+     "applications": 52,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 26,
+     "placements": 2,
+     "with_doc": false,
+     "strata": "document-stratified",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit"
+     ],
+     "failed_replicates": 56,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.00496926897980865,
+      "lo": -0.15224328224194336,
+      "hi": 0.560976694318688,
+      "margin": 0.3,
+      "label": "inconclusive",
+      "bias": 0.006,
+      "lo_net_of_bias": -0.15824328224194337
+     },
+     "o4": {
+      "point": -0.03139821085937969,
+      "lo": -0.17593069318453583,
+      "hi": 0.43571487643663553,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "q1q3": {
+      "point": 0.0037646892366927087,
+      "lo": -0.14070274809916963,
+      "hi": 0.43520508054334156,
+      "margin": 0.228,
+      "label": "inconclusive"
+     },
+     "disattenuated": {
+      "point": 0.005881144915487996,
+      "lo": -0.16871121033763037,
+      "hi": 0.6548468184378107,
+      "margin": 0.3,
+      "label": "inconclusive"
+     },
+     "coefficients": {
+      "intercept": -1.405836947672852,
+      "composition": 0.017607929312503854,
+      "line": -0.4557785771198145,
+      "gap": -0.948689164070059,
+      "sonnet": 0.48188469266147316,
+      "edit": 0.577608072538283
+     },
+     "attempts": [
+      {
+       "with_doc": false,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "full": {
+    "population": "full",
+    "loss": {
+     "n": 73,
+     "evaluable": 73,
+     "lost": 0,
+     "provisional": false
+    },
+    "ids_sha256": "5dbd067d66497329c85135775c681b199aa14cc1f52c4bd5be438bedd61ea68f",
+    "n": 73,
+    "recall": {
+     "point": 0.3493150684931507,
+     "lo": 0.2602739726027397,
+     "hi": 0.4383561643835616,
+     "n": 73,
+     "k": 51,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "recall_unit": {
+     "point": 0.3287671232876712,
+     "lo": 0.2328767123287671,
+     "hi": 0.4246575342465753,
+     "n": 73,
+     "k": 48,
+     "applications": 146,
+     "unscored_applications": 0
+    },
+    "ceiling": false,
+    "b": {
+     "form": "b",
+     "n": 73,
+     "placements": 2,
+     "with_doc": true,
+     "strata": "payload-clustered",
+     "point_ok": true,
+     "names": [
+      "intercept",
+      "composition",
+      "line",
+      "gap",
+      "sonnet",
+      "edit",
+      "doc1",
+      "doc2",
+      "doc3",
+      "doc4",
+      "doc5"
+     ],
+     "failed_replicates": 3,
+     "point_converged": true,
+     "reason": null,
+     "fit_ok": true,
+     "contrast": {
+      "point": 0.21070372565755563,
+      "lo": 0.005506015772193264,
+      "hi": 0.4831110624269571,
+      "margin": 0.3,
+      "label": "attenuated",
+      "bias": 0.006,
+      "lo_net_of_bias": -0.0004939842278067364
+     },
+     "o4": {
+      "point": 0.19740078677119804,
+      "lo": 0.022393745501912254,
+      "hi": 0.47445854388930714,
+      "margin": 0.3,
+      "label": "attenuated"
+     },
+     "q1q3": {
+      "point": 0.1551640866605633,
+      "lo": 0.004179652003725099,
+      "hi": 0.35956938721408804,
+      "margin": 0.228,
+      "label": "attenuated"
+     },
+     "disattenuated": {
+      "point": 0.24915532015037317,
+      "lo": 0.006509847177797558,
+      "hi": 0.5548952336999752,
+      "margin": 0.3,
+      "label": "attenuated"
+     },
+     "coefficients": {
+      "intercept": -1.8666665363767299,
+      "composition": 0.655756394053758,
+      "line": -0.07484531855441225,
+      "gap": -0.10930336002084283,
+      "sonnet": -0.3736605238203694,
+      "edit": 0.17346112944176337,
+      "doc1": 1.1543359946948384,
+      "doc2": 1.5037990228450124,
+      "doc3": 0.30977263794963716,
+      "doc4": 2.151998746916466,
+      "doc5": 2.3786695403230587
+     },
+     "attempts": [
+      {
+       "with_doc": true,
+       "fit_ok": true,
+       "reason": null
+      }
+     ]
+    }
+   },
+   "anchors": {
+    "controls": {
+     "recall": {
+      "point": 0.23809523809523808,
+      "lo": 0.11904761904761904,
+      "hi": 0.35714285714285715,
+      "n": 21,
+      "k": 10,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.11904761904761904,
+      "lo": 0.023809523809523808,
+      "hi": 0.23809523809523808,
+      "n": 21,
+      "k": 5,
+      "applications": 42,
+      "unscored_applications": 0
+     },
+     "mean_score": 15.571428571428571,
+     "n_items": 21,
+     "unscored_applications": 0
+    },
+    "sham": {
+     "recall": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "recall_unit": {
+      "point": 0.045454545454545456,
+      "lo": 0.0,
+      "hi": 0.11363636363636363,
+      "n": 22,
+      "k": 2,
+      "applications": 44,
+      "unscored_applications": 0
+     },
+     "mean_score": 10.590909090909092,
+     "n_items": 22,
+     "unscored_applications": 0
+    }
+   }
+  }
+ },
+ "labels": {
+  "C": {
+   "subset": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.08319461209146428
+   },
+   "stratum": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "unfit"
+   },
+   "full": {
+    "label": "attenuated",
+    "a": "attenuated",
+    "b": "attenuated",
+    "b_effective": "attenuated",
+    "conflict": false,
+    "b_counts": true,
+    "b_lo_net": 0.06748072564734481
+   },
+   "strict": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.07012873242096532
+   },
+   "subset_and_strict": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "unfit"
+   }
+  },
+  "S": {
+   "subset": {
+    "label": "excluded",
+    "a": "excluded",
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.1550834202946551
+   },
+   "stratum": {
+    "label": "excluded",
+    "a": "excluded",
+    "b": "excluded",
+    "b_effective": "excluded",
+    "conflict": false,
+    "b_counts": true,
+    "b_lo_net": -0.12128015746041845
+   },
+   "full": {
+    "label": "attenuated",
+    "a": "attenuated",
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.05106249127442258
+   },
+   "strict": {
+    "label": "excluded",
+    "a": "excluded",
+    "b": "excluded",
+    "b_effective": "excluded",
+    "conflict": false,
+    "b_counts": true,
+    "b_lo_net": -0.21099695085929215
+   },
+   "subset_and_strict": {
+    "label": "excluded",
+    "a": "excluded",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "unfit"
+   }
+  },
+  "d1": {
+   "subset": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   },
+   "stratum": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   },
+   "full": {
+    "label": "inconclusive",
+    "a": "inconclusive",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   }
+  },
+  "d2": {
+   "subset": {
+    "label": "excluded",
+    "a": "excluded",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   },
+   "stratum": {
+    "label": "attenuated",
+    "a": "attenuated",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   },
+   "full": {
+    "label": "attenuated",
+    "a": "attenuated",
+    "b": null,
+    "b_effective": null,
+    "conflict": false,
+    "b_not_read": "floor"
+   }
+  },
+  "d3": {
+   "subset": {
+    "label": null,
+    "a": null,
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.2593644155605041
+   },
+   "stratum": {
+    "label": null,
+    "a": null,
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.22931385572476148
+   },
+   "full": {
+    "label": null,
+    "a": null,
+    "b": "attenuated",
+    "b_effective": "attenuated",
+    "conflict": false,
+    "b_counts": true,
+    "b_lo_net": 0.09504505773300896
+   }
+  },
+  "d4": {
+   "subset": {
+    "label": null,
+    "a": null,
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.23163197422868903
+   },
+   "stratum": {
+    "label": null,
+    "a": null,
+    "b": "inconclusive",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.15824328224194337
+   },
+   "full": {
+    "label": null,
+    "a": null,
+    "b": "attenuated",
+    "b_effective": null,
+    "conflict": false,
+    "b_counts": false,
+    "b_lo_net": -0.0004939842278067364
+   }
+  }
+ },
+ "own_drops": {
+  "n": 0,
+  "ids": [],
+  "reasons": {}
+ },
+ "clean_items": {
+  "touched_ids_sha256": "1e9d80222143bec9b31b6852c00d421895e55b11d4b6fc9d7f25aa95d831f661",
+  "n_touched": 10
+ },
+ "cascade": {
+  "floor_a": {
+   "C": true,
+   "S": true
+  },
+  "steps": [
+   {
+    "step": 1,
+    "population": "subset",
+    "instrument": "C",
+    "fallback": false,
+    "fit": true,
+    "reason": null
+   }
+  ],
+  "lead": "C",
+  "fallback": false,
+  "state": "read",
+  "step": 1,
+  "population": "subset",
+  "instrument": "C"
+ },
+ "composed": {
+  "sonnet": {
+   "judge": "sonnet",
+   "full": {
+    "point": 0.15753424657534246,
+    "lo": 0.0958904109589041,
+    "hi": 0.2191780821917808,
+    "n_items": 73,
+    "applications": 146,
+    "unscored_applications": 0,
+    "k": 23
+   },
+   "controls": {
+    "point": 0.023809523809523808,
+    "lo": 0.0,
+    "hi": 0.07142857142857142,
+    "n_items": 21,
+    "applications": 42,
+    "unscored_applications": 0,
+    "k": 1
+   },
+   "sham": {
+    "point": 0.09090909090909091,
+    "lo": 0.022727272727272728,
+    "hi": 0.18181818181818182,
+    "n_items": 22,
+    "applications": 44,
+    "unscored_applications": 0,
+    "k": 4
+   },
+   "stratum": {
+    "point": 0.15384615384615385,
+    "lo": 0.07692307692307693,
+    "hi": 0.25,
+    "n_items": 26,
+    "applications": 52,
+    "unscored_applications": 0,
+    "k": 8
+   },
+   "gap": {
+    "C": {
+     "point": -0.14383561643835616,
+     "lo": -0.2465753424657534,
+     "hi": -0.0410958904109589,
+     "applications": 146,
+     "o_share": 0.15753424657534246,
+     "per_agent_recall": 0.3013698630136986,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": -0.0547945205479452,
+      "lo": -0.14400684931506846,
+      "hi": 0.03424657534246575,
+      "applications": 146,
+      "o_share": 0.15753424657534246,
+      "per_agent_recall": 0.21232876712328766
+     }
+    },
+    "S": {
+     "point": -0.07534246575342465,
+     "lo": -0.17123287671232876,
+     "hi": 0.02054794520547945,
+     "applications": 146,
+     "o_share": 0.15753424657534246,
+     "per_agent_recall": 0.2328767123287671,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": -0.03424657534246575,
+      "lo": -0.13013698630136986,
+      "hi": 0.06164383561643835,
+      "applications": 146,
+      "o_share": 0.15753424657534246,
+      "per_agent_recall": 0.1917808219178082
+     }
+    }
+   }
+  },
+  "opus48": {
+   "judge": "opus48",
+   "full": {
+    "point": 0.2945205479452055,
+    "lo": 0.21232876712328766,
+    "hi": 0.3835616438356164,
+    "n_items": 73,
+    "applications": 146,
+    "unscored_applications": 0,
+    "k": 43
+   },
+   "controls": {
+    "point": 0.09523809523809523,
+    "lo": 0.023809523809523808,
+    "hi": 0.19047619047619047,
+    "n_items": 21,
+    "applications": 42,
+    "unscored_applications": 0,
+    "k": 4
+   },
+   "sham": {
+    "point": 0.045454545454545456,
+    "lo": 0.0,
+    "hi": 0.11363636363636363,
+    "n_items": 22,
+    "applications": 44,
+    "unscored_applications": 0,
+    "k": 2
+   },
+   "stratum": {
+    "point": 0.11538461538461539,
+    "lo": 0.038461538461538464,
+    "hi": 0.21153846153846154,
+    "n_items": 26,
+    "applications": 52,
+    "unscored_applications": 0,
+    "k": 6
+   },
+   "gap": {
+    "C": {
+     "point": -0.00684931506849315,
+     "lo": -0.0958904109589041,
+     "hi": 0.07534246575342465,
+     "applications": 146,
+     "o_share": 0.2945205479452055,
+     "per_agent_recall": 0.3013698630136986,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": 0.0821917808219178,
+      "lo": 0.0,
+      "hi": 0.1643835616438356,
+      "applications": 146,
+      "o_share": 0.2945205479452055,
+      "per_agent_recall": 0.21232876712328766
+     }
+    },
+    "S": {
+     "point": 0.06164383561643835,
+     "lo": -0.0136986301369863,
+     "hi": 0.14383561643835616,
+     "applications": 146,
+     "o_share": 0.2945205479452055,
+     "per_agent_recall": 0.2328767123287671,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": 0.10273972602739725,
+      "lo": 0.0273972602739726,
+      "hi": 0.1782534246575333,
+      "applications": 146,
+      "o_share": 0.2945205479452055,
+      "per_agent_recall": 0.1917808219178082
+     }
+    }
+   }
+  },
+  "sol": {
+   "judge": "sol",
+   "full": {
+    "point": 0.11643835616438356,
+    "lo": 0.06164383561643835,
+    "hi": 0.18493150684931506,
+    "n_items": 73,
+    "applications": 146,
+    "unscored_applications": 0,
+    "k": 17
+   },
+   "controls": {
+    "point": 0.09523809523809523,
+    "lo": 0.023809523809523808,
+    "hi": 0.19047619047619047,
+    "n_items": 21,
+    "applications": 42,
+    "unscored_applications": 0,
+    "k": 4
+   },
+   "sham": {
+    "point": 0.045454545454545456,
+    "lo": 0.0,
+    "hi": 0.11363636363636363,
+    "n_items": 22,
+    "applications": 44,
+    "unscored_applications": 0,
+    "k": 2
+   },
+   "gap": {
+    "C": {
+     "point": -0.18493150684931506,
+     "lo": -0.2671232876712329,
+     "hi": -0.11643835616438356,
+     "applications": 146,
+     "o_share": 0.11643835616438356,
+     "per_agent_recall": 0.3013698630136986,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": -0.0958904109589041,
+      "lo": -0.16455479452054791,
+      "hi": -0.03424657534246575,
+      "applications": 146,
+      "o_share": 0.11643835616438356,
+      "per_agent_recall": 0.21232876712328766
+     }
+    },
+    "S": {
+     "point": -0.11643835616438356,
+     "lo": -0.1917808219178082,
+     "hi": -0.0410958904109589,
+     "applications": 146,
+     "o_share": 0.11643835616438356,
+     "per_agent_recall": 0.2328767123287671,
+     "flag": "the sealed author-level reading (union)",
+     "unit_beside": {
+      "point": -0.07534246575342465,
+      "lo": -0.1506849315068493,
+      "hi": 0.0,
+      "applications": 146,
+      "o_share": 0.11643835616438356,
+      "per_agent_recall": 0.1917808219178082
+     }
+    }
+   }
+  }
+ },
+ "sentences": [
+  {
+   "id": "S-S0",
+   "family": "S-S",
+   "text": "S3's own drops: none; every population is as pre-registered."
+  },
+  {
+   "id": "S-A1",
+   "family": "S-A",
+   "instrument": "C",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier separates the quiet set from the sham (AUROC 0.79 [0.70, 0.87]); form (a) is read under it."
+  },
+  {
+   "id": "S-A1",
+   "family": "S-A",
+   "instrument": "S",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author` separates the quiet set from the sham (AUROC 0.81 [0.72, 0.89]); form (a) is read under it."
+  },
+  {
+   "id": "S-A5",
+   "family": "S-A",
+   "instrument": "C",
+   "text": "form (b) is above the floor under the carrier, form (a) on Opus 4.8's isolated dossier (quiet lone recall 0.30 [0.21, 0.39]; sham upper bound 0.18; application-level Clopper-Pearson [0.23, 0.38] beside; the planted unit's own flag beside: quiet 0.21 [0.13, 0.30] against the sham's upper bound 0.11)."
+  },
+  {
+   "id": "S-A5",
+   "family": "S-A",
+   "instrument": "S",
+   "text": "form (b) is above the floor under the second named instrument, form (a) on Opus 4.8's zero-context `P_author` (quiet lone recall 0.23 [0.16, 0.32]; sham upper bound 0.11; application-level Clopper-Pearson [0.17, 0.31] beside; the planted unit's own flag beside: quiet 0.19 [0.12, 0.27] against the sham's upper bound 0.11)."
+  },
+  {
+   "id": "S-A4",
+   "family": "S-A",
+   "instrument": "d1",
+   "text": "floor; form (b) is not read under `P_author_doc` isolated, Sonnet 5 (quiet lone recall 0.16 [0.10, 0.22] against the sham's upper bound 0.18; the planted unit's own flag beside: quiet 0.09 [0.04, 0.14] against the sham's upper bound 0.11); form (a)'s label is unaffected."
+  },
+  {
+   "id": "S-A4",
+   "family": "S-A",
+   "instrument": "d2",
+   "text": "floor; form (b) is not read under `P_author` zero-context, Sonnet 5 (quiet lone recall 0.05 [0.01, 0.09] against the sham's upper bound 0.07; the planted unit's own flag beside: quiet 0.02 [0.00, 0.05] against the sham's upper bound 0.00); form (a)'s label is unaffected."
+  },
+  {
+   "id": "S-A5",
+   "family": "S-A",
+   "instrument": "d3",
+   "text": "form (b) is above the floor under `P_author_doc` live, Opus 4.8 (quiet lone recall 0.60 [0.51, 0.70]; sham upper bound 0.27; application-level Clopper-Pearson [0.52, 0.68] beside; the planted unit's own flag beside: quiet 0.57 [0.47, 0.67] against the sham's upper bound 0.20)."
+  },
+  {
+   "id": "S-A5",
+   "family": "S-A",
+   "instrument": "d4",
+   "text": "form (b) is above the floor under `P_author_doc` live, Sonnet 5 (quiet lone recall 0.35 [0.26, 0.44]; sham upper bound 0.11; application-level Clopper-Pearson [0.27, 0.43] beside; the planted unit's own flag beside: quiet 0.33 [0.23, 0.42] against the sham's upper bound 0.11)."
+  },
+  {
+   "id": "S-C5",
+   "family": "S-C",
+   "instrument": "C",
+   "population": "stratum",
+   "text": "form (b) does not fit under the carrier, form (a) on Opus 4.8's isolated dossier on the comprehension-quiet stratum: 268 of 2,000 replicates failed; reported as unfit, without effect on form (a)'s label."
+  },
+  {
+   "id": "S-D4",
+   "family": "S-D",
+   "instrument": "C",
+   "form": "a",
+   "population": "subset",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier, form (a), on the resolved-anchor subset (n = 17): contrast 3.9 [-7.5, 20.4] against the margin 18.2: *inconclusive*: the interval [-7.5, 20.4] cannot tell zero from 18.2 at this n. Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-D4",
+   "family": "S-D",
+   "instrument": "C",
+   "form": "b",
+   "population": "subset",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier, form (b), on the resolved-anchor subset (n = 17): contrast 0.30 [-0.04, 0.64] against the margin 0.30: *inconclusive*: the interval [-0.04, 0.64] cannot tell zero from 0.30 at this n.; its lower bound net of the simulated null bias 0.040 is -0.083 Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-E1",
+   "family": "S-E",
+   "instrument": "C",
+   "population": "subset",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier's label is form (a)'s, *inconclusive*; form (b) beside reads *inconclusive* (does not count, its bias-net lower bound -0.083 at or under 0 for the conflict rule)."
+  },
+  {
+   "id": "S-D4",
+   "family": "S-D",
+   "instrument": "C",
+   "form": "a",
+   "population": "stratum",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier, form (a), on the comprehension-quiet stratum (n = 26): contrast 7.4 [-2.6, 18.3] against the margin 18.2: *inconclusive*: the interval [-2.6, 18.3] cannot tell zero from 18.2 at this n. (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-E3",
+   "family": "S-E",
+   "instrument": "C",
+   "population": "stratum",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier's label is form (a)'s, *inconclusive*; form (b) is not read (unfit)."
+  },
+  {
+   "id": "S-D2",
+   "family": "S-D",
+   "instrument": "C",
+   "form": "a",
+   "population": "full",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier, form (a), on the full quiet set (n = 73): contrast 9.8 [2.7, 17.8] against the margin 18.2: *attenuated* (a combination component above zero and below the margin). (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "C",
+   "form": "a",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 11.5 [3.2, 21.1], which the same table would label *attenuated*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-D2",
+   "family": "S-D",
+   "instrument": "C",
+   "form": "b",
+   "population": "full",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier, form (b), on the full quiet set (n = 73): contrast 0.30 [0.11, 0.56] against the margin 0.30: *attenuated* (a combination component above zero and below the margin).; its lower bound net of the simulated null bias 0.040 is 0.067 (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "C",
+   "form": "b",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 0.35 [0.13, 0.65], which the same table would label *present*; a sensitivity, never the verdict. For form (b), the logit-scale coefficient is divided and contrast (b) recomputed."
+  },
+  {
+   "id": "S-E1",
+   "family": "S-E",
+   "instrument": "C",
+   "population": "full",
+   "text": "the carrier, form (a) on Opus 4.8's isolated dossier's label is form (a)'s, *attenuated*; form (b) beside reads *attenuated* (counts for the conflict rule)."
+  },
+  {
+   "id": "S-D3",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "a",
+   "population": "subset",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (a), on the resolved-anchor subset (n = 17): contrast 0.8 [-6.7, 7.5] against the margin 19.4: *excluded* (the view reads the most visible line only). (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "S",
+   "form": "a",
+   "population": "subset",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 1.0 [-7.9, 8.9], which the same table would label *excluded*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-D4",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "b",
+   "population": "subset",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (b), on the resolved-anchor subset (n = 17): contrast 0.02 [-0.12, 0.35] against the margin 0.30: *inconclusive*: the interval [-0.12, 0.35] cannot tell zero from 0.30 at this n.; its lower bound net of the simulated null bias 0.036 is -0.155 (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-E1",
+   "family": "S-E",
+   "instrument": "S",
+   "population": "subset",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`'s label is form (a)'s, *excluded*; form (b) beside reads *inconclusive* (does not count, its bias-net lower bound -0.155 at or under 0 for the conflict rule)."
+  },
+  {
+   "id": "S-D3",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "a",
+   "population": "stratum",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (a), on the comprehension-quiet stratum (n = 26): contrast 3.3 [-3.5, 10.2] against the margin 19.4: *excluded* (the view reads the most visible line only). (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "S",
+   "form": "a",
+   "population": "stratum",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 3.9 [-4.1, 12.0], which the same table would label *excluded*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-D3",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "b",
+   "population": "stratum",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (b), on the comprehension-quiet stratum (n = 26): contrast 0.02 [-0.09, 0.24] against the margin 0.30: *excluded* (the view reads the most visible line only).; its lower bound net of the simulated null bias 0.036 is -0.121 (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "S",
+   "form": "b",
+   "population": "stratum",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 0.02 [-0.10, 0.30], which the same table would label *inconclusive*; a sensitivity, never the verdict. For form (b), the logit-scale coefficient is divided and contrast (b) recomputed."
+  },
+  {
+   "id": "S-E1",
+   "family": "S-E",
+   "instrument": "S",
+   "population": "stratum",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`'s label is form (a)'s, *excluded*; form (b) beside reads *excluded* (counts for the conflict rule)."
+  },
+  {
+   "id": "S-D2",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "a",
+   "population": "full",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (a), on the full quiet set (n = 73): contrast 13.4 [6.7, 21.1] against the margin 19.4: *attenuated* (a combination component above zero and below the margin). (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "S",
+   "form": "a",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 15.9 [7.9, 24.9], which the same table would label *attenuated*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-D4",
+   "family": "S-D",
+   "instrument": "S",
+   "form": "b",
+   "population": "full",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, form (b), on the full quiet set (n = 73): contrast 0.17 [-0.02, 0.45] against the margin 0.30: *inconclusive*: the interval [-0.02, 0.45] cannot tell zero from 0.30 at this n.; its lower bound net of the simulated null bias 0.036 is -0.051 (descriptive; no verdict, section 5.4 (4)) Measurement error, both directions: composition noise attenuates the contrast toward *excluded* (the disattenuated reading beside); the singleton maximum's max-of-three inflation leans form (a) toward *present* and form (b)'s singleton covariate toward *present* (A6.13.5), carried by the top-two gap covariate, the singleton placement rule and, for (b), the subtracted null bias."
+  },
+  {
+   "id": "S-E1",
+   "family": "S-E",
+   "instrument": "S",
+   "population": "full",
+   "text": "the second named instrument, form (a) on Opus 4.8's zero-context `P_author`'s label is form (a)'s, *attenuated*; form (b) beside reads *inconclusive* (does not count, its bias-net lower bound -0.051 at or under 0 for the conflict rule)."
+  },
+  {
+   "id": "S-F4",
+   "family": "S-F",
+   "instrument": "C",
+   "population": "subset",
+   "verdict": "inconclusive",
+   "text": "**P-max is inconclusive** in round 1 on the resolved-anchor subset (n = 17): under the carrier, form (a) on Opus 4.8's isolated dossier the interval [-7.5, 20.4] cannot tell zero from m_s 18.2 (point 3.9). Under a true max-type null the carrier reads *holds* about two times in three (0.67), so a non-*holds* reading in round 1 is weak evidence and round 2 is the test (A6.18 (l))."
+  },
+  {
+   "id": "S-Fs2",
+   "family": "S-F",
+   "text": "The second named instrument reads *excluded* (0.8 [-6.7, 7.5]), beside."
+  },
+  {
+   "id": "S-I1",
+   "family": "S-I",
+   "text": "The resolved-anchor subset (n = 17) and the comprehension-quiet stratum (n = 26) agree under the carrier, form (a) on Opus 4.8's isolated dossier: *inconclusive* 3.9 [-7.5, 20.4] and *inconclusive* 7.4 [-2.6, 18.3]."
+  },
+  {
+   "id": "S-J1",
+   "family": "S-J",
+   "text": "On the full quiet set (n = 73), descriptive under the switch (A6.14.3, A6.18 (a)), the carrier, form (a) on Opus 4.8's isolated dossier form (a) reads contrast 9.8 [2.7, 17.8] (*attenuated*, descriptive); its dilution figure: with non-members at excess zero this design reads *holds* at the margin with probability 0.63 (0.36 with a small excess, 0.15 at the latent share 0.69, 0.48 at 0.46; Part 3); no verdict is issued from it."
+  },
+  {
+   "id": "S-G6",
+   "family": "S-G6",
+   "instrument": "C",
+   "population": "subset",
+   "text": "Beside the reading (descriptive; brief 33's dated note 3, G6): the carrier, form (a) on Opus 4.8's isolated dossier form (a) on the the resolved-anchor subset items none of whose applications broke a later honest edit (n = 15 of 17 evaluable, 2 excluded; population 17): contrast -2.0 [-10.9, 8.9]; no label, no effect on the cascade or the verdict."
+  },
+  {
+   "id": "S-G6",
+   "family": "S-G6",
+   "instrument": "C",
+   "population": "stratum",
+   "text": "Beside the reading (descriptive; brief 33's dated note 3, G6): the carrier, form (a) on Opus 4.8's isolated dossier form (a) on the the comprehension-quiet stratum items none of whose applications broke a later honest edit (n = 23 of 26 evaluable, 3 excluded; population 26): contrast 2.2 [-5.9, 12.4]; no label, no effect on the cascade or the verdict."
+  },
+  {
+   "id": "S-G6",
+   "family": "S-G6",
+   "instrument": "S",
+   "population": "subset",
+   "text": "Beside the reading (descriptive; brief 33's dated note 3, G6): the second named instrument, form (a) on Opus 4.8's zero-context `P_author` form (a) on the the resolved-anchor subset items none of whose applications broke a later honest edit (n = 15 of 17 evaluable, 2 excluded; population 17): contrast -0.2 [-9.5, 8.2]; no label, no effect on the cascade or the verdict."
+  },
+  {
+   "id": "S-G6",
+   "family": "S-G6",
+   "instrument": "S",
+   "population": "stratum",
+   "text": "Beside the reading (descriptive; brief 33's dated note 3, G6): the second named instrument, form (a) on Opus 4.8's zero-context `P_author` form (a) on the the comprehension-quiet stratum items none of whose applications broke a later honest edit (n = 23 of 26 evaluable, 3 excluded; population 26): contrast 2.0 [-5.2, 10.7]; no label, no effect on the cascade or the verdict."
+  },
+  {
+   "id": "S-K3",
+   "family": "S-K",
+   "instrument": "C",
+   "text": "On the full quiet set, under the carrier, form (a) on Opus 4.8's isolated dossier, the interaction -9.4 [-25.7, 8.0] does not separate from zero at this n; a covariate sensitivity, never a verdict."
+  },
+  {
+   "id": "S-K4",
+   "family": "S-K",
+   "instrument": "C",
+   "text": "Main-effect form: D_part 32.7 [-256.2, 313.7], composition contrast 9.7 [2.7, 18.1]; with Sol's D_part: interaction 3.1 [-15.7, 22.8]."
+  },
+  {
+   "id": "S-K3",
+   "family": "S-K",
+   "instrument": "S",
+   "text": "On the full quiet set, under the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, the interaction -0.9 [-15.7, 15.8] does not separate from zero at this n; a covariate sensitivity, never a verdict."
+  },
+  {
+   "id": "S-K4",
+   "family": "S-K",
+   "instrument": "S",
+   "text": "Main-effect form: D_part 214.4 [-72.8, 504.9], composition contrast 12.9 [6.1, 20.5]; with Sol's D_part: interaction 8.3 [-9.9, 27.2]."
+  },
+  {
+   "id": "S-L1",
+   "family": "S-L",
+   "instrument": "C",
+   "population": "subset",
+   "text": "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), the carrier, form (a) on Opus 4.8's isolated dossier, the resolved-anchor subset: P(flag | 66.5) \u2212 P(flag | 47.5) = 0.15 [-0.04, 0.41] against the scaled margin 0.228: *inconclusive*; a sensitivity, never primary."
+  },
+  {
+   "id": "S-L2",
+   "family": "S-L",
+   "instrument": "C",
+   "population": "stratum",
+   "text": "Q1-against-Q3 sensitivity: not read (unfit)."
+  },
+  {
+   "id": "S-L1",
+   "family": "S-L",
+   "instrument": "C",
+   "population": "full",
+   "text": "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), the carrier, form (a) on Opus 4.8's isolated dossier, the full quiet set: P(flag | 66.5) \u2212 P(flag | 47.5) = 0.21 [0.08, 0.38] against the scaled margin 0.228: *attenuated*; a sensitivity, never primary."
+  },
+  {
+   "id": "S-L1",
+   "family": "S-L",
+   "instrument": "S",
+   "population": "subset",
+   "text": "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, the resolved-anchor subset: P(flag | 66.5) \u2212 P(flag | 47.5) = 0.01 [-0.10, 0.23] against the scaled margin 0.228: *inconclusive*; a sensitivity, never primary."
+  },
+  {
+   "id": "S-L1",
+   "family": "S-L",
+   "instrument": "S",
+   "population": "stratum",
+   "text": "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, the comprehension-quiet stratum: P(flag | 66.5) \u2212 P(flag | 47.5) = 0.01 [-0.08, 0.16] against the scaled margin 0.228: *excluded*; a sensitivity, never primary."
+  },
+  {
+   "id": "S-L1",
+   "family": "S-L",
+   "instrument": "S",
+   "population": "full",
+   "text": "Q1-against-Q3 sensitivity (A6.4, at the full net set's quartiles, A6.20), form (b), the second named instrument, form (a) on Opus 4.8's zero-context `P_author`, the full quiet set: P(flag | 66.5) \u2212 P(flag | 47.5) = 0.12 [-0.01, 0.29] against the scaled margin 0.228: *inconclusive*; a sensitivity, never primary."
+  },
+  {
+   "id": "S-M1",
+   "family": "S-M",
+   "population": "strict",
+   "text": "the strict two-family stratum (n = 20), descriptive (the purity sensitivity, A6.17.1; A6.18 (h)): the carrier, form (a) on Opus 4.8's isolated dossier form (a) contrast 8.6 [-3.3, 26.1] (*inconclusive*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-M1",
+   "family": "S-M",
+   "population": "subset_and_strict",
+   "text": "subset \u2229 strict (n = 11), descriptive (the purity sensitivity, A6.17.1; A6.18 (h)): the carrier, form (a) on Opus 4.8's isolated dossier form (a) contrast 3.7 [-12.0, 32.6] (*inconclusive*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-M2",
+   "family": "S-M",
+   "text": "The certified stratum (mean composition at or above 75; n = 10, Sonnet 9), A6.2's descriptive stratum: under the carrier, form (a) on Opus 4.8's isolated dossier, mean excess 22.6 [10.9, 33.5] and lone recall 0.75 [0.50, 0.95]; its composition spread (SD 3.6) carries no slope; the carrier's verdict, *inconclusive*, beside."
+  },
+  {
+   "id": "S-M3",
+   "family": "S-M",
+   "text": "Within-stratum preview of round 2's contrast (A6.17.5; descriptive, no verdict label): under the carrier, form (a) on Opus 4.8's isolated dossier, mean excess of the whole-credited items (n = 11) minus that of the never-credited items (n = 6) is 1.3 [-9.6, 12.0] (gross definition 11 against 7; net 11 against 6)."
+  },
+  {
+   "id": "S-M4",
+   "family": "S-M",
+   "text": "Every stratum table flags the nine unresolved-anchor members (all GLM-written); the stratum reading recomputed without the nine: 3.9 [-7.5, 20.4] (the 17 that remain are the resolved-anchor subset)."
+  },
+  {
+   "id": "S-N1",
+   "family": "S-N",
+   "judge": "sonnet",
+   "text": "The composed view (`O_diff`, Sonnet 5, at its sealed rule) flags 0.16 [0.10, 0.22] of the full quiet set's item applications (n = 73 items, 146 applications); controls 0.02; sham 0.09; its gap over the carrier, form (a) on Opus 4.8's isolated dossier on the same applications -0.14 [-0.25, -0.04] (the planted unit's own flag beside: -0.05); its gap over the second named instrument, form (a) on Opus 4.8's zero-context `P_author` on the same applications -0.08 [-0.17, 0.02] (the planted unit's own flag beside: -0.03); not a P-max reading and no partition (A6.3 (e)); on the comprehension-quiet stratum 0.15 [0.08, 0.25]."
+  },
+  {
+   "id": "S-N1",
+   "family": "S-N",
+   "judge": "opus48",
+   "text": "The composed view (`O_diff`, Opus 4.8, at its sealed rule) flags 0.29 [0.21, 0.38] of the full quiet set's item applications (n = 73 items, 146 applications); controls 0.10; sham 0.05; its gap over the carrier, form (a) on Opus 4.8's isolated dossier on the same applications -0.01 [-0.10, 0.08] (the planted unit's own flag beside: 0.08); its gap over the second named instrument, form (a) on Opus 4.8's zero-context `P_author` on the same applications 0.06 [-0.01, 0.14] (the planted unit's own flag beside: 0.10); not a P-max reading and no partition (A6.3 (e)); on the comprehension-quiet stratum 0.12 [0.04, 0.21]."
+  },
+  {
+   "id": "S-N1",
+   "family": "S-N",
+   "judge": "sol",
+   "text": "The composed view (`O_diff`, GPT-6 Sol, at its sealed rule) flags 0.12 [0.06, 0.18] of the full quiet set's item applications (n = 73 items, 146 applications); controls 0.10; sham 0.05; its gap over the carrier, form (a) on Opus 4.8's isolated dossier on the same applications -0.18 [-0.27, -0.12] (the planted unit's own flag beside: -0.10); its gap over the second named instrument, form (a) on Opus 4.8's zero-context `P_author` on the same applications -0.12 [-0.19, -0.04] (the planted unit's own flag beside: -0.08); not a P-max reading and no partition (A6.3 (e))."
+  },
+  {
+   "id": "S-N3",
+   "family": "S-N",
+   "text": "Brief 22's G1 fails: Opus 4.8's `O_diff` recall on the full quiet set (net 73 items, 146 applications) is 0.29 [0.21, 0.38], below 0.65; the stratum's 0.12 beside (A6.16.1 (vi))."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "C",
+   "text": "Anchors under the carrier, form (a) on Opus 4.8's isolated dossier: lone recall, controls 0.21 [0.10, 0.36] and sham 0.09 [0.02, 0.18] (the sealed author-level reading; the planted unit's own flag beside: controls 0.05, sham 0.05); mean scores, controls 16.3 and sham 14.9; descriptive."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "S",
+   "text": "Anchors under the second named instrument, form (a) on Opus 4.8's zero-context `P_author`: lone recall, controls 0.02 [0.00, 0.07] and sham 0.05 [0.00, 0.11] (the sealed author-level reading; the planted unit's own flag beside: controls 0.02, sham 0.05); mean scores, controls 9.8 and sham 11.6; descriptive."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "d1",
+   "text": "Anchors under `P_author_doc` isolated, Sonnet 5: lone recall, controls 0.21 [0.12, 0.31] and sham 0.09 [0.02, 0.18] (the sealed author-level reading; the planted unit's own flag beside: controls 0.02, sham 0.05); mean scores, controls 24.1 and sham 22.7; descriptive."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "d2",
+   "text": "Anchors under `P_author` zero-context, Sonnet 5: lone recall, controls 0.05 [0.00, 0.12] and sham 0.02 [0.00, 0.07] (the sealed author-level reading; the planted unit's own flag beside: controls 0.00, sham 0.00); mean scores, controls 12.7 and sham 12.8; descriptive."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "d3",
+   "text": "Anchors under `P_author_doc` live, Opus 4.8: lone recall, controls 0.19 [0.05, 0.33] and sham 0.16 [0.05, 0.27] (the sealed author-level reading; the planted unit's own flag beside: controls 0.17, sham 0.09); mean scores, controls 20.1 and sham 15.2; descriptive."
+  },
+  {
+   "id": "S-O1",
+   "family": "S-O",
+   "instrument": "d4",
+   "text": "Anchors under `P_author_doc` live, Sonnet 5: lone recall, controls 0.24 [0.12, 0.36] and sham 0.05 [0.00, 0.11] (the sealed author-level reading; the planted unit's own flag beside: controls 0.12, sham 0.05); mean scores, controls 15.6 and sham 10.6; descriptive."
+  },
+  {
+   "id": "S-O2",
+   "family": "S-O",
+   "instrument": "C",
+   "text": "Form (b) refitted over the quiet candidates and the controls with a coordinated-form indicator under the carrier, form (a) on Opus 4.8's isolated dossier: 0.60 [0.15, 0.94]; the form contrast, never the composition reading (A6.3 (c))."
+  },
+  {
+   "id": "S-O2",
+   "family": "S-O",
+   "instrument": "S",
+   "text": "Form (b) refitted over the quiet candidates and the controls with a coordinated-form indicator under the second named instrument, form (a) on Opus 4.8's zero-context `P_author`: 0.01 [-0.22, 0.62]; the form contrast, never the composition reading (A6.3 (c))."
+  },
+  {
+   "id": "S-P0",
+   "family": "S-P",
+   "text": "A6.3 (d)'s k = 2 descriptive arm was not run (not approved at S2)."
+  },
+  {
+   "id": "S-Q2",
+   "family": "S-Q",
+   "instrument": "C",
+   "text": "It does not under the carrier, form (a) on Opus 4.8's isolated dossier (0.62 [0.50, 0.72]); the max-type mechanism is not confirmed prospectively on this pool; descriptive."
+  },
+  {
+   "id": "S-Q1",
+   "family": "S-Q",
+   "instrument": "S",
+   "text": "The author's most visible line predicts the the second named instrument, form (a) on Opus 4.8's zero-context `P_author` flag on the pooled item applications of the quiet set and the controls (AUROC 0.66 [0.54, 0.75]); descriptive (no matched controls, the sham unrated on this axis)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "a",
+   "population": "subset",
+   "text": "Under `P_author_doc` isolated, Sonnet 5 (descriptive, A6.13.3), form (a) on the resolved-anchor subset (n = 17): contrast 7.3 [-11.5, 27.4] (*inconclusive*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "b",
+   "population": "subset",
+   "text": "Under `P_author_doc` isolated, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "a",
+   "population": "stratum",
+   "text": "Under `P_author_doc` isolated, Sonnet 5 (descriptive, A6.13.3), form (a) on the comprehension-quiet stratum (n = 26): contrast 9.2 [-9.6, 30.1] (*inconclusive*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "b",
+   "population": "stratum",
+   "text": "Under `P_author_doc` isolated, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "a",
+   "population": "full",
+   "text": "Under `P_author_doc` isolated, Sonnet 5 (descriptive, A6.13.3), form (a) on the full quiet set (n = 73): contrast 9.5 [-2.3, 22.5] (*inconclusive*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d1",
+   "form": "b",
+   "population": "full",
+   "text": "Under `P_author_doc` isolated, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "a",
+   "population": "subset",
+   "text": "Under `P_author` zero-context, Sonnet 5 (descriptive, A6.13.3), form (a) on the resolved-anchor subset (n = 17): contrast 8.2 [-5.2, 22.3] (*excluded*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "d2",
+   "form": "a",
+   "population": "subset",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 9.7 [-6.1, 26.3], which the same table would label *inconclusive*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "b",
+   "population": "subset",
+   "text": "Under `P_author` zero-context, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "a",
+   "population": "stratum",
+   "text": "Under `P_author` zero-context, Sonnet 5 (descriptive, A6.13.3), form (a) on the comprehension-quiet stratum (n = 26): contrast 13.2 [2.9, 26.2] (*attenuated*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "d2",
+   "form": "a",
+   "population": "stratum",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 15.6 [3.4, 31.0], which the same table would label *attenuated*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "b",
+   "population": "stratum",
+   "text": "Under `P_author` zero-context, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "a",
+   "population": "full",
+   "text": "Under `P_author` zero-context, Sonnet 5 (descriptive, A6.13.3), form (a) on the full quiet set (n = 73): contrast 11.4 [3.4, 20.9] (*attenuated*, descriptive; no verdict)."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "d2",
+   "form": "a",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 13.5 [4.0, 24.7], which the same table would label *attenuated*; a sensitivity, never the verdict."
+  },
+  {
+   "id": "S-R2",
+   "family": "S-R",
+   "instrument": "d2",
+   "form": "b",
+   "population": "full",
+   "text": "Under `P_author` zero-context, Sonnet 5, form (b) is not read (floor)."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d3",
+   "form": "b",
+   "population": "subset",
+   "text": "Under `P_author_doc` live, Opus 4.8 (descriptive, A6.13.3), form (b) on the resolved-anchor subset (n = 17): contrast 0.07 [-0.26, 0.68] (*inconclusive*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d3",
+   "form": "b",
+   "population": "stratum",
+   "text": "Under `P_author_doc` live, Opus 4.8 (descriptive, A6.13.3), form (b) on the comprehension-quiet stratum (n = 26): contrast 0.12 [-0.23, 0.56] (*inconclusive*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d3",
+   "form": "b",
+   "population": "full",
+   "text": "Under `P_author_doc` live, Opus 4.8 (descriptive, A6.13.3), form (b) on the full quiet set (n = 73): contrast 0.27 [0.09, 0.46] (*attenuated*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "d3",
+   "form": "b",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 0.31 [0.11, 0.51], which the same table would label *present*; a sensitivity, never the verdict. For form (b), the logit-scale coefficient is divided and contrast (b) recomputed."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d4",
+   "form": "b",
+   "population": "subset",
+   "text": "Under `P_author_doc` live, Sonnet 5 (descriptive, A6.13.3), form (b) on the resolved-anchor subset (n = 17): contrast -0.06 [-0.23, 0.59] (*inconclusive*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d4",
+   "form": "b",
+   "population": "stratum",
+   "text": "Under `P_author_doc` live, Sonnet 5 (descriptive, A6.13.3), form (b) on the comprehension-quiet stratum (n = 26): contrast 0.00 [-0.15, 0.56] (*inconclusive*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-R1",
+   "family": "S-R",
+   "instrument": "d4",
+   "form": "b",
+   "population": "full",
+   "text": "Under `P_author_doc` live, Sonnet 5 (descriptive, A6.13.3), form (b) on the full quiet set (n = 73): contrast 0.21 [0.01, 0.48] (*attenuated*, descriptive; no verdict); form (a) is not read on a live view."
+  },
+  {
+   "id": "S-G1",
+   "family": "S-G",
+   "instrument": "d4",
+   "form": "b",
+   "population": "full",
+   "text": "Disattenuated (A6.5 (ii)): dividing the composition coefficient and its interval by the partial reliability given the covariates, 0.846 (A6.13.5; the Spearman-Brown reliability of the two-pass mean, 0.915, beside), gives 0.25 [0.01, 0.55], which the same table would label *attenuated*; a sensitivity, never the verdict. For form (b), the logit-scale coefficient is divided and contrast (b) recomputed."
+  },
+  {
+   "id": "S4-2",
+   "family": "S4",
+   "text": "Human anchor (S4): not yet scored; reported beside when it is (A6.18 (q))."
+  }
+ ],
+ "meta": {
+  "version": "b3-s3-readings/v0",
+  "plan": {
+   "path": "work/stage3/b3/plan.md",
+   "sha256": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db",
+   "commit": "1fafa57"
+  },
+  "matrix_sha256": "1b80280ad8ed14d1ec0fed26b7137d3cc50a055e8f41b19e52083439f5b3effe",
+  "scores_sha256": "ad4079983f3806da8e95c3b017cc0e3760985a513bf074d3f544f164a288f639",
+  "script_sha256": "c7e14a580631d66a7f37216acb3412dd42ee6e97304c6662989eca1be6738693",
+  "client_sha256": {
+   "judge_client.py": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+   "judge_openrouter.py": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034"
+  },
+  "window_rule": "the corpus span (build_world: days = corpus_days(rows)); units built as planted_items (B1)",
+  "clean_items_sha256": "21e7ede2b95b49af714d9339a96c5e63d2204df9964c3b43ddbddbe502616ae7",
+  "honest_check": {
+   "pass": true,
+   "applications_sha256": "02edac2a88fbdd3d9cfd4404e496aac6991c2f917fd27ca191394dc225c229bc",
+   "per_agent": {
+    "units": 796,
+    "units_with_no_other_pair": 73,
+    "of_which_single_pair_on_the_planted_document": 60,
+    "of_which_author_absent_explained": 13,
+    "of_which_unexplained": 0,
+    "authors_absent_explained_no_class_write": 2,
+    "authors_absent_unexplained": 0,
+    "documents_absent": 0,
+    "unit_authors": 35,
+    "identical_across_cells": true,
+    "cells": 4
+   },
+   "live": {
+    "units": 232,
+    "units_with_no_other_pair": 26,
+    "of_which_single_pair_on_the_planted_document": 19,
+    "of_which_author_absent_explained": 7,
+    "of_which_unexplained": 0,
+    "authors_absent_explained_no_class_write": 2,
+    "authors_absent_unexplained": 0,
+    "documents_absent": 0,
+    "unit_authors": 33,
+    "identical_across_cells": true,
+    "cells": 2
+   },
+   "sha256": "4ad97f7d60d986f8a24e61a272fc2780b7cc204487e5ac7d77c2d7f24f5cc838"
+  },
+  "dryrun_oc": {
+   "P_excl_0": 0.64,
+   "P_excl_margin": 0.09,
+   "P_lb_0": 0.023333333333333334,
+   "P_present_x1.5": 0.73,
+   "experiments": 300,
+   "se_below_bound": 0.6,
+   "dryrun_sha256": "357422cabbba1b5e94083b61e6eb14c76f7e4ba3a04048cd88190beb827ccd82"
+  }
+ },
+ "disclosures": {
+  "section_7": "## 7. The disclosures S1 carries (verbatim where the amendments fix the wording)\n\n**A6.16.1 (i) to (vi)** (brief 15, verbatim): \"(i) \"partly missed\" is the modal label at the margin (0.58 to 0.76 in Part 2) because of attenuation, not evidence of a sub-margin effect, and the disattenuated reading stands beside it; (ii) P(falsified | margin) is quoted as a range over ICC and \u03b7 (0.24 to 0.41), never a point; (iii) every \"holds\" carries A6.14.4's comprehension-quiet share, since a holds cannot separate the max-type null from the dilution null; (iv) form (b)'s support at T2+S2 rests on subtracting a simulated null bias of 0.040 (Monte Carlo SE 0.004), stated; (v) **m_s is pinned at 18.22** for the carrier and 19.37 for the second instrument (A6.13.2's one-singleton calibration; the S2-layout reading of 18.30 is drift, not a second value); (vi) brief 22's G1 names its population: the full quiet set, the stratum beside.\" *Net beside:* the carrier population's ranges at T2+S2 are P(*partly missed* | margin) 0.23 to 0.36 and P(*falsified* | margin) 0.34 to 0.37 over ICC 0.3 and 0.6 (Part 3; \u03b7 shared).\n\n**A6.17.6 (vii) and (viii)** (verbatim): \"(vii) the stratum's reading is on a lower-composition population (mean 48.6 against 59.7 for the rest; 6 of 28 at or over 60 against 26 of 50; spread kept, SD 17.3 against 16.6 for the full set); (viii) Kimi K3's two samples differ (14 quiet-to-not flips against 4, sign p 0.03; mean D_part 0.40 against 0.51; Sol symmetric at 7 against 9; one seeded call order and identical packets for both samples, no pipeline cause found), reported, not acted on, since membership needs both samples.\" *Net beside:* stratum 26 at mean 50.6 (SD 16.1); full set 73 at mean 56.2 (SD 15.9).\n\n**A6.18 (d), (e), (h), (k), (l), (m)** (verbatim):\n- \"(d) The fit-rate bar of A6.17.9 (2) cannot bind. Form (a) on the stratum populations has five parameters once A6.16.2 dropped the document factor, so the fit rate is 1.00 by construction; the selection rests on A6.13.1 alone, and 1.00 is not evidence of fit.\"\n- \"(e) Monte Carlo margins (300 experiments; SE about 0.027): the subset's P(*excluded* | 0) of 0.68 is 3.1 SE above 0.60, but its P(*excluded* | margin) of 0.073 is 1.8 SE below 0.10, so bound (ii) is seed-sensitive for the subset; the stratum is 12 SE clear. S1 says so.\"\n- \"(h) Why the nine are excluded from the carrier although brief 26 showed them placeable: their 35 lines were absent from the day-0 rendering the readers saw, so their D_part = 0 measures a missing line, not a quiet one; the strict set (20) does not test this, since Sol read the same rendering and all nine are in it. Subset \u2229 strict = 11, the items passing both purity checks, is reported beside, descriptively.\"\n- \"(k) m_L = 18.22 is on the observed excess scale; the latent shift it corresponds to is about 23.6 to 23.9 (41.5 to 42.1 at 1.5 \u00d7). S1 states both.\"\n- \"(l) S1's disclosures, in addition to A6.16.1 and A6.17.6: under a true max-type null the carrier reads *holds* about two times in three (0.67), so a non-*holds* reading in round 1 is weak evidence and round 2 is the test; the carrier is Sonnet-heavy (11 against 6) and lower in composition (mean 49.6 against 56.2 for the full set); 6 of the 17 entered under Sol's near-vacuous rule; Kimi K3's within-provider shift between samples is unexplained.\"\n- \"(m) Kimi K3 (Part 3 item 7, the fingerprint join: 1,682 of 1,682 records matched, 58 ambiguous keys, 0 time-order violations). Routing is ruled out as the cause of the sample asymmetry (near-identical provider counts per sample); credit on parts rose from 0.162 to 0.222 at every FP4 and FP8 provider between samples while Wafer held level, a sample-level effect of unknown cause. The provider signal: Wafer (MXFP4) credits more, 0.287 against FP4's 0.162 (z 2.67); brief 23's calibration mix was 62 % Wafer, brief 25's 20 %, so brief 25's reader was weaker than the one C1 calibrated on and **C1's false-quiet figure of 0.005 is probably optimistic**, said beside C1 and in S1. A6.17.10 (d) is made specific: brief 24's Kimi K3 is pinned to Wafer at MXFP4 if available, else to the deployment with the highest part credit at zero false credit in this join, with the join as the reason.\"\n\n**Brief 25's Kimi K3 routing, A6.17.10 (a)** (verbatim): \"Aravind's OpenRouter activity log matches the call counts exactly (brief 23: 689 = 568 + 120 retest + 1 probe; brief 25: 993 = 368 + 624 + 1 probe) and shows that \"Kimi K3\" was a mixture of differently quantized upstream deployments that changed between the briefs (brief 23: three providers, all 4-bit; brief 25: nine providers in three formats, FP4, MXFP4 and FP8). C1's model was calibrated on brief 23's mix, so its transfer to brief 25 is imperfect; this is disclosed beside C1's figures and in S1. The log alone cannot explain the sample asymmetry of A6.17.6, since both samples share one seeded call order.\"\n\n**Brief 26's results** (`inserter-dry-run-v0.json` edd289ce, `.md` 25a905da; script `work/checks/stage3_b3_inserter_dry_run.py` 999cb737; module `stage3_t1.py` 52a79312, application class 24d3d147, unchanged). The edit-application check ran on all 124 items against the day-0 snapshots and both drawable Part S days, enumerating 2,487 item draws and 4,692 lone-line draws with no API call.\n- Valid draws: 1,376 of 1,564 for candidates, 385 of 439 for controls, 419 of 484 for the sham.\n- Drop list: 8 under the pair rule, 2 under the literal count (\u00a71.3).\n- Every day-0-absent line of the nine unresolved-anchor stratum members is found once in every Part S state (A6.17.2's rendering-artefact reading confirmed mechanically). The reverse case is 0. Lone lines: 233 of 234 with two valid draws by different authors.\n- Module findings, handled by brief 27: M1 (7 lines with a non-unique target at some reachable state), M4 (no lone-line arm) and M5 (462 of 7,179 drawable placements not valid). M2 and M3 are 0.\n\n**Brief 27's hashes** (\u00a70):\n- record `lone-line-arm-v0.md` fff3e5c3 (K1);\n- module `stage3_t1.py` 240f4ed9 (K2);\n- `Inserter` 24d3d147 unchanged, and `PartSInserter` 5e6371ee with the lone-line arm and the opt-in restriction (K3);\n- tests 0ee5057b (29) and 46dbee10 (7), all pass; E1 128 of 128; E3 isolation by deepcopy; E4 (a) and (b) reproduced exactly (K4).\n\n**The application rule for an item whose target position is not found at application time** (A6.17.9 (6)): \u00a72.4, citing brief 26.\n\n**Also carried:**\n- the anchor-by-writer confound: all 16 unresolved-anchor candidates are GLM-written, and the subset shifts the writer balance to Sonnet 11, GLM 6 (A6.17.9);\n- A6.14.3b: form (a)'s bound (ii) cannot bind, so false confirmation under dilution is guarded by A6.14 alone, which is why every *holds* carries the share;\n- section 0's form-recognisability disclosure, bounded by S4 (\u00a710);\n- the sham is v2's and has been scored before, its placements new (section 0).\n\n---",
+  "note_2026_11_02_item_5": "**5. Brief 31's disclosures, carried into S3's record (\u00a74.10).** From `work/stage3/b3/judge-client-equivalence-v0.md` (a657e7e6):\n- **G2 holds by construction, not by re-parse.** No cache holds a raw reply, only the parsed fields.\n- **Sonnet 5's sealed nulls were produced by client fdce438b, which is not on disk.** The evidence is the match of the current client's built requests against the request fields the nulls' own calls recorded.\n- **The one default-path change is read as no difference.** It is an errored cache line written after an aborted paid attempt; no request or returned value changes.\n- **The pin of \u00a74.10 does not move.** `judge_client.py` stays at 72d394e3 and `judge_openrouter.py` at e812157c. Brief 29-B's E0-7 adds its option in a new module and leaves `judge_openrouter.py` unchanged (A6.24 (3)).",
+  "section_8_pointer": "Round 2 (plan section 8): pre-registered there and never pooled with round 1; its own plan commits before any round-2 judge call."
+ }
+}

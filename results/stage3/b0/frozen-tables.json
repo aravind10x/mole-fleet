@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 104,
+ "n_files": 113,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1196,6 +1196,123 @@
     "lift",
     "spearman",
     "v0.1 section"
+   ]
+  },
+  {
+   "path": "b3/b3-results.md",
+   "sha256": "a759aba4785b9bf02a197a8f5acad069d423a85af2df1440ec28bd446f24f39c",
+   "bytes": 42465,
+   "sha256_fork_copy": "a759aba4785b9bf02a197a8f5acad069d423a85af2df1440ec28bd446f24f39c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "every sentence of plan section 6 selected by rule (S-A to S-R, S4-2); the disclosures; the cascade"
+   ]
+  },
+  {
+   "path": "b3/b3-results.json",
+   "sha256": "b496d42275a7ae503d4b0a43158af2af4f6489ec27b040a9aeb5f2bbcbb18e0b",
+   "bytes": 148332,
+   "sha256_fork_copy": "b496d42275a7ae503d4b0a43158af2af4f6489ec27b040a9aeb5f2bbcbb18e0b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "readings, floors, labels, cascade, composed, sentences, meta"
+   ]
+  },
+  {
+   "path": "b3/b3-results-additions.md",
+   "sha256": "e08891ac667d0926496723eea9f802fb9a2b41434823843ce5235bac526a98d4",
+   "bytes": 3730,
+   "sha256_fork_copy": "e08891ac667d0926496723eea9f802fb9a2b41434823843ce5235bac526a98d4",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "the executor; the pre-signal's basis; applications that broke a later honest edit"
+   ]
+  },
+  {
+   "path": "b3/s3-scores-v0.json",
+   "sha256": "ad4079983f3806da8e95c3b017cc0e3760985a513bf074d3f544f164a288f639",
+   "bytes": 2393946,
+   "sha256_fork_copy": "ad4079983f3806da8e95c3b017cc0e3760985a513bf074d3f544f164a288f639",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "unit outcomes, scores and flags (no text)"
+   ]
+  },
+  {
+   "path": "b3/s3-run-v0.json",
+   "sha256": "2bebb2cbb2968fa0585ab4007d13de82b916ff7170a66ac9f26d7da11c8d4ebb",
+   "bytes": 6131,
+   "sha256_fork_copy": "2bebb2cbb2968fa0585ab4007d13de82b916ff7170a66ac9f26d7da11c8d4ebb",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "the first batch and its re-base; the cells' spend"
+   ]
+  },
+  {
+   "path": "b3/s3-stage-a-v0.md",
+   "sha256": "811fd33ba7a3481e2ae0d272b0000fcdbff095adbe4734d58c5fbcba6a1bbdf5",
+   "bytes": 27682,
+   "sha256_fork_copy": "811fd33ba7a3481e2ae0d272b0000fcdbff095adbe4734d58c5fbcba6a1bbdf5",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "Stage A: pre-flight, matrix, dry run, the draw, A3b, the addenda"
+   ]
+  },
+  {
+   "path": "b3/s3-stage-b-v0.md",
+   "sha256": "30b761aead592e85a5f3aecb6069e0c3c226ab2a48437c1020af8bf06d6470be",
+   "bytes": 11041,
+   "sha256_fork_copy": "30b761aead592e85a5f3aecb6069e0c3c226ab2a48437c1020af8bf06d6470be",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "B1 to B4: the spend table per cell against S2's rows; the lock; the trace audit"
+   ]
+  },
+  {
+   "path": "b3/s3-honest-pairs-check-v0.json",
+   "sha256": "4ad97f7d60d986f8a24e61a272fc2780b7cc204487e5ac7d77c2d7f24f5cc838",
+   "bytes": 5012,
+   "sha256_fork_copy": "4ad97f7d60d986f8a24e61a272fc2780b7cc204487e5ac7d77c2d7f24f5cc838",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "G9: the union's keys, counts by cause"
+   ]
+  },
+  {
+   "path": "b3/s3-trace-audit-stageB.json",
+   "sha256": "06458f71593103b6aff3c97be53798e07bccaa16dd67a212a87c283468ec04d3",
+   "bytes": 2793,
+   "sha256_fork_copy": "06458f71593103b6aff3c97be53798e07bccaa16dd67a212a87c283468ec04d3",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 33 (Stage A, $0) and brief 33-B (Stage B, $43.79 Bedrock; the 33-B session, Fable 5.1): S3's one application set scored under every row of plan section 2.6 and the add-on, the readings computed once after the 4,344-row lock opened; the coordinator verifies and the review session reads before the push",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "the trace audit's counts"
    ]
   }
  ],
@@ -2686,6 +2803,22 @@
     }
    ],
    "note": "the two files entries are replaced by their refreshed versions; no other entry changed"
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 33 B4 (the 33-B session, Fable 5.1): S3's outputs",
+   "added": [
+    "b3/b3-results.md",
+    "b3/b3-results.json",
+    "b3/b3-results-additions.md",
+    "b3/s3-scores-v0.json",
+    "b3/s3-run-v0.json",
+    "b3/s3-stage-a-v0.md",
+    "b3/s3-stage-b-v0.md",
+    "b3/s3-honest-pairs-check-v0.json",
+    "b3/s3-trace-audit-stageB.json"
+   ],
+   "note": "additive; no earlier entry changed; b3/plan.md stays held as the W0e amendment records"
   }
  ]
 }

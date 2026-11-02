@@ -848,3 +848,20 @@ OpenRouter $109.34: rehearsals $1.79 and $1.25, the stopped day 1 $26.33, the re
 ### Spend
 
 Bedrock $14.17 (Sonnet 5 scorer $10.35 on mantle, Sonnet 5.5 reader $2.02 on bedrock-runtime, GPT-6 Sol reader $1.80 on Converse); OpenRouter key 2 $4.05 (Kimi K3); route probes $0.002. Total $18.22 against the $28.23 estimate (stop $56.47) and Aravind's $60 approval.
+
+## Brief 15 (B3), S3 (2026-11-02): the application set, the judge readings and `b3-results` ($43.79 Bedrock; Stage A $0)
+
+**First line.** The pre-registered readings of plan `b3/plan.md` (59a98c15; S1 with its dated notes) are in **`b3/b3-results.md` a759aba4** (`.json` b496d422): 95 sentences in section 6.0's assembly order, every one selected by rule and every slot filled by rule, with section 7's disclosures verbatim, brief 31's, the union-flag disclosure and the operating characteristics beside Part 3's; the dated addition `b3/b3-results-additions.md` (e08891ac) beside it carries the executor, the pre-signal's basis and the broken-honest-edit counts. This entry quotes no sentence: the paper reads the results file at its hash (the coordinator's verification and the review session's read precede the push). S4-1, the human anchor, is pending Aravind's scores (a separate $0 session).
+
+**Stage A ($0; brief 33, record `b3/s3-stage-a-v0.md` 811fd33b).** Pre-flight 27 of 27 with `s3-config-v0.json`; the matrix `b3/s3-analysis-matrix-v0.json` 1b80280a; the readings script c7e14a58 with its dry run (33 fixtures reaching every sentence id but the two decided; operating characteristics 0.64 / 0.09 / 0.02 / 0.73 against Part 3's 0.68 / 0.07 / 0.03 / 0.72, accepted); the one draw (232 item and 564 lone-line applications, every count the plan's, no drop; `b3/s3-applications-v0.json` 02edac2a, never open); the driver 00e054ba with the ledger; the union flag (plan.md's dated note 3) with G9's check PASS (4ad97f7d); G7's errored-unit rule; the pre-signal $48.87.
+
+**Stage B (brief 33-B; record `b3/s3-stage-b-v0.md` 30b761ae).** The first batch of 20 carrier units re-based the run to $66.19 against the confirmed $76.62 (no escalation); then B2's nine cells in order: 4,344 of 4,344 units scored, 0 refused, 0 errored, no stop; the lock opened and the readings ran once. Realised $43.79: P_author_doc_iso|opus48 $13.34; P_author|opus48 $8.85; P_author_doc_iso|sonnet $3.00; P_author|sonnet $2.58; P_author_doc_live|opus48 $6.90; P_author_doc_live|sonnet $1.40; O_diff|sonnet $1.08; O_diff|opus48 $5.75; O_diff|sol $0.89.
+
+### Sealed defender parameters produced by brief 15 (B3), S3 (added to the section-10 list; never read by a scenario-side session)
+
+- `b3/plan.md` with its dated notes (the pre-flight hash list at 27), `b3/s3-config-v0.json`, `b3/s3-analysis-matrix-v0.json`, `b3/s3-applications-v0.json` (never open: applied document states and packets) and `b3/s3-applications-v0.md`, `b3/s3-render-v0.json`, `b3/s3-clean-items-v0.json`, `b3/s3-honest-pairs-check-v0.json`, `b3/s3-run-v0.json`, `b3/s3-scores-v0.json`, `b3/b3-results.{json,md}`, `b3/b3-results-additions.md`, `b3/s3-stage-a-v0.md`, `b3/s3-stage-b-v0.md`, `b3/s3-readings-dryrun-v0.{json,md}` with `b3/s3-dryrun-parts/`, the nine judge caches `b3/cache-s3/judge-cache.s3.*.jsonl` and `b3/cache-s3/judge-batches.jsonl`, the trace audits `b3/s3-trace-audit-stage{A,A2,A3,B}.json` and the policy.
+- The scripts `stage3_b3_s3.py`, `stage3_b3_s3_readings.py`, `stage3_b3_s3_dryrun.py`, `stage3_b3_s3_matrix.py`, `stage3_b3_s3_record.py`, `stage3_b3_s3_stage_b_record.py`, `stage3_b3_s3_trace_audit.py`, `stage3_b3_lone_line_check_s3.py` and their tests (canonical in `work/checks/`, byte-identical in the fork's `scripts/stage3/`).
+
+### Spend
+
+$43.79 of Bedrock (Opus 4.8 $34.84, Sonnet 5 $8.07, GPT-6 Sol $0.89) against the confirmed figure $76.62 and the stop $153.25; the pre-signal was $48.87 and the first batch's re-base $66.19. No OpenRouter use, nothing planted on disk outside the never-open application file, nothing launched.
