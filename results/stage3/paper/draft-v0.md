@@ -1,6 +1,6 @@
 # Splitting a change across agents: which fleet monitors it defeats, and the unit of review that survives
 
-*Draft v0 (brief 13 A5), written by the brief 13 writing session (Opus 5.5) from outline v1 with its dated note (`work/paper/outline-v1.md`). It draws only on the frozen manifest `work/stage3/b0/frozen-tables.json` (104 files; sha256 d78ba7d2, after W0, W0b, W0c and W0d). Every number is written as value [interval] (tag; file, table), with files relative to `work/stage3/`. Tags: confirmatory, exploratory and sensitivity as the producing plan set them; instrument (a measurement of an instrument, never an outcome); methods (the rater's certification aggregates); design (simulated operating characteristics); pre-registration (a committed plan's fixed figures). A `[pending: …]` marker would stand where a figure waits on a record, with no number in its place; none remains in this version. Sections are drafted in A5.1 (4)'s order. The abstract, the introduction, §1 and the discussion wait for B3's round 1. §10's B3 results, B4's results, TRACK-C's result and B3's human anchor are placeholders.*
+*Draft v0 (brief 13 A5), written by the brief 13 writing session (Opus 5.5) from outline v1 with its dated note (`work/paper/outline-v1.md`). It draws only on the frozen manifest `work/stage3/b0/frozen-tables.json` (104 files; sha256 6091369a, after W0 to W0e). Every number is written as value [interval] (tag; file, table), with files relative to `work/stage3/`. Tags: confirmatory, exploratory and sensitivity as the producing plan set them; instrument (a measurement of an instrument, never an outcome); methods (the rater's certification aggregates); design (simulated operating characteristics); pre-registration (a committed plan's fixed figures). A `[pending: …]` marker would stand where a figure waits on a record, with no number in its place; none remains in this version. Sections are drafted in A5.1 (4)'s order. The abstract, the introduction, §1 and the discussion wait for B3's round 1. §10's B3 results, B4's results, TRACK-C's result and B3's human anchor are placeholders.*
 
 ## Abstract
 
@@ -387,11 +387,11 @@ Two capable writers, Sonnet 5.5 and GLM 5.3, were each given the same brief. The
 
 All 22 same-writer control items certified as controls (same table).
 
-Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 over all 89 triples (median 13.00 [Q1 5.00, Q3 20.00]), 16.17 for Sonnet 5.5 (48) and 10.29 for GLM 5.3 (41). The record computes no interval for the lift means (methods; `b3/rater/partj-lift-v0.md`, lift table). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. On pass 2, whose overall mean lift is 9.52, 26 of the 89 do (methods; same file, lift table, pass 2). Reaching it is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). By Spearman correlation, the rater's composition score tracks the loudest line (0.628 [0.469, 0.756] on pass 1), and the mean of the three lines less closely (0.456 [0.257, 0.623]) (methods; same file, Spearman table).
+Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 [10.81, 16.29] over all 89 triples (median 13.00 [Q1 5.00, Q3 20.00]), 16.17 [12.27, 20.12] for Sonnet 5.5 (48) and 10.29 [6.77, 13.95] for GLM 5.3 (41). These are bootstrap intervals over triples; the by-writer ones are not stratified (methods; `b3/rater/partj-lift-v0.md`, lift table and v0.1 lift means). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. On pass 2, whose overall mean lift is 9.52, 26 of the 89 do (methods; same file, lift table, pass 2). Reaching it is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). By Spearman correlation, the rater's composition score tracks the loudest line (0.628 [0.469, 0.756] on pass 1) more closely than the mean of the three lines (0.456 [0.257, 0.623]). The paired difference is 0.172 [0.054, 0.305] on pass 1 and 0.187 [0.069, 0.316] on pass 2 (methods; same file, Spearman table and v0.1 paired difference).
 
 The earlier writers' triples were rated in a different rater session (§4.4). Under the drift rule of §3.7, their lift and Part J's are not compared.
 
-**Reading, a hypothesis only, with these writers.** Under this rater, a combination that reads clearly harmful seems to need at least one line that already reads as notable. That is the max-type pattern appearing in the rater itself. It is reported beside B3's re-specification (§9.5) as a hypothesis on the instrument. It is not a result about judges, and it could equally be writer habit.
+**Reading, with these writers.** Of the 19 triples whose composition cleared the bar on pass 1, 18 have lines more than 10 points apart, 11 keep every line at or under 60, and 1 does both (methods; `b3/rater/partj-lift-v0.md`, v0.1 triples above the bar). Under this rater and with these writers, a combination that reads clearly harmful needs one line that stands out from the other two. Reading that as the max-type pattern appearing in the rater itself remains a hypothesis on the instrument, reported beside B3's re-specification (§9.4). It is not a result about judges, and it could equally be writer habit.
 
 ### 9.2 The comprehension instrument on the earlier items
 
@@ -603,7 +603,7 @@ That is the question §1 states. The theory's two halves are measured separately
 
 ## Appendix A. Number sources
 
-*Generated by script from this draft's inline citations against the manifest (sha256 d78ba7d2, 104 files, eight amendment records, four of them this session's W0, W0b, W0c and W0d). It lists every number source the draft cites, in order of first citation, with its tag and hash. Records cited for method or wording only (PLAN.md, the proposal, ASSESSMENT.md, the TRACK-C protocol, briefs 15, 22 and 24, lessons.md) carry no number and are not listed. No pending markers remain; Part J's lift and Spearman come from brief 34's record (W0d). One figure is an external citation, not a manifest number: the benchmark paper's 0.533 in §2.1, cited to the paper itself.*
+*Generated by script from this draft's inline citations against the manifest (sha256 6091369a, 104 files, nine amendment records, five of them this session's W0 to W0e). It lists every number source the draft cites, in order of first citation, with its tag and hash. Records cited for method or wording only (PLAN.md, the proposal, ASSESSMENT.md, the TRACK-C protocol, briefs 15, 22 and 24, lessons.md) carry no number and are not listed. No pending markers remain; Part J's lift and Spearman come from brief 34's record (W0d). One figure is an external citation, not a manifest number: the benchmark paper's 0.533 in §2.1, cited to the paper itself.*
 
 | file (relative to `work/stage3/`) | tag in the manifest | sha256 (8) | sections |
 |---|---|---|---|
@@ -644,7 +644,7 @@ That is the question §1 states. The theory's two halves are measured separately
 | `t1-replant/invisible-canonical.md` | confirmatory | bed532d2 | §7 |
 | `t1v3/t1v3-panel.md` | confirmatory | e5eb8c93 | §7 |
 | `b3/plan.md` | pre-registration | a411d8a2 | §7, §9, §10 |
-| `b3/rater/partj-lift-v0.md` | methods | c850a242 | §9 |
+| `b3/rater/partj-lift-v0.md` | methods | 1698d51a | §9 |
 | `b3/comprehension/t1-join-v0.md` | exploratory | b9dfd0de | §9 |
 | `b3/power-simulation-v3c.md` | design | ffd16e23 | §9, §10 |
 | `b4r/z5-v3.md` | confirmatory | 702a1be4 | §11 |
@@ -739,3 +739,16 @@ Two constraints are kept:
 - **The "one line that stands out" reading stays a labelled hypothesis** until the record's v0.1 section, the loud-line counts, is in STATUS.
 
 Nothing else changed.
+
+## Dated note, 2026-11-02: §9.1 from the Part J record's v0.1 section
+
+The coordinator verified the record's v0.1 section (STATUS 2026-11-02). W0e re-hashed the record in the manifest: md 1698d51a, an append to c850a242; json 01a3b03e; manifest 6091369a. §9.1 now carries, from the v0.1 tables:
+- **Bootstrap intervals for the pass-1 lift means:**
+  - 13.46 [10.81, 16.29] overall, an interval that includes 16, so no sentence says the mean falls short of it;
+  - 16.17 [12.27, 20.12] for Sonnet 5.5;
+  - 10.29 [6.77, 13.95] for GLM 5.3;
+  - by writer, not stratified, as the record states.
+- **"More closely than the mean of the three lines,"** with the paired difference: 0.172 [0.054, 0.305] on pass 1 and 0.187 [0.069, 0.316] on pass 2, both excluding 0.
+- **The reading "needs one line that stands out from the other two",** now a methods figure with its counts. Of the 19 triples above the bar on pass 1, 18 have lines more than 10 apart, 11 keep every line at or under 60, and 1 does both. It is scoped "with these writers". Reading it as the max-type pattern in the rater itself stays a hypothesis.
+
+Header and Appendix A give the new manifest hash. Nothing else changed.
