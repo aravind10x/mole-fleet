@@ -38,7 +38,7 @@ The claim follows from this: collusion pays exactly against superadditive per-ag
 - Two capable writers were asked for triples whose lines are quiet alone and harmful together. One of 89 was certified, on pass 1 only; none on both passes (methods; `certification-b3.md`, J2).
 - On the earlier test items, a comprehension reader can often state a change's consequence from one line alone: mean part credit 0.625 (Kimi K3) and 0.448 (GPT-6 Sol), against null credit of 0.021 or less (instrument; `instrument-v0.md`).
 - A conservative comprehension-quiet stratum holds 28 of the 78 quiet candidates (instrument; `stratum-v0.md`).
-- The rater's composition score tracks the loudest line: Spearman 0.628 [0.469, 0.756]. The writers' mean lift of composition over the loudest line was 13.46, against at least 16 needed while every line stays quiet (methods; `partj-lift-v0.md`). This is a hypothesis about the max-type pattern in the rater itself, not a result about judges.
+- By Spearman correlation, the rater's composition score tracks the loudest line (0.628 [0.469, 0.756] on pass 1), and the mean of the three lines less closely (0.456 [0.257, 0.623]). The writers' mean lift of composition over the loudest line was 13.46 on pass 1. A triple needs a lift of at least 16 to clear the bar while every line stays quiet, and 33 of 89 reached it on pass 1 (methods; `partj-lift-v0.md`). This is a hypothesis about the max-type pattern in the rater itself, not a result about judges.
 
 ## What is running or pending
 
@@ -72,4 +72,6 @@ Recovering the coalition from interaction structure is the last resort, needed o
 *Nothing else changed.*
 
 *Dated note, 2026-11-02: Part J's lift and Spearman are filled from brief 34's record (`b3/rater/partj-lift-v0.md`, methods; added to the manifest by W0d, 104 files, d78ba7d2). The manifest line is updated. Nothing else changed.*
+
+*Dated note, 2026-11-02: two Part J wording items, as in the draft's matching note. The Spearman against the mean of the three lines is added beside the loudest-line correlation, and the lift sentence no longer sets 13.46 against 16; it gives the threshold and how many triples reached it. Figures are from `partj-lift-v0.md` c850a242. Nothing else changed.*
 

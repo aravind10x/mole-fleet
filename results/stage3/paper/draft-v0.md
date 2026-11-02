@@ -387,7 +387,7 @@ Two capable writers, Sonnet 5.5 and GLM 5.3, were each given the same brief. The
 
 All 22 same-writer control items certified as controls (same table).
 
-Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 over all 89 triples (median 13.00 [Q1 5.00, Q3 20.00]), 16.17 for Sonnet 5.5 (48) and 10.29 for GLM 5.3 (41). The record computes no interval for the lift means (methods; `b3/rater/partj-lift-v0.md`, lift table). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. That is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). The rater's composition score also tracks the loudest line: Spearman 0.628 [0.469, 0.756] on pass 1 (methods; same file, Spearman table).
+Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 over all 89 triples (median 13.00 [Q1 5.00, Q3 20.00]), 16.17 for Sonnet 5.5 (48) and 10.29 for GLM 5.3 (41). The record computes no interval for the lift means (methods; `b3/rater/partj-lift-v0.md`, lift table). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. On pass 2, whose overall mean lift is 9.52, 26 of the 89 do (methods; same file, lift table, pass 2). Reaching it is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). By Spearman correlation, the rater's composition score tracks the loudest line (0.628 [0.469, 0.756] on pass 1), and the mean of the three lines less closely (0.456 [0.257, 0.623]) (methods; same file, Spearman table).
 
 The earlier writers' triples were rated in a different rater session (§4.4). Under the drift rule of §3.7, their lift and Part J's are not compared.
 
@@ -727,3 +727,15 @@ What changed, with the figures as the record gives them:
 ## Dated note, 2026-11-02: after the review session's short read of §9.1
 
 The review session checked §9.1's Part J figures by script against `b3/rater/partj-lift-v0.md` (c850a242) and found nothing to change. Taking its optional suggestion, §9.1 now gives the overall pass-1 lift's median and quartiles beside the mean: median 13.00 [Q1 5.00, Q3 20.00], from the record's pass-1 row. That shows the spread, since the record computes no interval for the mean. Nothing else changed.
+
+## Dated note, 2026-11-02: two wording items for §9.1 (the review session's full read of the Part J record, adopted by the coordinator)
+
+Applied from `b3/rater/partj-lift-v0.md` as it stands (c850a242):
+- **(1)** Beside the loudest-line correlation, the Spearman against the mean of the three lines, in the coordinator's wording: "tracks the loudest line (0.628 [0.469, 0.756] on pass 1), and the mean of the three lines less closely (0.456 [0.257, 0.623])". It says "less closely", not "more than", because the paired difference is not yet recorded.
+- **(2)** Pass 2's overall mean lift, 9.52, with 26 of 89 reaching 16, beside pass 1's.
+
+Two constraints are kept:
+- **No falls-short sentence.** The paper does not say the mean lift falls short of 16; the interval the record's next version will give is expected to include 16. §9.1 never set the two against each other, and the research statement's "against at least 16 needed" is reworded by its own dated note.
+- **The "one line that stands out" reading stays a labelled hypothesis** until the record's v0.1 section, the loud-line counts, is in STATUS.
+
+Nothing else changed.
