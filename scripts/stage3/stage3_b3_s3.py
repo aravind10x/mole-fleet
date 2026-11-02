@@ -29,8 +29,17 @@ score   Stage B. One spend ledger across every S3 cache file, enforced through `
         author-level reading as B1 and T1 computed it (plan.md's dated note 3 of 2026-11-02: the author's maximum over the
         unit's own score and that author's honest units on the other class documents in the view's pinned null, the tie
         keyed by the author; `O_diff`'s unit rule keyed by the cache label), and `flag_unit`, the planted unit's own flag
-        beside (B1's `recall_planted_unit_only`); cache label; no text. A unit still errored after the client's retries
-        is unscored (the note's rule 1) and completes its cell; `--continue` clears a recorded stop.
+        beside (B1's `recall_planted_unit_only`); cache label; no text. G7 (brief 33's dated note 4): one errored record
+        after the client's retries keeps the unit open and its cell incomplete, so the run stops at the cell's end with the
+        stop recorded; `--continue` clears the stop and re-asks that unit once (the note's rule (e): neither scored nor
+        refused; an errored record is never served from the cache); a second errored record makes it unscored, which
+        completes the cell. A stop whose only cause is such units is marked `g7_only` and its continues are counted per
+        cell (dated note 5). `score` refuses without `s3-clean-items-v0.json` at 21e7ede2 and without a passing G9 check
+        of this applications file.
+check   G9 (brief 33's dated notes 4 and 5): by script, counts only, every per-agent unit's author against each honest
+        source's authors and its document against the source's paths; the units with no honest pair on another class
+        document, split by cause; a refusal only on an unexplained absence (an absent path, or an absent author with a
+        successful class-document write in the honest corpus). Written to `s3-honest-pairs-check-v0.json`.
 
 Never printed, logged or written into any record: an item line, document text, rubric or declared effect. No OpenRouter
 request of any kind.
@@ -127,6 +136,9 @@ HONEST_SOURCE = {(ad.ISO, "opus48"): ("work/stage3/b1/b1-null.json", ("judges", 
                  ("P_author", "opus48"): ("work/stage3/q1q2-synthetic/opus48/judge-null.json", ("views", "P_author")),
                  ("P_author", "sonnet"): ("work/stage3/views/p_author_c0.json", ())}
 P_AUTHOR_C0_SHA256 = "3c61dd4d"
+CLEAN_ITEMS = B3 / "s3-clean-items-v0.json"
+CLEAN_ITEMS_SHA256 = "21e7ede2"               # G6's exclusion set, fixed by the A3b script before any score (brief 33's dated note 4, (a))
+HONEST_CHECK = B3 / "s3-honest-pairs-check-v0.json"   # G9's output (brief 33's dated notes 4 and 5); `score` refuses without a passing one
 
 
 def now_iso() -> str:
@@ -673,24 +685,34 @@ def load_run() -> dict:
                                                 "order": ["|".join(c) for c in ORDER]}
 
 
-def cell_status(app: Mapping[str, Any], view: str, judge: str) -> dict:
-    """Completed units from the cache: scored or refused records; errored-only units are not complete."""
-    us = cell_units(app, view, judge)
-    cp = cache_path(view, judge)
-    recs = {}
+def errored_counts(cp: Path) -> tuple[dict[str, dict], Counter]:
+    """The cache's scored or refused record per key, and the number of errored records per key."""
+    recs: dict[str, dict] = {}
+    errored: Counter = Counter()
     for r in b1.read_jsonl(cp) if cp.exists() else []:
         if r.get("outcome") in ("scored", "refused"):
             recs[r["cache_key"]] = r
-    errored = Counter()
-    for r in b1.read_jsonl(cp) if cp.exists() else []:
-        if r.get("outcome") == "errored":
+        elif r.get("outcome") == "errored":
             errored[r["cache_key"]] += 1
-    done = [u["unit_id"] for u in us if u["packets"][view]["key"] in recs]
-    oc = Counter(recs[u["packets"][view]["key"]]["outcome"] for u in us if u["packets"][view]["key"] in recs)
-    err_only = sum(1 for u in us if u["packets"][view]["key"] not in recs and u["packets"][view]["key"] in errored)
-    # the note's rule 1: a unit still errored after the client's retries is unscored; it completes its cell (G5 (i))
+    return recs, errored
+
+
+def cell_status(app: Mapping[str, Any], view: str, judge: str) -> dict:
+    """Completed units from the cache: scored or refused records, and the units G7 makes unscored (brief 33's dated note
+    4): one errored record after the client's retries keeps the unit open and the cell incomplete (`errored_once`; the run
+    stops at the cell's end and `--continue` re-asks it once, the note's rule (e)); a second errored record makes it
+    unscored (`errored_final`), which completes the cell."""
+    us = cell_units(app, view, judge)
+    cp = cache_path(view, judge)
+    recs, errored = errored_counts(cp)
+    keys = [u["packets"][view]["key"] for u in us]
+    done = [k for k in keys if k in recs]
+    oc = Counter(recs[k]["outcome"] for k in done)
+    once = sum(1 for k in keys if k not in recs and errored.get(k, 0) == 1)
+    final = sum(1 for k in keys if k not in recs and errored.get(k, 0) >= 2)
     return {"n_units": len(us), "completed": len(done), "scored": oc.get("scored", 0), "refused": oc.get("refused", 0),
-            "errored_only": err_only, "missing": len(us) - len(done) - err_only, "dollars": dollars_in(cp), "complete": len(done) + err_only == len(us)}
+            "errored_once": once, "errored_final": final, "errored_only": once + final, "missing": len(us) - len(done) - once - final,
+            "dollars": dollars_in(cp), "complete": len(done) + final == len(us)}
 
 
 def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
@@ -700,12 +722,7 @@ def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
     for view, judge in ORDER:
         us = cell_units(app, view, judge)
         cp = cache_path(view, judge)
-        recs, err = {}, set()
-        for r in b1.read_jsonl(cp) if cp.exists() else []:
-            if r.get("outcome") in ("scored", "refused"):
-                recs[r["cache_key"]] = r
-            elif r.get("outcome") == "errored":
-                err.add(r["cache_key"])
+        recs, err = errored_counts(cp)
         rule = sealed_rule(view, judge) if recs else None
         hp = honest_pairs_for(view, judge) if (recs and view != "O_diff") else {}
         oc = Counter()
@@ -714,7 +731,9 @@ def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
             r = recs.get(pk["key"])
             umax, n_other = None, None
             if r is None:
-                outcome, score, flag, flag_unit = ("errored" if pk["key"] in err else "missing"), None, None, None
+                # G7: one errored record is `errored_open` (re-asked once on --continue); two or more make the unit unscored, `errored`
+                outcome = ("errored" if err.get(pk["key"], 0) >= 2 else "errored_open") if pk["key"] in err else "missing"
+                score, flag, flag_unit = None, None, None
             else:
                 outcome, score = r["outcome"], (float(r["score"]) if r.get("outcome") == "scored" and r.get("score") is not None else None)
                 flag = flag_unit = None
@@ -729,15 +748,17 @@ def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
             rows.append({"unit_id": u["unit_id"], "item_id": u["item_id"], "regime": u["regime"], "arm": u["arm"], "role": u["role"], "placement": u["placement"],
                          "view": SCORES_VIEW[view], "judge": judge, "outcome": outcome, "score": score, "flag": flag, "flag_unit": flag_unit,
                          "union_max": umax, "n_honest_other_pairs": n_other, "cache_label": pk["label"]})
-        cells["|".join((SCORES_VIEW[view], judge))] = {"n_units": len(us), **{k: oc.get(k, 0) for k in ("scored", "refused", "errored", "missing")},
+        cells["|".join((SCORES_VIEW[view], judge))] = {"n_units": len(us), **{k: oc.get(k, 0) for k in ("scored", "refused", "errored", "errored_open", "missing")},
                                                       "rule_kind": rule["kind"] if rule else None, "tie_seed": rule["seed"] if rule else None,
                                                       "flag": "the sealed author-level reading (union) for an author rule; the unit rule for O_diff", "flag_unit": "the planted unit's own flag, beside",
                                                       "honest_source": HONEST_SOURCE[(view, judge)][0] if view != "O_diff" else None}
     stopped = run.get("stopped")
-    incomplete = {c: {"scored_rows": v["scored"] + v["refused"], "of": v["n_units"]} for c, v in cells.items() if v["scored"] + v["refused"] < v["n_units"]}
+    # a cell is complete with every unit scored, refused or errored (unscored by G7); an open unit leaves it incomplete
+    incomplete = {c: {"scored_rows": v["scored"] + v["refused"] + v["errored"], "of": v["n_units"]} for c, v in cells.items()
+                  if v["scored"] + v["refused"] + v["errored"] < v["n_units"]}
     if stopped:
         stopped = {**stopped, "incomplete_rows": incomplete}
-    rows_present = [r for r in rows if r["outcome"] != "missing"]
+    rows_present = [r for r in rows if r["outcome"] not in ("missing", "errored_open")]   # a stopped file carries no open unit: the row is named, not read
     return {"version": "b3-s3-scores/v0", "run_tag": RUN_TAG, "written": now_iso(), "applications_sha256": sha256_file(APPLICATIONS),
             "cells": cells, "stopped": stopped, "rows": rows_present if stopped else rows}
 
@@ -840,7 +861,10 @@ async def run_cells(ns, app: Mapping[str, Any], render: Mapping[str, Any], run: 
         write_json(RUN, run)
         write_scores(app, run)
         if not st["complete"]:
-            run["stopped"] = {"reason": f"cell {key} incomplete after the run ({st['missing']} units without a scored or refused record)", "cell": key, "ts": now_iso()}
+            g7_only = st["missing"] == 0 and st["errored_once"] > 0
+            run["stopped"] = {"reason": f"cell {key} incomplete after the run: {st['errored_once']} unit(s) errored once (re-asked once on --continue, G7), "
+                                        f"{st['missing']} without any record", "cell": key, "errored_once": st["errored_once"], "missing": st["missing"],
+                              "g7_only": g7_only, "ts": now_iso()}
             write_json(RUN, run)
             write_scores(app, run)
             return 1
@@ -852,8 +876,14 @@ async def run_cells(ns, app: Mapping[str, Any], render: Mapping[str, Any], run: 
 
 
 def clear_stop(run: dict) -> None:
-    """G5 (i): the coordinator's --continue resumes a stopped run; the stop is kept on the record as cleared."""
-    run.setdefault("stops_cleared", []).append({**run["stopped"], "cleared": now_iso()})
+    """G5 (i) and G7: --continue resumes a stopped run; the stop is kept on the record as cleared. A stop whose only cause
+    was G7's errored units (`g7_only`) is counted per cell in `g7_continues` (brief 33's dated note 5: the executor may
+    continue such a stop once per cell under the ledger, logging it; every other stop waits for the coordinator)."""
+    st = run["stopped"]
+    run.setdefault("stops_cleared", []).append({**st, "cleared": now_iso()})
+    if st.get("g7_only"):
+        g = run.setdefault("g7_continues", {})
+        g[st["cell"]] = g.get(st["cell"], 0) + 1
     run["stopped"] = None
 
 
@@ -863,6 +893,11 @@ def mode_score(ns) -> int:
     render = load_json(RENDER)
     if render["applications_sha256"] != sha256_file(APPLICATIONS):
         raise SystemExit("refusing: the render record is not of this applications file")
+    if not CLEAN_ITEMS.exists() or not sha256_file(CLEAN_ITEMS).startswith(CLEAN_ITEMS_SHA256):
+        raise SystemExit(f"refusing: the clean-items file {CLEAN_ITEMS.name} is missing or not {CLEAN_ITEMS_SHA256} (G6's exclusion set, fixed before any score)")
+    hc = load_json(HONEST_CHECK) if HONEST_CHECK.exists() else None
+    if not hc or not hc.get("pass") or hc.get("applications_sha256") != sha256_file(APPLICATIONS):
+        raise SystemExit(f"refusing: G9's check {HONEST_CHECK.name} is missing, refused, or not of this applications file (run `check` first)")
     run = load_run()
     if run.get("stopped") and not ns.cont:
         raise SystemExit(f"refusing: the run is stopped ({run['stopped']['reason']}); the coordinator decides")
@@ -877,9 +912,91 @@ def mode_score(ns) -> int:
         return asyncio.run(run_cells(ns, app, render, run))
 
 
+def honest_pairs_check(app: Mapping[str, Any], hp_by_cell: Mapping[tuple[str, str], Mapping[tuple[str, str], float]],
+                       class_writes: Mapping[str, int], accounts: set[str]) -> dict[str, Any]:
+    """G9 (brief 33's dated notes 4 and 5), counts only. For every per-agent cell: each unit's author against the honest
+    source's authors and its document against the source's paths; the units whose author has no honest pair on another
+    class document, split by cause (the author's single honest pair sits on the planted document; the author is absent and
+    explained; unexplained). An absent author is explained only when the account exists in the honest corpus and holds no
+    successful class-document write there (so no null can hold a pair for it, and the union is the unit's own flag, as in
+    B1). A refusal only on an unexplained absence: an absent path, an absent author with a class-document write (or no such
+    account), or a zero-pair unit explained by neither cause. No author or path is written out."""
+    out: dict[str, Any] = {"cells": {}, "refusals": []}
+    author_sets, path_sets = [], []
+    for view, judge in ORDER:
+        if view == "O_diff":
+            continue
+        hp = hp_by_cell[(view, judge)]
+        authors = {a for a, _p in hp}
+        paths = {p for _a, p in hp}
+        author_sets.append(frozenset(authors))
+        path_sets.append(frozenset(paths))
+        us = cell_units(app, view, judge)
+        unit_authors = {u["packets"][view]["author"] for u in us}
+        key_mismatch = sum(1 for u in us if u["packets"][view]["author"] != u["author"])
+        absent = {a for a in unit_authors if a not in authors}
+        explained = {a for a in absent if a in accounts and class_writes.get(a, 0) == 0}
+        unexplained = absent - explained
+        docs_absent = {u["document"] for u in us if u["document"] not in paths}
+        by_other: Counter = Counter()
+        zero_single = zero_absent = zero_unexplained = 0
+        for u in us:
+            a = u["packets"][view]["author"]
+            n_other = union_max(0.0, a, u["document"], hp)[1]
+            by_other[n_other] += 1
+            if n_other == 0:
+                own = {p for (aa, p) in hp if aa == a}
+                if a in explained:
+                    zero_absent += 1
+                elif own == {u["document"]}:
+                    zero_single += 1
+                else:
+                    zero_unexplained += 1
+        cell = "|".join((SCORES_VIEW[view], judge))
+        out["cells"][cell] = {"source": HONEST_SOURCE[(view, judge)][0], "honest_pairs": len(hp), "honest_authors": len(authors), "honest_documents": len(paths),
+                              "units": len(us), "unit_authors": len(unit_authors), "author_key_mismatches": key_mismatch,
+                              "authors_absent": len(absent), "authors_absent_explained_no_class_write": len(explained), "authors_absent_unexplained": len(unexplained),
+                              "units_by_absent_explained_author": sum(1 for u in us if u["packets"][view]["author"] in explained),
+                              "documents_absent": len(docs_absent),
+                              "units_with_no_other_pair": zero_single + zero_absent + zero_unexplained,
+                              "of_which_single_pair_on_the_planted_document": zero_single, "of_which_author_absent_explained": zero_absent,
+                              "of_which_unexplained": zero_unexplained, "units_by_n_other_pairs": {str(k): v for k, v in sorted(by_other.items())}}
+        if unexplained or docs_absent or zero_unexplained or key_mismatch:
+            out["refusals"].append(f"{cell}: authors absent and unexplained {len(unexplained)}, documents absent {len(docs_absent)}, "
+                                   f"zero-pair units unexplained {zero_unexplained}, author key mismatches {key_mismatch}")
+    out["author_set_identical_across_sources"] = len(set(author_sets)) == 1
+    out["path_set_identical_across_sources"] = len(set(path_sets)) == 1
+    out["pass"] = not out["refusals"]
+    return out
+
+
+def mode_check(ns) -> int:
+    """G9: the union's keys against the application file, by script, counts only; `s3-honest-pairs-check-v0.json`."""
+    for p in (CORPUS,):
+        if sha256_file(p) != PINNED[p]:
+            raise SystemExit(f"refusing: {p.name} is not {PINNED[p][:8]}")
+    app = load_json(APPLICATIONS)
+    paths = set(sv.class_doc_paths())
+    rows = sv.read_jsonl(CORPUS)
+    class_writes = Counter(r.get("account") for r in rows if sv.is_class_write(r, paths))
+    accounts = {r.get("account") for r in rows}
+    hp = {(v, j): honest_pairs_for(v, j) for v, j in ORDER if v != "O_diff"}
+    res = honest_pairs_check(app, hp, class_writes, accounts)
+    out = {"version": VERSION, "written": now_iso(), "applications_sha256": sha256_file(APPLICATIONS), "corpus_sha256": sha256_file(CORPUS),
+           "class_documents": len(paths), "honest_paths_are_the_class_documents": all({p for _a, p in h} == paths for h in hp.values()),
+           "accounts_with_a_class_document_write": len(class_writes),
+           "rule": ("brief 33's dated notes 4 and 5: refuse only on an unexplained absence (an absent path, or an absent author with a successful class-document "
+                    "write in the honest corpus); an absent author with none is explained (no null can hold a pair for it; the union is the unit's own flag, as in B1); "
+                    "a unit with no other pair is explained by that, or by the author's single honest pair sitting on the planted document"), **res}
+    h = write_json(HONEST_CHECK, out)
+    print(json.dumps(out, indent=1))
+    print(f"wrote {HONEST_CHECK.name} {h[:8]}; verdict {'PASS' if out['pass'] else 'REFUSED'}")
+    return 0 if out["pass"] else 1
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("mode", choices=("apply", "render", "score"))
+    ap.add_argument("mode", choices=("apply", "render", "score", "check"))
     ap.add_argument("--config", default=str(CONFIG))
     ap.add_argument("--force", action="store_true", help="apply: overwrite an existing applications file (never after a judge call)")
     ap.add_argument("--continue", dest="cont", action="store_true", help="score: continue after the first batch (the coordinator's STATUS line)")
@@ -888,7 +1005,7 @@ def main(argv: list[str] | None = None) -> int:
     ns = ap.parse_args(argv)
     if ns.concurrency > CONCURRENCY:
         raise SystemExit(f"concurrency at most {CONCURRENCY}")
-    return {"apply": mode_apply, "render": mode_render, "score": mode_score}[ns.mode](ns)
+    return {"apply": mode_apply, "render": mode_render, "score": mode_score, "check": mode_check}[ns.mode](ns)
 
 
 if __name__ == "__main__":

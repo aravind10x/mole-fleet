@@ -20,7 +20,8 @@ FORK = PROJECT / "work/mole-fork"
 OUT = B3 / "s3-stage-a-v0.md"
 FILES = ["s3-config-v0.json", "s3-preflight-v0-prenote.json", "s3-preflight-v0.json", "plan.md", "s3-analysis-matrix-v0.json", "s3-readings-dryrun-v0.json",
          "s3-readings-dryrun-v0.md", "s3-lone-line-check-v0.json", "s3-applications-v0.json", "s3-applications-v0.md", "s3-render-v0.json",
-         "s3-trace-policy.json", "s3-trace-audit-stageA.json", "s3-clean-items-v0.json", "s3-trace-audit-stageA2.json"]
+         "s3-trace-policy.json", "s3-trace-audit-stageA.json", "s3-clean-items-v0.json", "s3-trace-audit-stageA2.json",
+         "s3-honest-pairs-check-v0.json", "s3-test-counts-v0.json", "s3-trace-audit-stageA3.json"]
 SCRIPTS = ["stage3_b3_s3_matrix.py", "test_stage3_b3_s3_matrix.py", "stage3_b3_s3_readings.py", "test_stage3_b3_s3_readings.py", "stage3_b3_s3_dryrun.py",
            "stage3_b3_s3.py", "test_stage3_b3_s3.py", "stage3_b3_lone_line_check_s3.py", "test_stage3_b3_lone_line_check_s3.py",
            "stage3_b3_s3_trace_audit.py", "test_stage3_b3_s3_trace_audit.py", "stage3_b3_s3_record.py"]
@@ -107,6 +108,67 @@ def addendum(h, hs, fx, oc, tr2, clean, pre) -> list[str]:
         L.append(f"- **Trace audit (end of the pass)**: opened {tr2['opened']}, allowed {tr2['allowed']}, outside {tr2['outside']} (existing files {tr2['outside_existing_files']}), **never-open {tr2['never_open']}**; verdict {tr2['verdict']} (`s3-trace-audit-stageA2.json` {h.get('s3-trace-audit-stageA2.json', 'n/a')[:8]}).")
     L.append(f"- **Disclosures corrected (the coordinator's dated note 2).** The pre-signal's carrier gap is not thinking tokens (Opus 4.8's thinking is inside `output_tokens`, as B1's bases were): S2's carrier basis was B4-R's $0.0447 per unit on the "
              f"other prefix against B1's realised $0.01743 on this prefix, and the pre-signal is 0.95 of B1's realised, so the realised cost is likely near $49 with wide headroom under the stop; B1's re-base still decides. The executor was Fable 5.1.")
+    return L
+
+
+def addendum2(h, hs, fx, oc, pre) -> list[str]:
+    """Addendum 2 (brief 33-B Part 1): brief 33's dated notes 4 and 5 of 2026-11-02 (G7 to G9, the three adopted items, Fable's O3 to O5),
+    with the test counts by module, the dry run's new fixtures, the pre-flight, G9's counts and the trace audit."""
+    L = ["## Stage A addendum 2 (brief 33-B Part 1: brief 33's dated notes 4 and 5 of 2026-11-02; a fresh session, Fable 5.1; $0, no judge request)", ""]
+    L.append(f"- **G7 (an errored unit is not final at its first error).** Driver `stage3_b3_s3.py` **{hs['stage3_b3_s3.py'][:8]}** (tests {hs['test_stage3_b3_s3.py'][:8]}): `cell_status` counts a unit with one "
+             f"errored record and no scored or refused one as `errored_once` (the cell stays incomplete, so `run_cells` stops at the cell's end with the stop recorded, its cause named: `errored_once`, `missing`, "
+             f"`g7_only`); the coordinator's `--continue` clears the stop and the client re-asks that unit once (an errored record is never served from the cache; the note's rule (e)); a second errored record "
+             f"makes it `errored_final`, unscored, which completes the cell. The scores file writes an open unit as `errored_open` (absent from a stopped file's rows, whose cell the stop record names) and a "
+             f"final one as `errored`; a cell is complete with every unit scored, refused or errored. `clear_stop` counts the G7-only continues per cell in the run record (`g7_continues`; dated note 5: once per "
+             f"cell by the executor under the ledger, every other stop and B1's pause waiting for the coordinator). Tests for one and for two errored records, for the stop's cause and for the count; the rulings line restored.")
+    L.append(f"- **G8 (no S-M sentence without a lead).** Readings script `stage3_b3_s3_readings.py` **{hs['stage3_b3_s3_readings.py'][:8]}** (tests {hs['test_stage3_b3_s3_readings.py'][:8]}): the S-M block issues only under "
+             f"the cascade's lead and never with the lead at floor (a); the `floor_both` fixture forbids every S-M, S-D, S-E, S-G, S-K, S-L and S-O sentence for C or S, checked by family (the dry run's forbidden "
+             f"entries match by id or family and instrument; `forbidden_present`).")
+    hc = j(B3 / "s3-honest-pairs-check-v0.json") if (B3 / "s3-honest-pairs-check-v0.json").exists() else None
+    if hc:
+        c = next(iter(hc["cells"].values()))
+        live = hc["cells"].get("P_author_doc_live|opus48", {})
+        keys = ("units", "unit_authors", "authors_absent", "authors_absent_explained_no_class_write", "authors_absent_unexplained", "documents_absent", "units_with_no_other_pair",
+                "of_which_single_pair_on_the_planted_document", "of_which_author_absent_explained", "of_which_unexplained", "author_key_mismatches")
+        per = [v for k, v in hc["cells"].items() if not k.startswith("P_author_doc_live")]
+        same = all(all(v[k] == per[0][k] for k in keys) for v in per)
+        L.append(f"- **G9 (the union's keys against the application file; dated note 5's rule).** `stage3_b3_s3.py check` writes `s3-honest-pairs-check-v0.json` ({h.get('s3-honest-pairs-check-v0.json', 'n/a')[:8]}; counts only; "
+                 f"the application file {hc['applications_sha256'][:8]}, the corpus {hc['corpus_sha256'][:8]}): every honest source holds {c['honest_pairs']} pairs over {c['honest_authors']} authors and "
+                 f"{c['honest_documents']} documents (the author set identical across the six sources: {hc['author_set_identical_across_sources']}; the paths the six class documents: {hc['honest_paths_are_the_class_documents']}); "
+                 f"each per-agent row's {c['units']} units are by {c['unit_authors']} authors, the packet's author equal to the unit's in every unit (mismatches {c['author_key_mismatches']}); documents absent "
+                 f"{c['documents_absent']}; authors absent {c['authors_absent']}, of which {c['authors_absent_explained_no_class_write']} explained (accounts of the honest corpus with no successful class-document write "
+                 f"there, so no null can hold a pair for them and their union is the unit's own flag, as in B1; {c['units_by_absent_explained_author']} units) and {c['authors_absent_unexplained']} unexplained. "
+                 f"Units with no honest pair on another class document: {c['units_with_no_other_pair']} of {c['units']} on each per-agent row ({c['of_which_single_pair_on_the_planted_document']} by the author's single "
+                 f"honest pair sitting on the planted document, {c['of_which_author_absent_explained']} by the absent authors; unexplained {c['of_which_unexplained']}); on each live row "
+                 f"{live.get('units_with_no_other_pair')} of {live.get('units')} ({live.get('of_which_single_pair_on_the_planted_document')} + {live.get('of_which_author_absent_explained')}); the counts identical across the "
+                 f"four per-agent cells: {same}. Verdict: **{'PASS' if hc['pass'] else 'REFUSED'}**. `score` and the readings refuse without a passing check of this application file; the readings write the "
+                 f"disclosure into `b3-results.md` (dated note 5).")
+    L.append(f"- **Adopted (a) to (c).** (a) `score` and the readings refuse unless `s3-clean-items-v0.json` is at 21e7ede2 (on disk {h.get('s3-clean-items-v0.json', 'n/a')[:8]}); (b) a missing `flag_unit` is read as "
+             f"missing, never as the union's; (c) d1 and d2 at floor (a) issue no S-A4 or S-A5 (the `floor_d_rows` fixture forbids them).")
+    L.append(f"- **Dated note 5's O3 to O5.** O3 `b3-results.md`'s header names brief 33's dated note 3 as S-G6's source beside the plan; O4 S-G6b quotes the fit's own reason (too few items only when n is under 4); "
+             f"O5 the test counts below are by module.")
+    tc = j(B3 / "s3-test-counts-v0.json") if (B3 / "s3-test-counts-v0.json").exists() else None
+    if tc:
+        mods = "; ".join(f"`{m}` {v['passed']} passed" + (f", {v['skipped']} skipped" if v.get('skipped') else "") + f" ({v['seconds']} s)" for m, v in tc["modules"].items())
+        L.append(f"- **Tests, by module** (`s3-test-counts-v0.json` {h.get('s3-test-counts-v0.json', 'n/a')[:8]}; {tc['command']}): {mods}; in all {tc['total']['passed']} passed, {tc['total']['skipped']} skipped, failed {tc['total']['failed']}.")
+    L.append(f"- **Dry run re-run** (`stage3_b3_s3_dryrun.py` {hs['stage3_b3_s3_dryrun.py'][:8]}): {len(fx['fixtures'])} fixtures (the 30 plus `floor_d_rows`, `errored_twice_unscored` and `errored_once_stopped`), all reaching "
+             f"their ids **{fx['all_ok']}**, forbidden entries present in none, ids not reached {fx['unreached'] or 'none'}; report `s3-readings-dryrun-v0.md` {h['s3-readings-dryrun-v0.md'][:8]}, `.json` {h['s3-readings-dryrun-v0.json'][:8]}. "
+             f"The `errored_twice_unscored` fixture's carrier loses one subset item (n = 16); `errored_once_stopped`'s lock names the carrier's cell at 795 of 796 rows and the second instrument leads.")
+    if oc:
+        acc = oc["acceptance"]
+        c0, cm, c15 = oc["cells"]["null|subset|none"]["form_a"]["C"], oc["cells"]["margin|subset|none"]["form_a"]["C"], oc["cells"]["x1.5|subset|none"]["form_a"]["C"]
+        L.append(f"- **Operating characteristics, reported again** (form (a) and the floor untouched by this pass): the carrier on the subset P(excluded | 0) **{c0['excluded']:.3f}**, P(excluded | margin) **{cm['excluded']:.3f}**, "
+                 f"P(LB > 0 | 0) {c0['attenuated'] + c0['present']:.3f}, P(present | 1.5 x) **{c15['present']:.3f}**; acceptance {'ACCEPTED' if acc['accepted'] else 'OUTSIDE'}; "
+                 f"{'unchanged from' if (round(c0['excluded'], 3), round(cm['excluded'], 3), round(c15['present'], 3)) == (0.64, 0.09, 0.73) else 'moved from'} the first run's 0.640 / 0.090 / 0.023 / 0.730 (wall time {oc['wall_seconds']} s).")
+    L.append(f"- **Pre-flight** with `--config`: **{'PASS' if pre['pass'] else 'FAIL'} {pre['n_files']} of {pre['n_files']}** files plus {len(pre.get('prompts', []))} prompt components, plan.md {pre['plan_sha256'][:8]} equal to the fork's HEAD copy "
+             f"({pre['plan_matches_fork_head']}); `s3-preflight-v0.json` {h['s3-preflight-v0.json'][:8]}.")
+    tr3 = j(B3 / "s3-trace-audit-stageA3.json") if (B3 / "s3-trace-audit-stageA3.json").exists() else None
+    if tr3:
+        L.append(f"- **Trace audit (end of this pass; the fresh session's transcript `{Path(tr3['trace']).name}`)**: opened {tr3['opened']}, allowed {tr3['allowed']}, outside {tr3['outside']} (existing files "
+                 f"{tr3['outside_existing_files']}, non-existent tokens {tr3['outside_non_existent_tokens']}), **never-open {tr3['never_open']}**; verdict {tr3['verdict']} (`s3-trace-audit-stageA3.json` {h.get('s3-trace-audit-stageA3.json', 'n/a')[:8]}; "
+                 f"the policy `s3-trace-policy.json` {h['s3-trace-policy.json'][:8]} regenerated by `policy` for this transcript, its categories unchanged in the wrapper {hs['stage3_b3_s3_trace_audit.py'][:8]}). "
+             f"The application file was read by script only (`check`, counts); the quarantined `handover-uncommitted-2026-11-02/` files were read for ideas and deleted after this pass's versions were committed.")
+    L.append(f"- **Caches and requests.** `work/stage3/b3/cache-s3/` holds no file; no judge request and no OpenRouter request was sent. The executor was Fable 5.1 (the brief named Opus 5.5).")
     return L
 
 
@@ -211,6 +273,8 @@ def main() -> int:
     L.append("")
     L += addendum(h, hs, fx, oc, tr2=j(B3 / "s3-trace-audit-stageA2.json") if (B3 / "s3-trace-audit-stageA2.json").exists() else None,
                   clean=j(B3 / "s3-clean-items-v0.json") if (B3 / "s3-clean-items-v0.json").exists() else None, pre=pre)
+    L.append("")
+    L += addendum2(h, hs, fx, oc, pre)
     L.append("")
     L.append("## Differences from the brief and the plan, reported")
     L.append("")

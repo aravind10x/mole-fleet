@@ -79,6 +79,8 @@ def synthetic_scores(matrix: Mapping[str, Any], spec: Mapping[str, Any]) -> dict
     rng = np.random.default_rng(spec["seed"])
     M = matrix["items"]
     refuse = {tuple(x) for x in spec["refuse"]}        # (item_id, view, judge, arm, role, placement)
+    errored = {tuple(x) for x in spec.get("errored", [])}          # G7: unscored after a second errored record (the row present, outcome errored)
+    errored_open = {tuple(x) for x in spec.get("errored_open", [])}  # G7: one errored record at a stop (the row absent, its cell named by the stop record)
     rows = []
     stopped = set(spec["stopped_cells"])
     for (view, judge), (n_item, n_line) in rd.EXPECTED.items():
@@ -127,9 +129,20 @@ def synthetic_scores(matrix: Mapping[str, Any], spec: Mapping[str, Any]) -> dict
                     sc = float(np.clip(rng.normal(sp["tri_mean"] + sp["sham_shift"], sp["noise"]), 0, 100))
                     f = bool(rng.random() < 0.05)
                     rows.append(_row(iid, reg, "item", 0, pl, view, judge, sc, f, refuse))
+    def key(r):
+        return (r["item_id"], r["view"], r["judge"], r["arm"], r["role"], r["placement"])
+    for r in rows:
+        if key(r) in errored:
+            r.update({"outcome": "errored", "score": None, "flag": None, "flag_unit": None})
+    open_cells = Counter(f"{r['view']}|{r['judge']}" for r in rows if key(r) in errored_open)
+    rows = [r for r in rows if key(r) not in errored_open]           # as the driver writes a stopped file: no open unit's row
     out = {"version": "b3-s3-scores/synthetic", "rows": rows, "stopped": None}
-    if stopped:
-        out["stopped"] = {"reason": "fixture", "incomplete_rows": {c: {"scored_rows": 0, "of": sum(rd.EXPECTED[tuple(c.split('|'))])} for c in stopped}}
+    if stopped or open_cells:
+        inc = {c: {"scored_rows": 0, "of": sum(rd.EXPECTED[tuple(c.split('|'))])} for c in stopped}
+        for c, k in open_cells.items():
+            n = sum(rd.EXPECTED[tuple(c.split("|"))])
+            inc[c] = {"scored_rows": n - k, "of": n}
+        out["stopped"] = {"reason": "fixture", "incomplete_rows": inc, "g7_only": bool(open_cells and not stopped)}
     return out
 
 
@@ -232,7 +245,18 @@ def fx_floor_carrier(matrix):
 
 def fx_floor_both(matrix):
     sp = _spec(**_all(beta=0.0, noise=5.0, sham_shift=0.0))
-    return matrix, sp, {"S-A2", "S-A3"}, "both named instruments at floor: no verdict"
+    forbidden = {(fam, k) for fam in ("S-D", "S-E", "S-G", "S-G6", "S-K", "S-L", "S-O") for k in ("C", "S")} | {("S-M", None), ("S-I", None), ("S-J", None)}
+    return (matrix, sp, {"S-A2", "S-A3"},
+            "both named instruments at floor (a): no verdict; no S-M, S-D, S-E, S-G, S-K, S-L or S-O sentence for C or S (G8; checked by family)", forbidden)
+
+
+def fx_floor_d_rows(matrix):
+    sp = _spec(**_all(beta=0.0, noise=5.0))
+    sp["instruments"]["d1"].update(sham_shift=15.0)
+    sp["instruments"]["d2"].update(sham_shift=15.0)
+    forbidden = {(i, k) for i in ("S-A4", "S-A5", "S-R1", "S-G1") for k in ("d1", "d2")}
+    return (matrix, sp, {"S-R2", "S-F1"},
+            "d1 and d2 at floor (a) (their sham drawn above the quiet distribution, so the AUROC's lower bound is under 0.5): no S-A4 or S-A5 for them (note 4 (c)), their rows read as not read (floor); the named instruments unaffected", forbidden)
 
 
 def fx_floor_b(matrix):
@@ -308,6 +332,20 @@ def fx_refused_component(matrix):
     return matrix, sp, {"S-F1"}, "one lone-line application refused under the carrier: that item not evaluable (n = 16 on the subset)"
 
 
+def fx_errored_twice_unscored(matrix):
+    sp = _spec(**_all(beta=0.0, noise=5.0))
+    sid = matrix["populations"]["subset"]["ids"][0]
+    sp["errored"] = [[sid, "P_author_doc_iso", "opus48", "line", 2, 1]]
+    return matrix, sp, {"S-F1"}, "G7: a lone-line unit errored after its one re-ask (two errored records): unscored, its item not evaluable under the carrier (n = 16 on the subset), the cell complete"
+
+
+def fx_errored_once_stopped(matrix):
+    sp = _spec(**_all(beta=0.0, noise=5.0))
+    sid = matrix["populations"]["subset"]["ids"][0]
+    sp["errored_open"] = [[sid, "P_author_doc_iso", "opus48", "item", 0, 1]]
+    return matrix, sp, {"A1b-d", "S-A2", "S-F1", "S-Fs3"}, "G7: one unit errored once in the carrier's cell at a stop (the stop record names the cell, 795 of 796 rows present): no reading under the carrier, the second leads"
+
+
 def fx_stopped_lead(matrix):
     sp = _spec(**_all(beta=0.0, noise=5.0))
     sp["stopped_cells"] = ["P_author_doc_iso|opus48"]
@@ -367,14 +405,24 @@ def fx_own_drops(matrix):
 
 FIXTURES: dict[str, Callable] = {f.__name__[3:]: f for f in (
     fx_baseline, fx_present, fx_attenuated, fx_inconclusive, fx_two_step_within, fx_two_step_across, fx_one_step_across, fx_floor_carrier,
-    fx_floor_both, fx_floor_b, fx_ceiling, fx_fit_i_constant, fx_subset_stratum_disagree, fx_fit_ii_replicates, fx_fit_iii_empty_stratum, fx_stratum_too, fx_third_present,
-    fx_nothing_fits, fx_c5_form_b_singular, fx_c6_other_unfit, fx_refused_component, fx_stopped_lead, fx_stopped_second, fx_g1_fails, fx_sq1,
-    fx_k1, fx_k2, fx_g6_clean, fx_g6_too_small, fx_own_drops)}
+    fx_floor_both, fx_floor_d_rows, fx_floor_b, fx_ceiling, fx_fit_i_constant, fx_subset_stratum_disagree, fx_fit_ii_replicates, fx_fit_iii_empty_stratum, fx_stratum_too, fx_third_present,
+    fx_nothing_fits, fx_c5_form_b_singular, fx_c6_other_unfit, fx_refused_component, fx_errored_twice_unscored, fx_errored_once_stopped, fx_stopped_lead, fx_stopped_second,
+    fx_g1_fails, fx_sq1, fx_k1, fx_k2, fx_g6_clean, fx_g6_too_small, fx_own_drops)}
+
+
+def forbidden_present(sentences, forbidden) -> list[str]:
+    """The forbidden entries found: an entry (x, k) is violated by a sentence whose id or family is x under instrument k
+    (k None: under any instrument, or none, as S-M carries none). G3 keyed the check by (id, instrument); G8 adds the
+    family and the instrument-less case."""
+    return sorted(f"{x}|{k}" for (x, k) in forbidden
+                  if any((s["id"] == x or s.get("family") == x) and (k is None or s.get("instrument") == k) for s in sentences))
 
 
 def run_fixture(name: str, matrix: Mapping[str, Any]) -> dict[str, Any]:
-    """A fixture returns (matrix, spec, expected ids, note) and may add a fifth element: a set of (id, instrument) pairs that
-    must NOT appear (G3: an instrument at floor (a) issues only its floor sentence)."""
+    """A fixture returns (matrix, spec, expected ids, note) and may add a fifth element: a set of (id or family, instrument)
+    pairs that must NOT appear (G3: an instrument at floor (a) issues only its floor sentence; G8: no S-M, S-D, S-E, S-G,
+    S-K, S-L or S-O sentence for a named instrument when both are at floor (a); note 4 (c): no S-A4 or S-A5 for a d-row
+    at floor (a))."""
     out = FIXTURES[name](matrix)
     m, sp, expect, note = out[:4]
     forbidden = out[4] if len(out) > 4 else set()
@@ -385,11 +433,12 @@ def run_fixture(name: str, matrix: Mapping[str, Any]) -> dict[str, Any]:
     if prov:
         ids.append("A1b-provisional")
     got = set(ids)
-    present_pairs = {(s["id"], s.get("instrument")) for s in R["sentences"]}
-    violated = sorted(f"{i}|{k}" for (i, k) in forbidden if (i, k) in present_pairs)
+    violated = forbidden_present(R["sentences"], forbidden)
+    loss = {k: R["instruments"][k].get("loss", {}).get("subset") for k in rd.NAMED if R["instruments"][k].get("complete")}
     return {"fixture": name, "note": note, "expected": sorted(expect), "reached": sorted(got), "missing": sorted(expect - got),
             "forbidden_present": violated, "ok": expect <= got and not violated,
             "cascade": {k: R["cascade"].get(k) for k in ("lead", "state", "step", "population", "instrument", "fallback")},
+            "subset_loss": loss, "lock_incomplete": R["lock"]["incomplete"],
             "rows": len(scores["rows"]), "n_sentences": len(R["sentences"]), "R": R}
 
 

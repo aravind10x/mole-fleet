@@ -20,6 +20,12 @@ The analysis lock (brief 33 A2): the script refuses to run unless the scores fil
 section 2.6 and the note (every row scored, refused or errored), or a `stopped` record names the rows that are missing,
 in which case it runs over the complete rows only under the note's rule (d).
 
+Brief 33's dated notes 4 and 5 of 2026-11-02 (the last $0 pass before Stage B): no S-M sentence without a lead or with
+the lead at floor (a) (G8); `main` refuses unless the clean-items file is at 21e7ede2 and G9's check file passes (a);
+a missing `flag_unit` is read as missing, never as the union's (b); d1 and d2 at floor (a) issue no S-A4 or S-A5 (c);
+the results header names brief 33's dated note 3 as S-G6's source (O3); S-G6b quotes the fit's own reason (O4); the
+union-flag disclosure of dated note 5 (the units with no other honest pair) is written from G9's file.
+
 Counts and dollars are never printed here; this script prints sentence ids, counts and the numbers the sentences carry.
 
     cd work/checks && ../mole-fork/.venv/bin/python -I stage3_b3_s3_readings.py --matrix ... --scores ... --out-dir ...
@@ -87,6 +93,7 @@ EXPECTED = {("P_author_doc_iso", "opus48"): (232, 564), ("P_author", "opus48"): 
             ("P_author", "sonnet"): (232, 564), ("P_author_doc_live", "opus48"): (232, 0), ("P_author_doc_live", "sonnet"): (232, 0),
             ("O_diff", "sonnet"): (232, 0), ("O_diff", "opus48"): (232, 0), ("O_diff", "sol"): (232, 0)}
 TOTAL_UNITS = 4344
+CLEAN_ITEMS_SHA256 = "21e7ede2"                 # G6's exclusion set, s3-clean-items-v0.json, fixed by the A3b script before any score (note 4 (a))
 LABELS = ("present", "attenuated", "excluded", "inconclusive")
 TWO_STEP = {("excluded", "present"), ("present", "excluded")}
 PMAX = {"excluded": "holds", "present": "falsified", "attenuated": "partly missed", "inconclusive": "inconclusive"}
@@ -161,7 +168,8 @@ def cell_items(rows: Sequence[Mapping[str, Any]], view: str, judge: str) -> dict
         sc = float(sc) if (r["outcome"] == "scored" and sc is not None) else None
         if r["arm"] == "item":
             it["tri"][int(r["placement"])] = {"score": sc, "flag": bool(r.get("flag")) if sc is not None else None,
-                                              "flag_unit": bool(r.get("flag_unit", r.get("flag"))) if sc is not None else None, "outcome": r["outcome"]}
+                                              # (b): the planted unit's own flag is read only where the driver wrote it; never the union's in its place
+                                              "flag_unit": bool(r["flag_unit"]) if (sc is not None and r.get("flag_unit") is not None) else None, "outcome": r["outcome"]}
         else:
             it["lines"][int(r["role"])][int(r["placement"])] = {"score": sc, "outcome": r["outcome"]}
     return out
@@ -1074,8 +1082,9 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
     if cas["state"] == "no_verdict" and cas.get("sentence") == "S-A3":
         out.append({"id": "S-A3", "family": "S-A", "text": "floor; not read under either named instrument: round 1 issues no verdict on P-max in this design; every cell is descriptive."})
     at_floor_a = {k for k in NAMED if R["instruments"][k].get("complete") and not R["floors"][k]["a"]["pass"]}   # G3: only the floor sentence
+    d_at_floor_a = {k for k in ("d1", "d2") if R["instruments"][k].get("complete") and not R["floors"][k]["a"]["pass"]}   # note 4 (c): no S-A4 or S-A5 either
     for k in NAMED + D_ROWS:
-        if not R["instruments"][k].get("complete") or k in at_floor_a:
+        if not R["instruments"][k].get("complete") or k in at_floor_a or k in d_at_floor_a:
             continue
         fb = R["floors"][k]["b"]
         q, s = fb["quiet"], fb["sham"]
@@ -1211,7 +1220,8 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
             if c["fit_ok"]:
                 out.append({"id": "S-G6", "family": "S-G6", "instrument": k, "population": pop, "text": f"{head}: contrast {_d(c['contrast']['point'])} {interval(c['contrast']['lo'], c['contrast']['hi'], 1)}; no label, no effect on the cascade or the verdict."})
             else:
-                out.append({"id": "S-G6b", "family": "S-G6", "instrument": k, "population": pop, "text": f"{head}: too few items for the fit ({c['reason']}); no label, no effect on the cascade or the verdict."})
+                why = f"too few items for the fit (n = {c['n']}: {c['reason']})" if c["n"] < 4 else f"form (a) is not read on the restricted set: {c['reason']}"   # O4: the actual reason
+                out.append({"id": "S-G6b", "family": "S-G6", "instrument": k, "population": pop, "text": f"{head}: {why}; no label, no effect on the cascade or the verdict."})
     # S-K: the D_part interaction, carrier and second instrument
     for k in NAMED:
         if not R["instruments"][k].get("complete") or k in at_floor_a:
@@ -1250,9 +1260,9 @@ def select(R: Mapping[str, Any], matrix: Mapping[str, Any]) -> list[dict]:
             else:
                 out.append({"id": "S-L2", "family": "S-L", "instrument": k, "population": pop,
                             "text": f"Q1-against-Q3 sensitivity: not read ({b.get('not_read', 'unfit')})."})
-    # S-M
-    lead = cas.get("lead") or "C"
-    if R["instruments"][lead].get("complete"):
+    # S-M: under the lead only (G8: no S-M sentence without a lead, none with the lead at floor (a))
+    lead = cas.get("lead")
+    if lead and R["instruments"][lead].get("complete") and lead not in at_floor_a:
         name = _name(lead, cas.get("fallback", False))
         for pop in DESC_POPS:
             r = R["readings"][lead][pop]["a"]
@@ -1378,12 +1388,39 @@ def plan_sections(plan_text: str) -> dict[str, str]:
             "section_8_pointer": "Round 2 (plan section 8): pre-registered there and never pooled with round 1; its own plan commits before any round-2 judge call."}
 
 
+def honest_check_summary(hc: Mapping[str, Any]) -> dict[str, Any]:
+    """Brief 33's dated note 5: the per-agent units with no honest pair on another class document, from G9's check file
+    (counts only): on each per-agent row, and on the live rows."""
+    cells = hc.get("cells", {})
+    per = {k: v for k, v in cells.items() if k.startswith("P_author_doc_iso|") or k.startswith("P_author|")}
+    live = {k: v for k, v in cells.items() if k.startswith("P_author_doc_live|")}
+    def one(group):
+        if not group:
+            return None
+        vals = list(group.values())
+        keys = ("units", "units_with_no_other_pair", "of_which_single_pair_on_the_planted_document", "of_which_author_absent_explained", "of_which_unexplained",
+                "authors_absent_explained_no_class_write", "authors_absent_unexplained", "documents_absent", "unit_authors")
+        same = all(all(v.get(k) == vals[0].get(k) for k in keys) for v in vals)
+        return {**{k: vals[0].get(k) for k in keys}, "identical_across_cells": same, "cells": len(vals)}
+    return {"pass": bool(hc.get("pass")), "applications_sha256": hc.get("applications_sha256"), "per_agent": one(per), "live": one(live)}
+
+
 def render_md(R: Mapping[str, Any], meta: Mapping[str, Any], disclosures: Mapping[str, str]) -> str:
-    L = ["# B3 results (S3; brief 33): every sentence selected by rule from `work/stage3/b3/plan.md`", ""]
+    L = ["# B3 results (S3; brief 33): every sentence selected by rule from `work/stage3/b3/plan.md` (S-G6 and S-G6b, the clean-set sensitivity beside the carrier, "
+         "by brief 33's dated note 3 of 2026-11-02, pre-registered before any score)", ""]
     L.append(f"Plan `{meta['plan']['path']}` {meta['plan']['sha256'][:8]} (fork commit {meta['plan'].get('commit', 'n/a')}); matrix {meta['matrix_sha256'][:8]}; scores {meta['scores_sha256'][:8]}; "
              f"readings script {meta['script_sha256'][:8]}; judge clients {', '.join(f'{k} {v[:8]}' for k, v in meta['client_sha256'].items())} (section 4.10); window rule: {meta['window_rule']}.")
     L.append(f"Bootstrap sub-streams (O6): every reading draws its 2,000 replicates from `default_rng([20261152, sha256('<instrument>|<reading tag>')[:4]])`, one stream per reading, so each is reproducible on its own; the seed 20261152 is the plan's. "
              f"Flags: the sealed author-level reading (the union, plan.md's dated note 3 of 2026-11-02), the planted unit's own flag beside.")
+    if meta.get("honest_check"):
+        hc = meta["honest_check"]
+        pa, lv = hc.get("per_agent") or {}, hc.get("live") or {}
+        L.append(f"Union-flag disclosure (brief 33's dated note 5; G9's check `s3-honest-pairs-check-v0.json` {hc.get('sha256', 'n/a')[:8]}, {'PASS' if hc['pass'] else 'REFUSED'}): "
+                 f"on each per-agent row {pa.get('units_with_no_other_pair')} of {pa.get('units')} units ({lv.get('units_with_no_other_pair')} of {lv.get('units')} on each live row) have no honest pair on "
+                 f"another class document ({pa.get('of_which_single_pair_on_the_planted_document')} by the author's single honest pair sitting on the planted document, "
+                 f"{pa.get('of_which_author_absent_explained')} by the {pa.get('authors_absent_explained_no_class_write')} author(s) with no successful class-document write in the honest corpus; "
+                 f"unexplained {pa.get('of_which_unexplained')}), so their union flag equals the planted unit's own flag, as in B1; documents absent {pa.get('documents_absent')}, "
+                 f"authors absent and unexplained {pa.get('authors_absent_unexplained')}; the counts identical across the per-agent cells: {pa.get('identical_across_cells')}.")
     if meta.get("dryrun_oc"):
         oc = meta["dryrun_oc"]
         L.append(f"Operating characteristics (O3): the readings script's own dry run through Part 3's simulator (seed 20261171, tag 500, 300 experiments, ICC 0.3, the subset under the \"none\" model) gives the carrier P(excluded | 0) {oc['P_excl_0']:.2f}, "
@@ -1426,12 +1463,23 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--own-drops", default=None, help="S3's own drops record (JSON: n, ids, reasons, by_population)")
     ap.add_argument("--clean-items", default=str(PROJECT / "work/stage3/b3/s3-clean-items-v0.json"), help="G6: the items touched by a broken honest edit (ids), from the A3b script")
     ap.add_argument("--dryrun", default=str(PROJECT / "work/stage3/b3/s3-readings-dryrun-v0.json"), help="O3: the dry run's operating characteristics, quoted beside Part 3's")
+    ap.add_argument("--honest-check", default=str(PROJECT / "work/stage3/b3/s3-honest-pairs-check-v0.json"), help="G9's check file (dated note 5's union-flag disclosure)")
     ap.add_argument("--plan-commit", default=None)
     ap.add_argument("--window-rule", default="the corpus span (build_world: days = corpus_days(rows)); units built as planted_items (B1)")
     ns = ap.parse_args(argv)
+    # note 4 (a) and note 5: the refusals come before anything is read
+    cp = Path(ns.clean_items)
+    if not cp.exists() or not hashlib.sha256(cp.read_bytes()).hexdigest().startswith(CLEAN_ITEMS_SHA256):
+        raise SystemExit(f"refusing: the clean-items file {ns.clean_items} is missing or not {CLEAN_ITEMS_SHA256} (G6's exclusion set, fixed before any score)")
+    hp = Path(ns.honest_check)
+    hc = load_json(hp) if hp.exists() else None
+    if not hc or not hc.get("pass"):
+        raise SystemExit(f"refusing: G9's check file {ns.honest_check} is missing or refused (brief 33's dated notes 4 and 5)")
     matrix, scores = load_json(Path(ns.matrix)), load_json(Path(ns.scores))
+    if hc.get("applications_sha256") != scores.get("applications_sha256"):
+        raise SystemExit("refusing: G9's check file is not of the applications file the scores file was built from")
     own = load_json(Path(ns.own_drops)) if ns.own_drops else None
-    clean = load_json(Path(ns.clean_items)) if ns.clean_items and Path(ns.clean_items).exists() else None
+    clean = load_json(cp)
     R = compute(matrix, scores, own, clean)
     plan_text = Path(ns.plan).read_text(encoding="utf-8")
     disc = plan_sections(plan_text)
@@ -1440,7 +1488,8 @@ def main(argv: list[str] | None = None) -> int:
             "script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "client_sha256": {"judge_client.py": hashlib.sha256((HERE / "judge_client.py").read_bytes()).hexdigest(),
                               "judge_openrouter.py": hashlib.sha256((HERE / "judge_openrouter.py").read_bytes()).hexdigest()},
-            "window_rule": ns.window_rule, "clean_items_sha256": hashlib.sha256(Path(ns.clean_items).read_bytes()).hexdigest() if clean else None}
+            "window_rule": ns.window_rule, "clean_items_sha256": hashlib.sha256(cp.read_bytes()).hexdigest(),
+            "honest_check": {**honest_check_summary(hc), "sha256": hashlib.sha256(hp.read_bytes()).hexdigest()}}
     if ns.dryrun and Path(ns.dryrun).exists():
         oc = load_json(Path(ns.dryrun)).get("oc") or {}
         cells = oc.get("cells", {})

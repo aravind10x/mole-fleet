@@ -1,0 +1,59 @@
+{
+ "command": "cd work/checks && ../mole-fork/.venv/bin/python -I -m pytest -q <module> -p no:cacheprovider (S3_FIXTURE_PROCS=6), one module at a time",
+ "modules": {
+  "test_stage3_b3_s3.py": {
+   "passed": 22,
+   "skipped": 1,
+   "failed": 0,
+   "seconds": 1,
+   "exit": 0,
+   "summary": "22 passed, 1 skipped in 1.06s"
+  },
+  "test_stage3_b3_s3_matrix.py": {
+   "passed": 11,
+   "skipped": 0,
+   "failed": 0,
+   "seconds": 1,
+   "exit": 0,
+   "summary": "11 passed in 0.52s"
+  },
+  "test_stage3_b3_s3_readings.py": {
+   "passed": 62,
+   "skipped": 0,
+   "failed": 0,
+   "seconds": 616,
+   "exit": 0,
+   "summary": "62 passed in 615.40s (0:10:15)"
+  },
+  "test_stage3_b3_s3_trace_audit.py": {
+   "passed": 7,
+   "skipped": 0,
+   "failed": 0,
+   "seconds": 0,
+   "exit": 0,
+   "summary": "7 passed in 0.03s"
+  },
+  "test_stage3_b3_lone_line_check_s3.py": {
+   "passed": 27,
+   "skipped": 1,
+   "failed": 0,
+   "seconds": 1,
+   "exit": 0,
+   "summary": "27 passed, 1 skipped in 0.78s"
+  },
+  "test_stage3_b3_preflight.py": {
+   "passed": 10,
+   "skipped": 0,
+   "failed": 0,
+   "seconds": 1,
+   "exit": 0,
+   "summary": "10 passed in 0.94s"
+  }
+ },
+ "total": {
+  "passed": 139,
+  "skipped": 2,
+  "failed": 0
+ },
+ "all_passed": true
+}

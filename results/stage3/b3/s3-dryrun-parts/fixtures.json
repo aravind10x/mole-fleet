@@ -69,6 +69,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 107
   },
@@ -122,6 +137,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 91
   },
@@ -174,6 +204,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -226,6 +271,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 102
   },
@@ -278,6 +338,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 92
   },
@@ -329,6 +404,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 99
   },
@@ -380,6 +470,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -432,12 +537,27 @@
     "instrument": "S",
     "fallback": true
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 81
   },
   "floor_both": {
    "fixture": "floor_both",
-   "note": "both named instruments at floor: no verdict",
+   "note": "both named instruments at floor (a): no verdict; no S-M, S-D, S-E, S-G, S-K, S-L or S-O sentence for C or S (G8; checked by family)",
    "expected": [
     "S-A2",
     "S-A3"
@@ -447,7 +567,6 @@
     "S-A3",
     "S-A5",
     "S-G1",
-    "S-M1",
     "S-N1",
     "S-N2",
     "S-O1",
@@ -468,8 +587,90 @@
     "instrument": null,
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
-   "n_sentences": 48
+   "n_sentences": 45
+  },
+  "floor_d_rows": {
+   "fixture": "floor_d_rows",
+   "note": "d1 and d2 at floor (a) (their sham drawn above the quiet distribution, so the AUROC's lower bound is under 0.5): no S-A4 or S-A5 for them (note 4 (c)), their rows read as not read (floor); the named instruments unaffected",
+   "expected": [
+    "S-F1",
+    "S-R2"
+   ],
+   "reached": [
+    "S-A1",
+    "S-A5",
+    "S-D2",
+    "S-D3",
+    "S-D4",
+    "S-E1",
+    "S-F1",
+    "S-Fs1",
+    "S-G1",
+    "S-I2",
+    "S-J1",
+    "S-K3",
+    "S-K4",
+    "S-L1",
+    "S-M1",
+    "S-M2",
+    "S-M3",
+    "S-M4",
+    "S-N1",
+    "S-N2",
+    "S-O1",
+    "S-O2",
+    "S-P0",
+    "S-Q1",
+    "S-Q2",
+    "S-R1",
+    "S-R2",
+    "S-S0",
+    "S4-2"
+   ],
+   "missing": [],
+   "forbidden_present": [],
+   "ok": true,
+   "cascade": {
+    "lead": "C",
+    "state": "read",
+    "step": 1,
+    "population": "subset",
+    "instrument": "C",
+    "fallback": false
+   },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
+   "rows": 4344,
+   "n_sentences": 89
   },
   "floor_b": {
    "fixture": "floor_b",
@@ -521,6 +722,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 88
   },
@@ -573,6 +789,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 90
   },
@@ -626,6 +857,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 93
   },
@@ -676,6 +922,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 102
   },
@@ -729,6 +990,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 94
   },
@@ -782,6 +1058,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 10,
+     "lost": 7,
+     "provisional": true
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 100
   },
@@ -836,6 +1127,21 @@
     "instrument": "S",
     "fallback": true
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 86
   },
@@ -885,6 +1191,21 @@
     "instrument": "S",
     "fallback": true
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 76
   },
@@ -931,6 +1252,21 @@
     "instrument": null,
     "fallback": true
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 71
   },
@@ -976,6 +1312,21 @@
     "instrument": null,
     "fallback": true
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 74
   },
@@ -1031,6 +1382,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 10,
+     "lost": 7,
+     "provisional": true
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -1081,8 +1447,155 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 16,
+     "lost": 1,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
+  },
+  "errored_twice_unscored": {
+   "fixture": "errored_twice_unscored",
+   "note": "G7: a lone-line unit errored after its one re-ask (two errored records): unscored, its item not evaluable under the carrier (n = 16 on the subset), the cell complete",
+   "expected": [
+    "S-F1"
+   ],
+   "reached": [
+    "S-A1",
+    "S-A5",
+    "S-D2",
+    "S-D3",
+    "S-D4",
+    "S-E1",
+    "S-F1",
+    "S-Fs1",
+    "S-G1",
+    "S-I2",
+    "S-J1",
+    "S-K3",
+    "S-K4",
+    "S-L1",
+    "S-M1",
+    "S-M2",
+    "S-M3",
+    "S-M4",
+    "S-N1",
+    "S-N2",
+    "S-O1",
+    "S-O2",
+    "S-P0",
+    "S-Q1",
+    "S-Q2",
+    "S-R1",
+    "S-S0",
+    "S4-2"
+   ],
+   "missing": [],
+   "forbidden_present": [],
+   "ok": true,
+   "cascade": {
+    "lead": "C",
+    "state": "read",
+    "step": 1,
+    "population": "subset",
+    "instrument": "C",
+    "fallback": false
+   },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 16,
+     "lost": 1,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
+   "rows": 4344,
+   "n_sentences": 103
+  },
+  "errored_once_stopped": {
+   "fixture": "errored_once_stopped",
+   "note": "G7: one unit errored once in the carrier's cell at a stop (the stop record names the cell, 795 of 796 rows present): no reading under the carrier, the second leads",
+   "expected": [
+    "A1b-d",
+    "S-A2",
+    "S-F1",
+    "S-Fs3"
+   ],
+   "reached": [
+    "A1b-d",
+    "S-A1",
+    "S-A2",
+    "S-A5",
+    "S-D3",
+    "S-D4",
+    "S-E1",
+    "S-F1",
+    "S-Fs3",
+    "S-G1",
+    "S-I1",
+    "S-J1",
+    "S-K3",
+    "S-K4",
+    "S-L1",
+    "S-M1",
+    "S-M2",
+    "S-M3",
+    "S-M4",
+    "S-N1",
+    "S-N2",
+    "S-O1",
+    "S-O2",
+    "S-P0",
+    "S-Q1",
+    "S-R1",
+    "S-S0",
+    "S4-2"
+   ],
+   "missing": [],
+   "forbidden_present": [],
+   "ok": true,
+   "cascade": {
+    "lead": "S",
+    "state": "read",
+    "step": 1,
+    "population": "subset",
+    "instrument": "S",
+    "fallback": true
+   },
+   "subset_loss": {
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {
+    "P_author_doc_iso|opus48": {
+     "scored_rows": 795,
+     "of": 796
+    }
+   },
+   "rows": 4343,
+   "n_sentences": 82
   },
   "stopped_lead": {
    "fixture": "stopped_lead",
@@ -1134,6 +1647,20 @@
     "population": "subset",
     "instrument": "S",
     "fallback": true
+   },
+   "subset_loss": {
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {
+    "P_author_doc_iso|opus48": {
+     "scored_rows": 0,
+     "of": 796
+    }
    },
    "rows": 3548,
    "n_sentences": 81
@@ -1189,6 +1716,20 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {
+    "P_author|opus48": {
+     "scored_rows": 0,
+     "of": 796
+    }
+   },
    "rows": 3548,
    "n_sentences": 81
   },
@@ -1239,6 +1780,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -1292,6 +1848,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 99
   },
@@ -1342,6 +1913,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -1392,6 +1978,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   },
@@ -1443,6 +2044,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 107
   },
@@ -1494,6 +2110,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 107
   },
@@ -1544,6 +2175,21 @@
     "instrument": "C",
     "fallback": false
    },
+   "subset_loss": {
+    "C": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    },
+    "S": {
+     "n": 17,
+     "evaluable": 17,
+     "lost": 0,
+     "provisional": false
+    }
+   },
+   "lock_incomplete": {},
    "rows": 4344,
    "n_sentences": 103
   }
@@ -1565,6 +2211,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1577,6 +2224,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1598,6 +2247,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1610,6 +2260,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1623,6 +2275,7 @@
   "S-A2": [
    "floor_carrier",
    "floor_both",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second"
   ],
@@ -1642,6 +2295,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1654,6 +2308,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1723,6 +2379,7 @@
    "two_step_within",
    "two_step_across",
    "one_step_across",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1730,6 +2387,7 @@
    "fit_ii_replicates",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1749,6 +2407,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1758,6 +2417,8 @@
    "stratum_too",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1776,12 +2437,15 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
    "fit_iii_empty_stratum",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1801,6 +2465,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
@@ -1809,6 +2474,8 @@
    "third_present",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1841,12 +2508,15 @@
    "baseline",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "subset_stratum_disagree",
    "fit_iii_empty_stratum",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1879,11 +2549,13 @@
    "present",
    "attenuated",
    "two_step_within",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "subset_stratum_disagree",
    "fit_iii_empty_stratum",
    "refused_component",
+   "errored_twice_unscored",
    "g1_fails",
    "sq1",
    "k1",
@@ -1901,6 +2573,7 @@
   "S-Fs3": [
    "floor_carrier",
    "c6_other_unfit",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second"
   ],
@@ -1914,6 +2587,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1924,6 +2598,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1945,6 +2621,7 @@
    "present",
    "attenuated",
    "floor_carrier",
+   "errored_once_stopped",
    "k1"
   ],
   "S-I2": [
@@ -1952,11 +2629,13 @@
    "two_step_within",
    "two_step_across",
    "one_step_across",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "subset_stratum_disagree",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -1975,6 +2654,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -1983,6 +2663,8 @@
    "fit_iii_empty_stratum",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2009,6 +2691,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2018,6 +2701,8 @@
    "third_present",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2035,6 +2720,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2045,6 +2731,8 @@
    "third_present",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2064,6 +2752,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "fit_i_constant",
    "subset_stratum_disagree",
    "fit_ii_replicates",
@@ -2072,6 +2761,8 @@
    "third_present",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2104,7 +2795,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
-   "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2117,6 +2808,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2136,6 +2829,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2148,6 +2842,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2167,6 +2863,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2179,6 +2876,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2198,11 +2897,14 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "subset_stratum_disagree",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2223,6 +2925,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2235,6 +2938,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2255,6 +2960,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2267,6 +2973,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "sq1",
@@ -2289,6 +2997,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2301,6 +3010,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2320,6 +3031,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "floor_b",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2330,6 +3042,8 @@
    "nothing_fits",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2350,6 +3064,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2362,6 +3077,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2380,6 +3097,7 @@
    "two_step_across",
    "one_step_across",
    "floor_carrier",
+   "floor_d_rows",
    "ceiling",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2390,6 +3108,8 @@
    "nothing_fits",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "g1_fails",
    "sq1",
    "k1",
@@ -2405,6 +3125,7 @@
    "inconclusive",
    "two_step_across",
    "one_step_across",
+   "floor_d_rows",
    "floor_b",
    "fit_i_constant",
    "subset_stratum_disagree",
@@ -2415,6 +3136,7 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2434,6 +3156,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2445,6 +3168,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2458,6 +3183,7 @@
   "S-R2": [
    "two_step_within",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2478,6 +3204,7 @@
    "one_step_across",
    "floor_carrier",
    "floor_both",
+   "floor_d_rows",
    "floor_b",
    "ceiling",
    "fit_i_constant",
@@ -2490,6 +3217,8 @@
    "c5_form_b_singular",
    "c6_other_unfit",
    "refused_component",
+   "errored_twice_unscored",
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second",
    "g1_fails",
@@ -2501,6 +3230,7 @@
    "own_drops"
   ],
   "A1b-d": [
+   "errored_once_stopped",
    "stopped_lead",
    "stopped_second"
   ],
@@ -2516,7 +3246,7 @@
  },
  "all_ok": true,
  "unreached": [],
- "wall_seconds": 393,
+ "wall_seconds": 445,
  "matrix_sha256": "1b80280ad8ed14d1ec0fed26b7137d3cc50a055e8f41b19e52083439f5b3effe",
- "readings_script_sha256": "e31d8fbab8765630564f76b5ca06e6f0e17d5b4e89b73d8ece42332844ce8b26"
+ "readings_script_sha256": "c7e14a580631d66a7f37216acb3412dd42ee6e97304c6662989eca1be6738693"
 }

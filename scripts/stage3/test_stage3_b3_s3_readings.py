@@ -210,7 +210,7 @@ def test_every_sentence_id_is_reached_by_some_fixture_except_the_decided_ones(fi
     assert "S-P1" in dr.UNREACHABLE and "S4-1" in dr.UNREACHABLE
 
 
-# ── brief 33's dated notes 2 and 3 (G3, G4, G6, O1, O2, O5, O7, O8) ──────────────────────────────────
+# ── brief 33's dated notes 2 and 3 (G3, G4, G6, O1, O2, O5, O7, O8) and notes 4 and 5 (G7, G8, (a) to (c), O3, O4) ─────
 
 def test_a_singular_instrument_at_floor_a_is_not_read_g3(matrix):
     sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
@@ -326,3 +326,87 @@ def test_slot_arithmetic_on_hand_made_designs_o5():
     # the Clopper-Pearson pair and the paired gap's sign
     assert rd.clopper_pearson(0, 10) == [0.0, pytest.approx(0.3085, abs=1e-3)] and rd.clopper_pearson(10, 10)[1] == 1.0
     assert rd.four_outcome(0.05, 0.2, 0.1, 0.3) == "attenuated"
+
+
+# ── brief 33's dated notes 4 and 5 ───────────────────────────────────────────────────────────────
+
+def test_no_s_m_sentence_without_a_lead_and_the_forbidden_families_hold_g8(fixture_results):
+    r = fixture_results["floor_both"]
+    assert r["cascade"]["lead"] is None and r["cascade"]["state"] == "no_verdict"
+    assert not any(i.startswith("S-M") for i in r["reached"]) and r["forbidden_present"] == [] and r["ok"]
+    # the family check itself: an id, a family, and the instrument-less case
+    S = [{"id": "S-M1", "family": "S-M"}, {"id": "S-D3", "family": "S-D", "instrument": "C"}, {"id": "S-A2", "family": "S-A", "instrument": "C"}]
+    assert dr.forbidden_present(S, {("S-M", None), ("S-D", "C"), ("S-D", "S"), ("S-A2", "S"), ("S-E", None)}) == ["S-D|C", "S-M|None"]
+
+
+def test_d_rows_at_floor_a_issue_no_s_a4_or_s_a5_c(fixture_results):
+    r = fixture_results["floor_d_rows"]
+    assert r["ok"] and r["forbidden_present"] == [] and "S-R2" in r["reached"] and "S-F1" in r["reached"]
+
+
+def test_g7s_fixtures_an_unscored_unit_and_an_open_unit_at_a_stop(fixture_results):
+    r = fixture_results["errored_twice_unscored"]
+    assert r["ok"] and r["subset_loss"]["C"] == {"n": 17, "evaluable": 16, "lost": 1, "provisional": False} and r["subset_loss"]["S"]["lost"] == 0
+    assert r["lock_incomplete"] == {} and r["rows"] == 4344
+    r = fixture_results["errored_once_stopped"]
+    assert r["ok"] and r["rows"] == 4343 and r["lock_incomplete"] == {"P_author_doc_iso|opus48": {"scored_rows": 795, "of": 796}}
+    assert r["cascade"]["lead"] == "S" and r["cascade"]["fallback"] and "C" not in r["subset_loss"]
+
+
+def test_a_missing_unit_flag_is_missing_never_the_unions_b():
+    rows = [{"view": "P_author_doc_iso", "judge": "opus48", "item_id": "i", "regime": "candidate", "arm": "item", "placement": 1, "outcome": "scored", "score": 60.0, "flag": True},
+            {"view": "P_author_doc_iso", "judge": "opus48", "item_id": "i", "regime": "candidate", "arm": "item", "placement": 2, "outcome": "scored", "score": 60.0, "flag": True, "flag_unit": False},
+            {"view": "P_author_doc_iso", "judge": "opus48", "item_id": "i", "regime": "candidate", "arm": "item", "placement": 3, "outcome": "scored", "score": 60.0, "flag": True, "flag_unit": None}]
+    it = rd.cell_items(rows, "P_author_doc_iso", "opus48")["i"]["tri"]
+    assert it[1]["flag"] is True and it[1]["flag_unit"] is None
+    assert it[2]["flag"] is True and it[2]["flag_unit"] is False
+    assert it[3]["flag_unit"] is None
+
+
+def test_main_refuses_without_the_clean_items_file_at_its_hash_and_a_passing_g9_check_a(tmp_path):
+    bad = tmp_path / "clean.json"
+    with pytest.raises(SystemExit, match="clean-items"):
+        rd.main(["--clean-items", str(bad)])
+    bad.write_text('{"touched_ids": []}\n')
+    with pytest.raises(SystemExit, match="clean-items"):
+        rd.main(["--clean-items", str(bad)])
+    good = rd.PROJECT / "work/stage3/b3/s3-clean-items-v0.json"
+    assert rd.hashlib.sha256(good.read_bytes()).hexdigest().startswith(rd.CLEAN_ITEMS_SHA256)
+    with pytest.raises(SystemExit, match="G9"):
+        rd.main(["--clean-items", str(good), "--honest-check", str(tmp_path / "none.json")])
+    (tmp_path / "hc.json").write_text('{"pass": false}\n')
+    with pytest.raises(SystemExit, match="G9"):
+        rd.main(["--clean-items", str(good), "--honest-check", str(tmp_path / "hc.json")])
+
+
+def test_s_g6b_quotes_the_fits_own_reason_o4(matrix, monkeypatch):
+    monkeypatch.setattr(rd, "REPLICATES", 200)
+    sp = dr._spec(**dr._all(beta=0.0, noise=5.0))
+    scores = dr.synthetic_scores(matrix, sp)
+    R = rd.compute(matrix, scores, None, dr._clean(matrix, 15, 0))
+    texts = {(s["population"]): s["text"] for s in R["sentences"] if s["id"] == "S-G6b" and s["instrument"] == "C"}
+    cl = R["readings"]["C"]["clean"]
+    assert set(texts) == {"subset", "stratum"}
+    for pop, t in texts.items():
+        assert cl[pop]["reason"] in t and "no label" in t
+        if cl[pop]["n"] < 4:
+            assert f"too few items for the fit (n = {cl[pop]['n']}" in t
+        else:
+            assert "too few items" not in t and "not read on the restricted set" in t
+
+
+def test_the_results_header_names_note_3_for_s_g6_and_carries_the_union_flag_disclosure_o3():
+    R = {"lock": {"rows": 4344, "expected_rows": 4344, "incomplete": {}, "stopped": None}, "cascade": {"floor_a": {"C": True, "S": True}, "state": "read", "lead": "C"},
+         "sentences": [{"id": "S-S0", "family": "S-S", "text": "x"}]}
+    hc = {"pass": True, "applications_sha256": "a", "cells": {
+        "P_author_doc_iso|opus48": {"units": 796, "units_with_no_other_pair": 73, "of_which_single_pair_on_the_planted_document": 60, "of_which_author_absent_explained": 13,
+                                     "of_which_unexplained": 0, "authors_absent_explained_no_class_write": 2, "authors_absent_unexplained": 0, "documents_absent": 0, "unit_authors": 37},
+        "P_author_doc_live|opus48": {"units": 232, "units_with_no_other_pair": 26, "of_which_single_pair_on_the_planted_document": 19, "of_which_author_absent_explained": 7,
+                                      "of_which_unexplained": 0, "authors_absent_explained_no_class_write": 2, "authors_absent_unexplained": 0, "documents_absent": 0, "unit_authors": 35}}}
+    meta = {"plan": {"path": "p", "sha256": "0" * 64}, "matrix_sha256": "1" * 64, "scores_sha256": "2" * 64, "script_sha256": "3" * 64, "client_sha256": {}, "window_rule": "w",
+            "honest_check": {**rd.honest_check_summary(hc), "sha256": "4" * 64}}
+    md = rd.render_md(R, meta, {"section_7": "", "note_2026_11_02_item_5": "", "section_8_pointer": ""})
+    head = md.splitlines()[0]
+    assert "brief 33's dated note 3 of 2026-11-02" in head and "S-G6" in head
+    assert "Union-flag disclosure (brief 33's dated note 5" in md and "73 of 796 units (26 of 232 on each live row)" in md and "as in B1" in md
+    assert meta["honest_check"]["per_agent"]["identical_across_cells"] and meta["honest_check"]["per_agent"]["cells"] == 1
