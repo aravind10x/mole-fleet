@@ -934,9 +934,9 @@
   },
   {
    "path": "b3/plan.md",
-   "sha256": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
-   "bytes": 114196,
-   "sha256_fork_copy": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+   "sha256": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db",
+   "bytes": 119961,
+   "sha256_fork_copy": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db",
    "copies_identical": true,
    "tag": "pre-registration",
    "tag_source": "brief 28 S1 with its dated notes (brief 15 A6.18 (p), A6.24 (2), brief 33 A1b); hashed as on disk; see status_recorded_sha256",
@@ -948,10 +948,10 @@
     "7 The disclosures",
     "8 Round 2"
    ],
-   "status_recorded_sha256": "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13",
-   "status_recorded_bytes": 111603,
+   "status_recorded_sha256": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db",
+   "status_recorded_bytes": 119961,
    "prefix_equals_status_version": true,
-   "note": "STATUS's latest record of plan.md is 58b0c121 (fork 58b0c24); the file on disk carries S3 Stage A's appended dated note (fork be0a600), which STATUS has not yet recorded. Hashed as on disk; prefix_equals_status_version checks that nothing above the note changed. Re-run with --rerun-plan when STATUS records the move (A5.1 W0). Only sections 1 to 8 are read."
+   "note": "re-run by W0f on the coordinator's word that plan.md (fork 1fafa57) will not move again before the paper; STATUS records 59a98c15; the previous pin's bytes are a prefix of this one"
   },
   {
    "path": "pilot/forensics/forensics.md",
@@ -2819,6 +2819,65 @@
     "b3/s3-trace-audit-stageB.json"
    ],
    "note": "additive; no earlier entry changed; b3/plan.md stays held as the W0e amendment records"
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 W0f (the writing session, Opus 5.5): plan.md re-run and the drifted cited records re-pinned",
+   "refreshed": [
+    {
+     "previous": {
+      "path": "b3/plan.md",
+      "sha256": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+      "bytes": 114196,
+      "sha256_fork_copy": "a411d8a296fc9436b827dc97560a05f9db2496903da34e8ee75c46a06728b0a0",
+      "copies_identical": true,
+      "tag": "pre-registration",
+      "tag_source": "brief 28 S1 with its dated notes (brief 15 A6.18 (p), A6.24 (2), brief 33 A1b); hashed as on disk; see status_recorded_sha256",
+      "added_beyond_brief_list": false,
+      "tables_drawn_on": [
+       "1 Populations",
+       "5 The readings and the cascade",
+       "6 Every outcome sentence",
+       "7 The disclosures",
+       "8 Round 2"
+      ],
+      "status_recorded_sha256": "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13",
+      "status_recorded_bytes": 111603,
+      "prefix_equals_status_version": true,
+      "note": "STATUS's latest record of plan.md is 58b0c121 (fork 58b0c24); the file on disk carries S3 Stage A's appended dated note (fork be0a600), which STATUS has not yet recorded. Hashed as on disk; prefix_equals_status_version checks that nothing above the note changed. Re-run with --rerun-plan when STATUS records the move (A5.1 W0). Only sections 1 to 8 are read."
+     },
+     "refreshed_to": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db"
+    }
+   ],
+   "entries": [
+    {
+     "path": "briefs/22-b4-conditional-2026-10-31.md",
+     "path_root": "project root",
+     "sha256": "1d3c454ff2d09bea6d07124e9dcc48721fecec481dd2e93ac3387131948b3693",
+     "bytes": 12259,
+     "fork_copy_path": "results/stage3/b4/brief-22-b4-conditional.md",
+     "sha256_fork_copy": "1d3c454ff2d09bea6d07124e9dcc48721fecec481dd2e93ac3387131948b3693",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "brief 22 (B4, conditional design) with its dated note of 2026-11-02 stating the gates from B3's round 1; the B4 lines of §10 and §11.2 state the gates as that note does; the 0.65 bar is brief 22's G1",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "work/lessons.md",
+     "path_root": "project root",
+     "sha256": "7bed817bc41bf2ae0d9d37d5e1d53517bf1e880fd6829dfe5caf86d3e1432bec",
+     "bytes": 23804,
+     "fork_copy_path": null,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "tag": "record",
+     "tag_source": "lessons L1 onward: cited for method (L17 to L24), never for a number; re-pinned after later lessons were appended",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    }
+   ],
+   "note": "plan.md's files entry refreshed (prefix checked); brief 22 and work/lessons.md re-pinned as cited records; test_stage3_paper_manifest_drift.py hashes every current pin from here on"
   }
  ]
 }
