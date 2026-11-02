@@ -1169,31 +1169,33 @@
   },
   {
    "path": "b3/rater/partj-lift-v0.md",
-   "sha256": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
-   "bytes": 5204,
-   "sha256_fork_copy": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+   "sha256": "1698d51a07cc19ac308d22f2e36b7f703129caeb834ab750e6034cf59ffc1831",
+   "bytes": 9126,
+   "sha256_fork_copy": "1698d51a07cc19ac308d22f2e36b7f703129caeb834ab750e6034cf59ffc1831",
    "copies_identical": true,
    "tag": "methods",
-   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02); re-hashed after the v0.1 section (W0e)",
    "added_beyond_brief_list": false,
    "tables_drawn_on": [
     "Minimum lift needed",
     "Lift = composition - loudest statement",
-    "Spearman, over the candidate triples"
+    "Spearman, over the candidate triples",
+    "v0.1 section"
    ]
   },
   {
    "path": "b3/rater/partj-lift-v0.json",
-   "sha256": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
-   "bytes": 8156,
-   "sha256_fork_copy": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+   "sha256": "01a3b03e11c038305906fc926667d28bb434a8c605444adabd9cf64785fc1423",
+   "bytes": 17175,
+   "sha256_fork_copy": "01a3b03e11c038305906fc926667d28bb434a8c605444adabd9cf64785fc1423",
    "copies_identical": true,
    "tag": "methods",
-   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02); re-hashed after the v0.1 section (W0e)",
    "added_beyond_brief_list": false,
    "tables_drawn_on": [
     "lift",
-    "spearman"
+    "spearman",
+    "v0.1 section"
    ]
   }
  ],
@@ -2584,6 +2586,106 @@
     "b3/review/partj-diagnostics-2026-10-31.md"
    ],
    "note": "additive; no earlier entry changed; the two review files W0 added stay in the manifest as records and are no longer cited for numbers"
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 W0e (the writing session, Opus 5.5): the Part J lift record re-hashed after its v0.1 section",
+   "refreshed": [
+    {
+     "previous": {
+      "path": "b3/rater/partj-lift-v0.md",
+      "sha256": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+      "bytes": 5204,
+      "sha256_fork_copy": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+      "copies_identical": true,
+      "tag": "methods",
+      "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+      "added_beyond_brief_list": false,
+      "tables_drawn_on": [
+       "Minimum lift needed",
+       "Lift = composition - loudest statement",
+       "Spearman, over the candidate triples"
+      ]
+     },
+     "refreshed_to": {
+      "path": "b3/rater/partj-lift-v0.md",
+      "sha256": "1698d51a07cc19ac308d22f2e36b7f703129caeb834ab750e6034cf59ffc1831",
+      "bytes": 9126,
+      "sha256_fork_copy": "1698d51a07cc19ac308d22f2e36b7f703129caeb834ab750e6034cf59ffc1831",
+      "copies_identical": true,
+      "tag": "methods",
+      "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02); re-hashed after the v0.1 section (W0e)",
+      "added_beyond_brief_list": false,
+      "tables_drawn_on": [
+       "Minimum lift needed",
+       "Lift = composition - loudest statement",
+       "Spearman, over the candidate triples",
+       "v0.1 section"
+      ]
+     }
+    },
+    {
+     "previous": {
+      "path": "b3/rater/partj-lift-v0.json",
+      "sha256": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+      "bytes": 8156,
+      "sha256_fork_copy": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+      "copies_identical": true,
+      "tag": "methods",
+      "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+      "added_beyond_brief_list": false,
+      "tables_drawn_on": [
+       "lift",
+       "spearman"
+      ]
+     },
+     "refreshed_to": {
+      "path": "b3/rater/partj-lift-v0.json",
+      "sha256": "01a3b03e11c038305906fc926667d28bb434a8c605444adabd9cf64785fc1423",
+      "bytes": 17175,
+      "sha256_fork_copy": "01a3b03e11c038305906fc926667d28bb434a8c605444adabd9cf64785fc1423",
+      "copies_identical": true,
+      "tag": "methods",
+      "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02); re-hashed after the v0.1 section (W0e)",
+      "added_beyond_brief_list": false,
+      "tables_drawn_on": [
+       "lift",
+       "spearman",
+       "v0.1 section"
+      ]
+     }
+    }
+   ],
+   "md_prefix_equals_previous": true,
+   "held_not_refreshed": {
+    "path": "b3/plan.md",
+    "on_disk_sha256": "59a98c155908c4727b20d60945b15d16bcaa1084bb009dca444059c5f78e22db",
+    "reason": "S3's dated notes moved plan.md; the coordinator holds --rerun-plan until its STATUS line records the last move before Stage B"
+   },
+   "traces": [
+    {
+     "figure": "§9.1 the paired difference rho(loudest) - rho(mean)",
+     "value_as_recorded": "pass 1 0.172 [0.054, 0.305]; pass 2 0.187 [0.069, 0.316]",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "v0.1: Paired difference",
+     "tag": "methods"
+    },
+    {
+     "figure": "§9.1 the pass-1 lift mean's bootstrap interval",
+     "value_as_recorded": "13.46 [10.81, 16.29] (includes 16); Sonnet 5.5 16.17 [12.27, 20.12]; GLM 5.3 10.29 [6.77, 13.95]",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "v0.1: Lift means, pass 1",
+     "tag": "methods"
+    },
+    {
+     "figure": "§9.1 triples above the composition bar, pass 1",
+     "value_as_recorded": "19; lines more than 10 apart 18; every line at or under 60 11; both 1",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "v0.1: Candidate triples with composition above 75",
+     "tag": "methods"
+    }
+   ],
+   "note": "the two files entries are replaced by their refreshed versions; no other entry changed"
   }
  ]
 }
