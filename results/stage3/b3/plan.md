@@ -957,3 +957,47 @@ The consistency check beside the first block (the three sealed prompt components
 **2. Form (b)'s covariates include the judge's top-two singleton gap.** §4.2's list for form (b) omitted it. A6.5 (iii) names the top-two gap covariate as carrying the singleton-maximum inflation "for both forms", A6.6 simulates every model "with every covariate (the top-two gap, writer, edit type, document)", and the null bias §5.4 subtracts for C(b) and S(b) (0.040 and 0.036, Part 2) was simulated with the gap in the model. S3 fits form (b) with the gap, as Part 2 and Part 3 did; without it the subtracted bias would not belong to the fitted model. This corrects a transcription omission; it changes no margin, population, seed or sentence.
 
 This note changes nothing else above it.
+
+---
+
+## Dated note 3, 2026-11-02: the flag is the sealed author-level reading (the union), with the planted unit's own flag beside; `p_author_c0.json` pinned; the pre-flight block restated at 27 entries (brief 33's dated note 2 of 2026-11-02, G1 revised)
+
+Written by the S3 session at the coordinator's direction (brief 33's dated note 2 of 2026-11-02, after the review session's reconciled read `review/cold-read-s3-stage-a-2026-11-02.md` 3462ed47 and the Fable 5.1 read `review/fable-read-s3-stage-a-2026-11-02.md` 06da4716), before any judge call. **This note changes no margin, population, seed, view, instrument, threshold or outcome sentence.**
+
+**1. The flag.** Each applied unit's per-agent flag at the sealed rule (section 4.2 form (b); section 4.3 floor (b) and the ceiling; section 4.4's gaps; section 4.5's anchors) is **the sealed author-level reading as B1 and T1 computed it**: the author's maximum over the planted unit's own score and that author's honest units on the other class documents in the view's sealed null (`stage3_b1_dossier.py` `recall_by_arm` and `flagged_union`, lines 641 to 649; `stage3_t1replant_score.py` `flagged_union`; the tie draw keyed by the author at the tie seed 20261112), because every pre-registered number this plan reads form (b) against was computed under it: B1's primary recall, and Part 2's simulated null bias (section 4.1's 0.040, 0.036, 0.050, 0.045, −0.004 and +0.006), whose generative model flags with the author's honest path (`stage3_b3_power_v3c.py` lines 241 to 243; `stage3_b3_power_v3.py` `honest_path`, `union_max`). The planted unit's own flag (`recall_planted_unit_only`) is carried beside in every such reading, as B1 did. Section 4.1's bias values stand; nothing is re-simulated. Form (a), the carrier, reads scores and is unaffected. `O_diff`'s flag is its unit rule, as before.
+
+**2. The union's inputs, all pinned.** The honest units per author and document are the sealed nulls' rows: `work/stage3/b1/b1-null.json` for both dossier readings under both judges; `work/stage3/q1q2-synthetic/opus48/judge-null.json` `views.P_author.rows` for Opus 4.8's zero-context `P_author`; and, pinned by this note, **`work/stage3/views/p_author_c0.json` (sha256 3c61dd4d499b6bc009fa1bc8786e5be5d407da7280377a823a47a04c52c95922)**, the 89 honest `P_author` rows of Sonnet 5's calibration (the same model and prompt version as section 4.9's calibration seal), read by script for `author`, `path` and `score` only. A refused honest unit is read as B1's `honest_pairs` reads it.
+
+**3. The pre-flight block, restated in full (27 entries: the 26 above plus line 27).** The pre-flight reads the last block in this file; `test_stage3_b3_preflight.py` asserts 27 by a dated comment.
+
+```s1-preflight-sha256
+72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198  work/checks/judge_client.py
+e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034  work/checks/judge_openrouter.py
+6ec08e98d99fa11007276907f4249d3f2fa131644e48c5036d6b0a496ccd0382  work/checks/stage3_views.py
+a4b06e5596919d196af039529861e612e7f4bf1623dae5755517e48e244000b8  work/checks/stage3_author_doc.py
+711c88baf0b74a6ebeda928df18d9eb8e3fee32ff3f6e7f7acec330b04245197  work/checks/stage3_b1_dossier.py
+240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5  work/checks/stage3_t1.py
+54901c9c881a3282eb8b44c5fddfc627deb9616ca763e3e9313f2deee577a36d  work/stage3/b1/b1-null.json
+4e89d37e0a5ca3fe26a4e8a5ca57770d2c5d7c5d456d3e6b244b2473a20003d0  work/stage3/b1/plan.md
+6138e736fb6a412fb8d02e7de0bb6b6f1592224700f69c0c524066a118201c18  work/stage3/b1/b1-results.json
+66028856030f71694c98fd7434b863959adc023d08efa20608932c896c6e06be  work/stage3/q1q2-synthetic/opus48/judge-null.json
+44ea1c26c38c72759f3c476a77680b982238d7be324ca51685900d792643ef1e  work/stage3/views/calibration-v1.json
+745fab808fc189a015d471ed008f70dc1005fd74f41b8f33671273bd8d3e5b79  work/stage3/q1q2-synthetic/extra-judge-null.sol.json
+99d5c3c3f82c3e3e8e09755e732b747b33a5c5d8a803804d0b8bd1a70793aff7  work/stage3/q1q2-synthetic/extra-judge-results.json
+9a769d68346fdbcf098d4c897fed559b3f66c02b858f9790c006ee2bf48da6ca  work/stage3/b3/power-simulation-v3-inputs.json
+5b33dcef8d590a371282311bfe86a9c497d021782c081795bf40606991487deb  work/checks/stage3_b3_power_v3.py
+2c1cf8cf4dfd8209cdbf9a1bcffc31f143301a451c67f7c7e133b17563226e0b  work/checks/stage3_b3_power_v3c.py
+65ea42a4b116dbcbcfd13615ea82453d12d415e872b63d467a6cce1e4fcb2828  work/stage3/b3/comprehension/stratum-plan.json
+064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7  work/stage3/b3/comprehension/items-v0.json
+6113bd8d4cd16768c5cfc83a2db3a109b2a0e0a81403341a88361787f3ca9932  work/stage3/b3/comprehension/stratum-v0.json
+edd289ce14eae1be6d131562600b482539d0f7f3903fcdb33e524565c15af5e8  work/stage3/b3/inserter-dry-run-v0.json
+f17e7a72430fc320f490340ddb3fb3dd741957d7dc098db00eff50c1e18f1ecf  work/stage3/b3/s1-populations-v0.json
+ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74  work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl
+294d59d267335ee19c4d7c06d15d4ecfe59c621a21e90c1ac73ccee8757ce6dc  work/mole-fork/bootstrap/org_template.yaml
+f667ab360c658ae4b03566cff00ab40e53969cb1251c76c4ee4a663ec0e627b1  work/stage3/t1v3/t1v3-plan.md
+021389311e33658884cf316778dc19a39b880ff9f884f9bb85598857c3260a47  work/stage3/b3/inserter-dry-run-v1.json
+825a82f08a665d1d1eeed67090a8d4aac44e27db6f77782027763dc57eae5c3a  work/checks/stage3_b3_inserter_dry_run_v1.py
+3c61dd4d499b6bc009fa1bc8786e5be5d407da7280377a823a47a04c52c95922  work/stage3/views/p_author_c0.json
+```
+
+The configuration values the pre-flight checks (the note of 2026-11-02 above) are unchanged. The consistency check beside the first block (the three sealed prompt components) is unchanged.

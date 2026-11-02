@@ -134,8 +134,10 @@ def test_the_real_plan_lists_24_files_with_both_client_pins():
     blocks = pf.parse_blocks((pf.ROOT / pf.PLAN).read_text(encoding="utf-8"))
     entries = dict((p, x) for x, p in blocks[-1][1])
     # 2026-11-02, plan.md's post-S2 dated note (brief 32 plan-note direction 13ab9943): the restated block has 26 entries.
-    assert len(entries) == 26 and all(entries[p] == x for p, x in CLIENT_PINS.items())
+    # 2026-11-02, plan.md's dated note 3 (brief 33's dated note 2, G1 revised): 27 entries, work/stage3/views/p_author_c0.json (3c61dd4d) pinned.
+    assert len(entries) == 27 and all(entries[p] == x for p, x in CLIENT_PINS.items())
     assert {"work/stage3/b3/inserter-dry-run-v1.json", "work/checks/stage3_b3_inserter_dry_run_v1.py"} <= set(entries)
+    assert entries["work/stage3/views/p_author_c0.json"].startswith("3c61dd4d")
 
 
 def test_the_real_tree_passes_the_pre_flight():
