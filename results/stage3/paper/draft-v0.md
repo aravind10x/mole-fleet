@@ -387,7 +387,7 @@ Two capable writers, Sonnet 5.5 and GLM 5.3, were each given the same brief. The
 
 All 22 same-writer control items certified as controls (same table).
 
-Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 over all 89 triples, 16.17 for Sonnet 5.5 (48) and 10.29 for GLM 5.3 (41). The record computes no interval for the lift means (methods; `b3/rater/partj-lift-v0.md`, lift table). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. That is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). The rater's composition score also tracks the loudest line: Spearman 0.628 [0.469, 0.756] on pass 1 (methods; same file, Spearman table).
+Which bar the writers missed most differs by writer: Sonnet 5.5 the spread bar (41 against 34 on composition), GLM 5.3 the composition bar (36 against 25 on spread) (methods; `b3/rater/certification-b3.md`, J2). The composition bar asks how far a triple's composition can rise above its loudest line while every line stays quiet. That gain is the writers' mean lift, composition minus the top line. On pass 1 it is 13.46 over all 89 triples (median 13.00 [Q1 5.00, Q3 20.00]), 16.17 for Sonnet 5.5 (48) and 10.29 for GLM 5.3 (41). The record computes no interval for the lift means (methods; `b3/rater/partj-lift-v0.md`, lift table). With every line at or under 60, a triple needs a lift of at least 16: its composition must be above the bar of 75 when its loudest line is at 60. On pass 1, 33 of the 89 reach that lift. That is necessary, not sufficient, since the statement and spread bars also apply (methods; same file, minimum lift needed and lift table). The rater's composition score also tracks the loudest line: Spearman 0.628 [0.469, 0.756] on pass 1 (methods; same file, Spearman table).
 
 The earlier writers' triples were rated in a different rater session (§4.4). Under the drift rule of §3.7, their lift and Part J's are not compared.
 
@@ -723,3 +723,7 @@ What changed, with the figures as the record gives them:
 - **The header and Appendix A** give the new manifest. Appendix A is regenerated, and no pending marker remains.
 - **The review notes are not cited for numbers.** The two Part J review files W0 added stay in the manifest as records.
 - Nothing else changed.
+
+## Dated note, 2026-11-02: after the review session's short read of §9.1
+
+The review session checked §9.1's Part J figures by script against `b3/rater/partj-lift-v0.md` (c850a242) and found nothing to change. Taking its optional suggestion, §9.1 now gives the overall pass-1 lift's median and quartiles beside the mean: median 13.00 [Q1 5.00, Q3 20.00], from the record's pass-1 row. That shows the spread, since the record computes no interval for the mean. Nothing else changed.
