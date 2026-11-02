@@ -433,7 +433,7 @@ This is the record of B3's re-specification, written number-free. Each step is c
 - **A continuous primary, with both error directions named (A6.5).** A rater that mismeasures line visibility biases the reading toward a false *present*. The composition dose's own noise biases it toward a false *excluded*. Every *excluded* carries a disattenuated reading beside it.
 - **One latent margin for both forms (A6.13.2).** The score-level and flag-level readings were first calibrated on different data and so tested different hypotheses. They were tied to one latent composition effect.
 - **A power gate corrected after a first run no design could pass (A6.13.1).** The first gate asked for a verdict of *present* when the truth sits exactly on the margin, which a median-unbiased estimator gives about half the time. The first run is kept in the record as that clause's outcome.
-- **The dry-run discipline (lessons L17 to L25).** Several rules mapping numbers to verdicts were found defective in one day. Each was caught by a session that tried to run the rule, none by a session that read it. The lessons that followed:
+- **The dry-run discipline (lessons L17 to L24).** Several rules mapping numbers to verdicts were found defective in one day. Each was caught by a session that tried to run the rule, none by a session that read it. The lessons that followed:
   - rules are dry-run as code before they are committed (L17);
   - fixes are re-checked against every error type (L18);
   - bias directions are computed, never argued (L19);
@@ -441,8 +441,7 @@ This is the record of B3's re-specification, written number-free. Each step is c
   - "done" is a file list (L21);
   - runnability pre-reads replace delta reviews (L22);
   - a hazard found by a dry run gets a recorded decision (L23);
-  - script-echoed rules are stored as keys (L24);
-  - application-module work is routed to a non-Anthropic executor after safeguard stops (L25).
+  - script-echoed rules are stored as keys (L24).
 - **Blind decisions, recorded before the numbers.** The principal investigator decided, before the stratum's size was known, that round 1 runs whatever it shows and that the test of combination moves to a confirmatory second round on newly certified items (A6.15). Writer rounds may start before round 1's results, with a stated risk read and memory-channel rules (A6.19). Round 1's budget figure was confirmed before any round-1 judge call (A6.25).
 
 ### 9.5 What this section supports
@@ -699,3 +698,14 @@ Verdict: careful and faithful to the records; precision fixes only, none reversi
   - §3.6 and Table 4.1's sources completed.
 - **The review session's optional items:** "the principal investigator" for Aravind's name outside verbatim quotes (§8, §9.4, §12); §9.2's resolved-anchor subset is brief 23's.
 - **Not changed:** §9.4's L25 line waits for Aravind's choice between an explicit methods disclosure and leaving it out.
+
+## Dated note, 2026-11-02: §9.4's lesson L25, removed on the principal investigator's decision
+
+Aravind's decision, relayed verbatim by the review session: "my gut reaction is that it feels trivial and not something that has a bearing on the paper's results and findings, so I lean towards leaving it out, unless you feel there's a strong reason to add that disclosure." The review session agreed. The paper's findings do not depend on which model ran the tooling: the application module's correctness rests on tests, an exact reproduction and a hash replay, all independent of the executor.
+
+Changes:
+- §9.4's L25 bullet is removed from the list, which now runs L17 to L24.
+- The list's heading now reads "lessons L17 to L24".
+- The repository's lessons file keeps L25.
+- No other sentence in the draft or the research statement says which models ran the tooling.
+- The writer, generator, judge and reader models the paper names are unchanged.
