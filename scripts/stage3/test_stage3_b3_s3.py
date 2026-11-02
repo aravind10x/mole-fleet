@@ -470,3 +470,33 @@ def test_score_refuses_without_the_clean_items_file_at_its_hash_and_without_a_pa
     with pytest.raises(RuntimeError, match="reached the controller"):
         d.mode_score(NS())                                                    # every refusal passed; the run would start
     assert not (tmp_path / "cache" / ".s3-run.lock").exists()
+
+
+def test_an_errored_final_unit_is_never_asked_again_g10(monkeypatch, tmp_path):
+    app, us, cp = _cache_with(monkeypatch, tmp_path)
+    cp.write_text(json.dumps({"cache_key": us[1]["packets"][d.ad.ISO]["key"], "outcome": "scored", "score": 40, "cost_usd": 0.01}) + "\n")
+    _err(cp, us[0])
+    _err(cp, us[0])                                   # us[0] errored_final: unscored under G7
+    _err(cp, us[2])                                   # us[2] errored once: open, asked again
+    ask = [u["unit_id"] for u in d.askable_units(app, d.ad.ISO, "opus48")]
+    assert ask == [us[2]["unit_id"], us[3]["unit_id"], us[4]["unit_id"]]     # not the scored one, not the final one; cell order kept
+    # through run_cells: the units handed to score_units are exactly the askable ones
+    render = {"rows": {"|".join(c): {"s2_basis_per_unit": 0.01, "estimate": {"est_cost_usd": 1.0, "n_calls": 1}} for c in d.ORDER}, "applications_sha256": "x"}
+    run = {"cells": {}, "first_batch": {"done": True}, "stopped": None}
+    seen = []
+
+    async def fake_score(jc, view, units, ledger, basis, concurrency=4):
+        seen.append([u["unit_id"] for u in units])
+        return {}, None
+    monkeypatch.setattr(d, "score_units", fake_score)
+    monkeypatch.setattr(d, "make_client", lambda *a, **k: type("J", (), {"batch_log": lambda self, p, note=None: None})())
+    monkeypatch.setattr(d, "write_json", lambda p, o: "h")
+    monkeypatch.setattr(d, "write_scores", lambda a, r: "h")
+    monkeypatch.setattr(d, "dollars_all", lambda: {"total": 0.0})
+
+    class NS:
+        cont = True
+        concurrency = 4
+        rpm = 30
+    rc = asyncio.run(d.run_cells(NS(), app, render, run))
+    assert rc == 1 and seen == [ask] and run["stopped"]["cell"] == "P_author_doc_iso|opus48" and run["stopped"]["errored_once"] == 1 and run["stopped"]["missing"] == 2

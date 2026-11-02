@@ -33,8 +33,8 @@ score   Stage B. One spend ledger across every S3 cache file, enforced through `
         after the client's retries keeps the unit open and its cell incomplete, so the run stops at the cell's end with the
         stop recorded; `--continue` clears the stop and re-asks that unit once (the note's rule (e): neither scored nor
         refused; an errored record is never served from the cache); a second errored record makes it unscored, which
-        completes the cell. A stop whose only cause is such units is marked `g7_only` and its continues are counted per
-        cell (dated note 5). `score` refuses without `s3-clean-items-v0.json` at 21e7ede2 and without a passing G9 check
+        completes the cell and is never asked again (`askable_units`, dated note 6, G10). A stop whose only cause is
+        such units is marked `g7_only` and its continues are counted per cell (dated note 5). `score` refuses without `s3-clean-items-v0.json` at 21e7ede2 and without a passing G9 check
         of this applications file.
 check   G9 (brief 33's dated notes 4 and 5): by script, counts only, every per-agent unit's author against each honest
         source's authors and its document against the source's paths; the units with no honest pair on another class
@@ -715,6 +715,16 @@ def cell_status(app: Mapping[str, Any], view: str, judge: str) -> dict:
             "dollars": dollars_in(cp), "complete": len(done) + final == len(us)}
 
 
+def askable_units(app: Mapping[str, Any], view: str, judge: str) -> list[dict]:
+    """G10 (brief 33's dated note 6): the units a pass may still ask, in cell order: those without a scored or refused record
+    and not already `errored_final` (two or more errored records, unscored under G7). Errored records are never served from
+    the cache, so without this filter a cell re-run after an abort would ask such a unit a third time and a success would
+    make it scored, against G7's rule."""
+    us = cell_units(app, view, judge)
+    recs, errored = errored_counts(cache_path(view, judge))
+    return [u for u in us if u["packets"][view]["key"] not in recs and errored.get(u["packets"][view]["key"], 0) < 2]
+
+
 def build_scores(app: Mapping[str, Any], run: Mapping[str, Any]) -> dict:
     """The scores file from the caches: one row per unit and cell; the flag at the sealed rule through stage3_thresholds."""
     rows = []
@@ -832,10 +842,13 @@ async def run_cells(ns, app: Mapping[str, Any], render: Mapping[str, Any], run: 
         if k == 0 and run.get("first_batch") is None:
             us = [u for u in us if u["arm"] == "item"][:FIRST_BATCH]
             note = "first batch"
+
         elif k == 0 and not ns.cont:
             raise SystemExit("refusing: the first batch is recorded; the rest runs only with --continue after the coordinator's STATUS line")
         else:
             note = "cell"
+        ask = {u["unit_id"] for u in askable_units(app, view, judge)}
+        us = [u for u in us if u["unit_id"] in ask]          # G10: an errored_final unit is never asked again; cached scored or refused units are served, not asked
         jc = make_client(view, judge, ledger, ns.concurrency, ns.rpm)
         print(f"[{key}] {note}: {len(us)} units; recorded so far ${ledger.recorded():.4f}; stop ${STOP_USD}", file=sys.stderr, flush=True)
         recs, aborted = await score_units(jc, view, us, ledger, bases[key], ns.concurrency)
