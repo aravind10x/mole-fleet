@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 102,
+ "n_files": 104,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1165,6 +1165,35 @@
    "tables_drawn_on": [
     "Result (primary label rule)",
     "Notes on the primary table"
+   ]
+  },
+  {
+   "path": "b3/rater/partj-lift-v0.md",
+   "sha256": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+   "bytes": 5204,
+   "sha256_fork_copy": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "Minimum lift needed",
+    "Lift = composition - loudest statement",
+    "Spearman, over the candidate triples"
+   ]
+  },
+  {
+   "path": "b3/rater/partj-lift-v0.json",
+   "sha256": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+   "bytes": 8156,
+   "sha256_fork_copy": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+   "added_beyond_brief_list": false,
+   "tables_drawn_on": [
+    "lift",
+    "spearman"
    ]
   }
  ],
@@ -2478,6 +2507,83 @@
     "Stage 2b's cost ($401; about $300 avoidable) is summary-only (retrospective, STATUS budget); not written"
    ],
    "note": "additive; no earlier entry changed. Entries outside work/stage3/ stay in this record (project-root path and fork copy path); the S6 audit is also appended to files. Sentences whose figures have no result file stay number-free."
+  },
+  {
+   "date": "2026-11-02",
+   "by": "brief 13 W0d (the writing session, Opus 5.5): brief 34's Part J lift record (cold-read fix 2)",
+   "added": [
+    "b3/rater/partj-lift-v0.md",
+    "b3/rater/partj-lift-v0.json"
+   ],
+   "entries": [
+    {
+     "path": "b3/rater/partj-lift-v0.md",
+     "sha256": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+     "bytes": 5204,
+     "sha256_fork_copy": "c850a242903881aa8780b653c59ddf9e332621b54bec4080d12a7b1df40a6ee5",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "Minimum lift needed",
+      "Lift = composition - loudest statement",
+      "Spearman, over the candidate triples"
+     ]
+    },
+    {
+     "path": "b3/rater/partj-lift-v0.json",
+     "sha256": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+     "bytes": 8156,
+     "sha256_fork_copy": "e75c6dac7fa487dc3ed0729f5588e7daa6b01b794a8360b974fe8592917d9249",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "brief 34 ($0; script stage3_b3_partj_lift.py aed28cb4): Part J's lift and Spearman recomputed from Part J's files into a hashed, mirrored record; verified by the coordinator (STATUS 2026-11-02)",
+     "added_beyond_brief_list": false,
+     "tables_drawn_on": [
+      "lift",
+      "spearman"
+     ]
+    }
+   ],
+   "traces": [
+    {
+     "figure": "§9.1 the writers' mean lift, pass 1",
+     "value_as_recorded": "13.46 overall (n 89); Sonnet 5.5 16.17 (48); GLM 5.3 10.29 (41); no interval computed",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "Lift = composition - loudest statement",
+     "tag": "methods"
+    },
+    {
+     "figure": "§9.1 the minimum lift needed",
+     "value_as_recorded": "16 = (75 + 1) - 60",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "Minimum lift needed",
+     "tag": "methods"
+    },
+    {
+     "figure": "§9.1 triples reaching the minimum lift, pass 1",
+     "value_as_recorded": "33 of 89 (Sonnet 5.5 23 of 48, GLM 5.3 10 of 41); necessary, not sufficient",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "Lift table",
+     "tag": "methods"
+    },
+    {
+     "figure": "§9.1 Spearman(composition, loudest statement), pass 1",
+     "value_as_recorded": "0.628 [0.469, 0.756] (n 89, 2,000 resamples)",
+     "file": "b3/rater/partj-lift-v0.md",
+     "table": "Spearman, over the candidate triples",
+     "tag": "methods"
+    }
+   ],
+   "resolves": [
+    "outline v1 pending: Part J's lift and Spearman (cold-read fix 2)"
+   ],
+   "supersedes_for_citation": [
+    "b3/review/review-partj-2026-10-31.md",
+    "b3/review/partj-diagnostics-2026-10-31.md"
+   ],
+   "note": "additive; no earlier entry changed; the two review files W0 added stay in the manifest as records and are no longer cited for numbers"
   }
  ]
 }
