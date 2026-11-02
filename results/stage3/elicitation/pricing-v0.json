@@ -1,0 +1,217 @@
+{
+ "version": "elicitation-convert/v0/pricing",
+ "cap_per_writer_per_arm": 96,
+ "writers": 2,
+ "items_one_document": 192,
+ "pairs_cross_document": 192,
+ "price_source": "openrouter-list:https://openrouter.ai/api/v1/models@2026-11-02",
+ "assumptions": {
+  "families": {
+   "sonnet55": {
+    "chars_per_token": 3.5,
+    "out_tokens_central_upper": [
+     150,
+     300
+    ]
+   },
+   "kimi": {
+    "chars_per_token": 3.636,
+    "out_tokens_central_upper": [
+     1100,
+     2200
+    ]
+   },
+   "sol": {
+    "chars_per_token": 3.814,
+    "out_tokens_central_upper": [
+     400,
+     800
+    ]
+   }
+  },
+  "scorer": {
+   "chars_per_token": 3.5,
+   "out_tokens_central_upper": [
+    90,
+    150
+   ],
+   "assumed_answer_chars_central_upper": [
+    450,
+    900
+   ]
+  },
+  "upper_reask_factor": 1.1,
+  "cross_whole_note": "the pair whole is priced at the concatenation proxy: one question and template more than the pair extension will carry"
+ },
+ "readers_by_writer": "kimi on every item; sol on writer A's items; sonnet55 on writer B's items (certification protocol section 5)",
+ "one_document": {
+  "development": {
+   "reader_calls_per_item_per_reader": 4,
+   "scorer_calls_per_item_per_reader": 8,
+   "reader": {
+    "sonnet55": {
+     "route": "bedrock",
+     "model": "global.anthropic.claude-sonnet-5-5",
+     "items_served": 96,
+     "calls": 384,
+     "usd": 0.8856,
+     "usd_upper": 1.6077
+    },
+    "kimi": {
+     "route": "openrouter",
+     "model": "moonshotai/kimi-k3",
+     "items_served": 192,
+     "calls": 768,
+     "usd": 12.7292,
+     "usd_upper": 27.9414
+    },
+    "sol": {
+     "route": "converse",
+     "model": "us.openai.gpt-6-sol",
+     "items_served": 96,
+     "calls": 384,
+     "usd": 2.0021,
+     "usd_upper": 4.0609
+    }
+   },
+   "scorer": {
+    "route": "bedrock",
+    "model": "anthropic.claude-sonnet-5",
+    "calls": 3072,
+    "usd": 5.3047,
+    "usd_upper": 8.7315
+   },
+   "total_usd": 20.92,
+   "total_usd_upper": 42.34
+  },
+  "certification": {
+   "reader_calls_per_item_per_reader": 8,
+   "scorer_calls_per_item_per_reader": 16,
+   "reader": {
+    "sonnet55": {
+     "route": "bedrock",
+     "model": "global.anthropic.claude-sonnet-5-5",
+     "items_served": 96,
+     "calls": 768,
+     "usd": 1.7712,
+     "usd_upper": 3.2155
+    },
+    "kimi": {
+     "route": "openrouter",
+     "model": "moonshotai/kimi-k3",
+     "items_served": 192,
+     "calls": 1536,
+     "usd": 25.4584,
+     "usd_upper": 55.8826
+    },
+    "sol": {
+     "route": "converse",
+     "model": "us.openai.gpt-6-sol",
+     "items_served": 96,
+     "calls": 768,
+     "usd": 4.0042,
+     "usd_upper": 8.1217
+    }
+   },
+   "scorer": {
+    "route": "bedrock",
+    "model": "anthropic.claude-sonnet-5",
+    "calls": 6144,
+    "usd": 10.6092,
+    "usd_upper": 17.4631
+   },
+   "total_usd": 41.84,
+   "total_usd_upper": 84.68
+  }
+ },
+ "cross_document": {
+  "development": {
+   "reader_calls_per_pair_per_reader": 3,
+   "reader": {
+    "sonnet55": {
+     "route": "bedrock",
+     "model": "global.anthropic.claude-sonnet-5-5",
+     "calls": 288,
+     "usd": 0.7538,
+     "usd_upper": 1.3044
+    },
+    "kimi": {
+     "route": "openrouter",
+     "model": "moonshotai/kimi-k3",
+     "calls": 576,
+     "usd": 9.5635,
+     "usd_upper": 20.9742
+    },
+    "sol": {
+     "route": "converse",
+     "model": "us.openai.gpt-6-sol",
+     "calls": 288,
+     "usd": 1.592,
+     "usd_upper": 3.1452
+    }
+   },
+   "scorer": {
+    "calls": 2304,
+    "usd": 3.9616,
+    "usd_upper": 5.8784
+   },
+   "total_usd": 15.87,
+   "total_usd_upper": 31.3
+  },
+  "certification": {
+   "reader_calls_per_pair_per_reader": 6,
+   "reader": {
+    "sonnet55": {
+     "route": "bedrock",
+     "model": "global.anthropic.claude-sonnet-5-5",
+     "calls": 576,
+     "usd": 1.5076,
+     "usd_upper": 2.6087
+    },
+    "kimi": {
+     "route": "openrouter",
+     "model": "moonshotai/kimi-k3",
+     "calls": 1152,
+     "usd": 19.1269,
+     "usd_upper": 41.9484
+    },
+    "sol": {
+     "route": "converse",
+     "model": "us.openai.gpt-6-sol",
+     "calls": 576,
+     "usd": 3.1841,
+     "usd_upper": 6.2903
+    }
+   },
+   "scorer": {
+    "calls": 4608,
+    "usd": 7.9231,
+    "usd_upper": 11.7567
+   },
+   "total_usd": 31.74,
+   "total_usd_upper": 62.6
+  }
+ },
+ "six_pair_pilot": {
+  "pairs": 6,
+  "reader_calls": 36,
+  "scorer_calls": 72,
+  "usd": 0.5,
+  "usd_upper": 0.98,
+  "rater_sessions": 1
+ },
+ "rater_sessions": {
+  "development_per_writer_round": 1,
+  "certification_per_writer_round": 2,
+  "statements_per_session_one_document": 576,
+  "compositions_per_session_one_document": 192,
+  "statements_per_session_cross": 384,
+  "compositions_per_session_cross": 192
+ },
+ "part3_caps_twice_dry_run": {
+  "one_document_development": 41.84,
+  "one_document_certification": 83.68,
+  "cross_document_development": 31.74,
+  "cross_document_certification": 63.48
+ }
+}
