@@ -2878,6 +2878,26 @@
     }
    ],
    "note": "plan.md's files entry refreshed (prefix checked); brief 22 and work/lessons.md re-pinned as cited records; test_stage3_paper_manifest_drift.py hashes every current pin from here on"
+  },
+  {
+   "date": "2026-11-03",
+   "by": "brief 13 W0g (the writing session, Opus 5.5): brief 22 re-pinned after its dated note 2 of 2026-11-03",
+   "entries": [
+    {
+     "path": "briefs/22-b4-conditional-2026-10-31.md",
+     "path_root": "project root",
+     "sha256": "3f94b1a89bfedb1700a907df84f0d6f69053084f63779e5c006b51665cbcf5ce",
+     "bytes": 14111,
+     "fork_copy_path": "results/stage3/b4/brief-22-b4-conditional.md",
+     "sha256_fork_copy": "3f94b1a89bfedb1700a907df84f0d6f69053084f63779e5c006b51665cbcf5ce",
+     "copies_identical": true,
+     "tag": "design",
+     "cited_only": true,
+     "added_beyond_brief_list": false,
+     "tag_source": "brief 22 (B4, conditional design) with its dated notes of 2026-11-02 (the gates from B3's round 1) and 2026-11-03 (F5 amended, conditional on the coordinator's adoption of the monitor study's v1); the paper states the gates as the 2026-11-02 note does and does not cite the monitor study"
+    }
+   ],
+   "note": "brief 22's fork copy mirrored in the same commit; no other entry changed"
   }
  ]
 }
