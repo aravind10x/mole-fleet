@@ -1,0 +1,76 @@
+{
+ "version": "elicitation-e1e2/v0",
+ "exp": "e1",
+ "started_at": "2026-11-03T05:43:13+00:00",
+ "resume": false,
+ "stop_usd": 6.5,
+ "past_pause": false,
+ "e1_spent_usd": 0.0,
+ "limits_file": "limits-00.json",
+ "headroom_usd": 116.242621,
+ "plan_sha256": "ec42b0b85041ca01420820ca7b848fffa7ca4862ad1637d07b65de34f0830602",
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 152,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "units": 152,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sonnet55": {
+    "units": 152,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 894,
+   "of": 894,
+   "aborted": false,
+   "abort_reason": null,
+   "units": 894
+  }
+ },
+ "finished_at": "2026-11-03T05:55:59+00:00",
+ "dollars": {
+  "kimi": 1.9476,
+  "sol": 0.3989,
+  "sonnet55": 0.427,
+  "scorer": 1.4497,
+  "total": 4.2231
+ },
+ "kimi_served": {
+  "final_records": 152,
+  "final_by_provider": {
+   "Wafer|mxfp4|on_pin": 152
+  },
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 152
+  },
+  "sol": {
+   "scored": 152
+  },
+  "sonnet55": {
+   "refused": 9,
+   "scored": 143
+  },
+  "scorer": {
+   "scored": 894
+  }
+ },
+ "stopped": false
+}

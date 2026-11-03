@@ -1,0 +1,87 @@
+{
+ "version": "elicitation-e1e2/v0",
+ "exp": "e2",
+ "items": 172,
+ "item_ids_sha256": "cf6ef3099656bafda91c5787b5f43f901d8338b73a2036a8af32f62460e89d4d",
+ "by_regime": {
+  "candidate": 78,
+  "control": 22,
+  "sham": 24,
+  "v2_conforming": 24,
+  "v3_middle": 24
+ },
+ "reads": {
+  "kimi": 1376
+ },
+ "scorer_calls_at_most": 2752,
+ "samples": [
+  0,
+  1
+ ],
+ "packets_sha256": "b9ad4d9eef72f804039f79241972067d10eba3b341bdb700484f7afdef575f71",
+ "input_checks": {
+  "b23_packets": true,
+  "b25_packets": true,
+  "b23_day0": true,
+  "b25_day0": true,
+  "instrument_prompts_are_brief23s": true,
+  "instrument_config_is_brief23s": true,
+  "b25_instrument_config": true
+ },
+ "inputs_sha256": {
+  "work/stage3/legibility/items-v0.json": "71fba5652257244a4a85480caa464de299ea2eb3f33b3c53f5a02036a0d196ae",
+  "work/stage3/legibility/rubrics-v0.json": "7ed4ae1af3893a586c180741b582adbda416002b33e748a60d2d0df4b957e579",
+  "work/stage3/legibility/routes-v0.json": "6c18d7a90a4df04ad0c43ee4e1a256b3031f566641f5a218a9132332c5f371d3",
+  "work/stage3/b3/comprehension/items-v0.json": "064225b4fb59b511e45a74c149c3d34e518e5c3910fb0b57b3e24f4721b3e5e7",
+  "work/stage3/b3/comprehension/rubrics-v0.json": "34791c330c3d3ed5c06695960d511190a29394428a9aa2ffa1e180b3d5c79496",
+  "work/stage3/t1k-rater/stripped-triples.json": "f005d5eb9764cd13e8251f7b76f1922e10b72f24d63f247d009ace4b47593566",
+  "work/stage3/b3/rater/stripped-triples-b3.json": "483fbd18b86b979f04814c8d5f487bf1c51468fa6ddc5a93ee68bbf511dc5291"
+ },
+ "script_sha256": "7aac0157f58dd29012954b7d13970cd90890a7d7eed9afdaa4ae9b230dd5a987",
+ "pin": "Wafer at MXFP4 (judge_openrouter_pin.KIMI_K3_WAFER_MXFP4)",
+ "kimi_key_env": "OPENROUTER_API_KEY_2",
+ "dependency_sha256": {
+  "work/checks/judge_openrouter_pin.py": "0987c14cdfa1e15f54d54e3efaeeb519ee5ee54bcd2392bb48905ea7bc11a633",
+  "work/checks/stage3_legibility.py": "1ba39b9609acc8718fc93ee4f866aa4185098688ceb52c1db5d82b27576bc281",
+  "work/checks/stage3_b3_comprehension.py": "57d80170b2aefb1af89c9efc115b256fcf1e9e867e12a4960c20edf98b55e810",
+  "work/checks/judge_client.py": "72d394e33584f7a5fe9ab638f4fc95c57ae9d0d7d0c93bf2c2d15928c4daf198",
+  "work/checks/judge_openrouter.py": "e812157cb991445c12cd4c9197505b27cc03c04f1b23dbde447d417d88b71034",
+  "work/mole-fork/mole/llm/openrouter.py": "addf8a119de489c466d76ce8ef75fc7eeaf7f3822d4a55f161782d4a9cd4b215",
+  "work/checks/stage3_rater_strip.py": "016e61b168af31ae4aa42a5b6e6ac864f3685cf4d71471ff92d7632c8b4998ac"
+ },
+ "estimate": {
+  "e0_5": {
+   "items": 172,
+   "reads": 1376,
+   "read_usd": 9.98,
+   "score_usd": 4.3,
+   "total_usd": 14.29,
+   "what": "Kimi K3 pinned to Wafer at MXFP4 (E0-7), two samples per item and condition, on the B3 candidates, the 46 nulls and the T1 items; the second readers' existing two samples stand for brief 25's sets"
+  },
+  "basis": {
+   "per_read_usd": {
+    "b23:kimi": 0.005891,
+    "b23:sol": 0.002611,
+    "b23:sonnet55": 0.002939,
+    "b25:kimi": 0.007255,
+    "b25:sol": 0.0026,
+    "b25:sonnet55": 0.002817
+   },
+   "per_score_usd": {
+    "b23": 0.001634,
+    "b25": 0.001564
+   },
+   "scorer_passes_per_read": 2,
+   "note": "means over the caches' recorded costs; Kimi's pinned per-read cost taken at brief 25's mean (Wafer's standard endpoint lists $15/M completion, the same list price brief 25's models file holds)"
+  }
+ },
+ "approved_usd": 14.29,
+ "cap_usd": 28.6,
+ "pause_total_usd": 23.36,
+ "hard_total_usd": 35.04,
+ "reissue_rounds": 3,
+ "brief": {
+  "path": "briefs/30-elicitation-writer-rounds-2026-11-02.md",
+  "sha256": "2617a5017a46c7f08cbf8cef3c459b623581d7f45f5014bfad7133520ffeef3d"
+ }
+}

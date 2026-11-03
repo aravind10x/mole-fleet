@@ -1,0 +1,53 @@
+{
+ "version": "elicitation-e1e2/v0",
+ "exp": "e2",
+ "started_at": "2026-11-03T09:49:46+00:00",
+ "resume": true,
+ "stop_usd": 28.6,
+ "past_pause": true,
+ "e1_spent_usd": 4.223143,
+ "limits_file": "limits-01.json",
+ "headroom_usd": 89.786811,
+ "plan_sha256": "2b1785dd68fe9348b993ed4065e344539c6bfe02fa377d327d559db82f8c83b5",
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 1376,
+    "rounds": 0,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 2752,
+   "of": 2752,
+   "aborted": false,
+   "abort_reason": null,
+   "units": 2752
+  }
+ },
+ "finished_at": "2026-11-03T09:59:53+00:00",
+ "dollars": {
+  "kimi": 16.6336,
+  "scorer": 4.4929,
+  "total": 21.1264
+ },
+ "kimi_served": {
+  "final_records": 1376,
+  "final_by_provider": {
+   "Wafer|mxfp4|on_pin": 1376
+  },
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 1376
+  },
+  "scorer": {
+   "scored": 2752
+  }
+ },
+ "stopped": false
+}
