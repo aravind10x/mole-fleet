@@ -498,7 +498,8 @@ def test_the_reader_loader_accepts_the_converted_files(tmp_path):
 
 def test_the_readers_items_mode_stops_only_at_the_brief23_count_guard(tmp_path):
     """The CLI's `items` accepts the converted files through the whole join and refuses only at brief
-    23's EXPECTED_COUNTS (the guard the reader harness bypasses with expected=None)."""
+    23's EXPECTED_COUNTS (the CLI's own fixed counts; `build_reader_items` reads its expected counts
+    from the converter's own records instead, brief 30 Part 1b)."""
     import stage3_legibility as leg
     out = tmp_path / "out"
     _convert_to(tmp_path, out)
@@ -585,6 +586,84 @@ def _convert_to(tmp_path: Path, out: Path) -> dict:
         return cv.convert_file(wf, V6_STATE, out_dir=out, writer="synthetic", synthetic=True,
                                state_cross=V7_STATE)
     return json.loads((out / "report.json").read_text(encoding="utf-8"))
+
+
+# ── the reader's count guard (brief 30, Part 1b; the read's item 2) ──────────────────────────────
+
+def _day0() -> dict[str, str]:
+    import stage3_views as sv
+    return {p: t for (_s, p), t in sv.seed_base().items() if p in t1v2.DOCS}
+
+
+def _rewrite_join_files(out: Path, triples: list, key: dict) -> None:
+    (out / "stripped-triples.json").write_text(json.dumps(triples, indent=1, ensure_ascii=False),
+                                               encoding="utf-8")
+    (out / "key.json").write_text(json.dumps(key, indent=1, ensure_ascii=False), encoding="utf-8")
+
+
+def test_the_count_guard_reads_the_converters_own_records(tmp_path):
+    """The expected value is the converter's record, not a recount of the joined files: records that
+    agree with each other but claim one more item than the join holds stop the read at the reader's
+    own count guard."""
+    out = tmp_path / "out"
+    _convert_to(tmp_path, out)
+    key = json.loads((out / "key.json").read_text(encoding="utf-8"))
+    key["counts"]["items"] += 1
+    (out / "key.json").write_text(json.dumps(key, indent=1, ensure_ascii=False), encoding="utf-8")
+    rep = json.loads((out / "report.json").read_text(encoding="utf-8"))
+    rep["items"] += 1
+    (out / "report.json").write_text(json.dumps(rep, indent=1, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(ValueError, match="in-scope counts"):
+        cv.build_reader_items(out, _day0())
+
+
+def test_the_report_and_key_must_agree(tmp_path):
+    out = tmp_path / "out"
+    _convert_to(tmp_path, out)
+    rep = json.loads((out / "report.json").read_text(encoding="utf-8"))
+    rep["items"] += 1
+    (out / "report.json").write_text(json.dumps(rep, indent=1, ensure_ascii=False), encoding="utf-8")
+    with pytest.raises(cv.UsageError):
+        cv.build_reader_items(out, _day0())
+
+
+def test_a_dropped_item_stops_the_read(tmp_path):
+    """Dropped from both joined files, so the id sets still match: only the converter's own recorded
+    count catches it."""
+    out = tmp_path / "out"
+    _convert_to(tmp_path, out)
+    triples = json.loads((out / "stripped-triples.json").read_text(encoding="utf-8"))
+    key = json.loads((out / "key.json").read_text(encoding="utf-8"))
+    gone = triples.pop(0)["triple_id"]
+    del key["triples"][gone]
+    _rewrite_join_files(out, triples, key)
+    with pytest.raises(ValueError, match="in-scope counts"):
+        cv.build_reader_items(out, _day0())
+
+
+def test_a_duplicated_item_stops_the_read(tmp_path):
+    out = tmp_path / "out"
+    _convert_to(tmp_path, out)
+    triples = json.loads((out / "stripped-triples.json").read_text(encoding="utf-8"))
+    key = json.loads((out / "key.json").read_text(encoding="utf-8"))
+    twin = "duplicated" + "0" * 55
+    triples.append({**triples[0], "triple_id": twin})
+    key["triples"][twin] = key["triples"][triples[0]["triple_id"]]
+    _rewrite_join_files(out, triples, key)
+    with pytest.raises(ValueError, match="in-scope counts"):
+        cv.build_reader_items(out, _day0())
+
+
+def test_a_fully_invalid_round_loads_as_zero_items(tmp_path):
+    bad = _one_item()
+    bad["kind"] = "synergy"                      # not in the closed mechanism list
+    out = tmp_path / "out"
+    wf = tmp_path / "answer.json"
+    wf.write_text(json.dumps({"items": [bad]}), encoding="utf-8")
+    res = cv.convert_file(wf, V6_STATE, out_dir=out, writer="synthetic", synthetic=True)
+    assert res["funnel"]["valid"] == 0 and res["items"] == 0
+    items, _ = cv.build_reader_items(out, _day0())
+    assert items["counts"]["total"] == 0
 
 
 # ── pricing (brief 30, Part 1 item 3; the arithmetic of certification protocol §11) ────────────────

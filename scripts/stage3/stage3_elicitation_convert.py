@@ -655,15 +655,47 @@ def _gate(manifest: Path | None, audit: Path | None, writer: str) -> None:
 
 # ── the reader's loader (target a) and the application path's validation (target b) ──────────────
 
-def build_reader_items(out_dir: Path, day0: Mapping[str, str], expected: Mapping[str, int] | None = None):
-    """`stage3_legibility.build_items` on the converted files: the loader's join with opaque ids. The
-    brief-23 count guard (EXPECTED_COUNTS) is why the CLI's `items` mode stops on elicitation items;
-    Part 3's reader harness calls this with expected=None, as the packet's own header anticipates."""
+def build_reader_items(out_dir: Path, day0: Mapping[str, str]):
+    """`stage3_legibility.build_items` on the converted files: the loader's join with opaque ids.
+    The brief-23 count guard is no longer bypassed (brief 30, Part 1b, the read's item 2): the
+    expected in-scope counts are taken from the converter's own report and key, so a dropped or a
+    duplicated item stops the read."""
     import stage3_legibility as leg
-    triples = json.loads((Path(out_dir) / "stripped-triples.json").read_text(encoding="utf-8"))
-    key = json.loads((Path(out_dir) / "key.json").read_text(encoding="utf-8"))
-    payloads = json.loads((Path(out_dir) / "payloads.json").read_text(encoding="utf-8"))
-    return leg.build_items(triples, key, {READER_FILE_TAG: payloads}, dict(day0), expected=expected)
+    out_dir = Path(out_dir)
+    triples = json.loads((out_dir / "stripped-triples.json").read_text(encoding="utf-8"))
+    key = json.loads((out_dir / "key.json").read_text(encoding="utf-8"))
+    payloads = json.loads((out_dir / "payloads.json").read_text(encoding="utf-8"))
+    report = json.loads((out_dir / "report.json").read_text(encoding="utf-8"))
+    return leg.build_items(triples, key, {READER_FILE_TAG: payloads}, dict(day0),
+                           expected=expected_reader_counts(key, report, leg.PLANTED_REGIME))
+
+
+def expected_reader_counts(key: Mapping[str, Any], report: Mapping[str, Any],
+                           planted_regimes: Mapping[tuple[str, str], str]) -> dict[str, int]:
+    """The expected in-scope counts for the reader's join, taken from the converter's own records
+    (brief 30, Part 1b): the names are the reader's regimes of the key's own planting tags (its
+    `file` and `arm`), the value the converter's own recorded items count (the key's counts block,
+    cross-checked against the report's). The value is the converter's record, not a recount of the
+    files being joined, so an item dropped from or duplicated in both joined files still stops the
+    read."""
+    names: set[str] = set()
+    for entry in key["triples"].values():
+        for planting in entry.get("plantings", ()):
+            name = planted_regimes.get((planting.get("file"), planting.get("arm")))
+            if name is not None:
+                names.add(name)
+    n_items = key.get("counts", {}).get("items")
+    if not isinstance(n_items, int) or isinstance(n_items, bool) or n_items < 0:
+        raise UsageError("refusing: the key's counts block does not record the items count")
+    if report.get("items") != n_items:
+        raise UsageError(f"refusing: the converter's own records disagree on the items count "
+                         f"(report {report.get('items')!r}, key {n_items!r})")
+    if len(names) > 1:
+        raise UsageError(f"refusing: the key plants under more than one reader regime {sorted(names)}; "
+                         "one items count cannot be split per regime")
+    if not names and n_items:
+        raise UsageError("refusing: the key records items but plants no triple in a reader regime")
+    return {name: n_items for name in names}
 
 
 def validate_application(out_dir: Path, state_texts: Mapping[str, str]) -> list[str]:
