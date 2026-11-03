@@ -107,3 +107,28 @@ The review session's cold read of note 4 is `work/stage3/elicitation/review/cold
 ## Dated note 6, 2026-11-03 (coordinator): one output root for Part 3, named before Part 3 opens
 
 Raised by the review session for brief 35's deny rules, which must name Part 3's outputs by path before they exist. **Part 3 writes every output under one root, `work/stage3/elicitation/part3/`:** the round records (`round-1-v0.{md,json}` and per round), the certification files, the writers' barred directory `part3/writers/` (never opened by the coordinator or the review session; §4 item 7's "barred directory named in the INDEX" is this one, and the INDEX row names it), the anchor draw and its sheet, and Part 3's own caches. The six-pair pilot's and the cross-document arm's records go under the same root. Part 2 (`e1e2/` or as its record names it) is unaffected and stays readable. §4 item 7's paths read accordingly; nothing else in §4 changes. Brief 35's session denies this root and the S3 caches, with `s3-applications-v0.json` the one allowed read.
+
+## Dated note 7, 2026-11-03 (coordinator): decision 8 fired; the reconciled proposal adopted; the options for Aravind, with the coordinator's recommendation
+
+**Decision 8 fired** on the quiet-but-illegible arm: 2 of 78 against the line of 3 (certified 12 of 78 against 5; `work/stage3/elicitation/gate-reachability-v1.md` 02e3f6fa, .json c7adb2ac; verified by the coordinator, fork a1a4da8). Per the rule (cb9f626e), Part 3's writer round 1 does not open until Aravind chooses.
+
+**Adopted by reference, in full:** the reconciled proposal `work/stage3/elicitation/review/reconcile-part2-trigger-2026-11-03.md` **dec59a98** (built from the review session's read 9f3d084b and the Fable 5.1 read b6be7dff; its §4 is the wording of this note's items 1 to 10, numbered as there; its §5 the plain statement for Aravind). The coordinator's items in it, decided here:
+- **The composition band's width** (item 4): bands of **10 points** on gate (i)'s mean composition score, within writer × document. Plan §8 leaves the width to round 2's plan, and the sequential rule needs it from the first certification, so Part 3's first act is a $0 dry run of the matching on the simulator's synthetic strata, reported in its STATUS line; the width moves only by dated note before writer round 1's certification.
+- **Extra writer rounds beyond the third are one-document only** (the cross-document arm's three rounds stay as §4 plans them; G3's need is theirs, not the comparison's). One extra round is then about $63 at point prices and $127 at the upper bound.
+- **The plan.md dated note for the guard** (item 7) is the coordinator's, written before any round-2 score, dry-run as code, re-pinned by the writing session.
+
+**The two "[verbatim]" slots of §4 (items 1 and 9)** are filled by a dated note 8 with Aravind's words on his choice and on the past-pause resume, as he states them to the coordinator or the review session (both sources recorded, as note 3 did).
+
+**The options, as put to Aravind (figures from dec59a98 §5, computed with both reader pairs):**
+
+| option | what it is | chance of reaching n_eff 26 (rate holds / halves) | mean P(*excluded* \| 0) | expected extra rounds | spend of the extra rounds (one-document) |
+|---|---|---|---|---|---|
+| **A. Six-round course (recommended)** | writer rounds at the cap while n_eff < 26, up to six rounds, with the floor rule and the purity measure | 0.93 / 0.70 | 0.93 / 0.89 | about 1.1 / 1.7 | about $70 / $110 at point, at most three rounds $190 (upper $380) |
+| B. Four-round variant | the same, capped at four rounds | 0.69 / 0.41 | 0.89 / 0.83 | at most 1 | at most $63 (upper $127) |
+| C. Stop at three rounds | round 2 at the achieved n, R2-5's prefix if below the floor | about 0.3 at the pinned rate | about 0.76 | 0 | $0 |
+
+Listed and not recommended (dec59a98 §§1 to 3): re-pinning the reader to a weaker deployment; the pinned-reader-only redefinition of the comparison arm; k = 4 as an entry gate (priced, costs yield, asymmetric); a second writer target aimed at illegibility (reverses A6.16.3's choice of the incidental by-product and loads the contrast with more than legibility).
+
+**The coordinator's recommendation: A**, the six-round course. It is outcome-blind (the stopping statistic is a yield count, never a reading), it is the only option with a better-than-even chance of the conclusive answer Aravind asked for, and its expected increment is about one to two one-document rounds. "Conclusive" is likely, not assured: round 2 prints its operating characteristics at whatever n it reaches, and the second reader pair's rates are a transfer from 37 items until writer round 1's counts replace them.
+
+**What Aravind decides:** the course (A, B or C) in his words, and each extra round's spend by STATUS line before it opens. **Brief 35 is unaffected.** Part 3 opens on the coordinator's STATUS line after note 8.
