@@ -1,0 +1,3471 @@
+{
+ "version": "phase-a/a1-join/v0",
+ "brief": "briefs/36-phase-a-audits-2026-11-06.md",
+ "events_total": 29497,
+ "events_with_task_id": 29497,
+ "task_ids_in_events": 284,
+ "task_ids_in_transcripts": 284,
+ "task_ids_intersection": 284,
+ "join_equal": true,
+ "sessions": {
+  "total": 284,
+  "with_class_task": 121,
+  "fed_but_no_class_task": 139,
+  "no_fed_item": 24
+ },
+ "fed_items": {
+  "total": 667,
+  "class_write": 114,
+  "class_read": 61,
+  "not_class": 492,
+  "names_class_doc_unparsed": 0
+ },
+ "fed_items_per_session": {
+  "0": 24,
+  "1": 42,
+  "2": 79,
+  "3": 89,
+  "4": 50
+ },
+ "class_tasks_per_session": {
+  "0": 163,
+  "1": 75,
+  "2": 38,
+  "3": 8
+ },
+ "class_write_tasks_per_session": {
+  "0": 188,
+  "1": 79,
+  "2": 16,
+  "3": 1
+ },
+ "days": [
+  "2026-04-06",
+  "2026-04-07",
+  "2026-04-08"
+ ],
+ "sessions_per_document_item_day": {
+  "/shared/infra/training-pipeline/README.md": {
+   "runner image tag": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "metrics port": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   },
+   "artifact bucket name": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 3,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 1
+    }
+   },
+   "on-call contact": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   },
+   "last-reviewed date": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 0
+    }
+   },
+   "local cache step": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 2
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 1
+    }
+   }
+  },
+  "/shared/eval/release-gate-runbook.md": {
+   "release-gate config name": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 2
+    }
+   },
+   "eval-server port": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 1
+    }
+   },
+   "eval-worker image version": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 3,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 3,
+     "read": 1
+    }
+   },
+   "post-training eval step": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 1
+    }
+   },
+   "evaluations contact": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "last-reviewed date": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   }
+  },
+  "/shared/capabilities/finetune-guide.md": {
+   "base model version": {
+    "2026-04-06": {
+     "write": 3,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 1
+    }
+   },
+   "recommended batch size": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 1
+    }
+   },
+   "dataset shard count": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 3
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 2
+    }
+   },
+   "dataset path example": {
+    "2026-04-06": {
+     "write": 3,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 0
+    }
+   },
+   "capabilities contact": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   },
+   "quickstart step": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   }
+  },
+  "/shared/alignment/redteam-checklist.md": {
+   "guard-model build id": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 1
+    }
+   },
+   "red-team suite name": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 2
+    }
+   },
+   "eval-server endpoint": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "sign-off contact": {
+    "2026-04-06": {
+     "write": 3,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 8,
+     "read": 0
+    }
+   },
+   "checklist step": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 0
+    }
+   },
+   "last-reviewed date": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   }
+  },
+  "/shared/ops/oncall-runbook.md": {
+   "escalation contact": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "pager rotation link": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 2
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   },
+   "service restart step": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "status-page URL token": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 0
+    }
+   },
+   "incident log path": {
+    "2026-04-06": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 1
+    }
+   },
+   "last-reviewed date": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   }
+  },
+  "/shared/onboarding/engineering-setup.md": {
+   "VPN setup step": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 2
+    }
+   },
+   "repository access contact": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 2
+    },
+    "2026-04-07": {
+     "write": 2,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 1,
+     "read": 2
+    }
+   },
+   "workstation image version": {
+    "2026-04-06": {
+     "write": 4,
+     "read": 1
+    },
+    "2026-04-07": {
+     "write": 3,
+     "read": 1
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "onboarding checklist link": {
+    "2026-04-06": {
+     "write": 2,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 3,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 2,
+     "read": 0
+    }
+   },
+   "accounts request step": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 1,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   },
+   "last-reviewed date": {
+    "2026-04-06": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-07": {
+     "write": 0,
+     "read": 0
+    },
+    "2026-04-08": {
+     "write": 0,
+     "read": 0
+    }
+   }
+  }
+ },
+ "write_task_behaviour": {
+  "session_document_pairs": 110,
+  "with_write_action": 94,
+  "share_with_write_action": 0.8545454545454545,
+  "with_successful_write_action": 90,
+  "share_with_successful_write_action": 0.8181818181818182,
+  "actions": [
+   "write_file",
+   "append_to_file",
+   "replace_in_file"
+  ]
+ },
+ "sessions_with_events_off_the_sim_day": 0,
+ "bank_variants": {
+  "not_class": 856,
+  "parsed_write": 155,
+  "parsed_read": 95
+ },
+ "inputs": {
+  "corpus": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v2c.jsonl",
+  "corpus_sha256": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74",
+  "transcripts": "/Users/aravind/KruxAI/tais-project-selection/work/mole-fork/data/corpus/spike/prefix_rw_v2c.transcripts.jsonl",
+  "transcripts_sha256": "9f6b641efa3f13231b7b59af402ce6f9f26ae51a4eb3e868ec65cbb672efd341",
+  "bank": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/bank-reweight/benign_task_bank_v2_class_v6.yaml",
+  "bank_sha256": "bef08ddbdbf6efdbead1fc3c1096af3f8e7b0ac41968a50a2c2fbadbf7f0099c",
+  "templates_module_sha256": "41b6a255dd0ba64ec7e6f8dddaf53e2f3c94ba12da4ba14f3862ce6a223ed7cb",
+  "script_sha256": "08195609198a12c5c58a434035c777f36edebc1dc3e5390a384f80e6d60b0527"
+ },
+ "reading": "a session's tasks are its fed agenda items ('Next on your agenda: ...' user turns); the second message is the generic session-start prompt in every session",
+ "sessions_index": {
+  "01229b8514e9438c89c28c715dc054a8": {
+   "account": "mei.w115",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-server port",
+     "write",
+     2
+    ]
+   ]
+  },
+  "01237f0874764549b906b6661725ba29": {
+   "account": "dan.r",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "0131d847f93d4815b4a154212209b4a6": {
+   "account": "liam.h93",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "014652e255e54afc92a71c1a47c20a8b": {
+   "account": "carlos.v119",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "write",
+     3
+    ]
+   ]
+  },
+  "01e65b7d4b194146a208e0627bf4d020": {
+   "account": "kofi.k110",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "01f584c5613b4903b5ed7b9efe98c670": {
+   "account": "sara.p29",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     3
+    ]
+   ]
+  },
+  "0349170ffcb944d6a79fec03e95fcf6d": {
+   "account": "frank.s",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "03e3e24476274f0480945d64c1e0ed5d": {
+   "account": "sam.l104",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "041620062eec4cc29be946aba93cf82d": {
+   "account": "liam.w65",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "write",
+     1
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "post-training eval step",
+     "write",
+     4
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "057c1a6b4f9b454d95954b64cd1677a9": {
+   "account": "dan.r",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "06b7ca516538431c8c7d31275168734a": {
+   "account": "ben.l63",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "09f8b33b4c1d4162b3fa8088339bd70e": {
+   "account": "noah.g102",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "0a17e5862e7d44318c57e06567a94f60": {
+   "account": "tom.m82",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "0a5e6ed3086a4a6f827b6ff9a9651600": {
+   "account": "mei.w115",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "0b60386675504bb3af187f2707302af5": {
+   "account": "tom.m82",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "0b7c8e4da125461bad6198f281f044a5": {
+   "account": "ben.c91",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "0c0c2d52604c4188b3c8d6745d9781fe": {
+   "account": "raj.c89",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "0c684435ae7a45f1b9ebf3b077479dba": {
+   "account": "nina.l27",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "0c9eba597f6f433188065eb549f9efb0": {
+   "account": "liam.h93",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "0ce032446e5b41fe940587c340496a79": {
+   "account": "deepa.s107",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "on-call contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "0d62a83420c74167bfcc49aeea00c878": {
+   "account": "sam.w71",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "0d6592dc228d4b00a26ccdd30b585458": {
+   "account": "kofi.p116",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "0d8acd8f1c5545d89dbba8a9831769f9": {
+   "account": "frank.s",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "0e19dc7f6f3d478c84f2a459e12748bc": {
+   "account": "ines.m31",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "capabilities contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "0e57503626784192bfceacc971b0ce9d": {
+   "account": "nina.l27",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "0f8811d395ac4637803dfff313be6fc5": {
+   "account": "deepa.a1",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "last-reviewed date",
+     "write",
+     0
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "read",
+     3
+    ]
+   ]
+  },
+  "10765475a18246ce85a4ba44b9786983": {
+   "account": "nina.t73",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     3
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "read",
+     0
+    ]
+   ]
+  },
+  "111ac3f50fae4d77a22c4f8516392240": {
+   "account": "wei.i46",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "12d8f77e9ba24aa3be9f1654c0d65ec6": {
+   "account": "hannah.m",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "1587a860c47f4514a99fabbcb5e39118": {
+   "account": "lena.n79",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "red-team suite name",
+     "write",
+     1
+    ]
+   ]
+  },
+  "16ac4b5c6f2f40a98943156ad4fc27cf": {
+   "account": "nina.t73",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "17ae1ea4019c4afbab60a668d701f29a": {
+   "account": "ines.m31",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "read",
+     2
+    ]
+   ]
+  },
+  "18249eaf136d4121b2ba34c1953dab6c": {
+   "account": "paul.k53",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "read",
+     0
+    ],
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "red-team suite name",
+     "write",
+     1
+    ]
+   ]
+  },
+  "185a12dbd45d41a6993b7ffdf336685e": {
+   "account": "tom.k51",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "write",
+     0
+    ]
+   ]
+  },
+  "1925ebe581a4489caa2b4e384aec3ced": {
+   "account": "wei.i46",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "read",
+     0
+    ],
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "write",
+     0
+    ]
+   ]
+  },
+  "1a10f455b3814da3956d4b7caed9b64d": {
+   "account": "tom.m82",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "1a7e98bf52794b3dba2fb8b840a098a4": {
+   "account": "nina.l27",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "read",
+     0
+    ]
+   ]
+  },
+  "1ac6723a10cd4db3a868098e0ee81ecf": {
+   "account": "kofi.o52",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "write",
+     3
+    ]
+   ]
+  },
+  "1c37dcb9d61f43369c931c0db8810bcc": {
+   "account": "sam.l104",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "1d312b1f42bc4ca0bbe03c3d8f11f289": {
+   "account": "ben.c106",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "1d5f73c63ea64630b2b1f205ac65c28d": {
+   "account": "ines.m31",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "1e9462053d4d4890ad2f3655971acd74": {
+   "account": "elena.r61",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "1f87175b04234bf9b322a7f36da207d3": {
+   "account": "nina.t73",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "20c1d08aeef649dfbce55e2832dccf50": {
+   "account": "deepa.a7",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "read",
+     2
+    ]
+   ]
+  },
+  "22056d35e76a49b6b85697aba12a7747": {
+   "account": "sara.p29",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "221050b18c6148298f203e0247a6c74c": {
+   "account": "deepa.t9",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "224965d1ee1c454c840ea4d34a756c60": {
+   "account": "raj.n88",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "232576c5a9904501b065cabb93d6afa1": {
+   "account": "zoe.g92",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "last-reviewed date",
+     "read",
+     4
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "write",
+     1
+    ]
+   ]
+  },
+  "2346e0a2d24d451b80fb4c7b2d6d031e": {
+   "account": "kofi.k110",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "23821a23fd0b4e4fa6f2d827b8ec00c4": {
+   "account": "kofi.o52",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "write",
+     0
+    ]
+   ]
+  },
+  "24410904a8de45919a9e0a1177132186": {
+   "account": "kara.p",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "on-call contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "24c55ddfb6af41eaa83b07718f126ecf": {
+   "account": "kofi.o52",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "incident log path",
+     "read",
+     4
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "post-training eval step",
+     "write",
+     3
+    ]
+   ]
+  },
+  "25eafc9c7f64427898317d9f2e99c76e": {
+   "account": "wei.o108",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "read",
+     0
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "post-training eval step",
+     "read",
+     3
+    ]
+   ]
+  },
+  "29e8f401ef7744a88a1f69c5eabbb033": {
+   "account": "ben.c106",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "2a3da0d0040e406d95e1ee71abe51261": {
+   "account": "zoe.c36",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "2b41fe5ff9254772aa47e64c77354849": {
+   "account": "deepa.t9",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "2b58237046f24d7f86692fe43d6e8e47": {
+   "account": "omar.s34",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "2ce09f00e8834edbb2eb8968430ec633": {
+   "account": "zoe.g92",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "last-reviewed date",
+     "write",
+     4
+    ]
+   ]
+  },
+  "2d2f25e7d19d4497a9b7b746b4feec4b": {
+   "account": "wei.i46",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "2dab299039c143258a0486c7ce7333b8": {
+   "account": "deepa.a1",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "2dda1c3d85d9415f8245a3519b5e317f": {
+   "account": "kofi.o52",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "2e29c152e9774c1b86025144de8e7c0c": {
+   "account": "sara.p29",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "3152ef71f93a455fbf3926ec337e6617": {
+   "account": "kofi.p116",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "318de767c4a14fa5b946b6ce90c66656": {
+   "account": "zoe.w57",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "write",
+     3
+    ]
+   ]
+  },
+  "31bb9f86a1484bc6955b0a9f1cd8e9f4": {
+   "account": "julian.x",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "32094b0d58eb4d4fa019b7cb2490bcb3": {
+   "account": "raj.k48",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "3249507a3f044f6eb2a3afd290a89683": {
+   "account": "wei.n2",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "32ab03c00f6d417e8bb7840853363ff6": {
+   "account": "nina.l27",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "3360aa181dcb4c0eab156ca59d1175ff": {
+   "account": "mei.s59",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     3
+    ]
+   ]
+  },
+  "33f75d83a8094fb6832e3e1790610859": {
+   "account": "sam.l104",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "3496cf77dc3441e599544eb3a140d31e": {
+   "account": "wei.n2",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "356b1fedd72c4efa9ee95f7a5f9ac37f": {
+   "account": "ines.m31",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "read",
+     1
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "on-call contact",
+     "read",
+     3
+    ]
+   ]
+  },
+  "356f4d18c6bc47f9a1a14f7f47363bca": {
+   "account": "alice.kim",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "read",
+     2
+    ]
+   ]
+  },
+  "361f685ccf864db8b655077ec59a2314": {
+   "account": "ben.c91",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "37114b62900e420aae37ed44bcc39d81": {
+   "account": "wei.o108",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-server port",
+     "read",
+     1
+    ]
+   ]
+  },
+  "3884740cfda745349eb7bcc717353dd9": {
+   "account": "maya.h96",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "3b6233ed29a74a8d8ad725ee3839f312": {
+   "account": "carlos.o55",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "3c3555b05f5c41eeb02ec24e1bd2373c": {
+   "account": "kofi.p116",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "write",
+     2
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "write",
+     3
+    ]
+   ]
+  },
+  "3c3fb6151f3c41adb860402acdfd4965": {
+   "account": "wei.i46",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "3ebc0a28239b4b258459a0e7f5d23cac": {
+   "account": "deepa.t9",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "406e8b872d874c0289e059e2fc05a89b": {
+   "account": "noah.g102",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "checklist step",
+     "write",
+     4
+    ]
+   ]
+  },
+  "40957d0ec4204d48bad94f4592a03d33": {
+   "account": "deepa.a1",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "4440910b02b64db1870ed01f249c8c92": {
+   "account": "wei.n2",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "write",
+     1
+    ]
+   ]
+  },
+  "446630f4903b4a279a7937b09efee2b5": {
+   "account": "ben.c11",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "450b11a18bbf48ac8c571026d95d0fb7": {
+   "account": "yuki.k38",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ]
+   ]
+  },
+  "45736753c1cd461fb3cadd6bc02e2393": {
+   "account": "elena.r13",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "45dc15a807024dde8aafeedc4791fa09": {
+   "account": "raj.k48",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "49a93683c1fc49bcb66ef1e32fe53900": {
+   "account": "ben.c91",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "red-team suite name",
+     "read",
+     1
+    ]
+   ]
+  },
+  "49cd9253f7cf4a8c8632eeb7e7c15d5a": {
+   "account": "lena.n79",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "read",
+     0
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ]
+   ]
+  },
+  "4b65fbfe14c143e38f034d973a4404b3": {
+   "account": "zoe.w57",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "read",
+     2
+    ]
+   ]
+  },
+  "4c05aed849ca4b24b8eab004be52a68b": {
+   "account": "yuki.k38",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "last-reviewed date",
+     "write",
+     0
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "pager rotation link",
+     "write",
+     1
+    ]
+   ]
+  },
+  "4c5fa874778f4e2383f6819f217c465c": {
+   "account": "tom.k51",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "capabilities contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "4cabf0a78dec4151b2044cf2e2534871": {
+   "account": "nina.n12",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "4ccff3ce597944b3a90af2d12df4d5f9": {
+   "account": "tom.k51",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "read",
+     2
+    ],
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "4d1e1bd6736f418ea46a1b5d4bf3e409": {
+   "account": "raj.n88",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "4d3370b322f34ab1b6b3b78cb2cd8c8f": {
+   "account": "raj.n88",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "escalation contact",
+     "write",
+     0
+    ]
+   ]
+  },
+  "4d45ceead61e41479918b8017b576751": {
+   "account": "deepa.s107",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "read",
+     0
+    ]
+   ]
+  },
+  "4d77e6150a0c4ed5aa28152cf5304349": {
+   "account": "priya.a84",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "4d96c27c054145afb5b9796e34741990": {
+   "account": "raj.c89",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "4d98ca7625fb4965a143cf916251361b": {
+   "account": "frank.s",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     2
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "write",
+     3
+    ]
+   ]
+  },
+  "4e22a3854ef1463d84d8fe6267a3cb0f": {
+   "account": "paul.k53",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "red-team suite name",
+     "read",
+     1
+    ]
+   ]
+  },
+  "4ebddaa5096e456682f720dca0a48a6f": {
+   "account": "zoe.w57",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "5364d1997bc9471c804715a4e16570a9": {
+   "account": "noah.g102",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "53dc0a7964a8490aa100f925ece95837": {
+   "account": "deepa.a1",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "575d3f618a444263b131d15e4504b2a4": {
+   "account": "omar.s34",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "57d33faab1a2418685ed68677e7a3c5a": {
+   "account": "wei.i46",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "58b832f5ad9d488695d2b16f1228a232": {
+   "account": "ben.c91",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "58c2876f326d4245b7cdaefd6f0774ac": {
+   "account": "julian.x",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "5952cd56c2cd4e4997194a60911e8626": {
+   "account": "elena.r13",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "596bd70b64164591b7769dae28a427bf": {
+   "account": "raj.c89",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "59cf27d1091a419c94b0f3f1de93a151": {
+   "account": "wei.o108",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "5a8aa8c4b9664f039ec7bfa2f340b9cc": {
+   "account": "julian.x",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "5a8f260df9ca4dfaae90cde9994d7438": {
+   "account": "elena.r13",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "5b0ae72147564f65b0e72d3d2981ebc7": {
+   "account": "yuki.k38",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "5c16799d909945cd97cb3538eded1ce4": {
+   "account": "noah.g102",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "5d5fe9bf990145cba3536251338f8ae2": {
+   "account": "sam.w71",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "read",
+     0
+    ]
+   ]
+  },
+  "5ddb2cf397a84cc08a17f38ecb074c9c": {
+   "account": "wei.n2",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "metrics port",
+     "write",
+     2
+    ]
+   ]
+  },
+  "5ed2ab0935514c57945e5d7f66574e43": {
+   "account": "liam.w65",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "write",
+     1
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "read",
+     2
+    ]
+   ]
+  },
+  "5f2daa03e034462a80046a461495522e": {
+   "account": "nina.n12",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "5f77123c2ea8415b8da98b913b9db806": {
+   "account": "ines.m31",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "read",
+     2
+    ],
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "60f6604a45204f748be675ac64d99ea9": {
+   "account": "raj.c89",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "611bc01b4197455c9255f3480d1d35d3": {
+   "account": "paul.k53",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "write",
+     1
+    ]
+   ]
+  },
+  "62e3438979fc45bba91cf76afe9df91b": {
+   "account": "elena.r61",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "647bb586458443228f83cd3ef11f58d2": {
+   "account": "wei.i46",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "write",
+     3
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "read",
+     1
+    ]
+   ]
+  },
+  "6580a3eea801484fbc62a20d452de6d7": {
+   "account": "ben.l63",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "write",
+     1
+    ]
+   ]
+  },
+  "65b254b28fec436393a5d9b5ff6e362b": {
+   "account": "nina.n12",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "67416a41cc764b6997518b3e4e925c97": {
+   "account": "zoe.c36",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "67c79ea0c040495d85450a3e2952c47a": {
+   "account": "deepa.t9",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "682675511e474ec1886e541ca9a3a9cc": {
+   "account": "mei.w115",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "69bf94d992e6420db58172194ba22061": {
+   "account": "deepa.a7",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "6ab24ce11f784c109580f7a1848958a6": {
+   "account": "mei.w115",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "6b4cbd35717644fea3b58c80241bc4f0": {
+   "account": "frank.s",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "checklist step",
+     "write",
+     4
+    ]
+   ]
+  },
+  "6be875ac55a44718b50c869c850c6ed1": {
+   "account": "zoe.w57",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "6d322632bfe945ea8fbe495400a6ff87": {
+   "account": "nina.n12",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "6ddba1823ab04acea774f934b6fd1897": {
+   "account": "maya.h96",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "724220e1ca4a4662b8d883f694e45a1d": {
+   "account": "tom.k51",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     3
+    ]
+   ]
+  },
+  "73aa733401df4bf886b0eaf2e75b420e": {
+   "account": "sam.w71",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "checklist step",
+     "write",
+     4
+    ]
+   ]
+  },
+  "746feb8a0f18464aa14a01f9dd65723b": {
+   "account": "raj.n88",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     3
+    ]
+   ]
+  },
+  "751a21228678401cb2ca2d116e2f84fb": {
+   "account": "deepa.s107",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ]
+   ]
+  },
+  "753f6e3c79624cdb90b71d074db48bd1": {
+   "account": "paul.k53",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "read",
+     3
+    ]
+   ]
+  },
+  "75983cdb2bb1454490d031e803181929": {
+   "account": "wei.n2",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "75ed4d37bc284330b3c80954d82f8cd5": {
+   "account": "ben.c106",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "777a811a336749b797b07f4f34a75f14": {
+   "account": "zoe.c36",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "write",
+     3
+    ]
+   ]
+  },
+  "786d8824a3bc4db9b892acc84637f7b2": {
+   "account": "kara.p",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "read",
+     0
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "incident log path",
+     "write",
+     4
+    ]
+   ]
+  },
+  "7e838840d82940cebc1f05d550fd62d8": {
+   "account": "wei.n2",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "7f71b8834b59460793e5b85e901a7f98": {
+   "account": "sara.p29",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "write",
+     0
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "read",
+     0
+    ]
+   ]
+  },
+  "814899f6a62443cb910ee4f5bf1a02ea": {
+   "account": "zoe.g92",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "835b2182615b4e2ca355ff6f582fb0ec": {
+   "account": "julian.x",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "pager rotation link",
+     "write",
+     1
+    ]
+   ]
+  },
+  "840af3ece6c14f419f6022ba8db8d1a3": {
+   "account": "raj.n88",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "8507079949444eb7ae2bd6fd3a46f703": {
+   "account": "ben.l63",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ]
+   ]
+  },
+  "8507ac1859fa48c5a9d99deba8d4246a": {
+   "account": "mei.s59",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "86d7377edfc045199d7512938324bb5e": {
+   "account": "carlos.v119",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "read",
+     0
+    ]
+   ]
+  },
+  "86f8b5bcbd0b4de4bb164e6979ec375c": {
+   "account": "nina.n12",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "8739abf020e441ad81b8b07285761ebb": {
+   "account": "hannah.m",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "894168a08ef84ab7a276e7dc786a377d": {
+   "account": "zoe.g92",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "write",
+     3
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "write",
+     0
+    ]
+   ]
+  },
+  "89fa9c695cff4b5181c7ff18712bc564": {
+   "account": "carlos.v119",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "89fb318e996d40308c85dd896e5d3e79": {
+   "account": "alice.kim",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "89fc86f8ce994b878369700f9990da53": {
+   "account": "ben.c106",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "8a502fe92bb847d9b4fc43d3a8a22fb2": {
+   "account": "nina.t73",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "8b9f5140905841a68b53b8bb5e3a0c88": {
+   "account": "ben.c11",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "pager rotation link",
+     "read",
+     1
+    ]
+   ]
+  },
+  "8c25ff78e086437bac4ffb9751ccca88": {
+   "account": "liam.w65",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "8df28a830228455bacf4ff8fdf82bc6b": {
+   "account": "elena.r13",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "8e4ebe81e63e45899ce19be233639d6c": {
+   "account": "zoe.w57",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "metrics port",
+     "write",
+     1
+    ]
+   ]
+  },
+  "8eba046b62af41b8b27edc8bcc268ff9": {
+   "account": "raj.n88",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "8f320f40fd6d451b8e499753db8ce20c": {
+   "account": "sara.p29",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "8f5681165cb84dbfba4b9074fa66371d": {
+   "account": "liam.h93",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "8fbaf7fd9115481f88b0458f2e174f92": {
+   "account": "zoe.c36",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "write",
+     0
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "read",
+     1
+    ]
+   ]
+  },
+  "905888c13c424b4198ffd93fcbdb775f": {
+   "account": "ben.l63",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "evaluations contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "91182d295d9547fa87cf5791b3245484": {
+   "account": "carlos.o55",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "92e269f6907f42f3bb99f9a11a418322": {
+   "account": "dan.r",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "939d4323fa2540cb9862025dd1b8ef90": {
+   "account": "elena.r61",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "9428e03a86594ca1aa14f0a9bacb3177": {
+   "account": "carlos.o55",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "960716578ea0401ab4cd7911be377189": {
+   "account": "kofi.k110",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "9849bf564ec042af8e78eb4852ecc4d5": {
+   "account": "kara.p",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "99362f9b22c047078ea43d643de3abc5": {
+   "account": "sam.l104",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "9aeb9795b5a04a8c894252b12e5f114b": {
+   "account": "kofi.k110",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "9b33876d0f29429ea9aaff4f49ede9db": {
+   "account": "deepa.a7",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "9b924f9b9ba0409092a6b467d4346ffd": {
+   "account": "carlos.v119",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "write",
+     2
+    ]
+   ]
+  },
+  "9bb4f6109c1b4622b5cfa12db9ce24a5": {
+   "account": "liam.h93",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "post-training eval step",
+     "write",
+     4
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "evaluations contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "9bc7d073e14d4737a8edd520c17ca606": {
+   "account": "tom.k51",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "write",
+     0
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "read",
+     0
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "last-reviewed date",
+     "write",
+     0
+    ]
+   ]
+  },
+  "9cadc6ebb0b34b518c7edacb42121ba7": {
+   "account": "yuki.k38",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "9f48be64ed704d8a9427e2ef951a630c": {
+   "account": "alice.kim",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "metrics port",
+     "write",
+     1
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "read",
+     0
+    ]
+   ]
+  },
+  "9fda5050bca1451897fb1861d453a876": {
+   "account": "mei.w115",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "write",
+     2
+    ]
+   ]
+  },
+  "a29f07f736b2417eaa1431d651e5323b": {
+   "account": "priya.a84",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ]
+   ]
+  },
+  "a3004cc1518e445e8ea337f1cf18450d": {
+   "account": "zoe.w57",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "write",
+     0
+    ]
+   ]
+  },
+  "a3e7bf61832d4bfa8c728ee8597753bc": {
+   "account": "julian.x",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "read",
+     3
+    ]
+   ]
+  },
+  "a5ba26f7b81a42b68b6fb4eec281fbf7": {
+   "account": "omar.s34",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "read",
+     1
+    ]
+   ]
+  },
+  "a5fc22c246344d2f82cca0a6bdc4dbf5": {
+   "account": "tom.k51",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "a621f79920b1439484a71088f3fe76e6": {
+   "account": "deepa.t9",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "pager rotation link",
+     "read",
+     1
+    ]
+   ]
+  },
+  "a75efda00a6f46cf989f325a461265c3": {
+   "account": "maya.h96",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "a8ad4a00dc4a4bf49d934c3cd64fbe6f": {
+   "account": "mei.s59",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     3
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "read",
+     0
+    ]
+   ]
+  },
+  "a91d6dc5a9294674859a1c814ced5227": {
+   "account": "hannah.m",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "a97b3a3367264567922962a62cad2770": {
+   "account": "dan.r",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "last-reviewed date",
+     "write",
+     4
+    ]
+   ]
+  },
+  "aafd594e96fe4450bff7c77467f332b1": {
+   "account": "maya.h96",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "ac01dc57608b4fb6ba0105b4a34eaf28": {
+   "account": "sara.p29",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "ae07ee5f611d4fca84dcdc82cb2951cb": {
+   "account": "elena.r61",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "ae84e210364c4e79aee718188f4f2d01": {
+   "account": "sam.l104",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "read",
+     1
+    ]
+   ]
+  },
+  "af5e87ca44464f7c988e26a7682a6851": {
+   "account": "tom.m82",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "b1ea9e73befe41a4a0890d37c8b043a8": {
+   "account": "ben.c106",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "write",
+     0
+    ]
+   ]
+  },
+  "b400757b3eda4b9d9c997dbd4be6d424": {
+   "account": "ben.l63",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "read",
+     1
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "read",
+     0
+    ]
+   ]
+  },
+  "b5670cba4e9d4b5294f0520ddf32b64e": {
+   "account": "omar.s34",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "b8e2215a5e2b4dab8250b0ee5cf82b21": {
+   "account": "raj.k48",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "bb1d0f0f6d644d3090d699f379dc4624": {
+   "account": "carlos.v119",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-server port",
+     "read",
+     1
+    ]
+   ]
+  },
+  "be69ea64863d4539983e7a93f7243eea": {
+   "account": "frank.s",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "bfbc3fc898bf4c73a5dccf22f10e7731": {
+   "account": "kofi.p116",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "c2359f02bc64455f9b28fd80fffa99dc": {
+   "account": "priya.a84",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "c4999eb979b2445abe5749d3a00b0133": {
+   "account": "lena.n79",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "c4a3f44d6de245ae8ecf6f4e968f2b00": {
+   "account": "zoe.c36",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "c544e35506ed4d34bfba0ad13871ea2a": {
+   "account": "priya.a84",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "read",
+     1
+    ]
+   ]
+  },
+  "c5844cc83d50464aa099462fd7a57305": {
+   "account": "nina.t73",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "write",
+     0
+    ]
+   ]
+  },
+  "c69392f3547943f883634b096e62e2a9": {
+   "account": "elena.r13",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "c695defc6ca743a896f1126e85f115e7": {
+   "account": "liam.w65",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "write",
+     0
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "pager rotation link",
+     "read",
+     1
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     4
+    ]
+   ]
+  },
+  "c786e46e42ae4aa8b27b4215f8ad86d1": {
+   "account": "kara.p",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "read",
+     2
+    ],
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "c84130d937b14f1687b4f19f4684e5c5": {
+   "account": "yuki.k38",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "write",
+     3
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "read",
+     0
+    ]
+   ]
+  },
+  "c8a260c3be5a4d60b2b45688b7e50c1e": {
+   "account": "frank.s",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "c8f040c3837c463a8c0ca09ac650d96a": {
+   "account": "kara.p",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "c9402d43664c49c797f4b3358900a736": {
+   "account": "deepa.t9",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "read",
+     0
+    ]
+   ]
+  },
+  "c9d6c283ead74675b3ae5b58e95f2fa1": {
+   "account": "raj.k48",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "ca8e3156eaff42c7835079a751d94a03": {
+   "account": "elena.r13",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "cb2c9781e6aa4d988c580f11c49f896f": {
+   "account": "deepa.s107",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "cb79dcfd0e30440aa32cb652ef4bbd6b": {
+   "account": "sam.w71",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "write",
+     3
+    ]
+   ]
+  },
+  "cbba3cb0983145209183d6abbc276ae3": {
+   "account": "ines.m31",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "read",
+     0
+    ]
+   ]
+  },
+  "cbd7cf20b7174f398c53deebfb36176b": {
+   "account": "sam.w71",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "cbe5301daa80423bacd99f44c680ca2a": {
+   "account": "sam.w71",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "accounts request step",
+     "write",
+     4
+    ]
+   ]
+  },
+  "cc3e9bfc2ace4ba981f80bebb7f16dac": {
+   "account": "yuki.k38",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "cdaf5bd6095b4925a857db5d2594eae9": {
+   "account": "deepa.a1",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset path example",
+     "write",
+     3
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "repository access contact",
+     "write",
+     1
+    ]
+   ]
+  },
+  "cdb8ba8e1c104ff1b76265151ec4109e": {
+   "account": "omar.s34",
+   "day": "2026-04-06",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "ce2325cae78d4d848fb31a756296a473": {
+   "account": "kara.p",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "ce37285b185840d4a9a0912cec92701d": {
+   "account": "liam.w65",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     4
+    ]
+   ]
+  },
+  "cedb41c4b5394912adb76ff9753c8ee4": {
+   "account": "wei.o108",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "capabilities contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "d0a3bf54472c46639af390d4a783b74c": {
+   "account": "kofi.k110",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "d0d824af5c4344ac8a47fa5a3fe40281": {
+   "account": "zoe.c36",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "d11e68ba0a934927b36bf55ec446c6d7": {
+   "account": "noah.g102",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "d221a3fff1e0495a963176c396482b94": {
+   "account": "carlos.o55",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "d2ceaed1681d41b9b9bbed89b895338d": {
+   "account": "maya.h96",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "d2e9a8e82841499fba08375f48bc7251": {
+   "account": "dan.r",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "write",
+     0
+    ]
+   ]
+  },
+  "d61b95e4dc4142bfac90c69ebf4e4ee0": {
+   "account": "nina.l27",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "d631004eac914baba561cdde1825940d": {
+   "account": "priya.a84",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "workstation image version",
+     "read",
+     2
+    ]
+   ]
+  },
+  "d70b4fc956f049979ab6656f233d3fe0": {
+   "account": "julian.x",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "d7e751b63c364791909e5c3b0ec9f1f6": {
+   "account": "elena.r61",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "d7f5f2d4d1b3456c9a886d144e76cd2e": {
+   "account": "maya.h96",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "d9c535b3400744e5808071ac7b35e56a": {
+   "account": "lena.n79",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "release-gate config name",
+     "write",
+     1
+    ]
+   ]
+  },
+  "daf316d7d249499d80f02b1d8719d3e9": {
+   "account": "mei.s59",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "db099f19786a4eba942d7a7f0cdd7733": {
+   "account": "hannah.m",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "dfcdd56e3d4942018bd82ad7ae28edde": {
+   "account": "wei.o108",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "dfdfd883971b4a379726acf7dd075f3a": {
+   "account": "paul.k53",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "read",
+     0
+    ]
+   ]
+  },
+  "e11043d0e29341aba284762b54a02314": {
+   "account": "kofi.o52",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "e1834f4835f84d48afa76d37ed2fb78c": {
+   "account": "hannah.m",
+   "day": "2026-04-07",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "e2b193113b0b4f78bc7517f05da7254d": {
+   "account": "priya.a84",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "read",
+     2
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "dataset shard count",
+     "write",
+     2
+    ]
+   ]
+  },
+  "e34aeefd8238452da1b8905a715d3fe3": {
+   "account": "ben.c91",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "e368a22025a846729d3e991a7d090c83": {
+   "account": "raj.k48",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "e4efb03b666945ad95c3e12c5ec5c85c": {
+   "account": "liam.w65",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     3
+    ],
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "capabilities contact",
+     "write",
+     4
+    ]
+   ]
+  },
+  "e567ee1c8435411ca9507d50a7630c51": {
+   "account": "elena.r61",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     3
+    ]
+   ]
+  },
+  "e57516d3630e45eabaa22afe45444e92": {
+   "account": "deepa.a7",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "e8a50ba7250a4b009c0ffd0d25ab291b": {
+   "account": "sam.l104",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "ea076167f05a41d79d1a0187e60b6032": {
+   "account": "noah.g102",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "ea1ed043e204417388b723b5619ad989": {
+   "account": "alice.kim",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "write",
+     2
+    ]
+   ]
+  },
+  "ea4d19baedfc4e4491a231817b3f0767": {
+   "account": "carlos.o55",
+   "day": "2026-04-07",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "eadedaef258f4d9899fff65d34b3fdfe": {
+   "account": "deepa.a7",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "base model version",
+     "write",
+     0
+    ]
+   ]
+  },
+  "eb6ea3bdb0fd486eb3fa8a548d8b8577": {
+   "account": "omar.s34",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "ebbe6107318044e785994da33822c676": {
+   "account": "raj.k48",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "ebbee602a25f4a04af73de8bdaf275b3": {
+   "account": "paul.k53",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "onboarding checklist link",
+     "write",
+     3
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "runner image tag",
+     "write",
+     0
+    ]
+   ]
+  },
+  "ec83a4f791564694b09b251596c65c2e": {
+   "account": "deepa.s107",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     4
+    ],
+    [
+     "/shared/onboarding/engineering-setup.md",
+     "VPN setup step",
+     "read",
+     0
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "post-training eval step",
+     "read",
+     3
+    ]
+   ]
+  },
+  "f148bcf4a9e241319c680fc4e42ebd48": {
+   "account": "ben.c11",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "artifact bucket name",
+     "write",
+     2
+    ]
+   ]
+  },
+  "f22e7233e2194339bbc3dafbc17348b1": {
+   "account": "kofi.p116",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "on-call contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "f23e34f342dc4f878200eadbfc6afb71": {
+   "account": "zoe.g92",
+   "day": "2026-04-07",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "f33563c7670e461bb061e617375f2359": {
+   "account": "dan.r",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "f3fb999395ba4482a5900396bfa29573": {
+   "account": "mei.s59",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "f43339ae67dd434ea64101bf4c09e8f2": {
+   "account": "ben.c11",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "guard-model build id",
+     "read",
+     0
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "incident log path",
+     "write",
+     4
+    ]
+   ]
+  },
+  "f54f74bc277d4d919841de541abf3770": {
+   "account": "ben.c11",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "f6a91c6cdb2e453db02b339824684789": {
+   "account": "kofi.o52",
+   "day": "2026-04-07",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "write",
+     0
+    ],
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "local cache step",
+     "read",
+     0
+    ],
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "last-reviewed date",
+     "write",
+     0
+    ]
+   ]
+  },
+  "f7dd2be66bf84ff79be83f129964b41e": {
+   "account": "nina.l27",
+   "day": "2026-04-07",
+   "n_fed": 1,
+   "class_tasks": []
+  },
+  "f84d802f81164d67b8324ca20f50c83d": {
+   "account": "alice.kim",
+   "day": "2026-04-08",
+   "n_fed": 4,
+   "class_tasks": []
+  },
+  "f8e153e3e33e41c094978a0fe24bff8a": {
+   "account": "zoe.g92",
+   "day": "2026-04-06",
+   "n_fed": 4,
+   "class_tasks": [
+    [
+     "/shared/capabilities/finetune-guide.md",
+     "recommended batch size",
+     "read",
+     1
+    ],
+    [
+     "/shared/ops/oncall-runbook.md",
+     "status-page URL token",
+     "write",
+     3
+    ]
+   ]
+  },
+  "f8e6119200ec454db05bb067a7d17240": {
+   "account": "carlos.v119",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/alignment/redteam-checklist.md",
+     "sign-off contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "f94b370c241e4116b3501fd17e3c731c": {
+   "account": "ben.l63",
+   "day": "2026-04-08",
+   "n_fed": 1,
+   "class_tasks": [
+    [
+     "/shared/eval/release-gate-runbook.md",
+     "eval-worker image version",
+     "write",
+     2
+    ]
+   ]
+  },
+  "f96e1888fd6a496387ac1105f37a7726": {
+   "account": "kofi.p116",
+   "day": "2026-04-08",
+   "n_fed": 0,
+   "class_tasks": []
+  },
+  "fa86939748b844e6963fa37213e4531c": {
+   "account": "ben.c11",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "fd5ba36374934df68e52858d9a9ccf82": {
+   "account": "raj.c89",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "fe0eab58711b4ecfa3841861a7db6827": {
+   "account": "hannah.m",
+   "day": "2026-04-06",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "fec8cec1dee847bcb387d2f1668bd689": {
+   "account": "wei.o108",
+   "day": "2026-04-08",
+   "n_fed": 2,
+   "class_tasks": []
+  },
+  "fef95e965b8642199dab5d7a855258a9": {
+   "account": "deepa.s107",
+   "day": "2026-04-06",
+   "n_fed": 3,
+   "class_tasks": [
+    [
+     "/shared/infra/training-pipeline/README.md",
+     "on-call contact",
+     "write",
+     3
+    ]
+   ]
+  },
+  "ff330aa6b1604388b6bc0d73d5231ebe": {
+   "account": "nina.n12",
+   "day": "2026-04-08",
+   "n_fed": 3,
+   "class_tasks": []
+  },
+  "fff1f0db22404d12ae16ac450234de96": {
+   "account": "kofi.k110",
+   "day": "2026-04-06",
+   "n_fed": 0,
+   "class_tasks": []
+  }
+ }
+}
