@@ -265,3 +265,92 @@ def test_render_after_md_carries_the_bar_reading_the_cases_beside_the_floor_rule
                    "`sol` certified", "`muse` certified", "A value on the margin of the bar"):
         assert needle in md, needle
     assert md.count("| 4 |") >= 1 and md.count("| 6 |") >= 1
+
+
+# ── the retention-adjusted forecast (the coordinator's message of 8 Nov, after the application check) ──────────────
+
+STOCK = {"sol": {"certified": 20, "illegible": 0, "items": _items([("d1", 52.0), ("d2", 61.0)] * 10, "certified")},
+         "muse": {"certified": 2, "illegible": 2, "items": _items([("d1", 55.0), ("d1", 57.0)], "certified") + _items([("d1", 56.0), ("d2", 40.0)], "quiet_but_illegible")}}
+ONE = {"c": [1000.0, 0.001], "i": [1000.0, 0.001]}      # retention of about one
+ZERO = {"c": [0.001, 1000.0], "i": [0.001, 1000.0]}     # retention of about zero
+
+
+def _case(name, **kw):
+    return dict({"name": name, "writing": ["muse"], "retention": None, "i_scale": None, "i_post": None}, **kw)
+
+
+def _run(cases, seed=5, runs_all=400, runs_matched=60):
+    return fc.forecast_retained(OBS, STOCK, cases, runs_all=runs_all, runs_matched=runs_matched, seed=seed)
+
+
+def test_retained_forecast_starts_from_the_placeable_stock_not_the_observed_counts():
+    r = _run([_case("b", retention={"muse": ONE})])
+    row = r["cases"]["b"]["all_matched"]
+    assert row["certified_after"]["3"]["mean"] == pytest.approx(22.0) and row["illegible_after"]["3"]["mean"] == pytest.approx(2.0)
+    assert r["stock"]["muse"] == {"certified": 2, "illegible": 2}
+    assert r["stock_matched"]["n_c_total"] == 22 and r["stock_matched"]["n_i_total"] == 2
+
+
+def test_retained_forecast_a_writer_not_writing_adds_nothing_and_the_stock_stays_the_same():
+    r = _run([_case("none", writing=[])])
+    row = r["cases"]["none"]["all_matched"]
+    assert row["certified_after"]["6"]["mean"] == pytest.approx(22.0) and row["illegible_after"]["6"]["mean"] == pytest.approx(2.0)
+    assert row["with_floor_rule"]["p_success"] == 0.0
+
+
+def test_retained_forecast_retention_scales_the_yield_of_the_writers_who_write():
+    hi = _run([_case("hi", retention={"muse": ONE})])["cases"]["hi"]["all_matched"]
+    lo = _run([_case("lo", retention={"muse": ZERO})])["cases"]["lo"]["all_matched"]
+    assert lo["certified_after"]["6"]["mean"] == pytest.approx(22.0, abs=0.2)
+    assert lo["illegible_after"]["6"]["mean"] == pytest.approx(2.0, abs=0.2)
+    assert hi["certified_after"]["6"]["mean"] > lo["certified_after"]["6"]["mean"] + 15
+    assert hi["illegible_after"]["6"]["mean"] > lo["illegible_after"]["6"]["mean"] + 2
+
+
+def test_retained_forecast_scales_the_illegible_yield_alone_when_asked():
+    base = _run([_case("a", retention={"muse": ONE})])["cases"]["a"]["all_matched"]
+    scaled = _run([_case("s", retention={"muse": ONE}, i_scale={"muse": 0.0})])["cases"]["s"]["all_matched"]
+    assert scaled["illegible_after"]["6"]["mean"] == pytest.approx(2.0)
+    assert scaled["certified_after"]["6"]["mean"] == pytest.approx(base["certified_after"]["6"]["mean"], rel=0.1)
+
+
+def test_retained_forecast_an_illegible_posterior_override_replaces_the_observed_one():
+    r = _run([_case("o", retention={"muse": ONE}, i_post={"muse": [0.001, 1000.0]})])["cases"]["o"]["all_matched"]
+    assert r["illegible_after"]["6"]["mean"] == pytest.approx(2.0, abs=0.2)
+
+
+def test_retained_forecast_is_deterministic_by_seed_and_reports_round_four_alone_beside_the_course():
+    a = _run([_case("b", retention={"muse": ONE})], seed=9)
+    b = _run([_case("b", retention={"muse": ONE})], seed=9)
+    assert fc.canonical(a) == fc.canonical(b)
+    row = a["cases"]["b"]["matched_observed"]
+    assert set(row["p_success_by_round"]) == {"4", "5", "6"} and row["bar_reading"] in ("below 0.5", "at or above 0.5")
+
+
+def test_retained_forecast_no_further_round_reads_the_stock_alone():
+    r = _run([_case("b", retention={"muse": ONE})])
+    nf = r["no_further_round"]
+    assert nf["matched_n_eff"] == pytest.approx(r["stock_matched"]["n_eff"]) and nf["reaches_stop"] is False
+
+
+def _check_rows():
+    rows = []
+    for w, cls, doc, comp, drop in [("sol", "certified", "/a/d1.md", 50.0, False), ("sol", "certified", "/a/d2.md", 55.0, True),
+                                    ("muse", "certified", "/a/d1.md", 48.0, False), ("muse", "quiet_but_illegible", "/a/d1.md", 47.0, False),
+                                    ("muse", "quiet_but_illegible", "/a/d3.md", 41.0, True)]:
+        rows.append({"writer": w, "round": 3, "class": cls, "document": doc, "composition": comp, "drop": drop})
+    return rows
+
+
+def test_stock_from_check_keeps_the_items_that_survive_the_rule_and_counts_them_by_writer():
+    s = fc.stock_from_check({"items": _check_rows()}, ["sol", "muse"])
+    assert s["sol"]["certified"] == 1 and s["sol"]["illegible"] == 0
+    assert s["muse"]["certified"] == 1 and s["muse"]["illegible"] == 1
+    assert s["muse"]["items"] == [{"document": "/a/d1.md", "composition": 48.0, "class": "certified"},
+                                  {"document": "/a/d1.md", "composition": 47.0, "class": "quiet_but_illegible"}]
+
+
+def test_retention_from_check_is_a_jeffreys_posterior_on_the_kept_share_per_class():
+    r = fc.retention_from_check({"items": _check_rows()}, "muse")
+    assert r["c"] == [0.5 + 1, 0.5 + 0] and r["i"] == [0.5 + 1, 0.5 + 1]
+    assert r["counts"] == {"certified": [1, 1], "illegible": [1, 2]}

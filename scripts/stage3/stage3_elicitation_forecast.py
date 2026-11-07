@@ -429,32 +429,47 @@ def _observed(observed: Mapping[str, Any]) -> tuple[dict, dict]:
 
 
 def _course_after(rng: np.random.Generator, runs: int, observed: Mapping[str, Any], per: Mapping[str, Mapping[str, int]], drift: str,
-                  matched: bool, width: float, M: int, stop: float, floor: float) -> dict:
+                  matched: bool, width: float, M: int, stop: float, floor: float, *, writing: Sequence[str] | None = None,
+                  retention: Mapping[str, Mapping[str, Sequence[float]]] | None = None,
+                  i_scale: Mapping[str, float] | None = None, i_post: Mapping[str, Sequence[float]] | None = None) -> dict:
+    """The remaining rounds. Optional (the defaults are the original course, draw for draw): `writing`, the writers who
+    write the future rounds (the others keep their stock); `retention`, per writer the Beta parameters of the share of
+    certified (`c`) and illegible (`i`) items that stay usable, multiplying the yields; `i_scale`, a per-writer factor on
+    the illegible yield; `i_post`, per writer the Beta parameters that replace the observed illegible-rate posterior."""
     done = int(observed["rounds_done"])
     fut = list(range(done + 1, M + 1))
     writers = list(observed["writers"])
+    writing = list(writers) if writing is None else list(writing)
     post = {w: writer_posterior(observed["writers"][w]["rounds"]) for w in writers}
-    draws = {w: tuple(rng.beta(*post[w][k], runs) for k in ("p_c", "p_i", "v")) for w in writers}
+    for w, pp in (i_post or {}).items():
+        post[w]["p_i"] = [float(x) for x in pp]
+    draws = {w: tuple(rng.beta(*post[w][k], runs) for k in ("p_c", "p_i", "v")) for w in writing}
+    ret = {w: (rng.beta(*retention[w]["c"], runs), rng.beta(*retention[w]["i"], runs)) for w in writing} if retention else None
     n_f = len(fut)
-    Cw = {w: np.zeros((runs, n_f)) for w in writers}
-    Iw = {w: np.zeros((runs, n_f)) for w in writers}
+    Cw = {w: np.zeros((runs, n_f)) for w in writing}
+    Iw = {w: np.zeros((runs, n_f)) for w in writing}
     for ri, r in enumerate(fut):
-        for w in writers:
+        for w in writing:
             pc, pi, v = draws[w]
+            if ret is not None:
+                pc, pi = pc * ret[w][0], pi * ret[w][1]
+            if i_scale:
+                pi = pi * float(i_scale.get(w, 1.0))
             n_valid = rng.binomial(CAP_ROUND, v)
             c, i = round_counts(rng, n_valid, pc, pi * drift_after(r, done, drift))
             Cw[w][:, ri], Iw[w][:, ri] = c, i
     tot_c0 = sum(per[w]["certified"] for w in writers)
     tot_i0 = sum(per[w]["illegible"] for w in writers)
-    C = tot_c0 + np.cumsum(sum(Cw[w] for w in writers), axis=1)
-    I = tot_i0 + np.cumsum(sum(Iw[w] for w in writers), axis=1)
+    zero = np.zeros((runs, n_f))
+    C = tot_c0 + np.cumsum(sum((Cw[w] for w in writing), zero), axis=1)
+    I = tot_i0 + np.cumsum(sum((Iw[w] for w in writing), zero), axis=1)
     out = {"C": C, "I": I, "Cw": Cw, "Iw": Iw, "all_n_eff": neff(C, I)}
     if matched:
         MN = np.zeros((runs, n_f))
         for run in range(runs):
             items = [dict(x, writer=w) for w in writers for x in observed["writers"][w]["items"]]
             for ri in range(n_f):
-                for w in writers:
+                for w in writing:
                     c, i = int(Cw[w][run, ri]), int(Iw[w][run, ri])
                     emp = [tuple(x) for x in observed["writers"][w]["valid_strata"]]
                     for doc, comp in _strata_draw(rng, c, "empirical", emp):
@@ -467,7 +482,7 @@ def _course_after(rng: np.random.Generator, runs: int, observed: Mapping[str, An
         out["stat"] = out["all_n_eff"]
     # the course on the statistic: success after each future round; the floor rule (optional) after future rounds before the last
     written_now = sum(per[w]["written"] for w in writers)
-    written_plan = written_now + CAP_ROUND * len(writers) * n_f
+    written_plan = written_now + CAP_ROUND * len(writing) * n_f
 
     def course(with_floor: bool) -> tuple[np.ndarray, np.ndarray]:
         outcome = np.full(runs, "limit", dtype=object)
@@ -478,7 +493,7 @@ def _course_after(rng: np.random.Generator, runs: int, observed: Mapping[str, An
             outcome[win], stop_round[win] = "success", r
             alive &= ~win
             if with_floor and r < M:
-                w_r = written_now + CAP_ROUND * len(writers) * (ri + 1)
+                w_r = written_now + CAP_ROUND * len(writing) * (ri + 1)
                 scale = written_plan / w_r
                 fl = alive & (neff(C[:, ri] * scale, I[:, ri] * scale) < floor)
                 outcome[fl], stop_round[fl] = "floor", r
@@ -535,6 +550,61 @@ def forecast_after(observed: Mapping[str, Any], runs_all: int = 40000, runs_matc
                 bw = {w: {"certified_added": {str(r): _stats(res["Cw"][w][:, i]) for i, r in enumerate(fut)},
                           "illegible_added": {str(r): _stats(res["Iw"][w][:, i]) for i, r in enumerate(fut)}} for w in per}
                 out["per_further_round"] = {"certified_added": ca, "illegible_added": ia, "by_writer": bw}
+    return out
+
+
+def stock_from_check(check: Mapping[str, Any], writers: Sequence[str]) -> dict:
+    """The placeable stock: the certified and quiet-but-illegible items that survive the edit-application check's rule
+    (`drop` false), per writer, as counts and (document, composition, class) items."""
+    out = {w: {"certified": 0, "illegible": 0, "items": []} for w in writers}
+    for r in check["items"]:
+        if r["drop"] or r["writer"] not in out:
+            continue
+        cls = r["class"]
+        out[r["writer"]]["certified" if cls == mt.CERTIFIED else "illegible"] += 1
+        out[r["writer"]]["items"].append({"document": r["document"], "composition": float(r["composition"]), "class": cls})
+    return out
+
+
+def retention_from_check(check: Mapping[str, Any], writer: str) -> dict:
+    """A writer's observed placeable retention per class as Jeffreys parameters on the share kept, with the counts."""
+    n = {mt.CERTIFIED: [0, 0], mt.ILLEGIBLE: [0, 0]}
+    for r in check["items"]:
+        if r["writer"] == writer and r["class"] in n:
+            n[r["class"]][1] += 1
+            n[r["class"]][0] += int(not r["drop"])
+    (kc, nc), (ki, ni) = n[mt.CERTIFIED], n[mt.ILLEGIBLE]
+    return {"c": [0.5 + kc, 0.5 + nc - kc], "i": [0.5 + ki, 0.5 + ni - ki], "counts": {"certified": [kc, nc], "illegible": [ki, ni]}}
+
+
+def forecast_retained(observed: Mapping[str, Any], stock: Mapping[str, Mapping[str, Any]], cases: Sequence[Mapping[str, Any]],
+                      runs_all: int = 40000, runs_matched: int = 8000, seed: int = SEED, width: float = mt.BAND_WIDTH,
+                      M: int = M_ROUNDS, stop: float = STOP_NEFF, floor: float = FLOOR_NEFF) -> dict:
+    """`forecast_after` restricted to the items that can be placed: the stock is the placeable items, and each case says who
+    writes the remaining rounds, the retention that multiplies their yields and, optionally, a factor or a replacement
+    posterior for the illegible yield. No drift. Yields (the Jeffreys posteriors) come from the observed rounds as they were."""
+    per, _tot = _observed(observed)
+    done = int(observed["rounds_done"])
+    obs_s = {"rounds_done": done, "writers": {w: dict(d, items=list(stock[w]["items"])) for w, d in observed["writers"].items()}}
+    per_s = {w: dict(per[w], certified=int(stock[w]["certified"]), illegible=int(stock[w]["illegible"])) for w in per}
+    c_now = sum(per_s[w]["certified"] for w in per_s)
+    i_now = sum(per_s[w]["illegible"] for w in per_s)
+    items_all = [dict(x, writer=w) for w in per_s for x in stock[w]["items"]]
+    m0 = mt.match(items_all, width)
+    out: dict[str, Any] = {"version": VERSION, "seed": seed, "runs_all_matched": runs_all, "runs_matched": runs_matched, "width": width,
+                           "rounds_done": done, "rounds": M, "stop_n_eff": stop, "floor_n_eff": floor, "cap_per_writer_round": CAP_ROUND,
+                           "stock": {w: {"certified": per_s[w]["certified"], "illegible": per_s[w]["illegible"]} for w in per_s},
+                           "stock_matched": m0,
+                           "no_further_round": {"matched_n_eff": m0["n_eff"], "reaches_stop": bool(m0["n_eff"] >= stop)},
+                           "cases": {}}
+    for ci, case in enumerate(cases):
+        row: dict[str, Any] = {"spec": {k: case.get(k) for k in ("writing", "retention", "i_scale", "i_post")}}
+        for si, (stat, matched, runs) in enumerate((("all_matched", False, runs_all), ("matched_observed", True, runs_matched))):
+            rng = np.random.default_rng([seed, 100 + ci, si])
+            res = _course_after(rng, runs, obs_s, per_s, "none", matched, width, M, stop, floor, writing=case.get("writing"),
+                                retention=case.get("retention"), i_scale=case.get("i_scale"), i_post=case.get("i_post"))
+            row[stat] = _summ_after(res, runs, done, c_now, i_now)
+        out["cases"][case["name"]] = row
     return out
 
 
