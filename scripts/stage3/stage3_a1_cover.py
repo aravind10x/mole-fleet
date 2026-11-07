@@ -543,6 +543,57 @@ def summarise_shared(vecs: Mapping[str, Sequence[float]], ratio: tuple[str, str]
     return out
 
 
+def cell_key(app: Mapping[str, Any]) -> tuple:
+    """Note 6's resampling unit: the (document, window, pool) cell. The pool is a function of the
+    document and the window (`cover_pool`); its size is carried as a check."""
+    return (app["document"], tuple(app["window"]), app["pool"])
+
+
+def summarise_clustered(vecs: Mapping[str, Sequence[float]], clusters: Sequence[Any], ratio: tuple[str, str] | None = None,
+                        n_boot: int = N_BOOT, seed: int = SEED) -> dict[str, Any]:
+    """Note 6: the cluster bootstrap. Points are the means over applications, as before; each replicate
+    draws clusters with replacement (one shared index set for every probability) and takes the
+    application-weighted mean of the drawn clusters. An all-zero probability takes the exact upper bound
+    on the share of CLUSTERS with any cover (0 of the cluster count)."""
+    import numpy as np
+    keys = list(vecs)
+    V = {k: np.asarray(list(vecs[k]), float) for k in keys}
+    n = len(next(iter(V.values())))
+    assert len(clusters) == n and all(len(v) == n for v in V.values())
+    ids = sorted(set(clusters), key=repr)
+    pos = {c: i for i, c in enumerate(ids)}
+    g = np.array([pos[c] for c in clusters])
+    G = len(ids)
+    cnt = np.bincount(g, minlength=G).astype(float)
+    rng = np.random.default_rng(seed)
+    draw = rng.integers(0, G, size=(n_boot, G))
+    M = np.zeros((n_boot, G))
+    for b in range(n_boot):
+        M[b] = np.bincount(draw[b], minlength=G)
+    den = M @ cnt
+    out: dict[str, Any] = {"n": n, "clusters": G, "replicates": n_boot, "seed": seed, "shared_resamples": True}
+    sums = {}
+    for k, v in V.items():
+        s = np.bincount(g, weights=v, minlength=G)
+        sums[k] = s
+        b = (M @ s) / den
+        nzc = int((s > 0).sum())
+        if nzc == 0:
+            out[k] = {"mean": 0.0, "lo": 0.0, "hi": cp_interval(0, G)[1], "all_zero": True, "n_nonzero_clusters": 0,
+                      "bound": "clopper_pearson_on_clusters_with_any_cover"}
+        else:
+            out[k] = {"mean": float(v.mean()), "lo": float(np.percentile(b, 2.5)), "hi": float(np.percentile(b, 97.5)),
+                      "all_zero": False, "n_nonzero_clusters": nzc, "bound": "cluster_bootstrap"}
+    if ratio is not None:
+        num, den_k = ratio
+        with np.errstate(divide="ignore", invalid="ignore"):
+            r = (M @ sums[num]) / (M @ sums[den_k])
+        r = r[np.isfinite(r)]
+        out["ratio"] = {"of": f"{num}/{den_k}", "mean": float(V[num].mean() / V[den_k].mean()) if V[den_k].mean() > 0 else None,
+                        "lo": float(np.percentile(r, 2.5)) if len(r) else None, "hi": float(np.percentile(r, 97.5)) if len(r) else None}
+    return out
+
+
 THRESH = 0.05
 
 
@@ -1077,15 +1128,103 @@ def cmd_cover_v1_addendum(ns) -> dict[str, Any]:
     return out
 
 
+COVER_V1 = ROOT / "stage3" / "phase-a" / "a1-cover-v1.json"
+COVER_V1_ADD = ROOT / "stage3" / "phase-a" / "a1-cover-v1-addendum.json"
+
+
+def cmd_cover_v1_cells(ns) -> dict[str, Any]:
+    """Note 6: every interval of a1-cover-v1 re-bootstrapped with the (document, window, pool) cell as the
+    unit (2,000 resamples on one shared index set, seed 20261106), the six documents as the unit beside;
+    points unchanged; the map re-read under the cell bounds with note 2's thresholds. Reads the two
+    records and adds the cell-level fields beside the old ones; nothing is recomputed from the corpus."""
+    d = json.loads(COVER_V1.read_text(encoding="utf-8"))
+    add = json.loads(COVER_V1_ADD.read_text(encoding="utf-8"))
+    apps = d["applications"]
+    groups = {"conforming": ["conforming"], "middle": ["middle"], "routine_redraw": ["routine_redraw"],
+              "governing": list(GOVERNING_REGIMES), "alarming": ["alarming"], "sham": ["sham"],
+              "sham_redraw": ["sham_redraw"], "all": ["alarming", "conforming", "sham", "middle", "routine_redraw", "sham_redraw"]}
+    variants = ("write_mean", "any_mean", "write_same_item_mean", "write_ex_ante", "write_document_level", "literal_payload_items")
+    P = ("p0", "p1", "p3", "p3f")
+
+    def both(sel, var_of, key_of):
+        vecs = {k: [var_of(a)[k] for a in sel] for k in P}
+        sc = summarise_clustered(vecs, [key_of(a) for a in sel], ratio=("p3", "p0"))
+        sd = summarise_clustered(vecs, [a["document"] for a in sel], ratio=("p3", "p0"))
+        sc["map"], sd["map"] = outcome_map(sc), outcome_map(sd)
+        return sc, sd
+
+    cells, docs, ncells = {}, {}, {}
+    for g, regs in groups.items():
+        sel = [a for a in apps if a["regime"] in regs]
+        ncells[g] = len({cell_key(a) for a in sel})
+        cells[g], docs[g] = {"n": len(sel), "cells": ncells[g]}, {"n": len(sel), "documents": len({a["document"] for a in sel})}
+        for var in variants:
+            cells[g][var], docs[g][var] = both(sel, lambda a, v=var: a[v], cell_key)
+        so = [a for a in sel if "write_outside_days" in a]
+        if so:
+            cells[g]["write_outside_days_1_2_day_windows"], docs[g]["write_outside_days_1_2_day_windows"] = \
+                both(so, lambda a: a["write_outside_days"], cell_key)
+        k3 = [a for a in sel if "time_axis" in a]
+        if k3:
+            cells[g]["time_axis"], docs[g]["time_axis"] = {}, {}
+            for L in ("1", "2", "3"):
+                cells[g]["time_axis"][L], docs[g]["time_axis"][L] = both(
+                    k3, lambda a, L=L: a["time_axis"][L], lambda a, L=L: (a["document"], L, a["time_axis"][L]["pool"]))
+                cells[g]["time_axis"][L]["cells"] = len({(a["document"], a["time_axis"][L]["pool"]) for a in k3})
+    by_id = {a["application"]: a for a in apps}
+    add_cells = {}
+    for g in ("governing", "all"):
+        sel = [a for a in add["applications"] if a["regime"] in groups[g]]
+        sc, sd = both(sel, lambda a: a["tied_mean"], lambda a: cell_key(by_id[a["application"]]))
+        add_cells[g] = {"cells": len({cell_key(by_id[a["application"]]) for a in sel}), "tied_mean_cells": sc,
+                        "tied_mean_documents": sd}
+    note = ("brief 36 dated note 6 (post-look, labelled): intervals re-bootstrapped with the (document, window, pool) cell as "
+            "the unit, the six documents beside; points unchanged; the per-application intervals above are too narrow")
+    d["cells"] = {"note": note, "unit": "(document, window, pool) cell; cluster bootstrap, application-weighted",
+                  "replicates": N_BOOT, "seed": SEED, "cells_per_group": ncells,
+                  "reading_cells": cells["governing"]["write_mean"]["map"],
+                  "reading_documents": docs["governing"]["write_mean"]["map"],
+                  "aggregates_cells": cells, "aggregates_documents": docs}
+    add["cells"] = {"note": note, **add_cells}
+    COVER_V1.write_text(json.dumps(d, indent=1, default=list), encoding="utf-8")
+    COVER_V1_ADD.write_text(json.dumps(add, indent=1, default=list), encoding="utf-8")
+
+    def f(s):
+        return {k: (round(s[k]["mean"], 5), round(s[k]["lo"], 5), round(s[k]["hi"], 5)) for k in P} | \
+               {"ratio": tuple(round(x, 4) if isinstance(x, float) else x for x in (s["ratio"]["mean"], s["ratio"]["lo"], s["ratio"]["hi"])),
+                "map": s["map"]}
+    print("cells per group", ncells)
+    for g in ("governing", "conforming", "middle", "routine_redraw", "all"):
+        print(g, cells[g]["n"], cells[g]["cells"])
+        for var in variants + ("write_outside_days_1_2_day_windows",):
+            if var in cells[g]:
+                print("  cells", var, f(cells[g][var]))
+                print("  docs ", var, f(docs[g][var]))
+        for L, s in (cells[g].get("time_axis") or {}).items():
+            print("  cells time_axis", L, s["n"], s["cells"], f(s))
+            print("  docs  time_axis", L, f(docs[g]["time_axis"][L]))
+    for g, v in add_cells.items():
+        print("addendum", g, v["cells"], "cells", f(v["tied_mean_cells"]), "docs", f(v["tied_mean_documents"]))
+    print("READING over cells:", d["cells"]["reading_cells"], "over documents:", d["cells"]["reading_documents"])
+    return {"wrote": [str(COVER_V1), str(COVER_V1_ADD)], "sha256": {str(COVER_V1): sha256_file(COVER_V1),
+                                                                   str(COVER_V1_ADD): sha256_file(COVER_V1_ADD)}}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("cmd", choices=("join", "lines", "cover", "cover-v1", "cover-v1-addendum"))
+    ap.add_argument("cmd", choices=("join", "lines", "cover", "cover-v1", "cover-v1-addendum", "cover-v1-cells"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--itemless", choices=("uncoverable", "document"), default=None,
                     help="the coordinator's rule for lines whose anchor names no item (A1.2 stops without it)")
     ns = ap.parse_args(argv)
     res = {"join": cmd_join, "lines": cmd_lines, "cover": cmd_cover, "cover-v1": cmd_cover_v1,
-           "cover-v1-addendum": cmd_cover_v1_addendum}[ns.cmd](ns)
+           "cover-v1-addendum": cmd_cover_v1_addendum, "cover-v1-cells": cmd_cover_v1_cells}[ns.cmd](ns)
+    if ns.cmd == "cover-v1-cells":
+        # the cell fields are written into the two v1 records in place; --out holds only the run's receipt
+        Path(ns.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(ns.out).write_text(json.dumps(res, indent=1), encoding="utf-8")
+        print("receipt", ns.out)
+        return 0
     ver = {"cover-v1": "phase-a/a1-cover/v1", "cover-v1-addendum": "phase-a/a1-cover/v1-addendum"}.get(
         ns.cmd, f"phase-a/a1-{ns.cmd}/v0")
     res = {"version": ver, "brief": "briefs/36-phase-a-audits-2026-11-06.md", **res}

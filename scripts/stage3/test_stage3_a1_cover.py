@@ -306,3 +306,56 @@ def test_hypothesis_formulas():
     assert abs(h["sq"] - 0.05) < 1e-12
     assert abs(h["sq_cubed"] - 0.05 ** 3) < 1e-15
     assert abs(h["three_sq_cubed"] - 0.15 ** 3) < 1e-15
+
+
+# ── note 6: intervals over (document, window, pool) cells ────────────────────────────────
+
+import json as _json  # noqa: E402
+
+import pytest  # noqa: E402
+
+_V1 = HERE.parent / "stage3" / "phase-a" / "a1-cover-v1.json"
+
+
+def test_clustered_bootstrap_keeps_the_point_and_widens():
+    import numpy as np
+    r = np.random.default_rng(5)
+    cell_vals = r.random(10) * 0.1
+    clusters = [c for c in range(10) for _ in range(8)]          # 8 identical applications per cell
+    p0 = np.array([cell_vals[c] for c in clusters])
+    p3 = p0 * 0.02
+    app = a1.summarise_shared({"p0": p0, "p3": p3}, ratio=("p3", "p0"), n_boot=2000, seed=20261106)
+    cl = a1.summarise_clustered({"p0": p0, "p3": p3}, clusters, ratio=("p3", "p0"), n_boot=2000, seed=20261106)
+    assert cl["clusters"] == 10
+    assert abs(cl["p0"]["mean"] - p0.mean()) < 1e-12 and abs(cl["ratio"]["mean"] - app["ratio"]["mean"]) < 1e-12
+    assert (cl["p0"]["hi"] - cl["p0"]["lo"]) > 2 * (app["p0"]["hi"] - app["p0"]["lo"])
+
+
+def test_clustered_all_zero_bound_counts_clusters():
+    import numpy as np
+    cl = a1.summarise_clustered({"p0": np.full(30, 0.1), "p3": np.zeros(30)}, [i // 5 for i in range(30)],
+                                ratio=("p3", "p0"), n_boot=100, seed=1)
+    assert cl["p3"]["all_zero"] and abs(cl["p3"]["hi"] - (1 - 0.025 ** (1 / 6))) < 1e-9
+
+
+@pytest.mark.skipif(not _V1.exists(), reason="the v1 record is not on this path")
+def test_v1_record_thirty_cells_identical_within_and_wider():
+    d = _json.loads(_V1.read_text(encoding="utf-8"))
+    gov = [a for a in d["applications"] if a["regime"] in a1.GOVERNING_REGIMES]
+    assert len(gov) == 160
+    cells: dict = {}
+    for a in gov:
+        cells.setdefault(a1.cell_key(a), []).append(a)
+    assert len(cells) == 30
+    for apps in cells.values():
+        for var in ("write_mean", "any_mean", "write_same_item_mean", "write_ex_ante", "write_document_level"):
+            first = apps[0][var]
+            assert all(x[var] == first for x in apps)
+    keys = ("p0", "p1", "p3", "p3f")
+    vecs = {k: [a["write_mean"][k] for a in gov] for k in keys}
+    app = a1.summarise_shared(vecs, ratio=("p3", "p0"))
+    cl = a1.summarise_clustered(vecs, [a1.cell_key(a) for a in gov], ratio=("p3", "p0"))
+    for k in ("p0", "p3"):
+        assert cl[k]["mean"] == pytest.approx(app[k]["mean"])
+        assert (cl[k]["hi"] - cl[k]["lo"]) > 2 * (app[k]["hi"] - app[k]["lo"])
+    assert a1.outcome_map(cl) == "R3b"

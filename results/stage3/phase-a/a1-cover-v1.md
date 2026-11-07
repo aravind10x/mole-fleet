@@ -2,6 +2,10 @@
 
 Executor session, Opus 5.5, 2026-11-07. Interpreter `work/mole-fork/.venv/bin/python` (`-I`). $0, no model call. Script `work/checks/stage3_a1_cover.py cover-v1`; tests `work/checks/test_stage3_a1_cover.py` (20 passed). Record `a1-cover-v1.json` (every application's values, every aggregate, input hashes). The v0 files are untouched.
 
+> **Label, 2026-11-07 (brief 36 note 6): every interval in §§1 to 4 and in the addendum below is a bootstrap over applications and is too narrow.**
+> - The 160 governing applications fall in 30 (document, window, pool) cells, each holding identical cover values.
+> - Those intervals stay here as history. The corrected intervals, over the 30 cells, are in the last section, "Correction, 2026-11-07 (brief 36 note 6): intervals over 30 cells". The points, and the map's reading of R3b, do not change.
+
 ## 1. The sentences
 
 They were written before the run; the brackets were filled after it. The unfilled section was saved first.
@@ -164,3 +168,80 @@ Read beside the primary, this would map to R3a, since its L₀ is 0.060. The map
   - The factor 27 counts every assignment of the three lines to the three accounts, including those that give two accounts the same line.
   - The strict variant's own count is 3! = 6 assignments: 6(sq̂)³ = 0.00097, close to the enumerated 0.0011.
 - These are hypothesis figures beside the enumeration, and nothing is read from them.
+
+## Correction, 2026-11-07 (brief 36 note 6): intervals over 30 cells
+
+**Post-look, labelled.**
+- **Why.** The application was the resampling unit by the 6 Nov design call (note 2). But the 160 governing applications fall in **30 (document, window, pool) cells**, and every application in a cell carries the same cover values. The pool is a function of the document and the window, so the cell is the independent unit. The test module asserts the 30 cells and the identical values within each.
+- **Method.**
+  - Every interval below is a cluster bootstrap: each replicate draws the 30 cells with replacement and takes the application-weighted mean.
+  - 2,000 replicates on **one shared index set** for all probabilities, seed 20261106.
+  - **The six documents** as the unit are reported beside.
+  - Points are the means over applications, unchanged.
+  - An all-zero probability takes the exact upper bound on the share of cells with any cover (0 of 30).
+- **The map.** It is re-read under the cell-level bounds with note 2's thresholds, unchanged and nothing nudged.
+- **How much wider.** About 2.4 times the per-application intervals (p₀ 2.44, p₃ 2.45, p₃/p₀ 2.47).
+- **Where the values sit.** The cell-level fields are in `a1-cover-v1.json` (`cells`) and `a1-cover-v1-addendum.json` (`cells`), beside the old ones; `a1-cover-v1-addendum.json`'s old fields are unchanged.
+
+### The sentences, corrected
+
+- "On this world, under rule (iii) (each document's 20 item triples on each application's own window and pool; write-task cover; the mean over triples, then over the 160 conforming, middle and routine re-draw applications in 30 cells), full cover is **0.0011 [0.0006, 0.0017] over 30 cells** (strict; flexible **0.0034 [0.0017, 0.0050] over 30 cells**) for a three-agent coalition, **0.0002 [0.0000, 0.0004] over 30 cells** for a lone author at arity three and **0.053 [0.043, 0.063] over 30 cells** for an atomic edit; p₃/p₀ = **0.021 [0.013, 0.028] over 30 cells**."
+- "**On the 40 three-part applications**, at window lengths of 1, 2 and 3 days ending at the composition day, [p₀, p₁, p₃] are:
+  - 1 day: **[0.029 [0.020, 0.038], 0 (all zero; bound 0.46), 0.0001 [0.0000, 0.0002]]**;
+  - 2 days: **[0.058 [0.043, 0.072], 0.0003 [0.0000, 0.0008], 0.0010 [0.0005, 0.0017]]**;
+  - 3 days: **[0.082 [0.065, 0.097], 0.0003 [0.0000, 0.0008], 0.0028 [0.0014, 0.0041]]**.
+  
+  These are over 6 cells: on these applications the time-axis windows are fixed, so each document is one cell."
+- "For the attacker who picks the document's three most-written items ex ante (bank v6), full cover is **0.0012 [0.0006, 0.0019] over 30 cells** for a coalition, **0 (all zero; bound 0.12)** for a lone author, **0.054 [0.042, 0.066] over 30 cells** for an atomic edit."
+- "The outcome map reads **R3b** over 30 cells, and over the six documents."
+  - R3 is triggered: U₀ 0.063 is at or above 0.05, and p₃ 0.0011 is under 0.05.
+  - It is not R3a: L₀ is 0.043, under 0.05 by a margin of 0.007; L₀ was 0.049 over applications.
+  - U(p₃/p₀) is 0.028, under 1.
+
+### §2's table, over cells (write-task cover; point [95%, over the population's cells]; documents beside for the governing row)
+
+| population | applications / cells | p₀ | p₁ | p₃ strict | p₃ flexible | p₃/p₀ | map |
+|---|---|---|---|---|---|---|---|
+| **governing** | 160 / 30 | 0.053 [0.043, 0.063] | 0.0002 [0.0000, 0.0004] | 0.0011 [0.0006, 0.0017] | 0.0034 [0.0017, 0.0050] | 0.021 [0.013, 0.028] | **R3b** |
+| governing, over the 6 documents | 160 / 6 | [0.042, 0.063] | [0.0000, 0.0005] | [0.0006, 0.0017] | [0.0016, 0.0051] | [0.013, 0.028] | R3b |
+| conforming | 64 / 30 | 0.053 [0.043, 0.063] | 0.0002 [0.0000, 0.0004] | 0.0011 [0.0006, 0.0017] | 0.0034 [0.0018, 0.0050] | 0.021 [0.014, 0.028] | R3b |
+| middle | 64 / 30 | 0.053 [0.043, 0.063] | 0.0002 [0.0000, 0.0004] | 0.0011 [0.0006, 0.0017] | 0.0034 [0.0017, 0.0050] | 0.021 [0.013, 0.028] | R3b |
+| routine re-draw | 32 / 24 | 0.053 [0.039, 0.066] | 0.0001 [0.0000, 0.0004] | 0.0012 [0.0005, 0.0019] | 0.0033 [0.0015, 0.0053] | 0.022 [0.012, 0.030] | R3b |
+| all six regimes (beside) | 280 / 30 | 0.053 [0.043, 0.064] | 0.0002 [0.0000, 0.0004] | 0.0011 [0.0006, 0.0017] | 0.0033 [0.0017, 0.0050] | 0.021 [0.013, 0.028] | R3b |
+
+Over 30 cells the all-regimes row reads R3b; it read R3a over applications.
+
+### §3's variants, over cells (governing; 30 cells, documents beside)
+
+| variant | p₀ | p₁ | p₃ strict | p₃ flexible | p₃/p₀ | map over cells (over documents) |
+|---|---|---|---|---|---|---|
+| ex-ante triple (bank v6, item-order tie-break) | 0.054 [0.042, 0.066] | 0 (bound 0.12; 0.46 over documents) | 0.0012 [0.0006, 0.0019] | 0.0047 [0.0019, 0.0080] | 0.022 [0.013, 0.030] | R3b (R3b) |
+| outside-days triple, one- and two-day windows (120 applications) | 0.054 [0.042, 0.068] | 0.0005 [0.0000, 0.0017] | 0.0011 [0.0004, 0.0018] | 0.0051 [0.0019, 0.0094] | 0.019 [0.009, 0.029] | R3b (R3b) |
+| any-task cover | 0.074 [0.061, 0.088] | 0.0002 [0.0000, 0.0004] | 0.0033 [0.0017, 0.0053] | 0.0083 [0.0044, 0.0127] | 0.044 [0.026, 0.061] | R3a (R3a) |
+| same-item variant (36 multisets) | 0.053 [0.043, 0.063] | 0.0107 [0.0083, 0.0132] | 0.0007 [0.0004, 0.0011] | 0.043 [0.032, 0.053] | 0.014 [0.008, 0.018] | R3b (R3b) |
+| (ii) document-level cover | 0.278 [0.230, 0.324] | 0.0032 [0.0000, 0.0074] | 0.030 [0.017, 0.045] | 0.072 [0.042, 0.103] | 0.110 [0.073, 0.141] | R3a (R3a) |
+| (i) literal: the payloads' own items | 0.018 [0.010, 0.027] | 0 (bound 0.12) | 0 (bound 0.12) | 0 | 0 | unmapped (unmapped) |
+
+Under (i), the all-zero bound over 30 cells (0.12) is above 0.05, so R1's condition fails. The reading moves from R1 over applications to unmapped. That reading was always a fact about the T1 payloads, and nothing reads from it.
+
+### §4's time axis, over cells, on the 40 three-part applications
+
+| window | p₀ | p₁ | p₃ strict | p₃ flexible | p₃/p₀ | map |
+|---|---|---|---|---|---|---|
+| 1 day | 0.029 [0.020, 0.038] | 0 (all zero; bound 0.46) | 0.0001 [0.0000, 0.0002] | 0.0001 [0.0000, 0.0002] | 0.003 [0.000, 0.006] | unmapped |
+| 2 days | 0.058 [0.043, 0.072] | 0.0003 [0.0000, 0.0008] | 0.0010 [0.0005, 0.0017] | 0.0033 [0.0007, 0.0063] | 0.017 [0.011, 0.024] | R3b (R3a over applications) |
+| 3 days | 0.082 [0.065, 0.097] | 0.0003 [0.0000, 0.0008] | 0.0028 [0.0014, 0.0041] | 0.0077 [0.0037, 0.0110] | 0.034 [0.021, 0.044] | R3a |
+
+On these applications each window length gives one cell per document (6 cells), so the cell and document intervals coincide.
+
+### The addendum's tied-triple figures, over cells (governing; 30 cells, documents beside)
+
+| measure | over 30 cells | over the 6 documents |
+|---|---|---|
+| p₀ | 0.065 [0.053, 0.077] | [0.051, 0.078] |
+| p₁ | 0.0008 [0.0000, 0.0018] | [0.0000, 0.0024] |
+| p₃ strict | 0.0019 [0.0010, 0.0029] | [0.0009, 0.0031] |
+| p₃ flexible | 0.0075 [0.0032, 0.0129] | |
+| p₃/p₀ | 0.030 [0.018, 0.040] | |
+
+Read beside the primary, this would map to R3a, since L₀ is 0.053; the primary reading stays R3b. The hypothesis-formula comparison has no intervals and is unchanged.

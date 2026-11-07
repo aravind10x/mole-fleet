@@ -20626,5 +20626,198 @@
   "bank_sha256": "bef08ddbdbf6efdbead1fc3c1096af3f8e7b0ac41968a50a2c2fbadbf7f0099c",
   "templates_module_sha256": "41b6a255dd0ba64ec7e6f8dddaf53e2f3c94ba12da4ba14f3862ce6a223ed7cb",
   "script_sha256": "d06ee8a1903e0dbaae5ee48441a45e5c81aad02ef5036d5ad5432ca7c896392f"
+ },
+ "cells": {
+  "note": "brief 36 dated note 6 (post-look, labelled): intervals re-bootstrapped with the (document, window, pool) cell as the unit, the six documents beside; points unchanged; the per-application intervals above are too narrow",
+  "governing": {
+   "cells": 30,
+   "tied_mean_cells": {
+    "n": 160,
+    "clusters": 30,
+    "replicates": 2000,
+    "seed": 20261106,
+    "shared_resamples": true,
+    "p0": {
+     "mean": 0.06471058238636364,
+     "lo": 0.05258464950847763,
+     "hi": 0.0764954994574822,
+     "all_zero": false,
+     "n_nonzero_clusters": 30,
+     "bound": "cluster_bootstrap"
+    },
+    "p1": {
+     "mean": 0.0008049242424242424,
+     "lo": 0.0,
+     "hi": 0.0018443155814437265,
+     "all_zero": false,
+     "n_nonzero_clusters": 3,
+     "bound": "cluster_bootstrap"
+    },
+    "p3": {
+     "mean": 0.00192657739186217,
+     "lo": 0.0010022717600219023,
+     "hi": 0.0029213375125018795,
+     "all_zero": false,
+     "n_nonzero_clusters": 23,
+     "bound": "cluster_bootstrap"
+    },
+    "p3f": {
+     "mean": 0.007458904188049853,
+     "lo": 0.00321732118663081,
+     "hi": 0.012850541337869864,
+     "all_zero": false,
+     "n_nonzero_clusters": 23,
+     "bound": "cluster_bootstrap"
+    },
+    "ratio": {
+     "of": "p3/p0",
+     "mean": 0.02977221531339756,
+     "lo": 0.018247529856050354,
+     "hi": 0.04000290136422713
+    },
+    "map": "R3a"
+   },
+   "tied_mean_documents": {
+    "n": 160,
+    "clusters": 6,
+    "replicates": 2000,
+    "seed": 20261106,
+    "shared_resamples": true,
+    "p0": {
+     "mean": 0.06471058238636364,
+     "lo": 0.050624408143939384,
+     "hi": 0.0775324087144739,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "p1": {
+     "mean": 0.0008049242424242424,
+     "lo": 0.0,
+     "hi": 0.0024147727272727263,
+     "all_zero": false,
+     "n_nonzero_clusters": 1,
+     "bound": "cluster_bootstrap"
+    },
+    "p3": {
+     "mean": 0.00192657739186217,
+     "lo": 0.000872159811366864,
+     "hi": 0.0030609879032258056,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "p3f": {
+     "mean": 0.007458904188049853,
+     "lo": 0.001808356524230669,
+     "hi": 0.01567654163858582,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "ratio": {
+     "of": "p3/p0",
+     "mean": 0.02977221531339756,
+     "lo": 0.01622136133905744,
+     "hi": 0.04057689408063422
+    },
+    "map": "R3a"
+   }
+  },
+  "all": {
+   "cells": 30,
+   "tied_mean_cells": {
+    "n": 280,
+    "clusters": 30,
+    "replicates": 2000,
+    "seed": 20261106,
+    "shared_resamples": true,
+    "p0": {
+     "mean": 0.06485220508658007,
+     "lo": 0.05224364143519364,
+     "hi": 0.07732232953996937,
+     "all_zero": false,
+     "n_nonzero_clusters": 30,
+     "bound": "cluster_bootstrap"
+    },
+    "p1": {
+     "mean": 0.0007846320346320345,
+     "lo": 0.0,
+     "hi": 0.0018010972256255265,
+     "all_zero": false,
+     "n_nonzero_clusters": 3,
+     "bound": "cluster_bootstrap"
+    },
+    "p3": {
+     "mean": 0.0018995142961876833,
+     "lo": 0.0009914256260429226,
+     "hi": 0.00291031530678764,
+     "all_zero": false,
+     "n_nonzero_clusters": 23,
+     "bound": "cluster_bootstrap"
+    },
+    "p3f": {
+     "mean": 0.007291022989107667,
+     "lo": 0.003181187705122344,
+     "hi": 0.012532220425743609,
+     "all_zero": false,
+     "n_nonzero_clusters": 23,
+     "bound": "cluster_bootstrap"
+    },
+    "ratio": {
+     "of": "p3/p0",
+     "mean": 0.029289895288090236,
+     "lo": 0.01805434740716688,
+     "hi": 0.039631737726848186
+    },
+    "map": "R3a"
+   },
+   "tied_mean_documents": {
+    "n": 280,
+    "clusters": 6,
+    "replicates": 2000,
+    "seed": 20261106,
+    "shared_resamples": true,
+    "p0": {
+     "mean": 0.06485220508658007,
+     "lo": 0.05062185482988731,
+     "hi": 0.07727895340280001,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "p1": {
+     "mean": 0.0007846320346320345,
+     "lo": 0.0,
+     "hi": 0.0023793895635050855,
+     "all_zero": false,
+     "n_nonzero_clusters": 1,
+     "bound": "cluster_bootstrap"
+    },
+    "p3": {
+     "mean": 0.0018995142961876833,
+     "lo": 0.0008996329229966786,
+     "hi": 0.0029567413376081824,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "p3f": {
+     "mean": 0.007291022989107667,
+     "lo": 0.0018660712584769835,
+     "hi": 0.015335489389209474,
+     "all_zero": false,
+     "n_nonzero_clusters": 6,
+     "bound": "cluster_bootstrap"
+    },
+    "ratio": {
+     "of": "p3/p0",
+     "mean": 0.029289895288090236,
+     "lo": 0.01653261829953401,
+     "hi": 0.04012105758936511
+    },
+    "map": "R3a"
+   }
+  }
  }
 }

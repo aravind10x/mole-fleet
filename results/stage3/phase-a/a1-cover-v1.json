@@ -22540,5 +22540,7507 @@
   "bank_sha256": "bef08ddbdbf6efdbead1fc3c1096af3f8e7b0ac41968a50a2c2fbadbf7f0099c",
   "templates_module_sha256": "41b6a255dd0ba64ec7e6f8dddaf53e2f3c94ba12da4ba14f3862ce6a223ed7cb",
   "script_sha256": "8dcf17bd961a5d2f9e84854c9bb33ef498050b8dcde88f340c5e9cddbc4b9c39"
+ },
+ "cells": {
+  "note": "brief 36 dated note 6 (post-look, labelled): intervals re-bootstrapped with the (document, window, pool) cell as the unit, the six documents beside; points unchanged; the per-application intervals above are too narrow",
+  "unit": "(document, window, pool) cell; cluster bootstrap, application-weighted",
+  "replicates": 2000,
+  "seed": 20261106,
+  "cells_per_group": {
+   "conforming": 30,
+   "middle": 30,
+   "routine_redraw": 24,
+   "governing": 30,
+   "alarming": 21,
+   "sham": 26,
+   "sham_redraw": 26,
+   "all": 30
+  },
+  "reading_cells": "R3b",
+  "reading_documents": "R3b",
+  "aggregates_cells": {
+   "conforming": {
+    "n": 64,
+    "cells": 30,
+    "write_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05324485085227272,
+      "lo": 0.04341498517062117,
+      "hi": 0.0628637599279772,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0003734354413702232,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001128502451429619,
+      "lo": 0.0006224270147884788,
+      "hi": 0.0016827285491726014,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003353403936033725,
+      "lo": 0.0017913104005062915,
+      "hi": 0.0049876486191576105,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02119458376474069,
+      "lo": 0.01377903037423359,
+      "hi": 0.02754073179307841
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07429519807449496,
+      "lo": 0.061123322717032275,
+      "hi": 0.08745513343535805,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0003734354413702232,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.003244764937683284,
+      "lo": 0.0017101101593496638,
+      "hi": 0.004960857098160066,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008210255910923753,
+      "lo": 0.004436291919377055,
+      "hi": 0.012193237940498204,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.043673952311558475,
+      "lo": 0.027411668815689218,
+      "hi": 0.058558697376813865
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053244850852272735,
+      "lo": 0.04341498517062117,
+      "hi": 0.0628637599279772,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010741776488846801,
+      "lo": 0.008367912919654724,
+      "hi": 0.01304781706768545,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006940546467701206,
+      "lo": 0.0003760083034010525,
+      "hi": 0.0010459402184108926,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.042964788382820134,
+      "lo": 0.032711397416581994,
+      "hi": 0.053220176530129254,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.013035150548092768,
+      "lo": 0.0082735573843013,
+      "hi": 0.01733140373154226
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0539575441919192,
+      "lo": 0.04183956892122215,
+      "hi": 0.06639784128914562,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012228509897360704,
+      "lo": 0.0005650667862838914,
+      "hi": 0.0019193421907507471,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004751076796187683,
+      "lo": 0.0019587799752155645,
+      "hi": 0.008213319073305556,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.022663206935189004,
+      "lo": 0.013049276837980454,
+      "hi": 0.029917124091319008
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27920809659090906,
+      "lo": 0.23327444712773102,
+      "hi": 0.3237266639610389,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.0074687088274044645,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.02992891999633431,
+      "lo": 0.01763346844628678,
+      "hi": 0.04309865702479338,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07141707523826979,
+      "lo": 0.043266765868084894,
+      "hi": 0.10054398975827693,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.1071921637007026,
+      "lo": 0.07412027467486636,
+      "hi": 0.13530714428926136
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.014046717171717174,
+      "lo": 0.007294297138047139,
+      "hi": 0.022052612391520836,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.055581860269360274,
+      "lo": 0.042783773537000434,
+      "hi": 0.06891477272727273,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0006313131313131314,
+      "lo": 0.0,
+      "hi": 0.0021141649048625794,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011722568426197459,
+      "lo": 0.00041331719559977234,
+      "hi": 0.0021466069015582765,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0055328995601173015,
+      "lo": 0.00204100665748393,
+      "hi": 0.010470288280268117,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021090637070057858,
+      "lo": 0.009108964369875041,
+      "hi": 0.032978141359126
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.029040404040404037,
+       "lo": 0.020202020202020204,
+       "hi": 0.03832590612002375,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 0.00010538856304985339,
+       "lo": 6.545873481357352e-06,
+       "hi": 0.00021311871981197146,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.00010538856304985339,
+       "lo": 6.545873481357352e-06,
+       "hi": 0.00021311871981197146,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.003629032258064517,
+       "lo": 0.0002791563275434243,
+       "hi": 0.006134027976020554
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05744949494949495,
+       "lo": 0.04188948306595366,
+       "hi": 0.07219251336898395,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.001024101906158358,
+       "lo": 0.00043071847507331377,
+       "hi": 0.0017347334828359494,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0035001603739002935,
+       "lo": 0.0006457722385141741,
+       "hi": 0.006416101539589443,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01782612548741581,
+       "lo": 0.009764538828790128,
+       "hi": 0.024412422855539854
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08049242424242425,
+       "lo": 0.06407565235690237,
+       "hi": 0.0965909090909091,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0026415872434017596,
+       "lo": 0.0013673020527859236,
+       "hi": 0.004076017228739003,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007491179435483872,
+       "lo": 0.003556864002932552,
+       "hi": 0.010710685483870963,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03281783681214421,
+       "lo": 0.02014937683284458,
+       "hi": 0.04289629536290322
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "middle": {
+    "n": 64,
+    "cells": 30,
+    "write_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05294645675505051,
+      "lo": 0.042826328028264055,
+      "hi": 0.06311693191240766,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0003729603729603729,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011155293484237537,
+      "lo": 0.0005775638888537769,
+      "hi": 0.001739161886329908,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0033481631460777123,
+      "lo": 0.0017184733456324216,
+      "hi": 0.00503761412383071,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021069008519013777,
+      "lo": 0.012933900816961885,
+      "hi": 0.02823798398098807
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07393022017045454,
+      "lo": 0.06029819027653607,
+      "hi": 0.08788949182028517,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0003729603729603729,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.003265842650293255,
+      "lo": 0.0015702833814208686,
+      "hi": 0.005369978153675148,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008168472782258063,
+      "lo": 0.00412569053223234,
+      "hi": 0.012621853469003243,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.044174664200424166,
+      "lo": 0.025482199364142404,
+      "hi": 0.0621613194661677
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05294645675505051,
+      "lo": 0.04282632802826405,
+      "hi": 0.06311693191240766,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010718348853114477,
+      "lo": 0.008349463119083148,
+      "hi": 0.013157398260902087,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006937046243686868,
+      "lo": 0.0003547925670668482,
+      "hi": 0.0010838147766117326,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04271022663632291,
+      "lo": 0.03220548127619352,
+      "hi": 0.0536128748792953,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01310200279459711,
+      "lo": 0.007886899546055178,
+      "hi": 0.01772457625952522
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053498855744949496,
+      "lo": 0.04167573145135833,
+      "hi": 0.06587099310979906,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011455278592375367,
+      "lo": 0.0005202667281556459,
+      "hi": 0.0018491215523354985,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004690936583577713,
+      "lo": 0.001779217084399384,
+      "hi": 0.008123926851264202,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021412193649500234,
+      "lo": 0.01198418232581056,
+      "hi": 0.028882028621058695
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27692945075757575,
+      "lo": 0.23093958558802308,
+      "hi": 0.322892141389384,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.007459207459207458,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.029312912390029325,
+      "lo": 0.01686977654837549,
+      "hi": 0.04434938024993106,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0700622021627566,
+      "lo": 0.0406422908693275,
+      "hi": 0.10268472229244613,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10584974732676544,
+      "lo": 0.07140895422834524,
+      "hi": 0.13882538725658242
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.017854324494949496,
+      "lo": 0.008726470887031233,
+      "hi": 0.02806485439413268,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05327362163299663,
+      "lo": 0.042373037185461704,
+      "hi": 0.0655566675275482,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0006313131313131314,
+      "lo": 0.0,
+      "hi": 0.0021141649048625794,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0009202407135874878,
+      "lo": 0.0004505742913000978,
+      "hi": 0.0015086143695014662,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005280883431085045,
+      "lo": 0.0018366416391526362,
+      "hi": 0.010198363221561951,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.017273853088627052,
+      "lo": 0.010004537778349308,
+      "hi": 0.023920073284018083
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.028093434343434344,
+       "lo": 0.0202020202020202,
+       "hi": 0.03787878787878787,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.221499266862171e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00020218566715542521,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.221499266862171e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00020218566715542521,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0032824392895976803,
+       "lo": 0.0003155680224403927,
+       "hi": 0.005986207416340067
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.057133838383838384,
+       "lo": 0.041980002228164,
+       "hi": 0.0730837789661319,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0010017641129032259,
+       "lo": 0.000409694669656719,
+       "hi": 0.0017268832478005865,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0034778225806451615,
+       "lo": 0.0006254582111436952,
+       "hi": 0.0064632591031280415,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.017533639279985743,
+       "lo": 0.010168599061016597,
+       "hi": 0.02428479560622914
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08238636363636365,
+       "lo": 0.06446821152703507,
+       "hi": 0.09685771744595272,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002827735520527859,
+       "lo": 0.00135019550342131,
+       "hi": 0.004230434384164223,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007832546737536656,
+       "lo": 0.003615858687683285,
+       "hi": 0.01111889770570985,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03432285873192435,
+       "lo": 0.020114177701580468,
+       "hi": 0.045166739319965114
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "routine_redraw": {
+    "n": 32,
+    "cells": 24,
+    "write_mean": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053276909722222224,
+      "lo": 0.039405776515151515,
+      "hi": 0.06575233125526089,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0003896103896103896,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011534033632697948,
+      "lo": 0.0005147739097530982,
+      "hi": 0.0018635468041855502,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003332483733504399,
+      "lo": 0.001531686039636742,
+      "hi": 0.005305833682446577,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021649216692249344,
+      "lo": 0.012097949421842353,
+      "hi": 0.02968190752993005
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0754073942550505,
+      "lo": 0.05779758619285177,
+      "hi": 0.09271999982937483,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0003896103896103896,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0034517045454545456,
+      "lo": 0.0014370901886481063,
+      "hi": 0.00605384904751206,
+      "all_zero": false,
+      "n_nonzero_clusters": 22,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008580519153225805,
+      "lo": 0.003974454001419727,
+      "hi": 0.013930175264073717,
+      "all_zero": false,
+      "n_nonzero_clusters": 22,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04577408594414285,
+      "lo": 0.024046603502728994,
+      "hi": 0.06723796545444997
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053276909722222224,
+      "lo": 0.039405776515151515,
+      "hi": 0.0657523312552609,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010773424347643099,
+      "lo": 0.007615839761358798,
+      "hi": 0.013739177489177485,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0008346602364369501,
+      "lo": 0.00035185023001346695,
+      "hi": 0.0013412515150280915,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04253049013318671,
+      "lo": 0.028835588204917842,
+      "hi": 0.05547032455807198,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.015666453643590494,
+      "lo": 0.008370425090879001,
+      "hi": 0.02111550281873451
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05312894570707071,
+      "lo": 0.03866232893450635,
+      "hi": 0.06729452730429293,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.14247359772252563,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012028042521994135,
+      "lo": 0.00048477664020777256,
+      "hi": 0.0020816695904901546,
+      "all_zero": false,
+      "n_nonzero_clusters": 10,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004456103372434017,
+      "lo": 0.0013079452758957763,
+      "hi": 0.008339442815249266,
+      "all_zero": false,
+      "n_nonzero_clusters": 10,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02263933974581651,
+      "lo": 0.011203879430844327,
+      "hi": 0.032013364757849126
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2798591382575758,
+      "lo": 0.21601697781385282,
+      "hi": 0.34069031754930706,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.002840909090909091,
+      "lo": 0.0,
+      "hi": 0.007792207792207791,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0338990331744868,
+      "lo": 0.01574825879765396,
+      "hi": 0.05332501471829734,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07819659549120235,
+      "lo": 0.037462979135366864,
+      "hi": 0.11810984966428513,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.12112891287218545,
+      "lo": 0.06983307498661989,
+      "hi": 0.1610830989584421
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 32,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.026534880050505052,
+      "lo": 0.009023064309971638,
+      "hi": 0.04837354578539404,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.14247359772252563,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.14247359772252563,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.14247359772252563,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 24,
+     "clusters": 18,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05360900673400674,
+      "lo": 0.036859719352617074,
+      "hi": 0.07200978535353535,
+      "all_zero": false,
+      "n_nonzero_clusters": 18,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1853019681378522,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0010920698924731182,
+      "lo": 0.0002595766129032258,
+      "hi": 0.001966196695373987,
+      "all_zero": false,
+      "n_nonzero_clusters": 8,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003963526392961878,
+      "lo": 0.0009356149032772548,
+      "hi": 0.007172284018576092,
+      "all_zero": false,
+      "n_nonzero_clusters": 8,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02037101522681946,
+      "lo": 0.006800742031358278,
+      "hi": 0.029578570320375714
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.030303030303030304,
+       "lo": 0.0207631874298541,
+       "hi": 0.0404040404040404,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.87316715542522e-06,
+       "hi": 0.00018022971652003911,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.87316715542522e-06,
+       "hi": 0.00018022971652003911,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0024193548387096775,
+       "lo": 0.00021347248576850095,
+       "hi": 0.005601375942605771
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.059343434343434344,
+       "lo": 0.04545454545454546,
+       "hi": 0.07260416666666666,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0009484970674486805,
+       "lo": 0.0005577084206116465,
+       "hi": 0.0015365347018572824,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.002768740835777126,
+       "lo": 0.0007936217008797656,
+       "hi": 0.005585593841642229,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01598318462594372,
+       "lo": 0.011403153801843318,
+       "hi": 0.022681451612903226
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08648989898989898,
+       "lo": 0.06902356902356903,
+       "hi": 0.09797979797979797,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0029371334310850437,
+       "lo": 0.0015775555090071218,
+       "hi": 0.004317367220593026,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007644107404692082,
+       "lo": 0.003873717008797654,
+       "hi": 0.011235337243401759,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033959265363786205,
+       "lo": 0.02118428593730662,
+       "hi": 0.045062339204433005
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "governing": {
+    "n": 160,
+    "cells": 30,
+    "write_mean": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053131904987373746,
+      "lo": 0.043058178273550185,
+      "hi": 0.06300930283406499,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0001609848484848485,
+      "lo": 0.0,
+      "hi": 0.0003688631162887453,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001128293392595308,
+      "lo": 0.0005996305180094415,
+      "hi": 0.0017151166497622352,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0033471235795454546,
+      "lo": 0.0017442299442542877,
+      "hi": 0.004977429815249372,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021235703723844184,
+      "lo": 0.013516126736345052,
+      "hi": 0.028067978258218523
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0743716461489899,
+      "lo": 0.06067697870459653,
+      "hi": 0.08775257683039547,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0001609848484848485,
+      "lo": 0.0,
+      "hi": 0.0003688631162887453,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0032945839442815247,
+      "lo": 0.0016546880950794075,
+      "hi": 0.005262125091418944,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008267595307917888,
+      "lo": 0.0043548514153893235,
+      "hi": 0.012662868091121033,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.044298924588564735,
+      "lo": 0.026290102072920124,
+      "hi": 0.06113288089798285
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053131904987373746,
+      "lo": 0.04305817827355019,
+      "hi": 0.06300930283406499,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.01073873500631313,
+      "lo": 0.008281846777010467,
+      "hi": 0.0131471364893334,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.000722035755742913,
+      "lo": 0.0003728008027627638,
+      "hi": 0.0011213179073756264,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.042776104034294556,
+      "lo": 0.03205467588036722,
+      "hi": 0.0532711723750628,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01358949497320861,
+      "lo": 0.008235862056052043,
+      "hi": 0.018311184674286895
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053608349116161615,
+      "lo": 0.04154843928470949,
+      "hi": 0.06596675893550892,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011879123900293254,
+      "lo": 0.00054722452227111,
+      "hi": 0.0018673649333506197,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004668026026392961,
+      "lo": 0.0019183886564489833,
+      "hi": 0.008021456883206494,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02215909293261931,
+      "lo": 0.01262306300635125,
+      "hi": 0.02967722908828835
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2784268465909091,
+      "lo": 0.2297725135963897,
+      "hi": 0.32438214332632676,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0032196969696969696,
+      "lo": 0.0,
+      "hi": 0.007377262325774906,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.030476539589442814,
+      "lo": 0.017291729835068263,
+      "hi": 0.045187105872241035,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07223103005865103,
+      "lo": 0.0423927000103244,
+      "hi": 0.10348437214103154,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10945977359080539,
+      "lo": 0.07299577944130722,
+      "hi": 0.14112553484581095
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 160,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.018067392676767678,
+      "lo": 0.009670194401446732,
+      "hi": 0.02708785929144385,
+      "all_zero": false,
+      "n_nonzero_clusters": 14,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 120,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05426399410774411,
+      "lo": 0.04170856044635341,
+      "hi": 0.06769110623880972,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.000505050505050505,
+      "lo": 0.0,
+      "hi": 0.0016835016835016836,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010554130009775172,
+      "lo": 0.00041712724545204063,
+      "hi": 0.0018387658199702946,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005118218475073312,
+      "lo": 0.0019382240564294107,
+      "hi": 0.009397698860197624,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019449600390305535,
+      "lo": 0.00936967936452096,
+      "hi": 0.02886145027733559
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.028914141414141413,
+       "lo": 0.020442227149544225,
+       "hi": 0.03838383838383838,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.370417888563051e-05,
+       "lo": 6.579442063313031e-06,
+       "hi": 0.00019638709324949218,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.370417888563051e-05,
+       "lo": 6.579442063313031e-06,
+       "hi": 0.00019638709324949218,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0032407733483589244,
+       "lo": 0.00029367891105724404,
+       "hi": 0.0059415170991996115
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.0577020202020202,
+       "lo": 0.042921593988667156,
+       "hi": 0.07239057239057238,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002651515151515152,
+       "lo": 0.0,
+       "hi": 0.0007954545454545454,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0010000458211143694,
+       "lo": 0.00045936598478888015,
+       "hi": 0.00169404012588513,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0033449413489736075,
+       "lo": 0.0006827346041055718,
+       "hi": 0.0062509164222873895,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01733120985388579,
+       "lo": 0.01055049088359046,
+       "hi": 0.02404681236877267
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08244949494949495,
+       "lo": 0.06539074960127592,
+       "hi": 0.09682187730968218,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002651515151515152,
+       "lo": 0.0,
+       "hi": 0.0007954545454545454,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0027751557917888563,
+       "lo": 0.0014197496052334763,
+       "hi": 0.00409182551319648,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007658311950146627,
+       "lo": 0.003722736436950147,
+       "hi": 0.010979633073456833,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033658857382798994,
+       "lo": 0.020829470031803257,
+       "hi": 0.044306097128677766
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "alarming": {
+    "n": 24,
+    "cells": 21,
+    "write_mean": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05910669191919193,
+      "lo": 0.045229102100550964,
+      "hi": 0.072156780815635,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00012626262626262626,
+      "lo": 0.0,
+      "hi": 0.00032938076416337287,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001436301014173998,
+      "lo": 0.0007094297175515101,
+      "hi": 0.0022500215868361028,
+      "all_zero": false,
+      "n_nonzero_clusters": 17,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004072924303519062,
+      "lo": 0.002012976385644988,
+      "hi": 0.00614516569619896,
+      "all_zero": false,
+      "n_nonzero_clusters": 17,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.024300142124983846,
+      "lo": 0.01494574909957813,
+      "hi": 0.032692238955829726
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.08065025252525253,
+      "lo": 0.06276135612073111,
+      "hi": 0.09778192807706695,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00012626262626262626,
+      "lo": 0.0,
+      "hi": 0.00032938076416337287,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.00404459158113392,
+      "lo": 0.0019287255735427075,
+      "hi": 0.0064298887144587525,
+      "all_zero": false,
+      "n_nonzero_clusters": 19,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.010343925647605083,
+      "lo": 0.005182999563211715,
+      "hi": 0.016092185536237952,
+      "all_zero": false,
+      "n_nonzero_clusters": 19,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.050149769585253454,
+      "lo": 0.02919382994273155,
+      "hi": 0.06854400361596166
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05910669191919193,
+      "lo": 0.04522910210055097,
+      "hi": 0.07215678081563498,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.012095784231200897,
+      "lo": 0.008849354099709213,
+      "hi": 0.015131987554947624,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010216623560877593,
+      "lo": 0.0004757369293769189,
+      "hi": 0.0016169385190302524,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.048401097670250894,
+      "lo": 0.03411590589731627,
+      "hi": 0.06215015202050372,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.017285053907001448,
+      "lo": 0.010346174743090696,
+      "hi": 0.0232439684434638
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05827809343434343,
+      "lo": 0.04250371801014093,
+      "hi": 0.07353658108866443,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1610976152190796,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012677174975562072,
+      "lo": 0.0004962655791788856,
+      "hi": 0.002133431085043988,
+      "all_zero": false,
+      "n_nonzero_clusters": 7,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004643206256109482,
+      "lo": 0.0014222612065354003,
+      "hi": 0.008791204139041178,
+      "all_zero": false,
+      "n_nonzero_clusters": 7,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02175289929455959,
+      "lo": 0.01079611371459582,
+      "hi": 0.030375118587143268
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.30157039141414144,
+      "lo": 0.23875782279314892,
+      "hi": 0.36129878512691005,
+      "all_zero": false,
+      "n_nonzero_clusters": 21,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0025252525252525255,
+      "lo": 0.0,
+      "hi": 0.006587615283267457,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.038768481182795696,
+      "lo": 0.02055619369557007,
+      "hi": 0.0589739040268274,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.09433421920821113,
+      "lo": 0.05242882358700205,
+      "hi": 0.13696135517708094,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.12855532998780245,
+      "lo": 0.08401894247027304,
+      "hi": 0.1656804477790048
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 24,
+     "clusters": 21,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.02233270202020202,
+      "lo": 0.009225780532598716,
+      "hi": 0.037168639520202024,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1610976152190796,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1610976152190796,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1610976152190796,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 16,
+     "clusters": 15,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.057173295454545456,
+      "lo": 0.040760732323232324,
+      "hi": 0.0734503235479798,
+      "all_zero": false,
+      "n_nonzero_clusters": 15,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.001893939393939394,
+      "lo": 0.0,
+      "hi": 0.006060606060606061,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001122617302052786,
+      "lo": 0.0002634714076246334,
+      "hi": 0.002248594819159334,
+      "all_zero": false,
+      "n_nonzero_clusters": 7,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.009714076246334311,
+      "lo": 0.0019672531769305964,
+      "hi": 0.02198468429252198,
+      "all_zero": false,
+      "n_nonzero_clusters": 7,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019635343618513323,
+      "lo": 0.006307461906498343,
+      "hi": 0.033133298979208095
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.03282828282828283,
+       "lo": 0.021043771043771045,
+       "hi": 0.04040404040404041,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 0.000108825146627566,
+       "lo": 5.236698785085882e-06,
+       "hi": 0.00022910557184750732,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.000108825146627566,
+       "lo": 5.236698785085882e-06,
+       "hi": 0.00022910557184750732,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.003314981389578164,
+       "lo": 0.00020631284038542106,
+       "hi": 0.006350806451612904
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.06313131313131314,
+       "lo": 0.04545454545454546,
+       "hi": 0.0747497704315886,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0011650018328445747,
+       "lo": 0.0005116691104594331,
+       "hi": 0.0018328445747800585,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0037206744868035187,
+       "lo": 0.000843108504398827,
+       "hi": 0.006563620071684588,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.018453629032258063,
+       "lo": 0.01099896493375576,
+       "hi": 0.02594213256719436
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08648989898989898,
+       "lo": 0.06902356902356903,
+       "hi": 0.09765151515151511,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0029302602639296187,
+       "lo": 0.0015775555090071218,
+       "hi": 0.004293169308290274,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0075547562316715545,
+       "lo": 0.003868611227482196,
+       "hi": 0.011056634897360702,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03387979750412056,
+       "lo": 0.021259143724959448,
+       "hi": 0.044745967741935476
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "sham": {
+    "n": 64,
+    "cells": 26,
+    "write_mean": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05217457780934344,
+      "lo": 0.04073577425373134,
+      "hi": 0.06282376372003964,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969695,
+      "lo": 0.0,
+      "hi": 0.0004010695187165775,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010669446480938414,
+      "lo": 0.0005476790835755326,
+      "hi": 0.0016666169000943078,
+      "all_zero": false,
+      "n_nonzero_clusters": 22,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0031267469299853367,
+      "lo": 0.0015178636934580249,
+      "hi": 0.00488012244953765,
+      "all_zero": false,
+      "n_nonzero_clusters": 22,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02044951186749752,
+      "lo": 0.012810460381821851,
+      "hi": 0.0273158350098026
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07315834122474747,
+      "lo": 0.0585489694589336,
+      "hi": 0.08785831702071456,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969695,
+      "lo": 0.0,
+      "hi": 0.0004010695187165775,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0031158071389296186,
+      "lo": 0.001534296130070124,
+      "hi": 0.005177779258864302,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0078039371792522,
+      "lo": 0.003978304581588915,
+      "hi": 0.012132882999418157,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04258990959564876,
+      "lo": 0.025305140056119578,
+      "hi": 0.060409400008270005
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05217457780934344,
+      "lo": 0.04073577425373134,
+      "hi": 0.06282376372003964,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010405569365530304,
+      "lo": 0.0077367533021315904,
+      "hi": 0.012917042668961863,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007361289304333659,
+      "lo": 0.00032433129708458786,
+      "hi": 0.0011741883298712937,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04124417371802705,
+      "lo": 0.02974374817999549,
+      "hi": 0.052275884017023655,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.014108958066193297,
+      "lo": 0.007784952777599982,
+      "hi": 0.019390651109402503
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05100812815656566,
+      "lo": 0.038193727043158855,
+      "hi": 0.06379039873525166,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0010882514662756597,
+      "lo": 0.00044269015035144064,
+      "hi": 0.0018269411311105566,
+      "all_zero": false,
+      "n_nonzero_clusters": 10,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003837518328445748,
+      "lo": 0.0008956090150420916,
+      "hi": 0.0075275798840088205,
+      "all_zero": false,
+      "n_nonzero_clusters": 10,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021334863787499762,
+      "lo": 0.010793195915555536,
+      "hi": 0.02963200648221469
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27701822916666663,
+      "lo": 0.22065455807755888,
+      "hi": 0.33044625946969697,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.00802139037433155,
+      "all_zero": false,
+      "n_nonzero_clusters": 2,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.031071011271994138,
+      "lo": 0.016402182883900943,
+      "hi": 0.04721656018872908,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07065472644794721,
+      "lo": 0.036716062308164744,
+      "hi": 0.1045096736458513,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.11216233446247474,
+      "lo": 0.07122620712265276,
+      "hi": 0.14574369767813314
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.007590553977272728,
+      "lo": 0.003343305813498794,
+      "hi": 0.012645344482619727,
+      "all_zero": false,
+      "n_nonzero_clusters": 13,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 20,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0537405303030303,
+      "lo": 0.03800666099773243,
+      "hi": 0.07090611837245978,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.16843347098308528,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0008667827468230694,
+      "lo": 0.00022781000603581248,
+      "hi": 0.0016186294855026473,
+      "all_zero": false,
+      "n_nonzero_clusters": 9,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0035320442326490717,
+      "lo": 0.0005292152444984861,
+      "hi": 0.006764249659210374,
+      "all_zero": false,
+      "n_nonzero_clusters": 9,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01612903225806452,
+      "lo": 0.005503128650589722,
+      "hi": 0.023602616172429043
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.029671717171717172,
+       "lo": 0.021212121212121213,
+       "hi": 0.03914141414141414,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 8.763288123167157e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00018262987012987014,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 8.763288123167157e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00018262987012987014,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.002953414550446123,
+       "lo": 0.00031465773006796857,
+       "hi": 0.005680224403927071
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.058712121212121215,
+       "lo": 0.04617379148629149,
+       "hi": 0.0707070707070707,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0009731259164222875,
+       "lo": 0.0005570873808651026,
+       "hi": 0.0015212609970674488,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.003145046737536657,
+       "lo": 0.0007970448076591342,
+       "hi": 0.005647868554496576,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.016574531737773155,
+       "lo": 0.011506624423963135,
+       "hi": 0.02244699166364625
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08364898989898989,
+       "lo": 0.06912878787878787,
+       "hi": 0.09655377302436126,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002759003848973607,
+       "lo": 0.0016151942815249268,
+       "hi": 0.00399262280058651,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007745486620234604,
+       "lo": 0.004088953102089444,
+       "hi": 0.01079316348973607,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03298311016433354,
+       "lo": 0.021540898617511524,
+       "hi": 0.04348869906621391
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "sham_redraw": {
+    "n": 32,
+    "cells": 26,
+    "write_mean": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.051387902462121215,
+      "lo": 0.04096238960460217,
+      "hi": 0.06274678604224058,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0003134796238244514,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010230136546920821,
+      "lo": 0.0005046618210838221,
+      "hi": 0.0016933438285504803,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0030245372067448685,
+      "lo": 0.0014678063627477117,
+      "hi": 0.004964407688626485,
+      "all_zero": false,
+      "n_nonzero_clusters": 23,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019907674874376526,
+      "lo": 0.011613942705415976,
+      "hi": 0.027912559865087703
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07289200599747475,
+      "lo": 0.05826634749543757,
+      "hi": 0.08908874724132075,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0003134796238244514,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0031419251741202346,
+      "lo": 0.0014121454824690426,
+      "hi": 0.005591424950883376,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0076507801044721395,
+      "lo": 0.0037786359054252203,
+      "hi": 0.0127345194596853,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.043103837397877105,
+      "lo": 0.023604819920248536,
+      "hi": 0.06379865953061346
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.051387902462121215,
+      "lo": 0.04096238960460217,
+      "hi": 0.06274678604224058,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.01024815209385522,
+      "lo": 0.007920900877050071,
+      "hi": 0.013026867190574574,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006577557327305311,
+      "lo": 0.0003035981387448295,
+      "hi": 0.001087781917507961,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0407268565188172,
+      "lo": 0.03024558085147202,
+      "hi": 0.053082187955216284,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.012799816712024247,
+      "lo": 0.007026034821819516,
+      "hi": 0.017710906443636893
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05092921401515152,
+      "lo": 0.038317359198041016,
+      "hi": 0.06459967156906306,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0009851539589442815,
+      "lo": 0.0003609956885060535,
+      "hi": 0.0017739489899467652,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004295729472140763,
+      "lo": 0.0012871355584939252,
+      "hi": 0.008461871105205276,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019343592435005903,
+      "lo": 0.008861427685745465,
+      "hi": 0.028570067561690855
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2723425662878788,
+      "lo": 0.2214227958584002,
+      "hi": 0.32783055160984853,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.002840909090909091,
+      "lo": 0.0,
+      "hi": 0.006269592476489028,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.028256735703812316,
+      "lo": 0.014755214606462086,
+      "hi": 0.04554939516129031,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.06533747250733138,
+      "lo": 0.03399213080428937,
+      "hi": 0.1034414689171123,
+      "all_zero": false,
+      "n_nonzero_clusters": 25,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10375438584192391,
+      "lo": 0.06422974286988568,
+      "hi": 0.1405907151988918
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 32,
+     "clusters": 26,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.008522727272727274,
+      "lo": 0.0039100684261974585,
+      "hi": 0.014069264069264068,
+      "all_zero": false,
+      "n_nonzero_clusters": 10,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.1322746044977541,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 24,
+     "clusters": 20,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05234638047138047,
+      "lo": 0.04127422371866817,
+      "hi": 0.0652059217955957,
+      "all_zero": false,
+      "n_nonzero_clusters": 20,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0012626262626262627,
+      "lo": 0.0,
+      "hi": 0.004132231404958678,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007484115347018574,
+      "lo": 0.00034152158189914786,
+      "hi": 0.0012686950146627548,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.006697519550342131,
+      "lo": 0.0015834649221745996,
+      "hi": 0.01587599703066918,
+      "all_zero": false,
+      "n_nonzero_clusters": 11,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.014297292916193876,
+      "lo": 0.00794038169228171,
+      "hi": 0.020304959140027994
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.026515151515151516,
+       "lo": 0.019191919191919194,
+       "hi": 0.03787878787878788,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.8679602106105045e-06,
+       "hi": 0.0001833171868454125,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.8679602106105045e-06,
+       "hi": 0.0001833171868454125,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0027649769585253456,
+       "lo": 0.00029624753127057275,
+       "hi": 0.005492589363557106
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05303030303030303,
+       "lo": 0.038720538720538725,
+       "hi": 0.07154882154882154,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0008339442815249267,
+       "lo": 0.00033266129032258064,
+       "hi": 0.0015108530582320903,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.002527034457478006,
+       "lo": 0.0005681818181818182,
+       "hi": 0.005819281524926686,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.015725806451612905,
+       "lo": 0.00896091811414392,
+       "hi": 0.022835749136847574
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08017676767676768,
+       "lo": 0.06059458218549127,
+       "hi": 0.09812409812409814,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002709173387096774,
+       "lo": 0.001159274193548387,
+       "hi": 0.004324494949494949,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007224844208211144,
+       "lo": 0.0029222415689149563,
+       "hi": 0.011235337243401759,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033790005080010156,
+       "lo": 0.01777876861042184,
+       "hi": 0.04489112903225806
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   },
+   "all": {
+    "n": 280,
+    "cells": 30,
+    "write_mean": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05322589736652236,
+      "lo": 0.04281732240771479,
+      "hi": 0.06368638996343254,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00015692640692640695,
+      "lo": 0.0,
+      "hi": 0.00036021944512510534,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011286395056556348,
+      "lo": 0.0005943306438215993,
+      "hi": 0.001729625984424322,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.00332209625052367,
+      "lo": 0.0017012377228643584,
+      "hi": 0.004975145404786313,
+      "all_zero": false,
+      "n_nonzero_clusters": 26,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02120470600774724,
+      "lo": 0.013417771781621795,
+      "hi": 0.028125139220113417
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07446338383838384,
+      "lo": 0.060346323403066754,
+      "hi": 0.08844449695480756,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00015692640692640695,
+      "lo": 0.0,
+      "hi": 0.00036021944512510534,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0033005603267700044,
+      "lo": 0.001638558398838004,
+      "hi": 0.0053232879823658505,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008269094312945119,
+      "lo": 0.004269160896790387,
+      "hi": 0.01268995648531141,
+      "all_zero": false,
+      "n_nonzero_clusters": 28,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04432460837307068,
+      "lo": 0.026323270221186613,
+      "hi": 0.061909141916270546
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05322589736652237,
+      "lo": 0.04281732240771479,
+      "hi": 0.06368638996343255,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010722834746272246,
+      "lo": 0.008281926391194034,
+      "hi": 0.01318488282744223,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007435930445003025,
+      "lo": 0.0003772952452800722,
+      "hi": 0.00116656192883507,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04267389112903226,
+      "lo": 0.031876954227229755,
+      "hi": 0.05332694655317303,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.013970512124573444,
+      "lo": 0.008344241502352098,
+      "hi": 0.018879062258954613
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05310808982683983,
+      "lo": 0.040977537783177885,
+      "hi": 0.06534690005125622,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011488007959782156,
+      "lo": 0.0005251871277996018,
+      "hi": 0.0018304071596019831,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004433520108923335,
+      "lo": 0.0016966909610422133,
+      "hi": 0.007732458670121257,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02163137103450543,
+      "lo": 0.01197137243742926,
+      "hi": 0.0291796710724592
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27939326298701295,
+      "lo": 0.22911956738437,
+      "hi": 0.3281881144138974,
+      "all_zero": false,
+      "n_nonzero_clusters": 30,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.003138528138528138,
+      "lo": 0.0,
+      "hi": 0.007204388902502106,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.031069464809384162,
+      "lo": 0.017432220056805316,
+      "hi": 0.04630751354911164,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07297745601173021,
+      "lo": 0.04203603288322552,
+      "hi": 0.10608424824690937,
+      "all_zero": false,
+      "n_nonzero_clusters": 29,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.11120334283374744,
+      "lo": 0.0731048875533585,
+      "hi": 0.14348629628791532
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 280,
+     "clusters": 30,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.014947465728715728,
+      "lo": 0.008374621652060675,
+      "hi": 0.022084326251619768,
+      "all_zero": false,
+      "n_nonzero_clusters": 17,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.11570330822202778,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 208,
+     "clusters": 24,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.054145724067599064,
+      "lo": 0.04156824418667971,
+      "hi": 0.06821995462980668,
+      "all_zero": false,
+      "n_nonzero_clusters": 24,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0005827505827505828,
+      "lo": 0.0,
+      "hi": 0.0019445794846864367,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0009816292578389352,
+      "lo": 0.0004060113672657589,
+      "hi": 0.0016793541822078476,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005287932833295737,
+      "lo": 0.0018809511927163891,
+      "hi": 0.010089138363171256,
+      "all_zero": false,
+      "n_nonzero_clusters": 12,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01812939571393311,
+      "lo": 0.009167292454841642,
+      "hi": 0.025910419816378618
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.02925084175084175,
+       "lo": 0.020800914550914547,
+       "hi": 0.03872053872053872,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.176950961225155e-05,
+       "lo": 6.439724181659666e-06,
+       "hi": 0.00019257596122515473,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.176950961225155e-05,
+       "lo": 6.439724181659666e-06,
+       "hi": 0.00019257596122515473,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0031373288466001394,
+       "lo": 0.00028447922361946417,
+       "hi": 0.0059040062434963575
+      },
+      "map": "unmapped",
+      "cells": 6
+     },
+     "2": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05801066217732884,
+       "lo": 0.043434343434343436,
+       "hi": 0.07209826576264927,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002525252525252525,
+       "lo": 0.0,
+       "hi": 0.0007575757575757575,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.000993936339198436,
+       "lo": 0.0004704247294618149,
+       "hi": 0.001667171666976443,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.003251389907135875,
+       "lo": 0.0007154370706624353,
+       "hi": 0.006057551319648095,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.017133683738346922,
+       "lo": 0.010715806451612901,
+       "hi": 0.023879195912281347
+      },
+      "map": "R3b",
+      "cells": 6
+     },
+     "3": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.0829124579124579,
+       "lo": 0.06631532718489241,
+       "hi": 0.09696969696969697,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002525252525252525,
+       "lo": 0.0,
+       "hi": 0.0007575757575757575,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0027814689231019877,
+       "lo": 0.0014476853791369922,
+       "hi": 0.0040822336265884645,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007618014825676115,
+       "lo": 0.0037511358473421175,
+       "hi": 0.010975223958542564,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03354705665629606,
+       "lo": 0.02097408839400351,
+       "hi": 0.044217039064812065
+      },
+      "map": "R3a",
+      "cells": 6
+     }
+    }
+   }
+  },
+  "aggregates_documents": {
+   "conforming": {
+    "n": 64,
+    "documents": 6,
+    "write_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05324485085227272,
+      "lo": 0.04169491261776418,
+      "hi": 0.06364989177489178,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001128502451429619,
+      "lo": 0.0005698714717741936,
+      "hi": 0.0017191236183171667,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003353403936033725,
+      "lo": 0.0015672586520610635,
+      "hi": 0.005136218134799469,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02119458376474069,
+      "lo": 0.01273847881313589,
+      "hi": 0.02767236245960656
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07429519807449496,
+      "lo": 0.060084976751643426,
+      "hi": 0.08908388318670578,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.003244764937683284,
+      "lo": 0.001432647127432685,
+      "hi": 0.005282927198249778,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008210255910923753,
+      "lo": 0.004001815661656891,
+      "hi": 0.012695191233669656,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.043673952311558475,
+      "lo": 0.02315670487869902,
+      "hi": 0.05947992248708735
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053244850852272735,
+      "lo": 0.04169491261776418,
+      "hi": 0.06364989177489178,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010741776488846801,
+      "lo": 0.0079763986013986,
+      "hi": 0.013213597564183503,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006940546467701206,
+      "lo": 0.00036701537709602226,
+      "hi": 0.0010109576305812867,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.042964788382820134,
+      "lo": 0.03071415143995789,
+      "hi": 0.05387006086571356,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.013035150548092768,
+      "lo": 0.008457934276774512,
+      "hi": 0.016866757142360026
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0539575441919192,
+      "lo": 0.034887334887334885,
+      "hi": 0.07041114267676768,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012228509897360704,
+      "lo": 0.0004398826979472141,
+      "hi": 0.002016565423823486,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004751076796187683,
+      "lo": 0.00045384722804077643,
+      "hi": 0.009871586326979473,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.022663206935189004,
+      "lo": 0.011405077371481671,
+      "hi": 0.030257754207980467
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27920809659090906,
+      "lo": 0.2301876183712121,
+      "hi": 0.3243399395743145,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.009943181818181818,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.02992891999633431,
+      "lo": 0.017522840063162643,
+      "hi": 0.043010559127397034,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07141707523826979,
+      "lo": 0.04240228647360704,
+      "hi": 0.09538211853183237,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.1071921637007026,
+      "lo": 0.07719749440605855,
+      "hi": 0.13482785037970352
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.014046717171717174,
+      "lo": 0.002952602952602953,
+      "hi": 0.026729998396665056,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.055581860269360274,
+      "lo": 0.04100904882154882,
+      "hi": 0.06945759680134679,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0006313131313131314,
+      "lo": 0.0,
+      "hi": 0.001893939393939394,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011722568426197459,
+      "lo": 0.000480835318914956,
+      "hi": 0.001989400048875855,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0055328995601173015,
+      "lo": 0.0015338618035190613,
+      "hi": 0.010527401026392963,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021090637070057858,
+      "lo": 0.011054809572798079,
+      "hi": 0.030465206513158767
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.029040404040404037,
+       "lo": 0.020202020202020204,
+       "hi": 0.03832590612002375,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 0.00010538856304985339,
+       "lo": 6.545873481357352e-06,
+       "hi": 0.00021311871981197146,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.00010538856304985339,
+       "lo": 6.545873481357352e-06,
+       "hi": 0.00021311871981197146,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.003629032258064517,
+       "lo": 0.0002791563275434243,
+       "hi": 0.006134027976020554
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05744949494949495,
+       "lo": 0.04188948306595366,
+       "hi": 0.07219251336898395,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.001024101906158358,
+       "lo": 0.00043071847507331377,
+       "hi": 0.0017347334828359494,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0035001603739002935,
+       "lo": 0.0006457722385141741,
+       "hi": 0.006416101539589443,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01782612548741581,
+       "lo": 0.009764538828790128,
+       "hi": 0.024412422855539854
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08049242424242425,
+       "lo": 0.06407565235690237,
+       "hi": 0.0965909090909091,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0026415872434017596,
+       "lo": 0.0013673020527859236,
+       "hi": 0.004076017228739003,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007491179435483872,
+       "lo": 0.003556864002932552,
+       "hi": 0.010710685483870963,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03281783681214421,
+       "lo": 0.02014937683284458,
+       "hi": 0.04289629536290322
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "middle": {
+    "n": 64,
+    "documents": 6,
+    "write_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05294645675505051,
+      "lo": 0.04165926846590909,
+      "hi": 0.06263111888111887,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011155293484237537,
+      "lo": 0.0005532572266443234,
+      "hi": 0.0016975806451612902,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0033481631460777123,
+      "lo": 0.0014647744549540888,
+      "hi": 0.005159584719715759,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021069008519013777,
+      "lo": 0.012547024657085199,
+      "hi": 0.027799579025139205
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07393022017045454,
+      "lo": 0.05956784643308081,
+      "hi": 0.08832958491161616,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969698,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.003265842650293255,
+      "lo": 0.001333052247895185,
+      "hi": 0.005394061583577712,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008168472782258063,
+      "lo": 0.003932851304756232,
+      "hi": 0.012628241843841639,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.044174664200424166,
+      "lo": 0.022440266210859372,
+      "hi": 0.06132478461230215
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05294645675505051,
+      "lo": 0.04165926846590909,
+      "hi": 0.06263111888111889,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010718348853114477,
+      "lo": 0.007863876394149831,
+      "hi": 0.013204966329966329,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006937046243686868,
+      "lo": 0.0003621356242323984,
+      "hi": 0.001002830090216683,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04271022663632291,
+      "lo": 0.030676741663739213,
+      "hi": 0.05295332355816226,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01310200279459711,
+      "lo": 0.008339113329618975,
+      "hi": 0.0167674953861063
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053498855744949496,
+      "lo": 0.03486864999896505,
+      "hi": 0.06888111888111889,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011455278592375367,
+      "lo": 0.0003952071114369501,
+      "hi": 0.001866681705391383,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004690936583577713,
+      "lo": 0.0004079557279349163,
+      "hi": 0.010038348748026166,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021412193649500234,
+      "lo": 0.010192923533546826,
+      "hi": 0.02800001857380999
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27692945075757575,
+      "lo": 0.22993326118326116,
+      "hi": 0.31837707431457424,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.009943181818181818,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.029312912390029325,
+      "lo": 0.017320381231671553,
+      "hi": 0.04112038872967208,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0700622021627566,
+      "lo": 0.04047992330250394,
+      "hi": 0.09419075548107805,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10584974732676544,
+      "lo": 0.07514458452329244,
+      "hi": 0.13083073648322607
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.017854324494949496,
+      "lo": 0.005208333333333334,
+      "hi": 0.031259565350474444,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05327362163299663,
+      "lo": 0.03920717592592592,
+      "hi": 0.06634098142887206,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0006313131313131314,
+      "lo": 0.0,
+      "hi": 0.001893939393939394,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0009202407135874878,
+      "lo": 0.0004429374389051808,
+      "hi": 0.0013937255620723365,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005280883431085045,
+      "lo": 0.0011111620234604107,
+      "hi": 0.010378482404692082,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.017273853088627052,
+      "lo": 0.010792315127331744,
+      "hi": 0.021729624272595786
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.028093434343434344,
+       "lo": 0.0202020202020202,
+       "hi": 0.03787878787878787,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.221499266862171e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00020218566715542521,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.221499266862171e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00020218566715542521,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0032824392895976803,
+       "lo": 0.0003155680224403927,
+       "hi": 0.005986207416340067
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.057133838383838384,
+       "lo": 0.041980002228164,
+       "hi": 0.0730837789661319,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0010017641129032259,
+       "lo": 0.000409694669656719,
+       "hi": 0.0017268832478005865,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0034778225806451615,
+       "lo": 0.0006254582111436952,
+       "hi": 0.0064632591031280415,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.017533639279985743,
+       "lo": 0.010168599061016597,
+       "hi": 0.02428479560622914
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08238636363636365,
+       "lo": 0.06446821152703507,
+       "hi": 0.09685771744595272,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002827735520527859,
+       "lo": 0.00135019550342131,
+       "hi": 0.004230434384164223,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007832546737536656,
+       "lo": 0.003615858687683285,
+       "hi": 0.01111889770570985,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03432285873192435,
+       "lo": 0.020114177701580468,
+       "hi": 0.045166739319965114
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "routine_redraw": {
+    "n": 32,
+    "documents": 6,
+    "write_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053276909722222224,
+      "lo": 0.039472840807266214,
+      "hi": 0.0642593211527035,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0004398826979472141,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011534033632697948,
+      "lo": 0.0005356931699933782,
+      "hi": 0.0017913699204021784,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003332483733504399,
+      "lo": 0.0015704817425030745,
+      "hi": 0.004965323763125531,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021649216692249344,
+      "lo": 0.012861350651194155,
+      "hi": 0.029426786579783516
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0754073942550505,
+      "lo": 0.05988819648093842,
+      "hi": 0.09043811696510559,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0004398826979472141,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0034517045454545456,
+      "lo": 0.0014440450288525212,
+      "hi": 0.005892428685683818,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008580519153225805,
+      "lo": 0.004020000916422287,
+      "hi": 0.013298898071625345,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04577408594414285,
+      "lo": 0.023224835554261025,
+      "hi": 0.06611207745743906
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053276909722222224,
+      "lo": 0.039472840807266214,
+      "hi": 0.0642593211527035,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010773424347643099,
+      "lo": 0.007696250135766265,
+      "hi": 0.013234365715983364,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0008346602364369501,
+      "lo": 0.00033748099272292825,
+      "hi": 0.0013183752851091562,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04253049013318671,
+      "lo": 0.029693494518546543,
+      "hi": 0.05383061430532105,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.015666453643590494,
+      "lo": 0.008265479589843345,
+      "hi": 0.021416984289299994
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05312894570707071,
+      "lo": 0.03431492342782665,
+      "hi": 0.06988079322638145,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012028042521994135,
+      "lo": 0.00033324446814182886,
+      "hi": 0.002177197191859948,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004456103372434017,
+      "lo": 0.000343658357771261,
+      "hi": 0.008675858480749216,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02263933974581651,
+      "lo": 0.008843002690691416,
+      "hi": 0.03243089727988173
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2798591382575758,
+      "lo": 0.21464646464646464,
+      "hi": 0.3373440285204991,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.002840909090909091,
+      "lo": 0.0,
+      "hi": 0.00879765395894428,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0338990331744868,
+      "lo": 0.015367179863147602,
+      "hi": 0.05176521800069,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07819659549120235,
+      "lo": 0.042246456500488756,
+      "hi": 0.1097561238571675,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.12112891287218545,
+      "lo": 0.06841947141288166,
+      "hi": 0.15471184261718288
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.026534880050505052,
+      "lo": 0.0034820864898989904,
+      "hi": 0.05820515763697582,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "R3b"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05360900673400674,
+      "lo": 0.034603851010101015,
+      "hi": 0.07094447074915824,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0010920698924731182,
+      "lo": 0.0003740148460410558,
+      "hi": 0.001809934017595308,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003963526392961878,
+      "lo": 0.0012982649071358748,
+      "hi": 0.006834982893450636,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02037101522681946,
+      "lo": 0.010316030784345835,
+      "hi": 0.027929121529229224
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.030303030303030304,
+       "lo": 0.0207631874298541,
+       "hi": 0.0404040404040404,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.87316715542522e-06,
+       "hi": 0.00018022971652003911,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.87316715542522e-06,
+       "hi": 0.00018022971652003911,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0024193548387096775,
+       "lo": 0.00021347248576850095,
+       "hi": 0.005601375942605771
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.059343434343434344,
+       "lo": 0.04545454545454546,
+       "hi": 0.07260416666666666,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0009484970674486805,
+       "lo": 0.0005577084206116465,
+       "hi": 0.0015365347018572824,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.002768740835777126,
+       "lo": 0.0007936217008797656,
+       "hi": 0.005585593841642229,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01598318462594372,
+       "lo": 0.011403153801843318,
+       "hi": 0.022681451612903226
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08648989898989898,
+       "lo": 0.06902356902356903,
+       "hi": 0.09797979797979797,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0029371334310850437,
+       "lo": 0.0015775555090071218,
+       "hi": 0.004317367220593026,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007644107404692082,
+       "lo": 0.003873717008797654,
+       "hi": 0.011235337243401759,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033959265363786205,
+       "lo": 0.02118428593730662,
+       "hi": 0.045062339204433005
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "governing": {
+    "n": 160,
+    "documents": 6,
+    "write_mean": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053131904987373746,
+      "lo": 0.04156692542688085,
+      "hi": 0.06329412188221065,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0001609848484848485,
+      "lo": 0.0,
+      "hi": 0.00048295454545454526,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001128293392595308,
+      "lo": 0.0005673345598406462,
+      "hi": 0.0017130308460953623,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0033471235795454546,
+      "lo": 0.0015538727889123412,
+      "hi": 0.0051264378153403406,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021235703723844184,
+      "lo": 0.012924576887432994,
+      "hi": 0.027892028430836522
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0743716461489899,
+      "lo": 0.06009361814345991,
+      "hi": 0.08931897095959596,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0001609848484848485,
+      "lo": 0.0,
+      "hi": 0.00048295454545454526,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0032945839442815247,
+      "lo": 0.0014136567801328926,
+      "hi": 0.005448368089497121,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008267595307917888,
+      "lo": 0.0040025109970674485,
+      "hi": 0.012783484097725333,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.044298924588564735,
+      "lo": 0.023271806972957023,
+      "hi": 0.061379350520700836
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053131904987373746,
+      "lo": 0.04156692542688085,
+      "hi": 0.06329412188221065,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.01073873500631313,
+      "lo": 0.00789453782617845,
+      "hi": 0.013183532859458787,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.000722035755742913,
+      "lo": 0.00036550007184649544,
+      "hi": 0.0010572267534213098,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.042776104034294556,
+      "lo": 0.03052147966400667,
+      "hi": 0.05348411956687581,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01358949497320861,
+      "lo": 0.00872958200372816,
+      "hi": 0.017870347992382494
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.053608349116161615,
+      "lo": 0.03430989583333334,
+      "hi": 0.06968422579835624,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011879123900293254,
+      "lo": 0.00040551686217008795,
+      "hi": 0.001985918403125624,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004668026026392961,
+      "lo": 0.000410649987007684,
+      "hi": 0.009636664177337386,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02215909293261931,
+      "lo": 0.01075148805875626,
+      "hi": 0.029564271881899005
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2784268465909091,
+      "lo": 0.22875651165745498,
+      "hi": 0.32285748106060597,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0032196969696969696,
+      "lo": 0.0,
+      "hi": 0.009659090909090905,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.030476539589442814,
+      "lo": 0.017497138443122992,
+      "hi": 0.04391816348973608,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07223103005865103,
+      "lo": 0.04214609023515054,
+      "hi": 0.09759962250232233,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10945977359080539,
+      "lo": 0.07479145180872317,
+      "hi": 0.1365817100343535
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 160,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.018067392676767678,
+      "lo": 0.004150589748415835,
+      "hi": 0.033384426870118084,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 120,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05426399410774411,
+      "lo": 0.03905986952861953,
+      "hi": 0.06816077441077442,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.000505050505050505,
+      "lo": 0.0,
+      "hi": 0.0015151515151515152,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010554130009775172,
+      "lo": 0.0004609985948191594,
+      "hi": 0.0016862170087976538,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005118218475073312,
+      "lo": 0.0012554985337243404,
+      "hi": 0.009494134897360703,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019449600390305535,
+      "lo": 0.010823709890484512,
+      "hi": 0.02600403762724969
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.028914141414141413,
+       "lo": 0.020442227149544225,
+       "hi": 0.03838383838383838,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.370417888563051e-05,
+       "lo": 6.579442063313031e-06,
+       "hi": 0.00019638709324949218,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.370417888563051e-05,
+       "lo": 6.579442063313031e-06,
+       "hi": 0.00019638709324949218,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0032407733483589244,
+       "lo": 0.00029367891105724404,
+       "hi": 0.0059415170991996115
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.0577020202020202,
+       "lo": 0.042921593988667156,
+       "hi": 0.07239057239057238,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002651515151515152,
+       "lo": 0.0,
+       "hi": 0.0007954545454545454,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0010000458211143694,
+       "lo": 0.00045936598478888015,
+       "hi": 0.00169404012588513,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0033449413489736075,
+       "lo": 0.0006827346041055718,
+       "hi": 0.0062509164222873895,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.01733120985388579,
+       "lo": 0.01055049088359046,
+       "hi": 0.02404681236877267
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 40,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08244949494949495,
+       "lo": 0.06539074960127592,
+       "hi": 0.09682187730968218,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002651515151515152,
+       "lo": 0.0,
+       "hi": 0.0007954545454545454,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0027751557917888563,
+       "lo": 0.0014197496052334763,
+       "hi": 0.00409182551319648,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007658311950146627,
+       "lo": 0.003722736436950147,
+       "hi": 0.010979633073456833,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033658857382798994,
+       "lo": 0.020829470031803257,
+       "hi": 0.044306097128677766
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "alarming": {
+    "n": 24,
+    "documents": 6,
+    "write_mean": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05910669191919193,
+      "lo": 0.04564744668911336,
+      "hi": 0.06905864197530864,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00012626262626262626,
+      "lo": 0.0,
+      "hi": 0.0004329004329004329,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001436301014173998,
+      "lo": 0.0006866319444444445,
+      "hi": 0.0021940676930596284,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004072924303519062,
+      "lo": 0.0019481872294372297,
+      "hi": 0.006077865347018572,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.024300142124983846,
+      "lo": 0.01421398547514377,
+      "hi": 0.032200630826233693
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.08065025252525253,
+      "lo": 0.06392045454545454,
+      "hi": 0.09658564814814814,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00012626262626262626,
+      "lo": 0.0,
+      "hi": 0.0004329004329004329,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.00404459158113392,
+      "lo": 0.0016283296676441836,
+      "hi": 0.006698710899315738,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.010343925647605083,
+      "lo": 0.004461118205780047,
+      "hi": 0.0163368310117302,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.050149769585253454,
+      "lo": 0.024647193949461795,
+      "hi": 0.06939293518676415
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05910669191919193,
+      "lo": 0.04564744668911336,
+      "hi": 0.06905864197530864,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.012095784231200897,
+      "lo": 0.008922308401475069,
+      "hi": 0.014377961715924679,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010216623560877593,
+      "lo": 0.0004936800803736288,
+      "hi": 0.0013752179802807045,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.048401097670250894,
+      "lo": 0.03441374187341929,
+      "hi": 0.059569262668501,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.017285053907001448,
+      "lo": 0.010681697174435895,
+      "hi": 0.021325858653325508
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05827809343434343,
+      "lo": 0.03911135161135161,
+      "hi": 0.0764151936026936,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0012677174975562072,
+      "lo": 0.0003665689149560118,
+      "hi": 0.0022610174323883974,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004643206256109482,
+      "lo": 0.0005294884327142392,
+      "hi": 0.011258902387934647,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02175289929455959,
+      "lo": 0.00913802221047065,
+      "hi": 0.031741414043474525
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.30157039141414144,
+      "lo": 0.246031746031746,
+      "hi": 0.35017777602413,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0025252525252525255,
+      "lo": 0.0,
+      "hi": 0.008658008658008658,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.038768481182795696,
+      "lo": 0.022412990795047247,
+      "hi": 0.05510752688172043,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.09433421920821113,
+      "lo": 0.05746171391332681,
+      "hi": 0.11905615292712068,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.12855532998780245,
+      "lo": 0.0886266936238269,
+      "hi": 0.15721906596052
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.02233270202020202,
+      "lo": 0.0028058361391694727,
+      "hi": 0.04118733632622522,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 16,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.057173295454545456,
+      "lo": 0.03844020562770562,
+      "hi": 0.07174172278338944,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.001893939393939394,
+      "lo": 0.0,
+      "hi": 0.006493506493506494,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.001122617302052786,
+      "lo": 0.00024874319229157936,
+      "hi": 0.002081587767071638,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.009714076246334311,
+      "lo": 0.0021470465018852115,
+      "hi": 0.02246543778801843,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019635343618513323,
+      "lo": 0.00647053258915902,
+      "hi": 0.03129225420127488
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.03282828282828283,
+       "lo": 0.021043771043771045,
+       "hi": 0.04040404040404041,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 0.000108825146627566,
+       "lo": 5.236698785085882e-06,
+       "hi": 0.00022910557184750732,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.000108825146627566,
+       "lo": 5.236698785085882e-06,
+       "hi": 0.00022910557184750732,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.003314981389578164,
+       "lo": 0.00020631284038542106,
+       "hi": 0.006350806451612904
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.06313131313131314,
+       "lo": 0.04545454545454546,
+       "hi": 0.0747497704315886,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0011650018328445747,
+       "lo": 0.0005116691104594331,
+       "hi": 0.0018328445747800585,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0037206744868035187,
+       "lo": 0.000843108504398827,
+       "hi": 0.006563620071684588,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.018453629032258063,
+       "lo": 0.01099896493375576,
+       "hi": 0.02594213256719436
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08648989898989898,
+       "lo": 0.06902356902356903,
+       "hi": 0.09765151515151511,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0029302602639296187,
+       "lo": 0.0015775555090071218,
+       "hi": 0.004293169308290274,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.0075547562316715545,
+       "lo": 0.003868611227482196,
+       "hi": 0.011056634897360702,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03387979750412056,
+       "lo": 0.021259143724959448,
+       "hi": 0.044745967741935476
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "sham": {
+    "n": 64,
+    "documents": 6,
+    "write_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05217457780934344,
+      "lo": 0.041223729227761484,
+      "hi": 0.06097270784770784,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969695,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010669446480938414,
+      "lo": 0.0006393080124869927,
+      "hi": 0.0015036041720159826,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0031267469299853367,
+      "lo": 0.0015382887144073409,
+      "hi": 0.0046631857166131345,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02044951186749752,
+      "lo": 0.013883512155466628,
+      "hi": 0.026105765767038432
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07315834122474747,
+      "lo": 0.059429985337243404,
+      "hi": 0.08608684342120136,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00016571969696969695,
+      "lo": 0.0,
+      "hi": 0.0004971590909090909,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0031158071389296186,
+      "lo": 0.0015404772269061585,
+      "hi": 0.004929477780284233,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0078039371792522,
+      "lo": 0.0042707052312931605,
+      "hi": 0.01141613056830678,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04258990959564876,
+      "lo": 0.024835573711312103,
+      "hi": 0.05818927456518507
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05217457780934344,
+      "lo": 0.041223729227761484,
+      "hi": 0.06097270784770784,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010405569365530304,
+      "lo": 0.007766678885630498,
+      "hi": 0.012480170292670295,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007361289304333659,
+      "lo": 0.00036356266194975884,
+      "hi": 0.0011579718512453113,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04124417371802705,
+      "lo": 0.030106443984132154,
+      "hi": 0.049672264779316494,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.014108958066193297,
+      "lo": 0.008435887964027283,
+      "hi": 0.019638836151706474
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05100812815656566,
+      "lo": 0.03330427288760622,
+      "hi": 0.06521464646464646,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0010882514662756597,
+      "lo": 0.0003840245775729647,
+      "hi": 0.0017193827677698644,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.003837518328445748,
+      "lo": 0.00040795572793491633,
+      "hi": 0.008025039476652382,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.021334863787499762,
+      "lo": 0.011042380246408669,
+      "hi": 0.027327935222672066
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27701822916666663,
+      "lo": 0.2229726222597471,
+      "hi": 0.3229597107438016,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0033143939393939395,
+      "lo": 0.0,
+      "hi": 0.009943181818181818,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.031071011271994138,
+      "lo": 0.017791193181818182,
+      "hi": 0.04462021345589885,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07065472644794721,
+      "lo": 0.044068193836834774,
+      "hi": 0.09398099660196436,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.11216233446247474,
+      "lo": 0.07804269135108832,
+      "hi": 0.14144588453109194
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 64,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.007590553977272728,
+      "lo": 0.001893939393939394,
+      "hi": 0.015012817569635753,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 48,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.0537405303030303,
+      "lo": 0.03824705387205387,
+      "hi": 0.06923400673400673,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0008667827468230694,
+      "lo": 0.0003551136363636363,
+      "hi": 0.0014777309384164225,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0035320442326490717,
+      "lo": 0.000973698680351906,
+      "hi": 0.006495142961876833,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01612903225806452,
+      "lo": 0.008352668213457077,
+      "hi": 0.021550434001795873
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.029671717171717172,
+       "lo": 0.021212121212121213,
+       "hi": 0.03914141414141414,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 8.763288123167157e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00018262987012987014,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 8.763288123167157e-05,
+       "lo": 7.331378299120235e-06,
+       "hi": 0.00018262987012987014,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.002953414550446123,
+       "lo": 0.00031465773006796857,
+       "hi": 0.005680224403927071
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.058712121212121215,
+       "lo": 0.04617379148629149,
+       "hi": 0.0707070707070707,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0009731259164222875,
+       "lo": 0.0005570873808651026,
+       "hi": 0.0015212609970674488,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.003145046737536657,
+       "lo": 0.0007970448076591342,
+       "hi": 0.005647868554496576,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.016574531737773155,
+       "lo": 0.011506624423963135,
+       "hi": 0.02244699166364625
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 16,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08364898989898989,
+       "lo": 0.06912878787878787,
+       "hi": 0.09655377302436126,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002840909090909091,
+       "lo": 0.0,
+       "hi": 0.0008522727272727272,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002759003848973607,
+       "lo": 0.0016151942815249268,
+       "hi": 0.00399262280058651,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007745486620234604,
+       "lo": 0.004088953102089444,
+       "hi": 0.01079316348973607,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03298311016433354,
+       "lo": 0.021540898617511524,
+       "hi": 0.04348869906621391
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "sham_redraw": {
+    "n": 32,
+    "documents": 6,
+    "write_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.051387902462121215,
+      "lo": 0.03981098867462504,
+      "hi": 0.061834161931818184,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0004398826979472141,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0010230136546920821,
+      "lo": 0.0004932642961876833,
+      "hi": 0.001579682917888563,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0030245372067448685,
+      "lo": 0.0013504291012592722,
+      "hi": 0.004677190249266862,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019907674874376526,
+      "lo": 0.01178157101599267,
+      "hi": 0.026716212320210136
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07289200599747475,
+      "lo": 0.058186026936026945,
+      "hi": 0.08916724058769511,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00014204545454545454,
+      "lo": 0.0,
+      "hi": 0.0004398826979472141,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0031419251741202346,
+      "lo": 0.0012625934159492952,
+      "hi": 0.005464479263862968,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0076507801044721395,
+      "lo": 0.0036884851539589446,
+      "hi": 0.01170655012829912,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.043103837397877105,
+      "lo": 0.021496859716171796,
+      "hi": 0.061202512867038594
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.051387902462121215,
+      "lo": 0.03981098867462504,
+      "hi": 0.06183416193181819,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.01024815209385522,
+      "lo": 0.0074875594177064774,
+      "hi": 0.012603146362616058,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0006577557327305311,
+      "lo": 0.0003354487414467253,
+      "hi": 0.0009754559029181224,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.0407268565188172,
+      "lo": 0.028955829643685434,
+      "hi": 0.05136434913652655,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.012799816712024247,
+      "lo": 0.007977074976748195,
+      "hi": 0.01653070797366733
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05092921401515152,
+      "lo": 0.031834893048128345,
+      "hi": 0.06716624250315653,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0009851539589442815,
+      "lo": 0.000288811872389585,
+      "hi": 0.001710744781783681,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004295729472140763,
+      "lo": 0.0003074448964147195,
+      "hi": 0.009295478195061957,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.019343592435005903,
+      "lo": 0.008310760896330954,
+      "hi": 0.026766552903460045
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.2723425662878788,
+      "lo": 0.22005208333333331,
+      "hi": 0.31877367424242425,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.002840909090909091,
+      "lo": 0.0,
+      "hi": 0.00879765395894428,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.028256735703812316,
+      "lo": 0.01567553414327608,
+      "hi": 0.04147619458340521,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.06533747250733138,
+      "lo": 0.03673687016795522,
+      "hi": 0.09070359015373676,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.10375438584192391,
+      "lo": 0.06984851185171984,
+      "hi": 0.13195931188191082
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 32,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.008522727272727274,
+      "lo": 0.0008912655971479501,
+      "hi": 0.017927663734115307,
+      "all_zero": false,
+      "n_nonzero_clusters": 3,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 24,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05234638047138047,
+      "lo": 0.03757628367003367,
+      "hi": 0.0662878787878788,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0012626262626262627,
+      "lo": 0.0,
+      "hi": 0.003787878787878788,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007484115347018574,
+      "lo": 0.00031292002688172043,
+      "hi": 0.0012524437927663734,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.006697519550342131,
+      "lo": 0.0007560483870967744,
+      "hi": 0.01478494623655914,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.014297292916193876,
+      "lo": 0.008004252895765755,
+      "hi": 0.019709765521754997
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.026515151515151516,
+       "lo": 0.019191919191919194,
+       "hi": 0.03787878787878788,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.8679602106105045e-06,
+       "hi": 0.0001833171868454125,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 7.331378299120235e-05,
+       "lo": 6.8679602106105045e-06,
+       "hi": 0.0001833171868454125,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0027649769585253456,
+       "lo": 0.00029624753127057275,
+       "hi": 0.005492589363557106
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05303030303030303,
+       "lo": 0.038720538720538725,
+       "hi": 0.07154882154882154,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0008339442815249267,
+       "lo": 0.00033266129032258064,
+       "hi": 0.0015108530582320903,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.002527034457478006,
+       "lo": 0.0005681818181818182,
+       "hi": 0.005819281524926686,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.015725806451612905,
+       "lo": 0.00896091811414392,
+       "hi": 0.022835749136847574
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 8,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.08017676767676768,
+       "lo": 0.06059458218549127,
+       "hi": 0.09812409812409814,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0001893939393939394,
+       "lo": 0.0,
+       "hi": 0.0006493506493506494,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.002709173387096774,
+       "lo": 0.001159274193548387,
+       "hi": 0.004324494949494949,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007224844208211144,
+       "lo": 0.0029222415689149563,
+       "hi": 0.011235337243401759,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.033790005080010156,
+       "lo": 0.01777876861042184,
+       "hi": 0.04489112903225806
+      },
+      "map": "R3a"
+     }
+    }
+   },
+   "all": {
+    "n": 280,
+    "documents": 6,
+    "write_mean": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05322589736652236,
+      "lo": 0.041724574885546116,
+      "hi": 0.06303072538767962,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00015692640692640695,
+      "lo": 0.0,
+      "hi": 0.00047587791270101756,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0011286395056556348,
+      "lo": 0.0005826652747673084,
+      "hi": 0.0016912865788981093,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.00332209625052367,
+      "lo": 0.0016057289484708844,
+      "hi": 0.005023324740923179,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02120470600774724,
+      "lo": 0.013322696281583498,
+      "hi": 0.027744170569695727
+     },
+     "map": "R3b"
+    },
+    "any_mean": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.07446338383838384,
+      "lo": 0.06053954725829726,
+      "hi": 0.0892653544183157,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.00015692640692640695,
+      "lo": 0.0,
+      "hi": 0.00047587791270101756,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0033005603267700044,
+      "lo": 0.0014702446254140386,
+      "hi": 0.005406122080740993,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.008269094312945119,
+      "lo": 0.004038712295768747,
+      "hi": 0.012669554314373652,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.04432460837307068,
+      "lo": 0.023593698765669902,
+      "hi": 0.06164026415223384
+     },
+     "map": "R3a"
+    },
+    "write_same_item_mean": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05322589736652237,
+      "lo": 0.041724574885546116,
+      "hi": 0.06303072538767962,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.010722834746272246,
+      "lo": 0.00788121629946811,
+      "hi": 0.01305599858231437,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0007435930445003025,
+      "lo": 0.0003682955076713842,
+      "hi": 0.0010919747241594096,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.04267389112903226,
+      "lo": 0.03058465041208711,
+      "hi": 0.05288292253521126,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.013970512124573444,
+      "lo": 0.008821064204689155,
+      "hi": 0.018325245861360705
+     },
+     "map": "R3b"
+    },
+    "write_ex_ante": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.05310808982683983,
+      "lo": 0.0341180623438688,
+      "hi": 0.06892321794457025,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0011488007959782156,
+      "lo": 0.00040283721749582904,
+      "hi": 0.0019051257692784263,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.004433520108923335,
+      "lo": 0.00040861266147426386,
+      "hi": 0.009253872880275404,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.02163137103450543,
+      "lo": 0.010569136984718045,
+      "hi": 0.028969695398757447
+     },
+     "map": "R3b"
+    },
+    "write_document_level": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.27939326298701295,
+      "lo": 0.2263832521645021,
+      "hi": 0.3241603979940248,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.003138528138528138,
+      "lo": 0.0,
+      "hi": 0.009517558254020342,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.031069464809384162,
+      "lo": 0.017559298403110993,
+      "hi": 0.04446609109365709,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.07297745601173021,
+      "lo": 0.04318790560784273,
+      "hi": 0.09760632726751,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.11120334283374744,
+      "lo": 0.07726854867480697,
+      "hi": 0.13708667725569346
+     },
+     "map": "R3a"
+    },
+    "literal_payload_items": {
+     "n": 280,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.014947465728715728,
+      "lo": 0.00392626445615576,
+      "hi": 0.026377329634371886,
+      "all_zero": false,
+      "n_nonzero_clusters": 4,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "p3f": {
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.45925812643990044,
+      "all_zero": true,
+      "n_nonzero_clusters": 0,
+      "bound": "clopper_pearson_on_clusters_with_any_cover"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "map": "unmapped"
+    },
+    "write_outside_days_1_2_day_windows": {
+     "n": 208,
+     "clusters": 6,
+     "replicates": 2000,
+     "seed": 20261106,
+     "shared_resamples": true,
+     "p0": {
+      "mean": 0.054145724067599064,
+      "lo": 0.0389433551198257,
+      "hi": 0.06820145352599463,
+      "all_zero": false,
+      "n_nonzero_clusters": 6,
+      "bound": "cluster_bootstrap"
+     },
+     "p1": {
+      "mean": 0.0005827505827505828,
+      "lo": 0.0,
+      "hi": 0.00176522506619594,
+      "all_zero": false,
+      "n_nonzero_clusters": 1,
+      "bound": "cluster_bootstrap"
+     },
+     "p3": {
+      "mean": 0.0009816292578389352,
+      "lo": 0.00044842410955783953,
+      "hi": 0.0015233359154539921,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "p3f": {
+      "mean": 0.005287932833295737,
+      "lo": 0.0011922387039831448,
+      "hi": 0.010070952233250618,
+      "all_zero": false,
+      "n_nonzero_clusters": 5,
+      "bound": "cluster_bootstrap"
+     },
+     "ratio": {
+      "of": "p3/p0",
+      "mean": 0.01812939571393311,
+      "lo": 0.010865546106178525,
+      "hi": 0.02323832331969723
+     },
+     "map": "R3b"
+    },
+    "time_axis": {
+     "1": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.02925084175084175,
+       "lo": 0.020800914550914547,
+       "hi": 0.03872053872053872,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0,
+       "lo": 0.0,
+       "hi": 0.45925812643990044,
+       "all_zero": true,
+       "n_nonzero_clusters": 0,
+       "bound": "clopper_pearson_on_clusters_with_any_cover"
+      },
+      "p3": {
+       "mean": 9.176950961225155e-05,
+       "lo": 6.439724181659666e-06,
+       "hi": 0.00019257596122515473,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 9.176950961225155e-05,
+       "lo": 6.439724181659666e-06,
+       "hi": 0.00019257596122515473,
+       "all_zero": false,
+       "n_nonzero_clusters": 4,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.0031373288466001394,
+       "lo": 0.00028447922361946417,
+       "hi": 0.0059040062434963575
+      },
+      "map": "unmapped"
+     },
+     "2": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.05801066217732884,
+       "lo": 0.043434343434343436,
+       "hi": 0.07209826576264927,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002525252525252525,
+       "lo": 0.0,
+       "hi": 0.0007575757575757575,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.000993936339198436,
+       "lo": 0.0004704247294618149,
+       "hi": 0.001667171666976443,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.003251389907135875,
+       "lo": 0.0007154370706624353,
+       "hi": 0.006057551319648095,
+       "all_zero": false,
+       "n_nonzero_clusters": 5,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.017133683738346922,
+       "lo": 0.010715806451612901,
+       "hi": 0.023879195912281347
+      },
+      "map": "R3b"
+     },
+     "3": {
+      "n": 72,
+      "clusters": 6,
+      "replicates": 2000,
+      "seed": 20261106,
+      "shared_resamples": true,
+      "p0": {
+       "mean": 0.0829124579124579,
+       "lo": 0.06631532718489241,
+       "hi": 0.09696969696969697,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p1": {
+       "mean": 0.0002525252525252525,
+       "lo": 0.0,
+       "hi": 0.0007575757575757575,
+       "all_zero": false,
+       "n_nonzero_clusters": 1,
+       "bound": "cluster_bootstrap"
+      },
+      "p3": {
+       "mean": 0.0027814689231019877,
+       "lo": 0.0014476853791369922,
+       "hi": 0.0040822336265884645,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "p3f": {
+       "mean": 0.007618014825676115,
+       "lo": 0.0037511358473421175,
+       "hi": 0.010975223958542564,
+       "all_zero": false,
+       "n_nonzero_clusters": 6,
+       "bound": "cluster_bootstrap"
+      },
+      "ratio": {
+       "of": "p3/p0",
+       "mean": 0.03354705665629606,
+       "lo": 0.02097408839400351,
+       "hi": 0.044217039064812065
+      },
+      "map": "R3a"
+     }
+    }
+   }
+  }
  }
 }
