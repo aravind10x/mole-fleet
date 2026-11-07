@@ -1,0 +1,31 @@
+nulls: {"b1all_headers_naming_an_account": 0, "b1all_last_not_in_force": 0, "b0_equals_sealed": 254, "over_cap": 0, "headers_naming_an_account": 0, "units": 254, "items": 1778}
+[O_diff] 254/254 records; calls=0 cached=254 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B0: {'scored': 254} $6.07 against share $6.02
+[O_diff] 254/254 records; calls=0 cached=254 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B0: {'scored': 254} $1.25 against share $1.24
+[O_diff] 254/254 records; calls=0 cached=508 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B0h: {'scored': 254} $6.36 against share $6.26
+[O_diff] 254/254 records; calls=0 cached=508 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B0h: {'scored': 254} $1.37 against share $1.34
+[O_diff] 254/254 records; calls=0 cached=762 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B1: {'scored': 254} $7.85 against share $6.93
+[O_diff] 254/254 records; calls=0 cached=762 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B1: {'scored': 254} $1.63 against share $1.61
+[O_diff] 254/254 records; calls=0 cached=1016 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B2: {'scored': 254} $7.17 against share $6.56
+[O_diff] 254/254 records; calls=0 cached=1016 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B2: {'scored': 254} $1.48 against share $1.46
+[O_diff] 254/254 records; calls=0 cached=1270 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B3: {'scored': 254} $8.16 against share $6.93
+[O_diff] 254/254 records; calls=0 cached=1270 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B3: {'scored': 254} $1.63 against share $1.61
+[O_diff] 254/254 records; calls=0 cached=1524 scored=0 refused=0 errored=0 $0.00 this run, $44.07 against cache, 0s
+opus48 B4: {'scored': 254} $8.46 against share $7.41
+[O_diff] 254/254 records; calls=0 cached=1524 scored=0 refused=0 errored=0 $0.00 this run, $9.15 against cache, 0s
+sonnet B4: {'scored': 254} $1.79 against share $1.80
+[O_diff] 254/254 records; calls=254 cached=1524 scored=254 refused=0 errored=0 $1.86 this run, $11.01 against cache, 374s
+sonnet B1all: {'scored': 254} $1.86 against share $1.61
+[O_diff] 254/254 records; calls=254 cached=1524 scored=254 refused=0 errored=0 $8.52 this run, $52.59 against cache, 513s
+opus48 B1all: {'scored': 254} $8.52 against share $6.93
+SUMMARY {"step_usd": 63.5959, "step_share_usd": 57.6857, "spent_after_usd": 63.595918, "stopped": {"opus48": null, "sonnet": null}, "outcomes": {"opus48": {"B0": {"scored": 254}, "B0h": {"scored": 254}, "B1": {"scored": 254}, "B2": {"scored": 254}, "B3": {"scored": 254}, "B4": {"scored": 254}, "B1all": {"scored": 254}}, "sonnet": {"B0": {"scored": 254}, "B0h": {"scored": 254}, "B1": {"scored": 254}, "B2": {"scored": 254}, "B3": {"scored": 254}, "B4": {"scored": 254}, "B1all": {"scored": 254}}}, "usd": {"opus48": {"B0": 6.0659, "B0h": 6.3638, "B1": 7.8479, "B2": 7.1721, "B3": 8.1572, "B4": 8.4642, "B1all": 8.5151}, "sonnet": {"B0": 1.2487, "B0h": 1.3668, "B1": 1.6325, "B2": 1.4777, "B3": 1.633, "B4": 1.7917, "B1all": 1.8593}}, "thresholds": {"opus48": {"B0": {"threshold": 50.0, "p_tie": 0.4, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [35.0, 58.0]}, "B0h": {"threshold": 48.0, "p_tie": 0.7, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [35.0, 58.0]}, "B1": {"threshold": 55.0, "p_tie": 0.48, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [40.0, 62.0]}, "B2": {"threshold": 42.0, "p_tie": 0.7333, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [38.0, 58.0]}, "B3": {"threshold": 58.0, "p_tie": 0.1556, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [42.0, 64.0]}, "B4": {"threshold": 58.0, "p_tie": 0.54, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [42.0, 68.0]}, "B1all": {"threshold": 55.0, "p_tie": 0.1, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [38.0, 68.0]}}, "sonnet": {"B0": {"threshold": 78.0, "p_tie": 0.64, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 82.0]}, "B0h": {"threshold": 72.0, "p_tie": 0.08, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [68.0, 78.0]}, "B1": {"threshold": 85.0, "p_tie": 0.6696, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 85.0]}, "B2": {"threshold": 78.0, "p_tie": 0.5692, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 85.0]}, "B3": {"threshold": 88.0, "p_tie": 0.8267, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [85.0, 88.0]}, "B4": {"threshold": 85.0, "p_tie": 0.2286, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [82.0, 88.0]}, "B1all": {"threshold": 85.0, "p_tie": 0.6308, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [73.0, 85.0]}}}}
+wrote /Users/aravind/KruxAI/tais-project-selection/work/stage3/phase-b/nulls-v0.json sha256 6357f90c39817f01

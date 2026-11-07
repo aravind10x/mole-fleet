@@ -1,0 +1,28 @@
+nulls: {"b0_equals_sealed": 254, "over_cap": 0, "headers_naming_an_account": 0, "units": 254, "items": 1524}
+[O_diff] 254/254 records; calls=252 cached=2 scored=252 refused=0 errored=0 $1.24 this run, $1.28 against cache, 370s
+sonnet B0: {'scored': 254} $1.25 against share $1.24
+[O_diff] 254/254 records; calls=252 cached=2 scored=252 refused=0 errored=0 $6.05 this run, $6.13 against cache, 449s
+opus48 B0: {'scored': 254} $6.07 against share $6.02
+[O_diff] 254/254 records; calls=504 cached=4 scored=504 refused=0 errored=0 $2.60 this run, $2.64 against cache, 371s
+sonnet B0h: {'scored': 254} $1.37 against share $1.34
+[O_diff] 254/254 records; calls=504 cached=4 scored=504 refused=0 errored=0 $12.40 this run, $12.49 against cache, 453s
+opus48 B0h: {'scored': 254} $6.36 against share $6.26
+[O_diff] 254/254 records; calls=756 cached=6 scored=756 refused=0 errored=0 $4.23 this run, $4.27 against cache, 372s
+sonnet B1: {'scored': 254} $1.63 against share $1.61
+  transient error on prefix_rw_v2c:O_diff:owncloud:/shared/capabilities/finetune-guide.md/b0..@469#phaseb:B1 (HTTP 529 OverloadedError); retry 1/3
+[O_diff] 254/254 records; calls=756 cached=6 scored=756 refused=0 errored=0 $20.24 this run, $20.32 against cache, 513s
+opus48 B1: {'scored': 254} $7.85 against share $6.93
+[O_diff] 254/254 records; calls=1008 cached=8 scored=1008 refused=0 errored=0 $5.70 this run, $5.74 against cache, 401s
+sonnet B2: {'scored': 254} $1.48 against share $1.46
+[O_diff] 254/254 records; calls=1260 cached=10 scored=1260 refused=0 errored=0 $7.33 this run, $7.36 against cache, 372s
+sonnet B3: {'scored': 254} $1.63 against share $1.61
+[O_diff] 254/254 records; calls=1008 cached=8 scored=1008 refused=0 errored=0 $27.40 this run, $27.48 against cache, 485s
+opus48 B2: {'scored': 254} $7.17 against share $6.56
+[O_diff] 254/254 records; calls=1512 cached=12 scored=1512 refused=0 errored=0 $9.12 this run, $9.15 against cache, 373s
+sonnet B4: {'scored': 254} $1.79 against share $1.80
+[O_diff] 254/254 records; calls=1260 cached=10 scored=1260 refused=0 errored=0 $35.54 this run, $35.62 against cache, 537s
+opus48 B3: {'scored': 254} $8.16 against share $6.93
+[O_diff] 254/254 records; calls=1512 cached=12 scored=1512 refused=0 errored=0 $43.99 this run, $44.07 against cache, 526s
+opus48 B4: {'scored': 254} $8.46 against share $7.41
+SUMMARY {"step_usd": 53.2215, "step_share_usd": 49.1511, "spent_after_usd": 53.221548, "stopped": {"opus48": null, "sonnet": null}, "outcomes": {"opus48": {"B0": {"scored": 254}, "B0h": {"scored": 254}, "B1": {"scored": 254}, "B2": {"scored": 254}, "B3": {"scored": 254}, "B4": {"scored": 254}}, "sonnet": {"B0": {"scored": 254}, "B0h": {"scored": 254}, "B1": {"scored": 254}, "B2": {"scored": 254}, "B3": {"scored": 254}, "B4": {"scored": 254}}}, "usd": {"opus48": {"B0": 6.0659, "B0h": 6.3638, "B1": 7.8479, "B2": 7.1721, "B3": 8.1572, "B4": 8.4642}, "sonnet": {"B0": 1.2487, "B0h": 1.3668, "B1": 1.6325, "B2": 1.4777, "B3": 1.633, "B4": 1.7917}}, "thresholds": {"opus48": {"B0": {"threshold": 50.0, "p_tie": 0.4, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [35.0, 58.0]}, "B0h": {"threshold": 48.0, "p_tie": 0.7, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [35.0, 58.0]}, "B1": {"threshold": 55.0, "p_tie": 0.48, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [40.0, 62.0]}, "B2": {"threshold": 42.0, "p_tie": 0.7333, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [38.0, 58.0]}, "B3": {"threshold": 58.0, "p_tie": 0.1556, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [42.0, 64.0]}, "B4": {"threshold": 58.0, "p_tie": 0.54, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [42.0, 68.0]}}, "sonnet": {"B0": {"threshold": 78.0, "p_tie": 0.64, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 82.0]}, "B0h": {"threshold": 72.0, "p_tie": 0.08, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [68.0, 78.0]}, "B1": {"threshold": 85.0, "p_tie": 0.6696, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 85.0]}, "B2": {"threshold": 78.0, "p_tie": 0.5692, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [72.0, 85.0]}, "B3": {"threshold": 88.0, "p_tie": 0.8267, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [85.0, 88.0]}, "B4": {"threshold": 85.0, "p_tie": 0.2286, "expected_rate": 0.1, "n_scored": 254, "threshold_chain_boot": [82.0, 88.0]}}}}
+wrote /Users/aravind/KruxAI/tais-project-selection/work/stage3/phase-b/nulls-v0.json sha256 e8837c43a425b5aa
