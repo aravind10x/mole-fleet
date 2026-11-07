@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 113,
+ "n_files": 122,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1314,6 +1314,96 @@
    "tables_drawn_on": [
     "the trace audit's counts"
    ]
+  },
+  {
+   "path": "phase-a/a1-cover-v0.md",
+   "sha256": "ead07e82889b033ca135172b54cf4e129526d090acbc48b1f333c5c385718598",
+   "bytes": 8734,
+   "sha256_fork_copy": "ead07e82889b033ca135172b54cf4e129526d090acbc48b1f333c5c385718598",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 A1 (Phase A, $0 audit), v0 record: the join and the realised cover of the applied lines; roadmap v4 §6 reads Phase A as descriptive",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a1-cover-v1.md",
+   "sha256": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+   "bytes": 20935,
+   "sha256_fork_copy": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 A1.2 under notes 3 to 6 (Phase A): cover arithmetic, reading R3b; its 2026-11-07 correction section (intervals over 30 cells) is the citable form, the per-application intervals labelled too narrow",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a1-cover-v1.json",
+   "sha256": "2515b6524b8bd26b3858252e2bbaf07969818d44654ce278ceb2dbff71698709",
+   "bytes": 689913,
+   "sha256_fork_copy": "2515b6524b8bd26b3858252e2bbaf07969818d44654ce278ceb2dbff71698709",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the values behind a1-cover-v1.md, with the cells block of brief 36 note 6",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a1-cover-v1-addendum.json",
+   "sha256": "5a528113ec269ed6bdacbfd953b28696a7862428bb2bf8b3654bcf21b62151e4",
+   "bytes": 449775,
+   "sha256_fork_copy": "5a528113ec269ed6bdacbfd953b28696a7862428bb2bf8b3654bcf21b62151e4",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 note 5 item 2(a): the four tied triples and the hypothesis formulas, with the cells block of note 6",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a2-grouping-v1.md",
+   "sha256": "645e004075d5186d6f266455f3deda2e8d5c7d6fbf32460fa3afa3a5d28c7161",
+   "bytes": 5088,
+   "sha256_fork_copy": "645e004075d5186d6f266455f3deda2e8d5c7d6fbf32460fa3afa3a5d28c7161",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 A2 under notes 3 and 4 (Phase A): author grouping net of the same-shape sham; the certified ten from S3 sealed scores",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a2-tail-v0.md",
+   "sha256": "6b1b8c52ad73d8e008ec3740b675afbab7587c779ed89c65d12e9e40bd0479a4",
+   "bytes": 8270,
+   "sha256_fork_copy": "6b1b8c52ad73d8e008ec3740b675afbab7587c779ed89c65d12e9e40bd0479a4",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 A2 (Phase A): the tail by licence, by document, the sign-off templates (none on the runbook)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a2-tail-v1.md",
+   "sha256": "ed210fb738f1b4d4c0621b186e557459c1696fe18f87d87b15c15f715ac3bc7e",
+   "bytes": 5078,
+   "sha256_fork_copy": "ed210fb738f1b4d4c0621b186e557459c1696fe18f87d87b15c15f715ac3bc7e",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 A2 under notes 3 and 4 (Phase A): the tail re-read with the tie rule and the approval variants",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a2-tail-v2.md",
+   "sha256": "ba3b7fb43a1011626f97074dfd90a54ee9e26ceda0befdb312e4fbb19946ceaa",
+   "bytes": 6279,
+   "sha256_fork_copy": "ba3b7fb43a1011626f97074dfd90a54ee9e26ceda0befdb312e4fbb19946ceaa",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 36 note 5 (Phase A): the tail per chain and per distinct write; the 18 document-day chains; honest deviance 59 of 127 per write",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-a/a4-prior-art-2026-11-06.md",
+   "sha256": "59c67ea9af10bb4c0c203a93e63639182d04cf028d43e9aa043bda695d6fbe92",
+   "bytes": 19941,
+   "sha256_fork_copy": "59c67ea9af10bb4c0c203a93e63639182d04cf028d43e9aa043bda695d6fbe92",
+   "copies_identical": true,
+   "tag": "prior-art",
+   "tag_source": "A4 (the reviewer, 2026-11-06), adopted in roadmap v4 dated note 1: sixteen sources verified from primary text, the corrections section the paper carries; external citations, never manifest numbers",
+   "added_beyond_brief_list": false
   }
  ],
  "amendments": [
@@ -2898,6 +2988,114 @@
     }
    ],
    "note": "brief 22's fork copy mirrored in the same commit; no other entry changed"
+  },
+  {
+   "date": "2026-11-07",
+   "by": "coordinator v3 (roadmap v4; brief 39 dated note 1 and the paper session's request): Phase A's records and A4 added, additive, when the paper cites them",
+   "added": [
+    "phase-a/a1-cover-v0.md",
+    "phase-a/a1-cover-v1.md",
+    "phase-a/a1-cover-v1.json",
+    "phase-a/a1-cover-v1-addendum.json",
+    "phase-a/a2-grouping-v1.md",
+    "phase-a/a2-tail-v0.md",
+    "phase-a/a2-tail-v1.md",
+    "phase-a/a2-tail-v2.md",
+    "phase-a/a4-prior-art-2026-11-06.md"
+   ],
+   "entries": [
+    {
+     "path": "phase-a/a1-cover-v0.md",
+     "sha256": "ead07e82889b033ca135172b54cf4e129526d090acbc48b1f333c5c385718598",
+     "bytes": 8734,
+     "sha256_fork_copy": "ead07e82889b033ca135172b54cf4e129526d090acbc48b1f333c5c385718598",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 A1 (Phase A, $0 audit), v0 record: the join and the realised cover of the applied lines; roadmap v4 §6 reads Phase A as descriptive",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a1-cover-v1.md",
+     "sha256": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+     "bytes": 20935,
+     "sha256_fork_copy": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 A1.2 under notes 3 to 6 (Phase A): cover arithmetic, reading R3b; its 2026-11-07 correction section (intervals over 30 cells) is the citable form, the per-application intervals labelled too narrow",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a1-cover-v1.json",
+     "sha256": "2515b6524b8bd26b3858252e2bbaf07969818d44654ce278ceb2dbff71698709",
+     "bytes": 689913,
+     "sha256_fork_copy": "2515b6524b8bd26b3858252e2bbaf07969818d44654ce278ceb2dbff71698709",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the values behind a1-cover-v1.md, with the cells block of brief 36 note 6",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a1-cover-v1-addendum.json",
+     "sha256": "5a528113ec269ed6bdacbfd953b28696a7862428bb2bf8b3654bcf21b62151e4",
+     "bytes": 449775,
+     "sha256_fork_copy": "5a528113ec269ed6bdacbfd953b28696a7862428bb2bf8b3654bcf21b62151e4",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 note 5 item 2(a): the four tied triples and the hypothesis formulas, with the cells block of note 6",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a2-grouping-v1.md",
+     "sha256": "645e004075d5186d6f266455f3deda2e8d5c7d6fbf32460fa3afa3a5d28c7161",
+     "bytes": 5088,
+     "sha256_fork_copy": "645e004075d5186d6f266455f3deda2e8d5c7d6fbf32460fa3afa3a5d28c7161",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 A2 under notes 3 and 4 (Phase A): author grouping net of the same-shape sham; the certified ten from S3 sealed scores",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a2-tail-v0.md",
+     "sha256": "6b1b8c52ad73d8e008ec3740b675afbab7587c779ed89c65d12e9e40bd0479a4",
+     "bytes": 8270,
+     "sha256_fork_copy": "6b1b8c52ad73d8e008ec3740b675afbab7587c779ed89c65d12e9e40bd0479a4",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 A2 (Phase A): the tail by licence, by document, the sign-off templates (none on the runbook)",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a2-tail-v1.md",
+     "sha256": "ed210fb738f1b4d4c0621b186e557459c1696fe18f87d87b15c15f715ac3bc7e",
+     "bytes": 5078,
+     "sha256_fork_copy": "ed210fb738f1b4d4c0621b186e557459c1696fe18f87d87b15c15f715ac3bc7e",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 A2 under notes 3 and 4 (Phase A): the tail re-read with the tie rule and the approval variants",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a2-tail-v2.md",
+     "sha256": "ba3b7fb43a1011626f97074dfd90a54ee9e26ceda0befdb312e4fbb19946ceaa",
+     "bytes": 6279,
+     "sha256_fork_copy": "ba3b7fb43a1011626f97074dfd90a54ee9e26ceda0befdb312e4fbb19946ceaa",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 36 note 5 (Phase A): the tail per chain and per distinct write; the 18 document-day chains; honest deviance 59 of 127 per write",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-a/a4-prior-art-2026-11-06.md",
+     "sha256": "59c67ea9af10bb4c0c203a93e63639182d04cf028d43e9aa043bda695d6fbe92",
+     "bytes": 19941,
+     "sha256_fork_copy": "59c67ea9af10bb4c0c203a93e63639182d04cf028d43e9aa043bda695d6fbe92",
+     "copies_identical": true,
+     "tag": "prior-art",
+     "tag_source": "A4 (the reviewer, 2026-11-06), adopted in roadmap v4 dated note 1: sixteen sources verified from primary text, the corrections section the paper carries; external citations, never manifest numbers",
+     "added_beyond_brief_list": false
+    }
+   ],
+   "note": "two new tag values, descriptive (Phase A, a $0 audit on the current world; roadmap v4 §6 and proposal §6: after A the corrected regime table, the tail decomposition and the cover method are descriptive) and prior-art (A4: external citations verified from primary sources, never manifest numbers); a1-cover-v1.md is pinned at its corrected hash (brief 36 note 6, 2026-11-07, post-look and labelled): the citable intervals are the correction section's, over 30 (document, window, pool) cells; the a4 fork copy mirrored in this commit; the paper's abstract-v1 pinned a1-cover-v1.md at 7cb8056b, which the paper's next pass updates; no other entry changed"
   }
  ]
 }
