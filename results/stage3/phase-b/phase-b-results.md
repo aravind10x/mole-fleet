@@ -4,13 +4,19 @@ Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.js
 
 ## The verdict line
 
-**Verdict (Opus 4.8, governing): inconclusive.** Sonnet 5 beside, never pooled: kill.
+**Verdict (Opus 4.8, governing): inconclusive.** It sits between two neighbouring verdicts, on two margins.
+- **Kill** was missed: U(D_h) is 0.240 against m_kill 0.23.
+- **Every positive verdict** needs L(D_net) > 0, and L(D_net) reads −0.009 against 0. Had it cleared zero, the verdict would have been **context**, not survives, because L(r − r′) is −0.025: any task text of matched length helps about as much as the right one.
+
+**Sonnet 5, beside and never pooled: kill** (U(D_h) 0.152 against 0.23). It carries two caveats:
+- At the shared m_kill of 0.23, Sonnet 5's P(kill | g = 0.20) in the dry run is 0.14, 0.12 and 0.10 at SD 5, 10 and 15. That is above the 0.10 bound at SD 5 and 10 (`dryrun-v1.json`). The kill also holds at Sonnet 5's own, unused m_kill of 0.21.
+- Its between-arm spread on the fresh null, SD(B1 − B0h) = 21.5, is beyond the dry run's range (SD 15 gives 18.9), so its operating characteristics understate its noise. Source: the reviewer's count (`read-phase-b-results-2026-11-08.md` 6965d6d5), reproduced from `nulls-v0.json`.
 
 - Kill reads U(D_h) < m_kill: D_h (Opus 4.8) = 0.094 [-0.013, 0.240], against m_kill 0.23; the conditions as evaluated: kill fails, context fails, separability fails, survives fails.
 
 ## The sentence (v1.2 §1's form)
 
-"On the current world, grounding moves routine-and-middle recall at matched cost from 0.57 (r₀, fresh B0) to 0.72 (r, B1) (net of the comparison arm, D_net 0.13); the length-matched unrelated task gives 0.59 (r′); the free item-scope rule alone gives 0.49 (0.01 net); the comparison arms read B0 0.06, B0h 0.04, B1 0.08, B2 0.11, B3 0.05, B4 0.06." (Opus 4.8; the current world confirms nothing.)
+"On the current world, the kill test of task grounding is inconclusive. Routine-and-middle recall at matched cost reads 0.57 (r₀, fresh B0) without the task and 0.72 (r, B1) with it. The task text's own gain, D_h, is 0.094 [−0.013, 0.240], and the gain net of the comparison arm, D_net, is 0.130 [−0.009, 0.276]; neither interval excludes zero. The length-matched unrelated task gives 0.59 (r′); the free item-scope rule alone gives 0.49 (0.01 net); the comparison arms read B0 0.06, B0h 0.04, B1 0.08, B2 0.11, B3 0.05, B4 0.06." (Opus 4.8; the current world confirms nothing.)
 
 ## Opus 4.8 (governing)
 
@@ -88,3 +94,9 @@ Codex's verdict: the governing inconclusive and Sonnet 5's kill stand; the corre
 | 5 | advisory | verdict inputs were rounded to four places before strict inequalities | accepted | conditions evaluated at full precision; values rounded for display only (both verdicts unchanged) |
 | 6 | advisory | the not-calibratable reporting fallback (c at the two bracketing cuts) was not implemented | accepted | implemented and tested; inactive on this null (B5 calibratable) |
 | 7 | advisory | 'recorded r₀' is the expected-tie re-reading of the recorded scores, not the realised recorded recall §2 quotes | accepted | labelled as expected; the realised recorded recall shown beside; δ stays on the expected reading, as calibrated |
+
+**Changelog, 2026-11-08 (brief 38 dated note 5; the reviewer's read `read-phase-b-results-2026-11-08.md` 6965d6d5).** Edited in place. No number was recomputed and no reading changed.
+- §1's sentence now carries the verdict word and the intervals of D_h and D_net. It appears nowhere else in the record.
+- The verdict line now names both margins, both neighbouring verdicts and Sonnet 5's two caveats. The P(kill | g = 0.20) figures are `dryrun-v1.json`'s; the between-arm spread is the reviewer's count, reproduced.
+- This file was generated as `bccfc26a` by `stage3_phase_b_readings.py` `504eec93`. These lines are hand edits the generator does not produce.
+- `phase-b-results.json` (`d1220ea6`) is unchanged; it holds no sentence string.
