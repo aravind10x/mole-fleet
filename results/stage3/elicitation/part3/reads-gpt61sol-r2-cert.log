@@ -1,0 +1,85 @@
+{
+ "version": "elicitation-reads/v0",
+ "writer": "gpt61sol",
+ "round": 2,
+ "phase": "cert",
+ "items": 91,
+ "samples": [
+  0,
+  1
+ ],
+ "fams": [
+  "kimi",
+  "sonnet55"
+ ],
+ "started_at": "2026-11-07T18:43:58+00:00",
+ "resume": false,
+ "stop_usd": 42.14,
+ "limits_before": "limits-06.json",
+ "headroom_usd": 147.264330766,
+ "packets_sha256": "b3cef51214ab6fa412a20604e222c9b611ccfc2e11cfd8f20f2e691da95f52bd",
+ "script_sha256": "d15d4f6ac725b0b6a8ce9c0d8fc7c68020f2e00bab3f2173e1a9839059e7e1c3",
+ "key_order": [
+  1,
+  2
+ ],
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 728,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false
+   },
+   "sonnet55": {
+    "units": 728,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false
+   }
+  },
+  "score": {
+   "done": 2896,
+   "of": 2896,
+   "aborted": false,
+   "units": 2896
+  }
+ },
+ "key_attempts": [
+  {
+   "key_number": 1,
+   "key_exhausted": false,
+   "aborted": false,
+   "kimi_dollars_cumulative_on_cache": 5.5065
+  }
+ ],
+ "finished_at": "2026-11-07T19:21:48+00:00",
+ "dollars": {
+  "kimi": 5.5065,
+  "sonnet55": 1.8363,
+  "scorer": 4.5019,
+  "total": 11.8447
+ },
+ "kimi_served": {
+  "final_records": 728,
+  "final_on_pin": 728,
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 728
+  },
+  "sonnet55": {
+   "scored": 720,
+   "refused": 8
+  },
+  "scorer": {
+   "scored": 2896
+  }
+ },
+ "stopped": false,
+ "limits_after": [
+  "limits-07.json"
+ ]
+}

@@ -1,0 +1,24 @@
+{
+ "permissions": {
+  "deny": [
+   "Read(//Users/aravind/KruxAI/**)",
+   "Read(//Users/aravind/.claude/**)",
+   "Read(//Users/aravind/.codex/**)",
+   "Read(//Users/aravind/.cursor/**)",
+   "Read(//Users/aravind/.config/**)",
+   "Read(//private/var/folders/**)",
+   "Read(//tmp/**)",
+   "Read(//Users/aravind/elicitation-writers/**)",
+   "Read(//Users/aravind/CLAUDE.md)",
+   "Read(//Users/aravind/AGENTS.md)",
+   "Write(//Users/aravind/KruxAI/**)",
+   "Write(//Users/aravind/.claude/**)",
+   "Write(//Users/aravind/.codex/**)",
+   "Write(//Users/aravind/.cursor/**)",
+   "Write(//Users/aravind/.config/**)",
+   "Write(//private/var/folders/**)",
+   "Write(//tmp/**)",
+   "Write(//Users/aravind/elicitation-writers/**)"
+  ]
+ }
+}

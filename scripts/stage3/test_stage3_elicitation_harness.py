@@ -113,12 +113,28 @@ def test_the_preface_and_round_template_come_from_the_launch_notes():
     assert template == ("Round: ", "Arm: ", "Items to write per arm: ")
 
 
-def test_deny_list_is_written_beside_the_manifest(tmp_path):
+def test_deny_list_is_written_beside_the_manifest_in_claude_codes_own_schema(tmp_path):
+    """Brief 30 note 9 item 5: the fragment the harness wrote (flat `deny`, single-slash patterns) was not Claude Code's
+    schema and refused nothing. It is now `permissions.deny` with `//`-absolute Read patterns, the same settings
+    stage3_elicitation_part3_launch.writer_settings gives (a probe on 2026-11-07 showed a project read refused)."""
     dest, man = _assemble(tmp_path)
     perm = dest.parent / "permissions-w1.json"
     assert perm.exists()
     rules = json.loads(perm.read_text(encoding="utf-8"))
-    assert any("/Users/aravind/KruxAI" in r for r in rules["deny"])
+    assert set(rules) == {"permissions"} and set(rules["permissions"]) == {"deny"}
+    deny = rules["permissions"]["deny"]
+    assert "Read(//Users/aravind/KruxAI/**)" in deny and "Read(//Users/aravind/.claude/**)" in deny
+    assert all(d.startswith("Read(//") for d in deny), "every pattern is `//`-absolute; a single slash is project-relative"
+    assert man["deny_list"]["settings"] == str(perm) and man["deny_list"]["schema"] == "claude-code permissions.deny"
+
+
+def test_deny_list_denies_a_sibling_writers_tree_but_never_the_writers_own_folder(tmp_path):
+    other = tmp_path / "rounds" / "gpt61sol"
+    other.mkdir(parents=True)
+    dest, man = _assemble(tmp_path, dest_name="opus55/r1")   # tmp_path/rounds/opus55/r1, beside the other writer's tree
+    deny = json.loads((dest.parent / "permissions-r1.json").read_text(encoding="utf-8"))["permissions"]["deny"]
+    assert any(str(other).lstrip("/") in d for d in deny)
+    assert not any(d == f"Read(/{str(dest).lstrip('/')}/**)" for d in deny)
 
 
 # ── the trace audit (the pinned script, wrapped) and the converter gate ────────────────────────────
@@ -249,5 +265,47 @@ def test_codex_adapter_reads_nested_events_and_does_not_count_the_shell_wrapper_
         other = _codex_trace(tmp_path / "other.jsonl", [f"/bin/zsh -lc 'cat {base / 'manifest.json'}'"])
         r3 = hs.audit(other, man_path, format="codex-jsonl")
         assert r3["verdict"] == "FAIL" and r3["outside_existing"] >= 1, r3
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
+
+
+def test_audit_does_not_count_the_round_folder_itself_as_never_open(tmp_path):
+    """Found by the Cursor probe (brief 30 note 12): Cursor's init event names the session's working folder, a path equal to the
+    round folder. The never-open rule excluded paths inside the folder but not the folder itself."""
+    import shutil
+    import tempfile
+    base = Path(tempfile.mkdtemp(prefix=".audit-test-", dir=Path.home()))
+    try:
+        dest, man = _assemble(base, dest_name="muse_wonder/r3")
+        mp = base / "manifest.json"
+        mp.write_text(json.dumps(man, indent=1), encoding="utf-8")
+        files = [str(dest), str(dest / "round.md"), str(dest / "packet.md")]
+        rec = hs.audit(_trace(tmp_path, files), mp, format="paths")
+        assert rec["verdict"] == "PASS" and rec["never_open"] == 0, rec
+        other = hs.audit(_trace(tmp_path, files + [str(dest.parent.parent / "someone-else" / "r1" / "packet.md")]), mp, format="paths")
+        assert other["verdict"] == "FAIL" and other["never_open"] == 1, "another writer's tree is still never-open"
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
+
+
+def test_cursor_deny_puts_the_config_inside_the_round_folder_and_in_the_manifest(tmp_path):
+    """A Cursor CLI writer reads its deny-list from <workspace>/.cursor/cli.json only (probe 2, 2026-11-07), so the folder carries
+    that one extra file, named in the manifest; without the option the folder is exactly as before."""
+    import shutil
+    import tempfile
+    base = Path(tempfile.mkdtemp(prefix=".audit-test-", dir=Path.home()))
+    try:
+        plain, plain_man = _assemble(base, dest_name="a/r1")
+        assert ".cursor/cli.json" not in plain_man["files"] and not (plain / ".cursor").exists()
+        dest, man = _assemble(base, dest_name="muse_wonder/r3", cursor_deny=True)
+        cfg = dest / ".cursor" / "cli.json"
+        assert cfg.is_file() and ".cursor/cli.json" in man["files"]
+        deny = json.loads(cfg.read_text(encoding="utf-8"))["permissions"]["deny"]
+        assert "Read(/Users/aravind/KruxAI/**)" in deny and any("/a/" in d for d in deny), "the sibling writer's tree is denied"
+        mp = base / "m.json"
+        mp.write_text(json.dumps(man), encoding="utf-8")
+        assert hs.verify(dest, mp) == []
+        tr = _trace(tmp_path, [str(dest / "round.md"), str(cfg)])
+        assert hs.audit(tr, mp, format="paths")["verdict"] == "PASS"
     finally:
         shutil.rmtree(base, ignore_errors=True)

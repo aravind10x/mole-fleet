@@ -1,0 +1,58 @@
+{
+ "manifest_version": "elicitation-harness/v0",
+ "round_dir": "/Users/aravind/elicitation-writers/muse_wonder/r3p",
+ "writer": "muse_wonder",
+ "round": 3,
+ "arm": "one-document",
+ "items_count": 96,
+ "packet_body_sha256": "cb528f5d4cf0875b00f5351ccbafd29ce1777968543e102fb4fdccfde1192886",
+ "preface_sha256": "15a98bdef37690459cee63913ba6845dbcf5c717e1624d163dcf04b7f166afce",
+ "sources": {
+  "packet": {
+   "path": "work/stage3/elicitation/writer-packet-v0.md",
+   "sha256": "486ac7f96c77401438100707bc9a069b2c87bc8e1d0df52c13068ce41e29cc79"
+  },
+  "launch_notes": {
+   "path": "work/stage3/elicitation/writer-launch-notes-v0.md",
+   "sha256": "147dae26126f870467e89d44382c59e0668f57e715c76c66c095b10d5f567fba"
+  },
+  "taxonomy": {
+   "path": "work/stage3/elicitation/taxonomy-v0.md",
+   "sha256": "ec195e238e64c9db65fff7f35e279b32e6733a13b22321ba34851d6a71d2a687"
+  },
+  "doc_state": {
+   "path": "work/stage3/t1k-rater/doc-states-day0.md",
+   "sha256": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0"
+  },
+  "doc_state_cross": null
+ },
+ "trace_audit": {
+  "script": "work/checks/stage3_b3_trace_audit.py",
+  "sha256": "2a409344",
+  "gate": "the converter refuses a real writer file without a PASS audit record for exactly this manifest"
+ },
+ "files": {
+  "packet.md": "cb528f5d4cf0875b00f5351ccbafd29ce1777968543e102fb4fdccfde1192886",
+  "round.md": "ca6a30494068e555f58546531b2bb2cba75e5dec1a083007b2b5943e6cafa591",
+  "documents-one-document.md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0"
+ },
+ "previous": {},
+ "deny_list": {
+  "settings": "/Users/aravind/elicitation-writers/muse_wonder/permissions-r3p.json",
+  "schema": "claude-code permissions.deny",
+  "deny": [
+   "Read(//Users/aravind/KruxAI/**)",
+   "Read(//Users/aravind/.claude/**)",
+   "Read(//Users/aravind/.codex/**)",
+   "Read(//Users/aravind/.cursor/**)",
+   "Read(//Users/aravind/.config/**)",
+   "Read(//private/var/folders/**)",
+   "Read(//tmp/**)",
+   "Read(//Users/aravind/elicitation-writers/gpt61sol/**)",
+   "Read(//Users/aravind/elicitation-writers/opus55/**)",
+   "Read(//Users/aravind/CLAUDE.md)",
+   "Read(//Users/aravind/AGENTS.md)"
+  ],
+  "note": "Claude Code only (codex runs -s read-only, which does not stop reads); the trace audit with its PASS record is the control"
+ }
+}

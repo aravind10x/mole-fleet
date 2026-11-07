@@ -1,0 +1,20 @@
+{
+ "permissions": {
+  "allow": [],
+  "deny": [
+   "Read(/Users/aravind/KruxAI/**)",
+   "Read(/Users/aravind/.claude/**)",
+   "Read(/Users/aravind/.codex/**)",
+   "Read(/Users/aravind/.cursor/**)",
+   "Read(/Users/aravind/.agents/**)",
+   "Read(/Users/aravind/.config/**)",
+   "Read(/Users/aravind/elicitation-raters/**)",
+   "Read(/Users/aravind/elicitation-writers/gpt61sol/**)",
+   "Read(/Users/aravind/elicitation-writers/opus55/**)",
+   "Read(/Users/aravind/elicitation-writers/_cursor-home/**)",
+   "Write(**)",
+   "Shell(**)",
+   "WebFetch(**)"
+  ]
+ }
+}

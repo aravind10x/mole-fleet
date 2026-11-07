@@ -31,8 +31,9 @@ from typing import Any, Mapping, Sequence
 
 VERSION = "elicitation-part3-launch/v0"
 PROJECT_TREE = "/Users/aravind/KruxAI"
-INSTRUCTION_NAMES = ("CLAUDE.md", "AGENTS.md", ".claude", ".codex", ".cursor", ".cursorrules")
-USER_LEVEL = ("CLAUDE.md", "AGENTS.md", ".claude/CLAUDE.md", ".codex/AGENTS.md", ".cursor/rules", ".cursorrules")
+INSTRUCTION_NAMES = ("CLAUDE.md", "AGENTS.md", ".claude", ".codex", ".cursor", ".cursorrules", ".agents")
+USER_LEVEL = ("CLAUDE.md", "AGENTS.md", ".claude/CLAUDE.md", ".codex/AGENTS.md", ".cursor/rules", ".cursorrules", ".agents/skills",
+              ".cursor/skills", ".cursor/skills-cursor", ".cursor/mcp.json", ".cursor/plugins", ".cursor/agents")
 
 
 def _entry(p: Path) -> dict:
@@ -70,6 +71,19 @@ def rater_settings(folder: Path, other_trees: Sequence[Path] = (), home: Path | 
     base = writer_settings(folder, other_trees, home)["permissions"]["deny"]
     trees = [d for d in base if d.endswith("/**)")]
     return {"permissions": {"deny": base + [d.replace("Read(", "Write(", 1) for d in trees]}}
+
+
+def cursor_cli_config(folder: Path, other_trees: Sequence[Path] = (), home: Path | None = None) -> dict:
+    """The settings a Cursor CLI writer reads from `<workspace>/.cursor/cli.json` (nowhere else: probe 2 of 2026-11-07 found a
+    config in a parent directory ignored). Working forms there: `Read(/abs/path)`, `Read(/abs/dir/**)` and `Read(**/x)`; the
+    double-slash and tilde forms did not refuse. Reads of the project, the user-level agent trees, the raters' folders and
+    other writers' trees are denied, and writes, shell and web fetches: the writer reads its folder and answers in its message."""
+    home = Path(home) if home is not None else Path.home()
+    own = str(Path(folder)).rstrip("/")
+    trees = [PROJECT_TREE, str(home / ".claude"), str(home / ".codex"), str(home / ".cursor"), str(home / ".agents"), str(home / ".config"),
+             str(home / "elicitation-raters")] + [str(Path(t)).rstrip("/") for t in other_trees]
+    trees = [t for t in dict.fromkeys(trees) if t != own and not own.startswith(t + "/")]
+    return {"permissions": {"allow": [], "deny": [f"Read({t}/**)" for t in trees] + ["Write(**)", "Shell(**)", "WebFetch(**)"]}}
 
 
 def start_state(folder: Path, home: Path | None = None, harness: Mapping[str, Any] | None = None) -> dict:

@@ -68,6 +68,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="brief 30 Part 3: development feedback")
     ap.add_argument("--writer", required=True)
     ap.add_argument("--round", type=int, required=True)
+    ap.add_argument("--attempt", default=None, help="the writers/ directory of the round's accepted attempt (default <writer>-r<round>)")
     ns = ap.parse_args(argv)
     P = rt.PART3
     conv = P / f"round-{ns.round}" / ns.writer / "converted"
@@ -79,7 +80,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     means = rt.single_session_means(scores, skey)
     collected = json.loads((rd.phase_dir(rd.READS_ROOT, ns.writer, ns.round, "dev") / "collected.json").read_text(encoding="utf-8"))
     res = build_results(skeleton, key, means, collected, rd.reader_names(ns.writer))
-    out = write_previous(P / f"round-{ns.round}" / ns.writer / "feedback" / "previous", P / "writers" / f"{ns.writer}-r{ns.round}" / "answer.json", res)
+    out = write_previous(P / f"round-{ns.round}" / ns.writer / "feedback" / "previous", P / "writers" / (ns.attempt or f"{ns.writer}-r{ns.round}") / "answer.json", res)
     n_valid = sum(1 for r in res["results"] if r["valid"])
     print(json.dumps({"results": len(res["results"]), "valid": n_valid, "previous": str(out.relative_to(P))}))
     return 0

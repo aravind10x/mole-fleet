@@ -262,6 +262,33 @@ def collect_session(dest: Path, manifest: Mapping[str, Any], id_field: str, expe
     return {"name": name, "n": len(scores), "validation_errors": errs, "audit": verdict, "audit_counts": note}
 
 
+def prepare(part3: Path, writer: str, round_no: int, phase: str, *, passes: Sequence[int], rater_home: Path, rubric: Path, day0: Path,
+            writers_root: Path = Path("/Users/aravind/elicitation-writers")) -> dict:
+    """The blue key, the prompts, and one rater folder per scale and pass for a writer round's phase: the statement file is
+    built once from the converted round (a salt per writer, round and phase) and the passes of a scale hold identical bytes.
+    Returns the counts. Refuses a folder that already exists."""
+    import stage3_elicitation_part3_launch as pl
+    part3, rater_home = Path(part3), Path(rater_home)
+    conv = part3 / f"round-{round_no}" / writer / "converted"
+    O = part3 / "raters" / f"{writer}-r{round_no}-{phase}"
+    O.mkdir(parents=True, exist_ok=True)
+    salt = f"elicit-{writer}-r{round_no}-{phase}"
+    stmts, key = build_inputs(conv, salt=salt)
+    (O / "statement-key.json").write_text(json.dumps(key, indent=1, sort_keys=True), encoding="utf-8")
+    objs = {"statements": stmts, "triples": triples_for(conv)}
+    folders = 0
+    for scale, obj in objs.items():
+        (O / f"prompt-{scale}.txt").write_text(prompt(scale, len(obj)), encoding="utf-8")
+        for p in passes:
+            name = f"{writer}-r{round_no}-{phase}-{scale}-p{p}"
+            dest = rater_home / name
+            man = write_scale_folder(dest, scale, obj, rubric=rubric, day0=day0, name=name, round_no=round_no)
+            (O / f"manifest-{scale}-p{p}.json").write_text(json.dumps(man, indent=1), encoding="utf-8")
+            (O / f"settings-{scale}-p{p}.json").write_text(pl.render(pl.rater_settings(dest, [Path(writers_root)])), encoding="utf-8")
+            folders += 1
+    return {"statements": len(stmts), "triples": len(objs["triples"]), "folders": folders}
+
+
 PROJECT = HERE.parent.parent
 PART3 = PROJECT / "work" / "stage3" / "elicitation" / "part3"
 RATER_HOME = Path("/Users/aravind/elicitation-raters")
@@ -303,6 +330,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     import argparse
     ap = argparse.ArgumentParser(description="brief 30 Part 3: rater sessions")
     sub = ap.add_subparsers(dest="cmd", required=True)
+    pp = sub.add_parser("prepare")
+    pp.add_argument("--writer", required=True)
+    pp.add_argument("--round", type=int, required=True)
+    pp.add_argument("--phase", required=True, choices=("dev", "cert"))
+    pp.add_argument("--passes", type=int, nargs="+", required=True)
     g = sub.add_parser("gate-i")
     g.add_argument("--writer", required=True)
     g.add_argument("--round", type=int, required=True)
@@ -314,6 +346,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     c.add_argument("--scale", required=True, choices=sorted(SCALES))
     c.add_argument("--pass-no", type=int, default=1)
     ns = ap.parse_args(argv)
+    if ns.cmd == "prepare":
+        out = prepare(PART3, ns.writer, ns.round, ns.phase, passes=ns.passes, rater_home=RATER_HOME,
+                      rubric=PROJECT / "work/stage3/t1k-rater/rubric-passes-2.md", day0=PROJECT / "work/stage3/t1k-rater/doc-states-day0.md")
+        print(json.dumps(out))
+        return 0
     return {"collect": cmd_collect, "gate-i": cmd_gate_i}[ns.cmd](ns)
 
 

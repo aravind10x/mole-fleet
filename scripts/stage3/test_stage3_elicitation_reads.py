@@ -6,6 +6,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import json
 import pytest
 
 HERE = Path(__file__).resolve().parent
@@ -201,3 +202,120 @@ def test_collect_dir_reads_the_phase_caches_and_equals_collect_on_the_same_recor
     got = rd.collect_dir(tmp_path, ROWS[:1], ("kimi",), (0,))
     want = rd.collect(rd.records({"kimi": reads}, scores), ROWS[:1], ("kimi",), (0,))
     assert got == want and got["a1"]["kimi"]["D_part"] == [1.0]
+
+
+# ---- note 11: key 1 first, key 2 the fallback on a key-exhaustion abort, never a retry on the failing key ---------------
+
+def test_key_envs_are_key_1_then_key_2_and_numbered_by_name():
+    assert rd.KEY_ENVS == ("OPENROUTER_API_KEY", "OPENROUTER_API_KEY_2")
+    assert [rd.key_number(k) for k in rd.KEY_ENVS] == [1, 2]
+    with pytest.raises(ValueError):
+        rd.key_number("SOMETHING_ELSE")
+
+
+def test_limits_record_names_the_key_by_number_and_holds_both_figures_and_the_reset_without_any_key_text():
+    kj = {"data": {"limit": 150, "limit_remaining": 149.25, "limit_reset": "weekly", "usage": 0.75, "usage_weekly": 0.75, "label": "sk-or-v1-SECRETLABEL"}}
+    cj = {"data": {"total_credits": 400.0, "total_usage": 88.75}}
+    rec = rd.limits_record("OPENROUTER_API_KEY", kj, cj, now="2026-11-07T18:00:00+00:00")
+    assert rec["key_number"] == 1 and rec["key"]["limit_remaining"] == 149.25 and rec["account"]["remaining"] == pytest.approx(311.25)
+    assert rec["headroom_usd"] == pytest.approx(149.25) and rec["key"]["limit_reset"] == "weekly"
+    assert rec["weekly_reset_next"] == "2026-11-09T00:00:00+00:00"       # the next Monday 00:00 UTC, by OpenRouter's weekly rule
+    assert "SECRET" not in json.dumps(rec) and "sk-or" not in json.dumps(rec)
+
+
+def test_limits_record_has_no_reset_date_when_the_limit_does_not_reset():
+    rec = rd.limits_record("OPENROUTER_API_KEY_2", {"data": {"limit": 1000, "limit_remaining": 278.45, "limit_reset": None}},
+                           {"data": {"total_credits": 810.0, "total_usage": 721.55}}, now="2026-11-07T18:00:00+00:00")
+    assert rec["key_number"] == 2 and rec["weekly_reset_next"] is None
+
+
+class _KeyStub(_Stub):
+    """A reader that aborts with the key-exhaustion reason after `ok` units, then stays aborted, like the judge client."""
+
+    def __init__(self, role, shared, ok=None):
+        super().__init__(role)
+        self.cache, self.ok, self.abort = shared, ok, None
+
+    async def score_many(self, units):
+        import judge_client as jc
+        for unit in units:
+            view, label, packet = unit
+            if self.abort:
+                raise jc.JudgeAborted(self.abort)
+            if self.ok is not None and self.calls >= self.ok:
+                self.abort = f"key spent or capped on {label}: 402"
+                raise jc.JudgeAborted(self.abort)
+            await super().score_many([unit])
+
+
+def _factory(shared, ok_key1, made):
+    def make(key_env):
+        made.append(key_env)
+        kimi = _KeyStub("read", shared, ok=ok_key1 if key_env == "OPENROUTER_API_KEY" else None)
+        other = _Stub("read")
+        scorer = _Stub("score")
+        guard = lg.SpendGuard(100.0)
+        guard.clients = [kimi, other, scorer]
+        return {"kimi": kimi, "sonnet55": other}, scorer, guard
+    return make
+
+
+def test_rotation_moves_to_key_2_on_a_key_exhaustion_abort_finishes_the_round_and_never_re_asks_key_1(tmp_path):
+    import asyncio
+    packets = {(r["item_id"], c): "p" for r in ROWS for c in lg.CONDS}
+    rub = {r["item_id"]: "x" for r in ROWS}
+    shared, made = {}, []
+    out = asyncio.run(rd.run_round_rotating(ROWS, packets, _factory(shared, 5, made), rub, ("kimi", "sonnet55"), (0,), tmp_path / "log.jsonl"))
+    assert made == ["OPENROUTER_API_KEY", "OPENROUTER_API_KEY_2"]
+    assert [a["key_number"] for a in out["attempts"]] == [1, 2]
+    assert out["attempts"][0]["key_exhausted"] is True and out["attempts"][1]["key_exhausted"] is False
+    assert set(out["collected"]) == {"a1", "a2", "a3"}
+    assert all(c["kimi"]["status"] == ["computed"] for c in out["collected"].values()), "every read finished, none missing"
+    assert len(shared) == 3 * 4 and all(r["outcome"] == "scored" for r in shared.values())
+
+
+def test_rotation_stops_when_the_last_key_is_also_exhausted():
+    import asyncio
+    import tempfile
+    packets = {(r["item_id"], c): "p" for r in ROWS for c in lg.CONDS}
+    rub = {r["item_id"]: "x" for r in ROWS}
+    made = []
+
+    def make(key_env):
+        made.append(key_env)
+        kimi = _KeyStub("read", {}, ok=1)
+        guard = lg.SpendGuard(100.0)
+        scorer = _Stub("score")
+        guard.clients = [kimi, scorer]
+        return {"kimi": kimi}, scorer, guard
+    with tempfile.TemporaryDirectory() as d:
+        out = asyncio.run(rd.run_round_rotating(ROWS, packets, make, rub, ("kimi",), (0,), Path(d) / "log.jsonl"))
+    assert made == ["OPENROUTER_API_KEY", "OPENROUTER_API_KEY_2"]
+    assert out["attempts"][-1]["key_exhausted"] is True and out["run"]["read"]["kimi"]["aborted"] is True
+
+
+def test_a_spend_stop_is_not_a_key_exhaustion_and_does_not_rotate(tmp_path):
+    import asyncio
+    packets = {(r["item_id"], c): "p" for r in ROWS for c in lg.CONDS}
+    rub = {r["item_id"]: "x" for r in ROWS}
+    made = []
+
+    def make(key_env):
+        made.append(key_env)
+        kimi = _Stub("read")
+        guard = lg.SpendGuard(0.0)                 # the spend stop is already reached
+        guard.clients = [kimi]
+        return {"kimi": kimi}, _Stub("score"), guard
+    out = asyncio.run(rd.run_round_rotating(ROWS, packets, make, rub, ("kimi",), (0,), tmp_path / "log.jsonl"))
+    assert made == ["OPENROUTER_API_KEY"] and out["attempts"][0]["key_exhausted"] is False
+
+
+def test_the_run_summary_is_printable_under_the_readers_print_guard():
+    """Found at round 2's development reads (2026-11-08): the summary named keys as 'key 1', a free-text value the reader's
+    print guard (lg.emit) refuses, after every file had been written. Keys are numbers in the summary."""
+    attempts = [{"key_env": "OPENROUTER_API_KEY", "key_number": 1, "key_exhausted": True, "aborted": True, "readers_dollars": {"kimi": 1.5}},
+                {"key_env": "OPENROUTER_API_KEY_2", "key_number": 2, "key_exhausted": False, "aborted": False, "readers_dollars": {"kimi": 2.5}}]
+    rows = rd.attempt_rows(attempts)
+    lg.check_safe(rows)
+    lg.check_safe(rd.key_order())
+    assert rows[0]["key_number"] == 1 and rows[1]["key_exhausted"] is False and rd.key_order() == [1, 2]

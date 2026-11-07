@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_elicitation_reads.py", line 347, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_elicitation_reads.py", line 343, in main
+    return {"run": cmd_run, "collect": cmd_collect, "limits": cmd_limits}[ns.cmd](ns)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_elicitation_reads.py", line 302, in cmd_run
+    lg.emit(e12.printable(summary))
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_legibility.py", line 247, in emit
+    check_safe(o)
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_legibility.py", line 237, in check_safe
+    check_safe(v, f"{path}.{k}")
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_legibility.py", line 241, in check_safe
+    check_safe(v, f"{path}[{i}]")
+  File "/Users/aravind/KruxAI/tais-project-selection/work/checks/stage3_legibility.py", line 231, in check_safe
+    raise ValueError(f"refusing to print a free-text value at {path}")
+ValueError: refusing to print a free-text value at $.key_order[0]

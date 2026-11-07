@@ -1,0 +1,16 @@
+{
+ "version": "elicitation-harness/v0/audit",
+ "verdict": "FAIL",
+ "format": "codex-jsonl",
+ "trace_sha256": "649092a19b47a535e928e04970a64b37346ddb981d0ade4ccec8713fac9e9316",
+ "manifest_sha256": "ea5fbf46cb3dc6f4c34890d7a6e79fc48d99530a5313ba53220a734b8ce71fad",
+ "writer": "gpt61sol",
+ "round": 2,
+ "round_dir": "/Users/aravind/elicitation-writers/gpt61sol/r2",
+ "pinned_script_sha256": "2a409344",
+ "opened": 54,
+ "allowed_files": 5,
+ "outside_existing": 1,
+ "non_existent_tokens": 52,
+ "never_open": 0
+}

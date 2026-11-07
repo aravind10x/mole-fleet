@@ -108,3 +108,44 @@ def test_rater_settings_add_write_denies_for_the_same_trees_but_never_for_the_ra
     assert "Write(//Users/aravind/elicitation-writers/**)" in deny and "Write(//Users/aravind/.claude/**)" in deny
     assert not any("elicitation-raters/dev-s/p1" in d for d in deny)
     assert not any(d.startswith("Write(") and d.endswith(".md)") for d in deny)
+
+
+def test_start_state_records_the_user_level_agents_skills_directory(tmp_path):
+    """Found at writer round 2 (2026-11-07): codex read a skill file under ~/.agents/skills on its own initiative; the notes'
+    list of user-level instruction locations did not name it, so the start-state record did not either."""
+    home = tmp_path / "home"
+    (home / ".agents" / "skills").mkdir(parents=True)
+    folder = home / "w" / "r2"
+    folder.mkdir(parents=True)
+    rec = pl.start_state(folder, home=home, harness={})
+    assert rec["user_level"][".agents/skills"] == {"present": True, "kind": "dir"}
+    assert any(p["dir"] == str(home) and p["entries"][".agents"]["present"] for p in rec["ancestors"])
+
+
+def test_start_state_records_cursors_user_level_skills_mcp_plugins_and_agents(tmp_path):
+    """A Cursor CLI writer (brief 30 note 12) loads these from the real home; the record names each so an exposure is counted."""
+    home = tmp_path / "home"
+    for d in (".cursor/skills", ".cursor/skills-cursor", ".cursor/plugins", ".cursor/agents"):
+        (home / d).mkdir(parents=True)
+    (home / ".cursor" / "mcp.json").write_text('{"mcpServers": {}}')
+    folder = home / "w" / "r3"
+    folder.mkdir(parents=True)
+    rec = pl.start_state(folder, home=home, harness={})
+    for name in (".cursor/skills", ".cursor/skills-cursor", ".cursor/plugins", ".cursor/agents", ".cursor/mcp.json"):
+        assert rec["user_level"][name]["present"] is True, name
+    assert len(rec["user_level"][".cursor/mcp.json"]["sha256"]) == 64 and "mcpServers" not in json.dumps(rec)
+
+
+def test_cursor_config_uses_cursors_working_pattern_forms_only():
+    """Cursor probe 2 (2026-11-07): inside the workspace `Read(/abs/path)`, `Read(**/x)` and `Read(/abs/dir/**)` refuse; the
+    double-slash and tilde forms do not, and a config in a parent directory is not read. So: single-slash absolute patterns."""
+    c = pl.cursor_cli_config(Path("/Users/aravind/elicitation-writers/muse_wonder/r3"), other_trees=[Path("/Users/aravind/elicitation-writers/opus55")],
+                             home=Path("/Users/aravind"))
+    assert set(c) == {"permissions"} and c["permissions"]["allow"] == []
+    deny = c["permissions"]["deny"]
+    assert "Read(/Users/aravind/KruxAI/**)" in deny and "Read(/Users/aravind/.agents/**)" in deny and "Read(/Users/aravind/.cursor/**)" in deny
+    assert "Read(/Users/aravind/elicitation-writers/opus55/**)" in deny
+    assert {"Write(**)", "Shell(**)", "WebFetch(**)"} <= set(deny)
+    reads = [d for d in deny if d.startswith("Read(")]
+    assert reads and all(d.startswith("Read(/") and not d.startswith("Read(//") and "~" not in d for d in reads)
+    assert not any("muse_wonder/r3" in d for d in deny), "the writer's own folder is never denied"

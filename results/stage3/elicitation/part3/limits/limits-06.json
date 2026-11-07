@@ -1,0 +1,23 @@
+{
+ "version": "elicitation-reads/v0",
+ "checked_at": "2026-11-07T18:43:57+00:00",
+ "key_env": "OPENROUTER_API_KEY",
+ "key_number": 1,
+ "key": {
+  "limit": 150,
+  "limit_remaining": 147.264330766,
+  "limit_reset": "weekly",
+  "usage": 539.473869921,
+  "usage_daily": 2.735669234,
+  "usage_weekly": 2.735669234,
+  "usage_monthly": 2.735669234,
+  "is_free_tier": false
+ },
+ "account": {
+  "total_credits": 60775.0,
+  "total_usage": 60469.51751844,
+  "remaining": 305.482482
+ },
+ "headroom_usd": 147.264330766,
+ "weekly_reset_next": "2026-11-09T00:00:00+00:00"
+}

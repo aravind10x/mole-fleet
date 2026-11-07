@@ -45,6 +45,7 @@ if str(HERE) not in sys.path:
 import stage3_b3_trace_audit as ta  # noqa: E402  (the pinned script, used, not edited)
 import stage3_elicitation_convert as cv  # noqa: E402
 import stage3_elicitation_packet_check as pc  # noqa: E402
+import stage3_elicitation_part3_launch as pl  # noqa: E402
 
 VERSION = "elicitation-harness/v0"
 PROJECT = HERE.parent.parent
@@ -54,8 +55,6 @@ SHA_NOTES = "147dae26126f870467e89d44382c59e0668f57e715c76c66c095b10d5f567fba"
 SHA_TAXONOMY = "ec195e238e64c9db65fff7f35e279b32e6733a13b22321ba34851d6a71d2a687"
 SHA_TRACE_AUDIT = "2a409344"
 ARM_STATES = {"one-document": cv.SHA_STATE_ONE, "cross-document": cv.SHA_STATE_CROSS}
-DENY_TREES = ("/Users/aravind/KruxAI", "/Users/aravind/.claude", "/Users/aravind/.codex",
-              "/Users/aravind/.cursor", "/Users/aravind/.config", "/private/var/folders", "/tmp")
 SHELL_BINARIES = frozenset({"/bin/zsh", "/bin/bash", "/bin/sh", "/usr/bin/env"})   # the CLIs' own command wrapper (codex: `/bin/zsh -lc ...`)
 STATE_DIRS = ("/Users/aravind/.claude/projects/", "/Users/aravind/.codex/", "/private/var/folders/",
                "/tmp/", "/dev/null")
@@ -111,7 +110,7 @@ def launch_notes_conventions(notes_path: Path) -> tuple[str, tuple[str, str, str
 
 def assemble(*, packet: Path, launch_notes: Path, taxonomy: Path, doc_state: Path,
              doc_state_cross: Path | None = None, arm: str, round_no: int, items_count: int, dest: Path,
-             writer: str, previous: Path | None = None, prepare_config: Path | None = None) -> dict:
+             writer: str, previous: Path | None = None, prepare_config: Path | None = None, cursor_deny: bool = False) -> dict:
     """Build the writer's round folder; returns the manifest (also written beside it)."""
     if arm not in ("one-document", "cross-document", "both"):
         raise UsageError(f"unknown arm {arm!r}")
@@ -148,6 +147,13 @@ def assemble(*, packet: Path, launch_notes: Path, taxonomy: Path, doc_state: Pat
         name = f"documents-{s}.md"
         (dest / name).write_bytes(Path(p).read_bytes())
         files[name] = _sha(dest / name)
+    if cursor_deny:
+        # a Cursor CLI writer reads its deny-list from <workspace>/.cursor/cli.json only; the file is in the manifest, so the
+        # folder stays exactly what the manifest says and the audit allows reading it
+        others = [p for p in dest.parent.parent.iterdir() if p.is_dir() and p != dest.parent] if dest.parent.parent.is_dir() else []
+        (dest / ".cursor").mkdir()
+        (dest / ".cursor" / "cli.json").write_text(json.dumps(pl.cursor_cli_config(dest, others), indent=1), encoding="utf-8")
+        files[".cursor/cli.json"] = _sha(dest / ".cursor" / "cli.json")
     prev_rec: dict[str, Any] = {}
     if previous is not None:
         pv = Path(previous)
@@ -158,6 +164,11 @@ def assemble(*, packet: Path, launch_notes: Path, taxonomy: Path, doc_state: Pat
             (dest / "previous" / f.name).write_bytes(f.read_bytes())
             files[f"previous/{f.name}"] = _sha(dest / "previous" / f.name)
             prev_rec[f.name] = files[f"previous/{f.name}"]
+    # the Claude Code settings for this writer's session (brief 30 note 9 item 5): `permissions.deny` with `//`-absolute
+    # Read patterns, the other writers' trees denied, the writer's own folder not; the flat fragment this replaces was not
+    # Claude Code's schema and refused nothing
+    others = [p for p in dest.parent.parent.iterdir() if p.is_dir() and p != dest.parent] if dest.parent.parent.is_dir() else []
+    perm = pl.writer_settings(dest, others)
     manifest = {"manifest_version": VERSION, "round_dir": str(dest), "writer": writer,
                 "round": round_no, "arm": arm, "items_count": items_count,
                 "packet_body_sha256": files["packet.md"],
@@ -175,11 +186,10 @@ def assemble(*, packet: Path, launch_notes: Path, taxonomy: Path, doc_state: Pat
                                         "record for exactly this manifest"},
                 "files": files, "previous": prev_rec,
                 "deny_list": {"settings": str(dest.parent / f"permissions-{dest.name}.json"),
-                              "deny_trees": list(DENY_TREES),
-                              "note": "defence in depth; the trace audit with its PASS record is the control"}}
-    perm = {"deny": [f"Read({t}/**)" for t in DENY_TREES] + [f"Read({t}/**)" for t in
-            ("/Users/aravind/CLAUDE.md", "/Users/aravind/AGENTS.md")],
-            "note": "a Claude Code settings fragment; codex runs -s read-only (the launch notes' command)"}
+                              "schema": "claude-code permissions.deny",
+                              "deny": perm["permissions"]["deny"],
+                              "note": "Claude Code only (codex runs -s read-only, which does not stop reads); the trace "
+                                      "audit with its PASS record is the control"}}
     (dest.parent / f"permissions-{dest.name}.json").write_text(json.dumps(perm, indent=1), encoding="utf-8")
     if prepare_config is not None:
         cfg = Path(prepare_config)
@@ -279,7 +289,7 @@ def audit(trace: Path, manifest_path: Path, format: str = "claude-jsonl", out: P
     # writer's folder (the round folders' common parent, minus this round's own folder)
     writers_root = str(dest.parent.parent.resolve())
     never = sorted(p for p in norm if p.startswith(FORBIDDEN_ROOT.as_posix())
-                   or (p.startswith(writers_root + os.sep) and not p.startswith(str(dest) + os.sep)))
+                   or (p.startswith(writers_root + os.sep) and p != str(dest) and not p.startswith(str(dest) + os.sep)))
     rest = [p for p in norm if p not in set(never) and p not in allow]
     # the session's own scratchpad under the mapped project dir, and the harness's state dirs
     slug = session_slug(dest)
@@ -318,6 +328,7 @@ def main(argv: list[str] | None = None) -> int:
     a.add_argument("--writer", required=True)
     a.add_argument("--previous", default=None)
     a.add_argument("--prepare-config", default=None)
+    a.add_argument("--cursor-deny", action="store_true", help="write <folder>/.cursor/cli.json (a Cursor CLI writer's deny-list) and list it in the manifest")
     v = sub.add_parser("verify")
     v.add_argument("--dest", required=True)
     v.add_argument("--manifest", required=True)
@@ -333,7 +344,7 @@ def main(argv: list[str] | None = None) -> int:
                        if ns.doc_state_cross else None, arm=ns.arm, round_no=ns.round,
                        items_count=ns.items_count, dest=Path(ns.dest), writer=ns.writer,
                        previous=Path(ns.previous) if ns.previous else None,
-                       prepare_config=Path(ns.prepare_config) if ns.prepare_config else None)
+                       prepare_config=Path(ns.prepare_config) if ns.prepare_config else None, cursor_deny=ns.cursor_deny)
         print(json.dumps({"round_dir": man["round_dir"], "writer": man["writer"], "round": man["round"],
                           "arm": man["arm"], "files": sorted(man["files"]),
                           "packet_body_sha256": man["packet_body_sha256"][:8],

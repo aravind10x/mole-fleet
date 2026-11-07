@@ -149,3 +149,30 @@ Output root `work/stage3/elicitation/part3/` (brief 30 dated note 6). **`part3/w
 | record | `part3/round-1/gpt61sol/round-record.json` | `cbae82301ba6d59f022a090c2c7018b09eb6ff091dc494a8db0ed78eddf45357` | GPT-6.1-sol's round-1 figures with opaque ids by class |
 
 **Mirrored to the fork** (`work/mole-fork`, branch `stage3`; not pushed): the code and tests above byte-equal in `scripts/stage3/`, the two amended notes, this index and the records of `part3/` that carry counts and ids only (the writers' directory, the converted outputs, the caches, the traces, the rater and reader transcripts are not mirrored).
+
+### Part 3, round 2 and the key and Cursor changes (added 2026-11-07 to 08; these hashes supersede the same files' rows above)
+
+| kind | file | sha256 | what |
+|---|---|---|---|
+| launch notes (unchanged, pinned by the harness) | `writer-launch-notes-v0.md` | `147dae26126f870467e89d44382c59e0668f57e715c76c66c095b10d5f567fba` | 147dae26 stays; **addendum 1** below corrects section 3 (the user-level instruction locations: `~/.agents/skills`; `HOME` on an empty directory), the audit rule unchanged, and adds the launch-survival rule (item 4) |
+| note (new) | `writer-launch-notes-addendum-v0.md` | `4d12978b4168c2d7d82f899cf4e1375e523f733d0ceebeeb85b8662535f1af2a` | addendum 1 to the launch notes (2026-11-07; coordinator-confirmed form: beside the pinned file, not in it) |
+| note (v0.2 section extended) | `certification-protocol-v0.md` | `2130c7b79f6bb596b539375d595fc69c3fbb3208ed75956b596de726cbaa8332` | item 10 added: a rater pass is its two scale sessions (brief 30 note 9 item 4); supersedes the round-1 row's hash |
+| code (changed) | `work/checks/stage3_elicitation_harness.py` | `93b4a0c6a563ce2be9496217cde347d83c2200209bc36e417a3327c9edef248b` | deny-list in Claude Code's schema; `--cursor-deny` (in-folder `.cursor/cli.json`); the folder's own path not never-open; supersedes the round-1 row's hash |
+| code (changed) | `work/checks/test_stage3_elicitation_harness.py` | `bc0641e7fbe5f7b71137162804319ad2aa01078b83acf3b02c5bc2229754e7fd` | tests for the above |
+| code (changed) | `work/checks/stage3_elicitation_part3_launch.py` | `ec0494f4802cedd4d1b6d2d322d78a86c736d938f092c33e1465d578e41ec6b7` | start-state records `.agents`, Cursor locations; `cursor_cli_config`; `rater_settings` |
+| code (changed) | `work/checks/test_stage3_elicitation_part3_launch.py` | `e12eca0c36fa47409e0b6bc6985e0596c68b86a7f0b175f536522f5aabc83f1f` | tests for the above |
+| code (changed) | `work/checks/stage3_elicitation_reads.py` | `d15d4f6ac725b0b6a8ce9c0d8fc7c68020f2e00bab3f2173e1a9839059e7e1c3` | key 1 first, key 2 the fallback on key exhaustion (note 11); live limit records; printable run summary; `limits`, `collect` commands |
+| code (changed) | `work/checks/test_stage3_elicitation_reads.py` | `0b3be72e824a18ed6df2efbb2585690d63dc121104bec363c1907a4cbaceaee3` | tests for the above |
+| code (changed) | `work/checks/stage3_elicitation_raters.py` | `77b06761bfcda8b3362d55c4af1b88d04af319c034d6aa0661ca438fdff322d3` | `prepare` (rater folders), `collect`, `gate-i`, single-session means |
+| code (changed) | `work/checks/test_stage3_elicitation_raters.py` | `65d08025f77da42ade50a18c1a7dcca06c5b96203365ffb0cca4255b2212fb69` | tests for the above |
+| code (changed) | `work/checks/stage3_elicitation_feedback.py` | `372f6a95a0067e1c1e9ae9bf3a852582d1be9ddd3bed7a977af8b00b2cee6764` | `--attempt`: the writers/ directory of the round's accepted attempt |
+| code (new) | `work/checks/stage3_elicitation_forecast.py` | `2a937c3846345986b28e90b5f3fb48eae4b8658dfe4700397f3fcbdb2c2ea799` | the course forecast: course A's replication, round 1 folded in, and `forecast_after` (observed strata, per-writer Jeffreys yields, the bar reading, Phase E counts) |
+| code (new) | `work/checks/test_stage3_elicitation_forecast.py` | `b1a23b1ca9c3244c1a8cc8c767e9157f8ff66a3f6bc72ef78634dc208e5979b5` | 23 tests |
+| record | `part3/forecast-v0.md` | `1348ce81b0a65a88580d3c7ca55f942586b2e191e6ddb0a6773dbdaf34ff7aa6` | the forecast after round 1 (note 9 item 2) |
+| record | `part3/cursor-probe-v0.md` | `0f4a6f3afe91216bb28c7b3ab8c45fc39d79a812d9f7f5e4f864e8caefab296a` | Cursor CLI writer probe, first: not a PASS (three gaps) |
+| record | `part3/cursor-probe-v1.md` | `6f17afef8b55d0a591837d046dd37ce0402d91705d16db1316126bacd120dd2e` | Cursor CLI writer probe, the key route: PASS with one disclosed residual (note 14) |
+| record | `part3/round-2-v0.md` | `8c38a768eff378bbff62c155e39c53da9a23b45f195baecbb71382071365abef` | writer round 2 (the feedback round): the three runs, funnel and classes, mechanisms of the lost items, proxy agreement, key ledger, spend |
+| record | `part3/round-2-v0.json` | `6aa16e56230ba7f27d33e658960af9302cd3e6843655332cd055c04343d88785` | the same, machine-readable |
+| record | `part3/round-2/gpt61sol/round-record.json` | `64a0f13459532eae71182076759d3f349a95d7f46f6b56ed5e05a7fd3fc354e2` | GPT-6.1-sol's round-2 figures with opaque ids by class |
+
+**Barred, not mirrored:** `part3/writers/` (answers, traces, final messages, the Cursor probes' traces), `part3/round-N/<writer>/converted/` and `feedback/previous/items.json` (statement text), the reads' caches, the raters' folders and transcripts. Mirrored by allow-list: the code, the notes, and the records of `part3/` that carry counts, ids and audit records only.

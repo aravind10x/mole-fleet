@@ -1,0 +1,16 @@
+{
+ "version": "elicitation-harness/v0/audit",
+ "verdict": "FAIL",
+ "format": "codex-jsonl",
+ "trace_sha256": "3b9b4895ae9118a2af1c4e2dc6854621ccefe1cfbafa522eccd370fffb0796e7",
+ "manifest_sha256": "77d3c78df1c9bd78c01964d1d91d1b9e7543a0c0802db2f9d9d3296a90b1b5db",
+ "writer": "muse_wonder",
+ "round": 3,
+ "round_dir": "/Users/aravind/elicitation-writers/muse_wonder/r3p",
+ "pinned_script_sha256": "2a409344",
+ "opened": 41,
+ "allowed_files": 3,
+ "outside_existing": 0,
+ "non_existent_tokens": 38,
+ "never_open": 1
+}

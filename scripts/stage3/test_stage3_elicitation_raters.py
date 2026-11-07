@@ -258,3 +258,24 @@ def test_single_session_means_index_each_items_ratings_by_the_writers_statement_
     assert all(v == [5.0, 10.0, 15.0] for v in m.values())
     with pytest.raises(ValueError):
         rt.single_session_means({next(iter(scores)): 1}, key)
+
+
+def test_prepare_builds_the_blue_key_the_prompts_and_one_folder_per_scale_and_pass(converted, tmp_path):
+    part3 = tmp_path / "part3"
+    cdir = part3 / "round-2" / "w" / "converted"
+    shutil.copytree(converted, cdir)
+    home = tmp_path / "raters"
+    out = rt.prepare(part3, "w", 2, "cert", passes=(1, 2), rater_home=home, rubric=RUBRIC, day0=DAY0, writers_root=tmp_path / "writers")
+    O = part3 / "raters" / "w-r2-cert"
+    assert sorted(p.name for p in home.iterdir()) == sorted(f"w-r2-cert-{s}-p{p}" for s in ("statements", "triples") for p in (1, 2))
+    assert (O / "statement-key.json").is_file() and (O / "prompt-statements.txt").is_file() and (O / "prompt-triples.txt").is_file()
+    for s in ("statements", "triples"):
+        for p in (1, 2):
+            assert (O / f"manifest-{s}-p{p}.json").is_file() and (O / f"settings-{s}-p{p}.json").is_file()
+            assert sorted(x.name for x in (home / f"w-r2-cert-{s}-p{p}").iterdir()) == sorted(["rubric.md", "doc-states-day0.md", rt.SCALES[s]])
+    assert out == {"statements": 18, "triples": 6, "folders": 4}
+    # the folders of one scale hold identical bytes (the two passes rate the same file)
+    a = (home / "w-r2-cert-statements-p1" / "stripped-statements.json").read_bytes()
+    assert a == (home / "w-r2-cert-statements-p2" / "stripped-statements.json").read_bytes()
+    with pytest.raises(ValueError):
+        rt.prepare(part3, "w", 2, "cert", passes=(1, 2), rater_home=home, rubric=RUBRIC, day0=DAY0, writers_root=tmp_path / "writers")   # folders exist
