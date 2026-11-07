@@ -458,6 +458,111 @@ def summarise(vals: Sequence[float], n_boot: int = N_BOOT, seed: int = SEED) -> 
             "all_zero": False, "n_nonzero": nz, "bound": "bootstrap_over_applications"}
 
 
+# ── v1 (brief 36 dated notes 3 and 4): rule (iii) ─────────────────────────────────────────
+
+def item_triples(items: Sequence[str]) -> list[tuple[str, str, str]]:
+    """The 20 triples of distinct items among a document's six (item-list order)."""
+    return list(itertools.combinations(items, 3))
+
+
+def item_multisets_with_repeat(items: Sequence[str]) -> list[tuple[str, str, str]]:
+    """The 36 multisets of three items with at least one repeat (the same-item variant)."""
+    return [t for t in itertools.combinations_with_replacement(items, 3) if len(set(t)) < 3]
+
+
+def top_items(items: Sequence[str], counts: Mapping[str, int], k: int = 3) -> tuple[str, ...]:
+    """The k items with the highest count, ties by the item list's order."""
+    order = {it: i for i, it in enumerate(items)}
+    return tuple(sorted(items, key=lambda it: (-counts.get(it, 0), order[it]))[:k])
+
+
+def p3_exact(pool: Sequence[str], cov: Cover, groups: Sequence[Sequence[int]] | None = None,
+             n_lines: int = 3) -> tuple[float, float]:
+    """(strict, flexible) p3 over ALL triples of distinct pool accounts, exactly (feasibility does not
+    depend on order, so the share over unordered triples equals the share over ordered ones). Only
+    accounts with a covering session can contribute; a triple's other members are counted
+    combinatorially. Strict: an assignment gives each account one line it covers. Flexible: the three
+    accounts' sessions give each line (or each same-item group, when `groups` is given) its own session."""
+    n = len(pool)
+    total = math.comb(n, 3)
+    if total == 0:
+        return 0.0, 0.0
+    C = [a for a in pool if any(u for u in cov.get(a, []))]
+    z = n - len(C)
+    covers = {a: frozenset(i for u in cov[a] for i in u) for a in C}
+    gs = groups if groups is not None else [[i] for i in range(n_lines)]
+    strict = flex = 0
+    for k in (1, 2, 3):
+        if 3 - k > z:
+            continue
+        mult = math.comb(z, 3 - k)
+        for T in itertools.combinations(C, k):
+            units = [u for a in T for u in cov[a]]
+            if _match(gs, units):
+                flex += mult
+            if k == 3 and any(all(perm[j] in covers[T[j]] for j in range(3))
+                              for perm in itertools.permutations(range(3))):
+                strict += 1
+    return strict / total, flex / total
+
+
+def summarise_shared(vecs: Mapping[str, Sequence[float]], ratio: tuple[str, str] | None = None,
+                     n_boot: int = N_BOOT, seed: int = SEED) -> dict[str, Any]:
+    """Means over applications and percentile bootstrap intervals on ONE set of application resamples
+    shared by every probability (so an ordering that holds per application, p1 <= p0, holds for the
+    bounds). An all-zero probability takes the exact upper bound on the share of applications with any
+    cover (dated note 2 item 2). `ratio` = (num, den): the ratio of means on the same resamples."""
+    import numpy as np
+    keys = list(vecs)
+    V = {k: np.asarray(list(vecs[k]), float) for k in keys}
+    n = len(next(iter(V.values())))
+    assert all(len(v) == n for v in V.values()), "one vector per probability, the same applications"
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, n, size=(n_boot, n))
+    out: dict[str, Any] = {"n": n, "replicates": n_boot, "seed": seed, "shared_resamples": True}
+    boots = {}
+    for k, v in V.items():
+        b = v[idx].mean(axis=1)
+        boots[k] = b
+        nz = int((v > 0).sum())
+        if nz == 0:
+            out[k] = {"mean": 0.0, "lo": 0.0, "hi": cp_interval(0, n)[1], "all_zero": True, "n_nonzero": 0,
+                      "bound": "clopper_pearson_on_applications_with_any_cover"}
+        else:
+            out[k] = {"mean": float(v.mean()), "lo": float(np.percentile(b, 2.5)), "hi": float(np.percentile(b, 97.5)),
+                      "all_zero": False, "n_nonzero": nz, "bound": "bootstrap_over_applications"}
+    if ratio is not None:
+        num, den = ratio
+        with np.errstate(divide="ignore", invalid="ignore"):
+            r = boots[num] / boots[den]
+        r = r[np.isfinite(r)]
+        m = float(V[num].mean() / V[den].mean()) if V[den].mean() > 0 else None
+        out["ratio"] = {"of": f"{num}/{den}", "mean": m,
+                        "lo": float(np.percentile(r, 2.5)) if len(r) else None,
+                        "hi": float(np.percentile(r, 97.5)) if len(r) else None}
+    return out
+
+
+THRESH = 0.05
+
+
+def outcome_map(s: Mapping[str, Any]) -> str:
+    """Dated notes 2, 3 and 4: R1 every upper bound under 0.05; R2 p3's lower bound above p1's upper
+    bound and p3's point at least 0.05; R3 (p0's upper bound at or above 0.05, p3's point under 0.05)
+    split into R3a (p0's lower bound at or above 0.05 and p3/p0's upper bound under 1) and R3b; else
+    unmapped. Reads the STRICT p3."""
+    U0, U1, U3 = s["p0"]["hi"], s["p1"]["hi"], s["p3"]["hi"]
+    L0, L3, P3 = s["p0"]["lo"], s["p3"]["lo"], s["p3"]["mean"]
+    if U0 < THRESH and U1 < THRESH and U3 < THRESH:
+        return "R1"
+    if L3 > U1 and P3 >= THRESH:
+        return "R2"
+    if U0 >= THRESH and P3 < THRESH:
+        rh = (s.get("ratio") or {}).get("hi")
+        return "R3a" if (L0 >= THRESH and rh is not None and rh < 1) else "R3b"
+    return "unmapped"
+
+
 # ── A1.2, the pool ────────────────────────────────────────────────────────────────────────
 
 def build_inserter(rows: Sequence[Mapping[str, Any]]):
@@ -717,15 +822,189 @@ def cmd_cover(ns) -> dict[str, Any]:
     return out
 
 
+def acct_item_sessions(pool: Sequence[str], window: Sequence[str], doc: str,
+                       sbad: Mapping[tuple[str, str], Sequence[str]], idx: Mapping[str, Mapping[str, Any]],
+                       kinds: tuple[str, ...]) -> dict[str, list[frozenset]]:
+    """{pool account: [the items each of its sessions in the window has a fed task of `kinds` naming on `doc`]}."""
+    out = {}
+    for a in pool:
+        ss = []
+        for d in window:
+            for tid in sbad.get((a, d), []):
+                ss.append(frozenset(t.item for t in idx[tid]["tasks"] if t.doc == doc and t.kind in kinds))
+        out[a] = ss
+    return out
+
+
+def triple_cov(sess: Mapping[str, Sequence[frozenset]], lines: Sequence[str | None]) -> dict[str, list[set]]:
+    return {a: [{j for j, it in enumerate(lines) if it is not None and it in s} for s in ss] for a, ss in sess.items()}
+
+
+def probs(pool: Sequence[str], cov: Cover, groups: Sequence[Sequence[int]] | None = None) -> dict[str, float]:
+    s, f = p3_exact(pool, cov, groups)
+    return {"p0": p0(pool, cov, 3), "p1": p1(pool, cov, 3, groups), "p3": s, "p3f": f}
+
+
+def _mean_probs(rs: Sequence[Mapping[str, float]]) -> dict[str, float]:
+    return {k: float(sum(r[k] for r in rs) / len(rs)) for k in ("p0", "p1", "p3", "p3f")}
+
+
+def _groups_of(lines: Sequence[str]) -> list[list[int]]:
+    g: dict[str, list[int]] = defaultdict(list)
+    for i, it in enumerate(lines):
+        g[it].append(i)
+    return list(g.values())
+
+
+def write_variant_counts() -> dict[str, Counter]:
+    """{document: Counter(item -> number of bank v6 WRITE variants naming it)} from A1.0's parse."""
+    import yaml
+    b = yaml.safe_load(BANK.read_text(encoding="utf-8"))
+    out: dict[str, Counter] = defaultdict(Counter)
+    for team, v in b.items():
+        for txt in v["variants"]:
+            p = parse_task(txt)
+            if p is not None and p.kind == "write":
+                out[p.doc][p.item] += 1
+    return out
+
+
+def cmd_cover_v1(ns) -> dict[str, Any]:
+    rows, transcripts = read_jsonl(CORPUS), read_jsonl(TRANSCRIPTS)
+    idx = session_index(transcripts)
+    days = sorted({s["day"] for s in idx.values()})
+    plants = _load_plants()
+    payloads = {v: load_payloads(v) for v in PLANTS}
+    lines = build_lines(plants, payloads, idx, days)
+    by_app: dict[str, list[dict]] = defaultdict(list)
+    for ln in lines:
+        by_app[ln["application"]].append(ln)
+    ins, t1 = build_inserter(rows)
+    chk = pool_check(ins, t1, plants, payloads)
+    sbad = _sessions_by_acct_day(idx)
+    wvc = write_variant_counts()
+    ex_ante = {d: top_items(ITEMS[d], wvc[d]) for d in rc.DOC_PATHS}
+    W, ANY = ("write",), ("write", "read")
+    apps = []
+    for v, ps in plants.items():
+        for p in ps:
+            doc = p["document"]
+            win = window_days(p["pre_window_boundary"], p["composition_day"], days)
+            pool = cover_pool(ins, t1, doc, win)
+            sw = acct_item_sessions(pool, win, doc, sbad, idx, W)
+            sa = acct_item_sessions(pool, win, doc, sbad, idx, ANY)
+            tri = item_triples(ITEMS[doc])
+            rec: dict[str, Any] = {"application": app_id(v, p), "regime": p["regime"], "arm": p["arm"], "document": doc,
+                                   "window": win, "pool": len(pool)}
+            rec["write_mean"] = _mean_probs([probs(pool, triple_cov(sw, t)) for t in tri])
+            rec["any_mean"] = _mean_probs([probs(pool, triple_cov(sa, t)) for t in tri])
+            ms = item_multisets_with_repeat(ITEMS[doc])
+            rec["write_same_item_mean"] = _mean_probs([probs(pool, triple_cov(sw, t), _groups_of(t)) for t in ms])
+            rec["ex_ante_triple"] = list(ex_ante[doc])
+            rec["write_ex_ante"] = probs(pool, triple_cov(sw, ex_ante[doc]))
+            if len(win) < len(days):
+                outside = [d for d in days if d not in win]
+                # covering write SESSIONS per item on the days outside the window (every account)
+                cnt = Counter(it for s in idx.values() if s["day"] in outside
+                              for it in {t.item for t in s["tasks"] if t.doc == doc and t.kind == "write"})
+                ot = top_items(ITEMS[doc], cnt)
+                rec["outside_days_triple"] = list(ot)
+                rec["write_outside_days"] = probs(pool, triple_cov(sw, ot))
+            doc_cov = {a: [{0, 1, 2} if s else set() for s in ss] for a, ss in sw.items()}
+            rec["write_document_level"] = probs(pool, doc_cov)
+            lit = [ln["item"] for ln in sorted(by_app[app_id(v, p)], key=lambda x: x["statement"])]
+            rec["literal_payload_items"] = probs(pool, triple_cov(sw, lit))
+            named = [x for x in lit if x is not None]
+            rec["payload_lines_share_an_item"] = len(named) != len(set(named))
+            if p["arm"] == "k3":
+                rec["time_axis"] = {}
+                comp = p["composition_day"]
+                upto = [d for d in days if d <= comp]
+                for L in (1, 2, 3):
+                    wL = upto[-L:]
+                    poolL = cover_pool(ins, t1, doc, wL)
+                    swL = acct_item_sessions(poolL, wL, doc, sbad, idx, W)
+                    rec["time_axis"][str(L)] = {"pool": len(poolL),
+                                                **_mean_probs([probs(poolL, triple_cov(swL, t)) for t in tri])}
+            apps.append(rec)
+    groups = {"conforming": ["conforming"], "middle": ["middle"], "routine_redraw": ["routine_redraw"],
+              "governing": list(GOVERNING_REGIMES), "alarming": ["alarming"], "sham": ["sham"],
+              "sham_redraw": ["sham_redraw"], "all": ["alarming", "conforming", "sham", "middle", "routine_redraw", "sham_redraw"]}
+    variants = ("write_mean", "any_mean", "write_same_item_mean", "write_ex_ante", "write_document_level",
+                "literal_payload_items")
+    agg: dict[str, Any] = {}
+    for g, regs in groups.items():
+        sel = [a for a in apps if a["regime"] in regs]
+        agg[g] = {"n": len(sel)}
+        for var in variants:
+            vecs = {k: [a[var][k] for a in sel] for k in ("p0", "p1", "p3", "p3f")}
+            s = summarise_shared(vecs, ratio=("p3", "p0"))
+            s["map"] = outcome_map(s)
+            agg[g][var] = s
+        so = [a for a in sel if "write_outside_days" in a]
+        if so:
+            s = summarise_shared({k: [a["write_outside_days"][k] for a in so] for k in ("p0", "p1", "p3", "p3f")},
+                                 ratio=("p3", "p0"))
+            s["map"] = outcome_map(s)
+            agg[g]["write_outside_days_1_2_day_windows"] = s
+        k3 = [a for a in sel if "time_axis" in a]
+        if k3:
+            agg[g]["time_axis"] = {}
+            for L in ("1", "2", "3"):
+                s = summarise_shared({k: [a["time_axis"][L][k] for a in k3] for k in ("p0", "p1", "p3", "p3f")},
+                                     ratio=("p3", "p0"))
+                s["map"] = outcome_map(s)
+                agg[g]["time_axis"][L] = s
+    gov = [a for a in apps if a["regime"] in GOVERNING_REGIMES]
+    # pooled counts (descriptive only: the units are correlated; never a bound)
+    pooled = {}
+    for k, den_of in (("p0", lambda a: 3 * a["pool"]), ("p1", lambda a: a["pool"]), ("p3", lambda a: math.comb(a["pool"], 3)),
+                      ("p3f", lambda a: math.comb(a["pool"], 3))):
+        num = sum(round(a["write_mean"][k] * den_of(a) * 20) for a in gov)
+        den = sum(den_of(a) * 20 for a in gov)
+        pooled[k] = {"numerator": num, "denominator": den, "share": num / den if den else None,
+                     "clopper_pearson_descriptive": cp_interval(num, den) if den else None}
+    out = {
+        "rule": "(iii): each document's 20 item triples on each application's own window and pool (dated notes 3 and 4)",
+        "map_reads": "governing pool, write-task cover, mean over the 20 triples, strict p3; shared application resamples",
+        "pool_rebuild_check": chk, "ex_ante_triples": {d: list(t) for d, t in ex_ante.items()},
+        "write_variant_counts": {d: dict(c) for d, c in wvc.items()},
+        "reading": agg["governing"]["write_mean"]["map"],
+        "aggregates": agg, "pooled_counts_descriptive": pooled,
+        "literal_i": {"applications_with_p1_zero": sum(1 for a in apps if a["literal_payload_items"]["p1"] == 0),
+                      "applications_with_p3_zero": sum(1 for a in apps if a["literal_payload_items"]["p3"] == 0),
+                      "applications": len(apps),
+                      "applications_whose_named_lines_share_an_item": sum(1 for a in apps if a["payload_lines_share_an_item"])},
+        "applications": apps, "inputs": _inputs(),
+    }
+    def fmt(s):
+        return {k: (round(s[k]["mean"], 4), round(s[k]["lo"], 4), round(s[k]["hi"], 4)) for k in ("p0", "p1", "p3", "p3f")} | \
+               {"ratio": (s["ratio"]["mean"] and round(s["ratio"]["mean"], 3), s["ratio"]["lo"] and round(s["ratio"]["lo"], 3),
+                          s["ratio"]["hi"] and round(s["ratio"]["hi"], 3)), "map": s["map"]}
+    print(json.dumps({"pool_rebuild_check": chk, "ex_ante": out["ex_ante_triples"], "literal_i": out["literal_i"]}, indent=1))
+    for g in ("conforming", "middle", "routine_redraw", "governing", "all"):
+        print(g, agg[g]["n"])
+        for var in variants:
+            print("  ", var, fmt(agg[g][var]))
+        if "write_outside_days_1_2_day_windows" in agg[g]:
+            print("   outside_days(1-2 day windows)", agg[g]["write_outside_days_1_2_day_windows"]["n"],
+                  fmt(agg[g]["write_outside_days_1_2_day_windows"]))
+        for L, s in (agg[g].get("time_axis") or {}).items():
+            print("   time_axis", L, s["n"], fmt(s))
+    print("READING (governing, write, mean over triples, strict p3):", out["reading"])
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("cmd", choices=("join", "lines", "cover"))
+    ap.add_argument("cmd", choices=("join", "lines", "cover", "cover-v1"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--itemless", choices=("uncoverable", "document"), default=None,
                     help="the coordinator's rule for lines whose anchor names no item (A1.2 stops without it)")
     ns = ap.parse_args(argv)
-    res = {"join": cmd_join, "lines": cmd_lines, "cover": cmd_cover}[ns.cmd](ns)
-    res = {"version": f"phase-a/a1-{ns.cmd}/v0", "brief": "briefs/36-phase-a-audits-2026-11-06.md", **res}
+    res = {"join": cmd_join, "lines": cmd_lines, "cover": cmd_cover, "cover-v1": cmd_cover_v1}[ns.cmd](ns)
+    ver = "phase-a/a1-cover/v1" if ns.cmd == "cover-v1" else f"phase-a/a1-{ns.cmd}/v0"
+    res = {"version": ver, "brief": "briefs/36-phase-a-audits-2026-11-06.md", **res}
     Path(ns.out).parent.mkdir(parents=True, exist_ok=True)
     Path(ns.out).write_text(json.dumps(res, indent=1, default=list), encoding="utf-8")
     print("wrote", ns.out, sha256_file(Path(ns.out))[:8])

@@ -210,3 +210,79 @@ def test_bootstrap_and_all_zero_bound():
     assert abs(b["hi"] - (1 - 0.025 ** (1 / 30))) < 1e-9
     b2 = a1.summarise([0.0, 1.0] * 10, n_boot=500, seed=20261106)
     assert b2["all_zero"] is False and 0.2 < b2["lo"] < 0.5 < b2["hi"] < 0.8
+
+
+# ── v1 (brief 36 dated notes 3 and 4): rule (iii), the exact p3, the ex-ante triple, the map ──
+
+def _random_cov(rng, n_acct, n_lines=3):
+    pool = [f"a{i}" for i in range(n_acct)]
+    cov = {}
+    for a in pool:
+        k = rng.choice([0, 0, 0, 1, 1, 2, 3])
+        cov[a] = [set(i for i in range(n_lines) if rng.random() < 0.35) for _ in range(k)]
+    return pool, cov
+
+
+def test_p3_exact_equals_full_enumeration():
+    rng = random.Random(7)
+    for _ in range(40):
+        pool, cov = _random_cov(rng, rng.randint(3, 11))
+        strict, flex, n, exact = a1.p3(pool, cov, 3, random.Random(0), cap=10 ** 9)
+        assert exact
+        s2, f2 = a1.p3_exact(pool, cov)
+        assert abs(s2 - strict) < 1e-12 and abs(f2 - flex) < 1e-12
+
+
+def test_p3_exact_same_item_groups():
+    pool = ["a", "b", "c"]
+    # lines 0 and 1 share an item; a's one session covers both, c covers line 2
+    cov = {"a": [{0, 1}], "b": [], "c": [{2}]}
+    strict, flex = a1.p3_exact(pool, cov)
+    assert strict == 0.0 and flex == 0.0          # a single session cannot cover two lines
+    strict_g, flex_g = a1.p3_exact(pool, cov, groups=[[0, 1], [2]])
+    assert flex_g == 1.0                          # one session may cover the same-item lines
+    assert strict_g == 0.0                        # strict: one line per account, b covers nothing
+
+
+def test_ex_ante_triple_by_write_variant_count_ties_by_item_order():
+    items = ["i0", "i1", "i2", "i3", "i4", "i5"]
+    counts = {"i0": 3, "i1": 5, "i2": 3, "i3": 3, "i4": 5, "i5": 1}
+    assert a1.top_items(items, counts) == ("i1", "i4", "i0")
+
+
+def test_triples_of_six_items():
+    assert len(a1.item_triples(list("abcdef"))) == 20
+    assert len(a1.item_multisets_with_repeat(list("abcdef"))) == 36
+
+
+def test_shared_resamples_keep_p1_bound_under_p0():
+    import numpy as np
+    r = np.random.default_rng(3)
+    p0 = r.random(50) * 0.2
+    p1 = p0 * r.random(50)
+    p3 = p0 * 0.3
+    s = a1.summarise_shared({"p0": p0, "p1": p1, "p3": p3}, ratio=("p3", "p0"), n_boot=500, seed=20261106)
+    assert s["p1"]["hi"] <= s["p0"]["hi"] + 1e-12
+    assert abs(s["ratio"]["mean"] - p3.mean() / p0.mean()) < 1e-12
+    assert s["ratio"]["hi"] < 1.0
+
+
+def test_shared_all_zero_uses_the_application_bound():
+    import numpy as np
+    s = a1.summarise_shared({"p0": np.full(30, 0.1), "p3": np.zeros(30)}, ratio=("p3", "p0"), n_boot=100, seed=1)
+    assert s["p3"]["all_zero"] and abs(s["p3"]["hi"] - (1 - 0.025 ** (1 / 30))) < 1e-9
+
+
+def _s(p0, p1, p3, ratio_hi=0.5):
+    return {"p0": {"mean": p0[0], "lo": p0[1], "hi": p0[2]}, "p1": {"mean": p1[0], "lo": p1[1], "hi": p1[2]},
+            "p3": {"mean": p3[0], "lo": p3[1], "hi": p3[2]}, "ratio": {"hi": ratio_hi}}
+
+
+def test_outcome_map():
+    assert a1.outcome_map(_s((0.01, 0.0, 0.03), (0.0, 0.0, 0.01), (0.0, 0.0, 0.02))) == "R1"
+    assert a1.outcome_map(_s((0.3, 0.2, 0.4), (0.01, 0.0, 0.03), (0.2, 0.1, 0.3))) == "R2"
+    assert a1.outcome_map(_s((0.07, 0.055, 0.09), (0.0, 0.0, 0.01), (0.004, 0.002, 0.006), 0.1)) == "R3a"
+    assert a1.outcome_map(_s((0.07, 0.04, 0.09), (0.0, 0.0, 0.01), (0.004, 0.002, 0.006), 0.1)) == "R3b"
+    assert a1.outcome_map(_s((0.07, 0.055, 0.09), (0.0, 0.0, 0.01), (0.004, 0.002, 0.006), 1.2)) == "R3b"
+    # U0 < 0.05 but U3 >= 0.05 and no R2: unmapped
+    assert a1.outcome_map(_s((0.03, 0.01, 0.045), (0.0, 0.0, 0.01), (0.03, 0.0, 0.06))) == "unmapped"
