@@ -245,3 +245,5 @@ On these applications each window length gives one cell per document (6 cells), 
 | p₃/p₀ | 0.030 [0.018, 0.040] | |
 
 Read beside the primary, this would map to R3a, since L₀ is 0.053; the primary reading stays R3b. The hypothesis-formula comparison has no intervals and is unchanged.
+
+**Dated line, 2026-11-07 (rounding; no figure moves).** The governing flexible p₃ point, unrounded, is **0.0033471**; the quoted rounding is **0.0033**, rounded once to four decimals as in §1 and the addendum. The "0.0034" in this section's sentence and its governing row is the same point, re-rounded from a five-decimal print (0.00335), and reads 0.0033. The same holds for the middle row (0.0033482, so 0.0033). The conforming row's 0.0034 (0.0033534) is a correct rounding. §2's pooled 0.0034 is a different quantity (58,411 / 17,201,280 = 0.003396).
