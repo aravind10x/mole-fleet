@@ -1,0 +1,14 @@
+{
+ "manifest_version": "elicitation-raters/v0",
+ "round_dir": "/Users/aravind/elicitation-raters/gpt61sol-r3-cert-statements-p2",
+ "writer": "gpt61sol-r3-cert-statements-p2",
+ "round": 3,
+ "scale": "statements",
+ "files": {
+  "rubric.md": "8354e3bfd32875a0f0b82d1aa5364bb5dba624c52e7431565db1e59855331477",
+  "doc-states-day0.md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0",
+  "stripped-statements.json": "b7984cd58e527554cf38a659084321476f251fe982abdb72a4035e4322e8fd89",
+  "ratings.jsonl": "ecd076e8fb1779e8416e84628db7b964105e97582a48edc6c8e74cf822577684"
+ },
+ "peer_root": "/Users/aravind/elicitation-raters"
+}

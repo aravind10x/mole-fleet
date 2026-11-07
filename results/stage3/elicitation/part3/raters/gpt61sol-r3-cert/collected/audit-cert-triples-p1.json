@@ -1,0 +1,16 @@
+{
+ "version": "elicitation-harness/v0/audit",
+ "verdict": "PASS",
+ "format": "claude-jsonl",
+ "trace_sha256": "016bf96cb74f4da0d79905272c9fef9d515561a17d6a408b9535131f404b0b14",
+ "manifest_sha256": "1e10e08fd5334447a9b2424c105f83790e23442523cb34dabc80354d2b23628c",
+ "writer": "gpt61sol-r3-cert-triples-p1",
+ "round": 3,
+ "round_dir": "/Users/aravind/elicitation-raters/gpt61sol-r3-cert-triples-p1",
+ "pinned_script_sha256": "2a409344",
+ "opened": 4,
+ "allowed_files": 4,
+ "outside_existing": 0,
+ "non_existent_tokens": 0,
+ "never_open": 0
+}

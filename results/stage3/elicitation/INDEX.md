@@ -176,3 +176,19 @@ Output root `work/stage3/elicitation/part3/` (brief 30 dated note 6). **`part3/w
 | record | `part3/round-2/gpt61sol/round-record.json` | `64a0f13459532eae71182076759d3f349a95d7f46f6b56ed5e05a7fd3fc354e2` | GPT-6.1-sol's round-2 figures with opaque ids by class |
 
 **Barred, not mirrored:** `part3/writers/` (answers, traces, final messages, the Cursor probes' traces), `part3/round-N/<writer>/converted/` and `feedback/previous/items.json` (statement text), the reads' caches, the raters' folders and transcripts. Mirrored by allow-list: the code, the notes, and the records of `part3/` that carry counts, ids and audit records only.
+
+**Round 3 additions (2026-11-08):**
+
+| kind | file | sha256 | what |
+|---|---|---|---|
+| code (changed, round 3) | `work/checks/stage3_elicitation_harness.py` | `4ad2ede9b574e088799331a2846ed0f4fbb902a33897513cccb061f32ff07700` | audit uses the manifest's `peer_root` for the never-open root and maps a session's own state directory with the leading dash (the rater-audit fix, applied after round 3's verdict was seen; brief 30 note 15); supersedes the `93b4a0c6` row |
+| code (changed, round 3) | `work/checks/test_stage3_elicitation_harness.py` | `a4681aa18af8dcdc5b4bb2a42ed828c78207bcabfe9eebe74fbe749052ee1f40` | tests for the above (17); supersedes the `bc0641e7` row |
+| code (changed, round 3) | `work/checks/stage3_elicitation_raters.py` | `548a16392be81a95d29fecc4d7291a58472706ab7a3f51030c25efd557e7800e` | the scale-folder manifest records `peer_root`; supersedes the `77b06761` row |
+| code (changed, round 3) | `work/checks/test_stage3_elicitation_raters.py` | `2a5e2b87cd4719ab2d8223f57257ecbce31b17129d09f3e4cd940c75cae81b00` | tests for the above (27); supersedes the `65d08025` row |
+| record | `part3/round-3-v0.md` | `23b93bd6bba7b91bf9b68fcac3cb89a6841f92e38d75de62b177451858f2c9ec` | writer round 3: outcome table (GPT-6.1-sol 96/96/47/0; Muse Wonder 96/70/30/7), how each ran and Muse Wonder's exposures by count and name, funnel by mechanism and rejected items, readers, proxy agreement, the rater-audit fix and the API-error attempt, the after-round-3 forecast, spend and the key ledger by number (the stray escapes of the first write removed; this hash is the record's) |
+| record | `part3/round-3-v0.json` | `3092c10a09fc518d4cffeb560532568aa6013c5c5bd26e9ab467544ec73b496f` | the same, machine-readable |
+| record | `part3/round-3/gpt61sol/round-record.json` | `18cddc421bfc2675c7690a81f327974b1503bd45dea86e7ec0977cd353715d2e` | GPT-6.1-sol's round-3 figures with opaque ids by class |
+| record | `part3/round-3/muse_wonder/round-record.json` | `8ea1793e305b5972069ef35f549d6fc63fbe26a544879cc477ff787b25fb48d4` | Muse Wonder's round-3 figures with opaque ids by class |
+| record | `part3/forecast-after-r3-v0.md` | `8287d5cd6de9d1e05fc09ccb01e6a529dd94a48d9a438f90c10260c829ee284f` | the forecast after round 3 (observed strata, per-writer Jeffreys yields, the halving case and the all-matched statistic beside, the margin rule, Phase E counts) |
+| record | `part3/forecast-after-r3-v0.json` | `44a6265fa000193a532b6c3511cad265df710b386c31959adf865c10d44db7bc` | the same, machine-readable |
+| records | `part3/limits/limits-00.json` to `limits-15.json` | (sixteen files, counts and dollar figures only) | the OpenRouter key limit and account balance records taken around each Kimi batch of rounds 2 and 3, by key number |

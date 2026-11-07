@@ -309,3 +309,10 @@ def test_cursor_deny_puts_the_config_inside_the_round_folder_and_in_the_manifest
         assert hs.audit(tr, mp, format="paths")["verdict"] == "PASS"
     finally:
         shutil.rmtree(base, ignore_errors=True)
+
+
+def test_session_slug_matches_claude_codes_folder_mapping():
+    """Found at round 3 (2026-11-08): the slug dropped the leading dash and replaced only '/' and '.', so a session's own mapped
+    state directory (`~/.claude/projects/-Users-...`) never matched the audit's allowance for it."""
+    assert hs.session_slug(Path("/Users/aravind/elicitation-raters/x.y_z")) == "-Users-aravind-elicitation-raters-x-y-z"
+    assert hs.session_slug(Path("/Users/aravind/KruxAI/tais-project-selection")) == "-Users-aravind-KruxAI-tais-project-selection"

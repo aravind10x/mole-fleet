@@ -232,7 +232,7 @@ def verify(dest: Path, manifest_path: Path) -> list[str]:
 
 def session_slug(dest: Path) -> str:
     """The folder name the Claude Code CLI maps a working folder to ('/' and '.' become '-')."""
-    return re.sub(r"[/.]", "-", str(Path(dest).resolve()).strip("/"))
+    return re.sub(r"[^A-Za-z0-9]", "-", str(Path(dest).resolve()))
 
 
 def _paths_from_codex_jsonl(trace: Path) -> set[str]:
@@ -287,7 +287,9 @@ def audit(trace: Path, manifest_path: Path, format: str = "claude-jsonl", out: P
     allow |= {str(dest), str(dest / "previous")}
     # never-open first: the project tree (every B3 file, the fork, the red tree) and every other
     # writer's folder (the round folders' common parent, minus this round's own folder)
-    writers_root = str(dest.parent.parent.resolve())
+    # the tree whose other folders are never-open: a writer round's peers are the other writers' trees (the folder's grandparent);
+    # a manifest may name its own (a rater folder's peers are the other rater folders: its grandparent would be the whole home)
+    writers_root = str(Path(man["peer_root"]).resolve()) if man.get("peer_root") else str(dest.parent.parent.resolve())
     never = sorted(p for p in norm if p.startswith(FORBIDDEN_ROOT.as_posix())
                    or (p.startswith(writers_root + os.sep) and p != str(dest) and not p.startswith(str(dest) + os.sep)))
     rest = [p for p in norm if p not in set(never) and p not in allow]

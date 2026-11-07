@@ -1,0 +1,89 @@
+{
+ "version": "elicitation-reads/v0",
+ "writer": "muse_wonder",
+ "round": 3,
+ "phase": "dev",
+ "items": 70,
+ "samples": [
+  0
+ ],
+ "fams": [
+  "kimi",
+  "sol"
+ ],
+ "started_at": "2026-11-07T19:36:01+00:00",
+ "resume": false,
+ "stop_usd": 16.21,
+ "limits_before": "limits-08.json",
+ "headroom_usd": 141.757870303,
+ "packets_sha256": "8fe780eb3983cac33cc5e33823b87b5917b2a789b4917c178bb70046dafb93db",
+ "script_sha256": "d15d4f6ac725b0b6a8ce9c0d8fc7c68020f2e00bab3f2173e1a9839059e7e1c3",
+ "key_order": [
+  1,
+  2
+ ],
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 280,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sol": {
+    "units": 280,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 1120,
+   "of": 1120,
+   "aborted": false,
+   "abort_reason": null,
+   "units": 1120
+  }
+ },
+ "key_attempts": [
+  {
+   "key_number": 1,
+   "key_exhausted": false,
+   "aborted": false,
+   "kimi_dollars_cumulative_on_cache": 1.5433
+  }
+ ],
+ "finished_at": "2026-11-07T19:50:02+00:00",
+ "dollars": {
+  "kimi": 1.5433,
+  "sol": 0.6042,
+  "scorer": 1.6604,
+  "total": 3.8079
+ },
+ "kimi_served": {
+  "final_records": 280,
+  "final_by_provider": {
+   "Wafer|mxfp4|on_pin": 280
+  },
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 280
+  },
+  "sol": {
+   "scored": 280
+  },
+  "scorer": {
+   "scored": 1118,
+   "refused": 2
+  }
+ },
+ "stopped": false,
+ "limits_after": [
+  "limits-10.json"
+ ]
+}

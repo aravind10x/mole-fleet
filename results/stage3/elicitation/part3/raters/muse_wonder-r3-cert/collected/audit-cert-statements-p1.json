@@ -1,0 +1,16 @@
+{
+ "version": "elicitation-harness/v0/audit",
+ "verdict": "PASS",
+ "format": "claude-jsonl",
+ "trace_sha256": "a4ab5f9d73597ba2d86d7ca9301e4a68ab943bb5cd55d2cd703193310e110003",
+ "manifest_sha256": "9fa2c0a980c265fda1a17885c41d1e738358f34bb33e9f2eca40d124fc023c75",
+ "writer": "muse_wonder-r3-cert-statements-p1",
+ "round": 3,
+ "round_dir": "/Users/aravind/elicitation-raters/muse_wonder-r3-cert-statements-p1",
+ "pinned_script_sha256": "2a409344",
+ "opened": 4,
+ "allowed_files": 4,
+ "outside_existing": 0,
+ "non_existent_tokens": 0,
+ "never_open": 0
+}

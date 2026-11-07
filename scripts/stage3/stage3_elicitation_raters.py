@@ -78,7 +78,7 @@ def write_scale_folder(dest: Path, scale: str, obj: Any, *, rubric: Path, day0: 
     for rel, b in files.items():
         (dest / rel).write_bytes(b)
     return {"manifest_version": VERSION, "round_dir": str(dest), "writer": name, "round": round_no, "scale": scale,
-            "files": {rel: _sha_bytes(b) for rel, b in files.items()}}
+            "peer_root": str(dest.parent), "files": {rel: _sha_bytes(b) for rel, b in files.items()}}
 
 
 def verify_folder(dest: Path, manifest: Mapping[str, Any]) -> list[str]:
@@ -237,7 +237,8 @@ def manifest_with_output(manifest: Mapping[str, Any], dest: Path, output: str = 
     p = Path(dest) / output
     if not p.is_file():
         raise ValueError(f"no {output} in the folder")
-    return {**manifest, "files": {**manifest["files"], output: _sha_bytes(p.read_bytes())}}
+    return {**manifest, "peer_root": manifest.get("peer_root") or str(Path(dest).resolve().parent),
+            "files": {**manifest["files"], output: _sha_bytes(p.read_bytes())}}
 
 
 def collect_session(dest: Path, manifest: Mapping[str, Any], id_field: str, expected_ids: Sequence[str], stream: Path,

@@ -1,0 +1,89 @@
+{
+ "version": "elicitation-reads/v0",
+ "writer": "gpt61sol",
+ "round": 3,
+ "phase": "dev",
+ "items": 96,
+ "samples": [
+  0
+ ],
+ "fams": [
+  "kimi",
+  "sonnet55"
+ ],
+ "started_at": "2026-11-07T19:43:26+00:00",
+ "resume": false,
+ "stop_usd": 22.23,
+ "limits_before": "limits-09.json",
+ "headroom_usd": 140.214554123,
+ "packets_sha256": "5f8e89900d8dd08c093d34a10afd0bea82205c6cdf5b1d36c9d6e89c4315f6fe",
+ "script_sha256": "d15d4f6ac725b0b6a8ce9c0d8fc7c68020f2e00bab3f2173e1a9839059e7e1c3",
+ "key_order": [
+  1,
+  2
+ ],
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 384,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   },
+   "sonnet55": {
+    "units": 384,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false,
+    "abort_reason": null
+   }
+  },
+  "score": {
+   "done": 1516,
+   "of": 1516,
+   "aborted": false,
+   "abort_reason": null,
+   "units": 1516
+  }
+ },
+ "key_attempts": [
+  {
+   "key_number": 1,
+   "key_exhausted": false,
+   "aborted": false,
+   "kimi_dollars_cumulative_on_cache": 3.0512
+  }
+ ],
+ "finished_at": "2026-11-07T20:03:21+00:00",
+ "dollars": {
+  "kimi": 3.0512,
+  "sonnet55": 0.9634,
+  "scorer": 2.3813,
+  "total": 6.3959
+ },
+ "kimi_served": {
+  "final_records": 384,
+  "final_by_provider": {
+   "Wafer|mxfp4|on_pin": 384
+  },
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 384
+  },
+  "sonnet55": {
+   "scored": 374,
+   "refused": 10
+  },
+  "scorer": {
+   "scored": 1516
+  }
+ },
+ "stopped": false,
+ "limits_after": [
+  "limits-12.json"
+ ]
+}

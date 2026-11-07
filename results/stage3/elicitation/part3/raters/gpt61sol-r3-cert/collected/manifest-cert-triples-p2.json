@@ -1,0 +1,13 @@
+{
+ "manifest_version": "elicitation-raters/v0",
+ "round_dir": "/Users/aravind/elicitation-raters/gpt61sol-r3-cert-triples-p2",
+ "writer": "gpt61sol-r3-cert-triples-p2",
+ "round": 3,
+ "scale": "triples",
+ "files": {
+  "rubric.md": "8354e3bfd32875a0f0b82d1aa5364bb5dba624c52e7431565db1e59855331477",
+  "doc-states-day0.md": "d0f3fbae0e1b67125196263395edcd658c000458dc54b8460e9a691e4edf31e0",
+  "stripped-triples.json": "5a514e5114b02e37081188dd1195204197e8d29ca3658598b2ca1e88fa6c73e0",
+  "ratings.jsonl": "dece387e4177e578fc979bfef8ee23c8ad8336edb9f087f7082819563cf192a1"
+ }
+}

@@ -279,3 +279,42 @@ def test_prepare_builds_the_blue_key_the_prompts_and_one_folder_per_scale_and_pa
     assert a == (home / "w-r2-cert-statements-p2" / "stripped-statements.json").read_bytes()
     with pytest.raises(ValueError):
         rt.prepare(part3, "w", 2, "cert", passes=(1, 2), rater_home=home, rubric=RUBRIC, day0=DAY0, writers_root=tmp_path / "writers")   # folders exist
+
+
+def test_a_rater_folders_audit_allows_its_own_mapped_state_dir_and_keeps_peers_and_the_project_never_open(converted, home_base, tmp_path):
+    """Found at round 3 (2026-11-08): a rater session read its own, empty, auto-memory index under ~/.claude/projects/<its mapped
+    folder>/memory (the read was refused by its deny-list). The audit's never-open root for a rater folder worked out to all of
+    /Users/aravind, so its own state directory counted as never-open. The root is now the folder's peers (the other rater
+    folders); the session's own mapped state directory is allowed state; the project tree stays never-open."""
+    import stage3_elicitation_harness as hs2
+    stmts, _ = rt.build_inputs(converted, salt="s")
+    dest = home_base / "elicitation-raters" / "dev-s"
+    man = rt.write_scale_folder(dest, "statements", stmts, rubric=RUBRIC, day0=DAY0, name="dev-s", round_no=1)
+    assert man["peer_root"] == str(dest.parent.resolve())
+    (dest / "ratings.jsonl").write_text('{"statement_id": "a", "score": 1, "reason": "r"}\n')
+    man2 = rt.manifest_with_output(man, dest)
+    mp = home_base / "m.json"
+    mp.write_text(json.dumps(man2), encoding="utf-8")
+    own = f"/Users/aravind/.claude/projects/{hs2.session_slug(dest)}/memory/MEMORY.md"
+    files = [str(dest / f) for f in ("rubric.md", "doc-states-day0.md", "stripped-statements.json", "ratings.jsonl")]
+    t1 = tmp_path / "own.paths"
+    t1.write_text("\n".join(files + [own]) + "\n")
+    assert hs2.audit(t1, mp, format="paths")["verdict"] == "PASS"
+    peer = dest.parent / "someone-else" / "stripped-statements.json"
+    t2 = tmp_path / "peer.paths"
+    t2.write_text("\n".join(files + [str(peer)]) + "\n")
+    r2 = hs2.audit(t2, mp, format="paths")
+    assert r2["verdict"] == "FAIL" and r2["never_open"] == 1
+    t3 = tmp_path / "proj.paths"
+    t3.write_text("\n".join(files + [str(ROOT / "STATUS.md")]) + "\n")
+    assert hs2.audit(t3, mp, format="paths")["never_open"] == 1
+
+
+def test_manifest_with_output_adds_the_peer_root_to_a_manifest_written_before_it_existed(converted, home_base):
+    stmts, _ = rt.build_inputs(converted, salt="s")
+    dest = home_base / "elicitation-raters" / "dev-s"
+    man = rt.write_scale_folder(dest, "statements", stmts, rubric=RUBRIC, day0=DAY0, name="dev-s", round_no=1)
+    old = {k: v for k, v in man.items() if k != "peer_root"}
+    (dest / "ratings.jsonl").write_text('{"statement_id": "a", "score": 1, "reason": "r"}\n')
+    assert rt.manifest_with_output(old, dest)["peer_root"] == str(dest.resolve().parent)
+    assert rt.manifest_with_output(man, dest)["peer_root"] == man["peer_root"], "a manifest that names one keeps it"
