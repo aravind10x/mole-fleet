@@ -144,7 +144,7 @@ Output root `work/stage3/elicitation/part3/` (brief 30 dated note 6). **`part3/w
 | note (v0.2 section appended) | `certification-protocol-v0.md` | `80a814bf5b67fb658d38cefeb2129f4cffa953558563ca6742ddacd150cdcc4c` | protocol v0.2 by dated section, 2026-11-07 (was 3a071bd0) |
 | note (v0.2 section appended) | `rules-and-sentences-v0.md` | `74d6185c41f13dab6275ef550be2193ef8036f9dda5ac10fbd663c2b0421c412` | orientation rates replaced by E2's measured rates; cap 96; target 26 and 26; the sequential course (was 7ff64d4b) |
 | record | `part3/matching-dry-run-v0.md` | `bd1742d3e9384021981188a8c4d8486b5c474bb5f03beeaeebc3741a4e725413` | the matching dry run at the 10-point band and two sensitivities |
-| record | `part3/round-1-v0.md` | `d07f43d6b8862b616ead3b62777e127dafb17436555526e9839b98e4888c6f96` | writer round 1, one-document arm: outcome, funnel, classes, proxy agreement, defects, spend, key ledger, items for the coordinator |
+| record | `part3/round-1-v0.md` | `8f43f41eee08b51f058f24aff1c917939893be009b1399f865f72e36f9d1bcbb` | writer round 1, one-document arm: outcome, funnel, classes, proxy agreement, defects, spend, key ledger, items for the coordinator |
 | record | `part3/round-1-v0.json` | `5fe58a3cf2111ae2e10ab596b9df3af82c70fa36c7d2f96dd394bbc07f221642` | the same, machine-readable |
 | record | `part3/round-1/gpt61sol/round-record.json` | `cbae82301ba6d59f022a090c2c7018b09eb6ff091dc494a8db0ed78eddf45357` | GPT-6.1-sol's round-1 figures with opaque ids by class |
 
