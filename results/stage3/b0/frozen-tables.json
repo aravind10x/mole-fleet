@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 129,
+ "n_files": 130,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1437,12 +1437,12 @@
   },
   {
    "path": "phase-b/phase-b-results.md",
-   "sha256": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
-   "bytes": 14295,
-   "sha256_fork_copy": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+   "sha256": "34e04196b0c767c9f20ad4b662ae4b00490cb862350c4ad6ab02d9aed47de31f",
+   "bytes": 17423,
+   "sha256_fork_copy": "34e04196b0c767c9f20ad4b662ae4b00490cb862350c4ad6ab02d9aed47de31f",
    "copies_identical": true,
    "tag": "descriptive",
-   "tag_source": "brief 38 Part 2 (Phase B, the kill test on the current world): verdict inconclusive (Opus 4.8), Sonnet 5 beside kill; read 6965d6d5, two sentence fixes (note 5); roadmap v4 §6: after B, the kill test's verdict on this world, descriptive",
+   "tag_source": "brief 38 Part 2 (Phase B, the kill test on the current world): verdict inconclusive (Opus 4.8), Sonnet 5 beside kill; read 6965d6d5, two sentence fixes (note 5); roadmap v4 §6: after B, the kill test's verdict on this world, descriptive; refreshed 2026-11-08 (brief 38 note 6): labelled sensitivity section, the monitor-study row 'not run', three disclosures; verdict unchanged",
    "added_beyond_brief_list": false
   },
   {
@@ -1473,6 +1473,16 @@
    "copies_identical": true,
    "tag": "descriptive",
    "tag_source": "Phase B applications, 256 under seven arms, two judges",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/phase-b-sensitivity-v0.json",
+   "sha256": "1fc5107aa87bac18a47302d575d477cf7f4030c3cddafd3500bf6d96f1b44be5",
+   "bytes": 1929,
+   "sha256_fork_copy": "1fc5107aa87bac18a47302d575d477cf7f4030c3cddafd3500bf6d96f1b44be5",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "brief 38 note 6: the verdict's sensitivity to the interval construction and the index set (percentile committed and governing; basic and normal beside; 60 other index sets), post-look, labelled; frozen tables gain only labelled sensitivities",
    "added_beyond_brief_list": false
   }
  ],
@@ -3264,6 +3274,33 @@
     }
    ],
    "note": "the result is descriptive (the current world confirms nothing; verdict inconclusive, Sonnet 5 beside kill; margins named in the record); the paper cites phase-b-results.md at e789748b with the verdict word and both intervals; no other entry changed"
+  },
+  {
+   "date": "2026-11-08",
+   "by": "coordinator v3 (brief 38 note 6): phase-b-results.md refreshed; the sensitivity file added as a labelled sensitivity",
+   "refreshed": [
+    {
+     "path": "phase-b/phase-b-results.md",
+     "from": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+     "to": "34e04196b0c767c9f20ad4b662ae4b00490cb862350c4ad6ab02d9aed47de31f"
+    }
+   ],
+   "added": [
+    "phase-b/phase-b-sensitivity-v0.json"
+   ],
+   "entries": [
+    {
+     "path": "phase-b/phase-b-sensitivity-v0.json",
+     "sha256": "1fc5107aa87bac18a47302d575d477cf7f4030c3cddafd3500bf6d96f1b44be5",
+     "bytes": 1929,
+     "sha256_fork_copy": "1fc5107aa87bac18a47302d575d477cf7f4030c3cddafd3500bf6d96f1b44be5",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "brief 38 note 6: the verdict's sensitivity to the interval construction and the index set (percentile committed and governing; basic and normal beside; 60 other index sets), post-look, labelled; frozen tables gain only labelled sensitivities",
+     "added_beyond_brief_list": false
+    }
+   ],
+   "note": "verdict unchanged; the committed percentile construction and seed govern; no other entry changed"
   }
  ]
 }
