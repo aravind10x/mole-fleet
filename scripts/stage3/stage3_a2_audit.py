@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import itertools
 import json
 import re
 import sys
@@ -401,6 +402,125 @@ def session_feed_and_calls(tr: Mapping[str, Any]) -> tuple[dict[tuple[str, str],
             if path:
                 calls[(name.split(".", 1)[1], "/" + str(path).lstrip("/"))].append(pos)
     return fed, calls
+
+
+# ── note 5: chains and distinct writes ──────────────────────────────────────────────────
+
+def min_hitting_set(sets: Sequence[set]) -> int | None:
+    """The fewest elements that meet every set (exact, by increasing size); None if a set is empty."""
+    ss = [frozenset(s) for s in sets]
+    if not ss:
+        return 0
+    if any(not s for s in ss):
+        return None
+    uniq = set(ss)
+    # only inclusion-minimal sets matter (hitting one hits its supersets; nested units reduce to a few)
+    minimal = [s for s in uniq if not any(o < s for o in uniq)]
+    best = [len(minimal)]
+
+    def rec(remaining: list[frozenset], chosen: int) -> None:
+        if not remaining:
+            best[0] = min(best[0], chosen)
+            return
+        if chosen + 1 >= best[0]:
+            return
+        s = min(remaining, key=len)
+        for e in sorted(s):
+            rec([r for r in remaining if e not in r], chosen + 1)
+
+    rec(minimal, 0)
+    return best[0]
+
+
+def chain_write_counts(units: Sequence[Mapping[str, Any]], unlicensed: set[int], exclude: set[int] = frozenset()
+                       ) -> dict[str, Any]:
+    """For a set of units: how many units, (document, boundary) chains, distinct unit writes (each unit's
+    own write), distinct contained writes, distinct unlicensed writes contained, and the fewest
+    unlicensed writes that touch every unit (None if some unit contains none)."""
+    contained = [set(i for i in u["writes"] if i not in exclude) for u in units]
+    unl = [c & unlicensed for c in contained]
+    return {"units": len(units), "chains": len({(u["path"], u["boundary_index"]) for u in units}),
+            "distinct_unit_writes": len({u["write_index"] for u in units}),
+            "distinct_contained_writes": len(set().union(*contained)) if contained else 0,
+            "distinct_unlicensed_writes_contained": len(set().union(*unl)) if unl else 0,
+            "min_unlicensed_writes_touching_every_unit": min_hitting_set(unl)}
+
+
+def cmd_tail_v2(ns) -> dict[str, Any]:
+    """Note 5 item 1: the v0 and v1 tail tables with per-chain and per-distinct-write columns beside every
+    per-unit count. Counts only: no score is recomputed (tail membership reads the recorded scores and
+    the sealed thresholds; the Z4 category reads the rationale through stage3_b0.categorise)."""
+    import stage3_b0 as b0
+    v1 = _load(S / "phase-a" / "a2-tail-v1.json")
+    W = {w["index"]: w for w in v1["write_records"]}
+    noops = {i for i, w in W.items() if w["noop"]}
+    unl = {i for i, w in W.items() if not w["noop"] and w["class"] == "unlicensed"}
+    unl_doc = {i for i, w in W.items() if not w["noop"] and w["class_doc_sensitivity"] == "unlicensed"}
+    U = {(u["path"], u["boundary_index"], u["write_index"]): u for u in v1["unit_records"]}
+    chains = Counter((u["path"], u["boundary_index"]) for u in U.values())
+    structure = {"chains": len(chains), "units": len(U), "units_per_chain_min": min(chains.values()),
+                 "units_per_chain_max": max(chains.values()),
+                 "per_chain": [{"document": p, "boundary_index": b, "units": n} for (p, b), n in sorted(chains.items())]}
+    allu = list(U.values())
+    overall = {"all_units": chain_write_counts(allu, unl, noops),
+               "unlicensed_units": chain_write_counts([u for u in allu if u["class"] == "unlicensed"], unl, noops),
+               "item_licensed_units": chain_write_counts([u for u in allu if u["class"] == "item_licensed"], unl, noops),
+               "chains_with_an_item_licensed_unit": len({(u["path"], u["boundary_index"]) for u in allu if u["class"] == "item_licensed"}),
+               "writes": {"changing": len(W) - len(noops), "unlicensed_item_level": len(unl), "unlicensed_document_level": len(unl_doc),
+                          "noops": len(noops)}}
+    srcs = _null_sources()
+    appr_tids = None
+    judges: dict[str, Any] = {}
+    for j, src in srcs.items():
+        t = float(src["rule"]["threshold"])
+        top = [U[(r["path"], r["boundary_index"], r["write_index"])] for r in src["rows"]
+               if r.get("outcome") == "scored" and r.get("score") is not None and float(r["score"]) >= t]
+        cats = {}
+        for r in src["rows"]:
+            if r.get("outcome") == "scored" and r.get("score") is not None and float(r["score"]) >= t:
+                cats[(r["path"], r["boundary_index"], r["write_index"])] = b0.categorise(r.get("rationale") or "")[0]
+        def key(u):
+            return (u["path"], u["boundary_index"], u["write_index"])
+        lic = {c: chain_write_counts([u for u in top if u["class"] == c], unl, noops) for c in ("item_licensed", "unlicensed")}
+        by_doc = {d: chain_write_counts([u for u in top if u["path"] == d], unl, noops)
+                  for d in sorted({u["path"] for u in top})}
+        z4 = {c: chain_write_counts([u for u in top if cats[key(u)] == c], unl, noops)
+              for c in sorted(set(cats.values()), key=lambda c: -sum(1 for v in cats.values() if v == c))}
+        judges[j] = {"threshold": t, "tail": chain_write_counts(top, unl, noops),
+                     "tail_document_level_unlicensed": chain_write_counts(top, unl_doc, noops),
+                     "licence": lic, "by_document": by_doc, "z4_first_match": z4}
+    # v1 section 4: the retroactive-approval units with a write from a session fed an approval variant
+    ap = v1["v1"]["approval_variants"]
+    import stage3_write_yield as wy
+    import yaml
+    bank = yaml.safe_load(a1.BANK.read_text(encoding="utf-8"))
+    keys = {wy.variant_key(bank[tm]["variants"][i]) for tm, i in ap["indices"]}
+    fed = {str(tr["task_id"]): bool({wy.variant_key(x) for x in wy.fed_items(tr)} & keys) for tr in a1.read_jsonl(a1.TRANSCRIPTS)}
+    appr_w = {i for i, w in W.items() if not w["noop"] and fed.get(str(w["task_id"]), False)}
+    for j, src in srcs.items():
+        t = float(src["rule"]["threshold"])
+        retro = [U[(r["path"], r["boundary_index"], r["write_index"])] for r in src["rows"]
+                 if r.get("outcome") == "scored" and r.get("score") is not None and float(r["score"]) >= t
+                 and b0.categorise(r.get("rationale") or "")[0] == "retroactive_approval"]
+        hit = [u for u in retro if set(u["writes"]) & appr_w]
+        judges[j]["retroactive_approval_with_an_approval_fed_write"] = {
+            **chain_write_counts(hit, unl, noops),
+            "distinct_approval_fed_writes": len(set().union(*[set(u["writes"]) & appr_w for u in hit])) if hit else 0,
+            "of_retroactive_approval": chain_write_counts(retro, unl, noops)}
+    out = {"chain_structure": structure, "overall": overall, "judges": judges,
+           "labels": {"base_rate": "descriptive: nested units on 18 chains are not independent; the tail-against-base comparison is not a test",
+                      "honest_deviance": "per write: 59 of 127 changing writes outside their tasks' items (37 of 127 at document level); never per unit",
+                      "set_aside": "the set-aside refit stays per unit (the sealed rule is fitted on units); its interval holds the null fixed and so leaves out the null's nesting"},
+           "inputs": {"a2-tail-v1.json": a1.sha256_file(S / "phase-a" / "a2-tail-v1.json")},
+           "script_sha256": a1.sha256_file(Path(__file__).resolve())}
+    print(json.dumps({"chain_structure": {k: v for k, v in structure.items() if k != "per_chain"}, "overall": overall}, indent=1, default=list))
+    for j, J in judges.items():
+        print(j, json.dumps({k: J[k] for k in ("tail", "tail_document_level_unlicensed", "licence",
+                                               "retroactive_approval_with_an_approval_fed_write")}, default=list))
+        print("  by_doc", json.dumps({d.split('/')[-1]: (v["units"], v["chains"], v["distinct_unit_writes"],
+                                                         v["distinct_unlicensed_writes_contained"]) for d, v in J["by_document"].items()}))
+        print("  z4", json.dumps({c: (v["units"], v["chains"], v["distinct_unit_writes"]) for c, v in J["z4_first_match"].items()}))
+    return out
 
 
 # ── commands ────────────────────────────────────────────────────────────────────────────
@@ -821,11 +941,13 @@ def cmd_tail_v1(ns) -> dict[str, Any]:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("cmd", choices=("grouping", "tail", "grouping-v1", "tail-v1"))
+    ap.add_argument("cmd", choices=("grouping", "tail", "grouping-v1", "tail-v1", "tail-v2"))
     ap.add_argument("--out", required=True)
     ns = ap.parse_args(argv)
-    res = {"grouping": cmd_grouping, "tail": cmd_tail, "grouping-v1": cmd_grouping_v1, "tail-v1": cmd_tail_v1}[ns.cmd](ns)
-    ver = f"phase-a/a2-{ns.cmd.replace('-v1', '')}/{'v1' if ns.cmd.endswith('-v1') else 'v0'}"
+    res = {"grouping": cmd_grouping, "tail": cmd_tail, "grouping-v1": cmd_grouping_v1, "tail-v1": cmd_tail_v1,
+           "tail-v2": cmd_tail_v2}[ns.cmd](ns)
+    base, _, sfx = ns.cmd.partition("-")
+    ver = f"phase-a/a2-{base}/{sfx or 'v0'}"
     res = {"version": ver, "brief": "briefs/36-phase-a-audits-2026-11-06.md", **res}
     Path(ns.out).parent.mkdir(parents=True, exist_ok=True)
     Path(ns.out).write_text(json.dumps(res, indent=1, default=list), encoding="utf-8")

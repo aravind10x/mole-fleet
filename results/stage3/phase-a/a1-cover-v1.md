@@ -95,3 +95,72 @@ What days buy: p₀ about triples from one day to three (0.029 to 0.082), and p�
   - The test module checks it against full enumeration on 40 random rosters.
   - Cost if wrong: none; the exact value is what the sample estimates.
 - **All-zero rows.** Where every application's share is zero, the upper bound is the exact (two-sided 95 percent) bound on the share of applications with any cover, 0 of n (note 2 item 2).
+
+## Addendum, 2026-11-07 (brief 36 dated note 5 item 2(a))
+
+**Status.** Nothing above changes, and the map still reads **R3b** on the mean over the 20 triples. The new values are in `a1-cover-v1-addendum.json` (script `stage3_a1_cover.py cover-v1-addendum`), on the same windows, pools and cover rule, with shared application resamples (2,000, seed 20261106).
+
+### The ex-ante triple as the mean over the four tied top triples
+
+**The tied items.** On every document four items tie at five write variants in bank v6; the other two have 4 and 1 or 2. Any tie-break among the four gives one of four triples:
+
+| document | tied items (5 write variants each) |
+|---|---|
+| README | runner image tag, metrics port, artifact bucket name, on-call contact |
+| release-gate runbook | release-gate config name, eval-server port, eval-worker image version, post-training eval step |
+| fine-tuning guide | base model version, recommended batch size, dataset shard count, dataset path example |
+| red-team checklist | guard-model build id, red-team suite name, eval-server endpoint, sign-off contact |
+| on-call runbook | escalation contact, pager rotation link, service restart step, status-page URL token |
+| engineering setup | VPN setup step, repository access contact, workstation image version, onboarding checklist link |
+
+**Governing pool, mean over the four tied triples:**
+
+| measure | value [95%] |
+|---|---|
+| p₀ | 0.065 [0.060, 0.070] |
+| p₁ | 0.0008 [0.0005, 0.0012] |
+| p₃ strict | 0.0019 [0.0016, 0.0024] |
+| p₃ flexible | 0.0075 [0.0057, 0.0095] |
+| p₃/p₀ | 0.030 [0.025, 0.034] |
+
+Read beside the primary, this would map to R3a, since its L₀ is 0.060. The map's primary reading is unchanged.
+
+**The range of strict p₃ over each document's four tied triples** (mean over that document's governing applications):
+
+| document | range |
+|---|---|
+| README | 0.0007 to 0.0011 |
+| release-gate runbook | 0.0008 to 0.0045 |
+| fine-tuning guide | 0.0025 to 0.0069 |
+| red-team checklist | 0.0000 to 0.0049 |
+| on-call runbook | 0.0000 to 0.0005 |
+| engineering setup | 0.0019 to 0.0054 |
+
+**The sentence, as the numbers allow it.**
+- **There is no ex-ante item lever among the tied items on this bank: four items tie at five write variants on every document.** No tie-break an attacker could use singles out a triple within the four.
+- The lever the bank does give is coarser: **avoid the two less-written items**.
+- The four-tied mean beats the mean over all 20 triples: p₀ 0.065 against 0.053, p₃ 0.0019 against 0.0011.
+- v1's item-order triple (p₀ 0.054, p₃ 0.0012) is one of the four, and below their mean.
+
+**Reported back to the coordinator.** Note 5 worded the sentence as "no ex-ante item lever on this bank". That wording would overstate it: the counts single out four items of six, and the 20-triple mean is the comparison it fails.
+
+### The sparse-regime formulas (labelled **hypothesis**), beside the measured values
+
+**The measured quantities** (governing pool):
+- **s**, sessions per pool account per window: mean **3.55**.
+- **q̂**, covering write sessions per pool session per item (mean over the document's six items): mean **0.0154**.
+- **q̂ over all sessions in the window** (the literal reading of A1.2): mean **0.0113**.
+
+| | measured (mean over 20 triples) | hypothesis at mean s and q̂ (pool) | hypothesis, mean over applications (pool) | hypothesis at mean s and q̂ (all sessions) |
+|---|---|---|---|---|
+| p₀ against sq̂ | 0.053 | 0.055 | 0.054 | 0.040 |
+| p₁ against (sq̂)³ | 0.00016 | 0.00016 | 0.00029 | 0.00007 |
+| p₃ against (3sq̂)³ | 0.0011 strict; 0.0033 flexible | 0.0044 | 0.0079 | 0.0018 |
+
+**Reading (pool basis, at the means).**
+- **p₀:** sq̂ (0.0545) matches p₀ (0.0531).
+- **p₁:** (sq̂)³ (0.000162) matches p₁ (0.000161).
+- **p₃:** (3sq̂)³ (0.0044) overstates the strict p₃ (0.0011) about fourfold, and sits near the flexible p₃ (0.0033).
+  - The factor 27 counts every assignment of the three lines to the three accounts, including those that give two accounts the same line.
+  - The strict variant's own count is 3! = 6 assignments: 6(sq̂)³ = 0.00097, close to the enumerated 0.0011.
+- These are hypothesis figures beside the enumeration, and nothing is read from them.

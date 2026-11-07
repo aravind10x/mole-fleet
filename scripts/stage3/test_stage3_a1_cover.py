@@ -286,3 +286,23 @@ def test_outcome_map():
     assert a1.outcome_map(_s((0.07, 0.055, 0.09), (0.0, 0.0, 0.01), (0.004, 0.002, 0.006), 1.2)) == "R3b"
     # U0 < 0.05 but U3 >= 0.05 and no R2: unmapped
     assert a1.outcome_map(_s((0.03, 0.01, 0.045), (0.0, 0.0, 0.01), (0.03, 0.0, 0.06))) == "unmapped"
+
+
+# ── note 5 addendum ──────────────────────────────────────────────────────────────────────
+
+def test_tied_top_triples():
+    items = ["i0", "i1", "i2", "i3", "i4", "i5"]
+    counts = {"i0": 5, "i1": 5, "i2": 5, "i3": 5, "i4": 4, "i5": 2}
+    t = a1.tied_top_triples(items, counts)
+    assert len(t) == 4 and all("i4" not in x and "i5" not in x for x in t)
+    # an item strictly above the third count is in every triple
+    counts2 = {"i0": 9, "i1": 5, "i2": 5, "i3": 5, "i4": 1, "i5": 1}
+    t2 = a1.tied_top_triples(items, counts2)
+    assert len(t2) == 3 and all("i0" in x for x in t2)
+
+
+def test_hypothesis_formulas():
+    h = a1.hypothesis(s=2.0, q=0.025)
+    assert abs(h["sq"] - 0.05) < 1e-12
+    assert abs(h["sq_cubed"] - 0.05 ** 3) < 1e-15
+    assert abs(h["three_sq_cubed"] - 0.15 ** 3) < 1e-15

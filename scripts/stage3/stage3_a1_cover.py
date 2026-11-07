@@ -995,15 +995,99 @@ def cmd_cover_v1(ns) -> dict[str, Any]:
     return out
 
 
+def tied_top_triples(items: Sequence[str], counts: Mapping[str, int]) -> list[tuple[str, ...]]:
+    """Every triple that is the top three under SOME tie-break: items above the third-highest count
+    are in all of them; items at it fill the rest in every combination (item-list order)."""
+    c3 = sorted((counts.get(it, 0) for it in items), reverse=True)[2]
+    above = [it for it in items if counts.get(it, 0) > c3]
+    at = [it for it in items if counts.get(it, 0) == c3]
+    order = {it: i for i, it in enumerate(items)}
+    return [tuple(sorted(above + list(c), key=order.get)) for c in itertools.combinations(at, 3 - len(above))]
+
+
+def hypothesis(s: float, q: float) -> dict[str, float]:
+    """The sparse-regime formulas (brief 36 A1.2), labelled hypothesis: s*q for p0, (s*q)^3 for p1,
+    (3*s*q)^3 for p3."""
+    return {"sq": s * q, "sq_cubed": (s * q) ** 3, "three_sq_cubed": (3 * s * q) ** 3}
+
+
+def cmd_cover_v1_addendum(ns) -> dict[str, Any]:
+    """Note 5 item 2(a): the ex-ante triple as the mean over the tied top triples, and the hypothesis
+    formulas at the measured q-hat and s, beside the measured p0, p1, p3 (no v1 figure changes)."""
+    rows, transcripts = read_jsonl(CORPUS), read_jsonl(TRANSCRIPTS)
+    idx = session_index(transcripts)
+    days = sorted({s["day"] for s in idx.values()})
+    plants = _load_plants()
+    ins, t1 = build_inserter(rows)
+    sbad = _sessions_by_acct_day(idx)
+    wvc = write_variant_counts()
+    tied = {d: tied_top_triples(ITEMS[d], wvc[d]) for d in rc.DOC_PATHS}
+    apps = []
+    for v, ps in plants.items():
+        for p in ps:
+            doc = p["document"]
+            win = window_days(p["pre_window_boundary"], p["composition_day"], days)
+            pool = cover_pool(ins, t1, doc, win)
+            sw = acct_item_sessions(pool, win, doc, sbad, idx, ("write",))
+            per = [probs(pool, triple_cov(sw, t)) for t in tied[doc]]
+            n_sess_pool = sum(len(ss) for ss in sw.values())
+            all_sess = [tid for d in win for (a, dd), tids in sbad.items() if dd == d for tid in tids]
+            cover_counts = {it: sum(1 for ss in sw.values() for s in ss if it in s) for it in ITEMS[doc]}
+            cover_all = {it: sum(1 for tid in all_sess if any(t.doc == doc and t.item == it and t.kind == "write"
+                                                                 for t in idx[tid]["tasks"])) for it in ITEMS[doc]}
+            s_ = n_sess_pool / len(pool) if pool else 0.0
+            q_pool = (sum(cover_counts.values()) / len(ITEMS[doc]) / n_sess_pool) if n_sess_pool else 0.0
+            q_all = (sum(cover_all.values()) / len(ITEMS[doc]) / len(all_sess)) if all_sess else 0.0
+            apps.append({"application": app_id(v, p), "regime": p["regime"], "document": doc,
+                         "tied_triples": [list(t) for t in tied[doc]], "tied_per_triple": per,
+                         "tied_mean": _mean_probs(per), "s": s_, "q_hat_pool": q_pool, "q_hat_all_sessions": q_all,
+                         "hypothesis_pool": hypothesis(s_, q_pool), "hypothesis_all_sessions": hypothesis(s_, q_all)})
+    out: dict[str, Any] = {"tied_top_triples": {d: [list(t) for t in ts] for d, ts in tied.items()}}
+    for g, regs in (("governing", GOVERNING_REGIMES), ("all", ("alarming", "conforming", "sham", "middle", "routine_redraw", "sham_redraw"))):
+        sel = [a for a in apps if a["regime"] in regs]
+        s = summarise_shared({k: [a["tied_mean"][k] for a in sel] for k in ("p0", "p1", "p3", "p3f")}, ratio=("p3", "p0"))
+        s["map"] = outcome_map(s)
+        # the range over each document's four tied triples (the mean over that document's applications)
+        rng_ = {}
+        for d in rc.DOC_PATHS:
+            sd = [a for a in sel if a["document"] == d]
+            if sd:
+                k = len(tied[d])
+                rng_[d] = {m: [min(sum(a["tied_per_triple"][i][m] for a in sd) / len(sd) for i in range(k)),
+                               max(sum(a["tied_per_triple"][i][m] for a in sd) / len(sd) for i in range(k))]
+                           for m in ("p0", "p1", "p3")}
+        hyp = {f"mean_over_applications_{basis}": {k: sum(a[f"hypothesis_{basis}"][k] for a in sel) / len(sel)
+                                                   for k in ("sq", "sq_cubed", "three_sq_cubed")}
+               for basis in ("pool", "all_sessions")}
+        sbar = sum(a["s"] for a in sel) / len(sel)
+        qbar = sum(a["q_hat_pool"] for a in sel) / len(sel)
+        qbar_all = sum(a["q_hat_all_sessions"] for a in sel) / len(sel)
+        hyp["at_mean_s_and_q_pool"] = {"s": sbar, "q_hat": qbar, **hypothesis(sbar, qbar)}
+        hyp["at_mean_s_and_q_all_sessions"] = {"s": sbar, "q_hat": qbar_all, **hypothesis(sbar, qbar_all)}
+        out[g] = {"n": len(sel), "tied_mean": s, "tied_range_by_document": rng_, "hypothesis": hyp}
+    out["applications"] = apps
+    out["inputs"] = _inputs()
+    g = out["governing"]
+    print(json.dumps({"tied": out["tied_top_triples"],
+                      "governing_tied_mean": {k: (round(g["tied_mean"][k]["mean"], 5), round(g["tied_mean"][k]["lo"], 5),
+                                                  round(g["tied_mean"][k]["hi"], 5)) for k in ("p0", "p1", "p3", "p3f")},
+                      "map": g["tied_mean"]["map"], "ratio": g["tied_mean"]["ratio"],
+                      "range_p3": {d.split("/")[-1]: [round(x, 5) for x in r["p3"]] for d, r in g["tied_range_by_document"].items()},
+                      "hypothesis": {k: {kk: round(vv, 6) for kk, vv in v.items()} for k, v in g["hypothesis"].items()}}, indent=1))
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("cmd", choices=("join", "lines", "cover", "cover-v1"))
+    ap.add_argument("cmd", choices=("join", "lines", "cover", "cover-v1", "cover-v1-addendum"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--itemless", choices=("uncoverable", "document"), default=None,
                     help="the coordinator's rule for lines whose anchor names no item (A1.2 stops without it)")
     ns = ap.parse_args(argv)
-    res = {"join": cmd_join, "lines": cmd_lines, "cover": cmd_cover, "cover-v1": cmd_cover_v1}[ns.cmd](ns)
-    ver = "phase-a/a1-cover/v1" if ns.cmd == "cover-v1" else f"phase-a/a1-{ns.cmd}/v0"
+    res = {"join": cmd_join, "lines": cmd_lines, "cover": cmd_cover, "cover-v1": cmd_cover_v1,
+           "cover-v1-addendum": cmd_cover_v1_addendum}[ns.cmd](ns)
+    ver = {"cover-v1": "phase-a/a1-cover/v1", "cover-v1-addendum": "phase-a/a1-cover/v1-addendum"}.get(
+        ns.cmd, f"phase-a/a1-{ns.cmd}/v0")
     res = {"version": ver, "brief": "briefs/36-phase-a-audits-2026-11-06.md", **res}
     Path(ns.out).parent.mkdir(parents=True, exist_ok=True)
     Path(ns.out).write_text(json.dumps(res, indent=1, default=list), encoding="utf-8")

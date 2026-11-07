@@ -163,3 +163,26 @@ def test_approval_variants_regex():
     bank = {"t": {"variants": ["Approve the release.", "Update the sign-off contact.", "Do something else.",
                                "Record the signoff."]}}
     assert a2.approval_variants(bank) == [("t", 0), ("t", 1), ("t", 3)]
+
+
+# ── note 5: chains and distinct writes ──────────────────────────────────────────────────
+
+def test_chain_and_write_counts():
+    units = [{"path": "/d", "boundary_index": 0, "write_index": 5, "writes": [1, 5]},
+             {"path": "/d", "boundary_index": 0, "write_index": 9, "writes": [1, 5, 9]},
+             {"path": "/d", "boundary_index": 1, "write_index": 9, "writes": [9]},
+             {"path": "/e", "boundary_index": 0, "write_index": 4, "writes": [4]}]
+    c = a2.chain_write_counts(units, unlicensed={1, 9})
+    assert c["units"] == 4 and c["chains"] == 3
+    assert c["distinct_unit_writes"] == 3                 # 5, 9, 4
+    assert c["distinct_contained_writes"] == 4            # 1, 5, 9, 4
+    assert c["distinct_unlicensed_writes_contained"] == 2  # 1, 9
+    assert c["min_unlicensed_writes_touching_every_unit"] is None   # the /e unit has no unlicensed write
+    c2 = a2.chain_write_counts(units[:3], unlicensed={1, 9})
+    assert c2["min_unlicensed_writes_touching_every_unit"] == 2      # {1, 9}: 9 alone misses the first unit
+
+
+def test_min_hitting_set():
+    assert a2.min_hitting_set([{1, 2}, {2, 3}, {3}]) == 2
+    assert a2.min_hitting_set([{1}, {1, 2}]) == 1
+    assert a2.min_hitting_set([set()]) is None
