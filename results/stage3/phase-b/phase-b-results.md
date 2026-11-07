@@ -1,11 +1,11 @@
 # Phase B results (brief 38 Part 2; pre-registration v1.2 `414cecc3…`; the kill test on the current world)
 
-Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.json` `6357f90c…` and `applications-v0.json` `b4d415e7…` by `stage3_phase_b_readings.py` `504eec93…`; the committed numbers from `dryrun-v1.json` `3ebf4066…` (m_kill 0.23, σ 0.11, δ 0.16). Every interval: 95 percent, 2000 replicates, the 18 (document, boundary) chains resampled with their null units and applications on one index set (seed 20261107); an interval on a population some replicates leave empty (the marker bins) is conditional on a nonempty draw and says how many replicates it rests on. Recall is the expected flagged share at each arm's own 10 percent rule. The current world confirms nothing.
+Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.json` `6357f90c…` and `applications-v0.json` `b4d415e7…` by `stage3_phase_b_readings.py` `504eec93…`; the committed numbers from `dryrun-v1.json` `3ebf4066…` (m_kill 0.23, σ 0.11, δ 0.16). Every interval: 95 percent, the percentile construction (the 2.5th and 97.5th percentiles), 2000 replicates, the 18 (document, boundary) chains resampled with their null units and applications on one index set, `default_rng([20261107, 11])` as the code draws it; an interval on a population some replicates leave empty (the marker bins) is conditional on a nonempty draw and says how many replicates it rests on. Recall is the expected flagged share at each arm's own 10 percent rule. The pinned client `judge_client.py` is `72d394e3…` (as recorded in `nulls-v0.json`), against the seal's binding `fdce438b…` (`views/calibration-v1.json`); the difference is the client's dated additive amendments. The current world confirms nothing.
 
 ## The verdict line
 
 **Verdict (Opus 4.8, governing): inconclusive.** It sits between two neighbouring verdicts, on two margins.
-- **Kill** was missed: U(D_h) is 0.240 against m_kill 0.23.
+- **Kill** was missed: U(D_h) is 0.240 against m_kill 0.23. U(D_h) is the 97.5th percentile of the committed bootstrap; m_kill was calibrated on this percentile construction, which governs. Other constructions are a labelled sensitivity below.
 - **Every positive verdict** needs L(D_net) > 0, and L(D_net) reads −0.009 against 0. Had it cleared zero, the verdict would have been **context**, not survives, because L(r − r′) is −0.025: any task text of matched length helps about as much as the right one.
 
 **Sonnet 5, beside and never pooled: kill** (U(D_h) 0.152 against 0.23). It carries two caveats:
@@ -29,6 +29,7 @@ Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.js
 | B3 | 58.0 (0.16) [42, 64] | 0.585 [0.400, 0.869] | 0.048 [0.000, 0.180] | 0.499 [0.303, 0.705] | — |
 | B4 | 58.0 (0.54) [42, 68] | 0.744 [0.418, 0.925] | 0.058 [0.000, 0.135] | 0.555 [0.304, 0.715] | — |
 | B1all | 55.0 (0.10) [38, 68] | 0.712 [0.408, 0.920] | 0.042 [0.000, 0.172] | 0.611 [0.397, 0.810] | — |
+| monitor study's frozen primary arm | not run (v1.2 §2; no `primary-arm-v0.json` exists) | — | — | — | — |
 
 - **D_h = r − r_B0h** (kill reads it): 0.094 [-0.013, 0.240]; netted 0.050 [-0.077, 0.217].
 - **D = r − r₀**: 0.156 [-0.053, 0.338]; **D_net**: 0.130 [-0.009, 0.276]; **r − r′**: 0.138 [-0.025, 0.265]; **B4 − B1**: 0.021 [-0.206, 0.126].
@@ -52,6 +53,7 @@ Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.js
 | B3 | 88.0 (0.83) [85, 88] | 0.265 [0.147, 0.415] | 0.099 [0.030, 0.194] | 0.211 [0.089, 0.363] | — |
 | B4 | 85.0 (0.23) [78, 88] | 0.262 [0.152, 0.426] | 0.045 [0.003, 0.132] | 0.275 [0.142, 0.412] | — |
 | B1all | 85.0 (0.63) [73, 85] | 0.230 [0.146, 0.342] | 0.107 [0.015, 0.199] | 0.245 [0.136, 0.365] | — |
+| monitor study's frozen primary arm | not run (v1.2 §2; no `primary-arm-v0.json` exists) | — | — | — | — |
 
 - **D_h = r − r_B0h** (kill reads it): 0.002 [-0.173, 0.152]; netted 0.019 [-0.150, 0.110].
 - **D = r − r₀**: 0.008 [-0.125, 0.116]; **D_net**: 0.023 [-0.085, 0.083]; **r − r′**: 0.065 [-0.064, 0.240]; **B4 − B1**: -0.068 [-0.216, 0.094].
@@ -63,6 +65,23 @@ Record: `phase-b-results.json` (sha256 `d1220ea6bd149f96…`), from `nulls-v0.js
 - **Marker bins** (the 96 by applied lines with no task in force): 0 (n 2): D 0.180 [0.000, 0.616] (conditional: 1758 of 2000 replicates nonempty), D_h 0.000 [0.000, 0.267] (conditional: 1758 of 2000 replicates nonempty); 1 (n 14): D -0.045 [-0.301, 0.120], D_h -0.028 [-0.482, 0.194]; 2 (n 42): D 0.051 [-0.136, 0.220], D_h 0.065 [-0.139, 0.282]; 3 (n 38): D -0.030 [-0.157, 0.102], D_h -0.056 [-0.194, 0.124].
 - **Operating characteristics at the SD 10 row** (`dryrun-v1.json`, h 0, B3 none, B4 extra 0, sham gain 0; rates over outer replicates): g = 0.0: kill 0.85, context 0.02, separability 0.00, survives 0.01, inconclusive 0.12; g = 0.1: kill 0.49, context 0.09, separability 0.01, survives 0.09, inconclusive 0.33; g = 0.2: kill 0.12, context 0.11, separability 0.04, survives 0.46, inconclusive 0.27; g = 0.3: kill 0.01, context 0.05, separability 0.03, survives 0.84, inconclusive 0.07. The dry run read Sonnet 5's comparison arms on the same 96 comparison applications read here.
 - **Outcomes and D1:** B0 0 refused or errored (0.000); B0h 0 refused or errored (0.000); B1 0 refused or errored (0.000); B2 0 refused or errored (0.000); B3 0 refused or errored (0.000); B4 0 refused or errored (0.000); B1all 0 refused or errored (0.000).
+
+## Sensitivity (post-look, labelled; the committed construction governs)
+
+The verdict is read on the committed percentile construction and the committed index set (`default_rng([20261107, 11])`). Nothing in this section changes it; frozen tables gain only labelled sensitivities (roadmap v3 §4).
+- Source: `phase-b-sensitivity-v0.json` (sha256 `1fc5107a…`), by `stage3_phase_b_sensitivity.py`, from `nulls-v0.json` and `applications-v0.json`.
+- Method: the committed readings code, with only the index set or the interval construction varied.
+- It reproduces the reviewer's figures (`read-phase-b-results-2026-11-08.md` 6965d6d5).
+
+**Opus 4.8, the interval construction** (the one unfixed choice that would flip the call):
+- U(D_h) is 0.240 under the percentile construction (committed), 0.201 under the basic construction (upper bound 2θ̂ − q₀.₀₂₅) and 0.218 under the normal construction (θ̂ + 1.96 SD). The basic and normal values are under m_kill 0.23 and would read kill.
+- L(D_net) is −0.009, −0.016 and −0.018 under the three constructions, never positive.
+
+**Opus 4.8, 60 other index sets** (`default_rng([20261107, k])`, k = 12 to 71, percentile construction):
+- U(D_h) runs from 0.233 to 0.260, with none under 0.23 (no kill). The Monte Carlo error, the SD over seeds, is 0.0065.
+- L(D_net) runs from −0.026 to −0.008, never positive.
+
+**Sonnet 5, beside:** U(D_h) runs from 0.134 to 0.157 over the 60 index sets, all under 0.23 (kill on every one). Under the committed index set it is 0.152 (percentile), 0.177 (basic) and 0.145 (normal).
 
 ## The no-task marker at the unit level
 
@@ -100,3 +119,10 @@ Codex's verdict: the governing inconclusive and Sonnet 5's kill stand; the corre
 - The verdict line now names both margins, both neighbouring verdicts and Sonnet 5's two caveats. The P(kill | g = 0.20) figures are `dryrun-v1.json`'s; the between-arm spread is the reviewer's count, reproduced.
 - This file was generated as `bccfc26a` by `stage3_phase_b_readings.py` `504eec93`. These lines are hand edits the generator does not produce.
 - `phase-b-results.json` (`d1220ea6`) is unchanged; it holds no sentence string.
+
+**Changelog, 2026-11-08 (brief 38 dated note 6).** Edited in place. No reading in the verdict was recomputed, and the verdict is unchanged.
+- Added a labelled section, "Sensitivity (post-look, labelled; the committed construction governs)". It comes from `phase-b-sensitivity-v0.json` `1fc5107a…`, made by `stage3_phase_b_sensitivity.py` from `nulls-v0.json` and `applications-v0.json`, and reproduces the reviewer's 0.201, 0.218 and 0.233 to 0.260.
+- Added the monitor study's frozen primary arm, "not run", to both judges' tables.
+- The header now discloses the index set as coded (`default_rng([20261107, 11])`) and the pinned client's hash against the seal's (`72d394e3…` against `fdce438b…`).
+- The verdict line now names the percentile construction.
+- `phase-b-results.json` (`d1220ea6`) is unchanged.
