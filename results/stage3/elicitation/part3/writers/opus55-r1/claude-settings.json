@@ -1,0 +1,16 @@
+{
+ "permissions": {
+  "deny": [
+   "Read(//Users/aravind/KruxAI/**)",
+   "Read(//Users/aravind/.claude/**)",
+   "Read(//Users/aravind/.codex/**)",
+   "Read(//Users/aravind/.cursor/**)",
+   "Read(//Users/aravind/.config/**)",
+   "Read(//private/var/folders/**)",
+   "Read(//tmp/**)",
+   "Read(//Users/aravind/elicitation-writers/gpt61sol/**)",
+   "Read(//Users/aravind/CLAUDE.md)",
+   "Read(//Users/aravind/AGENTS.md)"
+  ]
+ }
+}

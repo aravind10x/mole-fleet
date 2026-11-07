@@ -67,3 +67,19 @@ The cap is a call on how many writer and certification sessions Aravind opens, n
 - **Reading the first row.** It was computed with the rounding on `need`, which is why 35 appears; with `n_r` rounded to a multiple of 6 as rule 3 now says, the counts are 24, 36, 36 (192 items, about 27 certified, the review session's section 1), and the target is still met. The rows where the cap binds are unchanged.
 - **Reach of the cap.** A cap of 48 reaches the target only with p_c at least 0.108 and p_i at least 0.050, both per valid item written (rule 3).
 - **When Aravind decides.** After writer round 1's yields, with this table. Until he raises the cap, rule 3 uses 48. A short result at the cap is an outcome row of section 3, not a stop.
+
+## Dated section v0.2, 2026-11-07 (brief 30 Part 3, section 4 item 1 and decision 8; the Part 3 session, Sonnet 5.5; sections 1 to 6 above stand except where this section says so; the file was `7ff64d4b` before it)
+
+1. **The orientation rates of rule 3 are replaced by E2's measured rates** (`gate-reachability-v1.md` 02e3f6fa; gate (iii) per reader on any of its own samples, two samples under the pinned reader, Wafer at MXFP4), **per rater-quiet candidate**, Wilson 95 percent intervals recomputed here:
+
+| items read by | basis | p_c (certified) | p_i (quiet-but-illegible) |
+|---|---|---|---|
+| Kimi K3 pinned + Sol (mean) | the 78 B3 candidates: 12 and 2 | 0.154 [0.090, 0.250] | 0.026 [0.007, 0.089] |
+| Kimi K3 pinned + Sonnet 5.5 (every), the pair for Sol-written items | the 37 GLM-written candidates: 3 and 2; an argued transfer, not a measurement on Sol-written items | 0.081 [0.028, 0.213] | 0.054 [0.015, 0.177] |
+
+   Both are optimistic by validity and rater-quiet losses (about 0.8), and p_i also because feedback may move items out of the illegible class. Rule 3's p is per valid item written; writer round 1's counts replace these rates. Section 6's table (brief 25's yields) is superseded as a planning figure.
+2. **The cap is 96** per arm per writer per writer round (brief 30 note 1; Aravind: "On the decisions I'll go with what you propose"), not 48; rule 3's formula is otherwise unchanged. Brief 30 note 4's three planned writer rounds are 24, 96 and 96.
+3. **The target is 26 in both arms** (brief 30 note 4 item 4), the floor 12 and 12 unchanged. The illegible arm's target of 26, not the cap, is what the extra rounds serve.
+4. **Writer rounds beyond the third** (brief 30 notes 7 item 5 and 8, option A): writer rounds at the cap continue while the matched effective n is below 26 and fewer than six writer rounds have run; the floor rule applies after rounds 3 to 5 (stop if the projected n_eff at round 6, from the cumulative rates, is below 12); extra rounds are one-document only; each extra round's spend is confirmed by Aravind's STATUS line before it opens. Rule 1's futility test governs the third round as written. The stop statistic is computed from class counts and strata alone, with no monitor call.
+5. **The stop statistic is on the matched strata** (`part3/matching-dry-run-v0.md`): the reconciled proposal's probabilities (0.93 and 0.70 of n_eff of 26) counted every certified item as matched, which that proposal calls an upper bound. On invented strata at the 10-point band the matched n_eff reaches 12.1 at 58 + 21 against 30.8 unmatched. This is a forecast correction flagged to the coordinator, not a change of rule.
+6. **Sections 3 and 4's outcome sentences** are unchanged; round 2 at the achieved n prints its operating characteristics, including the matching and the purity measure, before any score (brief 30 note 7 item 6).

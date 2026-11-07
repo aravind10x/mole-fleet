@@ -1,0 +1,68 @@
+{
+ "version": "elicitation-reads/v0",
+ "writer": "gpt61sol",
+ "round": 1,
+ "phase": "dev",
+ "items": 20,
+ "samples": [
+  0
+ ],
+ "fams": [
+  "kimi",
+  "sonnet55"
+ ],
+ "started_at": "2026-11-07T11:55:59+00:00",
+ "resume": false,
+ "stop_usd": 4.63,
+ "limits_file": "limits-00.json",
+ "headroom_usd": 89.786811,
+ "packets_sha256": "f898d5e746ede94b5024e1bda63b3b134dcec6cab8fdd50e6b2b2372995dbe3a",
+ "script_sha256": "7bd0fd6520d0552d089717b0c5cacfb6c9092af430c4e07022586f4a9c4785d1",
+ "run": {
+  "read": {
+   "kimi": {
+    "units": 80,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false
+   },
+   "sonnet55": {
+    "units": 80,
+    "rounds": 1,
+    "missing_after": 0,
+    "aborted": false
+   }
+  },
+  "score": {
+   "done": 320,
+   "of": 320,
+   "aborted": false,
+   "units": 320
+  }
+ },
+ "finished_at": "2026-11-07T12:00:33+00:00",
+ "dollars": {
+  "kimi": 0.5776,
+  "sonnet55": 0.2065,
+  "scorer": 0.5086,
+  "total": 1.2928
+ },
+ "kimi_served": {
+  "final_records": 80,
+  "final_on_pin": 80,
+  "attempts_off_pin": 0,
+  "final_off_pin": 0
+ },
+ "outcomes": {
+  "kimi": {
+   "scored": 80
+  },
+  "sonnet55": {
+   "scored": 80
+  },
+  "scorer": {
+   "scored": 320
+  }
+ },
+ "stopped": false
+}

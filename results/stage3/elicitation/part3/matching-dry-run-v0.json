@@ -1,0 +1,212 @@
+{
+ "composition": {
+  "clipped_to": [
+   0,
+   100
+  ],
+  "mean": 50.0,
+  "mean_is": "an assumption",
+  "sd": 17.3,
+  "sd_is": "plan.md section 8's stratum spread"
+ },
+ "documents": 6,
+ "reps": 2000,
+ "rows": [
+  {
+   "n_certified": 26,
+   "n_eff_mean": 1.969552,
+   "n_eff_p10": 0.0,
+   "n_eff_p90": 4.0,
+   "n_eff_unmatched_ceiling": 16.421053,
+   "n_illegible": 12,
+   "retained_certified": 0.078808,
+   "retained_illegible": 0.161583,
+   "share_with_no_matched_stratum": 0.115,
+   "width": 5
+  },
+  {
+   "n_certified": 26,
+   "n_eff_mean": 3.583285,
+   "n_eff_p10": 1.333333,
+   "n_eff_p90": 5.454545,
+   "n_eff_unmatched_ceiling": 16.421053,
+   "n_illegible": 12,
+   "retained_certified": 0.147423,
+   "retained_illegible": 0.288375,
+   "share_with_no_matched_stratum": 0.0145,
+   "width": 10
+  },
+  {
+   "n_certified": 26,
+   "n_eff_mean": 6.118482,
+   "n_eff_p10": 3.75,
+   "n_eff_p90": 8.555556,
+   "n_eff_unmatched_ceiling": 16.421053,
+   "n_illegible": 12,
+   "retained_certified": 0.262404,
+   "retained_illegible": 0.475208,
+   "share_with_no_matched_stratum": 0.0005,
+   "width": 20
+  },
+  {
+   "n_certified": 26,
+   "n_eff_mean": 7.12182,
+   "n_eff_p10": 4.444444,
+   "n_eff_p90": 9.6,
+   "n_eff_unmatched_ceiling": 16.421053,
+   "n_illegible": 12,
+   "retained_certified": 0.312288,
+   "retained_illegible": 0.543667,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 25
+  },
+  {
+   "n_certified": 40,
+   "n_eff_mean": 3.887312,
+   "n_eff_p10": 2.0,
+   "n_eff_p90": 6.153846,
+   "n_eff_unmatched_ceiling": 22.857143,
+   "n_illegible": 16,
+   "retained_certified": 0.102725,
+   "retained_illegible": 0.235156,
+   "share_with_no_matched_stratum": 0.012,
+   "width": 5
+  },
+  {
+   "n_certified": 40,
+   "n_eff_mean": 7.064738,
+   "n_eff_p10": 4.444444,
+   "n_eff_p90": 9.9,
+   "n_eff_unmatched_ceiling": 22.857143,
+   "n_illegible": 16,
+   "retained_certified": 0.195537,
+   "retained_illegible": 0.41125,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 10
+  },
+  {
+   "n_certified": 40,
+   "n_eff_mean": 11.221705,
+   "n_eff_p10": 8.235294,
+   "n_eff_p90": 14.193548,
+   "n_eff_unmatched_ceiling": 22.857143,
+   "n_illegible": 16,
+   "retained_certified": 0.333988,
+   "retained_illegible": 0.616969,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 20
+  },
+  {
+   "n_certified": 40,
+   "n_eff_mean": 12.799267,
+   "n_eff_p10": 9.6,
+   "n_eff_p90": 15.757576,
+   "n_eff_unmatched_ceiling": 22.857143,
+   "n_illegible": 16,
+   "retained_certified": 0.390937,
+   "retained_illegible": 0.689156,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 25
+  },
+  {
+   "n_certified": 58,
+   "n_eff_mean": 7.191538,
+   "n_eff_p10": 4.444444,
+   "n_eff_p90": 10.0,
+   "n_eff_unmatched_ceiling": 30.835443,
+   "n_illegible": 21,
+   "retained_certified": 0.134103,
+   "retained_illegible": 0.323381,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 5
+  },
+  {
+   "n_certified": 58,
+   "n_eff_mean": 12.142098,
+   "n_eff_p10": 8.555556,
+   "n_eff_p90": 15.75,
+   "n_eff_unmatched_ceiling": 30.835443,
+   "n_illegible": 21,
+   "retained_certified": 0.242543,
+   "retained_illegible": 0.517048,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 10
+  },
+  {
+   "n_certified": 58,
+   "n_eff_mean": 18.71436,
+   "n_eff_p10": 15.354839,
+   "n_eff_p90": 21.913043,
+   "n_eff_unmatched_ceiling": 30.835443,
+   "n_illegible": 21,
+   "retained_certified": 0.414569,
+   "retained_illegible": 0.738405,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 20
+  },
+  {
+   "n_certified": 58,
+   "n_eff_mean": 20.736174,
+   "n_eff_p10": 17.142857,
+   "n_eff_p90": 24.0,
+   "n_eff_unmatched_ceiling": 30.835443,
+   "n_illegible": 21,
+   "retained_certified": 0.478957,
+   "retained_illegible": 0.796381,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 25
+  },
+  {
+   "n_certified": 72,
+   "n_eff_mean": 7.072188,
+   "n_eff_p10": 4.444444,
+   "n_eff_p90": 9.904762,
+   "n_eff_unmatched_ceiling": 27.505618,
+   "n_illegible": 17,
+   "retained_certified": 0.11059,
+   "retained_illegible": 0.380912,
+   "share_with_no_matched_stratum": 0.0005,
+   "width": 5
+  },
+  {
+   "n_certified": 72,
+   "n_eff_mean": 11.840582,
+   "n_eff_p10": 8.555556,
+   "n_eff_p90": 15.096774,
+   "n_eff_unmatched_ceiling": 27.505618,
+   "n_illegible": 17,
+   "retained_certified": 0.203882,
+   "retained_illegible": 0.592941,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 10
+  },
+  {
+   "n_certified": 72,
+   "n_eff_mean": 17.5176,
+   "n_eff_p10": 14.285714,
+   "n_eff_p90": 20.425532,
+   "n_eff_unmatched_ceiling": 27.505618,
+   "n_illegible": 17,
+   "retained_certified": 0.353785,
+   "retained_illegible": 0.7955,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 20
+  },
+  {
+   "n_certified": 72,
+   "n_eff_mean": 19.178361,
+   "n_eff_p10": 16.342857,
+   "n_eff_p90": 21.958333,
+   "n_eff_unmatched_ceiling": 27.505618,
+   "n_illegible": 17,
+   "retained_certified": 0.409618,
+   "retained_illegible": 0.844176,
+   "share_with_no_matched_stratum": 0.0,
+   "width": 25
+  }
+ ],
+ "rule": "many-to-one within writer x document x composition band; certified arm never cut; n_eff harmonic",
+ "seed": 20261214,
+ "version": "elicitation-matching/v0",
+ "writers": 2
+}

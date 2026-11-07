@@ -1,0 +1,16 @@
+{
+ "version": "elicitation-harness/v0/audit",
+ "verdict": "FAIL",
+ "format": "claude-jsonl",
+ "trace_sha256": "95bb1ea9e8c3e7045e8938c3be8cb7ebf9d75f9ff0f8498bd1cf9709e24d15d7",
+ "manifest_sha256": "93ccaab9593a0149f885e620f76c173977f7191857156c8d299d9acdaa9c77ac",
+ "writer": "opus55",
+ "round": 1,
+ "round_dir": "/Users/aravind/elicitation-writers/opus55/r1",
+ "pinned_script_sha256": "2a409344",
+ "opened": 3,
+ "allowed_files": 3,
+ "outside_existing": 3,
+ "non_existent_tokens": 0,
+ "never_open": 0
+}

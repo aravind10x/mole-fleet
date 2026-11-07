@@ -56,6 +56,7 @@ SHA_TRACE_AUDIT = "2a409344"
 ARM_STATES = {"one-document": cv.SHA_STATE_ONE, "cross-document": cv.SHA_STATE_CROSS}
 DENY_TREES = ("/Users/aravind/KruxAI", "/Users/aravind/.claude", "/Users/aravind/.codex",
               "/Users/aravind/.cursor", "/Users/aravind/.config", "/private/var/folders", "/tmp")
+SHELL_BINARIES = frozenset({"/bin/zsh", "/bin/bash", "/bin/sh", "/usr/bin/env"})   # the CLIs' own command wrapper (codex: `/bin/zsh -lc ...`)
 STATE_DIRS = ("/Users/aravind/.claude/projects/", "/Users/aravind/.codex/", "/private/var/folders/",
                "/tmp/", "/dev/null")
 
@@ -231,7 +232,7 @@ def _paths_from_codex_jsonl(trace: Path) -> set[str]:
 
     def walk(o: Any) -> None:
         if isinstance(o, str):
-            out |= ta.tokens_from_text(o)
+            out.update(ta.tokens_from_text(o))
         elif isinstance(o, dict):
             for v in o.values():
                 walk(v)
@@ -279,14 +280,14 @@ def audit(trace: Path, manifest_path: Path, format: str = "claude-jsonl", out: P
     writers_root = str(dest.parent.parent.resolve())
     never = sorted(p for p in norm if p.startswith(FORBIDDEN_ROOT.as_posix())
                    or (p.startswith(writers_root + os.sep) and not p.startswith(str(dest) + os.sep)))
-    rest = [p for p in norm if p not in set(never)]
+    rest = [p for p in norm if p not in set(never) and p not in allow]
     # the session's own scratchpad under the mapped project dir, and the harness's state dirs
     slug = session_slug(dest)
     scratch = "/Users/aravind/.claude/projects/" + slug
     rest = [p for p in rest if not p.startswith(scratch)]
     for base in ("/Users/aravind/.codex/", "/private/var/folders/", "/tmp/"):
         rest = [p for p in rest if not p.startswith(base)]
-    rest = [p for p in rest if p != "/dev/null"]
+    rest = [p for p in rest if p != "/dev/null" and p not in SHELL_BINARIES]
     outside_existing = sorted(p for p in rest if os.path.exists(p))
     tokens = sorted(p for p in rest if not os.path.exists(p))
     verdict = "PASS" if not never and not outside_existing else "FAIL"

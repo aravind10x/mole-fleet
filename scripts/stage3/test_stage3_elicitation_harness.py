@@ -193,3 +193,61 @@ def test_converter_gate_needs_a_passing_audit_for_the_manifest(tmp_path):
     rep = cv.convert_file(answer, STATE_ONE, out_dir=out, writer="opus55", state_cross=STATE_CROSS,
                           manifest=man_path, audit=tmp_path / "audit.json")
     assert rep["funnel"]["written"] == 8
+
+def test_audit_passes_when_the_round_folder_is_outside_every_state_tree(tmp_path):
+    """Found at the first real audit (brief 30 Part 3, 2026-11-07): the allow-list was computed and never applied, so a
+    trace that opened exactly the round folder's files failed whenever the folder was not under a state tree. pytest's
+    tmp_path sits under /private/var/folders (a state tree), which hid it; this folder is under the home directory."""
+    import shutil
+    import tempfile
+    base = Path(tempfile.mkdtemp(prefix=".audit-test-", dir=Path.home()))
+    try:
+        dest, man = _assemble(base, dest_name="opus55/r1")
+        man_path = base / "manifest.json"
+        man_path.write_text(json.dumps(man, indent=1), encoding="utf-8")
+        files = [str(dest / n) for n in ("packet.md", "round.md", "documents-one-document.md")]
+        rec = hs.audit(_trace(tmp_path, files), man_path, format="paths")
+        assert rec["verdict"] == "PASS", rec
+        assert rec["outside_existing"] == 0 and rec["never_open"] == 0 and rec["opened"] == 3
+        bad = hs.audit(_trace(tmp_path, files + [str(base / "manifest.json")]), man_path, format="paths")
+        assert bad["verdict"] == "FAIL" and bad["outside_existing"] == 1, "a file beside the folder is still outside it"
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
+
+
+def _codex_trace(path: Path, commands: list[str], output: str = "") -> Path:
+    """A minimal codex --json trace: one completed command_execution item per command (the shape of a real trace),
+    plus a non-command event that nests a string, so the adapter's walk over nested values is exercised."""
+    rows = [{"type": "thread.started", "thread_id": "t"}, {"type": "turn.started"}]
+    for c in commands:
+        rows.append({"type": "item.completed", "item": {"id": "i", "type": "command_execution", "command": c,
+                                                           "aggregated_output": output, "exit_code": 0, "status": "completed"}})
+    rows.append({"type": "turn.completed", "usage": {"input_tokens": 1}})
+    path.write_text("\n".join(json.dumps(r) for r in rows) + "\n", encoding="utf-8")
+    return path
+
+
+def test_codex_adapter_reads_nested_events_and_does_not_count_the_shell_wrapper_as_a_file(tmp_path):
+    """Found at the first real codex audit (brief 30 Part 3, 2026-11-07): the adapter's nested walk assigned to a name
+    it had not bound (UnboundLocalError), and every codex command starts with /bin/zsh -lc, an existing file outside
+    the allow-list. A trace whose commands only cat the round folder's files must pass."""
+    import shutil
+    import tempfile
+    base = Path(tempfile.mkdtemp(prefix=".audit-test-", dir=Path.home()))
+    try:
+        dest, man = _assemble(base, dest_name="gpt61sol/r1")
+        man_path = base / "manifest.json"
+        man_path.write_text(json.dumps(man, indent=1), encoding="utf-8")
+        tr = _codex_trace(tmp_path / "t.jsonl", ["/bin/zsh -lc 'cat packet.md round.md'",
+                                                  "/bin/zsh -lc 'cat documents-one-document.md'"],
+                          output="see and/or the shared notes")
+        rec = hs.audit(tr, man_path, format="codex-jsonl")
+        assert rec["verdict"] == "PASS", rec
+        bad = _codex_trace(tmp_path / "bad.jsonl", [f"/bin/zsh -lc 'cat {ROOT / 'STATUS.md'}'"])
+        r2 = hs.audit(bad, man_path, format="codex-jsonl")
+        assert r2["verdict"] == "FAIL" and r2["never_open"] >= 1, r2
+        other = _codex_trace(tmp_path / "other.jsonl", [f"/bin/zsh -lc 'cat {base / 'manifest.json'}'"])
+        r3 = hs.audit(other, man_path, format="codex-jsonl")
+        assert r3["verdict"] == "FAIL" and r3["outside_existing"] >= 1, r3
+    finally:
+        shutil.rmtree(base, ignore_errors=True)
