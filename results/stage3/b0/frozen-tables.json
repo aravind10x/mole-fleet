@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 122,
+ "n_files": 129,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1403,6 +1403,76 @@
    "copies_identical": true,
    "tag": "prior-art",
    "tag_source": "A4 (the reviewer, 2026-11-06), adopted in roadmap v4 dated note 1: sixteen sources verified from primary text, the corrections section the paper carries; external citations, never manifest numbers",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/preregistration-v1.2.md",
+   "sha256": "414cecc310b40b4bacb1c55831dbad194dc016418133afaaf13acb6ff0785d71",
+   "bytes": 19305,
+   "sha256_fork_copy": "414cecc310b40b4bacb1c55831dbad194dc016418133afaaf13acb6ff0785d71",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "brief 38 (Phase B), committed by hash 414cecc3 before Part 2 (dated notes 3 and 4); the kill rule on D_h, m_kill 0.23",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/dryrun-v1.md",
+   "sha256": "5c38148ba8ad2e464ea18fb597995f99f89b5928ff275a38039eb15ba8aaca57",
+   "bytes": 23939,
+   "sha256_fork_copy": "5c38148ba8ad2e464ea18fb597995f99f89b5928ff275a38039eb15ba8aaca57",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "brief 38 Part 1 re-run (note 3): the dry run with paired noise, the operating characteristics per SD row",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/dryrun-v1.json",
+   "sha256": "3ebf4066c09c251ade9cc6a86b154f75d489336f982637fccc1bdc19b99180b1",
+   "bytes": 184732,
+   "sha256_fork_copy": "3ebf4066c09c251ade9cc6a86b154f75d489336f982637fccc1bdc19b99180b1",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the values behind dryrun-v1.md",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/phase-b-results.md",
+   "sha256": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+   "bytes": 14295,
+   "sha256_fork_copy": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "brief 38 Part 2 (Phase B, the kill test on the current world): verdict inconclusive (Opus 4.8), Sonnet 5 beside kill; read 6965d6d5, two sentence fixes (note 5); roadmap v4 §6: after B, the kill test's verdict on this world, descriptive",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/phase-b-results.json",
+   "sha256": "d1220ea6bd149f96b49bbd1a7073eefd58c3725be3a72af7660dac2437ce8236",
+   "bytes": 30466,
+   "sha256_fork_copy": "d1220ea6bd149f96b49bbd1a7073eefd58c3725be3a72af7660dac2437ce8236",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the values behind phase-b-results.md",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/nulls-v0.json",
+   "sha256": "6357f90c39817f0123886b42ecfb5dc9e031e1f06d616fea8f24e1bb85e334f9",
+   "bytes": 1216449,
+   "sha256_fork_copy": "6357f90c39817f0123886b42ecfb5dc9e031e1f06d616fea8f24e1bb85e334f9",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "Phase B nulls, seven arms, two judges (B0 fresh); thresholds and chain intervals",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-b/applications-v0.json",
+   "sha256": "b4d415e7027ef9f43b3d45891d563539657845c786bafa9de6f27f9e5a1a8f0a",
+   "bytes": 999848,
+   "sha256_fork_copy": "b4d415e7027ef9f43b3d45891d563539657845c786bafa9de6f27f9e5a1a8f0a",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "Phase B applications, 256 under seven arms, two judges",
    "added_beyond_brief_list": false
   }
  ],
@@ -3108,6 +3178,92 @@
     }
    ],
    "note": "one dated line states the unrounded governing flexible p3 point (0.0033471) and that the correction section's 0.0034 was a re-rounding of a five-decimal print; no figure moved; no other entry changed"
+  },
+  {
+   "date": "2026-11-08",
+   "by": "coordinator v3 (brief 38 note 5): Phase B's committed pre-registration, dry run and result records added, additive",
+   "added": [
+    "phase-b/preregistration-v1.2.md",
+    "phase-b/dryrun-v1.md",
+    "phase-b/dryrun-v1.json",
+    "phase-b/phase-b-results.md",
+    "phase-b/phase-b-results.json",
+    "phase-b/nulls-v0.json",
+    "phase-b/applications-v0.json"
+   ],
+   "entries": [
+    {
+     "path": "phase-b/preregistration-v1.2.md",
+     "sha256": "414cecc310b40b4bacb1c55831dbad194dc016418133afaaf13acb6ff0785d71",
+     "bytes": 19305,
+     "sha256_fork_copy": "414cecc310b40b4bacb1c55831dbad194dc016418133afaaf13acb6ff0785d71",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "brief 38 (Phase B), committed by hash 414cecc3 before Part 2 (dated notes 3 and 4); the kill rule on D_h, m_kill 0.23",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/dryrun-v1.md",
+     "sha256": "5c38148ba8ad2e464ea18fb597995f99f89b5928ff275a38039eb15ba8aaca57",
+     "bytes": 23939,
+     "sha256_fork_copy": "5c38148ba8ad2e464ea18fb597995f99f89b5928ff275a38039eb15ba8aaca57",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "brief 38 Part 1 re-run (note 3): the dry run with paired noise, the operating characteristics per SD row",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/dryrun-v1.json",
+     "sha256": "3ebf4066c09c251ade9cc6a86b154f75d489336f982637fccc1bdc19b99180b1",
+     "bytes": 184732,
+     "sha256_fork_copy": "3ebf4066c09c251ade9cc6a86b154f75d489336f982637fccc1bdc19b99180b1",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the values behind dryrun-v1.md",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/phase-b-results.md",
+     "sha256": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+     "bytes": 14295,
+     "sha256_fork_copy": "e789748bdad525383b119481ba3b219b9ac66341317823934b9f2ff77b470710",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "brief 38 Part 2 (Phase B, the kill test on the current world): verdict inconclusive (Opus 4.8), Sonnet 5 beside kill; read 6965d6d5, two sentence fixes (note 5); roadmap v4 §6: after B, the kill test's verdict on this world, descriptive",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/phase-b-results.json",
+     "sha256": "d1220ea6bd149f96b49bbd1a7073eefd58c3725be3a72af7660dac2437ce8236",
+     "bytes": 30466,
+     "sha256_fork_copy": "d1220ea6bd149f96b49bbd1a7073eefd58c3725be3a72af7660dac2437ce8236",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the values behind phase-b-results.md",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/nulls-v0.json",
+     "sha256": "6357f90c39817f0123886b42ecfb5dc9e031e1f06d616fea8f24e1bb85e334f9",
+     "bytes": 1216449,
+     "sha256_fork_copy": "6357f90c39817f0123886b42ecfb5dc9e031e1f06d616fea8f24e1bb85e334f9",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "Phase B nulls, seven arms, two judges (B0 fresh); thresholds and chain intervals",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-b/applications-v0.json",
+     "sha256": "b4d415e7027ef9f43b3d45891d563539657845c786bafa9de6f27f9e5a1a8f0a",
+     "bytes": 999848,
+     "sha256_fork_copy": "b4d415e7027ef9f43b3d45891d563539657845c786bafa9de6f27f9e5a1a8f0a",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "Phase B applications, 256 under seven arms, two judges",
+     "added_beyond_brief_list": false
+    }
+   ],
+   "note": "the result is descriptive (the current world confirms nothing; verdict inconclusive, Sonnet 5 beside kill; margins named in the record); the paper cites phase-b-results.md at e789748b with the verdict word and both intervals; no other entry changed"
   }
  ]
 }
