@@ -1327,12 +1327,12 @@
   },
   {
    "path": "phase-a/a1-cover-v1.md",
-   "sha256": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
-   "bytes": 20935,
-   "sha256_fork_copy": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+   "sha256": "2052f2699e01a6f864b0fdace19fc3c8f0c6d035ebeff7ebb2bd9a6a1c672766",
+   "bytes": 21495,
+   "sha256_fork_copy": "2052f2699e01a6f864b0fdace19fc3c8f0c6d035ebeff7ebb2bd9a6a1c672766",
    "copies_identical": true,
    "tag": "descriptive",
-   "tag_source": "brief 36 A1.2 under notes 3 to 6 (Phase A): cover arithmetic, reading R3b; its 2026-11-07 correction section (intervals over 30 cells) is the citable form, the per-application intervals labelled too narrow",
+   "tag_source": "brief 36 A1.2 under notes 3 to 6 (Phase A): cover arithmetic, reading R3b; its 2026-11-07 correction section (intervals over 30 cells) is the citable form, the per-application intervals labelled too narrow; refreshed 2026-11-07 (brief 39 note 3 item d): one dated rounding line at the end of the correction section, no figure moved",
    "added_beyond_brief_list": false
   },
   {
@@ -3096,6 +3096,18 @@
     }
    ],
    "note": "two new tag values, descriptive (Phase A, a $0 audit on the current world; roadmap v4 §6 and proposal §6: after A the corrected regime table, the tail decomposition and the cover method are descriptive) and prior-art (A4: external citations verified from primary sources, never manifest numbers); a1-cover-v1.md is pinned at its corrected hash (brief 36 note 6, 2026-11-07, post-look and labelled): the citable intervals are the correction section's, over 30 (document, window, pool) cells; the a4 fork copy mirrored in this commit; the paper's abstract-v1 pinned a1-cover-v1.md at 7cb8056b, which the paper's next pass updates; no other entry changed"
+  },
+  {
+   "date": "2026-11-07",
+   "by": "coordinator v3: a1-cover-v1.md refreshed after the Phase A session's rounding line (brief 39 note 3 item d; fork 2f3493f)",
+   "refreshed": [
+    {
+     "path": "phase-a/a1-cover-v1.md",
+     "from": "8b8235e6523007197ba732ae882ff8763b5fa4781ca0920189ee598eb86be8f2",
+     "to": "2052f2699e01a6f864b0fdace19fc3c8f0c6d035ebeff7ebb2bd9a6a1c672766"
+    }
+   ],
+   "note": "one dated line states the unrounded governing flexible p3 point (0.0033471) and that the correction section's 0.0034 was a re-rounding of a five-decimal print; no figure moved; no other entry changed"
   }
  ]
 }
