@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 130,
+ "n_files": 135,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1483,6 +1483,66 @@
    "copies_identical": true,
    "tag": "sensitivity",
    "tag_source": "brief 38 note 6: the verdict's sensitivity to the interval construction and the index set (percentile committed and governing; basic and normal beside; 60 other index sets), post-look, labelled; frozen tables gain only labelled sensitivities",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-c/plan-v0.md",
+   "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+   "sha256": "55fe38ca10b03c575f936118c23aa97224cfa8973f594562cac1d77ac3123dad",
+   "bytes": 13566,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "fakelab_commit": "18e30b9",
+   "tag": "pre-registration",
+   "tag_source": "brief 37 (Phase C), committed before any score at fakelab 1eacb98 (registered text), with its 2026-11-08 dated note on the MDE column (fakelab 18e30b9)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-c/phase-c-report.md",
+   "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+   "sha256": "84f9cec6dd56619a672b9902ab0ecf5f5e92d6714704d3777b2927185a9d7deb",
+   "bytes": 23902,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "fakelab_commit": "18e30b9",
+   "tag": "descriptive",
+   "tag_source": "brief 37 Phase C report v2 (fakelab 18e30b9): the licensed sentence of brief 37 note 3 (one-line against full task on the same prompt +0.091; FakeLab's task-free prompt, which also rewrites the reasoning steps, 0.669; honest mean shift +0.120; two of four chains); the plan arm descriptive; read e95074d1",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-c/phase-c-results.json",
+   "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+   "sha256": "ef86c5250a92405be629e35539a2f7d9c563586c83dc2cef5e195667ee47e0d6",
+   "bytes": 45817,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "fakelab_commit": "18e30b9",
+   "tag": "descriptive",
+   "tag_source": "the values behind the report (fakelab 462c64d)",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-c/scores-table-v1.json",
+   "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+   "sha256": "45d1fb49c81a590b2007f7fb26c582813d0b181372446e461a9b87c0c91d9125",
+   "bytes": 184391,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "fakelab_commit": "18e30b9",
+   "tag": "descriptive",
+   "tag_source": "the text-free per-commit score table under full_task, shortened_1 and none; recomputable readings",
+   "added_beyond_brief_list": false
+  },
+  {
+   "path": "phase-c/dryrun-v0.json",
+   "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+   "sha256": "abf1bf204bdaf0743b847b3d589fd6baf793a0c0910991bae98f5964017b2586",
+   "bytes": 11089,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "fakelab_commit": "18e30b9",
+   "tag": "methods",
+   "tag_source": "plan-v0's dry run: the MDE grid (attack-drop and honest-tail columns equal by construction)",
    "added_beyond_brief_list": false
   }
  ],
@@ -3301,6 +3361,80 @@
     }
    ],
    "note": "verdict unchanged; the committed percentile construction and seed govern; no other entry changed"
+  },
+  {
+   "date": "2026-11-08",
+   "by": "coordinator v3 (brief 37 note 3): Phase C's plan, report v2, results, score table and dry run added, additive; path root work/fakelab, pinned by fakelab commit, no fork copy",
+   "added": [
+    "phase-c/plan-v0.md",
+    "phase-c/phase-c-report.md",
+    "phase-c/phase-c-results.json",
+    "phase-c/scores-table-v1.json",
+    "phase-c/dryrun-v0.json"
+   ],
+   "entries": [
+    {
+     "path": "phase-c/plan-v0.md",
+     "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+     "sha256": "55fe38ca10b03c575f936118c23aa97224cfa8973f594562cac1d77ac3123dad",
+     "bytes": 13566,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "fakelab_commit": "18e30b9",
+     "tag": "pre-registration",
+     "tag_source": "brief 37 (Phase C), committed before any score at fakelab 1eacb98 (registered text), with its 2026-11-08 dated note on the MDE column (fakelab 18e30b9)",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-c/phase-c-report.md",
+     "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+     "sha256": "84f9cec6dd56619a672b9902ab0ecf5f5e92d6714704d3777b2927185a9d7deb",
+     "bytes": 23902,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "fakelab_commit": "18e30b9",
+     "tag": "descriptive",
+     "tag_source": "brief 37 Phase C report v2 (fakelab 18e30b9): the licensed sentence of brief 37 note 3 (one-line against full task on the same prompt +0.091; FakeLab's task-free prompt, which also rewrites the reasoning steps, 0.669; honest mean shift +0.120; two of four chains); the plan arm descriptive; read e95074d1",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-c/phase-c-results.json",
+     "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+     "sha256": "ef86c5250a92405be629e35539a2f7d9c563586c83dc2cef5e195667ee47e0d6",
+     "bytes": 45817,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "fakelab_commit": "18e30b9",
+     "tag": "descriptive",
+     "tag_source": "the values behind the report (fakelab 462c64d)",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-c/scores-table-v1.json",
+     "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+     "sha256": "45d1fb49c81a590b2007f7fb26c582813d0b181372446e461a9b87c0c91d9125",
+     "bytes": 184391,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "fakelab_commit": "18e30b9",
+     "tag": "descriptive",
+     "tag_source": "the text-free per-commit score table under full_task, shortened_1 and none; recomputable readings",
+     "added_beyond_brief_list": false
+    },
+    {
+     "path": "phase-c/dryrun-v0.json",
+     "path_root": "work/fakelab (a git repository of ours; FakeLab-derived files are not mirrored in work/mole-fork under FakeLab's terms)",
+     "sha256": "abf1bf204bdaf0743b847b3d589fd6baf793a0c0910991bae98f5964017b2586",
+     "bytes": 11089,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "fakelab_commit": "18e30b9",
+     "tag": "methods",
+     "tag_source": "plan-v0's dry run: the MDE grid (attack-drop and honest-tail columns equal by construction)",
+     "added_beyond_brief_list": false
+    }
+   ],
+   "note": "descriptive; the paper cites the licensed sentence of brief 37 note 3; no other entry changed"
   }
  ]
 }
