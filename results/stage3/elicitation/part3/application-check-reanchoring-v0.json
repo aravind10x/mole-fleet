@@ -1,0 +1,5692 @@
+{
+ "version": "elicitation-reanchor/v0",
+ "written": "2026-11-08T13:17:37+05:30",
+ "script": {
+  "path": "work/checks/stage3_elicitation_reanchor.py",
+  "sha256": "dc090476a95a505ee2b0573ef06203cca26056c7776835bcdd47f38eb198fc4d"
+ },
+ "check_sha256": "d6ac10eb49980f530619bc398ec5c483e19016784e68853ac466ee268c4d8ec4",
+ "primary_rho": 0.7,
+ "rhos": [
+  0.7,
+  0.5,
+  0.9
+ ],
+ "module": {
+  "path": "work/checks/stage3_t1.py",
+  "sha256": "240f4ed9465bf61c021e1c993371ef74f3167bd1ce7378c251da73a5196ac4b5",
+  "inserter_class_sha256": "24d3d147d6f5e6a052820714dfefebe2442aaeaf5f796cf299fe319c41027b4a",
+  "inserter_class_equals_t1v3_manifest": true,
+  "dry_run_script_sha256": "999cb7375cdefe212335e307cef6120c702436be1c6d5270f621844750b3ddf5",
+  "functions_called": [
+   "stage3_b3_inserter_dry_run.States / static_checks / enumerate_draws / run_draw / decide / pair_ok"
+  ]
+ },
+ "churn": {
+  "whole_rewrites_by_day": {
+   "redteam-checklist.md": {},
+   "finetune-guide.md": {
+    "2026-04-06": 2
+   },
+   "release-gate-runbook.md": {},
+   "README.md": {
+    "2026-04-06": 1
+   },
+   "engineering-setup.md": {},
+   "oncall-runbook.md": {
+    "2026-04-06": 1
+   }
+  },
+  "draw_days": [
+   "2026-04-06",
+   "2026-04-07"
+  ],
+  "target_best_similarity_by_document": {
+   "README.md": {
+    "< 0.5": 26
+   },
+   "finetune-guide.md": {
+    "0.5 to 0.7": 7,
+    "0.7 to 0.9": 1,
+    "< 0.5": 28
+   },
+   "oncall-runbook.md": {
+    "< 0.5": 15
+   },
+   "redteam-checklist.md": {
+    ">= 0.9": 12
+   }
+  }
+ },
+ "seed_set": [
+  {
+   "uid": "gpt61sol:r1:1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+   "item_id": "1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+   "writer": "gpt61sol",
+   "round": 1,
+   "class": "certified",
+   "mechanism": "composed-permission",
+   "document": "README.md",
+   "line_kinds": "replace:recipient, append:procedure, append:procedure"
+  },
+  {
+   "uid": "gpt61sol:r1:2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+   "item_id": "2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+   "writer": "gpt61sol",
+   "round": 1,
+   "class": "certified",
+   "mechanism": "composed-permission",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:recipient, append:procedure, append:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+   "item_id": "00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+   "item_id": "0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "order-dependency",
+   "document": "README.md",
+   "line_kinds": "replace:procedure, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+   "item_id": "1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:label, replace:path, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+   "item_id": "1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+   "item_id": "243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "redteam-checklist.md",
+   "line_kinds": "replace:label, replace:label, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+   "item_id": "4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+   "item_id": "67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:label, replace:path, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+   "item_id": "6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:label, replace:value, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+   "item_id": "7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "redteam-checklist.md",
+   "line_kinds": "replace:label, replace:label, replace:path"
+  },
+  {
+   "uid": "muse_wonder:r3:8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+   "item_id": "8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "oncall-runbook.md",
+   "line_kinds": "replace:recipient, replace:label, replace:path"
+  },
+  {
+   "uid": "muse_wonder:r3:934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+   "item_id": "934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "README.md",
+   "line_kinds": "replace:label, replace:label, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+   "item_id": "acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "default-exception-schedule",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:procedure, replace:procedure, append:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+   "item_id": "b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "README.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+   "item_id": "b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "order-dependency",
+   "document": "oncall-runbook.md",
+   "line_kinds": "replace:procedure, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+   "item_id": "b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "composed-permission",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:recipient, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+   "item_id": "b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "oncall-runbook.md",
+   "line_kinds": "replace:recipient, replace:path, replace:label"
+  },
+  {
+   "uid": "muse_wonder:r3:bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+   "item_id": "bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "README.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+   "item_id": "c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "README.md",
+   "line_kinds": "replace:label, replace:label, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+   "item_id": "c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "oncall-runbook.md",
+   "line_kinds": "replace:recipient, replace:path, replace:label"
+  },
+  {
+   "uid": "muse_wonder:r3:c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+   "item_id": "c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "composed-permission",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:recipient, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+   "item_id": "ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:label, replace:path, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+   "item_id": "d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "indirection",
+   "document": "README.md",
+   "line_kinds": "replace:value, replace:recipient, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+   "item_id": "e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "oncall-runbook.md",
+   "line_kinds": "replace:recipient, replace:label, replace:path"
+  },
+  {
+   "uid": "muse_wonder:r3:eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+   "item_id": "eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "redteam-checklist.md",
+   "line_kinds": "replace:label, replace:label, replace:recipient"
+  },
+  {
+   "uid": "muse_wonder:r3:fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+   "item_id": "fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "certified",
+   "mechanism": "conjunction",
+   "document": "redteam-checklist.md",
+   "line_kinds": "replace:label, replace:label, replace:path"
+  },
+  {
+   "uid": "muse_wonder:r3:5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+   "item_id": "5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "quiet_but_illegible",
+   "mechanism": "default-exception-schedule",
+   "document": "README.md",
+   "line_kinds": "replace:procedure, replace:procedure, append:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+   "item_id": "667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "quiet_but_illegible",
+   "mechanism": "order-dependency",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:procedure, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+   "item_id": "9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "quiet_but_illegible",
+   "mechanism": "order-dependency",
+   "document": "README.md",
+   "line_kinds": "replace:procedure, replace:procedure, replace:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+   "item_id": "bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "quiet_but_illegible",
+   "mechanism": "default-exception-schedule",
+   "document": "README.md",
+   "line_kinds": "replace:procedure, replace:procedure, append:procedure"
+  },
+  {
+   "uid": "muse_wonder:r3:cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+   "item_id": "cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+   "writer": "muse_wonder",
+   "round": 3,
+   "class": "quiet_but_illegible",
+   "mechanism": "order-dependency",
+   "document": "finetune-guide.md",
+   "line_kinds": "replace:procedure, replace:procedure, replace:procedure"
+  }
+ ],
+ "by_rho": {
+  "0.7": {
+   "rows": [
+    {
+     "uid": "gpt61sol:r1:1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "item_id": "1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "gpt61sol:r1:2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "item_id": "2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "item_id": "00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "item_id": "0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "item_id": "1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "item_id": "1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "item_id": "243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 30,
+      "n_without_counterpart": 35,
+      "n_valid": 19,
+      "valid_by_day": {
+       "2026-04-06": 19,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 19
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 30,
+       "n_valid": 22,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 6,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "item_id": "4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "item_id": "67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "item_id": "6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 29,
+       "n_valid": 28,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 22,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "item_id": "7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "item_id": "8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "item_id": "934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "item_id": "acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "item_id": "b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "item_id": "b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "item_id": "b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "item_id": "b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "item_id": "bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "item_id": "c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "item_id": "c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "item_id": "c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "item_id": "ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "item_id": "d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "item_id": "e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "item_id": "eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 30,
+      "n_without_counterpart": 35,
+      "n_valid": 19,
+      "valid_by_day": {
+       "2026-04-06": 19,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 19
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 30,
+       "n_valid": 22,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 6,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "item_id": "fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "item_id": "5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "item_id": "667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "item_id": "9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "item_id": "bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "item_id": "cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    }
+   ],
+   "re_anchorable": 2,
+   "re_anchorable_clean": 0,
+   "items": 32,
+   "by_class": {
+    "not: a target has no counterpart": 28,
+    "not: too few valid draws": 2,
+    "re-anchorable": 2
+   },
+   "by_writer_class": {
+    "muse_wonder certified": 2
+   },
+   "by_document_mechanism": {
+    "README.md": {
+     "composed-permission": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "finetune-guide.md": {
+     "composed-permission": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "redteam-checklist.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 2,
+      "re_anchorable_clean": 0
+     }
+    },
+    "oncall-runbook.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    }
+   },
+   "recertification": {
+    "by_writer": {
+     "muse_wonder": {
+      "items": 2,
+      "per_item": 0.17187822014051524,
+      "per_item_with_development": 0.25387822014051525,
+      "usd": 0.3437564402810305,
+      "usd_with_development": 0.5077564402810305
+     }
+    },
+    "certification_stage_usd": 0.3437564402810305,
+    "with_development_usd": 0.5077564402810305,
+    "basis": "round 3's realised spend per item: certification raters over the items rated, certification reads over the items read (gate (i) passers for Muse Wonder); the development stage beside"
+   },
+   "replace_statements_with_a_counterpart": {}
+  },
+  "0.5": {
+   "rows": [
+    {
+     "uid": "gpt61sol:r1:1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "item_id": "1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "gpt61sol:r1:2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "item_id": "2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "item_id": "00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "item_id": "0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "item_id": "1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "item_id": "1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "item_id": "243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 30,
+      "n_without_counterpart": 35,
+      "n_valid": 19,
+      "valid_by_day": {
+       "2026-04-06": 19,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 19
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 30,
+       "n_valid": 22,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 6,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "item_id": "4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "item_id": "67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "item_id": "6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 29,
+       "n_valid": 28,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 22,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "item_id": "7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "item_id": "8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "item_id": "934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "item_id": "acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "item_id": "b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "item_id": "b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "item_id": "b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "item_id": "b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "item_id": "bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "item_id": "c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "item_id": "c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "item_id": "c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "item_id": "ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "item_id": "d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "item_id": "e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "item_id": "eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 30,
+      "n_without_counterpart": 35,
+      "n_valid": 19,
+      "valid_by_day": {
+       "2026-04-06": 19,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 19
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 30,
+       "n_valid": 22,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 6,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "item_id": "fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "item_id": "5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "item_id": "667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "item_id": "9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "item_id": "bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "item_id": "cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    }
+   ],
+   "re_anchorable": 2,
+   "re_anchorable_clean": 0,
+   "items": 32,
+   "by_class": {
+    "not: a target has no counterpart": 28,
+    "not: too few valid draws": 2,
+    "re-anchorable": 2
+   },
+   "by_writer_class": {
+    "muse_wonder certified": 2
+   },
+   "by_document_mechanism": {
+    "README.md": {
+     "composed-permission": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "finetune-guide.md": {
+     "composed-permission": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "redteam-checklist.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 2,
+      "re_anchorable_clean": 0
+     }
+    },
+    "oncall-runbook.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    }
+   },
+   "recertification": {
+    "by_writer": {
+     "muse_wonder": {
+      "items": 2,
+      "per_item": 0.17187822014051524,
+      "per_item_with_development": 0.25387822014051525,
+      "usd": 0.3437564402810305,
+      "usd_with_development": 0.5077564402810305
+     }
+    },
+    "certification_stage_usd": 0.3437564402810305,
+    "with_development_usd": 0.5077564402810305,
+    "basis": "round 3's realised spend per item: certification raters over the items rated, certification reads over the items read (gate (i) passers for Muse Wonder); the development stage beside"
+   },
+   "replace_statements_with_a_counterpart": {}
+  },
+  "0.9": {
+   "rows": [
+    {
+     "uid": "gpt61sol:r1:1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "item_id": "1ec089fcd3166affb761e319de8fc5ce07846307cd6839b537fcb2e7902c2c56",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "gpt61sol:r1:2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "item_id": "2547050767f0f9e3f15871be9f70e8d180c502e9f962067aab639a1fe96ae5ff",
+     "writer": "gpt61sol",
+     "round": 1,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "item_id": "00d26332a5d34a20d9013db83139c2012a5e58592acb34a307241adb6543685b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "item_id": "0a07301655b76a6e9c59c9b6489674ff74809cd69231dc27755c11c92c0245a8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "item_id": "1bd341c98dad7d60ee2578b550b1bbed03aec09f5890983e2f6f3fa10a806860",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "item_id": "1ede025ce93d5ed663abf2f97fe89426f8c7d713b7c6a9493dcbab41f6b5ced9",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "item_id": "243a4b5e889bc21a5be56e0ef15c96cb2e84441a640da01c5bedc98dd7919567",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 21,
+      "n_without_counterpart": 44,
+      "n_valid": 18,
+      "valid_by_day": {
+       "2026-04-06": 18,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 18
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 21,
+       "n_valid": 21,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 5,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "item_id": "4901911e7e02d2cdbbe0a26dc698f557273ef696b21ed3a0b3d7b4313aa660de",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "item_id": "67d79e7d0f3339f2d1e5f2b62ce359c97fb0d7dca76d888c7c44a1b6329a6355",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "item_id": "6debf1017765b7bab3dbba6266790ef61726bb5774063b837d53c23b2fcc7f8a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "item_id": "7d9c749292b8ec7eeadb559f866431e84bf8e652c2179d83a40208f319597d54",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "item_id": "8a00076cdb3972a6f911fa90d00ed33a6e4531d8ec104dfbfe01771d03175bd2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "item_id": "934e91309041a221a1a3a898ae11408d4571e2bab3fd4cf5c2eea31e00ed6013",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "item_id": "acd6e91e1f69d2a0ea4a5c721c989d3c75b9e02469c8c1d5b7d671a72ebde454",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 46,
+       "n_valid": 45,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 45,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "item_id": "b42907bd6174733999e9b48456d985599cfdd6cae7bc6e124e361017a94ac259",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "item_id": "b45119d503766f8e8e277de9072603df79b4223ed94fb4b6f2e8bb6fe5c429f8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "order-dependency",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "item_id": "b51b19133de08414dc4bec7fd937c98f403ba28ab786953f9f2d8c8378a39362",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "item_id": "b8800f9419f44a3d5db4f924c0307dcd18123c0cdd3ba09031eb253f1cab79a3",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "item_id": "bf77963f67709bb10757004fe9ffda36fe7ccf6c3de379257e8bed26eec4143a",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "item_id": "c1008c944206bafb8da5cbeaa4012f1d8373085434b64e151612a5749bdf82ef",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "item_id": "c40a068f910ccc1f133e05cb70d927502626d37e6e49c42f2e99478b722a9552",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "item_id": "c6e114db80d4c95d0ad075d3a7777bc1ff7ec51a67b3a689f139c91f98ba0cd8",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "composed-permission",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "item_id": "ca1cf4cf03618e4935243385693629cfb6d90990e474c111c2eba59ad37a7976",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "item_id": "d7d6c6745bcf076bee24190d2ae02603fe9269aa4aff391f740aacdeceb7ad26",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "indirection",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "item_id": "e07cc4435e9b157885856801df659308b62572e6ffe976278f0aa28ce2e3c541",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/ops/oncall-runbook.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "item_id": "eaa0b0868dd0af78dccbfe653f1b4695c700215955cad0373d5e11e30e9b6f06",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "not: too few valid draws",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 21,
+      "n_without_counterpart": 44,
+      "n_valid": 18,
+      "valid_by_day": {
+       "2026-04-06": 18,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 18
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 21,
+       "n_valid": 21,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 5,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "item_id": "fc922a4a94351fc6b4f14070401c7e7272186a0c3763922e98432614309dc0b2",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "certified",
+     "mechanism": "conjunction",
+     "document": "/shared/alignment/redteam-checklist.md",
+     "reanchor": "re-anchorable",
+     "clean": false,
+     "statements_with_counterpart": [
+      true,
+      true,
+      true
+     ],
+     "item": {
+      "n_drawable": 65,
+      "n_without_counterpart": 0,
+      "n_valid": 59,
+      "valid_by_day": {
+       "2026-04-06": 29,
+       "2026-04-07": 30
+      },
+      "pair_ok_distinct_days": true,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 59
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 64,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 64,
+       "clean_pair_ok_distinct_authors": true
+      },
+      {
+       "n_drawable": 65,
+       "n_valid": 65,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 65,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "item_id": "5d28e8c03e7dc1b0cef38de715a6c018f83bd4648d5b4e411ee26b4e6351d7ed",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "item_id": "667552c126fdbfbec56597bc036599e8af1f136ba9436ba0f874183cec4f7984",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "item_id": "9343c262870c8ae25b930b59901b72aaac463a41f426c550755f5f48f8fbb32b",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "item_id": "bcc95d141c984d7c196bb74f49596e3c8e16bcce30cd4c55ca0557b3acdd2347",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "default-exception-schedule",
+     "document": "/shared/infra/training-pipeline/README.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      true
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 34,
+       "n_valid": 34,
+       "pair_ok_distinct_authors": true,
+       "clean_valid": 34,
+       "clean_pair_ok_distinct_authors": true
+      }
+     ]
+    },
+    {
+     "uid": "muse_wonder:r3:cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "item_id": "cd2ee15a79b0b00fb4814cdd64818520acd6cbed27a6d60cb62aaad6971430d7",
+     "writer": "muse_wonder",
+     "round": 3,
+     "class_": "quiet_but_illegible",
+     "mechanism": "order-dependency",
+     "document": "/shared/capabilities/finetune-guide.md",
+     "reanchor": "not: a target has no counterpart",
+     "clean": false,
+     "statements_with_counterpart": [
+      false,
+      false,
+      false
+     ],
+     "item": {
+      "n_drawable": 0,
+      "n_without_counterpart": 65,
+      "n_valid": 0,
+      "valid_by_day": {
+       "2026-04-06": 0,
+       "2026-04-07": 0
+      },
+      "pair_ok_distinct_days": false,
+      "clean_valid": 0,
+      "clean_pair_ok_distinct_days": false,
+      "valid_with_broken_honest_edit": 0
+     },
+     "lone_lines": [
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      },
+      {
+       "n_drawable": 0,
+       "n_valid": 0,
+       "pair_ok_distinct_authors": false,
+       "clean_valid": 0,
+       "clean_pair_ok_distinct_authors": false
+      }
+     ]
+    }
+   ],
+   "re_anchorable": 2,
+   "re_anchorable_clean": 0,
+   "items": 32,
+   "by_class": {
+    "not: a target has no counterpart": 28,
+    "not: too few valid draws": 2,
+    "re-anchorable": 2
+   },
+   "by_writer_class": {
+    "muse_wonder certified": 2
+   },
+   "by_document_mechanism": {
+    "README.md": {
+     "composed-permission": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "finetune-guide.md": {
+     "composed-permission": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "indirection": {
+      "items": 3,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "default-exception-schedule": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 2,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    },
+    "redteam-checklist.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 2,
+      "re_anchorable_clean": 0
+     }
+    },
+    "oncall-runbook.md": {
+     "conjunction": {
+      "items": 4,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     },
+     "order-dependency": {
+      "items": 1,
+      "re_anchorable": 0,
+      "re_anchorable_clean": 0
+     }
+    }
+   },
+   "recertification": {
+    "by_writer": {
+     "muse_wonder": {
+      "items": 2,
+      "per_item": 0.17187822014051524,
+      "per_item_with_development": 0.25387822014051525,
+      "usd": 0.3437564402810305,
+      "usd_with_development": 0.5077564402810305
+     }
+    },
+    "certification_stage_usd": 0.3437564402810305,
+    "with_development_usd": 0.5077564402810305,
+    "basis": "round 3's realised spend per item: certification raters over the items rated, certification reads over the items read (gate (i) passers for Muse Wonder); the development stage beside"
+   },
+   "replace_statements_with_a_counterpart": {}
+  }
+ }
+}

@@ -1,0 +1,56 @@
+{
+ "version": "elicitation-anchor-record/v0",
+ "written": "2026-11-08",
+ "seed": 20261211,
+ "size": 20,
+ "arm": "one-document (the only arm run)",
+ "population": "every item of writer rounds 1 to 3 (both writers) that passes gate (i) and was read to a class: certified, quiet-but-illegible, mixed, part-derivable; loud and not-evaluable items are not eligible; placeability by the application check was not a condition",
+ "pools": {
+  "certified": 109,
+  "quiet_but_illegible": 7,
+  "mixed": 23,
+  "part_derivable": 110
+ },
+ "pool_sha256": "cdbddedd60a6417a10580fdda6d4bd6ea9912a68ea03feae68886e684b85577c",
+ "draw": {
+  "by_class": {
+   "certified": 10,
+   "mixed": 2,
+   "part_derivable": 7,
+   "quiet_but_illegible": 1
+  },
+  "by_writer": {
+   "gpt61sol": 14,
+   "muse_wonder": 6
+  },
+  "by_writer_round": {
+   "gpt61sol round 2": 8,
+   "gpt61sol round 3": 6,
+   "muse_wonder round 3": 6
+  }
+ },
+ "placeability_of_the_drawn": {
+  "certified_placeable": 8,
+  "certified_not_placeable": 2,
+  "quiet_but_illegible_placeable": 0,
+  "quiet_but_illegible_not_placeable": 1,
+  "other_classes_not_covered_by_the_check": 9
+ },
+ "blocks": {
+  "A_wholes": 20,
+  "B_one_part_each": 20
+ },
+ "files": {
+  "human-anchor-draw-v0.json": {
+   "sha256": "94830358d4851b376dac774431a06dd18ab1c722ccc5f8b5446f9794bba06868",
+   "bytes": 16345,
+   "barred": true
+  },
+  "human-anchor-sheet-v0.md": {
+   "sha256": "cd0b8d4e981369b06ca0a56eee63799610ae5c49fd0c51184b65c6cd1a5ad111",
+   "bytes": 53271,
+   "barred": true
+  }
+ },
+ "transcribed_from": "the counts and hashes printed by stage3_elicitation_anchor.py run; the barred files were not opened"
+}

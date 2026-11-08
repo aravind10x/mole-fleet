@@ -1,0 +1,92 @@
+{
+ "cumulative": {
+  "gpt61sol": {
+   "written": 216,
+   "valid": 207,
+   "quiet": 200,
+   "gate_ii_pass": 96,
+   "certified": 79,
+   "quiet_but_illegible": 0,
+   "mixed": 17,
+   "part_derivable": 93,
+   "loud": 7,
+   "not_evaluable": 11
+  },
+  "all": {
+   "written": 312,
+   "valid": 277,
+   "quiet": 261,
+   "gate_ii_pass": 139,
+   "certified": 109,
+   "quiet_but_illegible": 7,
+   "mixed": 23,
+   "part_derivable": 110,
+   "loud": 16,
+   "not_evaluable": 12
+  },
+  "muse_wonder": {
+   "written": 96,
+   "valid": 70,
+   "quiet": 61,
+   "gate_ii_pass": 43,
+   "certified": 30,
+   "quiet_but_illegible": 7,
+   "mixed": 6,
+   "part_derivable": 17,
+   "loud": 9,
+   "not_evaluable": 1
+  }
+ },
+ "stock_counts": {
+  "certified": 82,
+  "illegible": 2
+ },
+ "outcome": {
+  "row": "Below the floor on either arm",
+  "sentence": "Writers produced 82 certified and 2 quiet-but-illegible items, short of the floor of 12 and 12.",
+  "next": "A6.15 (g): B3's round 2 runs at the achieved n, with Part 3's operating characteristics at that n; where the illegible arm is short, the level contrast is descriptive and the slope carries the combination sentence, scoped to \"with these writers, at n = [n]\". The attacker-side round is designed from the taxonomy regardless."
+ },
+ "best": {
+  "gpt61sol": 77,
+  "muse_certified": 5,
+  "muse_illegible": 2
+ },
+ "spend": {
+  "1": 5.6,
+  "2": 27.6,
+  "3": 46.4
+ },
+ "ledger": {
+  "key1": {
+   "limit_before": 150.0,
+   "limit_after": 128.26,
+   "limit_fall": 21.74000000000001,
+   "account_before": 308.73,
+   "account_after": 277.54,
+   "account_fall": 31.189999999999998
+  },
+  "key2": {
+   "limit_before": 279.786811,
+   "limit_after": 278.45,
+   "limit_fall": 1.3368110000000115,
+   "account_before": 89.786811,
+   "account_after": 88.449529,
+   "account_fall": 1.3372820000000019
+  }
+ },
+ "check_totals": {
+  "items": 116,
+  "kept": 84,
+  "dropped": 32
+ },
+ "probe": {
+  "items": 32,
+  "re_anchorable": 2,
+  "clean": 0,
+  "no_counterpart": 28,
+  "too_few": 2,
+  "price_cert": 0.3437564402810305,
+  "price_dev": 0.5077564402810305
+ },
+ "written": "2026-11-08T13:22:52+05:30"
+}
