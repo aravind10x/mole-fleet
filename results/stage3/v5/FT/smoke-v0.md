@@ -88,11 +88,11 @@ The simulation checks reading (a) first: if routine-and-middle uptake's 95 perce
 
 | file | sha256[:8] | tests (by module, fork venv) |
 |---|---|---|
-| `work/checks/stage3_ft_harness.py` | see the commit | `test_stage3_ft_harness.py`: 42 passed |
-| `work/checks/stage3_ft_run.py` | see the commit | `test_stage3_ft_run.py`: 24 passed |
-| `work/checks/stage3_ft_join.py` | see the commit | `test_stage3_ft_join.py`: 14 passed |
-| `work/checks/stage3_ft_power.py` | see the commit | `test_stage3_ft_power.py`: 15 passed |
-| `work/checks/stage3_ft_smoke.py` (new) | see the commit | `test_stage3_ft_smoke.py`: 5 passed |
+| `work/checks/stage3_ft_harness.py` | ae041946 | `test_stage3_ft_harness.py`: 42 passed |
+| `work/checks/stage3_ft_run.py` | 8089e71b | `test_stage3_ft_run.py`: 24 passed |
+| `work/checks/stage3_ft_join.py` | 4d53bcf6 | `test_stage3_ft_join.py`: 14 passed |
+| `work/checks/stage3_ft_power.py` | 7e79bedd | `test_stage3_ft_power.py`: 15 passed |
+| `work/checks/stage3_ft_smoke.py` (new) | e06e5a7b | `test_stage3_ft_smoke.py`: 5 passed |
 
 The follower prompt is unchanged (sha256 62325558…).
 
