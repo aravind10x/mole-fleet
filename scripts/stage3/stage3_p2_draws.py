@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Line P2, step 2.2 (`P2/brief-harness.md`; design `P2/preregistration-v1.md` section 3, 705fe3e4): the D and H draws,
+"""Line P2, step 2.2 (`P2/brief-harness.md`; design `P2/preregistration-v1.md` section 3, 19d4a7d5): the D and H draws,
 ids only, and the exact need table. Blue side; reads blue's goals, bank, need matrix and slots, the core manifest's ids,
 regimes and slot ids, and the payloads' frozen CLEAN documents by script (to check that a needed slot exists); prints
 counts.
