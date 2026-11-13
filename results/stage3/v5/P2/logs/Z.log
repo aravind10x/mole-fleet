@@ -1,0 +1,53 @@
+2026-11-13T20:05:00Z
+  block stopped: harness abort on dose|D5fdd250a|subset_2|sol|r2 (detail in the red-side error log)
+{
+  "block": "dose",
+  "cells": 576,
+  "skipped_cells": {},
+  "skipped_finished": 0,
+  "completed": 40,
+  "not_run": 535,
+  "errors": {
+    "aborted": 1
+  },
+  "refusals": {},
+  "block_spend_usd": 0.385393,
+  "cap_usd": 10.7,
+  "stop": "aborted",
+  "hashes": {
+    "manifest": "5e4a1dbf4fd7e926d42371da4d4a70166d65a95aaa88da2c97591a5593349797",
+    "predicates": "4737b1caa0823fe0fab1cb3f5446c94db6cdbf88782f847668c65adcc77afb38",
+    "docs_tree": "543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5"
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/P2/outcomes-dose-v0.jsonl"
+}
+exit launch 2
+2026-11-13T20:07:50Z
+  block stopped: harness abort on dose|D271f119a|subset_5|sol|r2 (detail in the red-side error log)
+{
+  "block": "dose",
+  "cells": 576,
+  "skipped_cells": {},
+  "skipped_finished": 40,
+  "completed": 10,
+  "not_run": 525,
+  "errors": {
+    "aborted": 1
+  },
+  "refusals": {},
+  "block_spend_usd": 0.456072,
+  "cap_usd": 10.7,
+  "stop": "aborted",
+  "hashes": {
+    "manifest": "5e4a1dbf4fd7e926d42371da4d4a70166d65a95aaa88da2c97591a5593349797",
+    "predicates": "4737b1caa0823fe0fab1cb3f5446c94db6cdbf88782f847668c65adcc77afb38",
+    "docs_tree": "543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5"
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/P2/outcomes-dose-v0.jsonl",
+  "retry_pass": {
+    "candidates": 0,
+    "reasked": 0
+  }
+}
+exit retry 2
+2026-11-13T20:08:42Z

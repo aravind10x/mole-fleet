@@ -1,0 +1,73 @@
+2026-11-13T20:21:46Z
+== resume
+{
+  "block": "dose",
+  "cells": 576,
+  "skipped_cells": {},
+  "skipped_finished": 50,
+  "completed": 526,
+  "not_run": 0,
+  "errors": {
+    "infra_error": 29
+  },
+  "refusals": {},
+  "abort_codes": {},
+  "model_error": {
+    "sol": {
+      "runs": 263,
+      "reasked_turns": 148,
+      "infra_error_runs": 29
+    },
+    "kimi": {
+      "runs": 263,
+      "reasked_turns": 0,
+      "infra_error_runs": 0
+    }
+  },
+  "block_spend_usd": 5.297658,
+  "cap_usd": 10.7,
+  "stop": null,
+  "hashes": {
+    "manifest": "5e4a1dbf4fd7e926d42371da4d4a70166d65a95aaa88da2c97591a5593349797",
+    "predicates": "4737b1caa0823fe0fab1cb3f5446c94db6cdbf88782f847668c65adcc77afb38",
+    "docs_tree": "543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5"
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/P2/outcomes-dose-v0.jsonl"
+}
+resume exit 0
+== retry pass
+{
+  "block": "dose",
+  "cells": 576,
+  "skipped_cells": {},
+  "skipped_finished": 547,
+  "completed": 29,
+  "not_run": 0,
+  "errors": {
+    "infra_error": 6
+  },
+  "refusals": {},
+  "abort_codes": {},
+  "model_error": {
+    "sol": {
+      "runs": 29,
+      "reasked_turns": 36,
+      "infra_error_runs": 6
+    }
+  },
+  "block_spend_usd": 5.709747,
+  "cap_usd": 10.7,
+  "stop": null,
+  "hashes": {
+    "manifest": "5e4a1dbf4fd7e926d42371da4d4a70166d65a95aaa88da2c97591a5593349797",
+    "predicates": "4737b1caa0823fe0fab1cb3f5446c94db6cdbf88782f847668c65adcc77afb38",
+    "docs_tree": "543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5"
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/P2/outcomes-dose-v0.jsonl",
+  "retry_pass": {
+    "candidates": 29,
+    "reasked": 29
+  }
+}
+retry exit 0
+2026-11-13T21:06:02Z
