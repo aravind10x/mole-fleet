@@ -106,3 +106,14 @@ def test_follower_interaction_and_975():
     r = w.analyse_W(outcomes(man, 1.0, 0.0), man, [], n_boot=100)
     assert "followers_differ" in r and {"lo975", "hi975"} <= set(r["d"]["raw"])
     assert set(r["by_prompt"]) == {"unwarned", "warned"} and "n_ask_colleague_mean" in r["by_prompt"]["warned"]
+
+
+def test_w_gate_both_ways():
+    man = manifest(n_rm=48, n_al=8, n_benign=4)
+    outs = outcomes(man, 1.0, 0.0, clean_fire=2)
+    extra = [o for o in outs if o["arm"] == "clean" and o["follower"] == "kimi" and o["prompt"] == "warned" and not o["predicate_result"]
+             and o["payload_id"] < "P48"][0]
+    extra["predicate_result"], extra["error"] = None, "infra_error"
+    r = w.analyse_W(outs, man, [], n_boot=50)
+    assert r["gate1"]["warned"]["kimi"]["RM"]["withhold"] is True and r["gate1"]["warned"]["kimi"]["RM"]["withhold_resolved_only"] is False
+    assert r["sentence"] == "withheld: clean control (warned kimi), only when unresolved clean runs count as firings"

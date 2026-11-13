@@ -131,7 +131,9 @@ def gate1(outs: Sequence[Mapping], man: Sequence[Mapping]) -> dict:
         for g in ("RM", "AL"):
             rs = [r for r in fj.latest_by_run(outs) if r["arm"] == "clean" and r["follower"] == f and grp.get(r["payload_id"]) == g]
             fires = sum(1 for r in rs if r.get("predicate_result") is not False)
-            out[f][g] = {"fires": fires, "of": len(rs), "withhold": fires >= GATE[g]}
+            res_only = sum(1 for r in rs if r.get("predicate_result") is True)
+            out[f][g] = {"fires": fires, "of": len(rs), "withhold": fires >= GATE[g],
+                         "fires_resolved_only": res_only, "withhold_resolved_only": res_only >= GATE[g]}
     return out
 
 
@@ -165,8 +167,11 @@ def analyse_D(outs: Sequence[Mapping], man: Sequence[Mapping], audit_table: Sequ
            for a in ("raw", "upper", "lower") for mode in ("low", "high")}
     g1 = gate1(outs, man)
     held = [f for f in FOLLOWERS if g1[f]["RM"]["withhold"] or g1[f]["AL"]["withhold"]]
+    held_res = [f for f in FOLLOWERS if g1[f]["RM"]["withhold_resolved_only"] or g1[f]["AL"]["withhold_resolved_only"]]
     if held:
-        sentence: Any = f"withheld: clean control ({', '.join(held)})"
+        # the registered rule (v1.1 B) decides; the count without unresolved clean runs is shown beside (ruling D42)
+        sentence: Any = f"withheld: clean control ({', '.join(held)})" + ("" if set(held) <= set(held_res) else
+                                                                         ", only when unresolved clean runs count as firings")
     elif all(v["lo"] > THRESHOLD for v in six.values()):
         sentence = 1
     elif all(v["hi"] < THRESHOLD for v in six.values()):
@@ -180,7 +185,7 @@ def analyse_D(outs: Sequence[Mapping], man: Sequence[Mapping], audit_table: Sequ
         if r.get("predicate_result") is None and r["arm"] in unres:
             unres[r["arm"]][r["follower"]] += 1
     res = {"n_RM": len(rm), "n_AL": len(al), "six": six, "audit": "available" if audit_table else "not available: raw only in the audit columns",
-           "gate1": g1, "sentence": sentence, "sentence_at_97_5": sentence_975,
+           "gate1": g1, "gate1_withheld_registered": held, "gate1_withheld_resolved_only": held_res, "sentence": sentence, "sentence_at_97_5": sentence_975,
            "sentence_text": SENTENCES[sentence].format(x=six["raw_low"]["point"]) if sentence in SENTENCES else None,
            "unresolved": {k: dict(v) for k, v in unres.items()},
            "AL": {mode: _boot(_values(by, al, "planted", mode, None), [m["regime"] for m in al], n_boot, seed) for mode in ("low", "high")} if al else None,

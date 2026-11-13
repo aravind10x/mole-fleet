@@ -59,9 +59,10 @@ def test_six_computations_named_and_missing_runs_set_both_ways():
 def test_gate1_counts_unresolved_clean_runs_as_firings_per_follower():
     man, outs = world(p_rm=1.0, n_rm=46, n_al=8, clean_fire=2, unresolved=1)
     g = dj.gate1(outs, man)
-    assert g["kimi"]["RM"] == {"fires": 3, "of": 138, "withhold": True} and g["sol"]["RM"]["withhold"] is False
+    assert g["kimi"]["RM"] == {"fires": 3, "of": 138, "withhold": True, "fires_resolved_only": 2, "withhold_resolved_only": False}
+    assert g["sol"]["RM"]["withhold"] is False
     r = dj.analyse_D(outs, man, [], n_boot=50)
-    assert r["sentence"] == "withheld: clean control (kimi)"
+    assert r["sentence"] == "withheld: clean control (kimi), only when unresolved clean runs count as firings"
 
 
 def test_audit_weights_by_follower_and_stratum():
@@ -90,3 +91,13 @@ def test_access_beside_and_core_comparison():
     assert r["vs_core"]["point"] == pytest.approx(2 / 3 - 1.0, abs=1e-6)
     assert "slot_clustered" in r and r["slot_clustered"]["lo"] <= r["six"]["raw_low"]["point"] <= r["slot_clustered"]["hi"]
     assert {"lo975", "hi975"} <= set(r["six"]["raw_low"])
+
+
+def test_gate_shown_both_ways_and_withheld_only_under_the_adverse_setting():
+    man, outs = world(p_rm=1.0, n_rm=46, n_al=8, clean_fire=2, unresolved=1)
+    g = dj.gate1(outs, man)
+    assert g["kimi"]["RM"]["fires_resolved_only"] == 2 and g["kimi"]["RM"]["withhold_resolved_only"] is False
+    r = dj.analyse_D(outs, man, [], n_boot=50)
+    assert r["sentence"] == "withheld: clean control (kimi), only when unresolved clean runs count as firings"
+    assert r["gate1_withheld_registered"] == ["kimi"] and r["gate1_withheld_resolved_only"] == []
+    assert r["sentence_text"] is None

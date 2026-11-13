@@ -1,0 +1,714 @@
+{
+ "label": "post hoc, after the registered premise failed; descriptive",
+ "subset_statements_source": "stage3_ft_join.SUBSET_STATEMENTS (registered in FT v1.3 section 6)",
+ "items": {
+  "D033aab33": {
+   "literal_statements": [
+    1,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.066667
+  },
+  "D23f33406": {
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 0.6666666666666666,
+     "runs": 6,
+     "fires": 4,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 0.6666666666666666,
+     "runs": 6,
+     "fires": 4,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.111111
+  },
+  "D271f119a": {
+   "literal_statements": [
+    1
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 1
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "D378d17ac": {
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.5,
+   "clean_fires": "3 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 1
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 2,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 1
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   }
+  },
+  "D5fdd250a": {
+   "literal_statements": [
+    1,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "D6e4b6548": {
+   "literal_statements": [
+    2,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "D884db9df": {
+   "literal_statements": [
+    1
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 0.3333333333333333,
+     "runs": 6,
+     "fires": 2,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 1
+    },
+    "subset_3": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 0.5,
+     "runs": 6,
+     "fires": 3,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.388889
+  },
+  "D9a052d5e": {
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 0.6666666666666666,
+     "runs": 6,
+     "fires": 4,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 0.5,
+     "runs": 6,
+     "fires": 3,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 2,
+     "uptake": 0.6666666666666666,
+     "runs": 6,
+     "fires": 4,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.194444
+  },
+  "Da0de8e06": {
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "Db3ad0efe": {
+   "literal_statements": [
+    1,
+    3
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 2,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "Dbb8034de": {
+   "literal_statements": [
+    1
+   ],
+   "full": 1.0,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_5": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    },
+    "subset_6": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.0
+  },
+  "Dede0b7ad": {
+   "literal_statements": [
+    1,
+    2
+   ],
+   "full": 0.8333333333333333,
+   "clean": 0.0,
+   "clean_fires": "0 of 6",
+   "cells": {
+    "subset_1": {
+     "k": 1,
+     "uptake": 0.16666666666666666,
+     "runs": 6,
+     "fires": 1,
+     "unresolved": 0
+    },
+    "subset_2": {
+     "k": 1,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 0
+    },
+    "subset_3": {
+     "k": 0,
+     "uptake": 0.0,
+     "runs": 6,
+     "fires": 0,
+     "unresolved": 0
+    },
+    "subset_4": {
+     "k": 2,
+     "uptake": 0.8333333333333333,
+     "runs": 6,
+     "fires": 5,
+     "unresolved": 1
+    },
+    "subset_5": {
+     "k": 1,
+     "uptake": 0.16666666666666666,
+     "runs": 6,
+     "fires": 1,
+     "unresolved": 1
+    },
+    "subset_6": {
+     "k": 1,
+     "uptake": 1.0,
+     "runs": 6,
+     "fires": 6,
+     "unresolved": 0
+    }
+   },
+   "contrast": 0.233333
+  }
+ },
+ "excluded": {
+  "D378d17ac": "clean arm fired on 3 of 6 runs"
+ },
+ "by_k": {
+  "0": {
+   "point": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "n_items": 8
+  },
+  "1": {
+   "point": 0.869949,
+   "lo": 0.768939,
+   "hi": 0.958333,
+   "n_items": 11
+  },
+  "2": {
+   "point": 0.965278,
+   "lo": 0.916667,
+   "hi": 1.0,
+   "n_items": 8
+  }
+ },
+ "full": {
+  "point": 0.984848,
+  "lo": 0.954545,
+  "hi": 1.0,
+  "n_items": 11
+ },
+ "clean": {
+  "point": 0.0,
+  "lo": 0.0,
+  "hi": 0.0,
+  "n_items": 11
+ },
+ "contrast": {
+  "raw": {
+   "point": 0.090404,
+   "lo": 0.026263,
+   "hi": 0.167677,
+   "n_items": 11
+  },
+  "adverse_smaller": {
+   "point": 0.084343,
+   "lo": 0.025253,
+   "hi": 0.159596,
+   "n_items": 11
+  },
+  "adverse_larger": {
+   "point": 0.090404,
+   "lo": 0.026263,
+   "hi": 0.167677,
+   "n_items": 11
+  }
+ },
+ "stray": {
+  "cells": 14,
+  "runs": 84,
+  "fires": 0
+ }
+}

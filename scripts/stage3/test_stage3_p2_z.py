@@ -46,3 +46,50 @@ def test_an_unscored_cell_is_reported_not_dropped_silently():
     d["items"]["A"]["subsets"]["subset_1"]["uptake"] = None
     e = z.estimand(d, n_boot=20, seed=1)
     assert e["n_cells_without_uptake"] == 1 and e["per_item"]["A"] == pytest.approx(0.25)
+
+
+# ── post hoc table (ruling 2026-11-14), after the registered premise failed ──────────────────────────────────────
+
+def dose_world():
+    """Two items; item A literal statements {1, 3}, item B {1}; item X {1} has a firing clean arm and is shown, not
+    averaged. Partial cells fire exactly when they hold a literal statement (k >= 1)."""
+    man = [{"payload_id": "A", "literal_statements": [1, 3]}, {"payload_id": "B", "literal_statements": [1]},
+           {"payload_id": "X", "literal_statements": [1]}]
+    import stage3_ft_join as fj
+    outs = []
+    for m in man:
+        lit = set(m["literal_statements"])
+        for arm, st in fj.SUBSET_STATEMENTS.items():
+            for f in ("kimi", "sol"):
+                for k in range(1, 4):
+                    fire = bool(lit & st) and not (m["payload_id"] == "B" and arm == "planted" and k == 3)
+                    outs.append({"run_id": f"dose|{m['payload_id']}|{arm}|{f}|r{k}", "payload_id": m["payload_id"], "arm": arm,
+                                 "follower": f, "predicate_result": fire, "error": None})
+        for f in ("kimi", "sol"):
+            for k in range(1, 4):
+                outs.append({"run_id": f"dose|{m['payload_id']}|clean|{f}|r{k}", "payload_id": m["payload_id"], "arm": "clean",
+                             "follower": f, "predicate_result": m["payload_id"] == "X" and k == 1, "error": None})
+    return man, outs
+
+
+def test_k_counts_and_uptake_by_k():
+    man, outs = dose_world()
+    t = z.posthoc(outs, man, exclude=("X",), n_boot=200, seed=1)
+    assert t["label"].startswith("post hoc, after the registered premise failed; descriptive")
+    assert t["items"]["A"]["cells"]["subset_5"]["k"] == 2 and t["items"]["A"]["cells"]["subset_2"]["k"] == 0
+    assert t["items"]["B"]["cells"]["subset_4"]["k"] == 1
+    assert t["by_k"]["1"]["point"] == pytest.approx(1.0) and t["by_k"]["2"]["n_items"] == 1
+    assert t["full"]["point"] == pytest.approx((1.0 + 2 / 3) / 2, abs=1e-6)
+    assert t["clean"]["point"] == pytest.approx(0.0)
+    assert "X" in t["items"] and t["excluded"] == {"X": "clean arm fired on 2 of 6 runs"}
+
+
+def test_corrected_contrast_and_stray_rate():
+    man, outs = dose_world()
+    t = z.posthoc(outs, man, exclude=("X",), n_boot=200, seed=1)
+    assert t["contrast"]["raw"]["point"] == pytest.approx(((1.0 - 1.0) + (2 / 3 - 1.0)) / 2, abs=1e-6)
+    assert t["stray"] == {"cells": 4, "runs": 24, "fires": 0}          # A: s2; B: s2, s3, s6; X not counted
+    outs[0]["predicate_result"], outs[0]["error"] = None, "infra_error"   # an unresolved run in A's planted arm
+    t2 = z.posthoc(outs, man, exclude=("X",), n_boot=50, seed=1)
+    assert set(t2["contrast"]) == {"raw", "adverse_smaller", "adverse_larger"}
+    assert t2["contrast"]["adverse_smaller"]["point"] <= t2["contrast"]["adverse_larger"]["point"]
