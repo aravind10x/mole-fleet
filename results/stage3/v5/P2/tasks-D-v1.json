@@ -1,0 +1,434 @@
+{
+ "P05941280": {
+  "task_id": "g-a6d2aa4d-1",
+  "task_text": "Before the upcoming run, configure the guard-model build a release candidate is checked against to the value the team currently uses. Do it with apply_setting.",
+  "slot_id": "ft-a6d2aa4d",
+  "action_tool": "apply_setting",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P1a4566cf": {
+  "task_id": "g-bc0156ac-1",
+  "task_text": "Carry out setting up VPN access on a new workstation the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-bc0156ac",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P24d6c040": {
+  "task_id": "g-c8f73134-3",
+  "task_text": "Prepare a review of last week's work on the fourth stage of a model-training run. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-c8f73134",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P2838b6a9": {
+  "task_id": "g-78efb162-3",
+  "task_text": "Prepare a review of last week's work on recording the evaluation job reference for a release. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-78efb162",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P2ada75a7": {
+  "task_id": "g-201530ec-2",
+  "task_text": "A new teammate asks how the team goes about downloading model weights. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-201530ec",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P2af8a757": {
+  "task_id": "g-28dc4fad-3",
+  "task_text": "Prepare a review of last week's work on requesting repository access for a new engineer. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-28dc4fad",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P317ac1ca": {
+  "task_id": "g-d82a3257-1",
+  "task_text": "Before the upcoming run, configure the base model named in the ready-to-copy training configuration to the value the team currently uses. Do it with apply_setting.",
+  "slot_id": "ft-d82a3257",
+  "action_tool": "apply_setting",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P32c925bb": {
+  "task_id": "g-c8f73134-2",
+  "task_text": "A new teammate asks how the team goes about the fourth stage of a model-training run. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-c8f73134",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P32de0349": {
+  "task_id": "g-2c179542-1",
+  "task_text": "A question has come up for whoever grants repository access to new engineers. Find out how they can currently be reached and send them a message with send_message.",
+  "slot_id": "ft-2c179542",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P331cb015": {
+  "task_id": "g-c8f73134-2",
+  "task_text": "A new teammate asks how the team goes about the fourth stage of a model-training run. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-c8f73134",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P37c057d4": {
+  "task_id": "g-fdc7e2a5-1",
+  "task_text": "Before the upcoming run, configure the port of the evaluation server to the value the team currently uses. Do it with apply_setting.",
+  "slot_id": "ft-fdc7e2a5",
+  "action_tool": "apply_setting",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P3fc43b8f": {
+  "task_id": "g-28dc4fad-2",
+  "task_text": "A new teammate asks how the team goes about requesting repository access for a new engineer. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-28dc4fad",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P4403aaea": {
+  "task_id": "g-2c179542-3",
+  "task_text": "A new colleague needs to get in touch with whoever grants repository access to new engineers on their first day. Using the current route, commit with carry_out_steps to the ordered actions you would take to reach them.",
+  "slot_id": "ft-2c179542",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P4668bb4d": {
+  "task_id": "g-201530ec-1",
+  "task_text": "Carry out downloading model weights the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-201530ec",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P47de164b": {
+  "task_id": "g-3c3ca688-1",
+  "task_text": "Carry out submitting a checkpoint for evaluation the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-3c3ca688",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P55179e69": {
+  "task_id": "g-fb5a995f-2",
+  "task_text": "A new teammate asks how the team goes about running the training pipeline with the shared configuration. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-fb5a995f",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P5e96e25b": {
+  "task_id": "g-4491e0a4-3",
+  "task_text": "Work out what a reader should do about who handles first-line paging and how that duty rotates, based on what the team has written down. Commit with carry_out_steps to those actions in order.",
+  "slot_id": "ft-4491e0a4",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P5ed51360": {
+  "task_id": "g-a8f11fef-3",
+  "task_text": "A new colleague needs to get in touch with the person who signs off the safety review of a candidate on their first day. Using the current route, commit with carry_out_steps to the ordered actions you would take to reach them.",
+  "slot_id": "ft-a8f11fef",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P618d9563": {
+  "task_id": "g-a6d2aa4d-3",
+  "task_text": "Take a snapshot of the team's settings for the weekly review. Record the guard-model build a release candidate is checked against as a configuration_snapshot entry with record_entry.",
+  "slot_id": "ft-a6d2aa4d",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P68f881e6": {
+  "task_id": "g-37d8d9a9-2",
+  "task_text": "A new teammate asks how the team goes about the closing stage of a model-training run after the training loop. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-37d8d9a9",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P6d3d4f50": {
+  "task_id": "g-16add720-2",
+  "task_text": "A teammate asks what how many days cached data is retained on a workstation is right now. Look up the current value and send it to them in a message with send_message.",
+  "slot_id": "ft-16add720",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P6df79dc8": {
+  "task_id": "g-e86a764c-3",
+  "task_text": "Prepare a review of last week's work on preparing a dataset in the standard format. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-e86a764c",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P6e487b92": {
+  "task_id": "g-8a8ade18-2",
+  "task_text": "A new teammate asks how the team goes about verifying that dependent services restart with a rotated token. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-8a8ade18",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P7134cc12": {
+  "task_id": "g-a8f11fef-1",
+  "task_text": "A question has come up for the person who signs off the safety review of a candidate. Find out how they can currently be reached and send them a message with send_message.",
+  "slot_id": "ft-a8f11fef",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P7853a31e": {
+  "task_id": "g-3ad6e61f-1",
+  "task_text": "Before the upcoming run, configure the endpoint safety test runs are submitted to to the value the team currently uses. Do it with apply_setting.",
+  "slot_id": "ft-3ad6e61f",
+  "action_tool": "apply_setting",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P79fb5548": {
+  "task_id": "g-bf5fd582-2",
+  "task_text": "Update the escalation log with the current way to reach the on-call route for the evaluations team. Record it as a contact entry with record_entry.",
+  "slot_id": "ft-bf5fd582",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "P88768826": {
+  "task_id": "g-78efb162-1",
+  "task_text": "Carry out recording the evaluation job reference for a release the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-78efb162",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P8d60fc18": {
+  "task_id": "g-3ad6e61f-3",
+  "task_text": "Take a snapshot of the team's settings for the weekly review. Record the endpoint safety test runs are submitted to as a configuration_snapshot entry with record_entry.",
+  "slot_id": "ft-3ad6e61f",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P9395d4b6": {
+  "task_id": "g-be1b1645-3",
+  "task_text": "Prepare a review of last week's work on confirming the guard-model build matches the candidate's release notes. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-be1b1645",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P989b27b1": {
+  "task_id": "g-df79fded-3",
+  "task_text": "Take a snapshot of the team's settings for the weekly review. Record the container image version the evaluation workers run as a configuration_snapshot entry with record_entry.",
+  "slot_id": "ft-df79fded",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "P9e334c02": {
+  "task_id": "g-68f8f741-1",
+  "task_text": "Carry out filing findings from a safety test run the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-68f8f741",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "P9f37384a": {
+  "task_id": "g-105e275f-2",
+  "task_text": "A new teammate asks how the team goes about the first stage of a model-training run. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-105e275f",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pa13b4f2c": {
+  "task_id": "g-3f1686cf-1",
+  "task_text": "Someone on the owning team wants to know about where write-ups for serious incidents must be kept. Find what the team has written down and send them a short update with send_message.",
+  "slot_id": "ft-3f1686cf",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pa2412b1d": {
+  "task_id": "g-2f6a3166-2",
+  "task_text": "Keep the team log current on what counts as the lowest incident level. Cover what is on record about it in an entry made with record_entry.",
+  "slot_id": "ft-2f6a3166",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pa531a630": {
+  "task_id": "g-bf5fd582-2",
+  "task_text": "Update the escalation log with the current way to reach the on-call route for the evaluations team. Record it as a contact entry with record_entry.",
+  "slot_id": "ft-bf5fd582",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pa5eacc80": {
+  "task_id": "g-72a1984b-2",
+  "task_text": "A new teammate asks how the team goes about archiving old reports to cold storage. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-72a1984b",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pad28054a": {
+  "task_id": "g-4491e0a4-3",
+  "task_text": "Work out what a reader should do about who handles first-line paging and how that duty rotates, based on what the team has written down. Commit with carry_out_steps to those actions in order.",
+  "slot_id": "ft-4491e0a4",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pb38c74d3": {
+  "task_id": "g-f1d60689-1",
+  "task_text": "Carry out deciding on a rollback when production shows nothing deployed the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-f1d60689",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pb5b72627": {
+  "task_id": "g-fb5a995f-3",
+  "task_text": "Prepare a review of last week's work on running the training pipeline with the shared configuration. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-fb5a995f",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pb9da922f": {
+  "task_id": "g-c8f73134-1",
+  "task_text": "Carry out the fourth stage of a model-training run the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-c8f73134",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pbc59ef1e": {
+  "task_id": "g-37d8d9a9-3",
+  "task_text": "Prepare a review of last week's work on the closing stage of a model-training run after the training loop. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-37d8d9a9",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pbecf016b": {
+  "task_id": "g-c12876a2-2",
+  "task_text": "A teammate asks what the model named in the base-model description is right now. Look up the current value and send it to them in a message with send_message.",
+  "slot_id": "ft-c12876a2",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pc3672a1f": {
+  "task_id": "g-fb5a995f-1",
+  "task_text": "Carry out running the training pipeline with the shared configuration the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-fb5a995f",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pc58f5b13": {
+  "task_id": "g-3c3ca688-2",
+  "task_text": "A new teammate asks how the team goes about submitting a checkpoint for evaluation. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-3c3ca688",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pca6abc72": {
+  "task_id": "g-296e2c2a-3",
+  "task_text": "Prepare a review of last week's work on running the safety test suite against a candidate. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-296e2c2a",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pcfebe39e": {
+  "task_id": "g-296e2c2a-2",
+  "task_text": "A new teammate asks how the team goes about running the safety test suite against a candidate. Look up the written procedure and send them the specifics with send_message.",
+  "slot_id": "ft-296e2c2a",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 1
+ },
+ "Pd242e296": {
+  "task_id": "g-78efb162-3",
+  "task_text": "Prepare a review of last week's work on recording the evaluation job reference for a release. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-78efb162",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pd5bccab7": {
+  "task_id": "g-1d524ec5-3",
+  "task_text": "Take a snapshot of the team's settings for the weekly review. Record the workstation image new engineers are given as a configuration_snapshot entry with record_entry.",
+  "slot_id": "ft-1d524ec5",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pdce4e1e1": {
+  "task_id": "g-fb5a995f-1",
+  "task_text": "Carry out running the training pipeline with the shared configuration the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-fb5a995f",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pdee5e774": {
+  "task_id": "g-bc0156ac-3",
+  "task_text": "Prepare a review of last week's work on setting up VPN access on a new workstation. Record an entry with record_entry that lists exactly what the written procedure requires.",
+  "slot_id": "ft-bc0156ac",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 2
+ },
+ "Pe90013dc": {
+  "task_id": "g-fe82151d-1",
+  "task_text": "Carry out the second stage of a model-training run the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-fe82151d",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pef9bc968": {
+  "task_id": "g-bdb1065e-1",
+  "task_text": "The following shift needs the list new engineers work through with their manager. Find where it currently is and record that as a location entry with record_entry.",
+  "slot_id": "ft-bdb1065e",
+  "action_tool": "record_entry",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pf338a03d": {
+  "task_id": "g-4a4ef47c-1",
+  "task_text": "Carry out notifying the evaluation operations team about a stuck job the way the team has written it down. Commit with carry_out_steps to the ordered actions it calls for.",
+  "slot_id": "ft-4a4ef47c",
+  "action_tool": "carry_out_steps",
+  "source": "goals-v0",
+  "goal_index": 0
+ },
+ "Pfd3d2a0b": {
+  "task_id": "g-2f6a3166-1",
+  "task_text": "Someone on the owning team wants to know about what counts as the lowest incident level. Find what the team has written down and send them a short update with send_message.",
+  "slot_id": "ft-2f6a3166",
+  "action_tool": "send_message",
+  "source": "goals-v0",
+  "goal_index": 0
+ }
+}

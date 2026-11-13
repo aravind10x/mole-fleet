@@ -134,15 +134,83 @@ def load_slots(path: Path) -> dict[str, dict]:
     return {r["slot_id"]: r for r in _load_json_list(path, ("slots", "records"))}
 
 
-def load_predicates(path: Path) -> Any:
-    spec = importlib.util.spec_from_file_location("ft_predicates_by_path", str(path))
+def _load_module(path: Path, name: str) -> Any:
+    """Import a red-side module by path, with its own directory on sys.path (it may import its siblings)."""
+    d = str(Path(path).resolve().parent)
+    if d not in sys.path:
+        sys.path.insert(0, d)
+    spec = importlib.util.spec_from_file_location(name, str(path))
     if spec is None or spec.loader is None:
-        raise ValueError(f"cannot import predicates from {path}")
+        raise ValueError(f"cannot import {path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    if not callable(getattr(mod, "evaluate", None)):
-        raise ValueError(f"{path} exposes no evaluate(predicate_id, action_log)")
     return mod
+
+
+SCORERS = ("evaluate", "evaluate_any")
+
+
+def load_predicates(path: Path, scorer: str = "evaluate") -> Any:
+    mod = _load_module(path, f"ft_predicates_by_path_{scorer}")
+    if not callable(getattr(mod, scorer, None)):
+        raise ValueError(f"{path} exposes no {scorer}(predicate_id, action_log)")
+    return mod
+
+
+def load_access(path: Path) -> Any:
+    mod = _load_module(path, "ft_access_by_path")
+    if not callable(getattr(mod, "access", None)):
+        raise ValueError(f"{path} exposes no access(payload_id, arm, tool_results)")
+    return mod.access
+
+
+def load_task_map(path: Path) -> dict[str, dict]:
+    """{payload_id: task record} (P2: D's drawn goal per payload; records carry task_id, task_text, slot_id, action_tool)."""
+    tm = json.loads(Path(path).read_text(encoding="utf-8"))
+    for pid, t in tm.items():
+        missing = [k for k in ("task_id", "task_text", "slot_id", "action_tool") if k not in t]
+        if missing:
+            raise ValueError(f"task map {pid}: missing {missing}")
+    return tm
+
+
+def apply_task_map(cells: Sequence["Cell"], skipped: Mapping[str, int], tasks: dict, tm: Mapping[str, Mapping]) -> tuple[list, dict]:
+    import dataclasses
+    out, sk = [], dict(skipped)
+    for c in cells:
+        if c.payload_id not in tm:
+            sk["not_in_task_map"] = sk.get("not_in_task_map", 0) + 1
+            continue
+        out.append(dataclasses.replace(c, task_id=tm[c.payload_id]["task_id"]))
+    for t in tm.values():
+        tasks[t["task_id"]] = dict(t)
+    return out, sk
+
+
+ACCESS_ARMS = ("planted", "clean")
+
+
+def access_fields(access_fn: Callable, payload_id: str, arm: str, events: Sequence[Mapping], action_log: Sequence[Mapping],
+                  fires: Callable[[Sequence[Mapping]], bool] | None) -> dict:
+    """Access (v1 section 2; v1.1 section D): whether `access_fn` finds the slot's line in the tool results returned to
+    the follower before (in an earlier turn than) the run's first state-changing action, its last one, and, where the
+    scorer fires, the first action at which it fires (scoring prefixes of the action log). A run with no state-changing
+    action: all results returned. Only bools leave this function; the results are passed through, never stored."""
+    acts = [i for i, e in enumerate(action_log) if e.get("tool") in h.SUBSTANTIVE_ACTIONS and e.get("kind") == "action"]
+
+    def before(turn: int | None) -> list[str]:
+        return [str(r.get("text") or "") for ev in events if ev.get("event") == "tool_results"
+                and (turn is None or int(ev.get("turn", 0)) < turn) for r in ev.get("results") or []]
+    first = action_log[acts[0]]["turn"] if acts else None
+    last = action_log[acts[-1]]["turn"] if acts else None
+    out = {"access_first_action": bool(access_fn(payload_id, arm, before(first))),
+           "access_last_action": bool(access_fn(payload_id, arm, before(last))), "access_first_firing": None}
+    if fires is not None:
+        for i in acts:
+            if fires(list(action_log[: i + 1])):
+                out["access_first_firing"] = bool(access_fn(payload_id, arm, before(action_log[i]["turn"])))
+                break
+    return out
 
 
 # ── cells ────────────────────────────────────────────────────────────────────────────────────────
@@ -358,13 +426,24 @@ class BlockConfig:
     expect_predicates_sha256: str | None = None
     expect_docs_tree_sha256: str | None = None
     retry_unresolved: bool = False
+    scorer: str = "evaluate"                 # P2: "evaluate_any" for D and H (red's predicates_p2.py)
+    access: Path | None = None               # P2: red's access_p2.py; access fields on planted and clean runs
+    task_map: Path | None = None             # P2: {payload_id: task record}; payloads outside it are skipped
+    expect_access_sha256: str | None = None
+    expect_task_map_sha256: str | None = None
+    limit_per_follower: int | None = None    # P2 smokes: the first N runs of the order per follower, nothing else recorded
 
     def __post_init__(self):
+        if self.limit_per_follower is not None and self.limit_per_follower < 1:
+            raise ValueError("limit_per_follower: 1 or more")
+        if self.scorer not in SCORERS:
+            raise ValueError(f"scorer: one of {SCORERS}")
         if self.retry_unresolved and not self.resume:
             raise ValueError("--retry-unresolved continues an existing block: pass --resume too")
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", self.block):
             raise ValueError("block name: letters, digits, '_', '.', '-' only")
-        for name in ("expect_manifest_sha256", "expect_predicates_sha256", "expect_docs_tree_sha256"):
+        for name in ("expect_manifest_sha256", "expect_predicates_sha256", "expect_docs_tree_sha256", "expect_access_sha256",
+                     "expect_task_map_sha256"):
             v = getattr(self, name)
             if v is not None and (len(v) < 8 or not re.fullmatch(r"[0-9a-f]+", v)):
                 raise ValueError(f"{name}: a lower-case hex sha256 or a prefix of at least 8 characters")
@@ -412,9 +491,12 @@ def check_hashes(cfg: BlockConfig) -> dict:
     """The actual hashes; raises HashMismatch when an expected one (full or a prefix of 8+) differs."""
     got = {"manifest": sha256_file(cfg.manifest),
            "predicates": sha256_file(cfg.predicates) if cfg.predicates and Path(cfg.predicates).exists() else None,
-           "docs_tree": docs_tree_sha256(cfg.docs_root) if Path(cfg.docs_root).is_dir() else None}
+           "docs_tree": docs_tree_sha256(cfg.docs_root) if Path(cfg.docs_root).is_dir() else None,
+           "access": sha256_file(cfg.access) if cfg.access and Path(cfg.access).exists() else None,
+           "task_map": sha256_file(cfg.task_map) if cfg.task_map and Path(cfg.task_map).exists() else None}
     for key, want in (("manifest", cfg.expect_manifest_sha256), ("predicates", cfg.expect_predicates_sha256),
-                      ("docs_tree", cfg.expect_docs_tree_sha256)):
+                      ("docs_tree", cfg.expect_docs_tree_sha256), ("access", cfg.expect_access_sha256),
+                      ("task_map", cfg.expect_task_map_sha256)):
         if want is not None and (got[key] is None or not got[key].startswith(want)):
             raise HashMismatch(f"{key}: expected {want}, found {(got[key] or 'missing')[:16]}")
     return got
@@ -590,14 +672,25 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
     manifest = load_manifest(cfg.manifest)
     tasks = load_tasks(cfg.tasks)
     slots = load_slots(cfg.slots) if Path(cfg.slots).exists() else {}
-    predicates = load_predicates(cfg.predicates) if cfg.predicates and any(r.get("predicate_id") for r in manifest) else None
+    predicates = load_predicates(cfg.predicates, cfg.scorer) if cfg.predicates and any(r.get("predicate_id") for r in manifest) else None
+    access_fn = load_access(cfg.access) if cfg.access else None
     cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
+    if cfg.task_map:
+        cells, skipped = apply_task_map(cells, skipped, tasks, load_task_map(cfg.task_map))
     cells = interleave(cells, seed=cfg.seed)
     latest = latest_records(out_path)
     if cfg.retry_unresolved and any(latest[c.run_id].get("error") in RERUNNABLE for c in cells if c.run_id in latest):
         # the retry pass follows a clean finish only (Z fix, 2026-11-14): a stopped block is resumed plainly first
         raise BlockStopped(f"{cfg.block}: latest records show a stop; --retry-unresolved runs only after a clean finish")
     todo = [c for c in cells if c.run_id not in latest or latest[c.run_id].get("error") in RERUNNABLE]
+    if cfg.limit_per_follower is not None:
+        seen: Counter = Counter()
+        kept = []
+        for c in todo:
+            if seen[c.follower] < cfg.limit_per_follower:
+                kept.append(c)
+                seen[c.follower] += 1
+        todo = kept
     retry_ids: set[str] = set()
     if cfg.retry_unresolved:
         # selection reads the error code and the retry mark only, never a verdict
@@ -700,7 +793,7 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 extra = _run_fields(ws, rec, cell, task, res, slots.get(task.get("slot_id")))
                 if cell.predicate_id and predicates is not None:
                     try:
-                        v = predicates.evaluate(cell.predicate_id, list(res.action_log))
+                        v = getattr(predicates, cfg.scorer)(cell.predicate_id, list(res.action_log))
                         if isinstance(v, bool):
                             pred = v
                         else:
@@ -712,6 +805,15 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 elif cell.predicate_id and predicates is None:
                     code = "predicate_error"
                     _log_error(cfg, cell.run_id, code, "no predicate module")
+                if access_fn is not None and cell.arm in ACCESS_ARMS:
+                    score = getattr(predicates, cfg.scorer) if predicates is not None and cell.predicate_id else None
+                    fires = (lambda lg, _f=score, _p=cell.predicate_id: _f(_p, lg) is True) if score else None
+                    try:
+                        extra.update(access_fields(access_fn, cell.payload_id, cell.arm, res.transcript, res.action_log, fires))
+                    except Exception as exc:  # noqa: BLE001
+                        extra.update({"access_first_action": None, "access_last_action": None, "access_first_firing": None,
+                                      "access_error": True})
+                        _log_error(cfg, cell.run_id, "access_error", f"{type(exc).__name__}: {exc}")
         async with lock:
             in_flight.pop(cell.run_id, None)
             cost = res.cost_usd if res else 0.0
@@ -778,6 +880,18 @@ def plan_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] | None
     tasks = load_tasks(cfg.tasks)
     slots = load_slots(cfg.slots) if Path(cfg.slots).exists() else {}
     cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
+    if cfg.task_map:
+        cells, skipped = apply_task_map(cells, skipped, tasks, load_task_map(cfg.task_map))
+    acc_stats: dict | None = None
+    if cfg.access:
+        afn = load_access(cfg.access)
+        ok, bad = 0, Counter()
+        for pid_arm in sorted({(c.payload_id, c.arm) for c in cells if c.arm in ACCESS_ARMS}):
+            try:
+                ok += int(isinstance(afn(pid_arm[0], pid_arm[1], []), bool))
+            except Exception as exc:  # noqa: BLE001
+                bad[type(exc).__name__] += 1
+        acc_stats = {"resolved": ok, "unresolved": dict(bad)}
     order = interleave(cells, seed=cfg.seed)
     runs: dict[str, dict[str, int]] = {}
     for c in cells:
@@ -812,10 +926,10 @@ def plan_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] | None
     pred_ids = sorted({c.predicate_id for c in cells if c.predicate_id})
     resolved, unresolved = 0, Counter()
     if pred_ids:
-        mod = load_predicates(cfg.predicates)
+        mod = load_predicates(cfg.predicates, cfg.scorer)
         for pid in pred_ids:
             try:
-                v = mod.evaluate(pid, [])
+                v = getattr(mod, cfg.scorer)(pid, [])
                 if isinstance(v, bool):
                     resolved += 1
                 else:
@@ -824,6 +938,7 @@ def plan_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] | None
                 unresolved[type(exc).__name__] += 1
     first = Counter((str(c.record.get("regime")), c.arm, c.follower) for c in order[: max(1, len(order) // 10)])
     plan = {"block": cfg.block, "runs": runs, "total_runs": len(cells), "skipped_cells": skipped, "hashes": hashes,
+            "scorer": cfg.scorer, "access": acc_stats, "tasks_distinct": len({c.task_id for c in cells}),
             "first_tenth_by_regime_arm_follower": {"|".join(k): v for k, v in sorted(first.items())},
             "workspaces": {"checked": ws_stats["checked"], "loaded": ws_stats["loaded"], "missing": ws_stats["missing"],
                            "missing_by_reason": dict(errors), "world_paths": ws_stats["world_paths"], "n_documents": dict(n_docs),
@@ -868,16 +983,24 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--retry-unresolved", action="store_true",
                     help="with --resume: re-ask once the runs whose latest code is an infrastructure error (never refusals)")
     ap.add_argument("--dry-run", action="store_true", help="plan and check only: no model call, nothing written")
+    ap.add_argument("--scorer", default="evaluate", choices=SCORERS)
+    ap.add_argument("--access", type=Path, help="red's access module (P2); access fields on planted and clean runs")
+    ap.add_argument("--task-map", type=Path, help="{payload_id: task record} (P2 D); payloads outside it are skipped")
+    ap.add_argument("--expect-access-sha256")
+    ap.add_argument("--expect-task-map-sha256")
+    ap.add_argument("--limit-per-follower", type=int, help="smokes: run only the first N runs of the order per follower")
     a = ap.parse_args(argv)
     cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
                       repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
                       runs_root=a.runs_root, predicates=a.predicates, out_dir=a.out_dir, resume=a.resume,
                       concurrency=a.concurrency, max_refusals=a.max_refusals, expect_manifest_sha256=a.expect_manifest_sha256,
                       expect_predicates_sha256=a.expect_predicates_sha256, expect_docs_tree_sha256=a.expect_docs_tree_sha256,
-                      retry_unresolved=a.retry_unresolved)
+                      retry_unresolved=a.retry_unresolved, scorer=a.scorer, access=a.access, task_map=a.task_map,
+                      expect_access_sha256=a.expect_access_sha256, expect_task_map_sha256=a.expect_task_map_sha256,
+                      limit_per_follower=a.limit_per_follower)
     if a.dry_run:
         p = plan_block(cfg)
-        return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] else 2
+        return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] and not (p["access"] or {}).get("unresolved") else 2
     try:
         s = asyncio.run(run_block(cfg))
     except BlockStopped as exc:

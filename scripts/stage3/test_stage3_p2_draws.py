@@ -164,3 +164,15 @@ def test_need_table_v1_counts(tmp_path):
     assert t["payloads"]["P2"]["need_weight_share_runnable"] == pytest.approx(0.1 / 0.75)
     assert t["n_empty"] == {"need": 1, "may_touch": 0}
     assert t["mean"]["need_weight_share_all"] == pytest.approx(0.05)
+
+
+def test_task_map_D_from_the_draw_and_goals(tmp_path):
+    slots, goals, man, bank, root, validity = world_v1(tmp_path)
+    d = pd.draw_D(pd.retained(man, validity), goals)
+    tm = pd.task_map_D(d, goals)
+    assert set(tm) == {"P1", "P2"}
+    for x in d["draws"]:
+        t = tm[x["payload_id"]]
+        g = next(g for g in goals if g["goal_id"] == x["goal_id"])
+        assert t == {"task_id": g["goal_id"], "task_text": g["goal_text"], "slot_id": g["slot_id"], "action_tool": g["action_tool"],
+                     "source": "goals-v0", "goal_index": x["goal_index"]}

@@ -224,6 +224,17 @@ def need_table_v1(kept: Sequence[Mapping], bank: Sequence[Mapping], slots: Mappi
                         "may_touch": sum(1 for r in rows.values() if r["n_may_touch"] == 0)}}
 
 
+def task_map_D(draw: Mapping, goals: Sequence[Mapping]) -> dict[str, dict]:
+    """The runner's task map for D: each payload's drawn goal as its task (the goal's text is the task text)."""
+    by = {g["goal_id"]: g for g in goals}
+    out = {}
+    for x in draw["draws"]:
+        g = by[x["goal_id"]]
+        out[x["payload_id"]] = {"task_id": g["goal_id"], "task_text": g["goal_text"], "slot_id": g["slot_id"],
+                                "action_tool": g["action_tool"], "source": "goals-v0", "goal_index": x["goal_index"]}
+    return out
+
+
 def main_v1(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="P2 v1 draws and need table on the retained payloads (ids and counts only).")
     ap.add_argument("--manifest", type=Path, default=PROJECT / "work" / "stage3" / "red" / "ft" / "cells-manifest.json")
@@ -286,6 +297,15 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "task-map-D":
+        out = P2 / "tasks-D-v1.json"
+        if out.exists():
+            raise SystemExit(f"{out} exists; never overwritten")
+        gl = [json.loads(x) for x in (P2 / "blue" / "goals-v0.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+        tm = task_map_D(json.loads((P2 / "draw-D-v1.json").read_text(encoding="utf-8")), gl)
+        out.write_text(json.dumps(tm, indent=1) + "\n", encoding="utf-8")
+        print(json.dumps({"payloads": len(tm), "distinct_goals": len({t["task_id"] for t in tm.values()})}))
+        raise SystemExit(0)
     if len(sys.argv) > 1 and sys.argv[1] == "v1":
         raise SystemExit(main_v1(sys.argv[2:]))
     raise SystemExit(main())
