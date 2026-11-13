@@ -1,0 +1,889 @@
+{
+ "bank_overlap": {
+  "distinct_variants_all": 10532,
+  "distinct_variants_per_split": {
+   "deepseek_v4_flash_multiday": 6921,
+   "deepseek_v4_flash_single_day": 7781,
+   "gpt53_multiday": 10509,
+   "gpt53_single_day": 10510,
+   "kimi_k26_multiday": 7720,
+   "kimi_k26_single_day": 9453,
+   "qwen36_27b_multiday": 7780,
+   "qwen36_27b_single_day": 9333
+  },
+  "fed_items_per_split": {
+   "deepseek_v4_flash_multiday": 37995,
+   "deepseek_v4_flash_single_day": 43941,
+   "gpt53_multiday": 101080,
+   "gpt53_single_day": 99864,
+   "kimi_k26_multiday": 67683,
+   "kimi_k26_single_day": 69840,
+   "qwen36_27b_multiday": 81480,
+   "qwen36_27b_single_day": 83285
+  },
+  "pairwise_jaccard": {
+   "deepseek_v4_flash_multiday|qwen36_27b_multiday": 0.773341375150784,
+   "deepseek_v4_flash_multiday|qwen36_27b_single_day": 0.7297009683941683,
+   "deepseek_v4_flash_single_day|deepseek_v4_flash_multiday": 0.7481569560047563,
+   "deepseek_v4_flash_single_day|qwen36_27b_multiday": 0.780638516992791,
+   "deepseek_v4_flash_single_day|qwen36_27b_single_day": 0.8111969520584189,
+   "gpt53_multiday|deepseek_v4_flash_multiday": 0.6584205518553758,
+   "gpt53_multiday|deepseek_v4_flash_single_day": 0.7394198763670946,
+   "gpt53_multiday|kimi_k26_multiday": 0.734278375035677,
+   "gpt53_multiday|kimi_k26_single_day": 0.8980697917657127,
+   "gpt53_multiday|qwen36_27b_multiday": 0.7396556644154856,
+   "gpt53_multiday|qwen36_27b_single_day": 0.887018544935806,
+   "gpt53_single_day|deepseek_v4_flash_multiday": 0.6572542308423655,
+   "gpt53_single_day|deepseek_v4_flash_single_day": 0.7395149786019971,
+   "gpt53_single_day|gpt53_multiday": 0.9964855623100304,
+   "gpt53_single_day|kimi_k26_multiday": 0.7330544728586368,
+   "gpt53_single_day|kimi_k26_single_day": 0.8990677321156774,
+   "gpt53_single_day|qwen36_27b_multiday": 0.7389237497623122,
+   "gpt53_single_day|qwen36_27b_single_day": 0.8849624774389665,
+   "kimi_k26_multiday|deepseek_v4_flash_multiday": 0.7735917625681406,
+   "kimi_k26_multiday|deepseek_v4_flash_single_day": 0.7800872760679834,
+   "kimi_k26_multiday|qwen36_27b_multiday": 0.9002084099546401,
+   "kimi_k26_multiday|qwen36_27b_single_day": 0.802833280473623,
+   "kimi_k26_single_day|deepseek_v4_flash_multiday": 0.7106142916840785,
+   "kimi_k26_single_day|deepseek_v4_flash_single_day": 0.796518294589805,
+   "kimi_k26_single_day|kimi_k26_multiday": 0.7764559842764043,
+   "kimi_k26_single_day|qwen36_27b_multiday": 0.7845086465776121,
+   "kimi_k26_single_day|qwen36_27b_single_day": 0.9169387755102041,
+   "qwen36_27b_single_day|qwen36_27b_multiday": 0.8093677310213576
+  },
+  "share_of_fed_items_on_variants_in_all_eight": {
+   "deepseek_v4_flash_multiday": 0.9584155809974997,
+   "deepseek_v4_flash_single_day": 0.9327052183609841,
+   "gpt53_multiday": 0.8117233874159082,
+   "gpt53_single_day": 0.8115637266682688,
+   "kimi_k26_multiday": 0.9336613329787391,
+   "kimi_k26_single_day": 0.8665521191294387,
+   "qwen36_27b_multiday": 0.9351251840942563,
+   "qwen36_27b_single_day": 0.8977727081707391
+  },
+  "variants_in_all_eight": 5763
+ },
+ "driver_sha8": "12848d69",
+ "inputs": {
+  "s3-judge-records-deepseek_v4_flash_multiday.jsonl": "2cc93d4e",
+  "s3-judge-records-deepseek_v4_flash_single_day.jsonl": "910092ba",
+  "s3-judge-records-gpt53_multiday.jsonl": "68d48499",
+  "s3-judge-records-gpt53_single_day.jsonl": "709aa9ea",
+  "s3-judge-records-kimi_k26_multiday.jsonl": "f1f05dc0",
+  "s3-judge-records-kimi_k26_single_day.jsonl": "66a585d2",
+  "s3-judge-records-qwen36_27b_multiday.jsonl": "54132d5d",
+  "s3-judge-records-qwen36_27b_single_day.jsonl": "2df32e4a",
+  "s3-upstream-deepseek_v4_flash_multiday.json": "533538fd",
+  "s3-upstream-deepseek_v4_flash_single_day.json": "ee7aa228",
+  "s3-upstream-gpt53_multiday.json": "4709d973",
+  "s3-upstream-gpt53_single_day.json": "5dc532a0",
+  "s3-upstream-kimi_k26_multiday.json": "da4afec9",
+  "s3-upstream-kimi_k26_single_day.json": "4acde403",
+  "s3-upstream-qwen36_27b_multiday.json": "c07b603d",
+  "s3-upstream-qwen36_27b_single_day.json": "b5980f4a"
+ },
+ "note": "FakeLab rows omitted (not publishable); they are in the project copy only",
+ "prompt_sha8": "333e5ea4",
+ "rows": [
+  {
+   "d_L_item": {
+    "clusters": 97,
+    "d": 0.4645669291338583,
+    "hi": 0.5504074345357992,
+    "k": 59,
+    "lo": 0.37591635338345863,
+    "n": 127
+   },
+   "d_L_path": {
+    "clusters": 97,
+    "d": 0.2440944881889764,
+    "hi": 0.3265640682502507,
+    "k": 31,
+    "lo": 0.16260162601626016,
+    "n": 127
+   },
+   "d_S": {
+    "clusters": 97,
+    "d": 0.30708661417322836,
+    "hi": 0.3893227997305792,
+    "k": 39,
+    "lo": 0.2222222222222222,
+    "n": 127
+   },
+   "d_proxy": {
+    "clusters": 97,
+    "d": 0.2440944881889764,
+    "hi": 0.3265640682502507,
+    "k": 31,
+    "lo": 0.16260162601626016,
+    "n": 127
+   },
+   "generator": "moonshotai/kimi-k2.6",
+   "judge_not_scored": 0,
+   "judge_sampled": 127,
+   "judge_scored": 127,
+   "n_clusters": 97,
+   "n_writes": 127,
+   "proxy_vs_judge": {
+    "agree": 117,
+    "agreement": 0.9212598425196851,
+    "both_licensed": 87,
+    "both_unlicensed": 30,
+    "judge_only_licensed": 1,
+    "kappa": 0.8037700865265761,
+    "n": 127,
+    "proxy_only_licensed": 9
+   },
+   "scope": "class documents (item level defined)",
+   "source": "prefix_rw_v2c",
+   "writes_with_no_task": 0
+  },
+  {
+   "d_L_path": {
+    "clusters": 243,
+    "d": 0.76875,
+    "hi": 0.8011894934453556,
+    "k": 738,
+    "lo": 0.7336735644242709,
+    "n": 960
+   },
+   "d_S": {
+    "clusters": 116,
+    "d": 0.5260115606936416,
+    "hi": 0.6144699487605595,
+    "k": 91,
+    "lo": 0.43682221542227667,
+    "n": 173
+   },
+   "d_proxy": {
+    "clusters": 243,
+    "d": 0.75625,
+    "hi": 0.789684931349589,
+    "k": 726,
+    "lo": 0.7201691973969631,
+    "n": 960
+   },
+   "generator": "moonshotai/kimi-k2.6",
+   "judge_not_scored": 0,
+   "judge_sampled": 173,
+   "judge_scored": 173,
+   "n_clusters": 243,
+   "n_writes": 960,
+   "proxy_vs_judge": {
+    "agree": 132,
+    "agreement": 0.7630057803468208,
+    "both_licensed": 43,
+    "both_unlicensed": 89,
+    "judge_only_licensed": 39,
+    "kappa": 0.5138784182030017,
+    "n": 173,
+    "proxy_only_licensed": 2
+   },
+   "scope": "other file writes",
+   "source": "prefix_rw_v2c",
+   "writes_with_no_task": 94
+  },
+  {
+   "d_L_path": {
+    "clusters": 252,
+    "d": 0.7074517019319227,
+    "hi": 0.7421814194979333,
+    "k": 769,
+    "lo": 0.6729899562028796,
+    "n": 1087
+   },
+   "d_S": {
+    "clusters": 180,
+    "d": 0.5004333930689016,
+    "hi": 0.5762348088807484,
+    "k": 130,
+    "lo": 0.4208370009522664,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 252,
+    "d": 0.6964121435142594,
+    "hi": 0.7324246073561143,
+    "k": 757,
+    "lo": 0.6609968147518012,
+    "n": 1087
+   },
+   "generator": "moonshotai/kimi-k2.6",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 252,
+   "n_writes": 1087,
+   "proxy_vs_judge": {
+    "agree": 249,
+    "agreement": 0.83,
+    "both_licensed": 130,
+    "both_unlicensed": 119,
+    "judge_only_licensed": 40,
+    "kappa": 0.6626984126984127,
+    "n": 300,
+    "proxy_only_licensed": 11
+   },
+   "scope": "all file writes (stratified judge sample, weighted)",
+   "source": "prefix_rw_v2c",
+   "writes_with_no_task": 94
+  },
+  {
+   "beside": {
+    "benign_sessions": 33296,
+    "benign_sessions_with_no_fed_item": 0,
+    "dropped_labelled_account_day": 3245,
+    "label_rows": 306,
+    "noop_writes": 670,
+    "sessions": 33774,
+    "successful_file_writes": 47620
+   },
+   "d_L_path": {
+    "clusters": 25113,
+    "d": 0.19430271136025626,
+    "hi": 0.1984116186554921,
+    "k": 8492,
+    "lo": 0.19027514014414826,
+    "n": 43705
+   },
+   "d_S": {
+    "clusters": 298,
+    "d": 0.13377926421404684,
+    "hi": 0.17114093959731544,
+    "k": 40,
+    "lo": 0.09698996655518395,
+    "n": 299
+   },
+   "d_proxy": {
+    "clusters": 25113,
+    "d": 0.16943141516988902,
+    "hi": 0.17344689220403145,
+    "k": 7405,
+    "lo": 0.16566762545061592,
+    "n": 43705
+   },
+   "generator": "gpt53",
+   "judge_not_scored": 1,
+   "judge_sampled": 300,
+   "judge_scored": 299,
+   "n_clusters": 25113,
+   "n_writes": 43705,
+   "proxy_vs_judge": {
+    "agree": 239,
+    "agreement": 0.7993311036789298,
+    "both_licensed": 225,
+    "both_unlicensed": 14,
+    "judge_only_licensed": 34,
+    "kappa": 0.201673193307227,
+    "n": 299,
+    "proxy_only_licensed": 26
+   },
+   "scope": "gpt53_single_day",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 16564,
+    "owncloud": 27141
+   },
+   "writes_with_no_task": 0
+  },
+  {
+   "beside": {
+    "benign_sessions": 33744,
+    "benign_sessions_with_no_fed_item": 29,
+    "dropped_labelled_account_day": 443,
+    "label_rows": 38,
+    "noop_writes": 783,
+    "sessions": 33782,
+    "successful_file_writes": 49427,
+    "writes_with_no_task": 21
+   },
+   "d_L_path": {
+    "clusters": 27480,
+    "d": 0.18100871731008716,
+    "hi": 0.18465091017182161,
+    "k": 8721,
+    "lo": 0.17727664682882566,
+    "n": 48180
+   },
+   "d_S": {
+    "clusters": 296,
+    "d": 0.13804713804713806,
+    "hi": 0.18120805369127518,
+    "k": 41,
+    "lo": 0.10101010101010102,
+    "n": 297
+   },
+   "d_proxy": {
+    "clusters": 27480,
+    "d": 0.1564964715649647,
+    "hi": 0.16002014608149304,
+    "k": 7540,
+    "lo": 0.15302315230576716,
+    "n": 48180
+   },
+   "generator": "gpt53",
+   "judge_not_scored": 3,
+   "judge_sampled": 300,
+   "judge_scored": 297,
+   "n_clusters": 27480,
+   "n_writes": 48180,
+   "proxy_vs_judge": {
+    "agree": 241,
+    "agreement": 0.8114478114478114,
+    "both_licensed": 230,
+    "both_unlicensed": 11,
+    "judge_only_licensed": 26,
+    "kappa": 0.1738525730180804,
+    "n": 297,
+    "proxy_only_licensed": 30
+   },
+   "scope": "gpt53_multiday",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 17633,
+    "owncloud": 30547
+   },
+   "writes_with_no_task": 21
+  },
+  {
+   "beside": {
+    "benign_sessions": 32647,
+    "benign_sessions_with_no_fed_item": 3522,
+    "dropped_labelled_account_day": 7551,
+    "label_rows": 310,
+    "no_transcript_for_task_id": 178,
+    "noop_writes": 1016,
+    "sessions": 33138,
+    "successful_file_writes": 105779,
+    "writes_with_no_task": 6303
+   },
+   "d_L_path": {
+    "clusters": 25074,
+    "d": 0.736989736989737,
+    "hi": 0.7402944130873077,
+    "k": 66999,
+    "lo": 0.7333285110903184,
+    "n": 90909
+   },
+   "d_S": {
+    "clusters": 299,
+    "d": 0.6333333333333334,
+    "hi": 0.6877334932124703,
+    "k": 190,
+    "lo": 0.5766666666666667,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 25074,
+    "d": 0.7062117062117063,
+    "hi": 0.7098986321086571,
+    "k": 64201,
+    "lo": 0.7023154410559356,
+    "n": 90909
+   },
+   "generator": "kimi_k26",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 25074,
+   "n_writes": 90909,
+   "proxy_vs_judge": {
+    "agree": 219,
+    "agreement": 0.73,
+    "both_licensed": 57,
+    "both_unlicensed": 162,
+    "judge_only_licensed": 53,
+    "kappa": 0.38944723618090443,
+    "n": 300,
+    "proxy_only_licensed": 28
+   },
+   "scope": "kimi_k26_single_day",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 19887,
+    "owncloud": 71022
+   },
+   "writes_with_no_task": 6303
+  },
+  {
+   "beside": {
+    "benign_sessions": 32864,
+    "benign_sessions_with_no_fed_item": 4421,
+    "dropped_labelled_account_day": 787,
+    "label_rows": 36,
+    "no_transcript_for_task_id": 94,
+    "noop_writes": 1094,
+    "sessions": 32900,
+    "successful_file_writes": 103637,
+    "writes_with_no_task": 8722
+   },
+   "d_L_path": {
+    "clusters": 25835,
+    "d": 0.7421910269363888,
+    "hi": 0.74565426401427,
+    "k": 69049,
+    "lo": 0.7389323409532509,
+    "n": 93034
+   },
+   "d_S": {
+    "clusters": 299,
+    "d": 0.6166666666666667,
+    "hi": 0.6700274086378737,
+    "k": 185,
+    "lo": 0.5614252491694353,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 25835,
+    "d": 0.7123847195648902,
+    "hi": 0.7160781831247407,
+    "k": 66276,
+    "lo": 0.7088874858322693,
+    "n": 93034
+   },
+   "generator": "kimi_k26",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 25835,
+   "n_writes": 93034,
+   "proxy_vs_judge": {
+    "agree": 217,
+    "agreement": 0.7233333333333334,
+    "both_licensed": 60,
+    "both_unlicensed": 157,
+    "judge_only_licensed": 55,
+    "kappa": 0.38760452533202167,
+    "n": 300,
+    "proxy_only_licensed": 28
+   },
+   "scope": "kimi_k26_multiday",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 21480,
+    "owncloud": 71554
+   },
+   "writes_with_no_task": 8722
+  },
+  {
+   "beside": {
+    "benign_sessions": 33274,
+    "benign_sessions_with_no_fed_item": 10870,
+    "dropped_labelled_account_day": 6420,
+    "label_rows": 257,
+    "noop_writes": 765,
+    "sessions": 33660,
+    "successful_file_writes": 109136,
+    "writes_with_no_task": 22595
+   },
+   "d_L_path": {
+    "clusters": 20996,
+    "d": 0.8281163365088966,
+    "hi": 0.8309055480966807,
+    "k": 65716,
+    "lo": 0.8252662620334205,
+    "n": 79356
+   },
+   "d_S": {
+    "clusters": 297,
+    "d": 0.7766666666666666,
+    "hi": 0.8205980066445183,
+    "k": 233,
+    "lo": 0.7281879194630873,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 20996,
+    "d": 0.7944074802157367,
+    "hi": 0.797840178833475,
+    "k": 63041,
+    "lo": 0.7909353425665915,
+    "n": 79356
+   },
+   "generator": "deepseek_v4_flash",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 20996,
+   "n_writes": 79356,
+   "proxy_vs_judge": {
+    "agree": 248,
+    "agreement": 0.8266666666666667,
+    "both_licensed": 42,
+    "both_unlicensed": 206,
+    "judge_only_licensed": 25,
+    "kappa": 0.5056094314508461,
+    "n": 300,
+    "proxy_only_licensed": 27
+   },
+   "scope": "deepseek_v4_flash_single_day",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 25055,
+    "owncloud": 54301
+   },
+   "writes_with_no_task": 22595
+  },
+  {
+   "beside": {
+    "benign_sessions": 33663,
+    "benign_sessions_with_no_fed_item": 13916,
+    "dropped_labelled_account_day": 907,
+    "label_rows": 36,
+    "noop_writes": 1449,
+    "sessions": 33699,
+    "successful_file_writes": 107753,
+    "writes_with_no_task": 34083
+   },
+   "d_L_path": {
+    "clusters": 19043,
+    "d": 0.8361752250609978,
+    "hi": 0.8391717982187543,
+    "k": 59631,
+    "lo": 0.8330359124020661,
+    "n": 71314
+   },
+   "d_S": {
+    "clusters": 295,
+    "d": 0.74,
+    "hi": 0.7880794701986755,
+    "k": 222,
+    "lo": 0.6887211653851283,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 19043,
+    "d": 0.7988333286591693,
+    "hi": 0.8026158208066448,
+    "k": 56968,
+    "lo": 0.795146204166855,
+    "n": 71314
+   },
+   "generator": "deepseek_v4_flash",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 19043,
+   "n_writes": 71314,
+   "proxy_vs_judge": {
+    "agree": 238,
+    "agreement": 0.7933333333333333,
+    "both_licensed": 37,
+    "both_unlicensed": 201,
+    "judge_only_licensed": 41,
+    "kappa": 0.41421012849584277,
+    "n": 300,
+    "proxy_only_licensed": 21
+   },
+   "scope": "deepseek_v4_flash_multiday",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 20318,
+    "owncloud": 50996
+   },
+   "writes_with_no_task": 34083
+  },
+  {
+   "beside": {
+    "benign_sessions": 33531,
+    "benign_sessions_with_no_fed_item": 701,
+    "dropped_labelled_account_day": 6018,
+    "label_rows": 179,
+    "noop_writes": 5708,
+    "sessions": 33764,
+    "successful_file_writes": 135909,
+    "writes_with_no_task": 2173
+   },
+   "d_L_path": {
+    "clusters": 30388,
+    "d": 0.7338087042045734,
+    "hi": 0.7367136339600092,
+    "k": 89532,
+    "lo": 0.7307996454277031,
+    "n": 122010
+   },
+   "d_S": {
+    "clusters": 300,
+    "d": 0.65,
+    "hi": 0.7033333333333333,
+    "k": 195,
+    "lo": 0.5966666666666667,
+    "n": 300
+   },
+   "d_proxy": {
+    "clusters": 30388,
+    "d": 0.6919596754364397,
+    "hi": 0.695235514428882,
+    "k": 84426,
+    "lo": 0.688851179121414,
+    "n": 122010
+   },
+   "generator": "qwen36_27b",
+   "judge_not_scored": 0,
+   "judge_sampled": 300,
+   "judge_scored": 300,
+   "n_clusters": 30388,
+   "n_writes": 122010,
+   "proxy_vs_judge": {
+    "agree": 225,
+    "agreement": 0.75,
+    "both_licensed": 63,
+    "both_unlicensed": 162,
+    "judge_only_licensed": 42,
+    "kappa": 0.43946188340807185,
+    "n": 300,
+    "proxy_only_licensed": 33
+   },
+   "scope": "qwen36_27b_single_day",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 37766,
+    "owncloud": 84244
+   },
+   "writes_with_no_task": 2173
+  },
+  {
+   "beside": {
+    "benign_sessions": 33688,
+    "benign_sessions_with_no_fed_item": 1112,
+    "dropped_labelled_account_day": 1157,
+    "label_rows": 37,
+    "noop_writes": 5052,
+    "sessions": 33725,
+    "successful_file_writes": 132539,
+    "writes_with_no_task": 3516
+   },
+   "d_L_path": {
+    "clusters": 30904,
+    "d": 0.7389629846760142,
+    "hi": 0.7418359729676626,
+    "k": 90755,
+    "lo": 0.736132552828154,
+    "n": 122814
+   },
+   "d_S": {
+    "clusters": 297,
+    "d": 0.6140939597315436,
+    "hi": 0.6666946308724832,
+    "k": 183,
+    "lo": 0.5585284280936456,
+    "n": 298
+   },
+   "d_proxy": {
+    "clusters": 30904,
+    "d": 0.7002866122754735,
+    "hi": 0.7034034612902226,
+    "k": 86005,
+    "lo": 0.6970601461331637,
+    "n": 122814
+   },
+   "generator": "qwen36_27b",
+   "judge_not_scored": 2,
+   "judge_sampled": 300,
+   "judge_scored": 298,
+   "n_clusters": 30904,
+   "n_writes": 122814,
+   "proxy_vs_judge": {
+    "agree": 218,
+    "agreement": 0.7315436241610739,
+    "both_licensed": 62,
+    "both_unlicensed": 156,
+    "judge_only_licensed": 53,
+    "kappa": 0.4087594861366005,
+    "n": 298,
+    "proxy_only_licensed": 27
+   },
+   "scope": "qwen36_27b_multiday",
+   "source": "MOLE released",
+   "units_by_service": {
+    "gitlab": 39356,
+    "owncloud": 83458
+   },
+   "writes_with_no_task": 3516
+  },
+  {
+   "d_L_path": {
+    "clusters": 52593,
+    "d": 0.18733199107580129,
+    "hi": 0.19000730616462452,
+    "k": 17213,
+    "lo": 0.18456512592073898,
+    "n": 91885
+   },
+   "d_S": {
+    "clusters": 594,
+    "d": 0.1360099834698548,
+    "hi": 0.1654746432811727,
+    "k": 81,
+    "lo": 0.10854535705150564,
+    "n": 596
+   },
+   "d_proxy": {
+    "clusters": 52593,
+    "d": 0.16264896337813572,
+    "hi": 0.16526431052204082,
+    "k": 14945,
+    "lo": 0.16002687140942515,
+    "n": 91885
+   },
+   "generator": "gpt53",
+   "judge_not_scored": 4,
+   "judge_sampled": 600,
+   "judge_scored": 596,
+   "n_clusters": 52593,
+   "n_writes": 91885,
+   "proxy_vs_judge": {
+    "agree": 480,
+    "agreement": 0.8053691275167785,
+    "both_licensed": 455,
+    "both_unlicensed": 25,
+    "judge_only_licensed": 60,
+    "kappa": 0.18822065143367048,
+    "n": 596,
+    "proxy_only_licensed": 56
+   },
+   "scope": "gpt53_single_day + gpt53_multiday (pooled; judge weighted)",
+   "source": "MOLE released",
+   "writes_with_no_task": 21
+  },
+  {
+   "d_L_path": {
+    "clusters": 50909,
+    "d": 0.7396204258928037,
+    "hi": 0.7420590603668383,
+    "k": 136048,
+    "lo": 0.7372627004923058,
+    "n": 183943
+   },
+   "d_S": {
+    "clusters": 598,
+    "d": 0.6249037292349622,
+    "hi": 0.6638307199542924,
+    "k": 375,
+    "lo": 0.5869509795491404,
+    "n": 600
+   },
+   "d_proxy": {
+    "clusters": 50909,
+    "d": 0.7093338697313841,
+    "hi": 0.7119926136375235,
+    "k": 130477,
+    "lo": 0.7066441925537802,
+    "n": 183943
+   },
+   "generator": "kimi_k26",
+   "judge_not_scored": 0,
+   "judge_sampled": 600,
+   "judge_scored": 600,
+   "n_clusters": 50909,
+   "n_writes": 183943,
+   "proxy_vs_judge": {
+    "agree": 436,
+    "agreement": 0.7266666666666667,
+    "both_licensed": 117,
+    "both_unlicensed": 319,
+    "judge_only_licensed": 108,
+    "kappa": 0.38863000931966446,
+    "n": 600,
+    "proxy_only_licensed": 56
+   },
+   "scope": "kimi_k26_single_day + kimi_k26_multiday (pooled; judge weighted)",
+   "source": "MOLE released",
+   "writes_with_no_task": 15025
+  },
+  {
+   "d_L_path": {
+    "clusters": 40039,
+    "d": 0.8319307094975775,
+    "hi": 0.8340744285623098,
+    "k": 125347,
+    "lo": 0.829782809499697,
+    "n": 150670
+   },
+   "d_S": {
+    "clusters": 592,
+    "d": 0.7593118736311144,
+    "hi": 0.7934046745447139,
+    "k": 455,
+    "lo": 0.7241775572431396,
+    "n": 600
+   },
+   "d_proxy": {
+    "clusters": 40039,
+    "d": 0.7965022897723502,
+    "hi": 0.7990832730975748,
+    "k": 120009,
+    "lo": 0.7938761337754201,
+    "n": 150670
+   },
+   "generator": "deepseek_v4_flash",
+   "judge_not_scored": 0,
+   "judge_sampled": 600,
+   "judge_scored": 600,
+   "n_clusters": 40039,
+   "n_writes": 150670,
+   "proxy_vs_judge": {
+    "agree": 486,
+    "agreement": 0.81,
+    "both_licensed": 79,
+    "both_unlicensed": 407,
+    "judge_only_licensed": 66,
+    "kappa": 0.4587322940571339,
+    "n": 600,
+    "proxy_only_licensed": 48
+   },
+   "scope": "deepseek_v4_flash_single_day + deepseek_v4_flash_multiday (pooled; judge weighted)",
+   "source": "MOLE released",
+   "writes_with_no_task": 56678
+  },
+  {
+   "d_L_path": {
+    "clusters": 61292,
+    "d": 0.7363943077476064,
+    "hi": 0.7384957040239585,
+    "k": 180287,
+    "lo": 0.734329591906745,
+    "n": 244824
+   },
+   "d_S": {
+    "clusters": 597,
+    "d": 0.6320480658530121,
+    "hi": 0.671660679671625,
+    "k": 378,
+    "lo": 0.5932377291634908,
+    "n": 598
+   },
+   "d_proxy": {
+    "clusters": 61292,
+    "d": 0.6961368166519623,
+    "hi": 0.6984542676740724,
+    "k": 170431,
+    "lo": 0.6938701468435514,
+    "n": 244824
+   },
+   "generator": "qwen36_27b",
+   "judge_not_scored": 2,
+   "judge_sampled": 600,
+   "judge_scored": 598,
+   "n_clusters": 61292,
+   "n_writes": 244824,
+   "proxy_vs_judge": {
+    "agree": 443,
+    "agreement": 0.7408026755852842,
+    "both_licensed": 125,
+    "both_unlicensed": 318,
+    "judge_only_licensed": 95,
+    "kappa": 0.42353380185334905,
+    "n": 598,
+    "proxy_only_licensed": 60
+   },
+   "scope": "qwen36_27b_single_day + qwen36_27b_multiday (pooled; judge weighted)",
+   "source": "MOLE released",
+   "writes_with_no_task": 5689
+  }
+ ],
+ "rules": "s3-rules/v1",
+ "rules_sha8": "403f17c4",
+ "v0_rows_from": "s3-table-v0.json",
+ "version": "s3-table-v1"
+}

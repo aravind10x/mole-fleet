@@ -1,0 +1,18 @@
+{"split": "gpt53_single_day", "calls": 300, "est_input_tokens": 268502, "est_usd": 0.582, "stop_usd": 0.873, "max_packet_chars": 6887}
+{"split": "gpt53_single_day", "outcomes": {"scored": 299, "errored": 1}, "dollars_this_run": 0.761736, "dollars_total": 0.7617360000000009, "abort": null}
+{"split": "gpt53_multiday", "calls": 300, "est_input_tokens": 272614, "est_usd": 0.5902, "stop_usd": 0.8853, "max_packet_chars": 6977}
+{"split": "gpt53_multiday", "outcomes": {"scored": 297, "errored": 3}, "dollars_this_run": 0.774706, "dollars_total": 0.7747060000000002, "abort": null}
+{"split": "kimi_k26_single_day", "calls": 300, "est_input_tokens": 319150, "est_usd": 0.6833, "stop_usd": 1.025, "max_packet_chars": 6909}
+{"split": "kimi_k26_single_day", "outcomes": {"scored": 300}, "dollars_this_run": 0.963564, "dollars_total": 0.9635639999999998, "abort": null}
+{"split": "kimi_k26_multiday", "calls": 300, "est_input_tokens": 324070, "est_usd": 0.6931, "stop_usd": 1.0397, "max_packet_chars": 6952}
+{"split": "kimi_k26_multiday", "outcomes": {"scored": 300}, "dollars_this_run": 0.990428, "dollars_total": 0.9904280000000002, "abort": null}
+{"split": "deepseek_v4_flash_single_day", "calls": 300, "est_input_tokens": 318362, "est_usd": 0.6817, "stop_usd": 1.0226, "max_packet_chars": 6903}
+{"split": "deepseek_v4_flash_single_day", "outcomes": {"scored": 300}, "dollars_this_run": 0.971246, "dollars_total": 0.9712459999999995, "abort": null}
+{"split": "deepseek_v4_flash_multiday", "calls": 300, "est_input_tokens": 302888, "est_usd": 0.6508, "stop_usd": 0.9762, "max_packet_chars": 6779}
+{"split": "deepseek_v4_flash_multiday", "outcomes": {"scored": 300}, "dollars_this_run": 0.909246, "dollars_total": 0.9092459999999999, "abort": null}
+{"split": "qwen36_27b_single_day", "calls": 300, "est_input_tokens": 316863, "est_usd": 0.6787, "stop_usd": 1.0181, "max_packet_chars": 6922}
+{"split": "qwen36_27b_single_day", "outcomes": {"scored": 300}, "dollars_this_run": 0.955156, "dollars_total": 0.9551560000000004, "abort": null}
+STOP: host free disk 3.83 GiB < 4.5 GiB
+{"split": "qwen36_27b_multiday", "calls": 300, "est_input_tokens": 300403, "est_usd": 0.6458, "stop_usd": 0.9687, "max_packet_chars": 6906}
+{"split": "qwen36_27b_multiday", "outcomes": {"scored": 298, "errored": 1, "refused": 1}, "dollars_this_run": 0.920536, "dollars_total": 0.9205360000000006, "abort": null}
+          1447215104  maximum resident set size
