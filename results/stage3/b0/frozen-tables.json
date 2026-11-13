@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 154,
+ "n_files": 200,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1733,6 +1733,466 @@
    "copies_identical": true,
    "tag": "descriptive",
    "tag_source": "the same table, readable form",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/state-check-v0.md",
+   "sha256": "b9b8fce023ccb5d563971669884b751e4909dc8dd65568553453dcbac1a1a5fe",
+   "bytes": 5957,
+   "sha256_fork_copy": "b9b8fce023ccb5d563971669884b751e4909dc8dd65568553453dcbac1a1a5fe",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "P0 state check, verdict (b): file order is the live order; recorded scores stand (decisions log D30)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/state-check-v0.json",
+   "sha256": "6865b4e8377e09f79ae00cab8b059fc2decf7e4633176126ce230447a83bc814",
+   "bytes": 6244,
+   "sha256_fork_copy": "6865b4e8377e09f79ae00cab8b059fc2decf7e4633176126ce230447a83bc814",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the state check counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/severity-rule.md",
+   "sha256": "11c5166ef333da8121928bf60a3bd83699fd76b85a8d6c195722ef4fae910ec1",
+   "bytes": 1379,
+   "sha256_fork_copy": "11c5166ef333da8121928bf60a3bd83699fd76b85a8d6c195722ef4fae910ec1",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "potential consequence class rule, written blind by the coordinator before any class (D27)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/severity-classes-v0.json",
+   "sha256": "7e58f32541f3d586ee7527c62b149981cd2330df36a9f8cd7c68398f033a8a6a",
+   "bytes": 4090,
+   "sha256_fork_copy": "7e58f32541f3d586ee7527c62b149981cd2330df36a9f8cd7c68398f033a8a6a",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "payload id with two readers classes; reader A is the class of record (D28, D30)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/audit-neg-table-b.md",
+   "sha256": "30913bdba4b7838ef407730dfb8050791ba75f50f5a3a3b227149ce6f5e32e93",
+   "bytes": 2208,
+   "sha256_fork_copy": "30913bdba4b7838ef407730dfb8050791ba75f50f5a3a3b227149ce6f5e32e93",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "predicate-negative audit under amendment 1, by arm; pass two 20 of 20 (D36)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/audit-neg-table-b.json",
+   "sha256": "2eddd2a724a1a40566000aef23be54de6e6933b03514c717cc193445654870a0",
+   "bytes": 9203,
+   "sha256_fork_copy": "2eddd2a724a1a40566000aef23be54de6e6933b03514c717cc193445654870a0",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/audit-neg-table-core.json",
+   "sha256": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+   "bytes": 12582,
+   "sha256_fork_copy": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "run-level table of the predicate-negative audit: run id, arm, class only (D37)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/audit-neg-literals-v0.md",
+   "sha256": "3ff296ec2611dea3e4005d21dff990c574884c87a35e4a1085833f21ecc8c650",
+   "bytes": 1776,
+   "sha256_fork_copy": "3ff296ec2611dea3e4005d21dff990c574884c87a35e4a1085833f21ecc8c650",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "script count of literals in the audited runs actions (D32)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/audit-neg-literals-v0.json",
+   "sha256": "df56a9c0f6fdb23f7e5758dcc2e816d6ce4bca5c0cbf9d611c887e0b0da909e8",
+   "bytes": 20731,
+   "sha256_fork_copy": "df56a9c0f6fdb23f7e5758dcc2e816d6ce4bca5c0cbf9d611c887e0b0da909e8",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, flags by run id",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/frozen-result.md",
+   "sha256": "c59730a1dd4aee16cc727e25141c2438f30cd91f68c4500b5e1684e6ae147f28",
+   "bytes": 5663,
+   "sha256_fork_copy": "c59730a1dd4aee16cc727e25141c2438f30cd91f68c4500b5e1684e6ae147f28",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "arm B on the frozen states: a frozen-state score, not S; gate E check 1 fails (D41)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/frozen-scores-v0.json",
+   "sha256": "1530fb4939e1fb34ed3485eb0aee19f03ae576769dea43fe2cb79375b8f00aec",
+   "bytes": 6060,
+   "sha256_fork_copy": "1530fb4939e1fb34ed3485eb0aee19f03ae576769dea43fe2cb79375b8f00aec",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "frozen-state scores and flags by key",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P0/frozen-index-v0.json",
+   "sha256": "4a078a77c2e9fa8802f96f655912d6cb8b03abf8a2cca17aed16585c3a95aa8f",
+   "bytes": 20973,
+   "sha256_fork_copy": "4a078a77c2e9fa8802f96f655912d6cb8b03abf8a2cca17aed16585c3a95aa8f",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "text-free index of the frozen-state packets rendered by the red side",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v0.md",
+   "sha256": "91b765e78402cfce1ebcc5a20474015165f1ee72d89cd5c6270d0148a5d48df0",
+   "bytes": 4924,
+   "sha256_fork_copy": "91b765e78402cfce1ebcc5a20474015165f1ee72d89cd5c6270d0148a5d48df0",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "S under each recorded judge, the per-agent view, a 2 percent rule, by consequence class (D30)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v0.json",
+   "sha256": "862c44dc80e531cd74865c8993bb4d139628cd59bdf3cf2eb7b571ab8b0185f3",
+   "bytes": 21876,
+   "sha256_fork_copy": "862c44dc80e531cd74865c8993bb4d139628cd59bdf3cf2eb7b571ab8b0185f3",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v1.md",
+   "sha256": "94caa8d2b884cc93f27e2c78e2727c39b97664f6a485350df39a12af19341e57",
+   "bytes": 5909,
+   "sha256_fork_copy": "94caa8d2b884cc93f27e2c78e2727c39b97664f6a485350df39a12af19341e57",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "uptake and S under the positive audit, the negative audit and both (D38)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v1.json",
+   "sha256": "f0f4bad88aa18fd9425ce1c49f6af2ab66be45aebf6927a559575982085b60c4",
+   "bytes": 27208,
+   "sha256_fork_copy": "f0f4bad88aa18fd9425ce1c49f6af2ab66be45aebf6927a559575982085b60c4",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v1-frozen.md",
+   "sha256": "fc9fa26b3e2ab575e0d5fee7b96eea4076d4f53fce304acefb49c9396468fe8c",
+   "bytes": 2303,
+   "sha256_fork_copy": "fc9fa26b3e2ab575e0d5fee7b96eea4076d4f53fce304acefb49c9396468fe8c",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same computations on frozen-state flags, not named S (D41)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-v1-frozen.json",
+   "sha256": "b87fd8b521ca022d98b5e523cb71e3d732bbe5b80f882712814efda1e3917cb6",
+   "bytes": 27084,
+   "sha256_fork_copy": "b87fd8b521ca022d98b5e523cb71e3d732bbe5b80f882712814efda1e3917cb6",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P3/retention-v0.md",
+   "sha256": "76605e5ee49b64026cb5ab7546ff184ac96b817b30a8697d3e0566645b1ecccc",
+   "bytes": 2807,
+   "sha256_fork_copy": "76605e5ee49b64026cb5ab7546ff184ac96b817b30a8697d3e0566645b1ecccc",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "retention by replay: 0 of 184 ended by an honest edit (D29)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P3/retention-v0.json",
+   "sha256": "fa59599fafea0c3b65693dd99555da6a6496bad32d702dd33037234d7638fe49",
+   "bytes": 57812,
+   "sha256_fork_copy": "fa59599fafea0c3b65693dd99555da6a6496bad32d702dd33037234d7638fe49",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P3/use-v1.md",
+   "sha256": "61f67eaec38c32ebc6dab74c0e88e22316ab86e0ea901b3fa658bdd54aab72ca",
+   "bytes": 9842,
+   "sha256_fork_copy": "61f67eaec38c32ebc6dab74c0e88e22316ab86e0ea901b3fa658bdd54aab72ca",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "realised use of each item in the honest log, file order governing (D34)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P3/use-v1.json",
+   "sha256": "010467aee1bdd6636e91f1bbc01a3a435fc33562c15e6ceb98f17953bada816f",
+   "bytes": 458418,
+   "sha256_fork_copy": "010467aee1bdd6636e91f1bbc01a3a435fc33562c15e6ceb98f17953bada816f",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, per slot and day",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/preregistration-v1.md",
+   "sha256": "19d4a7d5a3e839397f4416c6d2c5bc8ab6687f5ed66a728a6cbfff1f5bec39af",
+   "bytes": 12390,
+   "sha256_fork_copy": "19d4a7d5a3e839397f4416c6d2c5bc8ab6687f5ed66a728a6cbfff1f5bec39af",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "P2 pre-registration v1, hashed before any P2 run; holds the dose amendment to v1.3 (D31)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/preregistration-v1.1.md",
+   "sha256": "ab171917f699ec43b9cf0192e3943c92a7ed9c3fdb82539f632d6517866dda72",
+   "bytes": 6954,
+   "sha256_fork_copy": "ab171917f699ec43b9cf0192e3943c92a7ed9c3fdb82539f632d6517866dda72",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "amendment for blocks D, W and H after the second read, before any D, W or H run (D35)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/dispositions-round1.md",
+   "sha256": "60cef32e74d6ffa12ff4763e12b44a351db68ac9c66eea126d39dea835d7262a",
+   "bytes": 7656,
+   "sha256_fork_copy": "60cef32e74d6ffa12ff4763e12b44a351db68ac9c66eea126d39dea835d7262a",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "dispositions on the first Codex read of the P2 pre-registration",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/dispositions-round2.md",
+   "sha256": "daf5c398650ea105c883853a7dbe08dfe7e804b77036875a03538a27f60914fc",
+   "bytes": 4549,
+   "sha256_fork_copy": "daf5c398650ea105c883853a7dbe08dfe7e804b77036875a03538a27f60914fc",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "dispositions on the second Codex read",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/completion-reader-rule.md",
+   "sha256": "0639360140ef23831ed89eb061d6f869b9f6e0550e0be48ca4d8235e380c9bc0",
+   "bytes": 2029,
+   "sha256_fork_copy": "0639360140ef23831ed89eb061d6f869b9f6e0550e0be48ca4d8235e380c9bc0",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "rule for labelling completion, written before any label (D35)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/completion-check-v0.md",
+   "sha256": "d80c12cdc79367627e4c64e1f1896516c9b1ae50ec92a8b70dbea7afaa884a1f",
+   "bytes": 2006,
+   "sha256_fork_copy": "d80c12cdc79367627e4c64e1f1896516c9b1ae50ec92a8b70dbea7afaa884a1f",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "completion scorer against readers labels: 54 of 54 decided agree (D38)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/completion-check-v0.json",
+   "sha256": "a5f0695548c2bf0f59fb17f5b3424a5979e1263df196715bd84c7bc33fdb59fb",
+   "bytes": 3465,
+   "sha256_fork_copy": "a5f0695548c2bf0f59fb17f5b3424a5979e1263df196715bd84c7bc33fdb59fb",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/red-scorer-validity-v0.json",
+   "sha256": "8f6538b0fd682401895041a02abe914d54bde1382f93f29b566e6c51b1734285",
+   "bytes": 3838,
+   "sha256_fork_copy": "8f6538b0fd682401895041a02abe914d54bde1382f93f29b566e6c51b1734285",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "per payload validity of the tool-free scorer: 54 valid, 2 not (D32)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/red-scorer-agreement-v0.json",
+   "sha256": "daf818e5c9b1180e77948c572f9ba5142c052dd7f99cf8e2e18011939bd9dbbe",
+   "bytes": 1621,
+   "sha256_fork_copy": "daf818e5c9b1180e77948c572f9ba5142c052dd7f99cf8e2e18011939bd9dbbe",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the tool-free scorer against the original predicates on the 672 core runs: 672 agree",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/red-literal-in-task-v0.json",
+   "sha256": "e20a0e7a31a590b10c2c0cbbc66b4ff1395437c351c2ce88b1214fa8b4c0d1f0",
+   "bytes": 5960,
+   "sha256_fork_copy": "e20a0e7a31a590b10c2c0cbbc66b4ff1395437c351c2ce88b1214fa8b4c0d1f0",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "no tested literal in any drawn D or H task text (D38)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/need-table-v1.json",
+   "sha256": "040b65926dce604fa86f5c5f63cc6068279a773fccc3dad207164f923865f891",
+   "bytes": 16743,
+   "sha256_fork_copy": "040b65926dce604fa86f5c5f63cc6068279a773fccc3dad207164f923865f891",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "rule-defined need shares at each payload clean state, 54 payloads (D37)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/draw-D-v1.json",
+   "sha256": "d02592b55e44c7ed40f2c11dac3c86b8ab9347145a82a6859cbe48260afbed40",
+   "bytes": 8359,
+   "sha256_fork_copy": "d02592b55e44c7ed40f2c11dac3c86b8ab9347145a82a6859cbe48260afbed40",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the D draw, ids only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/draw-H-v1.json",
+   "sha256": "2cab688f035e0a2fb6d315f63249047b2632f6e402c54481bc4744a222b0591b",
+   "bytes": 36195,
+   "sha256_fork_copy": "2cab688f035e0a2fb6d315f63249047b2632f6e402c54481bc4744a222b0591b",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the H draw, ids only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/note-Z-resume.md",
+   "sha256": "db65c6744b59dfd8a3a3bc5469c2d23cbe30a8b46e2ff07164cfde2a77323b95",
+   "bytes": 2372,
+   "sha256_fork_copy": "db65c6744b59dfd8a3a3bc5469c2d23cbe30a8b46e2ff07164cfde2a77323b95",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "note written before the dose block resumed, without reading an outcome (D36)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/outcomes-dose-v0.jsonl",
+   "sha256": "b4004b67cddf4481695e63442672df10459cedd82613f63a6ad4983f4a019029",
+   "bytes": 1364518,
+   "sha256_fork_copy": "b4004b67cddf4481695e63442672df10459cedd82613f63a6ad4983f4a019029",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "dose block outcomes, 576 runs, text-free fields",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/analysis-Z-v0.json",
+   "sha256": "b26ca2aee5f67619cf7f5f2964c777c7aaebae674f1ad65bccadc48db153d713",
+   "bytes": 27616,
+   "sha256_fork_copy": "b26ca2aee5f67619cf7f5f2964c777c7aaebae674f1ad65bccadc48db153d713",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the dose join",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-Z-v1.md",
+   "sha256": "7e724ebd23a7fcc157e397785a338f9c8db67da52d9b3343b06dc27109347051",
+   "bytes": 6736,
+   "sha256_fork_copy": "7e724ebd23a7fcc157e397785a338f9c8db67da52d9b3343b06dc27109347051",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "dose block: registered estimand and the failure of its premise; no sentence (D41)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/posthoc-Z-v0.json",
+   "sha256": "e919c605f93dd3e303ce1bfcd95e3b6dcf7dd227b6ca2c80a8615caba409001f",
+   "bytes": 11347,
+   "sha256_fork_copy": "e919c605f93dd3e303ce1bfcd95e3b6dcf7dd227b6ca2c80a8615caba409001f",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "post hoc table after the registered premise failed",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-Z-v2.md",
+   "sha256": "77bc70ab82a4874d6d6e97b57caf56b2ab656274d08b759463cf115ae8dcc941",
+   "bytes": 4285,
+   "sha256_fork_copy": "77bc70ab82a4874d6d6e97b57caf56b2ab656274d08b759463cf115ae8dcc941",
+   "copies_identical": true,
+   "tag": "exploratory",
+   "tag_source": "dose block, post hoc table: uptake by number of tested statements present (D43)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/blue/goals-v0.jsonl",
+   "sha256": "7251cc3510c1ff8b526c9c7d03e7b9274fe623e09048e9a964dc2c6137a81936",
+   "bytes": 251472,
+   "sha256_fork_copy": "7251cc3510c1ff8b526c9c7d03e7b9274fe623e09048e9a964dc2c6137a81936",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "blue discovery goals, three per slot, written blind",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/blue/bank-tasks-v0.jsonl",
+   "sha256": "99687b8b42fcec4ceb63e4dfb5202b84264d733cdc38bc92c31fd8c1f41ed70f",
+   "bytes": 607462,
+   "sha256_fork_copy": "99687b8b42fcec4ceb63e4dfb5202b84264d733cdc38bc92c31fd8c1f41ed70f",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the honest bank as offline tasks with arrival weights",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/blue/need-rule.md",
+   "sha256": "20962c67a8831bf1efca879a998f934c012c9faa0e95eb626ca00173212a0e8c",
+   "bytes": 4134,
+   "sha256_fork_copy": "20962c67a8831bf1efca879a998f934c012c9faa0e95eb626ca00173212a0e8c",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the need rule, written before the matrix",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/blue/need-matrix-v0.json",
+   "sha256": "f7a899bcfcec5b40377320ebdf18541d35d51a7b5e51504ed7cfd52a77e9cc1e",
+   "bytes": 68491,
+   "sha256_fork_copy": "f7a899bcfcec5b40377320ebdf18541d35d51a7b5e51504ed7cfd52a77e9cc1e",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the any-state need matrix",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/blue/follower-prompt-warned-v0.txt",
+   "sha256": "452936906407a487a3cbc4c4311815bbbad58becbc768ffc414c6f404a0f61fa",
+   "bytes": 559,
+   "sha256_fork_copy": "452936906407a487a3cbc4c4311815bbbad58becbc768ffc414c6f404a0f61fa",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the warned follower prompt: the frozen prompt plus one paragraph",
    "added_beyond_brief_list": null
   }
  ],
@@ -3855,6 +4315,520 @@
      "copies_identical": true,
      "tag": "descriptive",
      "tag_source": "the same table, readable form",
+     "added_beyond_brief_list": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-14",
+   "by": "coordinator v5 (roadmap v5, lines P0, P1, P2 block Z, P3): the state check, both audits and their joins, potential consequence classes, frozen-state scores, retention, realised use, need shares, the P2 pre-registration with its amendment and the dose block added after verification (decisions log D27 to D43), additive",
+   "added": [
+    "v5/P0/state-check-v0.md",
+    "v5/P0/state-check-v0.json",
+    "v5/P0/severity-rule.md",
+    "v5/P0/severity-classes-v0.json",
+    "v5/P0/audit-neg-table-b.md",
+    "v5/P0/audit-neg-table-b.json",
+    "v5/P0/audit-neg-table-core.json",
+    "v5/P0/audit-neg-literals-v0.md",
+    "v5/P0/audit-neg-literals-v0.json",
+    "v5/P0/frozen-result.md",
+    "v5/P0/frozen-scores-v0.json",
+    "v5/P0/frozen-index-v0.json",
+    "v5/P1/joins-v0.md",
+    "v5/P1/joins-v0.json",
+    "v5/P1/joins-v1.md",
+    "v5/P1/joins-v1.json",
+    "v5/P1/joins-v1-frozen.md",
+    "v5/P1/joins-v1-frozen.json",
+    "v5/P3/retention-v0.md",
+    "v5/P3/retention-v0.json",
+    "v5/P3/use-v1.md",
+    "v5/P3/use-v1.json",
+    "v5/P2/preregistration-v1.md",
+    "v5/P2/preregistration-v1.1.md",
+    "v5/P2/dispositions-round1.md",
+    "v5/P2/dispositions-round2.md",
+    "v5/P2/completion-reader-rule.md",
+    "v5/P2/completion-check-v0.md",
+    "v5/P2/completion-check-v0.json",
+    "v5/P2/red-scorer-validity-v0.json",
+    "v5/P2/red-scorer-agreement-v0.json",
+    "v5/P2/red-literal-in-task-v0.json",
+    "v5/P2/need-table-v1.json",
+    "v5/P2/draw-D-v1.json",
+    "v5/P2/draw-H-v1.json",
+    "v5/P2/note-Z-resume.md",
+    "v5/P2/outcomes-dose-v0.jsonl",
+    "v5/P2/analysis-Z-v0.json",
+    "v5/P2/result-Z-v1.md",
+    "v5/P2/posthoc-Z-v0.json",
+    "v5/P2/result-Z-v2.md",
+    "v5/P2/blue/goals-v0.jsonl",
+    "v5/P2/blue/bank-tasks-v0.jsonl",
+    "v5/P2/blue/need-rule.md",
+    "v5/P2/blue/need-matrix-v0.json",
+    "v5/P2/blue/follower-prompt-warned-v0.txt"
+   ],
+   "entries": [
+    {
+     "path": "v5/P0/state-check-v0.md",
+     "sha256": "b9b8fce023ccb5d563971669884b751e4909dc8dd65568553453dcbac1a1a5fe",
+     "bytes": 5957,
+     "sha256_fork_copy": "b9b8fce023ccb5d563971669884b751e4909dc8dd65568553453dcbac1a1a5fe",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "P0 state check, verdict (b): file order is the live order; recorded scores stand (decisions log D30)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/state-check-v0.json",
+     "sha256": "6865b4e8377e09f79ae00cab8b059fc2decf7e4633176126ce230447a83bc814",
+     "bytes": 6244,
+     "sha256_fork_copy": "6865b4e8377e09f79ae00cab8b059fc2decf7e4633176126ce230447a83bc814",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the state check counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/severity-rule.md",
+     "sha256": "11c5166ef333da8121928bf60a3bd83699fd76b85a8d6c195722ef4fae910ec1",
+     "bytes": 1379,
+     "sha256_fork_copy": "11c5166ef333da8121928bf60a3bd83699fd76b85a8d6c195722ef4fae910ec1",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "potential consequence class rule, written blind by the coordinator before any class (D27)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/severity-classes-v0.json",
+     "sha256": "7e58f32541f3d586ee7527c62b149981cd2330df36a9f8cd7c68398f033a8a6a",
+     "bytes": 4090,
+     "sha256_fork_copy": "7e58f32541f3d586ee7527c62b149981cd2330df36a9f8cd7c68398f033a8a6a",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "payload id with two readers classes; reader A is the class of record (D28, D30)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/audit-neg-table-b.md",
+     "sha256": "30913bdba4b7838ef407730dfb8050791ba75f50f5a3a3b227149ce6f5e32e93",
+     "bytes": 2208,
+     "sha256_fork_copy": "30913bdba4b7838ef407730dfb8050791ba75f50f5a3a3b227149ce6f5e32e93",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "predicate-negative audit under amendment 1, by arm; pass two 20 of 20 (D36)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/audit-neg-table-b.json",
+     "sha256": "2eddd2a724a1a40566000aef23be54de6e6933b03514c717cc193445654870a0",
+     "bytes": 9203,
+     "sha256_fork_copy": "2eddd2a724a1a40566000aef23be54de6e6933b03514c717cc193445654870a0",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/audit-neg-table-core.json",
+     "sha256": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+     "bytes": 12582,
+     "sha256_fork_copy": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "run-level table of the predicate-negative audit: run id, arm, class only (D37)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/audit-neg-literals-v0.md",
+     "sha256": "3ff296ec2611dea3e4005d21dff990c574884c87a35e4a1085833f21ecc8c650",
+     "bytes": 1776,
+     "sha256_fork_copy": "3ff296ec2611dea3e4005d21dff990c574884c87a35e4a1085833f21ecc8c650",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "script count of literals in the audited runs actions (D32)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/audit-neg-literals-v0.json",
+     "sha256": "df56a9c0f6fdb23f7e5758dcc2e816d6ce4bca5c0cbf9d611c887e0b0da909e8",
+     "bytes": 20731,
+     "sha256_fork_copy": "df56a9c0f6fdb23f7e5758dcc2e816d6ce4bca5c0cbf9d611c887e0b0da909e8",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, flags by run id",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/frozen-result.md",
+     "sha256": "c59730a1dd4aee16cc727e25141c2438f30cd91f68c4500b5e1684e6ae147f28",
+     "bytes": 5663,
+     "sha256_fork_copy": "c59730a1dd4aee16cc727e25141c2438f30cd91f68c4500b5e1684e6ae147f28",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "arm B on the frozen states: a frozen-state score, not S; gate E check 1 fails (D41)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/frozen-scores-v0.json",
+     "sha256": "1530fb4939e1fb34ed3485eb0aee19f03ae576769dea43fe2cb79375b8f00aec",
+     "bytes": 6060,
+     "sha256_fork_copy": "1530fb4939e1fb34ed3485eb0aee19f03ae576769dea43fe2cb79375b8f00aec",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "frozen-state scores and flags by key",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P0/frozen-index-v0.json",
+     "sha256": "4a078a77c2e9fa8802f96f655912d6cb8b03abf8a2cca17aed16585c3a95aa8f",
+     "bytes": 20973,
+     "sha256_fork_copy": "4a078a77c2e9fa8802f96f655912d6cb8b03abf8a2cca17aed16585c3a95aa8f",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "text-free index of the frozen-state packets rendered by the red side",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v0.md",
+     "sha256": "91b765e78402cfce1ebcc5a20474015165f1ee72d89cd5c6270d0148a5d48df0",
+     "bytes": 4924,
+     "sha256_fork_copy": "91b765e78402cfce1ebcc5a20474015165f1ee72d89cd5c6270d0148a5d48df0",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "S under each recorded judge, the per-agent view, a 2 percent rule, by consequence class (D30)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v0.json",
+     "sha256": "862c44dc80e531cd74865c8993bb4d139628cd59bdf3cf2eb7b571ab8b0185f3",
+     "bytes": 21876,
+     "sha256_fork_copy": "862c44dc80e531cd74865c8993bb4d139628cd59bdf3cf2eb7b571ab8b0185f3",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v1.md",
+     "sha256": "94caa8d2b884cc93f27e2c78e2727c39b97664f6a485350df39a12af19341e57",
+     "bytes": 5909,
+     "sha256_fork_copy": "94caa8d2b884cc93f27e2c78e2727c39b97664f6a485350df39a12af19341e57",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "uptake and S under the positive audit, the negative audit and both (D38)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v1.json",
+     "sha256": "f0f4bad88aa18fd9425ce1c49f6af2ab66be45aebf6927a559575982085b60c4",
+     "bytes": 27208,
+     "sha256_fork_copy": "f0f4bad88aa18fd9425ce1c49f6af2ab66be45aebf6927a559575982085b60c4",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v1-frozen.md",
+     "sha256": "fc9fa26b3e2ab575e0d5fee7b96eea4076d4f53fce304acefb49c9396468fe8c",
+     "bytes": 2303,
+     "sha256_fork_copy": "fc9fa26b3e2ab575e0d5fee7b96eea4076d4f53fce304acefb49c9396468fe8c",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same computations on frozen-state flags, not named S (D41)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-v1-frozen.json",
+     "sha256": "b87fd8b521ca022d98b5e523cb71e3d732bbe5b80f882712814efda1e3917cb6",
+     "bytes": 27084,
+     "sha256_fork_copy": "b87fd8b521ca022d98b5e523cb71e3d732bbe5b80f882712814efda1e3917cb6",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P3/retention-v0.md",
+     "sha256": "76605e5ee49b64026cb5ab7546ff184ac96b817b30a8697d3e0566645b1ecccc",
+     "bytes": 2807,
+     "sha256_fork_copy": "76605e5ee49b64026cb5ab7546ff184ac96b817b30a8697d3e0566645b1ecccc",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "retention by replay: 0 of 184 ended by an honest edit (D29)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P3/retention-v0.json",
+     "sha256": "fa59599fafea0c3b65693dd99555da6a6496bad32d702dd33037234d7638fe49",
+     "bytes": 57812,
+     "sha256_fork_copy": "fa59599fafea0c3b65693dd99555da6a6496bad32d702dd33037234d7638fe49",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P3/use-v1.md",
+     "sha256": "61f67eaec38c32ebc6dab74c0e88e22316ab86e0ea901b3fa658bdd54aab72ca",
+     "bytes": 9842,
+     "sha256_fork_copy": "61f67eaec38c32ebc6dab74c0e88e22316ab86e0ea901b3fa658bdd54aab72ca",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "realised use of each item in the honest log, file order governing (D34)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P3/use-v1.json",
+     "sha256": "010467aee1bdd6636e91f1bbc01a3a435fc33562c15e6ceb98f17953bada816f",
+     "bytes": 458418,
+     "sha256_fork_copy": "010467aee1bdd6636e91f1bbc01a3a435fc33562c15e6ceb98f17953bada816f",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, per slot and day",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/preregistration-v1.md",
+     "sha256": "19d4a7d5a3e839397f4416c6d2c5bc8ab6687f5ed66a728a6cbfff1f5bec39af",
+     "bytes": 12390,
+     "sha256_fork_copy": "19d4a7d5a3e839397f4416c6d2c5bc8ab6687f5ed66a728a6cbfff1f5bec39af",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "P2 pre-registration v1, hashed before any P2 run; holds the dose amendment to v1.3 (D31)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/preregistration-v1.1.md",
+     "sha256": "ab171917f699ec43b9cf0192e3943c92a7ed9c3fdb82539f632d6517866dda72",
+     "bytes": 6954,
+     "sha256_fork_copy": "ab171917f699ec43b9cf0192e3943c92a7ed9c3fdb82539f632d6517866dda72",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "amendment for blocks D, W and H after the second read, before any D, W or H run (D35)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/dispositions-round1.md",
+     "sha256": "60cef32e74d6ffa12ff4763e12b44a351db68ac9c66eea126d39dea835d7262a",
+     "bytes": 7656,
+     "sha256_fork_copy": "60cef32e74d6ffa12ff4763e12b44a351db68ac9c66eea126d39dea835d7262a",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "dispositions on the first Codex read of the P2 pre-registration",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/dispositions-round2.md",
+     "sha256": "daf5c398650ea105c883853a7dbe08dfe7e804b77036875a03538a27f60914fc",
+     "bytes": 4549,
+     "sha256_fork_copy": "daf5c398650ea105c883853a7dbe08dfe7e804b77036875a03538a27f60914fc",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "dispositions on the second Codex read",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/completion-reader-rule.md",
+     "sha256": "0639360140ef23831ed89eb061d6f869b9f6e0550e0be48ca4d8235e380c9bc0",
+     "bytes": 2029,
+     "sha256_fork_copy": "0639360140ef23831ed89eb061d6f869b9f6e0550e0be48ca4d8235e380c9bc0",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "rule for labelling completion, written before any label (D35)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/completion-check-v0.md",
+     "sha256": "d80c12cdc79367627e4c64e1f1896516c9b1ae50ec92a8b70dbea7afaa884a1f",
+     "bytes": 2006,
+     "sha256_fork_copy": "d80c12cdc79367627e4c64e1f1896516c9b1ae50ec92a8b70dbea7afaa884a1f",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "completion scorer against readers labels: 54 of 54 decided agree (D38)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/completion-check-v0.json",
+     "sha256": "a5f0695548c2bf0f59fb17f5b3424a5979e1263df196715bd84c7bc33fdb59fb",
+     "bytes": 3465,
+     "sha256_fork_copy": "a5f0695548c2bf0f59fb17f5b3424a5979e1263df196715bd84c7bc33fdb59fb",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/red-scorer-validity-v0.json",
+     "sha256": "8f6538b0fd682401895041a02abe914d54bde1382f93f29b566e6c51b1734285",
+     "bytes": 3838,
+     "sha256_fork_copy": "8f6538b0fd682401895041a02abe914d54bde1382f93f29b566e6c51b1734285",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "per payload validity of the tool-free scorer: 54 valid, 2 not (D32)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/red-scorer-agreement-v0.json",
+     "sha256": "daf818e5c9b1180e77948c572f9ba5142c052dd7f99cf8e2e18011939bd9dbbe",
+     "bytes": 1621,
+     "sha256_fork_copy": "daf818e5c9b1180e77948c572f9ba5142c052dd7f99cf8e2e18011939bd9dbbe",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the tool-free scorer against the original predicates on the 672 core runs: 672 agree",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/red-literal-in-task-v0.json",
+     "sha256": "e20a0e7a31a590b10c2c0cbbc66b4ff1395437c351c2ce88b1214fa8b4c0d1f0",
+     "bytes": 5960,
+     "sha256_fork_copy": "e20a0e7a31a590b10c2c0cbbc66b4ff1395437c351c2ce88b1214fa8b4c0d1f0",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "no tested literal in any drawn D or H task text (D38)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/need-table-v1.json",
+     "sha256": "040b65926dce604fa86f5c5f63cc6068279a773fccc3dad207164f923865f891",
+     "bytes": 16743,
+     "sha256_fork_copy": "040b65926dce604fa86f5c5f63cc6068279a773fccc3dad207164f923865f891",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "rule-defined need shares at each payload clean state, 54 payloads (D37)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/draw-D-v1.json",
+     "sha256": "d02592b55e44c7ed40f2c11dac3c86b8ab9347145a82a6859cbe48260afbed40",
+     "bytes": 8359,
+     "sha256_fork_copy": "d02592b55e44c7ed40f2c11dac3c86b8ab9347145a82a6859cbe48260afbed40",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the D draw, ids only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/draw-H-v1.json",
+     "sha256": "2cab688f035e0a2fb6d315f63249047b2632f6e402c54481bc4744a222b0591b",
+     "bytes": 36195,
+     "sha256_fork_copy": "2cab688f035e0a2fb6d315f63249047b2632f6e402c54481bc4744a222b0591b",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the H draw, ids only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/note-Z-resume.md",
+     "sha256": "db65c6744b59dfd8a3a3bc5469c2d23cbe30a8b46e2ff07164cfde2a77323b95",
+     "bytes": 2372,
+     "sha256_fork_copy": "db65c6744b59dfd8a3a3bc5469c2d23cbe30a8b46e2ff07164cfde2a77323b95",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "note written before the dose block resumed, without reading an outcome (D36)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/outcomes-dose-v0.jsonl",
+     "sha256": "b4004b67cddf4481695e63442672df10459cedd82613f63a6ad4983f4a019029",
+     "bytes": 1364518,
+     "sha256_fork_copy": "b4004b67cddf4481695e63442672df10459cedd82613f63a6ad4983f4a019029",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "dose block outcomes, 576 runs, text-free fields",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/analysis-Z-v0.json",
+     "sha256": "b26ca2aee5f67619cf7f5f2964c777c7aaebae674f1ad65bccadc48db153d713",
+     "bytes": 27616,
+     "sha256_fork_copy": "b26ca2aee5f67619cf7f5f2964c777c7aaebae674f1ad65bccadc48db153d713",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the dose join",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-Z-v1.md",
+     "sha256": "7e724ebd23a7fcc157e397785a338f9c8db67da52d9b3343b06dc27109347051",
+     "bytes": 6736,
+     "sha256_fork_copy": "7e724ebd23a7fcc157e397785a338f9c8db67da52d9b3343b06dc27109347051",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "dose block: registered estimand and the failure of its premise; no sentence (D41)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/posthoc-Z-v0.json",
+     "sha256": "e919c605f93dd3e303ce1bfcd95e3b6dcf7dd227b6ca2c80a8615caba409001f",
+     "bytes": 11347,
+     "sha256_fork_copy": "e919c605f93dd3e303ce1bfcd95e3b6dcf7dd227b6ca2c80a8615caba409001f",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "post hoc table after the registered premise failed",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-Z-v2.md",
+     "sha256": "77bc70ab82a4874d6d6e97b57caf56b2ab656274d08b759463cf115ae8dcc941",
+     "bytes": 4285,
+     "sha256_fork_copy": "77bc70ab82a4874d6d6e97b57caf56b2ab656274d08b759463cf115ae8dcc941",
+     "copies_identical": true,
+     "tag": "exploratory",
+     "tag_source": "dose block, post hoc table: uptake by number of tested statements present (D43)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/blue/goals-v0.jsonl",
+     "sha256": "7251cc3510c1ff8b526c9c7d03e7b9274fe623e09048e9a964dc2c6137a81936",
+     "bytes": 251472,
+     "sha256_fork_copy": "7251cc3510c1ff8b526c9c7d03e7b9274fe623e09048e9a964dc2c6137a81936",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "blue discovery goals, three per slot, written blind",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/blue/bank-tasks-v0.jsonl",
+     "sha256": "99687b8b42fcec4ceb63e4dfb5202b84264d733cdc38bc92c31fd8c1f41ed70f",
+     "bytes": 607462,
+     "sha256_fork_copy": "99687b8b42fcec4ceb63e4dfb5202b84264d733cdc38bc92c31fd8c1f41ed70f",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the honest bank as offline tasks with arrival weights",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/blue/need-rule.md",
+     "sha256": "20962c67a8831bf1efca879a998f934c012c9faa0e95eb626ca00173212a0e8c",
+     "bytes": 4134,
+     "sha256_fork_copy": "20962c67a8831bf1efca879a998f934c012c9faa0e95eb626ca00173212a0e8c",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the need rule, written before the matrix",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/blue/need-matrix-v0.json",
+     "sha256": "f7a899bcfcec5b40377320ebdf18541d35d51a7b5e51504ed7cfd52a77e9cc1e",
+     "bytes": 68491,
+     "sha256_fork_copy": "f7a899bcfcec5b40377320ebdf18541d35d51a7b5e51504ed7cfd52a77e9cc1e",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the any-state need matrix",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/blue/follower-prompt-warned-v0.txt",
+     "sha256": "452936906407a487a3cbc4c4311815bbbad58becbc768ffc414c6f404a0f61fa",
+     "bytes": 559,
+     "sha256_fork_copy": "452936906407a487a3cbc4c4311815bbbad58becbc768ffc414c6f404a0f61fa",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the warned follower prompt: the frozen prompt plus one paragraph",
      "added_beyond_brief_list": null
     }
    ]

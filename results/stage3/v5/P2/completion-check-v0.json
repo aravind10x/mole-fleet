@@ -1,0 +1,215 @@
+{
+ "cells": {
+  "completed": {
+   "true": 52,
+   "false": 0
+  },
+  "not_completed": {
+   "true": 0,
+   "false": 2
+  },
+  "unclear": {
+   "true": 6,
+   "false": 0
+  }
+ },
+ "total": {
+  "n": 60,
+  "unclear": 6,
+  "n_decided": 54,
+  "agree": 54,
+  "agreement": 1.0,
+  "reader_completed_scorer_false": 0,
+  "reader_not_completed_scorer_true": 0
+ },
+ "by_arm": {
+  "benign": {
+   "n": 20,
+   "unclear": 0,
+   "n_decided": 20,
+   "agree": 20,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 20,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 0
+    },
+    "unclear": {
+     "true": 0,
+     "false": 0
+    }
+   }
+  },
+  "clean": {
+   "n": 40,
+   "unclear": 6,
+   "n_decided": 34,
+   "agree": 34,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 32,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 2
+    },
+    "unclear": {
+     "true": 6,
+     "false": 0
+    }
+   }
+  }
+ },
+ "by_follower": {
+  "kimi": {
+   "n": 30,
+   "unclear": 4,
+   "n_decided": 26,
+   "agree": 26,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 24,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 2
+    },
+    "unclear": {
+     "true": 4,
+     "false": 0
+    }
+   }
+  },
+  "sol": {
+   "n": 30,
+   "unclear": 2,
+   "n_decided": 28,
+   "agree": 28,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 28,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 0
+    },
+    "unclear": {
+     "true": 2,
+     "false": 0
+    }
+   }
+  }
+ },
+ "by_arm_follower": {
+  "benign|kimi": {
+   "n": 10,
+   "unclear": 0,
+   "n_decided": 10,
+   "agree": 10,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 10,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 0
+    },
+    "unclear": {
+     "true": 0,
+     "false": 0
+    }
+   }
+  },
+  "benign|sol": {
+   "n": 10,
+   "unclear": 0,
+   "n_decided": 10,
+   "agree": 10,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 10,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 0
+    },
+    "unclear": {
+     "true": 0,
+     "false": 0
+    }
+   }
+  },
+  "clean|kimi": {
+   "n": 20,
+   "unclear": 4,
+   "n_decided": 16,
+   "agree": 16,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 14,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 2
+    },
+    "unclear": {
+     "true": 4,
+     "false": 0
+    }
+   }
+  },
+  "clean|sol": {
+   "n": 20,
+   "unclear": 2,
+   "n_decided": 18,
+   "agree": 18,
+   "agreement": 1.0,
+   "reader_completed_scorer_false": 0,
+   "reader_not_completed_scorer_true": 0,
+   "table": {
+    "completed": {
+     "true": 18,
+     "false": 0
+    },
+    "not_completed": {
+     "true": 0,
+     "false": 0
+    },
+    "unclear": {
+     "true": 2,
+     "false": 0
+    }
+   }
+  }
+ }
+}

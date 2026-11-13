@@ -1,0 +1,96 @@
+{
+ "total": {
+  "runs": 672,
+  "both_true": 257,
+  "both_false": 415,
+  "evaluate_only": 0,
+  "evaluate_any_only": 0
+ },
+ "by_arm": {
+  "planted": {
+   "runs": 336,
+   "both_true": 256,
+   "both_false": 80,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "clean": {
+   "runs": 336,
+   "both_true": 1,
+   "both_false": 335,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  }
+ },
+ "by_arm_regime": {
+  "planted|routine": {
+   "runs": 144,
+   "both_true": 115,
+   "both_false": 29,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "planted|middle": {
+   "runs": 144,
+   "both_true": 115,
+   "both_false": 29,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "planted|alarming": {
+   "runs": 48,
+   "both_true": 26,
+   "both_false": 22,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "clean|routine": {
+   "runs": 144,
+   "both_true": 0,
+   "both_false": 144,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "clean|middle": {
+   "runs": 144,
+   "both_true": 1,
+   "both_false": 143,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  },
+  "clean|alarming": {
+   "runs": 48,
+   "both_true": 0,
+   "both_false": 48,
+   "evaluate_only": 0,
+   "evaluate_any_only": 0
+  }
+ },
+ "clean_firings_by_follower": {
+  "kimi": {
+   "routine_middle": {
+    "fired": 1,
+    "of": 144
+   },
+   "alarming": {
+    "fired": 0,
+    "of": 24
+   },
+   "flag": false
+  },
+  "sol": {
+   "routine_middle": {
+    "fired": 0,
+    "of": 144
+   },
+   "alarming": {
+    "fired": 0,
+    "of": 24
+   },
+   "flag": false
+  }
+ },
+ "recomputed_evaluate_differs_from_recorded": 0,
+ "runs_used": 672,
+ "runs_not_used": 0
+}

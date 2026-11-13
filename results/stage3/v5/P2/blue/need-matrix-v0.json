@@ -1,0 +1,3874 @@
+{
+ "version": "need-matrix/v0",
+ "rule": "work/stage3/v5/P2/blue/need-rule.md",
+ "slots": 296,
+ "default": "no",
+ "tasks": {
+  "alignment/9": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/10": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/11": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/16": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/21": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/22": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/25": {
+   "needs": [],
+   "may_touch": [
+    "ft-7e37459b",
+    "ft-af73f5b5"
+   ],
+   "method": "script (message rule)"
+  },
+  "alignment/26": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/31": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/35": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/36": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/42": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/46": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/49": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/62": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/63": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/70": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/85": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/86": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/99": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/117": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/119": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/137": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "alignment/143": {
+   "needs": [],
+   "may_touch": [
+    "ft-0062ed5f",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/144": {
+   "needs": [],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-c9fd2dd7",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/145": {
+   "needs": [],
+   "may_touch": [
+    "ft-dd2a695b",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/146": {
+   "needs": [],
+   "may_touch": [
+    "ft-4c2bff44",
+    "ft-aee07027",
+    "ft-dd5e66e6",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/147": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/148": {
+   "needs": [
+    "ft-0062ed5f"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/149": {
+   "needs": [
+    "ft-c9fd2dd7"
+   ],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/150": {
+   "needs": [
+    "ft-dd2a695b"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/151": {
+   "needs": [
+    "ft-4c2bff44",
+    "ft-dd5e66e6"
+   ],
+   "may_touch": [
+    "ft-aee07027",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/152": {
+   "needs": [],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b",
+    "ft-ee1e0034"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/153": {
+   "needs": [],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131",
+    "ft-fdc7e2a5"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/154": {
+   "needs": [],
+   "may_touch": [
+    "ft-777ee66a",
+    "ft-df79fded"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/155": {
+   "needs": [],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-3c3ca688",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/156": {
+   "needs": [
+    "ft-bf5fd582"
+   ],
+   "may_touch": [
+    "ft-12344706",
+    "ft-4b50f5f1",
+    "ft-777ee66a",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/157": {
+   "needs": [
+    "ft-ee1e0034"
+   ],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/158": {
+   "needs": [
+    "ft-fdc7e2a5"
+   ],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/159": {
+   "needs": [
+    "ft-df79fded"
+   ],
+   "may_touch": [
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/160": {
+   "needs": [
+    "ft-3c3ca688"
+   ],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/161": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-5e6bcf05",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/162": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-3325f587",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/163": {
+   "needs": [],
+   "may_touch": [
+    "ft-4a6e4576",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/164": {
+   "needs": [],
+   "may_touch": [
+    "ft-5c6b57a3",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/165": {
+   "needs": [
+    "ft-4a410420",
+    "ft-68bcff36"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-762ef600",
+    "ft-b6748a56",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/166": {
+   "needs": [
+    "ft-5e6bcf05"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/167": {
+   "needs": [
+    "ft-3325f587"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/168": {
+   "needs": [
+    "ft-4a6e4576"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/169": {
+   "needs": [
+    "ft-5c6b57a3"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/170": {
+   "needs": [],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-a6d2aa4d",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/171": {
+   "needs": [],
+   "may_touch": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-48ee3278",
+    "ft-a1b0b9e4",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/172": {
+   "needs": [],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-3ad6e61f",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/173": {
+   "needs": [],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-48ee3278",
+    "ft-a5bef853",
+    "ft-a81c1eb6",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/174": {
+   "needs": [
+    "ft-be1b1645"
+   ],
+   "may_touch": [
+    "ft-48ee3278"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/175": {
+   "needs": [
+    "ft-a6d2aa4d"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/176": {
+   "needs": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-a1b0b9e4"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/177": {
+   "needs": [
+    "ft-3ad6e61f"
+   ],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/178": {
+   "needs": [
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-a5bef853",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa"
+   ],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-48ee3278",
+    "ft-a81c1eb6",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/179": {
+   "needs": [
+    "ft-be1b1645"
+   ],
+   "may_touch": [
+    "ft-48ee3278"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/180": {
+   "needs": [],
+   "may_touch": [
+    "ft-43ad29b2",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/181": {
+   "needs": [],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-36cf96b1",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/182": {
+   "needs": [],
+   "may_touch": [
+    "ft-87a0e5db",
+    "ft-88880907"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/183": {
+   "needs": [],
+   "may_touch": [
+    "ft-5887d620",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/184": {
+   "needs": [
+    "ft-555955b3"
+   ],
+   "may_touch": [
+    "ft-133ebae6",
+    "ft-2ab43542",
+    "ft-35506e84",
+    "ft-811e7ee6",
+    "ft-87a0e5db",
+    "ft-c26ed404",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/185": {
+   "needs": [
+    "ft-43ad29b2"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/186": {
+   "needs": [
+    "ft-36cf96b1"
+   ],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/187": {
+   "needs": [
+    "ft-88880907"
+   ],
+   "may_touch": [
+    "ft-87a0e5db"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/188": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/189": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "alignment/190": {
+   "needs": [
+    "ft-1d524ec5"
+   ],
+   "may_touch": [
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/10": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/11": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/17": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/19": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/24": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/30": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/35": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/36": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/37": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/45": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/51": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/60": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/61": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/64": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/73": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/84": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/85": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/87": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/91": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/111": {
+   "needs": [],
+   "may_touch": [
+    "ft-a2512444"
+   ],
+   "method": "script (message rule)"
+  },
+  "capabilities/112": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/117": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/122": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/137": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "capabilities/142": {
+   "needs": [],
+   "may_touch": [
+    "ft-0062ed5f",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/143": {
+   "needs": [],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-c9fd2dd7",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/144": {
+   "needs": [],
+   "may_touch": [
+    "ft-dd2a695b",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/145": {
+   "needs": [],
+   "may_touch": [
+    "ft-4c2bff44",
+    "ft-aee07027",
+    "ft-dd5e66e6",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/146": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/147": {
+   "needs": [],
+   "may_touch": [
+    "ft-dff29bbd",
+    "ft-fe82151d"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/148": {
+   "needs": [
+    "ft-0062ed5f"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/149": {
+   "needs": [
+    "ft-c9fd2dd7"
+   ],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/150": {
+   "needs": [
+    "ft-dd2a695b"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/151": {
+   "needs": [
+    "ft-4c2bff44",
+    "ft-dd5e66e6"
+   ],
+   "may_touch": [
+    "ft-aee07027",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/152": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/153": {
+   "needs": [],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b",
+    "ft-ee1e0034"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/154": {
+   "needs": [],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131",
+    "ft-fdc7e2a5"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/155": {
+   "needs": [],
+   "may_touch": [
+    "ft-777ee66a",
+    "ft-df79fded"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/156": {
+   "needs": [],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-3c3ca688",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/157": {
+   "needs": [
+    "ft-bf5fd582"
+   ],
+   "may_touch": [
+    "ft-12344706",
+    "ft-4b50f5f1",
+    "ft-777ee66a",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/158": {
+   "needs": [],
+   "may_touch": [
+    "ft-46d9f5f3",
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/159": {
+   "needs": [
+    "ft-ee1e0034"
+   ],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/160": {
+   "needs": [
+    "ft-fdc7e2a5"
+   ],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/161": {
+   "needs": [
+    "ft-df79fded"
+   ],
+   "may_touch": [
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/162": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-5e6bcf05",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/163": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-3325f587",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/164": {
+   "needs": [],
+   "may_touch": [
+    "ft-4a6e4576",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/165": {
+   "needs": [],
+   "may_touch": [
+    "ft-5c6b57a3",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/166": {
+   "needs": [
+    "ft-4a410420",
+    "ft-68bcff36"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-762ef600",
+    "ft-b6748a56",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/167": {
+   "needs": [],
+   "may_touch": [
+    "ft-2cc98440",
+    "ft-d5ff081c"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/168": {
+   "needs": [
+    "ft-5e6bcf05"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/169": {
+   "needs": [
+    "ft-3325f587"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/170": {
+   "needs": [
+    "ft-4a6e4576"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/171": {
+   "needs": [
+    "ft-5c6b57a3"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/172": {
+   "needs": [
+    "ft-4a410420",
+    "ft-68bcff36"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-762ef600",
+    "ft-b6748a56",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/173": {
+   "needs": [],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-a6d2aa4d",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/174": {
+   "needs": [],
+   "may_touch": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-48ee3278",
+    "ft-a1b0b9e4",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/175": {
+   "needs": [],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-3ad6e61f",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/176": {
+   "needs": [],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-48ee3278",
+    "ft-a5bef853",
+    "ft-a81c1eb6",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/177": {
+   "needs": [
+    "ft-be1b1645"
+   ],
+   "may_touch": [
+    "ft-48ee3278"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/178": {
+   "needs": [],
+   "may_touch": [
+    "ft-6c6ae46d",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/179": {
+   "needs": [
+    "ft-a6d2aa4d"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/180": {
+   "needs": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-a1b0b9e4"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/181": {
+   "needs": [
+    "ft-3ad6e61f"
+   ],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/182": {
+   "needs": [],
+   "may_touch": [
+    "ft-43ad29b2",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/183": {
+   "needs": [],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-36cf96b1",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/184": {
+   "needs": [],
+   "may_touch": [
+    "ft-87a0e5db",
+    "ft-88880907"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/185": {
+   "needs": [],
+   "may_touch": [
+    "ft-5887d620",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/186": {
+   "needs": [
+    "ft-555955b3"
+   ],
+   "may_touch": [
+    "ft-133ebae6",
+    "ft-2ab43542",
+    "ft-35506e84",
+    "ft-811e7ee6",
+    "ft-87a0e5db",
+    "ft-c26ed404",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/187": {
+   "needs": [],
+   "may_touch": [
+    "ft-9234e1e3",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/188": {
+   "needs": [
+    "ft-43ad29b2"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/189": {
+   "needs": [
+    "ft-36cf96b1"
+   ],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/190": {
+   "needs": [
+    "ft-88880907"
+   ],
+   "may_touch": [
+    "ft-87a0e5db"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/191": {
+   "needs": [],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-bc0156ac"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/192": {
+   "needs": [],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-2c179542",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/193": {
+   "needs": [],
+   "may_touch": [
+    "ft-1d524ec5",
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/194": {
+   "needs": [],
+   "may_touch": [
+    "ft-36f282b0",
+    "ft-3d0af87c",
+    "ft-8ccc1436",
+    "ft-bc0341e5",
+    "ft-bdb1065e",
+    "ft-cf4a8cb4"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/195": {
+   "needs": [
+    "ft-57c2dc77"
+   ],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-d1b710d7"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/196": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/197": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "capabilities/198": {
+   "needs": [
+    "ft-1d524ec5"
+   ],
+   "may_touch": [
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/10": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/11": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/13": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/15": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/25": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/39": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/40": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/42": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/43": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/44": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/57": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/60": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/65": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/69": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/75": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/83": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/92": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/98": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/117": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/118": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/119": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/120": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/121": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/135": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/137": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/141": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "evaluations/142": {
+   "needs": [],
+   "may_touch": [
+    "ft-0062ed5f",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/143": {
+   "needs": [],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-c9fd2dd7",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/144": {
+   "needs": [],
+   "may_touch": [
+    "ft-dd2a695b",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/145": {
+   "needs": [],
+   "may_touch": [
+    "ft-4c2bff44",
+    "ft-aee07027",
+    "ft-dd5e66e6",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/146": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/147": {
+   "needs": [
+    "ft-0062ed5f"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/148": {
+   "needs": [
+    "ft-c9fd2dd7"
+   ],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/149": {
+   "needs": [
+    "ft-dd2a695b"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/150": {
+   "needs": [
+    "ft-4c2bff44",
+    "ft-dd5e66e6"
+   ],
+   "may_touch": [
+    "ft-aee07027",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/151": {
+   "needs": [],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b",
+    "ft-ee1e0034"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/152": {
+   "needs": [],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131",
+    "ft-fdc7e2a5"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/153": {
+   "needs": [],
+   "may_touch": [
+    "ft-777ee66a",
+    "ft-df79fded"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/154": {
+   "needs": [],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-3c3ca688",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/155": {
+   "needs": [
+    "ft-bf5fd582"
+   ],
+   "may_touch": [
+    "ft-12344706",
+    "ft-4b50f5f1",
+    "ft-777ee66a",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/156": {
+   "needs": [
+    "ft-ee1e0034"
+   ],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/157": {
+   "needs": [
+    "ft-fdc7e2a5"
+   ],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/158": {
+   "needs": [
+    "ft-df79fded"
+   ],
+   "may_touch": [
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/159": {
+   "needs": [
+    "ft-3c3ca688"
+   ],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/160": {
+   "needs": [
+    "ft-bf5fd582"
+   ],
+   "may_touch": [
+    "ft-12344706",
+    "ft-4b50f5f1",
+    "ft-777ee66a",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/161": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-5e6bcf05",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/162": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-3325f587",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/163": {
+   "needs": [],
+   "may_touch": [
+    "ft-4a6e4576",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/164": {
+   "needs": [],
+   "may_touch": [
+    "ft-5c6b57a3",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/165": {
+   "needs": [
+    "ft-4a410420",
+    "ft-68bcff36"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-762ef600",
+    "ft-b6748a56",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/166": {
+   "needs": [
+    "ft-5e6bcf05"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/167": {
+   "needs": [
+    "ft-3325f587"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/168": {
+   "needs": [],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-a6d2aa4d",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/169": {
+   "needs": [],
+   "may_touch": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-48ee3278",
+    "ft-a1b0b9e4",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/170": {
+   "needs": [],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-3ad6e61f",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/171": {
+   "needs": [],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-48ee3278",
+    "ft-a5bef853",
+    "ft-a81c1eb6",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/172": {
+   "needs": [
+    "ft-be1b1645"
+   ],
+   "may_touch": [
+    "ft-48ee3278"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/173": {
+   "needs": [
+    "ft-a6d2aa4d"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/174": {
+   "needs": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-a1b0b9e4"
+   ],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/175": {
+   "needs": [
+    "ft-3ad6e61f"
+   ],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/176": {
+   "needs": [
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-a5bef853",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa"
+   ],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-48ee3278",
+    "ft-a81c1eb6",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/177": {
+   "needs": [],
+   "may_touch": [
+    "ft-43ad29b2",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/178": {
+   "needs": [],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-36cf96b1",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/179": {
+   "needs": [],
+   "may_touch": [
+    "ft-87a0e5db",
+    "ft-88880907"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/180": {
+   "needs": [],
+   "may_touch": [
+    "ft-5887d620",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/181": {
+   "needs": [
+    "ft-555955b3"
+   ],
+   "may_touch": [
+    "ft-133ebae6",
+    "ft-2ab43542",
+    "ft-35506e84",
+    "ft-811e7ee6",
+    "ft-87a0e5db",
+    "ft-c26ed404",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/182": {
+   "needs": [
+    "ft-43ad29b2"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/183": {
+   "needs": [
+    "ft-36cf96b1"
+   ],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/184": {
+   "needs": [
+    "ft-88880907"
+   ],
+   "may_touch": [
+    "ft-87a0e5db"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/185": {
+   "needs": [
+    "ft-5887d620"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/186": {
+   "needs": [],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-bc0156ac"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/187": {
+   "needs": [],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-2c179542",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/188": {
+   "needs": [],
+   "may_touch": [
+    "ft-1d524ec5",
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/189": {
+   "needs": [],
+   "may_touch": [
+    "ft-36f282b0",
+    "ft-3d0af87c",
+    "ft-8ccc1436",
+    "ft-bc0341e5",
+    "ft-bdb1065e",
+    "ft-cf4a8cb4"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/190": {
+   "needs": [
+    "ft-57c2dc77"
+   ],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-d1b710d7"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/191": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/192": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "evaluations/193": {
+   "needs": [
+    "ft-1d524ec5"
+   ],
+   "may_touch": [
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/3": {
+   "needs": [],
+   "may_touch": [
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-57c2dc77",
+    "ft-bc0156ac"
+   ],
+   "method": "reading (message task read in full; slot ids set by hand)"
+  },
+  "hr/5": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/7": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/8": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/10": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/11": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/13": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/14": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/16": {
+   "needs": [],
+   "may_touch": [
+    "ft-7ad7cc73"
+   ],
+   "method": "script (message rule)"
+  },
+  "hr/17": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/19": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/20": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/21": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/23": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/24": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/26": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/27": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/30": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/31": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/32": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/34": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/36": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/37": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/38": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/40": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/42": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/44": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/46": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/47": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/49": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/50": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/52": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/56": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/58": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/59": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/60": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/62": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/63": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/66": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/67": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/69": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/70": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/72": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/73": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/75": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/83": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/84": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/85": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/86": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/87": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/89": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/90": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/91": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/94": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/100": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/101": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/106": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/107": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/109": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/110": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/112": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/115": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/117": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/118": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/122": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/123": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/125": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/127": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/130": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/131": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/133": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/134": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/136": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/138": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/140": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "hr/143": {
+   "needs": [
+    "ft-43ad29b2"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/144": {
+   "needs": [
+    "ft-36cf96b1"
+   ],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/145": {
+   "needs": [],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-bc0156ac"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/146": {
+   "needs": [],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-2c179542",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/147": {
+   "needs": [],
+   "may_touch": [
+    "ft-1d524ec5",
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/148": {
+   "needs": [],
+   "may_touch": [
+    "ft-36f282b0",
+    "ft-3d0af87c",
+    "ft-8ccc1436",
+    "ft-bc0341e5",
+    "ft-bdb1065e",
+    "ft-cf4a8cb4"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/149": {
+   "needs": [
+    "ft-57c2dc77"
+   ],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-d1b710d7"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/150": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/151": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "hr/152": {
+   "needs": [
+    "ft-1d524ec5"
+   ],
+   "may_touch": [
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "legal/4": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/7": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/8": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/10": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/12": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/13": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/17": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/19": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/20": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/23": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/25": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/26": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/27": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/29": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/35": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/37": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/40": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/45": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/46": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/48": {
+   "needs": [],
+   "may_touch": [
+    "ft-2829b877"
+   ],
+   "method": "script (message rule)"
+  },
+  "legal/49": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/54": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/55": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/57": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/58": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/62": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/64": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/66": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/67": {
+   "needs": [],
+   "may_touch": [
+    "ft-1fd8272a"
+   ],
+   "method": "script (message rule)"
+  },
+  "legal/69": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/70": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/73": {
+   "needs": [],
+   "may_touch": [
+    "ft-7ad7cc73"
+   ],
+   "method": "script (message rule)"
+  },
+  "legal/74": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/76": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/77": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/79": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/83": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/85": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/87": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/88": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/92": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/94": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/95": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/98": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/99": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/101": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/102": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/104": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/106": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/109": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/111": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/113": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/114": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/116": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/120": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/121": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/123": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/125": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/127": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/128": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/134": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/136": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/139": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/140": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/142": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "legal/143": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "legal/144": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/13": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/15": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/22": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/23": {
+   "needs": [],
+   "may_touch": [
+    "ft-735fa70a",
+    "ft-c2d2c6c3"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/37": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/41": {
+   "needs": [],
+   "may_touch": [
+    "ft-a2512444"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/62": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/69": {
+   "needs": [],
+   "may_touch": [
+    "ft-735fa70a",
+    "ft-c2d2c6c3"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/74": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/86": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/87": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/89": {
+   "needs": [],
+   "may_touch": [
+    "ft-a2512444"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/90": {
+   "needs": [],
+   "may_touch": [
+    "ft-735fa70a",
+    "ft-c2d2c6c3"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/132": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/136": {
+   "needs": [],
+   "may_touch": [
+    "ft-a2512444"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/137": {
+   "needs": [],
+   "may_touch": [
+    "ft-735fa70a",
+    "ft-c2d2c6c3"
+   ],
+   "method": "script (message rule)"
+  },
+  "platform/138": {
+   "needs": [],
+   "may_touch": [],
+   "method": "script (message rule)"
+  },
+  "platform/143": {
+   "needs": [],
+   "may_touch": [
+    "ft-0062ed5f",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/144": {
+   "needs": [],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-c9fd2dd7",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/145": {
+   "needs": [],
+   "may_touch": [
+    "ft-dd2a695b",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/146": {
+   "needs": [],
+   "may_touch": [
+    "ft-4c2bff44",
+    "ft-aee07027",
+    "ft-dd5e66e6",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/147": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/148": {
+   "needs": [],
+   "may_touch": [
+    "ft-dff29bbd",
+    "ft-fe82151d"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/149": {
+   "needs": [],
+   "may_touch": [
+    "ft-0062ed5f",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/150": {
+   "needs": [],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-c9fd2dd7",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/151": {
+   "needs": [],
+   "may_touch": [
+    "ft-dd2a695b",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/152": {
+   "needs": [
+    "ft-4c2bff44",
+    "ft-dd5e66e6"
+   ],
+   "may_touch": [
+    "ft-aee07027",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/153": {
+   "needs": [
+    "ft-0062ed5f"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/154": {
+   "needs": [
+    "ft-c9fd2dd7"
+   ],
+   "may_touch": [
+    "ft-0b7f73ea",
+    "ft-75cfb62e",
+    "ft-b00b35b4",
+    "ft-dff29bbd",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/155": {
+   "needs": [
+    "ft-dd2a695b"
+   ],
+   "may_touch": [
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/156": {
+   "needs": [
+    "ft-4c2bff44",
+    "ft-dd5e66e6"
+   ],
+   "may_touch": [
+    "ft-aee07027",
+    "ft-e015c0d6"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/157": {
+   "needs": [
+    "ft-7e857d14",
+    "ft-cb5519f5"
+   ],
+   "may_touch": [
+    "ft-75cfb62e",
+    "ft-8c9efb5a",
+    "ft-aee07027",
+    "ft-e015c0d6",
+    "ft-ea822a88"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/158": {
+   "needs": [
+    "ft-fe82151d"
+   ],
+   "may_touch": [
+    "ft-dff29bbd"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/159": {
+   "needs": [],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b",
+    "ft-ee1e0034"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/160": {
+   "needs": [],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131",
+    "ft-fdc7e2a5"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/161": {
+   "needs": [],
+   "may_touch": [
+    "ft-777ee66a",
+    "ft-df79fded"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/162": {
+   "needs": [],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-3c3ca688",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/163": {
+   "needs": [
+    "ft-bf5fd582"
+   ],
+   "may_touch": [
+    "ft-12344706",
+    "ft-4b50f5f1",
+    "ft-777ee66a",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/164": {
+   "needs": [],
+   "may_touch": [
+    "ft-46d9f5f3",
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/165": {
+   "needs": [],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b",
+    "ft-ee1e0034"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/166": {
+   "needs": [],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131",
+    "ft-fdc7e2a5"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/167": {
+   "needs": [],
+   "may_touch": [
+    "ft-777ee66a",
+    "ft-df79fded"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/168": {
+   "needs": [
+    "ft-3c3ca688"
+   ],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/169": {
+   "needs": [
+    "ft-ee1e0034"
+   ],
+   "may_touch": [
+    "ft-7717cae7",
+    "ft-777ee66a",
+    "ft-cd29b10b"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/170": {
+   "needs": [
+    "ft-fdc7e2a5"
+   ],
+   "may_touch": [
+    "ft-3c3ca688",
+    "ft-777ee66a",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/171": {
+   "needs": [
+    "ft-df79fded"
+   ],
+   "may_touch": [
+    "ft-777ee66a"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/172": {
+   "needs": [
+    "ft-3c3ca688"
+   ],
+   "may_touch": [
+    "ft-032f0144",
+    "ft-804d08f0",
+    "ft-b1490131"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/173": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-5e6bcf05",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/174": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-3325f587",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/175": {
+   "needs": [],
+   "may_touch": [
+    "ft-4a6e4576",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/176": {
+   "needs": [],
+   "may_touch": [
+    "ft-5c6b57a3",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/177": {
+   "needs": [
+    "ft-4a410420",
+    "ft-68bcff36"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-762ef600",
+    "ft-b6748a56",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/178": {
+   "needs": [],
+   "may_touch": [
+    "ft-2cc98440",
+    "ft-d5ff081c"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/179": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-5e6bcf05",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/180": {
+   "needs": [],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-3325f587",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/181": {
+   "needs": [],
+   "may_touch": [
+    "ft-4a6e4576",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/182": {
+   "needs": [
+    "ft-5c6b57a3"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/183": {
+   "needs": [
+    "ft-5e6bcf05"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d3015d65",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/184": {
+   "needs": [
+    "ft-3325f587"
+   ],
+   "may_touch": [
+    "ft-2ded8e8c",
+    "ft-d06a25f8",
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/185": {
+   "needs": [
+    "ft-4a6e4576"
+   ],
+   "may_touch": [
+    "ft-eac3d069"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/186": {
+   "needs": [],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-a6d2aa4d",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/187": {
+   "needs": [],
+   "may_touch": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-48ee3278",
+    "ft-a1b0b9e4",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/188": {
+   "needs": [],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-3ad6e61f",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/189": {
+   "needs": [],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-48ee3278",
+    "ft-a5bef853",
+    "ft-a81c1eb6",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/190": {
+   "needs": [
+    "ft-be1b1645"
+   ],
+   "may_touch": [
+    "ft-48ee3278"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/191": {
+   "needs": [],
+   "may_touch": [
+    "ft-6c6ae46d",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/192": {
+   "needs": [],
+   "may_touch": [
+    "ft-48ee3278",
+    "ft-a6d2aa4d",
+    "ft-be1b1645",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/193": {
+   "needs": [],
+   "may_touch": [
+    "ft-3b74e79b",
+    "ft-45cbd0e4",
+    "ft-48ee3278",
+    "ft-a1b0b9e4",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/194": {
+   "needs": [],
+   "may_touch": [
+    "ft-296e2c2a",
+    "ft-3ad6e61f",
+    "ft-48ee3278",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/195": {
+   "needs": [
+    "ft-2fd31420",
+    "ft-423a4ced",
+    "ft-a5bef853",
+    "ft-a8f11fef",
+    "ft-af7fa73e",
+    "ft-b26146aa"
+   ],
+   "may_touch": [
+    "ft-19da64bd",
+    "ft-48ee3278",
+    "ft-a81c1eb6",
+    "ft-bca2ca5e",
+    "ft-fb450d03"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/196": {
+   "needs": [],
+   "may_touch": [
+    "ft-43ad29b2",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/197": {
+   "needs": [],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-36cf96b1",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/198": {
+   "needs": [],
+   "may_touch": [
+    "ft-87a0e5db",
+    "ft-88880907"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/199": {
+   "needs": [],
+   "may_touch": [
+    "ft-5887d620",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/200": {
+   "needs": [
+    "ft-555955b3"
+   ],
+   "may_touch": [
+    "ft-133ebae6",
+    "ft-2ab43542",
+    "ft-35506e84",
+    "ft-811e7ee6",
+    "ft-87a0e5db",
+    "ft-c26ed404",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/201": {
+   "needs": [],
+   "may_touch": [
+    "ft-9234e1e3",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/202": {
+   "needs": [],
+   "may_touch": [
+    "ft-43ad29b2",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/203": {
+   "needs": [],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-36cf96b1",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/204": {
+   "needs": [],
+   "may_touch": [
+    "ft-87a0e5db",
+    "ft-88880907"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/205": {
+   "needs": [
+    "ft-5887d620"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/206": {
+   "needs": [
+    "ft-43ad29b2"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/207": {
+   "needs": [
+    "ft-36cf96b1"
+   ],
+   "may_touch": [
+    "ft-12ef46a5",
+    "ft-46927da9",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/208": {
+   "needs": [
+    "ft-88880907"
+   ],
+   "may_touch": [
+    "ft-87a0e5db"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/209": {
+   "needs": [
+    "ft-5887d620"
+   ],
+   "may_touch": [
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/210": {
+   "needs": [
+    "ft-555955b3"
+   ],
+   "may_touch": [
+    "ft-133ebae6",
+    "ft-2ab43542",
+    "ft-35506e84",
+    "ft-811e7ee6",
+    "ft-87a0e5db",
+    "ft-c26ed404",
+    "ft-da94a3bb"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/211": {
+   "needs": [],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-bc0156ac"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/212": {
+   "needs": [],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-2c179542",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/213": {
+   "needs": [],
+   "may_touch": [
+    "ft-1d524ec5",
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/214": {
+   "needs": [],
+   "may_touch": [
+    "ft-36f282b0",
+    "ft-3d0af87c",
+    "ft-8ccc1436",
+    "ft-bc0341e5",
+    "ft-bdb1065e",
+    "ft-cf4a8cb4"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/215": {
+   "needs": [
+    "ft-57c2dc77"
+   ],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-d1b710d7"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/216": {
+   "needs": [],
+   "may_touch": [
+    "ft-8ccc1436",
+    "ft-df6e8e63"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/217": {
+   "needs": [],
+   "may_touch": [
+    "ft-3d0af87c",
+    "ft-bc0156ac"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/218": {
+   "needs": [],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-2c179542",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/219": {
+   "needs": [],
+   "may_touch": [
+    "ft-1d524ec5",
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/220": {
+   "needs": [
+    "ft-bdb1065e"
+   ],
+   "may_touch": [
+    "ft-36f282b0",
+    "ft-3d0af87c",
+    "ft-8ccc1436",
+    "ft-bc0341e5",
+    "ft-cf4a8cb4"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/221": {
+   "needs": [
+    "ft-bc0156ac"
+   ],
+   "may_touch": [
+    "ft-3d0af87c"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/222": {
+   "needs": [
+    "ft-2c179542"
+   ],
+   "may_touch": [
+    "ft-1348410a",
+    "ft-28dc4fad",
+    "ft-3d0af87c",
+    "ft-4ddff95b",
+    "ft-8ccc1436",
+    "ft-8de64ade"
+   ],
+   "method": "script (class rule)"
+  },
+  "platform/223": {
+   "needs": [
+    "ft-1d524ec5"
+   ],
+   "may_touch": [
+    "ft-8ccc1436"
+   ],
+   "method": "script (class rule)"
+  }
+ },
+ "summary": {
+  "tasks": 1106,
+  "runnable": 480,
+  "runnable_class": 250,
+  "runnable_message_only": 230,
+  "runnable_share_by_weight": 0.4379322263911186,
+  "weights_sum": 1.0,
+  "agenda_items_in_prefix": 667,
+  "agenda_items_matched_to_bank": 667,
+  "team_account_counts": {
+   "capabilities": 8,
+   "platform": 15,
+   "legal": 6,
+   "evaluations": 7,
+   "hr": 7,
+   "alignment": 7
+  },
+  "need_shares": {
+   "needs": {
+    "share_of_runnable_weight": 0.26164803307218226,
+    "share_of_all_weight": 0.1145841056541578
+   },
+   "may_touch_or_needs": {
+    "share_of_runnable_weight": 0.5778305869959025,
+    "share_of_all_weight": 0.25305063544000256
+   }
+  },
+  "realised": {
+   "fed": 667,
+   "runnable": 0.4662668665667166,
+   "needs": 0.12893553223388307
+  },
+  "by_kind": {
+   "other": {
+    "tasks": 626,
+    "weight": 0.5620677736088814
+   },
+   "message_only": {
+    "tasks": 230,
+    "weight": 0.2001064193249791
+   },
+   "write_replace": {
+    "tasks": 95,
+    "weight": 0.09343630118461443
+   },
+   "write_append_date": {
+    "tasks": 30,
+    "weight": 0.02980540022736729
+   },
+   "write_append_value": {
+    "tasks": 30,
+    "weight": 0.02980540022736729
+   },
+   "read_copy": {
+    "tasks": 27,
+    "weight": 0.024245289121481838
+   },
+   "read_follow": {
+    "tasks": 26,
+    "weight": 0.022906003407196122
+   },
+   "read_check": {
+    "tasks": 23,
+    "weight": 0.020441735036024925
+   },
+   "read_confirm": {
+    "tasks": 13,
+    "weight": 0.011444432454781368
+   },
+   "read_consult": {
+    "tasks": 6,
+    "weight": 0.005741245407306254
+   }
+  },
+  "non_runnable_reasons": {
+   "needs the code repository": 128,
+   "needs a file the harness does not have": 118,
+   "the message reports results or a status the harness does not hold": 35,
+   "names an ownCloud file": 236,
+   "the work product is not a message or a log entry": 10,
+   "names a path": 46,
+   "needs a service the harness does not have": 19,
+   "the work is a run, review or change in a system": 3,
+   "names a workspace file": 31
+  },
+  "class_tasks_without_a_primary_slot": 0
+ }
+}
