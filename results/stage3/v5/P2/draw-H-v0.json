@@ -1,0 +1,1351 @@
+{
+ "rule": "random.Random(20261114); payloads sorted; tasks sorted by id; choices with arrival weights, with replacement; 2 need, 1 may_touch, rest up to 4 from all runnable; eligible tasks only; an empty stratum's draws go to the last",
+ "seed": 20261114,
+ "n": 224,
+ "draws": [
+  {
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "alignment/175"
+  },
+  {
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "capabilities/179"
+  },
+  {
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "may_touch",
+   "task_id": "platform/192"
+  },
+  {
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "all",
+   "task_id": "hr/47"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "may_touch",
+   "task_id": "platform/217"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "all",
+   "task_id": "capabilities/73"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/37"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "capabilities/162"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/180"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/175"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "legal/45"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "hr/72"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "hr/118"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "evaluations/144"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "capabilities/64"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "capabilities/156"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "platform/217"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "hr/89"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "may_touch",
+   "task_id": "platform/222"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "platform/178"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "platform/211"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "hr/112"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "all",
+   "task_id": "hr/31"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "all",
+   "task_id": "platform/155"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "all",
+   "task_id": "platform/138"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "all",
+   "task_id": "legal/27"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/74"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/37"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "evaluations/65"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "capabilities/178"
+  },
+  {
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "legal/144"
+  },
+  {
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "evaluations/192"
+  },
+  {
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "may_touch",
+   "task_id": "platform/218"
+  },
+  {
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "all",
+   "task_id": "capabilities/156"
+  },
+  {
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "alignment/190"
+  },
+  {
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "capabilities/35"
+  },
+  {
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "capabilities/111"
+  },
+  {
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "hr/63"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "need",
+   "task_id": "platform/170"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "need",
+   "task_id": "capabilities/160"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "may_touch",
+   "task_id": "platform/166"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "all",
+   "task_id": "capabilities/155"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "may_touch",
+   "task_id": "platform/218"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "evaluations/153"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "capabilities/160"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "all",
+   "task_id": "platform/138"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "platform/222"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "capabilities/197"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "may_touch",
+   "task_id": "capabilities/192"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "all",
+   "task_id": "hr/133"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "hr/47"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "evaluations/43"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "legal/125"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "all",
+   "task_id": "platform/179"
+  },
+  {
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "evaluations/159"
+  },
+  {
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "may_touch",
+   "task_id": "platform/162"
+  },
+  {
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "all",
+   "task_id": "platform/160"
+  },
+  {
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "platform/222"
+  },
+  {
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "platform/90"
+  },
+  {
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/42"
+  },
+  {
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "capabilities/162"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "hr/38"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "capabilities/137"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "legal/79"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "legal/23"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "may_touch",
+   "task_id": "platform/189"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "hr/21"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "platform/150"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "hr/59"
+  },
+  {
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "alignment/175"
+  },
+  {
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "capabilities/179"
+  },
+  {
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "may_touch",
+   "task_id": "platform/186"
+  },
+  {
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "all",
+   "task_id": "legal/121"
+  },
+  {
+   "payload_id": "P66c865e8",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/172"
+  },
+  {
+   "payload_id": "P66c865e8",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "P66c865e8",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "may_touch",
+   "task_id": "platform/166"
+  },
+  {
+   "payload_id": "P66c865e8",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "all",
+   "task_id": "legal/8"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "legal/92"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "evaluations/186"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "platform/196"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "legal/66"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "all",
+   "task_id": "platform/223"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "all",
+   "task_id": "capabilities/162"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "all",
+   "task_id": "platform/223"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "all",
+   "task_id": "evaluations/120"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "all",
+   "task_id": "platform/170"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "all",
+   "task_id": "hr/100"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "all",
+   "task_id": "platform/150"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "all",
+   "task_id": "alignment/144"
+  },
+  {
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "all",
+   "task_id": "hr/127"
+  },
+  {
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "all",
+   "task_id": "platform/191"
+  },
+  {
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "all",
+   "task_id": "legal/48"
+  },
+  {
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "all",
+   "task_id": "hr/146"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "may_touch",
+   "task_id": "alignment/173"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "capabilities/73"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "platform/190"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "all",
+   "task_id": "hr/59"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "evaluations/175"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "capabilities/181"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "may_touch",
+   "task_id": "platform/194"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "all",
+   "task_id": "legal/85"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "capabilities/157"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "platform/163"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "all",
+   "task_id": "platform/15"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "all",
+   "task_id": "evaluations/144"
+  },
+  {
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "platform/87"
+  },
+  {
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "alignment/190"
+  },
+  {
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "platform/193"
+  },
+  {
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "alignment/157"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "capabilities/181"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "capabilities/181"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "may_touch",
+   "task_id": "platform/194"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "all",
+   "task_id": "alignment/177"
+  },
+  {
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "need",
+   "task_id": "platform/190"
+  },
+  {
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "need",
+   "task_id": "platform/190"
+  },
+  {
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "may_touch",
+   "task_id": "capabilities/173"
+  },
+  {
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "all",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "need",
+   "task_id": "alignment/159"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "need",
+   "task_id": "evaluations/158"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "may_touch",
+   "task_id": "evaluations/153"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "all",
+   "task_id": "legal/23"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "all",
+   "task_id": "platform/132"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "all",
+   "task_id": "hr/84"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "all",
+   "task_id": "alignment/35"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "all",
+   "task_id": "capabilities/185"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "all",
+   "task_id": "evaluations/160"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "all",
+   "task_id": "hr/101"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "all",
+   "task_id": "alignment/170"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "all",
+   "task_id": "evaluations/164"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "all",
+   "task_id": "hr/85"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "all",
+   "task_id": "legal/49"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "all",
+   "task_id": "legal/94"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "all",
+   "task_id": "hr/50"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "evaluations/157"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "platform/150"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "capabilities/177"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "capabilities/181"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "capabilities/157"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "platform/163"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "all",
+   "task_id": "platform/162"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "all",
+   "task_id": "alignment/158"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "all",
+   "task_id": "alignment/149"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "all",
+   "task_id": "evaluations/10"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "all",
+   "task_id": "evaluations/158"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "all",
+   "task_id": "evaluations/11"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "hr/146"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "alignment/161"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "all",
+   "task_id": "capabilities/174"
+  },
+  {
+   "payload_id": "Pafd41b45",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188"
+  },
+  {
+   "payload_id": "Pafd41b45",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "platform/221"
+  },
+  {
+   "payload_id": "Pafd41b45",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "may_touch",
+   "task_id": "hr/145"
+  },
+  {
+   "payload_id": "Pafd41b45",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "all",
+   "task_id": "evaluations/143"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "all",
+   "task_id": "evaluations/11"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "all",
+   "task_id": "legal/144"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "all",
+   "task_id": "legal/101"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "all",
+   "task_id": "hr/110"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/101"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "capabilities/164"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "evaluations/168"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/60"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "legal/74"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "platform/160"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "hr/26"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "all",
+   "task_id": "legal/10"
+  },
+  {
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "platform/197"
+  },
+  {
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "hr/138"
+  },
+  {
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "hr/133"
+  },
+  {
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "all",
+   "task_id": "capabilities/175"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "all",
+   "task_id": "capabilities/191"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "all",
+   "task_id": "platform/170"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "all",
+   "task_id": "legal/144"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "all",
+   "task_id": "platform/145"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/149"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "legal/79"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "legal/136"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/91"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/168"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "may_touch",
+   "task_id": "platform/170"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "all",
+   "task_id": "evaluations/189"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "may_touch",
+   "task_id": "capabilities/181"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "platform/144"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "alignment/70"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "capabilities/142"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "may_touch",
+   "task_id": "evaluations/175"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "capabilities/137"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "legal/19"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "all",
+   "task_id": "evaluations/135"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "platform/155"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "hr/107"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "alignment/49"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "all",
+   "task_id": "hr/20"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "need",
+   "task_id": "alignment/190"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "need",
+   "task_id": "platform/223"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "may_touch",
+   "task_id": "evaluations/188"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "all",
+   "task_id": "legal/69"
+  },
+  {
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "alignment/181"
+  },
+  {
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "evaluations/25"
+  },
+  {
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "hr/109"
+  },
+  {
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "all",
+   "task_id": "platform/222"
+  },
+  {
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "evaluations/191"
+  },
+  {
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "legal/143"
+  },
+  {
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "may_touch",
+   "task_id": "platform/217"
+  },
+  {
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "all",
+   "task_id": "hr/20"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "need",
+   "task_id": "platform/158"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "need",
+   "task_id": "platform/158"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "may_touch",
+   "task_id": "capabilities/147"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "all",
+   "task_id": "alignment/25"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "need",
+   "task_id": "platform/220"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "need",
+   "task_id": "platform/220"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "may_touch",
+   "task_id": "capabilities/194"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "all",
+   "task_id": "platform/150"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "all",
+   "task_id": "platform/178"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "all",
+   "task_id": "platform/194"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "all",
+   "task_id": "alignment/31"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "all",
+   "task_id": "hr/13"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "evaluations/169"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "platform/192"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "legal/139"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "all",
+   "task_id": "hr/5"
+  }
+ ]
+}
