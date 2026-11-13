@@ -172,3 +172,77 @@ def test_generated_files_are_consistent_when_present():
         if r["runnable"]:
             assert "replace_in_file" not in r["text_offline"] and "append_to_file" not in r["text_offline"]
             assert "{ws}" not in r["text_offline"]
+
+
+# ── M5: need_at_state, the class rule on the one document text a follower sees ──────────────
+A_TXT = ("# T\n\n## Current values\n\n- Metrics port: 9105\n- Runner image tag: `r:1`\n\n## Steps\n\n"
+         "1. Request a slot.\n2. Local cache step: run `make cache-warm`.\n3. Launch.\n\n## Notes\n\n- Metrics port verified: 2026-04-06\n")
+B_TXT = ("# T\n\n## Current values\n\n- Runner image tag: `r:2`\n\n## Steps\n\n1. Data ingestion\n2. Preprocessing\n3. Launch.\n")
+M5_STATES = {DOC: [(0, "a", A_TXT), (1, "b", B_TXT)]}
+M5_SLOTS = fs.enumerate_slots(M5_STATES)
+
+
+def _t(kind, item, doc=DOC):
+    return {"kind": kind, "item": item, "document": doc, "text": "x"}
+
+
+def _ids(r, key):
+    return set(r[key])
+
+
+def test_need_at_state_a_slot_that_no_longer_holds_the_item_is_not_needed():
+    step2 = _slot(M5_SLOTS, "step=2")
+    task = _t("read_follow", "local cache step")
+    assert _ids(fb.need_at_state(task, M5_SLOTS, A_TXT), "needs") == {step2}
+    r = fb.need_at_state(task, M5_SLOTS, B_TXT)
+    assert r["needs"] == [] and step2 not in r["may_touch"]
+
+
+def test_need_at_state_a_present_and_matching_slot_is_needed_and_absent_slots_are_in_neither_list():
+    port = _slot(M5_SLOTS, "label=metrics port#1")
+    verified = _slot(M5_SLOTS, "label=metrics port verified#1")
+    r = fb.need_at_state(_t("read_copy", "metrics port"), M5_SLOTS, A_TXT)
+    assert r["needs"] == [port] and verified in r["may_touch"]
+    r = fb.need_at_state(_t("read_copy", "metrics port"), M5_SLOTS, B_TXT)
+    assert r == {"needs": [], "may_touch": []}
+    assert port not in r["needs"] + r["may_touch"] and verified not in r["needs"] + r["may_touch"]
+
+
+def test_need_at_state_a_task_of_another_document_returns_nothing():
+    other = "/shared/y/other.md"
+    assert fb.need_at_state(_t("read_copy", "metrics port", doc=other), M5_SLOTS, A_TXT) == {"needs": [], "may_touch": []}
+    assert fb.need_at_state(_t("read_copy", "metrics port"), [], A_TXT) == {"needs": [], "may_touch": []}
+
+
+def test_need_at_state_write_replace_and_append_date_give_may_touch_only():
+    port = _slot(M5_SLOTS, "label=metrics port#1")
+    for kind in ("write_replace", "write_append_date"):
+        r = fb.need_at_state(_t(kind, "metrics port"), M5_SLOTS, A_TXT)
+        assert r["needs"] == [] and port in r["may_touch"]
+    r = fb.need_at_state(_t("write_append_value", "metrics port"), M5_SLOTS, A_TXT)
+    assert r["needs"] == [port]
+
+
+def test_need_at_state_agrees_with_the_any_state_rule_when_one_state_is_given():
+    one = {DOC: [(0, "a", A_TXT)]}
+    slots_a = [s for s in M5_SLOTS if 0 in s["honest_states"]]
+    for kind, item in (("read_copy", "metrics port"), ("read_follow", "local cache step"), ("write_replace", "runner image tag")):
+        p = {"doc": DOC, "item": item, "kind": kind}
+        any_state = fb.need_class(p, slots_a, one)
+        r = fb.need_at_state(_t(kind, item), slots_a, A_TXT)
+        assert set(r["needs"]) == any_state["needs"] and set(r["may_touch"]) == any_state["may_touch"]
+
+
+def test_need_at_state_message_task_needs_nothing_and_touches_only_present_slots():
+    port = _slot(M5_SLOTS, "label=metrics port#1")
+    t = {"kind": "message_only", "text": "Post a short update that the metrics port is unchanged.", "document": None, "item": None}
+    r = fb.need_at_state(t, M5_SLOTS, A_TXT)
+    assert r["needs"] == [] and port in r["may_touch"]
+    assert fb.need_at_state(t, M5_SLOTS, B_TXT) == {"needs": [], "may_touch": []}
+
+
+def test_need_at_state_reads_the_original_text_when_no_fields_are_given():
+    port = _slot(M5_SLOTS, "label=metrics port#1")
+    txt = f"Copy the metrics port from the shared `{DOC}` in ownCloud into /work/{{ws}}/notes/metrics-port-0.md."
+    r = fb.need_at_state({"text": txt}, M5_SLOTS, A_TXT)
+    assert r["needs"] == [port]

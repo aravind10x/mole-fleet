@@ -212,3 +212,44 @@ def need_message(text: str, slots: Sequence[Mapping[str, Any]], states) -> dict[
             if len(lab) >= 6 and _bounded(lab, text):
                 touch.add(s["slot_id"])
     return {"needs": set(), "may_touch": touch}
+
+
+# ── M5: the same rule on the one document text a follower sees ─────────────────────────────────
+def _task_fields(task: Mapping[str, Any]) -> dict[str, Any] | None:
+    """The class-task fields of a bank record: its own `kind`, `document` and `item` when it has them, else parsed
+    from its original `text`; None for a task that names no class document."""
+    if task.get("document") and task.get("item") and str(task.get("kind", "")).startswith(("read", "write")):
+        return {"doc": task["document"], "item": task["item"], "kind": task["kind"]}
+    p = parse_class_task(str(task.get("text") or ""))
+    return {"doc": p["doc"], "item": p["item"], "kind": p["kind"]} if p else None
+
+
+def need_at_state(task: Mapping[str, Any], slots_of_document: Sequence[Mapping[str, Any]],
+                  document_text: str) -> dict[str, list[str]]:
+    """needs / may_touch (sorted slot ids) for one task against ONE document text (the state a follower sees).
+
+    The class rule of `need_class`, with every slot first filtered to those present in `document_text`: a slot is
+    primary only if the task's item matches its label or its line in that text, a mention slot only if the item
+    occurs in its line in that text, a section slot only if that section is in that text and holds a primary or
+    mention slot; a slot absent from the text is in neither list. A task whose document is not the slots' document
+    returns nothing. A message-only task needs nothing and may touch the present slots whose label phrase it names
+    (as `need_message`; limited to the slots passed)."""
+    empty: dict[str, list[str]] = {"needs": [], "may_touch": []}
+    present = [s for s in slots_of_document if _slot_present(s, document_text)]
+    if not present:
+        return empty
+    doc = present[0]["document"]
+    states = {doc: [(0, "state", document_text)]}
+    fields = _task_fields(task)
+    if fields is None:
+        n = need_message(str(task.get("text") or ""), present, states)
+    else:
+        if fields["doc"] != doc:
+            return empty
+        n = need_class(fields, present, states)
+    return {"needs": sorted(n["needs"]), "may_touch": sorted(n["may_touch"])}
+
+
+def _slot_present(slot: Mapping[str, Any], document_text: str) -> bool:
+    import stage3_p2_completion as pc
+    return pc.slot_values(slot, document_text) is not None
