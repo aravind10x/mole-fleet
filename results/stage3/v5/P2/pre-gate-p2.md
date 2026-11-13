@@ -128,3 +128,32 @@ cd work/checks && ( set -a; source ../mole-fork/.env; set +a; ../mole-fork/.venv
 **Launch line:** the same with `--block W`, no `--limit-per-follower`, and `--cap-usd` set to 32.3 minus the smoke's spend. One retry pass follows, only on a clean finish.
 
 **Join:** `stage3_p2_w.py join --outcomes ../stage3/v5/P2/outcomes-W-v0.jsonl --audit-table <red's W audit table> --out ../stage3/v5/P2/analysis-W-v0.json`.
+
+---
+
+## Block H: seal (added 2026-11-14, before H's first smoke; nothing above is changed)
+**Runs alongside D and W** (coordinator, D43). H runs on the same P2 runner and harness as W: `stage3_p2_run.py` 10fbc1e2f1db1b16 (57 tests) and `stage3_p2_harness.py` acb83e9d0e8c8fc7 (53 tests).
+
+| item | sha256 | content |
+|---|---|---|
+| `P2/draws-H-tasks-v1.json` | 8a5e52c3da4cd4e23c6166e022bde07a9ee20d08c28a9bcdb8a5dafaeccd2809 | the 216 draws of `draw-H-v1.json` (2cab688f) with each bank task's `text_offline` and expected action tool; the slot is the payload's |
+| `work/checks/stage3_p2_h.py` | 3b5fcb1f27695ba08ed888b5e446732c7ae26d4eba27576aa0a7f96871f08ad8 | draws with tasks; join: need class × access (before the last action) × carry for both arms, equal weight per draw, payload-resampled intervals, by stratum, access at the first firing action, clean firings by pair |
+| `work/checks/test_stage3_p2_h.py` | 80a50984f7bebae697d7af4a1b5fd24ec48abf25f6d056478a207ce62f240d76 | 4 pass |
+
+Red's `evaluate_any` (42fa156e), `access` (0cb79fb7) and the validity table (8f6538b0) are as in D's section. `need_at_state` (398e2e09) made the draw. The literal-in-task check found 0 of 216 H draws failing (e20a0e7a).
+
+- **Dry run** (2026-11-14, $0):
+  - 864 planned runs: 216 draws × planted and clean × 2 followers × 1;
+  - 8 cells skipped as undrawn (the 2 payloads that leave);
+  - 159 distinct tasks;
+  - 108 of 108 workspaces, 54 of 54 predicates and 108 of 108 access cells;
+  - manifest 7f44e41c, predicates_p2 42fa156e, docs tree 543ab3ec, access 0cb79fb7.
+- **Cap:** $24.0, which is 1.5 times v1.1's $16.0 estimate and within v1's $24.9 ceiling, less the smoke's spend.
+
+**Smoke line** (20 runs per follower; block `H-smoke`; kept, not analysed):
+```
+cd work/checks && ( set -a; source ../mole-fork/.env; set +a; ../mole-fork/.venv/bin/python -I stage3_p2_run.py --manifest ../stage3/red/ft/cells-manifest.json --block H-smoke --arms planted,clean --followers kimi,sol --repeats 1 --cap-usd 24.0 --concurrency 4 --limit-per-follower 20 --out-dir <abs>/work/stage3/v5/P2 --predicates ../stage3/red/ft/predicates_p2.py --scorer evaluate_any --access ../stage3/red/ft/access_p2.py --draws ../stage3/v5/P2/draws-H-tasks-v1.json --expect-manifest-sha256 7f44e41c9e26eac479c1349b8c950701a32ed7e67de130c589ddab540c177e9d --expect-predicates-sha256 42fa156ebbe119a5790042f8e71fe6fae7f3a5ad7f8472e6821b74a6f6a71b73 --expect-access-sha256 0cb79fb77bd07e8e694ce00d3ab0a808d26462312f452092ad0531f73121982e --expect-docs-tree-sha256 543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5 )
+```
+**Launch line:** the same with `--block H`, no `--limit-per-follower`, and `--cap-usd` set to 24.0 minus the smoke's spend. One retry pass follows, only on a clean finish.
+
+**Join:** `stage3_p2_h.py join --outcomes ../stage3/v5/P2/outcomes-H-v0.jsonl --out ../stage3/v5/P2/analysis-H-v0.json`.
