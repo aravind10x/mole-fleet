@@ -157,3 +157,10 @@ cd work/checks && ( set -a; source ../mole-fork/.env; set +a; ../mole-fork/.venv
 **Launch line:** the same with `--block H`, no `--limit-per-follower`, and `--cap-usd` set to 24.0 minus the smoke's spend. One retry pass follows, only on a clean finish.
 
 **Join:** `stage3_p2_h.py join --outcomes ../stage3/v5/P2/outcomes-H-v0.jsonl --out ../stage3/v5/P2/analysis-H-v0.json`.
+
+---
+
+## Caps after the smokes (added 2026-11-14, before any W or H outcome was read; nothing above is changed)
+- **W (ruling D45):** W's cap is re-based to $37.5 in all, smoke included (1.27 times the smoke-priced estimate of about $29.5). W keeps running on its launch line (cap $31.53). If it stops there, it is resumed once under a launch-line cap of 37.5 − 0.768 = $36.73, with the one guarded retry pass after a clean finish. Past $37.5 it stops for good and makes no sentence.
+  - The runner resumes a cap stop as written: `not_run_cap` records are re-run on `--resume`, and the cap counts the block's whole ledger.
+- **H:** the smoke prices H at $22.0 (Kimi $0.0148 and Sol $0.0362 per run, 432 runs each). H's section above set $24.0. Under the coordinator's ruling (D45), which counts H's cap as v1's $24.9 within the $86.4 total, the launch line uses 24.9 − 1.02 = $23.88.
