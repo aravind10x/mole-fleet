@@ -60,6 +60,9 @@ DEFAULT_TASKS = FT_DIR / "blue" / "tasks-v0.jsonl"
 DEFAULT_SLOTS = FT_DIR / "blue" / "slots-v0.json"
 SUBSET_ARMS = tuple(f"subset_{i}" for i in range(1, 7))
 KNOWN_ARMS = ("planted", "clean", "benign") + SUBSET_ARMS
+# The verification control runs on routine and middle payloads only (roadmap addendum; the coordinator's
+# pre-gate item 4 leaves out the one alarming payload with a benign alternative); None = a smoke record.
+BENIGN_REGIMES = ("routine", "middle", None)
 
 
 class OutputExists(RuntimeError):
@@ -143,9 +146,19 @@ def expand_cells(manifest: Sequence[Mapping], *, block: str, arms: Sequence[str]
             skipped["unscorable"] += 1
             continue
         for arm in arms:
-            if arm == "benign" and not rec.get("operational_value"):
-                skipped["benign_not_operational_value"] += 1
+            if isinstance(rec.get("arms"), list) and arm not in rec["arms"]:
+                skipped["arm_not_in_record"] += 1
                 continue
+            if arm == "benign":
+                if not rec.get("operational_value"):
+                    skipped["benign_not_operational_value"] += 1
+                    continue
+                if not rec.get("benign_alt_available", True):
+                    skipped["benign_no_alternative"] += 1
+                    continue
+                if rec.get("regime") not in BENIGN_REGIMES:
+                    skipped["benign_not_routine_or_middle"] += 1
+                    continue
             for fol in followers:
                 for k in range(1, repeats + 1):
                     cells.append(Cell(make_run_id(block, rec["payload_id"], arm, fol, k), rec["payload_id"], arm, fol, k,
@@ -394,24 +407,7 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 error = "task_missing"
             else:
                 clean_dir = _workspace_dir(cfg, rec, "clean")
-                if cell.arm == "benign":
-                    slot = slots.get(task.get("slot_id"))
-                    ws = None
-                    if not clean_dir.is_dir() or slot is None or task.get("benign_alt") in (None, ""):
-                        error = "benign_unplaceable"
-                    elif not rec.get("slot_revision_account") or not rec.get("slot_revision_time"):
-                        error = "benign_no_revision"
-                    else:
-                        try:
-                            ws = build_benign(h.Workspace(clean_dir), slot, str(task["benign_alt"]),
-                                              revision={"account": rec["slot_revision_account"], "ts": rec["slot_revision_time"]})
-                        except BenignPlacementError:
-                            error = "benign_unplaceable"
-                else:
-                    wdir = _workspace_dir(cfg, rec, cell.arm)
-                    ws = h.Workspace(wdir) if wdir.is_dir() else None
-                    if ws is None:
-                        error = "workspace_missing"
+                ws, error = _cell_workspace(cfg, rec, cell.arm, tasks, slots)
                 if ws is not None:
                     clean_ws = h.Workspace(clean_dir) if clean_dir.is_dir() else ws
                     colleague = colleague_factory(clean_ws)
@@ -497,6 +493,88 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
     return out
 
 
+def _cell_workspace(cfg: BlockConfig, rec: Mapping, arm: str, tasks: Mapping, slots: Mapping) -> tuple[h.Workspace | None, str | None]:
+    """(workspace, error) for one cell, exactly as run_block builds it."""
+    clean_dir = _workspace_dir(cfg, rec, "clean")
+    if arm != "benign":
+        wdir = _workspace_dir(cfg, rec, arm)
+        return (h.Workspace(wdir), None) if wdir.is_dir() else (None, "workspace_missing")
+    task = tasks.get(rec.get("task_id")) or {}
+    slot = slots.get(task.get("slot_id"))
+    if not clean_dir.is_dir() or slot is None or task.get("benign_alt") in (None, ""):
+        return None, "benign_unplaceable"
+    if not rec.get("slot_revision_account") or not rec.get("slot_revision_time"):
+        return None, "benign_no_revision"
+    try:
+        return build_benign(h.Workspace(clean_dir), slot, str(task["benign_alt"]),
+                            revision={"account": rec["slot_revision_account"], "ts": rec["slot_revision_time"]}), None
+    except BenignPlacementError:
+        return None, "benign_unplaceable"
+
+
+def plan_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] | None = None, verbose: bool = True) -> dict:
+    """The launch rehearsal: no model call, nothing written. Planned runs per arm and follower; every distinct
+    (payload, arm) workspace built as run_block builds it and checked (documents under /shared/ world paths,
+    history present, the benign revision placed); every predicate id evaluated on an empty action log (a bool
+    back = resolved). Counts only. `adapter_factory` is accepted so a test can prove it is never called."""
+    manifest = load_manifest(cfg.manifest)
+    tasks = load_tasks(cfg.tasks)
+    slots = load_slots(cfg.slots) if Path(cfg.slots).exists() else {}
+    cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
+    runs: dict[str, dict[str, int]] = {}
+    for c in cells:
+        runs.setdefault(c.arm, {}).setdefault(c.follower, 0)
+        runs[c.arm][c.follower] += 1
+    ws_stats = Counter()
+    n_docs: Counter = Counter()
+    errors: Counter = Counter()
+    seen = set()
+    for c in cells:
+        if (c.payload_id, c.arm) in seen:
+            continue
+        seen.add((c.payload_id, c.arm))
+        ws_stats["checked"] += 1
+        ws, err = _cell_workspace(cfg, c.record, c.arm, tasks, slots)
+        if ws is None:
+            ws_stats["missing"] += 1
+            errors[err or "unknown"] += 1
+            continue
+        ws_stats["loaded"] += 1
+        names = ws.names()
+        n_docs[str(len(names))] += 1
+        ws_stats["world_paths"] += int(bool(names) and all(n.startswith("/shared/") for n in names))
+        ws_stats["with_history"] += int(any(ws.history.get(n) for n in names))
+        if c.arm == "benign":
+            rec = c.record
+            doc = ws.resolve(str(rec.get("document") or ""))
+            revs = ws.history.get(doc, []) if doc else [r for v in ws.history.values() for r in v]
+            placed = [r for r in revs if r.get("account") == rec.get("slot_revision_account") and r.get("ts") == rec.get("slot_revision_time")
+                      and r.get("op") == "replace" and all(x["text"] in ws.docs.get(doc or "", "") for x in r.get("lines_added", []))]
+            ws_stats["benign_revision_placed"] += int(len(placed) == 1)
+    pred_ids = sorted({c.predicate_id for c in cells if c.predicate_id})
+    resolved, unresolved = 0, Counter()
+    if pred_ids:
+        mod = load_predicates(cfg.predicates)
+        for pid in pred_ids:
+            try:
+                v = mod.evaluate(pid, [])
+                if isinstance(v, bool):
+                    resolved += 1
+                else:
+                    unresolved["non_bool"] += 1
+            except Exception as exc:  # noqa: BLE001
+                unresolved[type(exc).__name__] += 1
+    plan = {"block": cfg.block, "runs": runs, "total_runs": len(cells), "skipped_cells": skipped,
+            "workspaces": {"checked": ws_stats["checked"], "loaded": ws_stats["loaded"], "missing": ws_stats["missing"],
+                           "missing_by_reason": dict(errors), "world_paths": ws_stats["world_paths"], "n_documents": dict(n_docs),
+                           "with_history": ws_stats["with_history"], "benign_revision_placed": ws_stats["benign_revision_placed"]},
+            "predicates": {"resolved": resolved, "unresolved": dict(unresolved)},
+            "outcomes_exists": cfg.outcomes_path.exists()}
+    if verbose:
+        print(json.dumps(plan, indent=2))
+    return plan
+
+
 def _write_transcript(cfg: BlockConfig, cell: Cell, res: h.RunResult, model: str) -> None:
     p = _transcript_path(cfg, cell.run_id)
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -524,11 +602,15 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--resume", action="store_true")
     ap.add_argument("--concurrency", type=int, default=1)
     ap.add_argument("--no-stop-on-refusal", action="store_true")
+    ap.add_argument("--dry-run", action="store_true", help="plan and check only: no model call, nothing written")
     a = ap.parse_args(argv)
     cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
                       repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
                       runs_root=a.runs_root, predicates=a.predicates, out_dir=a.out_dir, resume=a.resume,
                       concurrency=a.concurrency, stop_on_refusal=not a.no_stop_on_refusal)
+    if a.dry_run:
+        p = plan_block(cfg)
+        return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] else 2
     s = asyncio.run(run_block(cfg))
     return 0 if s["stop"] in (None,) else 2
 

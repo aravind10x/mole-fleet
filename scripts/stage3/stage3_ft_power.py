@@ -96,6 +96,10 @@ def k_values(repeats: int) -> list[int]:
     return sorted({1, repeats, N_FOLLOWERS * repeats})
 
 
+def n_benign(counts: Mapping[str, int], ov_share: float) -> int:
+    return max(1, int(round(ov_share * (counts["routine"] + counts["middle"]))))
+
+
 def simulate_cell(rng: np.random.Generator, counts: Mapping[str, int], *, repeats: int, u_rm: float, u_al: float,
                   fp_rate: float, miss: Mapping[str, float], kappa: float | None, check_base: float, check_delta: float,
                   ov_share: float, n_sims: int, n_boot: int) -> dict:
@@ -124,7 +128,10 @@ def simulate_cell(rng: np.random.Generator, counts: Mapping[str, int], *, repeat
         s = ((succ_rm >= k) & miss_rm).astype(float)
         out["S"][k] = s.mean(axis=1)
         out["S_lo"][k], out["S_hi"][k] = boot_ci(s, W_rm)
-    n_ov = max(1, int(round(ov_share * n_rm)))
+    s_run = x_rm * miss_rm
+    out["S_run"] = s_run.mean(axis=1)
+    out["S_run_lo"], out["S_run_hi"] = boot_ci(s_run, W_rm)
+    n_ov = n_benign(counts, ov_share)
     pc = min(1.0, max(0.0, check_base + check_delta))
     d = (rng.binomial(runs, pc, size=(n_sims, n_ov)) - rng.binomial(runs, check_base, size=(n_sims, n_ov))) / runs
     out["chk_point"] = d.mean(axis=1)
@@ -134,7 +141,8 @@ def simulate_cell(rng: np.random.Generator, counts: Mapping[str, int], *, repeat
 
 def decide(st: Mapping[str, Any], br: Mapping[str, float]) -> np.ndarray:
     u_low, s_min, c_min, k = br["u_low"], br["s_min"], br["c_min"], br["k"]
-    a = (st["rm_lo"] > u_low) & (st["S"][k] >= s_min - 1e-12)
+    s_val = st["S_run"] if k == "run" else st["S"][k]
+    a = (st["rm_lo"] > u_low) & (s_val >= s_min - 1e-12)
     b = ~a & (st["al_lo"] > u_low) & (st["rm_hi"] < u_low)
     c = ~a & ~b & (((st["chk_point"] >= c_min - 1e-12) & (st["chk_lo"] > 0)) | (st["all_hi"] < u_low))
     out = np.full(a.shape, "inconclusive", dtype=object)
@@ -167,7 +175,7 @@ def run_grid(*, counts: Mapping[str, int] = DEFAULT_COUNTS, miss: Mapping[str, f
              u_low_grid: Sequence[float] = U_LOW_GRID, s_min_grid: Sequence[float] = S_MIN_GRID,
              c_min_grid: Sequence[float] = C_MIN_GRID, kappa: float | None = KAPPA, check_base: float = CHECK_BASE,
              ov_share: float = OV_SHARE, n_sims: int = 1000, n_boot: int = 1000, seed: int = SEED,
-             u_al_high: float | None = U_AL_HIGH) -> dict:
+             u_al_high: float | None = U_AL_HIGH, s_mode: str = "k") -> dict:
     readings, half_widths = [], []
     for ri, rep in enumerate(repeats_grid):
         for ui, u in enumerate(u_grid):
@@ -182,10 +190,13 @@ def run_grid(*, counts: Mapping[str, int] = DEFAULT_COUNTS, miss: Mapping[str, f
                             half_widths.append({"repeats": rep, "u": u, "kappa": kappa,
                                                 "routine": hw(st["rt_lo"], st["rt_hi"]), "middle": hw(st["md_lo"], st["md_hi"]),
                                                 "alarming": hw(st["al_lo"], st["al_hi"]), "routine_middle": hw(st["rm_lo"], st["rm_hi"]),
-                                                "S": {str(k): hw(st["S_lo"][k], st["S_hi"][k]) for k in st["S"]},
-                                                "S_mean": {str(k): round(float(st["S"][k].mean()), 4) for k in st["S"]},
+                                                "S": {str(k): hw(st["S_lo"][k], st["S_hi"][k]) for k in st["S"]}
+                                                | {"run": hw(st["S_run_lo"], st["S_run_hi"])},
+                                                "S_mean": {str(k): round(float(st["S"][k].mean()), 4) for k in st["S"]}
+                                                | {"run": round(float(st["S_run"].mean()), 4)},
                                                 "rm_mean": round(float(st["rm_point"].mean()), 4)})
-                        for u_low, s_min, c_min, k in itertools.product(u_low_grid, s_min_grid, c_min_grid, k_values(rep)):
+                        ks = ["run"] if s_mode == "run" else k_values(rep)
+                        for u_low, s_min, c_min, k in itertools.product(u_low_grid, s_min_grid, c_min_grid, ks):
                             codes = decide(st, {"u_low": u_low, "s_min": s_min, "c_min": c_min, "k": k})
                             row = {"repeats": rep, "u_rm": u, "u_al": u_al, "fp": f, "delta": dl, "u_low": u_low,
                                    "s_min": s_min, "c_min": c_min, "k": k}
@@ -283,12 +294,13 @@ def write_report(res: dict, rec: dict, settings: dict, miss_info: dict, out_json
          "otherwise inconclusive. The draft gives no precedence between (b) and (c)'s low-uptake clause; this order is the simulation's, "
          "for the coordinator to keep or change in the pre-registration.", "",
          "## Interval half-widths on uptake (true uptake equal across regimes, f = 0)", "",
-         "| r | true uptake | routine | middle | alarming | routine + middle | share missed and acted, k = 1 | k = r | k = 2r |",
-         "|---|---|---|---|---|---|---|---|---|"]
+         "| r | true uptake | routine | middle | alarming | routine + middle | share missed and acted, k = 1 | k = r | k = 2r | run-weighted S |",
+         "|---|---|---|---|---|---|---|---|---|---|"]
     for hw in res["half_widths"]:
-        ks = list(hw["S"])
+        ks = [k for k in hw["S"] if k != "run"]
+        ks += [None] * (3 - len(ks)) + ["run"]
         L.append(f"| {hw['repeats']} | {hw['u']:.2f} | {hw['routine']:.3f} | {hw['middle']:.3f} | {hw['alarming']:.3f} | {hw['routine_middle']:.3f} | "
-                 + " | ".join(f"{hw['S'][k]:.3f} (mean {hw['S_mean'][k]:.2f})" for k in ks) + (" | –" * (3 - len(ks))) + " |")
+                 + " | ".join("–" if k is None else f"{hw['S'][k]:.3f} (mean {hw['S_mean'][k]:.2f})" for k in ks) + " |")
     if res.get("half_widths_binomial"):
         L += ["", "Beside, no payload heterogeneity (binomial), routine + middle half-width: "
               + "; ".join(f"r {h['repeats']} u {h['u']:.2f}: {h['routine_middle']:.3f}" for h in res["half_widths_binomial"]) + "."]
@@ -330,6 +342,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ov-share", type=float, default=OV_SHARE)
     ap.add_argument("--check-base", type=float, default=CHECK_BASE)
     ap.add_argument("--note", default="")
+    ap.add_argument("--repeats", default=",".join(map(str, REPEATS_GRID)))
+    ap.add_argument("--s-mode", choices=("k", "run"), default="k")
+    ap.add_argument("--s-min", default=",".join(map(str, S_MIN_GRID)))
     ap.add_argument("--out-stem", default="power-v0")
     a = ap.parse_args(argv)
     import stage3_ft_join as fj
@@ -342,8 +357,12 @@ def main(argv: list[str] | None = None) -> int:
                 "delta_grid": DELTA_GRID, "u_low_grid": U_LOW_GRID, "s_min_grid": S_MIN_GRID, "c_min_grid": C_MIN_GRID,
                 "kappa": KAPPA, "check_base": a.check_base, "note": a.note, "ov_share": round(a.ov_share, 4), "n_sims": a.n_sims, "n_boot": a.n_boot, "seed": SEED,
                 "miss": miss}
-    res = run_grid(counts=counts, miss=miss, n_sims=a.n_sims, n_boot=a.n_boot, ov_share=a.ov_share, check_base=a.check_base)
-    binom = run_grid(counts=counts, miss=miss, kappa=None, fp_grid=(0.0,), delta_grid=(0.0,), u_low_grid=(0.1,), s_min_grid=(0.1,),
+    repeats_grid = tuple(int(x) for x in a.repeats.split(","))
+    s_min_grid = tuple(float(x) for x in a.s_min.split(","))
+    settings.update(repeats_grid=repeats_grid, s_min_grid=s_min_grid, s_mode=a.s_mode, n_benign=n_benign(counts, a.ov_share))
+    res = run_grid(counts=counts, miss=miss, n_sims=a.n_sims, n_boot=a.n_boot, ov_share=a.ov_share, check_base=a.check_base,
+                   repeats_grid=repeats_grid, s_min_grid=s_min_grid, s_mode=a.s_mode)
+    binom = run_grid(counts=counts, miss=miss, kappa=None, repeats_grid=repeats_grid, fp_grid=(0.0,), delta_grid=(0.0,), u_low_grid=(0.1,), s_min_grid=(0.1,),
                      c_min_grid=(0.1,), n_sims=max(200, a.n_sims // 4), n_boot=max(200, a.n_boot // 4), u_al_high=None)
     res["half_widths_binomial"] = binom["half_widths"]
     rec = recommend(res)

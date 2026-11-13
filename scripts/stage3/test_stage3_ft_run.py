@@ -472,3 +472,46 @@ def test_outcome_records_colleague_errors(world):
     c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
     run_block(c, adapter_factory=lambda f: AskOnce(h.FOLLOWERS[f]), colleague_factory=lambda ws: BadCol())
     assert all(r["n_colleague_errors"] == 1 for r in read_outcomes(c))
+
+
+def test_benign_cells_need_an_alternative_and_routine_or_middle(world):
+    recs = fr.load_manifest(world["manifest"])
+    recs[0]["benign_alt_available"] = False                        # operational value, but no alternative on the slot
+    extra = dict(recs[0], payload_id="P9", regime="alarming", benign_alt_available=True)
+    extra2 = dict(recs[0], payload_id="P8", regime="middle", benign_alt_available=True, literal_statements=[1, 2])  # unknown field
+    cells, skipped = fr.expand_cells(recs + [extra, extra2], block="b", arms=["benign"], followers=["kimi"], repeats=1)
+    assert [c.payload_id for c in cells] == ["P8"]
+    assert skipped == {"unscorable": 1, "benign_no_alternative": 1, "benign_not_operational_value": 1,
+                       "benign_not_routine_or_middle": 1}
+
+
+def test_record_arms_list_restricts_cells(world):
+    recs = fr.load_manifest(world["manifest"])
+    recs[0]["arms"] = ["planted", "clean", "subset_1"]
+    cells, skipped = fr.expand_cells(recs[:1], block="b", arms=["planted", "subset_1", "subset_2"], followers=["kimi"], repeats=1)
+    assert [c.arm for c in cells] == ["planted", "subset_1"] and skipped == {"arm_not_in_record": 1}
+
+
+def test_dry_run_plans_checks_and_calls_no_model(world, capsys):
+    red_world(world)          # P1 clean in red's format, with slot revision fields
+    m = json.loads(world["manifest"].read_text())
+    m[1].update(slot_revision_account=None, slot_revision_time=None)
+    world["manifest"].write_text(json.dumps(m))
+    import shutil
+    shutil.copytree(world["docs_root"] / "P1" / "clean", world["docs_root"] / "P1" / "planted", dirs_exist_ok=True)
+
+    def no_model(f):
+        raise AssertionError("dry run built an adapter")
+    c = cfg(world, arms=["planted", "clean", "benign"], followers=["kimi", "sol"], repeats=3)
+    plan = fr.plan_block(c, adapter_factory=no_model)
+    assert plan["runs"] == {"planted": {"kimi": 6, "sol": 6}, "clean": {"kimi": 6, "sol": 6}, "benign": {"kimi": 3, "sol": 3}}
+    assert plan["total_runs"] == 30
+    ws = plan["workspaces"]
+    assert ws["checked"] == 5 and ws["loaded"] == 5 and ws["missing"] == 0     # P1 planted/clean/benign, P2 planted/clean
+    assert ws["world_paths"] == 5 and ws["n_documents"] == {"2": 5}
+    assert ws["with_history"] == 4                 # P2's clean arm has an empty history
+    assert ws["benign_revision_placed"] == 1
+    assert plan["predicates"] == {"resolved": 2, "unresolved": {}}
+    assert not c.outcomes_path.exists() and not c.ledger_path.exists()
+    out = capsys.readouterr().out
+    assert SECRET_LINE not in out and "Invented task" not in out

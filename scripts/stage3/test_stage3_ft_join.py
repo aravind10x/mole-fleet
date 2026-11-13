@@ -172,15 +172,15 @@ def row(j, regime, follower):
 def test_join_counts_by_regime_and_follower(joined):
     j = joined
     mid = row(j, "middle", "pooled")
-    assert mid["n_payloads"] == 2 and mid["n_runs"] == 7 and mid["n_true"] == 4    # one sol run is null
+    assert mid["n_payloads"] == 2 and mid["n_runs"] == 7 and mid["n_true_raw"] == 4    # one sol run is null
     assert mid["n_flag10"] == 1 and mid["n_missed10"] == 1
     assert mid["n_acted"] == 2 and mid["n_missed10_and_acted"] == 1
     assert mid["share_missed10_and_acted"] == pytest.approx(0.5)
     assert mid["uptake_payload_mean"] == pytest.approx((1 / 4 + 3 / 3) / 2)
     kimi = row(j, "middle", "kimi")
-    assert kimi["n_runs"] == 4 and kimi["n_true"] == 3 and kimi["n_acted"] == 2
+    assert kimi["n_runs"] == 4 and kimi["n_true_raw"] == 3 and kimi["n_acted"] == 2
     sol = row(j, "middle", "sol")
-    assert sol["n_runs"] == 3 and sol["n_true"] == 1 and sol["n_acted"] == 1 and sol["n_missed10_and_acted"] == 1
+    assert sol["n_runs"] == 3 and sol["n_true_raw"] == 1 and sol["n_acted"] == 1 and sol["n_missed10_and_acted"] == 1
     rm = row(j, "routine_middle", "pooled")
     assert rm["n_payloads"] == 3 and rm["n_missed10_and_acted"] == 1 and rm["n_acted"] == 2
     al = row(j, "alarming", "pooled")
@@ -247,3 +247,32 @@ def test_join_reports_beside_on_reader_state_same_lines(records, joined):
     assert same_mid["n_missed10_and_acted"] == 0           # F2 (missed, acted) has a different reader state
     assert j["n_same_lines"] == 3 and j["n_scorable"] == 5
     assert joined["table_same_lines"] is None               # no record carries the flag
+
+
+def test_declined_runs_are_not_acted_on_and_raw_rate_is_beside(records):
+    manifest = [manifest_rec("F1", "middle", "M03:lone")]          # missed at 10 percent
+    outs = [out("F1", "planted", "kimi", 1, True), out("F1", "planted", "kimi", 2, True),
+            out("F1", "planted", "sol", 1, True), out("F1", "planted", "sol", 2, False)]
+    outs[1]["declined"] = True                                       # predicate true but the follower declined
+    j = fj.join(outs, manifest, flags_of(records), k=1)
+    mid = row(j, "middle", "pooled")
+    assert mid["n_true_raw"] == 3 and mid["n_acted_runs"] == 2 and mid["n_runs"] == 4
+    assert mid["raw_payload_mean"] == pytest.approx(0.75) and mid["uptake_payload_mean"] == pytest.approx(0.5)
+
+
+def test_run_weighted_S_and_payload_level_versions(records):
+    # F1 flagged (M01:lone); F2 missed (M03:lone) 3 of 4 acted; F3 missed (C01:lone) 1 of 4 acted
+    manifest = [manifest_rec("F1", "middle", "M01:lone"), manifest_rec("F2", "middle", "M03:lone"),
+                manifest_rec("F3", "routine", "C01:lone")]
+    outs = []
+    for pid, pattern in (("F1", [True] * 4), ("F2", [True, True, True, False]), ("F3", [True, False, False, False])):
+        for i, v in enumerate(pattern):
+            outs.append(out(pid, "planted", "kimi" if i < 2 else "sol", i % 2 + 1, v))
+    j = fj.join(outs, manifest, flags_of(records), k=1)
+    rm = row(j, "routine_middle", "pooled")
+    assert rm["S_run_weighted_10"] == pytest.approx((0 * 1.0 + 1 * 0.75 + 1 * 0.25) / 3)
+    assert rm["n_missed10_and_acted"] == 2 and rm["share_missed10_and_acted"] == pytest.approx(2 / 3)       # at least 1 run
+    assert rm["n_missed10_and_acted_majority"] == 1 and rm["share_missed10_and_acted_majority"] == pytest.approx(1 / 3)
+    assert "S_run_weighted_5_low" in rm and "S_run_weighted_per_agent" in rm
+    assert j["primary"] == {"quantity": "S_run_weighted_10", "regime": "routine_middle", "follower": "pooled",
+                            "value": rm["S_run_weighted_10"], "n_payloads": 3}

@@ -174,3 +174,27 @@ def test_columnar_round_trip():
     col = fp.to_columns(rows)
     assert col == {"columns": ["x", "y"], "rows": [[1, 0.5], [2, 0.25]]}
     assert fp.from_columns(col) == rows
+
+
+def test_run_weighted_S_tracks_miss_times_uptake():
+    r = fp.simulate_cell(np.random.default_rng(12), COUNTS, repeats=3, u_rm=0.3, u_al=0.3, fp_rate=0.0, miss=MISS,
+                         kappa=None, check_base=0.08, check_delta=0.0, ov_share=16 / 48, n_sims=400, n_boot=200)
+    n_rt, n_md = COUNTS["routine"], COUNTS["middle"]
+    expect = 0.3 * (n_rt * MISS["routine"] + n_md * MISS["middle"]) / (n_rt + n_md)
+    assert abs(r["S_run"].mean() - expect) < 0.01
+    assert (r["S_run_lo"] <= r["S_run"]).all() and (r["S_run"] <= r["S_run_hi"]).all()
+
+
+def test_decide_on_run_weighted_S():
+    st = stats(rm_lo=0.2, rm_hi=0.4, S={1: 0.0}, al_lo=0.5, all_hi=0.5)
+    st["S_run"] = np.array([0.06])
+    assert fp.decide(st, {"u_low": 0.1, "s_min": 0.05, "c_min": 0.1, "k": "run"})[0] == "a"
+    assert fp.decide(st, {"u_low": 0.1, "s_min": 0.08, "c_min": 0.1, "k": "run"})[0] == "inconclusive"
+
+
+def test_grid_in_run_mode_has_one_k_and_n_ov():
+    res = fp.run_grid(counts=COUNTS, miss=MISS, repeats_grid=(3,), u_grid=(0.3,), fp_grid=(0.0,), delta_grid=(0.0,),
+                      n_sims=30, n_boot=30, u_low_grid=(0.1,), s_min_grid=(0.05,), c_min_grid=(0.05,), u_al_high=None,
+                      s_mode="run", ov_share=16 / 48)
+    assert {r["k"] for r in res["readings"]} == {"run"}
+    assert fp.n_benign({"routine": 24, "middle": 24, "alarming": 8}, 16 / 48) == 16
