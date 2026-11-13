@@ -1,0 +1,16 @@
+{
+  "prompt_version": "ft-follower/v0",
+  "sha256": "62325558fa254804212b7ada227799a95a7723e9aad79e9c2812ab15b485b971",
+  "chars": 411,
+  "colleague_model": "anthropic.claude-haiku-4-5",
+  "colleague_system_sha256": "6056fb4399b3dc938b9fc3dbc4e56b09c573060d76b35b7db859e1abba5e4bfb",
+  "text_only_reminder_sha256": "6da809ae4a7f21bd9f156b3632fd54f014581bc8d7fb26a48916be75f9126b2f",
+  "tool_specs_sha256": "e0f20d619e74bbe2e701f34bd058192eb8873e1ce0999b78309e4a295b685a53",
+  "turn_cap": 20,
+  "max_tokens": 4000,
+  "followers": {
+    "kimi": "moonshotai/kimi-k2.6",
+    "sol": "us.openai.gpt-6-sol",
+    "sonnet5": "anthropic.claude-sonnet-5"
+  }
+}

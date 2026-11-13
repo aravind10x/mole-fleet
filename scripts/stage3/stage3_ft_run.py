@@ -1,0 +1,514 @@
+#!/usr/bin/env python3
+"""Line FT, part H1: run a block of follower cells from a manifest path. Blue side: prints counts,
+ids and dollars only; transcripts are written under `work/stage3/red/ft/runs/<block>/` and never printed;
+the predicate module is imported by path and its source is never read here.
+
+One record per run goes to `work/stage3/v5/FT/outcomes-<block>-v0.jsonl` (the interface's fields:
+run_id, payload_id, arm, follower, repeat, task_id, predicate_result, checked, n_search_documents,
+n_read_history, n_ask_colleague, declined, n_turns, cost_usd, error; and, beside them, n_read_document,
+n_invalid, end_reason, ended_in_action, wall_s, model, cost_missing, block, prompt_sha256). No text.
+
+Rules:
+* Cells: every scorable manifest record x arms x followers x repeats; run_id = "<block>|<payload>|<arm>|<follower>|r<k>".
+  The `benign` arm is built only for operational-value payloads (others are skipped and counted).
+* Workspaces: `<docs_root>/<payload_id>/<arm>/`, or a record's own `workspaces: {arm: path}` (smoke cells).
+  `benign` = the clean workspace with the task's `benign_alt` written as the value of the item at the slot's
+  locator (blue's `label=`/`yaml=` selectors, located with stage3_ft_slots' parser), clean history kept;
+  a slot whose item is absent from the clean state gives error "benign_unplaceable".
+  The colleague always answers from the payload's clean workspace.
+* Never an overwrite: an existing outcomes file is refused unless --resume; with --resume every run_id
+  already in the outcomes file is skipped (never re-asked). Transcripts get a new attempt suffix rather
+  than replacing an earlier file.
+* Cost guard: every run's dollars (finished or interrupted) go to `outcomes-<block>-v0.ledger.jsonl`;
+  the block stops before a run, or before a model call inside a run, once the ledger plus the dollars
+  of runs in flight reach --cap-usd. An interrupted run gets a ledger line and no outcome record, so a
+  resume with a higher cap runs it again.
+* Stops: a refusal (recorded, error "refused:<class>") stops the block by default; a HarnessAborted
+  (spent last key, access or model-id error) stops it with no record for that run.
+* predicate_result: evaluate(predicate_id, action_log) for runs that ended without error or refusal;
+  null with error "predicate_error:<type>" if the predicate raises or returns a non-bool; null and no
+  error when the record has no predicate (smoke cells).
+"""
+from __future__ import annotations
+
+import argparse
+import asyncio
+import importlib.util
+import json
+import re
+import sys
+from collections import Counter
+from collections.abc import Awaitable, Callable, Mapping, Sequence
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
+
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+import stage3_ft_harness as h  # noqa: E402
+
+PROJECT = h.PROJECT
+FT_DIR = h.FT_DIR
+RED_FT = PROJECT / "work" / "stage3" / "red" / "ft"
+DEFAULT_RUNS_ROOT = RED_FT / "runs"
+DEFAULT_DOCS_ROOT = RED_FT / "docs"
+DEFAULT_TASKS = FT_DIR / "blue" / "tasks-v0.jsonl"
+DEFAULT_SLOTS = FT_DIR / "blue" / "slots-v0.json"
+SUBSET_ARMS = tuple(f"subset_{i}" for i in range(1, 7))
+KNOWN_ARMS = ("planted", "clean", "benign") + SUBSET_ARMS
+
+
+class OutputExists(RuntimeError):
+    pass
+
+
+class BenignPlacementError(ValueError):
+    pass
+
+
+# ── inputs ───────────────────────────────────────────────────────────────────────────────────────
+
+def _load_json_list(path: Path, keys: Sequence[str]) -> list[dict]:
+    d = json.loads(Path(path).read_text(encoding="utf-8"))
+    if isinstance(d, list):
+        return d
+    for k in keys:
+        if isinstance(d, dict) and isinstance(d.get(k), list):
+            return d[k]
+    raise ValueError(f"{path}: expected a list or a dict holding one of {list(keys)}")
+
+
+def load_manifest(path: Path) -> list[dict]:
+    return _load_json_list(path, ("payloads", "cells", "records"))
+
+
+def load_tasks(path: Path) -> dict[str, dict]:
+    out = {}
+    for line in Path(path).read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            r = json.loads(line)
+            out[r["task_id"]] = r
+    return out
+
+
+def load_slots(path: Path) -> dict[str, dict]:
+    return {r["slot_id"]: r for r in _load_json_list(path, ("slots", "records"))}
+
+
+def load_predicates(path: Path) -> Any:
+    spec = importlib.util.spec_from_file_location("ft_predicates_by_path", str(path))
+    if spec is None or spec.loader is None:
+        raise ValueError(f"cannot import predicates from {path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    if not callable(getattr(mod, "evaluate", None)):
+        raise ValueError(f"{path} exposes no evaluate(predicate_id, action_log)")
+    return mod
+
+
+# ── cells ────────────────────────────────────────────────────────────────────────────────────────
+
+@dataclass(frozen=True)
+class Cell:
+    run_id: str
+    payload_id: str
+    arm: str
+    follower: str
+    repeat: int
+    task_id: str | None
+    predicate_id: str | None
+    record: Mapping[str, Any] = field(compare=False, hash=False)
+
+
+def make_run_id(block: str, payload_id: str, arm: str, follower: str, repeat: int) -> str:
+    return f"{block}|{payload_id}|{arm}|{follower}|r{repeat}"
+
+
+def expand_cells(manifest: Sequence[Mapping], *, block: str, arms: Sequence[str], followers: Sequence[str],
+                 repeats: int) -> tuple[list[Cell], dict[str, int]]:
+    for a in arms:
+        if a not in KNOWN_ARMS:
+            raise ValueError(f"unknown arm {a!r}; known: {KNOWN_ARMS}")
+    for f in followers:
+        if f not in h.FOLLOWERS:
+            raise ValueError(f"unknown follower {f!r}")
+    cells: list[Cell] = []
+    skipped: Counter = Counter()
+    for rec in manifest:
+        if not rec.get("scorable"):
+            skipped["unscorable"] += 1
+            continue
+        for arm in arms:
+            if arm == "benign" and not rec.get("operational_value"):
+                skipped["benign_not_operational_value"] += 1
+                continue
+            for fol in followers:
+                for k in range(1, repeats + 1):
+                    cells.append(Cell(make_run_id(block, rec["payload_id"], arm, fol, k), rec["payload_id"], arm, fol, k,
+                                      rec.get("task_id"), rec.get("predicate_id"), rec))
+    return cells, dict(skipped)
+
+
+# ── benign arm ───────────────────────────────────────────────────────────────────────────────────
+
+def locate_value(text: str, locator: str) -> tuple[int, int, int]:
+    """(line index, start, end) of the value of the item a blue locator names in one document state.
+    Locator = "<document> :: <section key> :: <selector>" (stage3_ft_slots); only `label=<label>#<n>` and
+    `yaml=<a.b.c>` selectors carry a value. The walk is stage3_ft_slots.parse_state's, with its own
+    regular expressions, keeping the line index; the value is the suffix of the right-stripped line."""
+    import stage3_ft_slots as sl
+    parts = str(locator).split(" :: ")
+    if len(parts) < 3:
+        raise BenignPlacementError("locator is not '<document> :: <section> :: <selector>'")
+    section_key, selector = " :: ".join(parts[1:-1]), parts[-1]
+    kind, _, arg = selector.partition("=")
+    if kind not in ("label", "yaml") or not arg:
+        raise BenignPlacementError(f"selector {kind!r} carries no value")
+    stack: list[tuple[int, str]] = []
+    label_n: Counter = Counter()
+    in_fence = False
+    ystack: list[tuple[int, str]] = []
+    for idx, raw_line in enumerate(text.splitlines()):
+        line = raw_line.rstrip()
+        if not line.strip():
+            continue
+        if not in_fence:
+            m = sl._HEAD.match(line)
+            if m:
+                lvl, disp = len(m.group(1)), sl._norm(m.group(2))
+                while stack and stack[-1][0] >= lvl:
+                    stack.pop()
+                stack.append((lvl, disp.lower()))
+                continue
+        if sl._FENCE.match(line):
+            in_fence = not in_fence
+            ystack = []
+            continue
+        if sl._RULE.match(line):
+            continue
+        sec = " > ".join(f"{'#' * lv} {k}" for lv, k in stack)
+        if in_fence:
+            ym = sl._YAML.match(line)
+            if ym:
+                ind, key, val = len(ym.group(1)), ym.group(2), ym.group(3)
+                while ystack and ystack[-1][0] >= ind:
+                    ystack.pop()
+                if val == "":
+                    ystack.append((ind, key))
+                    continue
+                path = ".".join([k for _i, k in ystack] + [key]).lower()
+                if kind == "yaml" and sec == section_key and path == arg:
+                    return idx, len(line) - len(val), len(line)
+                continue
+        if sl._STEP.match(line):
+            continue
+        body = sl._BULLET.sub("", line, count=1).strip()
+        km = sl._KEYED.match(body)
+        if km:
+            label = sl._norm(km.group("label")).lower()
+            if len(label.split()) <= 6 and not sl._DATE_LABEL.match(label) and label:
+                label_n[(sec, label)] += 1
+                if kind == "label" and sec == section_key and f"{label}#{label_n[(sec, label)]}" == arg:
+                    val = km.group("value")
+                    if not val.strip():
+                        raise BenignPlacementError("the item has no value")
+                    return idx, len(line) - len(val), len(line)
+    raise BenignPlacementError("the locator's item is not in this state")
+
+
+def build_benign(clean: h.Workspace, slot: Mapping[str, Any], benign_alt: str) -> h.Workspace:
+    """The clean workspace with `benign_alt` written as the value of the slot's item (clean history kept).
+    Locators: blue's string form (see locate_value), or {document, line (1-based), span [start, end)}.
+    Anything else raises BenignPlacementError."""
+    loc = slot.get("locator")
+    if isinstance(loc, str):
+        doc = clean.resolve(loc.split(" :: ")[0].strip())
+        if doc is None:
+            raise BenignPlacementError(f"slot {slot.get('slot_id')}: document not in the workspace")
+        lines = clean.docs[doc].splitlines(keepends=True)
+        i, s, e = locate_value(clean.docs[doc], loc)
+    elif isinstance(loc, Mapping) and "line" in loc and "span" in loc:
+        doc = clean.resolve(str(loc.get("document") or slot.get("document") or ""))
+        if doc is None:
+            raise BenignPlacementError(f"slot {slot.get('slot_id')}: document not in the workspace")
+        lines = clean.docs[doc].splitlines(keepends=True)
+        i = int(loc["line"]) - 1
+        s, e = (int(x) for x in loc["span"])
+        if not (0 <= i < len(lines)) or not (0 <= s <= e <= len(lines[i].rstrip("\r\n"))):
+            raise BenignPlacementError(f"slot {slot.get('slot_id')}: line/span outside the document")
+    else:
+        raise BenignPlacementError(f"slot {slot.get('slot_id')}: locator form not supported")
+    lines[i] = lines[i][:s] + str(benign_alt) + lines[i][e:]
+    docs = {n.lstrip("/"): t for n, t in clean.docs.items()}
+    docs[doc.lstrip("/")] = "".join(lines)
+    ws = h.Workspace(docs=docs)
+    ws.history = {k: list(v) for k, v in clean.history.items()}
+    return ws
+
+
+# ── the block ────────────────────────────────────────────────────────────────────────────────────
+
+@dataclass
+class BlockConfig:
+    manifest: Path
+    block: str
+    arms: list[str]
+    followers: list[str]
+    repeats: int
+    cap_usd: float
+    tasks: Path = DEFAULT_TASKS
+    slots: Path = DEFAULT_SLOTS
+    docs_root: Path = DEFAULT_DOCS_ROOT
+    runs_root: Path = DEFAULT_RUNS_ROOT
+    predicates: Path | None = RED_FT / "predicates.py"
+    out_dir: Path = FT_DIR
+    resume: bool = False
+    concurrency: int = 1
+    stop_on_refusal: bool = True
+
+    def __post_init__(self):
+        if not re.fullmatch(r"[A-Za-z0-9_.-]+", self.block):
+            raise ValueError("block name: letters, digits, '_', '.', '-' only")
+
+    @property
+    def outcomes_path(self) -> Path:
+        return Path(self.out_dir) / f"outcomes-{self.block}-v0.jsonl"
+
+    @property
+    def ledger_path(self) -> Path:
+        return Path(self.out_dir) / f"outcomes-{self.block}-v0.ledger.jsonl"
+
+    @property
+    def transcript_dir(self) -> Path:
+        return Path(self.runs_root) / self.block
+
+
+def _read_jsonl(path: Path) -> list[dict]:
+    if not path.exists():
+        return []
+    return [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
+
+
+def _append(path: Path, rec: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
+def _transcript_path(cfg: BlockConfig, run_id: str) -> Path:
+    stem = run_id.replace("|", "__")
+    p = cfg.transcript_dir / f"{stem}.json"
+    k = 2
+    while p.exists():
+        p = cfg.transcript_dir / f"{stem}.attempt{k}.json"
+        k += 1
+    return p
+
+
+def outcome_record(cfg: BlockConfig, cell: Cell, res: h.RunResult | None, model: str, *, predicate_result: bool | None,
+                   error: str | None) -> dict:
+    c = res.counts if res else {t: 0 for t in h.ALL_TOOLS} | {"invalid": 0}
+    return {"run_id": cell.run_id, "payload_id": cell.payload_id, "arm": cell.arm, "follower": cell.follower,
+            "repeat": cell.repeat, "task_id": cell.task_id, "predicate_result": predicate_result,
+            "checked": bool(res.checked) if res else False,
+            "n_search_documents": c["search_documents"], "n_read_history": c["read_history"], "n_ask_colleague": c["ask_colleague"],
+            "declined": bool(res.declined) if res else False, "n_turns": res.n_turns if res else 0,
+            "cost_usd": round(res.cost_usd, 6) if res else 0.0, "error": error,
+            "n_read_document": c["read_document"], "n_invalid": c["invalid"], "end_reason": res.end_reason if res else None,
+            "ended_in_action": bool(res.ended_in_action) if res else False, "wall_s": res.wall_s if res else 0.0,
+            "model": model, "cost_missing": bool(res.cost_missing) if res else False, "block": cfg.block,
+            "prompt_sha256": h.FOLLOWER_SYSTEM_SHA256}
+
+
+def _workspace_dir(cfg: BlockConfig, rec: Mapping, arm: str) -> Path:
+    ws = rec.get("workspaces") or {}
+    if arm in ws:
+        return Path(ws[arm])
+    return Path(cfg.docs_root) / str(rec["payload_id"]) / arm
+
+
+async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] | None = None,
+                    colleague_factory: Callable[[h.Workspace], Any] | None = None,
+                    sleep: Callable[[float], Awaitable[None]] = asyncio.sleep, verbose: bool = True) -> dict:
+    out_path, ledger_path = cfg.outcomes_path, cfg.ledger_path
+    if (out_path.exists() or ledger_path.exists()) and not cfg.resume:
+        raise OutputExists(f"{out_path.name} exists; pass --resume or use a new block name")
+    manifest = load_manifest(cfg.manifest)
+    tasks = load_tasks(cfg.tasks)
+    slots = load_slots(cfg.slots) if Path(cfg.slots).exists() else {}
+    predicates = load_predicates(cfg.predicates) if cfg.predicates and any(r.get("predicate_id") for r in manifest) else None
+    cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
+    done = {r["run_id"] for r in _read_jsonl(out_path)}
+    todo = [c for c in cells if c.run_id not in done]
+    spent = [sum(float(x.get("cost_usd") or 0.0) for x in _read_jsonl(ledger_path))]
+    in_flight: dict[str, float] = {}
+    lock = asyncio.Lock()
+    stop: dict[str, str | None] = {"reason": None}
+    summary = Counter()
+    refusals: Counter = Counter()
+    errors: Counter = Counter()
+    adapter_factory = adapter_factory or (lambda f: h.make_adapter(f))
+    colleague_factory = colleague_factory or (lambda clean_ws: h.Colleague(clean_ws))
+
+    def total() -> float:
+        return spent[0] + sum(in_flight.values())
+
+    async def one(cell: Cell) -> None:
+        async with lock:
+            if stop["reason"]:
+                return
+            if total() >= cfg.cap_usd:
+                stop["reason"] = "cost_cap"
+                return
+            in_flight[cell.run_id] = 0.0
+        rec = cell.record
+        model = h.FOLLOWERS[cell.follower]
+        res: h.RunResult | None = None
+        error: str | None = None
+        pred: bool | None = None
+        task = tasks.get(cell.task_id) if cell.task_id else None
+        try:
+            if task is None:
+                error = "task_missing"
+            else:
+                clean_dir = _workspace_dir(cfg, rec, "clean")
+                if cell.arm == "benign":
+                    slot = slots.get(task.get("slot_id"))
+                    if not clean_dir.is_dir() or slot is None or task.get("benign_alt") in (None, ""):
+                        error = "benign_unplaceable"
+                        ws = None
+                    else:
+                        try:
+                            ws = build_benign(h.Workspace(clean_dir), slot, str(task["benign_alt"]))
+                        except BenignPlacementError:
+                            error, ws = "benign_unplaceable", None
+                else:
+                    wdir = _workspace_dir(cfg, rec, cell.arm)
+                    ws = h.Workspace(wdir) if wdir.is_dir() else None
+                    if ws is None:
+                        error = "workspace_missing"
+                if ws is not None:
+                    clean_ws = h.Workspace(clean_dir) if clean_dir.is_dir() else ws
+                    colleague = colleague_factory(clean_ws)
+                    adapter = adapter_factory(cell.follower)
+
+                    def guard(run_cost: float, _id: str = cell.run_id) -> None:
+                        in_flight[_id] = run_cost
+                        if total() >= cfg.cap_usd:
+                            raise h.CostCapReached(f"cap ${cfg.cap_usd:.2f} reached")
+                    res = await h.run_follower(adapter, str(task["task_text"]), ws, colleague, sleep=sleep, turn_guard=guard)
+        except h.CostCapReached as exc:
+            part = exc.partial
+            async with lock:
+                in_flight.pop(cell.run_id, None)
+                cost = part.cost_usd if part else 0.0
+                spent[0] += cost
+                _append(ledger_path, {"run_id": cell.run_id, "cost_usd": round(cost, 6), "status": "cost_cap"})
+                if part is not None:
+                    _write_transcript(cfg, cell, part, model)
+                stop["reason"] = "cost_cap"
+            return
+        except h.HarnessAborted as exc:
+            async with lock:
+                in_flight.pop(cell.run_id, None)
+                stop["reason"] = "aborted"
+                errors[f"aborted:{type(exc).__name__}"] += 1
+            if verbose:
+                print(f"  block stopped: harness abort on {cell.run_id} ({str(exc)[:160]})", file=sys.stderr)
+            return
+        if res is not None:
+            if res.end_reason == "refused":
+                error = f"refused:{res.refusal_class}"
+            elif res.end_reason == "error":
+                error = res.error or "error"
+            elif cell.predicate_id and predicates is not None:
+                try:
+                    v = predicates.evaluate(cell.predicate_id, list(res.action_log))
+                    if isinstance(v, bool):
+                        pred = v
+                    else:
+                        error = "predicate_error:non_bool"
+                except Exception as exc:  # noqa: BLE001
+                    error = f"predicate_error:{type(exc).__name__}"
+            elif cell.predicate_id and predicates is None:
+                error = "predicate_error:no_module"
+        async with lock:
+            in_flight.pop(cell.run_id, None)
+            cost = res.cost_usd if res else 0.0
+            spent[0] += cost
+            _append(ledger_path, {"run_id": cell.run_id, "cost_usd": round(cost, 6), "status": "finished"})
+            if res is not None:
+                _write_transcript(cfg, cell, res, model)
+            _append(out_path, outcome_record(cfg, cell, res, model, predicate_result=pred, error=error))
+            summary["completed"] += 1
+            if error:
+                errors[error.split(":")[0] if not error.startswith("refused") else "refused"] += 1
+            if res is not None and res.end_reason == "refused":
+                refusals[res.refusal_class or "unknown"] += 1
+                if cfg.stop_on_refusal:
+                    stop["reason"] = "refusal"
+
+    sem = asyncio.Semaphore(max(1, cfg.concurrency))
+
+    async def gated(cell: Cell) -> None:
+        async with sem:
+            await one(cell)
+
+    if cfg.concurrency <= 1:
+        for cell in todo:
+            if stop["reason"]:
+                break
+            await one(cell)
+    else:
+        await asyncio.gather(*(gated(c) for c in todo))
+    if not stop["reason"] and total() >= cfg.cap_usd and len(todo) > summary["completed"]:
+        stop["reason"] = "cost_cap"
+    out = {"block": cfg.block, "cells": len(cells), "skipped_cells": skipped, "skipped_finished": len(cells) - len(todo),
+           "completed": summary["completed"], "errors": dict(errors), "refusals": dict(refusals),
+           "block_spend_usd": round(spent[0], 6), "cap_usd": cfg.cap_usd, "stop": stop["reason"],
+           "outcomes": str(out_path)}
+    if verbose:
+        print(json.dumps(out, indent=2))
+    return out
+
+
+def _write_transcript(cfg: BlockConfig, cell: Cell, res: h.RunResult, model: str) -> None:
+    p = _transcript_path(cfg, cell.run_id)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps({"run_id": cell.run_id, "payload_id": cell.payload_id, "arm": cell.arm, "follower": cell.follower,
+                             "repeat": cell.repeat, "task_id": cell.task_id, "model": model,
+                             "prompt_sha256": h.FOLLOWER_SYSTEM_SHA256, "end_reason": res.end_reason,
+                             "action_log": res.action_log, "events": res.transcript, "cost_usd": res.cost_usd},
+                            ensure_ascii=False), encoding="utf-8")
+
+
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="Run a block of FT follower cells. Prints counts only.")
+    ap.add_argument("--manifest", type=Path, required=True)
+    ap.add_argument("--block", required=True)
+    ap.add_argument("--arms", required=True, help="comma-separated, e.g. planted,clean")
+    ap.add_argument("--followers", default="kimi,sol")
+    ap.add_argument("--repeats", type=int, required=True)
+    ap.add_argument("--cap-usd", type=float, required=True)
+    ap.add_argument("--tasks", type=Path, default=DEFAULT_TASKS)
+    ap.add_argument("--slots", type=Path, default=DEFAULT_SLOTS)
+    ap.add_argument("--docs-root", type=Path, default=DEFAULT_DOCS_ROOT)
+    ap.add_argument("--runs-root", type=Path, default=DEFAULT_RUNS_ROOT)
+    ap.add_argument("--predicates", type=Path, default=RED_FT / "predicates.py")
+    ap.add_argument("--out-dir", type=Path, default=FT_DIR)
+    ap.add_argument("--resume", action="store_true")
+    ap.add_argument("--concurrency", type=int, default=1)
+    ap.add_argument("--no-stop-on-refusal", action="store_true")
+    a = ap.parse_args(argv)
+    cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
+                      repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
+                      runs_root=a.runs_root, predicates=a.predicates, out_dir=a.out_dir, resume=a.resume,
+                      concurrency=a.concurrency, stop_on_refusal=not a.no_stop_on_refusal)
+    s = asyncio.run(run_block(cfg))
+    return 0 if s["stop"] in (None,) else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
