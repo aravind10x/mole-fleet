@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 146,
+ "n_files": 154,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1653,6 +1653,86 @@
    "copies_identical": true,
    "tag": "methods",
    "tag_source": "the gate under which the blocks ran",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/ETJ/prompts-frozen.md",
+   "sha256": "e8c3323a0790239ad8198c709a08ffb06191a38b344fcac5132da8e46a465ee4",
+   "bytes": 2330,
+   "sha256_fork_copy": "e8c3323a0790239ad8198c709a08ffb06191a38b344fcac5132da8e46a465ee4",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the two arm E prompts and the sealed baseline, hashed before any call (decisions log D21)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/ETJ/scores-B.json",
+   "sha256": "1062eca577ab4bf6ea13e62dc6d348d44c98c9f83edb22be621097cfe9049c00",
+   "bytes": 38349,
+   "sha256_fork_copy": "1062eca577ab4bf6ea13e62dc6d348d44c98c9f83edb22be621097cfe9049c00",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "fresh baseline scores, ids and scores only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/ETJ/scores-E.json",
+   "sha256": "77679b3f53417e84c13356f0c94091965c2ece1e3c4b8e55aae09f7207756a2e",
+   "bytes": 38369,
+   "sha256_fork_copy": "77679b3f53417e84c13356f0c94091965c2ece1e3c4b8e55aae09f7207756a2e",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "explain-then-judge scores, ids and scores only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/ETJ/analysis-v0.json",
+   "sha256": "c94e351ecc29a8704c15320a47848344bbeb558ba5fa38e3cc74427f021ae468",
+   "bytes": 3054,
+   "sha256_fork_copy": "c94e351ecc29a8704c15320a47848344bbeb558ba5fa38e3cc74427f021ae468",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the contrast D and both S, one draw per arm; recomputed by the coordinator (decisions log D25)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/ETJ/result.md",
+   "sha256": "45f0b379466aa350886fe72b26dfe73f8124d443a73e9d416543c84f9b304b01",
+   "bytes": 5909,
+   "sha256_fork_copy": "45f0b379466aa350886fe72b26dfe73f8124d443a73e9d416543c84f9b304b01",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "ETJ result: outcome sentence 3, written in advance in ETJ/brief.md",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/S3/mole-transcripts-manifest.json",
+   "sha256": "cd1010ca84754b3b00904a0a598373d524c8d9f556d2d5febb6e080ce60955bc",
+   "bytes": 3413,
+   "sha256_fork_copy": "cd1010ca84754b3b00904a0a598373d524c8d9f556d2d5febb6e080ce60955bc",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "local sha256 of the 18 released transcript files",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/S3/s3-table-v1-public.json",
+   "sha256": "bb572166c18bfff883d55d04a855c57114b087a0740da7b76a2a222f8cee6c30",
+   "bytes": 22242,
+   "sha256_fork_copy": "bb572166c18bfff883d55d04a855c57114b087a0740da7b76a2a222f8cee6c30",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "honest deviance on the prefix and the released corpora; FakeLab rows omitted",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/S3/s3-table-v1-public.md",
+   "sha256": "7a85aa13494a1270fd8544157ec3b58a21c31b1daac7ee406b28d6b9cfb987f4",
+   "bytes": 8682,
+   "sha256_fork_copy": "7a85aa13494a1270fd8544157ec3b58a21c31b1daac7ee406b28d6b9cfb987f4",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same table, readable form",
    "added_beyond_brief_list": null
   }
  ],
@@ -3679,6 +3759,102 @@
      "copies_identical": true,
      "tag": "methods",
      "tag_source": "the gate under which the blocks ran",
+     "added_beyond_brief_list": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "by": "coordinator v5 (roadmap v5, lines ETJ and S3): the explain-then-judge result and the released-corpora deviance table added after verification (decisions log D24, D25), additive",
+   "added": [
+    "v5/ETJ/prompts-frozen.md",
+    "v5/ETJ/scores-B.json",
+    "v5/ETJ/scores-E.json",
+    "v5/ETJ/analysis-v0.json",
+    "v5/ETJ/result.md",
+    "v5/S3/mole-transcripts-manifest.json",
+    "v5/S3/s3-table-v1-public.json",
+    "v5/S3/s3-table-v1-public.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/ETJ/prompts-frozen.md",
+     "sha256": "e8c3323a0790239ad8198c709a08ffb06191a38b344fcac5132da8e46a465ee4",
+     "bytes": 2330,
+     "sha256_fork_copy": "e8c3323a0790239ad8198c709a08ffb06191a38b344fcac5132da8e46a465ee4",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the two arm E prompts and the sealed baseline, hashed before any call (decisions log D21)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/ETJ/scores-B.json",
+     "sha256": "1062eca577ab4bf6ea13e62dc6d348d44c98c9f83edb22be621097cfe9049c00",
+     "bytes": 38349,
+     "sha256_fork_copy": "1062eca577ab4bf6ea13e62dc6d348d44c98c9f83edb22be621097cfe9049c00",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "fresh baseline scores, ids and scores only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/ETJ/scores-E.json",
+     "sha256": "77679b3f53417e84c13356f0c94091965c2ece1e3c4b8e55aae09f7207756a2e",
+     "bytes": 38369,
+     "sha256_fork_copy": "77679b3f53417e84c13356f0c94091965c2ece1e3c4b8e55aae09f7207756a2e",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "explain-then-judge scores, ids and scores only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/ETJ/analysis-v0.json",
+     "sha256": "c94e351ecc29a8704c15320a47848344bbeb558ba5fa38e3cc74427f021ae468",
+     "bytes": 3054,
+     "sha256_fork_copy": "c94e351ecc29a8704c15320a47848344bbeb558ba5fa38e3cc74427f021ae468",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the contrast D and both S, one draw per arm; recomputed by the coordinator (decisions log D25)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/ETJ/result.md",
+     "sha256": "45f0b379466aa350886fe72b26dfe73f8124d443a73e9d416543c84f9b304b01",
+     "bytes": 5909,
+     "sha256_fork_copy": "45f0b379466aa350886fe72b26dfe73f8124d443a73e9d416543c84f9b304b01",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "ETJ result: outcome sentence 3, written in advance in ETJ/brief.md",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/S3/mole-transcripts-manifest.json",
+     "sha256": "cd1010ca84754b3b00904a0a598373d524c8d9f556d2d5febb6e080ce60955bc",
+     "bytes": 3413,
+     "sha256_fork_copy": "cd1010ca84754b3b00904a0a598373d524c8d9f556d2d5febb6e080ce60955bc",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "local sha256 of the 18 released transcript files",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/S3/s3-table-v1-public.json",
+     "sha256": "bb572166c18bfff883d55d04a855c57114b087a0740da7b76a2a222f8cee6c30",
+     "bytes": 22242,
+     "sha256_fork_copy": "bb572166c18bfff883d55d04a855c57114b087a0740da7b76a2a222f8cee6c30",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "honest deviance on the prefix and the released corpora; FakeLab rows omitted",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/S3/s3-table-v1-public.md",
+     "sha256": "7a85aa13494a1270fd8544157ec3b58a21c31b1daac7ee406b28d6b9cfb987f4",
+     "bytes": 8682,
+     "sha256_fork_copy": "7a85aa13494a1270fd8544157ec3b58a21c31b1daac7ee406b28d6b9cfb987f4",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same table, readable form",
      "added_beyond_brief_list": null
     }
    ]
