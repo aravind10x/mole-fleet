@@ -18,18 +18,28 @@ Rules:
   gets one history revision with the manifest's `slot_revision_account` and `slot_revision_time` and the
   benign line (interface addendum 1, item 6); a record without them gives error "benign_no_revision".
   The colleague always answers from the payload's clean workspace.
-* Never an overwrite: an existing outcomes file is refused unless --resume; with --resume every run_id
-  already in the outcomes file is skipped (never re-asked). Transcripts get a new attempt suffix rather
-  than replacing an earlier file.
-* Cost guard: every run's dollars (finished or interrupted) go to `outcomes-<block>-v0.ledger.jsonl`;
-  the block stops before a run, or before a model call inside a run, once the ledger plus the dollars
-  of runs in flight reach --cap-usd. An interrupted run gets a ledger line and no outcome record, so a
-  resume with a higher cap runs it again.
-* Stops: a refusal (recorded, error "refused:<class>") stops the block by default; a HarnessAborted
-  (spent last key, access or model-id error) stops it with no record for that run.
-* predicate_result: evaluate(predicate_id, action_log) for runs that ended without error or refusal;
-  null with error "predicate_error:<type>" if the predicate raises or returns a non-bool; null and no
-  error when the record has no predicate (smoke cells).
+* Never an overwrite: an existing outcomes file is refused unless --resume. The file is append-only and the last
+  record per run_id counts. With --resume, only runs with no record or whose latest code is not_run_cap,
+  not_run_stopped or aborted are run; a run with a verdict or a terminal code is never re-asked. Transcripts get
+  a new attempt suffix rather than replacing an earlier file.
+* Order (v1.1): a seeded interleaved order (seed 20261113) balanced over regime, arm and follower.
+* Hashes (v1.1): --expect-manifest-sha256, --expect-predicates-sha256 and --expect-docs-tree-sha256; the runner and
+  the dry run refuse to start on any difference.
+* Cost guard: every run's dollars (finished or interrupted) go to `outcomes-<block>-v0.ledger.jsonl`; the block
+  stops before a run, or before a model call inside a run, once the ledger plus the dollars of runs in flight
+  reach --cap-usd. Every planned run not finished then gets a not_run_cap record (a resume with a higher cap
+  runs it).
+* Retry pass (v1.3): `--resume --retry-unresolved` re-asks, once, the runs whose latest code is infra_error or
+  throttle_error; their new records carry retry_pass true and each pass is logged in outcomes-<block>-v0.passes.jsonl.
+* Stops (v1.1): a provider refusal is recorded for that run (refused:<class>) and the block continues; more than
+  10 refusals stop it. An infrastructure error is retried twice inside the run, then recorded (infra_error). A
+  HarnessAborted (spent last key, access or model-id error) is recorded as aborted and stops the block. At any
+  stop the remaining planned runs get not_run_stopped (or not_run_cap) records.
+* Codes (v1.1): `error` holds an allowlisted code only; exception and error text go to
+  `work/stage3/red/ft/runs/<block>/errors.jsonl` (red side, never printed).
+* predicate_result: evaluate(predicate_id, action_log) for runs that ended without error or refusal; null with
+  error predicate_error if the predicate raises or returns a non-bool; null and no error when the record has
+  no predicate (smoke cells).
 """
 from __future__ import annotations
 
@@ -82,6 +92,9 @@ REFUSAL_CLASSES = frozenset({"content_filter", "moderation_403", "content_filter
 ERROR_CODES = frozenset({"infra_error", "throttle_error", "task_missing", "workspace_missing", "benign_unplaceable",
                          "benign_no_revision", "predicate_error", "aborted", "not_run_cap", "not_run_stopped"})
 RERUNNABLE = frozenset({"not_run_cap", "not_run_stopped", "aborted"})   # a resume runs these again; nothing else
+# Pre-registration v1.3, gate 2: before any analysis, runs left unresolved by an infrastructure error are re-asked
+# once (--resume --retry-unresolved); provider refusals are never re-asked.
+INFRA_CODES = frozenset({"infra_error", "throttle_error"})
 
 
 class BenignPlacementError(ValueError):
@@ -340,8 +353,11 @@ class BlockConfig:
     expect_manifest_sha256: str | None = None
     expect_predicates_sha256: str | None = None
     expect_docs_tree_sha256: str | None = None
+    retry_unresolved: bool = False
 
     def __post_init__(self):
+        if self.retry_unresolved and not self.resume:
+            raise ValueError("--retry-unresolved continues an existing block: pass --resume too")
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", self.block):
             raise ValueError("block name: letters, digits, '_', '.', '-' only")
         for name in ("expect_manifest_sha256", "expect_predicates_sha256", "expect_docs_tree_sha256"):
@@ -360,6 +376,10 @@ class BlockConfig:
     @property
     def transcript_dir(self) -> Path:
         return Path(self.runs_root) / self.block
+
+    @property
+    def passes_path(self) -> Path:
+        return Path(self.out_dir) / f"outcomes-{self.block}-v0.passes.jsonl"
 
     @property
     def error_log_path(self) -> Path:
@@ -484,7 +504,7 @@ def outcome_record(cfg: BlockConfig, cell: Cell, res: h.RunResult | None, model:
            "end_reason": res.end_reason if res else None,
            "ended_in_action": bool(res.ended_in_action) if res else False,
            "action_and_decline": bool(res and res.ended_in_action and res.declined),
-           "wall_s": res.wall_s if res else 0.0, "model": model, "cost_missing": bool(res.cost_missing) if res else False,
+           "retry_pass": False, "wall_s": res.wall_s if res else 0.0, "model": model, "cost_missing": bool(res.cost_missing) if res else False,
            "block": cfg.block, "prompt_sha256": h.FOLLOWER_SYSTEM_SHA256}
     rec.update(extra or {})
     return rec
@@ -565,6 +585,13 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
     cells = interleave(cells, seed=cfg.seed)
     latest = latest_records(out_path)
     todo = [c for c in cells if c.run_id not in latest or latest[c.run_id].get("error") in RERUNNABLE]
+    retry_ids: set[str] = set()
+    if cfg.retry_unresolved:
+        # selection reads the error code and the retry mark only, never a verdict
+        retry_ids = {c.run_id for c in cells if c.run_id in latest and latest[c.run_id].get("error") in INFRA_CODES
+                     and not latest[c.run_id].get("retry_pass")}
+        todo += [c for c in cells if c.run_id in retry_ids]
+        _append(cfg.passes_path, {"ts": _now(), "pass": "retry_unresolved", "phase": "start", "candidates": len(retry_ids)})
     spent = [sum(float(x.get("cost_usd") or 0.0) for x in _read_jsonl(ledger_path))]
     in_flight: dict[str, float] = {}
     lock = asyncio.Lock()
@@ -580,6 +607,9 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
         return spent[0] + sum(in_flight.values())
 
     def record(cell: Cell, res: h.RunResult | None, pred: bool | None, code: str | None, extra: Mapping | None = None) -> None:
+        extra = dict(extra or {})
+        if cell.run_id in retry_ids:
+            extra["retry_pass"] = True
         _append(out_path, outcome_record(cfg, cell, res, h.FOLLOWERS[cell.follower], predicate_result=pred, error=code, extra=extra))
         done.add(cell.run_id)
 
@@ -700,6 +730,11 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
            "completed": summary["completed"], "not_run": len(not_run), "errors": dict(errors), "refusals": dict(refusals),
            "block_spend_usd": round(spent[0], 6), "cap_usd": cfg.cap_usd, "stop": stop["reason"],
            "hashes": hashes, "outcomes": str(out_path)}
+    if cfg.retry_unresolved:
+        reasked = sum(1 for rid in retry_ids if rid in done)
+        out["retry_pass"] = {"candidates": len(retry_ids), "reasked": reasked}
+        _append(cfg.passes_path, {"ts": _now(), "pass": "retry_unresolved", "phase": "end", "candidates": len(retry_ids),
+                                  "reasked": reasked, "stop": stop["reason"]})
     if verbose:
         print(json.dumps(out, indent=2))
     return out
@@ -803,13 +838,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--expect-manifest-sha256")
     ap.add_argument("--expect-predicates-sha256")
     ap.add_argument("--expect-docs-tree-sha256")
+    ap.add_argument("--retry-unresolved", action="store_true",
+                    help="with --resume: re-ask once the runs whose latest code is an infrastructure error (never refusals)")
     ap.add_argument("--dry-run", action="store_true", help="plan and check only: no model call, nothing written")
     a = ap.parse_args(argv)
     cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
                       repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
                       runs_root=a.runs_root, predicates=a.predicates, out_dir=a.out_dir, resume=a.resume,
                       concurrency=a.concurrency, max_refusals=a.max_refusals, expect_manifest_sha256=a.expect_manifest_sha256,
-                      expect_predicates_sha256=a.expect_predicates_sha256, expect_docs_tree_sha256=a.expect_docs_tree_sha256)
+                      expect_predicates_sha256=a.expect_predicates_sha256, expect_docs_tree_sha256=a.expect_docs_tree_sha256,
+                      retry_unresolved=a.retry_unresolved)
     if a.dry_run:
         p = plan_block(cfg)
         return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] else 2

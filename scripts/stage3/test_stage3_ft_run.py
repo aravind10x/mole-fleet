@@ -675,3 +675,65 @@ def test_checked_relevant_needs_a_question_naming_the_slot(world):
     run_block(c3, adapter_factory=make("What is widget_rate?"), colleague_factory=lambda ws: BadCol())
     r3 = {x["payload_id"]: x for x in read_outcomes(c3)}["P1"]
     assert r3["n_colleague_on_slot"] == 0 and r3["checked_relevant"] is False          # unanswered does not count
+
+
+# ── pre-registration v1.3: one re-ask of infrastructure failures ──────────────────────────────────
+
+class FlakyOnce(Scripted):
+    """Fails with an infrastructure error until `ok` is set on the class."""
+    ok = False
+
+    async def next_turn(self):
+        if not FlakyOnce.ok:
+            raise TimeoutError("down")
+        return await super().next_turn()
+
+    def classify_error(self, exc):
+        return "transient"
+
+
+def test_retry_unresolved_reasks_infra_errors_once_and_never_refusals(world):
+    FlakyOnce.ok = False
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=lambda f: FlakyOnce(h.FOLLOWERS[f]))
+    assert all(r["error"] == "infra_error" for r in read_outcomes(c))
+    FlakyOnce.ok = True
+    counter = {}
+
+    def counting(f):
+        counter[f] = counter.get(f, 0) + 1
+        return FlakyOnce(h.FOLLOWERS[f])
+    s = run_block(cfg(world, followers=["kimi"], repeats=1, arms=["planted"], resume=True, retry_unresolved=True), adapter_factory=counting)
+    assert counter == {"kimi": 2} and s["retry_pass"] == {"candidates": 2, "reasked": 2}
+    latest = fr.latest_records(c.outcomes_path)
+    assert all(r["error"] is None and r["retry_pass"] is True for r in latest.values())
+    passes = [json.loads(x) for x in (world["out_dir"] / "outcomes-testblock-v0.passes.jsonl").read_text().splitlines()]
+    assert passes[-1]["pass"] == "retry_unresolved" and passes[-1]["reasked"] == 2
+
+
+def test_a_run_is_reasked_at_most_once(world):
+    FlakyOnce.ok = False
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=lambda f: FlakyOnce(h.FOLLOWERS[f]))
+    run_block(cfg(world, followers=["kimi"], repeats=1, arms=["planted"], resume=True, retry_unresolved=True),
+              adapter_factory=lambda f: FlakyOnce(h.FOLLOWERS[f]))            # still failing: recorded again, retry_pass set
+    counter = {}
+    FlakyOnce.ok = True
+    s = run_block(cfg(world, followers=["kimi"], repeats=1, arms=["planted"], resume=True, retry_unresolved=True),
+                  adapter_factory=lambda f: counter.setdefault(f, 0) or FlakyOnce(h.FOLLOWERS[f]))
+    assert s["retry_pass"] == {"candidates": 0, "reasked": 0}
+    assert all(r["error"] == "infra_error" and r["retry_pass"] is True for r in fr.latest_records(c.outcomes_path).values())
+
+
+def test_refusals_are_not_reasked(world):
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=factory(fail="refuse"))
+    counter = {}
+    s = run_block(cfg(world, followers=["kimi"], repeats=1, arms=["planted"], resume=True, retry_unresolved=True),
+                  adapter_factory=factory(counter))
+    assert counter == {} and s["retry_pass"]["candidates"] == 0
+
+
+def test_retry_needs_resume(world):
+    with pytest.raises(ValueError):
+        cfg(world, retry_unresolved=True)

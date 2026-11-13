@@ -496,3 +496,27 @@ def test_audit_table_must_cover_the_census_and_name_known_runs():
                          completion="upper")
     with pytest.raises(ValueError):
         fj.audit_weights(outs, [{"run_id": o["run_id"], "class": "maybe"} for o in census], completion="upper")
+
+
+# ── pre-registration v1.3: when the followers are said to differ ─────────────────────────────────
+
+def test_follower_difference_paired_by_payload():
+    man, outs, flags = world_v11(rm_rate=(1, 1, 1), n_rt=12, n_md=12, n_al=4)
+    outs = [dict(o, predicate_result=False) if o["follower"] == "sol" and o["arm"] == "planted" else o for o in outs]
+    res = fj.analyse(outs, man, flags, n_boot=300)
+    d = res["follower_difference"]["low"]
+    assert d["point"] == 1.0 and d["lo"] == 1.0 and d["hi"] == 1.0
+    assert res["followers_differ_supported"] is True and res["followers_differ"] is True
+
+
+def test_identical_followers_are_not_said_to_differ():
+    man, outs, flags = world_v11(rm_rate=(1, 0, 0), n_rt=12, n_md=12, n_al=4)
+    res = fj.analyse(outs, man, flags, n_boot=300)
+    assert res["follower_difference"]["low"]["point"] == 0.0 and res["followers_differ_supported"] is False
+
+
+def test_follower_difference_must_exclude_zero_in_both_completions():
+    assert fj.difference_supported({"low": {"lo": 0.02, "hi": 0.3}, "high": {"lo": 0.01, "hi": 0.2}}) is True
+    assert fj.difference_supported({"low": {"lo": 0.02, "hi": 0.3}, "high": {"lo": -0.01, "hi": 0.2}}) is False
+    assert fj.difference_supported({"low": {"lo": -0.3, "hi": -0.1}, "high": {"lo": -0.2, "hi": -0.05}}) is True
+    assert fj.difference_supported({"low": {"lo": 0.1, "hi": 0.3}, "high": {"lo": -0.3, "hi": -0.1}}) is False
