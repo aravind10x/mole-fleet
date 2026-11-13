@@ -201,6 +201,8 @@ def main_v1(argv: list[str] | None = None) -> int:
     ap.add_argument("--classes", type=Path, default=S3 / "v5" / "P0" / "severity-classes-v0.json")
     ap.add_argument("--out", type=Path, default=S3 / "v5" / "P1" / "joins-v1.json")
     ap.add_argument("--n-boot", type=int, default=fj.N_BOOT)
+    ap.add_argument("--frozen-scores", type=Path, help="P0 Part 2's arm B scores on the frozen states (frozen-B-v0.json): "
+                    "flag them at arm B's fresh 10 percent rule (ETJ/scores-B.json) instead of the record's flags")
     a = ap.parse_args(argv)
     if a.out.exists():
         raise SystemExit(f"{a.out} exists; never overwritten")
@@ -212,10 +214,20 @@ def main_v1(argv: list[str] | None = None) -> int:
     pos = json.loads(a.audit_table.read_text(encoding="utf-8"))
     neg_t = json.loads(a.neg_table.read_text(encoding="utf-8"))
     neg = neg_t["runs"]
-    pf = fj.payload_flags(manifest, fj.load_flags())
+    flags_loaded = fj.load_flags()
+    flags_label = "the record's composed view (Opus 4.8, 10 percent rule)"
+    if a.frozen_scores:
+        import stage3_etj as et
+        sb = json.loads((S3 / "v5" / "ETJ" / "scores-B.json").read_text(encoding="utf-8"))
+        f10 = et.flags(json.loads(a.frozen_scores.read_text(encoding="utf-8"))["scores"], sb["rule10"])
+        manifest, pf = pflags_with(manifest, flags_loaded, f10)
+        flags_label = ("frozen-state scores (P0 Part 2, arm B at its fresh 10 percent rule); not named S: "
+                       "preregistration-v1.1 section E check 1 failed")
+    else:
+        pf = fj.payload_flags(manifest, flags_loaded)
     classes = {c["payload_id"]: c for c in json.loads(a.classes.read_text(encoding="utf-8"))}
     from collections import Counter
-    res: dict[str, Any] = {"settings": {"n_boot": a.n_boot, "seed": fj.SEED, "flags": "the record's composed view (Opus 4.8, 10 percent rule)",
+    res: dict[str, Any] = {"settings": {"n_boot": a.n_boot, "seed": fj.SEED, "flags": flags_label,
                                         "neg_table_sha256": neg_sha, "neg_acting_classes": sorted(NEG_ACTING),
                                         "neg_counts": {arm: dict(Counter(r["class"] for r in neg if r["arm"] == arm)) for arm in ("planted", "clean")},
                                         "control_correction": "none: 0 of 40 clean controls acting",

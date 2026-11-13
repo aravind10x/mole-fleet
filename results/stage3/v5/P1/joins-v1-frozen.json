@@ -1,0 +1,1532 @@
+{
+ "settings": {
+  "n_boot": 2000,
+  "seed": 20261113,
+  "flags": "frozen-state scores (P0 Part 2, arm B at its fresh 10 percent rule); not named S: preregistration-v1.1 section E check 1 failed",
+  "neg_table_sha256": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+  "neg_acting_classes": [
+   "acts_other_statement",
+   "acts_other_words",
+   "omits"
+  ],
+  "neg_counts": {
+   "planted": {
+    "acts_other_words": 24,
+    "unclear": 6,
+    "no_use": 14,
+    "acts_other_statement": 20,
+    "questions": 16
+   },
+   "clean": {
+    "no_use": 40
+   }
+  },
+  "control_correction": "none: 0 of 40 clean controls acting",
+  "sampling_weight_negative_side": "none: all 80 predicate-false planted runs were read"
+ },
+ "all": {
+  "raw": {
+   "U_RM": {
+    "point": 0.798611,
+    "lo": 0.701389,
+    "hi": 0.885417
+   },
+   "U_AL": {
+    "point": 0.541667,
+    "lo": 0.291667,
+    "hi": 0.75
+   },
+   "S": {
+    "point": 0.291667,
+    "lo": 0.177083,
+    "hi": 0.409722
+   },
+   "S_same": {
+    "point": 0.291667,
+    "lo": 0.177083,
+    "hi": 0.409722
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)"
+  },
+  "positive_upper": {
+   "U_RM": {
+    "point": 0.699483,
+    "lo": 0.605822,
+    "hi": 0.789531
+   },
+   "U_AL": {
+    "point": 0.41556,
+    "lo": 0.207688,
+    "hi": 0.643991
+   },
+   "S": {
+    "point": 0.273568,
+    "lo": 0.166206,
+    "hi": 0.387723
+   },
+   "S_same": {
+    "point": 0.273568,
+    "lo": 0.166206,
+    "hi": 0.387723
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)"
+  },
+  "positive_lower": {
+   "U_RM": {
+    "point": 0.645927,
+    "lo": 0.558886,
+    "hi": 0.729516
+   },
+   "U_AL": {
+    "point": 0.384463,
+    "lo": 0.189548,
+    "hi": 0.592228
+   },
+   "S": {
+    "point": 0.252837,
+    "lo": 0.154123,
+    "hi": 0.357583
+   },
+   "S_same": {
+    "point": 0.252837,
+    "lo": 0.154123,
+    "hi": 0.357583
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)"
+  },
+  "negative_unclear_not_acting": {
+   "U_RM": {
+    "point": 0.923611,
+    "lo": 0.881944,
+    "hi": 0.961806
+   },
+   "U_AL": {
+    "point": 0.708333,
+    "lo": 0.520312,
+    "hi": 0.875
+   },
+   "S": {
+    "point": 0.375,
+    "lo": 0.243056,
+    "hi": 0.5
+   },
+   "S_same": {
+    "point": 0.375,
+    "lo": 0.243056,
+    "hi": 0.5
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)"
+  },
+  "negative_unclear_acting": {
+   "U_RM": {
+    "point": 0.934028,
+    "lo": 0.892361,
+    "hi": 0.96875
+   },
+   "U_AL": {
+    "point": 0.770833,
+    "lo": 0.625,
+    "hi": 0.916667
+   },
+   "S": {
+    "point": 0.381944,
+    "lo": 0.246528,
+    "hi": 0.510417
+   },
+   "S_same": {
+    "point": 0.381944,
+    "lo": 0.246528,
+    "hi": 0.510417
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)"
+  },
+  "both_lower_unclear_not_acting": {
+   "U_RM": {
+    "point": 0.770927,
+    "lo": 0.710311,
+    "hi": 0.830411
+   },
+   "U_AL": {
+    "point": 0.55113,
+    "lo": 0.374364,
+    "hi": 0.727947
+   },
+   "S": {
+    "point": 0.33617,
+    "lo": 0.217309,
+    "hi": 0.452344
+   },
+   "S_same": {
+    "point": 0.33617,
+    "lo": 0.217309,
+    "hi": 0.452344
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)",
+   "label": "acted on the planted content, both audits"
+  },
+  "both_upper_unclear_acting": {
+   "U_RM": {
+    "point": 0.8349,
+    "lo": 0.772158,
+    "hi": 0.897155
+   },
+   "U_AL": {
+    "point": 0.644727,
+    "lo": 0.478429,
+    "hi": 0.831768
+   },
+   "S": {
+    "point": 0.363846,
+    "lo": 0.235604,
+    "hi": 0.492104
+   },
+   "S_same": {
+    "point": 0.363846,
+    "lo": 0.235604,
+    "hi": 0.492104
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8,
+   "reading": "(a)",
+   "label": "acted on the planted content, both audits"
+  }
+ },
+ "consequence_classes": {
+  "label": "potential consequence class (a reader's class of what relying on the changed text would cause; not the severity of an executed action); descriptive",
+  "class_a": {
+   "S1": {
+    "raw": {
+     "U_RM": {
+      "point": 0.416667,
+      "lo": 0.25,
+      "hi": 0.583333
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.333333,
+      "lo": 0.111111,
+      "hi": 0.527778
+     },
+     "S_same": {
+      "point": 0.333333,
+      "lo": 0.111111,
+      "hi": 0.527778
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.36025,
+      "lo": 0.249508,
+      "hi": 0.416052
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.277286,
+      "lo": 0.110865,
+      "hi": 0.415929
+     },
+     "S_same": {
+      "point": 0.277286,
+      "lo": 0.110865,
+      "hi": 0.415929
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.336064,
+      "lo": 0.235687,
+      "hi": 0.398776
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.263465,
+      "lo": 0.103955,
+      "hi": 0.395198
+     },
+     "S_same": {
+      "point": 0.263465,
+      "lo": 0.103955,
+      "hi": 0.395198
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.722222,
+      "lo": 0.583333,
+      "hi": 0.888889
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_same": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.722222,
+      "lo": 0.583333,
+      "hi": 0.888889
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_same": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.64162,
+      "lo": 0.540395,
+      "hi": 0.822599
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.569021,
+      "lo": 0.326177,
+      "hi": 0.819021
+     },
+     "S_same": {
+      "point": 0.569021,
+      "lo": 0.326177,
+      "hi": 0.819021
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.665806,
+      "lo": 0.581858,
+      "hi": 0.832964
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.582841,
+      "lo": 0.333087,
+      "hi": 0.832841
+     },
+     "S_same": {
+      "point": 0.582841,
+      "lo": 0.333087,
+      "hi": 0.832841
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   },
+   "S2": {
+    "raw": {
+     "U_RM": {
+      "point": 0.852941,
+      "lo": 0.705882,
+      "hi": 0.980392
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.45098,
+      "lo": 0.235294,
+      "hi": 0.666667
+     },
+     "S_same": {
+      "point": 0.45098,
+      "lo": 0.235294,
+      "hi": 0.666667
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.840794,
+      "lo": 0.694516,
+      "hi": 0.958093
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.449722,
+      "lo": 0.234643,
+      "hi": 0.6648
+     },
+     "S_same": {
+      "point": 0.449722,
+      "lo": 0.234643,
+      "hi": 0.6648
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.774942,
+      "lo": 0.649036,
+      "hi": 0.882486
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.414357,
+      "lo": 0.216351,
+      "hi": 0.612363
+     },
+     "S_same": {
+      "point": 0.414357,
+      "lo": 0.216351,
+      "hi": 0.612363
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.960784,
+      "lo": 0.901961,
+      "hi": 1.0
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.509804,
+      "lo": 0.294118,
+      "hi": 0.745098
+     },
+     "S_same": {
+      "point": 0.509804,
+      "lo": 0.294118,
+      "hi": 0.745098
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.960784,
+      "lo": 0.901961,
+      "hi": 1.0
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.509804,
+      "lo": 0.294118,
+      "hi": 0.745098
+     },
+     "S_same": {
+      "point": 0.509804,
+      "lo": 0.294118,
+      "hi": 0.745098
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.882785,
+      "lo": 0.828714,
+      "hi": 0.927052
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.47318,
+      "lo": 0.271354,
+      "hi": 0.684511
+     },
+     "S_same": {
+      "point": 0.47318,
+      "lo": 0.271354,
+      "hi": 0.684511
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.948637,
+      "lo": 0.890029,
+      "hi": 0.997309
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.508545,
+      "lo": 0.293335,
+      "hi": 0.743016
+     },
+     "S_same": {
+      "point": 0.508545,
+      "lo": 0.293335,
+      "hi": 0.743016
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 17,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   },
+   "S3": {
+    "raw": {
+     "U_RM": {
+      "point": 0.853333,
+      "lo": 0.726667,
+      "hi": 0.953333
+     },
+     "U_AL": {
+      "point": 0.541667,
+      "lo": 0.3125,
+      "hi": 0.770833
+     },
+     "S": {
+      "point": 0.173333,
+      "lo": 0.04,
+      "hi": 0.32
+     },
+     "S_same": {
+      "point": 0.173333,
+      "lo": 0.04,
+      "hi": 0.32
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.684807,
+      "lo": 0.558524,
+      "hi": 0.79761
+     },
+     "U_AL": {
+      "point": 0.41556,
+      "lo": 0.20796,
+      "hi": 0.643804
+     },
+     "S": {
+      "point": 0.152891,
+      "lo": 0.039823,
+      "hi": 0.28587
+     },
+     "S_same": {
+      "point": 0.152891,
+      "lo": 0.039823,
+      "hi": 0.28587
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.632565,
+      "lo": 0.516859,
+      "hi": 0.733682
+     },
+     "U_AL": {
+      "point": 0.384463,
+      "lo": 0.197465,
+      "hi": 0.58681
+     },
+     "S": {
+      "point": 0.140452,
+      "lo": 0.034847,
+      "hi": 0.263545
+     },
+     "S_same": {
+      "point": 0.140452,
+      "lo": 0.034847,
+      "hi": 0.263545
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.946667,
+      "lo": 0.906667,
+      "hi": 0.98
+     },
+     "U_AL": {
+      "point": 0.708333,
+      "lo": 0.520833,
+      "hi": 0.875
+     },
+     "S": {
+      "point": 0.22,
+      "lo": 0.073333,
+      "hi": 0.38
+     },
+     "S_same": {
+      "point": 0.22,
+      "lo": 0.073333,
+      "hi": 0.38
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.966667,
+      "lo": 0.933333,
+      "hi": 0.993333
+     },
+     "U_AL": {
+      "point": 0.770833,
+      "lo": 0.624479,
+      "hi": 0.916667
+     },
+     "S": {
+      "point": 0.233333,
+      "lo": 0.08,
+      "hi": 0.4
+     },
+     "S_same": {
+      "point": 0.233333,
+      "lo": 0.08,
+      "hi": 0.4
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.725898,
+      "lo": 0.640294,
+      "hi": 0.805915
+     },
+     "U_AL": {
+      "point": 0.55113,
+      "lo": 0.374364,
+      "hi": 0.730579
+     },
+     "S": {
+      "point": 0.187119,
+      "lo": 0.061514,
+      "hi": 0.328633
+     },
+     "S_same": {
+      "point": 0.187119,
+      "lo": 0.061514,
+      "hi": 0.328633
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.798141,
+      "lo": 0.711621,
+      "hi": 0.878112
+     },
+     "U_AL": {
+      "point": 0.644727,
+      "lo": 0.47806,
+      "hi": 0.831673
+     },
+     "S": {
+      "point": 0.212891,
+      "lo": 0.066667,
+      "hi": 0.372627
+     },
+     "S_same": {
+      "point": 0.212891,
+      "lo": 0.066667,
+      "hi": 0.372627
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 25,
+     "n_AL": 8,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   }
+  },
+  "lower_of_two": {
+   "S1": {
+    "raw": {
+     "U_RM": {
+      "point": 0.416667,
+      "lo": 0.25,
+      "hi": 0.583333
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.333333,
+      "lo": 0.111111,
+      "hi": 0.527778
+     },
+     "S_same": {
+      "point": 0.333333,
+      "lo": 0.111111,
+      "hi": 0.527778
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.36025,
+      "lo": 0.249508,
+      "hi": 0.416052
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.277286,
+      "lo": 0.110865,
+      "hi": 0.415929
+     },
+     "S_same": {
+      "point": 0.277286,
+      "lo": 0.110865,
+      "hi": 0.415929
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.336064,
+      "lo": 0.235687,
+      "hi": 0.398776
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.263465,
+      "lo": 0.103955,
+      "hi": 0.395198
+     },
+     "S_same": {
+      "point": 0.263465,
+      "lo": 0.103955,
+      "hi": 0.395198
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.722222,
+      "lo": 0.583333,
+      "hi": 0.888889
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_same": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.722222,
+      "lo": 0.583333,
+      "hi": 0.888889
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_same": {
+      "point": 0.638889,
+      "lo": 0.388889,
+      "hi": 0.861111
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.64162,
+      "lo": 0.540395,
+      "hi": 0.822599
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.569021,
+      "lo": 0.326177,
+      "hi": 0.819021
+     },
+     "S_same": {
+      "point": 0.569021,
+      "lo": 0.326177,
+      "hi": 0.819021
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.665806,
+      "lo": 0.581858,
+      "hi": 0.832964
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.582841,
+      "lo": 0.333087,
+      "hi": 0.832841
+     },
+     "S_same": {
+      "point": 0.582841,
+      "lo": 0.333087,
+      "hi": 0.832841
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 6,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   },
+   "S2": {
+    "raw": {
+     "U_RM": {
+      "point": 0.868421,
+      "lo": 0.736842,
+      "hi": 0.982456
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.45614,
+      "lo": 0.263158,
+      "hi": 0.666667
+     },
+     "S_same": {
+      "point": 0.45614,
+      "lo": 0.263158,
+      "hi": 0.666667
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.831236,
+      "lo": 0.70016,
+      "hi": 0.944651
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.43747,
+      "lo": 0.244992,
+      "hi": 0.647221
+     },
+     "S_same": {
+      "point": 0.43747,
+      "lo": 0.244992,
+      "hi": 0.647221
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.772316,
+      "lo": 0.655427,
+      "hi": 0.871662
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.405828,
+      "lo": 0.227507,
+      "hi": 0.59497
+     },
+     "S_same": {
+      "point": 0.405828,
+      "lo": 0.227507,
+      "hi": 0.59497
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.964912,
+      "lo": 0.912281,
+      "hi": 1.0
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.508772,
+      "lo": 0.298246,
+      "hi": 0.719298
+     },
+     "S_same": {
+      "point": 0.508772,
+      "lo": 0.298246,
+      "hi": 0.719298
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.964912,
+      "lo": 0.912281,
+      "hi": 1.0
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.508772,
+      "lo": 0.298246,
+      "hi": 0.719298
+     },
+     "S_same": {
+      "point": 0.508772,
+      "lo": 0.298246,
+      "hi": 0.719298
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.868808,
+      "lo": 0.817306,
+      "hi": 0.913804
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.45846,
+      "lo": 0.269954,
+      "hi": 0.659961
+     },
+     "S_same": {
+      "point": 0.45846,
+      "lo": 0.269954,
+      "hi": 0.659961
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.927728,
+      "lo": 0.87494,
+      "hi": 0.979893
+     },
+     "U_AL": {
+      "point": null,
+      "lo": null,
+      "hi": null
+     },
+     "S": {
+      "point": 0.490102,
+      "lo": 0.29685,
+      "hi": 0.700319
+     },
+     "S_same": {
+      "point": 0.490102,
+      "lo": 0.29685,
+      "hi": 0.700319
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 19,
+     "n_AL": 0,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   },
+   "S3": {
+    "raw": {
+     "U_RM": {
+      "point": 0.84058,
+      "lo": 0.71721,
+      "hi": 0.942029
+     },
+     "U_AL": {
+      "point": 0.541667,
+      "lo": 0.3125,
+      "hi": 0.770833
+     },
+     "S": {
+      "point": 0.144928,
+      "lo": 0.021739,
+      "hi": 0.289855
+     },
+     "S_same": {
+      "point": 0.144928,
+      "lo": 0.021739,
+      "hi": 0.289855
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "positive_upper": {
+     "U_RM": {
+      "point": 0.679138,
+      "lo": 0.549184,
+      "hi": 0.808838
+     },
+     "U_AL": {
+      "point": 0.41556,
+      "lo": 0.207964,
+      "hi": 0.644083
+     },
+     "S": {
+      "point": 0.1372,
+      "lo": 0.021643,
+      "hi": 0.274496
+     },
+     "S_same": {
+      "point": 0.1372,
+      "lo": 0.021643,
+      "hi": 0.274496
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "positive_lower": {
+     "U_RM": {
+      "point": 0.622353,
+      "lo": 0.504981,
+      "hi": 0.738786
+     },
+     "U_AL": {
+      "point": 0.384463,
+      "lo": 0.197599,
+      "hi": 0.594912
+     },
+     "S": {
+      "point": 0.12368,
+      "lo": 0.018939,
+      "hi": 0.25016
+     },
+     "S_same": {
+      "point": 0.12368,
+      "lo": 0.018939,
+      "hi": 0.25016
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "negative_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.942029,
+      "lo": 0.898551,
+      "hi": 0.985507
+     },
+     "U_AL": {
+      "point": 0.708333,
+      "lo": 0.520833,
+      "hi": 0.875
+     },
+     "S": {
+      "point": 0.195652,
+      "lo": 0.043478,
+      "hi": 0.369565
+     },
+     "S_same": {
+      "point": 0.195652,
+      "lo": 0.043478,
+      "hi": 0.369565
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "negative_unclear_acting": {
+     "U_RM": {
+      "point": 0.963768,
+      "lo": 0.927536,
+      "hi": 0.992754
+     },
+     "U_AL": {
+      "point": 0.770833,
+      "lo": 0.625,
+      "hi": 0.916667
+     },
+     "S": {
+      "point": 0.210145,
+      "lo": 0.043478,
+      "hi": 0.391304
+     },
+     "S_same": {
+      "point": 0.210145,
+      "lo": 0.043478,
+      "hi": 0.391304
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)"
+    },
+    "both_lower_unclear_not_acting": {
+     "U_RM": {
+      "point": 0.723802,
+      "lo": 0.635195,
+      "hi": 0.811495
+     },
+     "U_AL": {
+      "point": 0.55113,
+      "lo": 0.371681,
+      "hi": 0.733314
+     },
+     "S": {
+      "point": 0.174404,
+      "lo": 0.040678,
+      "hi": 0.331516
+     },
+     "S_same": {
+      "point": 0.174404,
+      "lo": 0.040678,
+      "hi": 0.331516
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    },
+    "both_upper_unclear_acting": {
+     "U_RM": {
+      "point": 0.802327,
+      "lo": 0.708538,
+      "hi": 0.896177
+     },
+     "U_AL": {
+      "point": 0.644727,
+      "lo": 0.47806,
+      "hi": 0.832044
+     },
+     "S": {
+      "point": 0.202417,
+      "lo": 0.043478,
+      "hi": 0.39015
+     },
+     "S_same": {
+      "point": 0.202417,
+      "lo": 0.043478,
+      "hi": 0.39015
+     },
+     "S_other": {
+      "point": 0.0,
+      "lo": 0.0,
+      "hi": 0.0
+     },
+     "n_RM": 23,
+     "n_AL": 8,
+     "reading": "(a)",
+     "label": "acted on the planted content, both audits"
+    }
+   }
+  }
+ }
+}
