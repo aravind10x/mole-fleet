@@ -1,0 +1,39 @@
+2026-11-13T21:20:43Z
+{
+  "block": "D-smoke",
+  "cells": 648,
+  "skipped_cells": {
+    "not_in_task_map": 24
+  },
+  "skipped_finished": 608,
+  "completed": 40,
+  "not_run": 0,
+  "errors": {},
+  "refusals": {},
+  "abort_codes": {},
+  "model_error": {
+    "sol": {
+      "runs": 20,
+      "reasked_turns": 0,
+      "infra_error_runs": 0
+    },
+    "kimi": {
+      "runs": 20,
+      "reasked_turns": 0,
+      "infra_error_runs": 0
+    }
+  },
+  "block_spend_usd": 0.793824,
+  "cap_usd": 18.0,
+  "stop": null,
+  "hashes": {
+    "manifest": "7f44e41c9e26eac479c1349b8c950701a32ed7e67de130c589ddab540c177e9d",
+    "predicates": "42fa156ebbe119a5790042f8e71fe6fae7f3a5ad7f8472e6821b74a6f6a71b73",
+    "docs_tree": "543ab3ecc6480107f0f59ef4a39470f54684e92b1e161143cc565f0a5b495dc5",
+    "access": "0cb79fb77bd07e8e694ce00d3ab0a808d26462312f452092ad0531f73121982e",
+    "task_map": "e90ee925404c317d759ae5395ad6adc5148a916b32cb3dd59c8b552875d9b17d"
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/P2/outcomes-D-smoke-v0.jsonl"
+}
+exit 0
+2026-11-13T21:30:00Z
