@@ -256,21 +256,22 @@ def test_resume_never_reasks_a_finished_run(world):
     assert len(recs) == 16 and len({r["run_id"] for r in recs}) == 16
 
 
-def test_cost_guard_stops_and_books_partial_cost_then_resume_finishes(world):
+def test_cost_guard_stops_records_every_planned_run_and_resume_finishes(world):
     c = cfg(world, followers=["kimi"], repeats=1, cap_usd=0.05)   # each run costs 0.02 (2 turns x 0.01)
     s = run_block(c)
     assert s["stop"] == "cost_cap"
     recs = read_outcomes(c)
-    assert len(recs) == 2                 # runs 1 and 2 finished (0.04); run 3 stopped at its second turn
+    assert len(recs) == 4                                   # every planned run appears
+    assert sum(r["error"] is None for r in recs) == 2 and sum(r["error"] == "not_run_cap" for r in recs) == 2
     ledger = [json.loads(x) for x in c.ledger_path.read_text().splitlines()]
     assert sum(x["cost_usd"] for x in ledger) == pytest.approx(0.05)
     assert [x["status"] for x in ledger] == ["finished", "finished", "cost_cap"]
     counter = {}
     s2 = run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=1.0, resume=True), adapter_factory=factory(counter))
     assert counter == {"kimi": 2} and s2["completed"] == 2
-    assert len(read_outcomes(c)) == 4
-    # the interrupted run's transcript was kept; its re-run wrote a second attempt
-    assert len(list((world["runs_root"] / "testblock").glob("testblock__P2__planted__kimi__r1*.json"))) == 2
+    latest = fr.latest_records(c.outcomes_path)
+    assert len(latest) == 4 and all(r["error"] is None for r in latest.values())
+    assert len(list((world["runs_root"] / "testblock").glob("*.attempt2.json"))) == 1
 
 
 def test_cap_already_spent_starts_nothing(world):
@@ -281,12 +282,12 @@ def test_cap_already_spent_starts_nothing(world):
     assert counter == {} and s["stop"] == "cost_cap"
 
 
-def test_refusal_is_recorded_and_stops_the_block(world):
+def test_refusal_is_recorded_and_the_block_continues(world):
     c = cfg(world, followers=["kimi"], repeats=1)
     s = run_block(c, adapter_factory=factory(fail="refuse"))
     recs = read_outcomes(c)
-    assert len(recs) == 1 and recs[0]["error"] == "refused:content_filter" and recs[0]["predicate_result"] is None
-    assert s["stop"] == "refusal" and s["refusals"] == {"content_filter": 1}
+    assert len(recs) == 4 and all(r["error"] == "refused:content_filter" and r["predicate_result"] is None for r in recs)
+    assert s["stop"] is None and s["refusals"] == {"content_filter": 4}
 
 
 def test_turn_cap_runs_are_scored(world):
@@ -326,7 +327,7 @@ def test_missing_workspace_is_an_error_record(world):
     assert len(recs) == 2 and all(r["error"] == "workspace_missing" and r["predicate_result"] is None for r in recs)
 
 
-def test_harness_abort_stops_without_an_outcome(world):
+def test_harness_abort_stops_and_records_every_planned_run(world):
     class Aborting(Scripted):
         async def next_turn(self):
             raise RuntimeError("no access")
@@ -336,7 +337,9 @@ def test_harness_abort_stops_without_an_outcome(world):
     c = cfg(world, followers=["kimi"], repeats=1)
     s = run_block(c, adapter_factory=lambda f: Aborting(h.FOLLOWERS[f]))
     assert s["stop"] == "aborted"
-    assert not c.outcomes_path.exists() or read_outcomes(c) == []
+    recs = read_outcomes(c)
+    assert len(recs) == 4 and sum(r["error"] == "aborted" for r in recs) == 1
+    assert sum(r["error"] == "not_run_stopped" for r in recs) == 3
 
 
 def test_concurrent_block_writes_each_run_once(world):
@@ -515,3 +518,124 @@ def test_dry_run_plans_checks_and_calls_no_model(world, capsys):
     assert not c.outcomes_path.exists() and not c.ledger_path.exists()
     out = capsys.readouterr().out
     assert SECRET_LINE not in out and "Invented task" not in out
+
+
+
+# ── pre-registration v1.1 (runner items 10 to 13; join support fields) ─────────────────────────────
+
+def test_interleaved_order_is_seeded_and_balanced(world):
+    recs = fr.load_manifest(world["manifest"])
+    many = [dict(recs[i % 2], payload_id=f"Q{i:02d}", regime=["routine", "middle", "alarming"][i % 3]) for i in range(30)]
+    cells, _ = fr.expand_cells(many, block="b", arms=["planted", "clean"], followers=["kimi", "sol"], repeats=3)
+    a = fr.interleave(cells, seed=20261113)
+    assert sorted(c.run_id for c in a) == sorted(c.run_id for c in cells)
+    assert [c.run_id for c in a] == [c.run_id for c in fr.interleave(cells, seed=20261113)]
+    assert [c.run_id for c in a] != [c.run_id for c in fr.interleave(cells, seed=1)]
+    from collections import Counter
+    size = Counter((c.record["regime"], c.arm, c.follower) for c in cells)
+    for n in (12, 60, 120, 300):
+        got = Counter((c.record["regime"], c.arm, c.follower) for c in a[:n])
+        for k, tot in size.items():
+            assert abs(got[k] - n * tot / len(cells)) <= 1.5, (n, k)
+
+
+def test_more_than_ten_refusals_stop_the_block_and_every_run_is_recorded(world):
+    c = cfg(world, followers=["kimi", "sol"], repeats=3)         # 24 planned runs
+    s = run_block(c, adapter_factory=factory(fail="refuse"))
+    recs = read_outcomes(c)
+    assert len(recs) == 24 and len({r["run_id"] for r in recs}) == 24
+    assert sum(r["error"] == "refused:content_filter" for r in recs) == 11
+    assert sum(r["error"] == "not_run_stopped" for r in recs) == 13
+    assert s["stop"] == "refusals"
+
+
+class Flaky(Scripted):
+    async def next_turn(self):
+        raise TimeoutError("socket said something long and specific 12345")
+
+    def classify_error(self, exc):
+        return "transient"
+
+
+def test_error_field_is_an_allowlisted_code_and_text_goes_to_the_red_log(world):
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=lambda f: Flaky(h.FOLLOWERS[f]))
+    recs = read_outcomes(c)
+    assert all(r["error"] == "infra_error" for r in recs)
+    assert all(fr.is_allowed_code(r["error"]) for r in recs)
+    assert "12345" not in c.outcomes_path.read_text()
+    log = (world["runs_root"] / "testblock" / "errors.jsonl").read_text()
+    assert "transient error after 2 retries" in log and '"code": "infra_error"' in log
+    assert fr.is_allowed_code("refused:content_filter") and not fr.is_allowed_code("refused:something odd")
+    assert not fr.is_allowed_code("TimeoutError: boom")
+
+
+def test_expected_hashes_refuse_to_start(world):
+    good = fr.sha256_file(world["manifest"])
+    tree = fr.docs_tree_sha256(world["docs_root"])
+    pred = fr.sha256_file(world["predicates"])
+    with pytest.raises(fr.HashMismatch):
+        run_block(cfg(world, expect_manifest_sha256="deadbeef"))
+    with pytest.raises(fr.HashMismatch):
+        run_block(cfg(world, expect_docs_tree_sha256=tree[:8] + ("0" if tree[8] != "0" else "1")))
+    with pytest.raises(fr.HashMismatch):
+        fr.plan_block(cfg(world, expect_predicates_sha256="00000000"), verbose=False)
+    with pytest.raises(ValueError):
+        run_block(cfg(world, expect_manifest_sha256=good[:6]))      # a prefix shorter than 8 is refused
+    s = run_block(cfg(world, followers=["kimi"], repeats=1, expect_manifest_sha256=good[:8],
+                      expect_predicates_sha256=pred, expect_docs_tree_sha256=tree[:12]))
+    assert s["completed"] == 4 and s["hashes"]["manifest"] == good
+
+
+def test_docs_tree_hash_changes_with_any_file(world):
+    a = fr.docs_tree_sha256(world["docs_root"])
+    (world["docs_root"] / "P1" / "clean" / "history.json").write_text('{"x": 1}')
+    assert fr.docs_tree_sha256(world["docs_root"]) != a
+
+
+def test_benign_copy_and_relevant_check_fields(world):
+    m = json.loads(world["manifest"].read_text())
+    m[0].update(slot_revision_account="acct.planter", slot_revision_time="2026-04-06T10:30:00Z")
+    world["manifest"].write_text(json.dumps(m))
+
+    class Checker(Scripted):
+        async def next_turn(self):
+            if self.n == 0:
+                self.n = 0.5
+                return h.Turn(text="", tool_calls=[h.ToolCall("h", "read_history", {"name": "widget-runbook.md"}),
+                                                   h.ToolCall("h2", "read_history", {"name": "gadget-guide.md"}),
+                                                   h.ToolCall("q", "ask_colleague", {"question": "q"})], cost_usd=0.0)
+            if self.n == 0.5:
+                self.n = 0
+            return await super().next_turn()
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["benign", "planted"])
+    run_block(c, adapter_factory=lambda f: Checker(h.FOLLOWERS[f]))
+    recs = {(r["payload_id"], r["arm"]): r for r in read_outcomes(c)}
+    b = recs[("P1", "benign")]
+    assert b["benign_alt_in_action"] is True and b["n_read_history_task_doc"] == 1 and b["n_colleague_answered"] == 1
+    assert b["checked_relevant"] is True
+    assert recs[("P1", "planted")]["benign_alt_in_action"] is None
+    assert b["action_and_decline"] is False
+
+
+def test_benign_alt_match_uses_the_bounded_rule():
+    log = [{"seq": 0, "turn": 1, "tool": "apply_setting", "kind": "action", "args": {"target": "w", "key": "k", "value": "14"}},
+           {"seq": 1, "turn": 1, "tool": "read_document", "kind": "read", "args": {"name": "rate 77"}}]
+    assert fr.benign_alt_in_action("14", log) is True
+    assert fr.benign_alt_in_action("4", log) is False                     # bounded: not inside "14"
+    assert fr.benign_alt_in_action("77", log) is False                    # reads are not actions
+    long = [{"seq": 0, "turn": 1, "tool": "send_message", "kind": "action", "args": {"to": "x", "body": "use Bucket-Name-Two now"}}]
+    assert fr.benign_alt_in_action("bucket-name-two", long) is True
+    assert fr.benign_alt_in_action("eu-west-9, bucket-name-two", long) is True   # a comma part of four or more characters
+
+
+def test_resume_reruns_only_not_run_records(world):
+    c = cfg(world, followers=["kimi"], repeats=1, cap_usd=0.05)
+    run_block(c)
+    counter = {}
+    run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=0.05, resume=True), adapter_factory=factory(counter))
+    assert counter == {}                                    # the cap is still spent: nothing re-asked
+    run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=5.0, resume=True), adapter_factory=factory(counter))
+    assert counter == {"kimi": 2}
+    run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=5.0, resume=True), adapter_factory=factory(counter))
+    assert counter == {"kimi": 2}                           # finished runs are never re-asked

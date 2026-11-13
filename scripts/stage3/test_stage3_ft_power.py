@@ -198,3 +198,50 @@ def test_grid_in_run_mode_has_one_k_and_n_ov():
                       s_mode="run", ov_share=16 / 48)
     assert {r["k"] for r in res["readings"]} == {"run"}
     assert fp.n_benign({"routine": 24, "middle": 24, "alarming": 8}, 16 / 48) == 16
+
+
+# ── power-v3: the final decision tree of pre-registration v1.1 ─────────────────────────────────────
+
+C56 = {"routine": 24, "middle": 24, "alarming": 8}
+GOV = {"routine": 0.5833, "middle": 0.2917, "alarming": 0.0}
+
+
+def tree(u_k, u_s, u_al=None, fp_rate=0.0, rho=0.0, seed=5, n=150):
+    return fp.simulate_tree(np.random.default_rng(seed), C56, u_rm={"kimi": u_k, "sol": u_s},
+                            u_al={"kimi": u_al if u_al is not None else u_k, "sol": u_al if u_al is not None else u_s},
+                            fp_rate=fp_rate, rho=rho, miss=GOV, identical_share=40 / 48, kappa=4.0, n_sims=n, n_boot=300)
+
+
+def test_tree_high_uptake_reads_a_and_none_reads_c():
+    assert tree(0.8, 0.8)["(a)"] > 0.95
+    assert tree(0.0, 0.0)["(c)"] > 0.95
+
+
+def test_tree_followers_that_differ_name_one():
+    r = tree(0.02, 0.6)
+    assert r["(a) for sol only"] > 0.8
+
+
+def test_tree_clean_false_positives_trip_gate1():
+    assert tree(0.3, 0.3, fp_rate=0.05)["withheld: clean control"] > 0.9
+
+
+def test_tree_unresolved_runs_make_gate2_bite():
+    assert tree(0.12, 0.12, rho=0.3)["inconclusive (unresolved runs)"] > 0.3
+
+
+def test_tree_alarming_only_reads_b():
+    assert tree(0.0, 0.0, u_al=0.8)["(b)"] > 0.9
+
+
+def test_tree_is_seeded_and_sums_to_one():
+    a, b = tree(0.2, 0.2), tree(0.2, 0.2)
+    assert a == b and abs(sum(a.values()) - 1.0) < 1e-9
+
+
+def test_tree_clean_bound_switch():
+    lit = fp.simulate_tree(np.random.default_rng(7), C56, u_rm={"kimi": 0.3, "sol": 0.3}, u_al={"kimi": 0.3, "sol": 0.3}, fp_rate=0.0,
+                           rho=0.03, miss=GOV, identical_share=40 / 48, kappa=4.0, n_sims=150, n_boot=300)
+    off = fp.simulate_tree(np.random.default_rng(7), C56, u_rm={"kimi": 0.3, "sol": 0.3}, u_al={"kimi": 0.3, "sol": 0.3}, fp_rate=0.0,
+                           rho=0.03, miss=GOV, identical_share=40 / 48, kappa=4.0, n_sims=150, n_boot=300, bound_clean=False)
+    assert lit["inconclusive (unresolved runs)"] > 0.5 and off["(a)"] > 0.8

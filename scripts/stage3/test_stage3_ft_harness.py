@@ -662,3 +662,14 @@ def test_colleague_errors_are_counted_in_the_run(tmp_path):
             return h.ColleagueAnswer(h.COLLEAGUE_UNAVAILABLE, 0.0, "TypeError")
     r = run(ScriptedAdapter([turn(("ask_colleague", {"question": "q"})), turn(("finish", {"summary": "s"}))]), ws, BadCol())
     assert r.colleague_errors == 1 and r.counts["ask_colleague"] == 1
+
+
+def test_infrastructure_errors_get_two_retries():
+    assert h.MAX_TRANSIENT_RETRIES == 2
+
+
+def test_colleague_answers_are_counted(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+    r = run(ScriptedAdapter([turn(("ask_colleague", {"question": "a"}), ("ask_colleague", {"question": "b"})),
+                             turn(("finish", {"summary": "s"}))]), ws, FakeColleague())
+    assert r.colleague_answered == 2 and r.colleague_errors == 0

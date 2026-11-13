@@ -70,7 +70,7 @@ TURN_CAP = 20
 FOLLOWER_MAX_TOKENS = 4000
 SEARCH_MAX_MATCHES = 40
 HISTORY_MAX_REVISIONS = 10
-MAX_TRANSIENT_RETRIES = 3
+MAX_TRANSIENT_RETRIES = 2          # pre-registration v1.1 section 5: an infrastructure error is retried twice, then recorded
 TRANSIENT_BACKOFF_S = 5.0
 MAX_THROTTLE_RETRIES = 2
 THROTTLE_PAUSE_S = 60.0
@@ -639,6 +639,7 @@ class RunResult:
     cost_usd: float = 0.0
     colleague_cost_usd: float = 0.0
     colleague_errors: int = 0
+    colleague_answered: int = 0
     input_tokens: int = 0
     output_tokens: int = 0
     cache_read_tokens: int = 0
@@ -686,6 +687,7 @@ async def _execute(call: ToolCall, ws: Workspace, colleague: Any, res: RunResult
         ans = await colleague.answer(str(a["question"]))
         res.colleague_cost_usd += ans.cost_usd
         res.colleague_errors += int(ans.error is not None)
+        res.colleague_answered += int(ans.error is None)
         res.cost_usd += ans.cost_usd
         return ans.text, False
     return ACTION_RESULTS[call.name], False
