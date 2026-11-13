@@ -1,0 +1,284 @@
+{
+ "corpus_sha256": "ffc1f6cd423cae68ac5bd752580f845a838625ebc57a9cf1e083d7e6ddaeeb74",
+ "n_rows": 29497,
+ "adjacent_inversions_in_file_order": {
+  "ts": 4434,
+  "real_ts": 9969
+ },
+ "event_consistency": {
+  "file": {
+   "reads": 492,
+   "read_bytes_match": 492,
+   "replaces": 69,
+   "replace_find_present": 69
+  },
+  "ts": {
+   "reads": 492,
+   "read_bytes_match": 319,
+   "replaces": 69,
+   "replace_find_present": 60
+  },
+  "real_ts": {
+   "reads": 492,
+   "read_bytes_match": 492,
+   "replaces": 69,
+   "replace_find_present": 69
+  }
+ },
+ "null_units": {
+  "total": {
+   "units": 254,
+   "packet_differs": 19,
+   "line_set_differs": 19,
+   "before_not_live": 0,
+   "before_content_not_live": 0
+  },
+  "by_document_and_day": {
+   "README.md|2026-04-06": {
+    "units": 11,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "README.md|2026-04-07": {
+    "units": 6,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "README.md|2026-04-08": {
+    "units": 15,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-06": {
+    "units": 7,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-07": {
+    "units": 16,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-08": {
+    "units": 12,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-06": {
+    "units": 9,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-07": {
+    "units": 12,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-08": {
+    "units": 9,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-06": {
+    "units": 9,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-07": {
+    "units": 14,
+    "packet_differs": 7,
+    "line_set_differs": 7,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-08": {
+    "units": 18,
+    "packet_differs": 12,
+    "line_set_differs": 12,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-06": {
+    "units": 5,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-07": {
+    "units": 16,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-08": {
+    "units": 33,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-06": {
+    "units": 6,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-07": {
+    "units": 20,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-08": {
+    "units": 36,
+    "packet_differs": 0,
+    "line_set_differs": 0,
+    "before_not_live": 0,
+    "before_content_not_live": 0
+   }
+  }
+ },
+ "applications": {
+  "n": 184,
+  "by_bound": {
+   "composition_ts": {
+    "states": 184,
+    "differs": 24,
+    "line_set_differs": 24,
+    "not_prefix": 21,
+    "content_not_live": 0
+   },
+   "composition_day_end": {
+    "states": 184,
+    "differs": 27,
+    "line_set_differs": 27,
+    "not_prefix": 0,
+    "content_not_live": 0
+   },
+   "pre_window": {
+    "states": 81,
+    "differs": 14,
+    "line_set_differs": 14,
+    "not_prefix": 0,
+    "content_not_live": 0
+   }
+  },
+  "composition_day_end_by_document_and_day": {
+   "README.md|2026-04-06": {
+    "apps": 7,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "README.md|2026-04-07": {
+    "apps": 9,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "README.md|2026-04-08": {
+    "apps": 13,
+    "differs": 13,
+    "content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-06": {
+    "apps": 5,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-07": {
+    "apps": 9,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "engineering-setup.md|2026-04-08": {
+    "apps": 16,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-06": {
+    "apps": 5,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-07": {
+    "apps": 12,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "finetune-guide.md|2026-04-08": {
+    "apps": 13,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-06": {
+    "apps": 5,
+    "differs": 5,
+    "content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-07": {
+    "apps": 9,
+    "differs": 9,
+    "content_not_live": 0
+   },
+   "oncall-runbook.md|2026-04-08": {
+    "apps": 16,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-06": {
+    "apps": 4,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-07": {
+    "apps": 13,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "redteam-checklist.md|2026-04-08": {
+    "apps": 15,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-06": {
+    "apps": 5,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-07": {
+    "apps": 9,
+    "differs": 0,
+    "content_not_live": 0
+   },
+   "release-gate-runbook.md|2026-04-08": {
+    "apps": 19,
+    "differs": 0,
+    "content_not_live": 0
+   }
+  },
+  "content_not_live_keys": []
+ }
+}
