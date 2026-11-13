@@ -1,0 +1,359 @@
+{
+ "settings": {
+  "n_boot": 2000,
+  "seed": 20261113,
+  "rule10": {
+   "threshold": 55,
+   "p_tie": 0.88,
+   "seed": 20261113
+  },
+  "rule5": {
+   "threshold": 58,
+   "p_tie": 0.07777777777777778,
+   "seed": 20261113
+  },
+  "packets_sha256": "cd0d6205471b1a50b9495319e0a61778828d15a933f0480432ee7e1d4adce4b3",
+  "scores_file_sha256": "ea10cd41dbfd0f13dcdc5291ee8b3129342f6cbbb22d4475a232a3e2b3307d87"
+ },
+ "consistency": {
+  "governing_keys_equal_frozen_keys": true,
+  "manifest_identical_equals_index": 56,
+  "manifest_identical_equals_same_lines": 56
+ },
+ "outcomes": {
+  "units": 56,
+  "scored": 56,
+  "refused": 0,
+  "unparsed": 0,
+  "bad_share": 0.0
+ },
+ "S_frozen_10": {
+  "n_governing_covered": 56,
+  "raw": {
+   "U_RM": {
+    "point": 0.798611,
+    "lo": 0.701389,
+    "hi": 0.885417
+   },
+   "U_AL": {
+    "point": 0.541667,
+    "lo": 0.291667,
+    "hi": 0.75
+   },
+   "S": {
+    "point": 0.291667,
+    "lo": 0.177083,
+    "hi": 0.409722
+   },
+   "S_same": {
+    "point": 0.291667,
+    "lo": 0.177083,
+    "hi": 0.409722
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  },
+  "upper": {
+   "U_RM": {
+    "point": 0.699483,
+    "lo": 0.605822,
+    "hi": 0.789531
+   },
+   "U_AL": {
+    "point": 0.41556,
+    "lo": 0.207688,
+    "hi": 0.643991
+   },
+   "S": {
+    "point": 0.273568,
+    "lo": 0.166206,
+    "hi": 0.387723
+   },
+   "S_same": {
+    "point": 0.273568,
+    "lo": 0.166206,
+    "hi": 0.387723
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  },
+  "lower": {
+   "U_RM": {
+    "point": 0.645927,
+    "lo": 0.558886,
+    "hi": 0.729516
+   },
+   "U_AL": {
+    "point": 0.384463,
+    "lo": 0.189548,
+    "hi": 0.592228
+   },
+   "S": {
+    "point": 0.252837,
+    "lo": 0.154123,
+    "hi": 0.357583
+   },
+   "S_same": {
+    "point": 0.252837,
+    "lo": 0.154123,
+    "hi": 0.357583
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  }
+ },
+ "S_frozen_5_ties_missed": {
+  "raw": {
+   "U_RM": {
+    "point": 0.798611,
+    "lo": 0.701389,
+    "hi": 0.885417
+   },
+   "U_AL": {
+    "point": 0.541667,
+    "lo": 0.291667,
+    "hi": 0.75
+   },
+   "S": {
+    "point": 0.333333,
+    "lo": 0.215278,
+    "hi": 0.454861
+   },
+   "S_same": {
+    "point": 0.333333,
+    "lo": 0.215278,
+    "hi": 0.454861
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  },
+  "upper": {
+   "U_RM": {
+    "point": 0.699483,
+    "lo": 0.605822,
+    "hi": 0.789531
+   },
+   "U_AL": {
+    "point": 0.41556,
+    "lo": 0.207688,
+    "hi": 0.643991
+   },
+   "S": {
+    "point": 0.315111,
+    "lo": 0.204354,
+    "hi": 0.429561
+   },
+   "S_same": {
+    "point": 0.315111,
+    "lo": 0.204354,
+    "hi": 0.429561
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  },
+  "lower": {
+   "U_RM": {
+    "point": 0.645927,
+    "lo": 0.558886,
+    "hi": 0.729516
+   },
+   "U_AL": {
+    "point": 0.384463,
+    "lo": 0.189548,
+    "hi": 0.592228
+   },
+   "S": {
+    "point": 0.290925,
+    "lo": 0.19009,
+    "hi": 0.398374
+   },
+   "S_same": {
+    "point": 0.290925,
+    "lo": 0.19009,
+    "hi": 0.398374
+   },
+   "S_other": {
+    "point": 0.0,
+    "lo": 0.0,
+    "hi": 0.0
+   },
+   "n_RM": 48,
+   "n_AL": 8
+  }
+ },
+ "S_reference": {
+  "recorded": 0.295139,
+  "fresh_B_13nov": "ETJ/analysis-v0.json S_B"
+ },
+ "flag_changes": {
+  "vs_recorded": {
+   "n": 56,
+   "changed": 3,
+   "flagged_on_frozen_only": 2,
+   "flagged_on_reader_only": 1
+  },
+  "vs_fresh_B": {
+   "n": 56,
+   "changed": 2,
+   "flagged_on_frozen_only": 1,
+   "flagged_on_reader_only": 1
+  }
+ },
+ "paired_missed": {
+  "vs_recorded": {
+   "RM": {
+    "identical": {
+     "both": 19,
+     "frozen_only": 1,
+     "reader_only": 1,
+     "neither": 19
+    },
+    "not_identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 1,
+     "neither": 7
+    }
+   },
+   "AL": {
+    "identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 0,
+     "neither": 7
+    },
+    "not_identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 0,
+     "neither": 1
+    }
+   }
+  },
+  "vs_fresh_B": {
+   "RM": {
+    "identical": {
+     "both": 19,
+     "frozen_only": 1,
+     "reader_only": 0,
+     "neither": 20
+    },
+    "not_identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 1,
+     "neither": 7
+    }
+   },
+   "AL": {
+    "identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 0,
+     "neither": 7
+    },
+    "not_identical": {
+     "both": 0,
+     "frozen_only": 0,
+     "reader_only": 0,
+     "neither": 1
+    }
+   }
+  }
+ },
+ "packets_vs_reader": {
+  "all": {
+   "n": 56,
+   "identical": 19,
+   "to_differs": 37,
+   "from_differs": 0,
+   "body_differs": 31,
+   "only_to_timestamp_differs": 6,
+   "equal_apart_from_to_line": 25,
+   "missing_recorded": 0
+  },
+  "identical_states": {
+   "n": 47,
+   "identical": 19,
+   "to_differs": 28,
+   "from_differs": 0,
+   "body_differs": 22,
+   "only_to_timestamp_differs": 6,
+   "equal_apart_from_to_line": 25,
+   "missing_recorded": 0
+  },
+  "other_states": {
+   "n": 9,
+   "identical": 0,
+   "to_differs": 9,
+   "from_differs": 0,
+   "body_differs": 9,
+   "only_to_timestamp_differs": 0,
+   "equal_apart_from_to_line": 0,
+   "missing_recorded": 0
+  },
+  "chars": {
+   "frozen_mean": 2132.7,
+   "reader_mean": 2295.2
+  }
+ },
+ "gate_E": {
+  "check1": {
+   "n_identical_state_applications": 47,
+   "equal_apart_from_to_line": 25,
+   "arm_B_flag_agreement": 0.9787234042553191,
+   "agreement_min": 0.9,
+   "pass": false
+  },
+  "check2": {
+   "pass": true
+  },
+  "name_S": false,
+  "agreement_detail": {
+   "n": 47,
+   "agree": 46,
+   "share": 0.9787234042553191,
+   "unscored": 0
+  },
+  "agreement_vs_recorded_beside": {
+   "n": 47,
+   "agree": 45,
+   "share": 0.9574468085106383,
+   "unscored": 0
+  },
+  "size_detail": {
+   "n": 56,
+   "n_inside": 56,
+   "null_min": 537,
+   "null_max": 8383,
+   "below": 0,
+   "above": 0,
+   "pass": true
+  }
+ }
+}
