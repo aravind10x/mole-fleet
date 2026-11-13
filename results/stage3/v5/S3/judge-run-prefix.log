@@ -1,0 +1,18 @@
+{
+ "source": "prefix",
+ "n_tasked": 1087,
+ "must": 127,
+ "calls": 300,
+ "est_input_tokens": 159664,
+ "est_usd": 0.3643,
+ "stop_usd": 0.5465,
+ "max_packet_chars": 6823
+}
+{
+ "outcomes": {
+  "scored": 300
+ },
+ "dollars_this_run": 0.482622,
+ "dollars_total": 0.48262199999999994,
+ "abort": null
+}
