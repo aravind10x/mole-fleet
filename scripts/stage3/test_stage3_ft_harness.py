@@ -689,3 +689,86 @@ def test_answered_colleague_calls_are_listed_by_seq(tmp_path):
                                   ("ask_colleague", {"question": "b"})), turn(("finish", {"summary": "s"}))]), ws, Mixed())
     assert r.colleague_answered_seqs == [2]
     assert set(r.action_log[1]) == {"seq", "turn", "tool", "kind", "args"}      # the action log's shape is unchanged
+
+
+# ── provider validation errors: a code on the blue side, the full message on the red side (Z fix, 2026-11-14) ──────
+
+class _ValErr(Exception):
+    def __init__(self, message, code="ValidationException"):
+        super().__init__(f"An error occurred ({code}) when calling the Converse operation: {message}")
+        self.response = {"Error": {"Code": code, "Message": message}}
+
+
+def test_validation_code_names_a_field_and_no_content():
+    vc = h.validation_code
+    assert vc("The text field in the ContentBlock object at messages.7.content.0 is blank. Add text to the text field, "
+              "and try again.") == "blank_text_block"
+    assert vc("The text field in the ContentBlock object at messages.8.content.0.toolResult.content.0 is blank. "
+              "Add text to the text field, and try again.") == "blank_tool_result_text"
+    assert vc("The format of the value at messages.5.content.1.toolUse.input is invalid. Provide a json object for "
+              "the field and try again.") == "tool_input_not_object"
+    assert vc("Expected toolResult blocks at messages.6.content for the following Ids: tooluse_x") == "tool_result_id"
+    assert vc("The number of toolResult blocks at messages.4.content exceeds the number of toolUse blocks of previous "
+              "turn.") == "tool_result_id"
+    assert vc("The content field in the Message object at messages.3 is empty. Add a ContentBlock object to the "
+              "content field and try again.") == "empty_content"
+    assert vc("The model returned the following errors: whatever it says") == "model_returned_error"
+    assert vc("Something nobody has seen before.") == "other"
+    assert vc("") == "other"
+    assert set(h.VALIDATION_CODES) == {"blank_text_block", "blank_tool_result_text", "tool_input_not_object",
+                                       "tool_result_id", "empty_content", "model_returned_error", "other"}
+
+
+def test_converse_abort_carries_the_full_message_and_a_code():
+    long_tail = " Add text to the text field, and try again." + " padding" * 60
+    msg = "The text field in the ContentBlock object at messages.11.content.0 is blank." + long_tail
+    ad = h.ConverseAdapter(h.SOL_MODEL, client=FakeConverse([_ValErr(msg)]))
+    ad.start("S", "U")
+    with pytest.raises(h.HarnessAborted) as ei:
+        asyncio.run(h._turn_with_retry(ad, _noop_sleep))
+    exc = ei.value
+    assert exc.code == "validation:blank_text_block"
+    assert msg in exc.provider_message and len(exc.provider_message) > 200
+    assert len(str(exc)) < 400                                           # the summary stays short
+
+
+def test_converse_abort_code_for_other_aws_codes():
+    ad = h.ConverseAdapter(h.SOL_MODEL, client=FakeConverse([]))
+    assert ad.abort_code(_ValErr("no access", code="AccessDeniedException")) == "AccessDeniedException"
+    assert ad.abort_code(_ValErr("The text field in the ContentBlock object at messages.1.content.0 is blank.")) \
+        == "validation:blank_text_block"
+
+
+def test_abort_without_an_adapter_code_still_raises(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+    with pytest.raises(h.HarnessAborted) as ei:
+        run(ScriptedAdapter([_Err("abort")]), ws)
+    assert ei.value.code is None and ei.value.provider_message
+
+
+# ── ruling 2026-11-14: validation:model_returned_error is re-asked as a transient, counted per run ─────────────────
+
+MODEL_ERR = "The model returned the following errors: some reason here"
+
+
+def test_converse_classifies_model_returned_error_as_its_own_transient():
+    ad = h.ConverseAdapter(h.SOL_MODEL, client=FakeConverse([]))
+    assert ad.classify_error(_ValErr(MODEL_ERR)) == "model_error"
+    assert ad.classify_error(_ValErr("The text field in the ContentBlock object at messages.1.content.0 is blank.")) == "abort"
+    assert ad.classify_error(_ValErr("Something nobody has seen before.")) == "abort"
+
+
+def test_model_error_turn_is_reasked_and_counted(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+    fake = FakeConverse([_ValErr(MODEL_ERR), conv_resp([{"toolUse": {"toolUseId": "c", "name": "finish", "input": {"summary": "d"}}}])])
+    r = run(h.ConverseAdapter(h.SOL_MODEL, client=fake), ws)
+    assert r.end_reason == "finish" and r.error is None and r.n_model_error_reasks == 1
+    assert len(fake.kw) == 2 and fake.kw[0]["messages"] == fake.kw[1]["messages"]       # the same history re-asked
+
+
+def test_model_error_exhausted_ends_the_run_with_an_error_not_an_abort(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+    fake = FakeConverse([_ValErr(MODEL_ERR)] * (h.MAX_TRANSIENT_RETRIES + 1))
+    r = run(h.ConverseAdapter(h.SOL_MODEL, client=fake), ws)
+    assert r.end_reason == "error" and r.error.startswith("model_returned_error")
+    assert r.n_model_error_reasks == h.MAX_TRANSIENT_RETRIES

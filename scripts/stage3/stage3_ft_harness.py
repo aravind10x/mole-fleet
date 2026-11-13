@@ -385,7 +385,36 @@ class Colleague:
 # ── turns and adapters ───────────────────────────────────────────────────────────────────────────
 
 class HarnessAborted(RuntimeError):
-    """A stop for the whole block: a spent last key, an access or model-id error."""
+    """A stop for the whole block: a spent last key, an access or model-id error. `code` is a content-free code for
+    the blue side (None when the adapter gives none); `provider_message` is the full provider text, for the red-side
+    error log only."""
+
+    def __init__(self, msg: str, *, code: str | None = None, provider_message: str | None = None):
+        super().__init__(msg)
+        self.code = code
+        self.provider_message = provider_message if provider_message is not None else msg
+
+
+# Bedrock Converse ValidationException messages, matched to a code that names the offending field and nothing of the
+# content (Z fix, 2026-11-14). Order matters: a blank text inside a tool result is told apart from a blank text block.
+VALIDATION_CODES = ("blank_text_block", "blank_tool_result_text", "tool_input_not_object", "tool_result_id",
+                    "empty_content", "model_returned_error", "other")
+_VALIDATION_PATTERNS = (
+    ("blank_tool_result_text", re.compile(r"toolResult\.content\.\d+\S* is blank", re.I)),
+    ("blank_text_block", re.compile(r"text field in the ContentBlock object at \S+ is blank|text content blocks must be non-empty", re.I)),
+    ("tool_input_not_object", re.compile(r"toolUse\.input|provide a json object", re.I)),
+    ("tool_result_id", re.compile(r"toolResult|toolUseId|tool_use_id|toolUse blocks", re.I)),
+    ("empty_content", re.compile(r"content field in the Message object at \S+ is empty", re.I)),
+    # Bedrock relaying an error from the model's own server; names no request field (seen twice in Z, 2026-11-14)
+    ("model_returned_error", re.compile(r"the model returned the following errors?:", re.I)),
+)
+
+
+def validation_code(message: str | None) -> str:
+    for code, pat in _VALIDATION_PATTERNS:
+        if pat.search(message or ""):
+            return code
+    return "other"
 
 
 class CostCapReached(RuntimeError):
@@ -550,8 +579,18 @@ class ConverseAdapter:
     def add_user(self, text: str) -> None:
         self.messages.append({"role": "user", "content": [{"text": text}]})
 
+    def abort_code(self, exc: BaseException) -> str | None:
+        """Content-free code for an abort: `validation:<field code>` for a ValidationException, else the AWS code."""
+        code = jc._client_error_code(exc)
+        if code == "ValidationException":
+            resp = getattr(exc, "response", None) or {}
+            return "validation:" + validation_code(str((resp.get("Error") or {}).get("Message") or exc))
+        return code
+
     def classify_error(self, exc: BaseException) -> str:
         code = jc._client_error_code(exc)
+        if self.abort_code(exc) == "validation:model_returned_error":
+            return "model_error"
         if code in jc.CONVERSE_ABORT_CODES:
             return "abort"
         if code in jc.CONVERSE_THROTTLE_CODES:
@@ -641,6 +680,7 @@ class RunResult:
     colleague_errors: int = 0
     colleague_answered: int = 0
     colleague_answered_seqs: list[int] = field(default_factory=list)
+    n_model_error_reasks: int = 0          # turns re-asked after validation:model_returned_error (ruling 2026-11-14)
     input_tokens: int = 0
     output_tokens: int = 0
     cache_read_tokens: int = 0
@@ -698,9 +738,12 @@ def _kind(name: str) -> str:
     return "read" if name in READ_TOOLS else "check" if name in CHECK_TOOLS else "action"
 
 
-async def _turn_with_retry(adapter: Any, sleep: Callable[[float], Awaitable[None]]) -> tuple[Turn | None, str | None, str | None]:
-    """(turn, refusal_class, error). Raises HarnessAborted on an abort class."""
-    n_tr = n_thr = 0
+async def _turn_with_retry(adapter: Any, sleep: Callable[[float], Awaitable[None]],
+                           res: "RunResult | None" = None) -> tuple[Turn | None, str | None, str | None]:
+    """(turn, refusal_class, error). Raises HarnessAborted on an abort class. A `model_error` (the provider relaying an
+    error from the model's own turn; ruling 2026-11-14) re-asks the same turn with the same history, at most
+    MAX_TRANSIENT_RETRIES times, each re-ask counted on `res`; exhausted, the run ends with an error."""
+    n_tr = n_thr = n_me = 0
     while True:
         try:
             return await adapter.next_turn(), None, None
@@ -709,9 +752,19 @@ async def _turn_with_retry(adapter: Any, sleep: Callable[[float], Awaitable[None
         except Exception as exc:  # noqa: BLE001
             klass = adapter.classify_error(exc)
             if klass == "abort":
-                raise HarnessAborted(f"{type(exc).__name__} on {getattr(adapter, 'model', '?')}: {str(exc)[:200]}") from exc
+                code_of = getattr(adapter, "abort_code", None)
+                raise HarnessAborted(f"{type(exc).__name__} on {getattr(adapter, 'model', '?')}: {str(exc)[:200]}",
+                                     code=code_of(exc) if code_of else None, provider_message=str(exc)) from exc
             if klass.startswith("refusal:"):
                 return None, klass.split(":", 1)[1], None
+            if klass == "model_error":
+                n_me += 1
+                if n_me > MAX_TRANSIENT_RETRIES:
+                    return None, None, f"model_returned_error after {MAX_TRANSIENT_RETRIES} re-asks"
+                if res is not None:
+                    res.n_model_error_reasks += 1
+                await sleep(TRANSIENT_BACKOFF_S * n_me)
+                continue
             if klass == "throttle":
                 n_thr += 1
                 if n_thr > MAX_THROTTLE_RETRIES:
@@ -744,7 +797,7 @@ async def run_follower(adapter: Any, task_text: str, ws: Workspace, colleague: A
                 break
             if turn_guard is not None:
                 turn_guard(res.cost_usd)
-            turn, refusal, err = await _turn_with_retry(adapter, sleep)
+            turn, refusal, err = await _turn_with_retry(adapter, sleep, res)
             if turn is None:
                 res.end_reason = "refused" if refusal else "error"
                 res.refusal_class, res.error = refusal, err

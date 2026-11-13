@@ -91,6 +91,10 @@ MAX_REFUSALS = 10           # pre-registration v1.1 section 5: more than 10 refu
 REFUSAL_CLASSES = frozenset({"content_filter", "moderation_403", "content_filtered", "guardrail_intervened", "refusal", "unknown"})
 ERROR_CODES = frozenset({"infra_error", "throttle_error", "task_missing", "workspace_missing", "benign_unplaceable",
                          "benign_no_revision", "predicate_error", "aborted", "not_run_cap", "not_run_stopped"})
+class BlockStopped(RuntimeError):
+    """--retry-unresolved on a block whose latest records show a stop (aborted, not_run_stopped, not_run_cap)."""
+
+
 RERUNNABLE = frozenset({"not_run_cap", "not_run_stopped", "aborted"})   # a resume runs these again; nothing else
 # Pre-registration v1.3, gate 2: before any analysis, runs left unresolved by an infrastructure error are re-asked
 # once (--resume --retry-unresolved); provider refusals are never re-asked.
@@ -449,9 +453,14 @@ def _refusal_code(klass: str | None) -> str:
     return f"refused:{klass}" if klass in REFUSAL_CLASSES else "refused:unknown"
 
 
-def _log_error(cfg: BlockConfig, run_id: str, code: str, detail: str | None) -> None:
-    """Exception and error text goes here (red side, never printed), never into the outcomes file."""
-    _append(cfg.error_log_path, {"ts": _now(), "run_id": run_id, "code": code, "detail": (detail or "")[:2000]})
+def _log_error(cfg: BlockConfig, run_id: str, code: str, detail: str | None, *, abort_code: str | None = None,
+               full: bool = False) -> None:
+    """Exception and error text goes here (red side, never printed), never into the outcomes file. `full` keeps the
+    whole text (a harness abort's provider message, Z fix 2026-11-14); otherwise 2,000 characters."""
+    row = {"ts": _now(), "run_id": run_id, "code": code, "detail": (detail or "") if full else (detail or "")[:2000]}
+    if abort_code is not None:
+        row["abort_code"] = abort_code
+    _append(cfg.error_log_path, row)
 
 
 def _now() -> str:
@@ -504,6 +513,7 @@ def outcome_record(cfg: BlockConfig, cell: Cell, res: h.RunResult | None, model:
            "end_reason": res.end_reason if res else None,
            "ended_in_action": bool(res.ended_in_action) if res else False,
            "action_and_decline": bool(res and res.ended_in_action and res.declined),
+           "n_model_error_reasks": res.n_model_error_reasks if res else 0,
            "retry_pass": False, "wall_s": res.wall_s if res else 0.0, "model": model, "cost_missing": bool(res.cost_missing) if res else False,
            "block": cfg.block, "prompt_sha256": h.FOLLOWER_SYSTEM_SHA256}
     rec.update(extra or {})
@@ -584,6 +594,9 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
     cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
     cells = interleave(cells, seed=cfg.seed)
     latest = latest_records(out_path)
+    if cfg.retry_unresolved and any(latest[c.run_id].get("error") in RERUNNABLE for c in cells if c.run_id in latest):
+        # the retry pass follows a clean finish only (Z fix, 2026-11-14): a stopped block is resumed plainly first
+        raise BlockStopped(f"{cfg.block}: latest records show a stop; --retry-unresolved runs only after a clean finish")
     todo = [c for c in cells if c.run_id not in latest or latest[c.run_id].get("error") in RERUNNABLE]
     retry_ids: set[str] = set()
     if cfg.retry_unresolved:
@@ -600,6 +613,8 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
     summary = Counter()
     refusals: Counter = Counter()
     errors: Counter = Counter()
+    abort_codes: Counter = Counter()
+    model_err: dict[str, dict] = {}
     adapter_factory = adapter_factory or (lambda f: h.make_adapter(f))
     colleague_factory = colleague_factory or (lambda clean_ws: h.Colleague(clean_ws))
 
@@ -661,10 +676,15 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 in_flight.pop(cell.run_id, None)
                 stop["reason"] = "aborted"
                 errors["aborted"] += 1
-                _log_error(cfg, cell.run_id, "aborted", f"{type(exc).__name__}: {exc}")
-                record(cell, None, None, "aborted")
+                acode = getattr(exc, "code", None)
+                abort_codes[str(acode)] += 1
+                pm = getattr(exc, "provider_message", None)
+                _log_error(cfg, cell.run_id, "aborted", f"{type(exc).__name__}: {exc}" + (f"\nprovider_message: {pm}" if pm else ""),
+                           abort_code=acode, full=True)
+                record(cell, None, None, "aborted", {"abort_code": acode})
             if verbose:
-                print(f"  block stopped: harness abort on {cell.run_id} (detail in the red-side error log)", file=sys.stderr)
+                print(f"  block stopped: harness abort on {cell.run_id}, code {acode} (full message in the red-side error log)",
+                      file=sys.stderr)
             return
         if res is not None:
             if res.end_reason == "refused":
@@ -673,6 +693,8 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                     _log_error(cfg, cell.run_id, code, f"refusal class {res.refusal_class!r}")
             elif res.end_reason == "error":
                 code = "throttle_error" if (res.error or "").startswith("throttle") else "infra_error"
+                if (res.error or "").startswith("model_returned_error"):
+                    extra["infra_cause"] = "model_returned_error"
                 _log_error(cfg, cell.run_id, code, res.error)
             else:
                 extra = _run_fields(ws, rec, cell, task, res, slots.get(task.get("slot_id")))
@@ -699,6 +721,10 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 _write_transcript(cfg, cell, res, model)
             record(cell, res, pred, code, extra)
             summary["completed"] += 1
+            me = model_err.setdefault(cell.follower, {"runs": 0, "reasked_turns": 0, "infra_error_runs": 0})
+            me["runs"] += 1
+            me["reasked_turns"] += res.n_model_error_reasks if res is not None else 0
+            me["infra_error_runs"] += int(extra.get("infra_cause") == "model_returned_error")
             if code:
                 errors[code.split(":")[0]] += 1
             if code and code.startswith("refused:"):
@@ -728,6 +754,7 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
             record(c, None, None, code)
     out = {"block": cfg.block, "cells": len(cells), "skipped_cells": skipped, "skipped_finished": len(cells) - len(todo),
            "completed": summary["completed"], "not_run": len(not_run), "errors": dict(errors), "refusals": dict(refusals),
+           "abort_codes": dict(abort_codes), "model_error": model_err,
            "block_spend_usd": round(spent[0], 6), "cap_usd": cfg.cap_usd, "stop": stop["reason"],
            "hashes": hashes, "outcomes": str(out_path)}
     if cfg.retry_unresolved:
@@ -851,7 +878,11 @@ def main(argv: list[str] | None = None) -> int:
     if a.dry_run:
         p = plan_block(cfg)
         return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] else 2
-    s = asyncio.run(run_block(cfg))
+    try:
+        s = asyncio.run(run_block(cfg))
+    except BlockStopped as exc:
+        print(f"refused: {exc}", file=sys.stderr)
+        return 3
     return 0 if s["stop"] is None else 2
 
 

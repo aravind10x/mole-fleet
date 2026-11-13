@@ -737,3 +737,87 @@ def test_refusals_are_not_reasked(world):
 def test_retry_needs_resume(world):
     with pytest.raises(ValueError):
         cfg(world, retry_unresolved=True)
+
+
+# ── Z fix (2026-11-14): full provider message to the red log, a code to the blue side; the retry guard ──────────────
+
+class _ValErr(Exception):
+    def __init__(self, message):
+        super().__init__(f"An error occurred (ValidationException) when calling the Converse operation: {message}")
+        self.response = {"Error": {"Code": "ValidationException", "Message": message}}
+
+
+VAL_MSG = ("The text field in the ContentBlock object at messages.9.content.0 is blank. Add text to the text field, "
+           "and try again." + " tail" * 80)
+
+
+class ValidationAborting(Scripted):
+    async def next_turn(self):
+        raise _ValErr(VAL_MSG)
+
+    def classify_error(self, exc):
+        return "abort"
+
+    def abort_code(self, exc):
+        return "validation:" + h.validation_code(exc.response["Error"]["Message"])
+
+
+def test_abort_logs_the_full_provider_message_red_side_and_a_code_blue_side(world, capsys):
+    c = cfg(world, followers=["kimi"], repeats=1)
+    s = run_block(c, adapter_factory=lambda f: ValidationAborting(h.FOLLOWERS[f]))
+    assert s["stop"] == "aborted" and s["abort_codes"] == {"validation:blank_text_block": 1}
+    rec = [r for r in read_outcomes(c) if r["error"] == "aborted"][0]
+    assert rec["abort_code"] == "validation:blank_text_block"
+    assert VAL_MSG not in json.dumps(read_outcomes(c)) and "is blank" not in capsys.readouterr().out
+    log = [json.loads(x) for x in (world["runs_root"] / "testblock" / "errors.jsonl").read_text().splitlines()]
+    assert len(log) == 1 and log[0]["code"] == "aborted" and log[0]["abort_code"] == "validation:blank_text_block"
+    assert VAL_MSG in log[0]["detail"]                                   # the whole message, not 200 characters
+
+
+def test_retry_unresolved_refuses_a_block_whose_latest_records_show_a_stop(world):
+    c = cfg(world, followers=["kimi"], repeats=1)
+    run_block(c, adapter_factory=lambda f: ValidationAborting(h.FOLLOWERS[f]))
+    counter = {}
+    with pytest.raises(fr.BlockStopped):
+        run_block(cfg(world, followers=["kimi"], repeats=1, resume=True, retry_unresolved=True), adapter_factory=factory(counter))
+    assert counter == {}
+    n = len(read_outcomes(c))
+    assert not (world["out_dir"] / "outcomes-testblock-v0.passes.jsonl").exists() or "retry_unresolved" not in \
+        (world["out_dir"] / "outcomes-testblock-v0.passes.jsonl").read_text()
+    s = run_block(cfg(world, followers=["kimi"], repeats=1, resume=True))   # a plain resume finishes the block
+    assert s["stop"] is None and len(read_outcomes(c)) > n
+    s2 = run_block(cfg(world, followers=["kimi"], repeats=1, resume=True, retry_unresolved=True))
+    assert s2["retry_pass"]["candidates"] == 0                          # allowed once the block finished clean
+
+
+def test_retry_guard_also_covers_a_cap_stop(world):
+    c = cfg(world, followers=["kimi"], repeats=1, cap_usd=0.0)
+    run_block(c)
+    assert any(r["error"] == "not_run_cap" for r in read_outcomes(c))
+    with pytest.raises(fr.BlockStopped):
+        run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=0.0, resume=True, retry_unresolved=True))
+
+
+class ModelErroring(Scripted):
+    async def next_turn(self):
+        raise _ValErr("The model returned the following errors: x y z")
+
+    def classify_error(self, exc):
+        return "model_error"
+
+
+def test_model_error_runs_end_infra_error_with_a_cause_and_counts(world):
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    s = run_block(c, adapter_factory=lambda f: ModelErroring(h.FOLLOWERS[f]))
+    assert s["stop"] is None
+    recs = read_outcomes(c)
+    assert all(r["error"] == "infra_error" and r["infra_cause"] == "model_returned_error" for r in recs)
+    assert all(r["n_model_error_reasks"] == h.MAX_TRANSIENT_RETRIES for r in recs)
+    assert s["model_error"] == {"kimi": {"runs": len(recs), "reasked_turns": h.MAX_TRANSIENT_RETRIES * len(recs),
+                                         "infra_error_runs": len(recs)}}
+
+
+def test_ordinary_runs_carry_zero_model_error_fields(world):
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c)
+    assert all(r["n_model_error_reasks"] == 0 and r.get("infra_cause") is None for r in read_outcomes(c))
