@@ -258,8 +258,9 @@ def write_report(res: dict, rec: dict, settings: dict, miss_info: dict, out_json
                "half_widths_binomial": res.get("half_widths_binomial"), "readings": to_columns(res["readings"])}
     out_json.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
     jh = hashlib.sha256(out_json.read_bytes()).hexdigest()
-    L = ["# Follower test, offline tier: power simulation v0 (blue harness, part H1; $0)", "",
-         f"Record: `power-v0.json` (sha256 `{jh[:16]}…`), by `work/checks/stage3_ft_power.py`. "
+    L = [f"# Follower test, offline tier: power simulation {out_json.stem.replace('power-', '')} (blue harness; $0)", "",
+         settings.get("note", ""), "",
+         f"Record: `{out_json.name}` (sha256 `{jh[:16]}…`), by `work/checks/stage3_ft_power.py`. "
          f"{settings['n_sims']} simulated studies per condition, {settings['n_boot']} bootstrap replicates, seed {settings['seed']}.", "",
          "## Inputs", "",
          f"- Payloads: routine {settings['counts']['routine']}, middle {settings['counts']['middle']}, alarming {settings['counts']['alarming']}, "
@@ -327,6 +328,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--middle", type=int, default=DEFAULT_COUNTS["middle"])
     ap.add_argument("--alarming", type=int, default=DEFAULT_COUNTS["alarming"])
     ap.add_argument("--ov-share", type=float, default=OV_SHARE)
+    ap.add_argument("--check-base", type=float, default=CHECK_BASE)
+    ap.add_argument("--note", default="")
     ap.add_argument("--out-stem", default="power-v0")
     a = ap.parse_args(argv)
     import stage3_ft_join as fj
@@ -337,9 +340,9 @@ def main(argv: list[str] | None = None) -> int:
     counts = {"routine": a.routine, "middle": a.middle, "alarming": a.alarming}
     settings = {"counts": counts, "repeats_grid": REPEATS_GRID, "u_grid": U_GRID, "u_al_high": U_AL_HIGH, "fp_grid": FP_GRID,
                 "delta_grid": DELTA_GRID, "u_low_grid": U_LOW_GRID, "s_min_grid": S_MIN_GRID, "c_min_grid": C_MIN_GRID,
-                "kappa": KAPPA, "check_base": CHECK_BASE, "ov_share": round(a.ov_share, 4), "n_sims": a.n_sims, "n_boot": a.n_boot, "seed": SEED,
+                "kappa": KAPPA, "check_base": a.check_base, "note": a.note, "ov_share": round(a.ov_share, 4), "n_sims": a.n_sims, "n_boot": a.n_boot, "seed": SEED,
                 "miss": miss}
-    res = run_grid(counts=counts, miss=miss, n_sims=a.n_sims, n_boot=a.n_boot, ov_share=a.ov_share)
+    res = run_grid(counts=counts, miss=miss, n_sims=a.n_sims, n_boot=a.n_boot, ov_share=a.ov_share, check_base=a.check_base)
     binom = run_grid(counts=counts, miss=miss, kappa=None, fp_grid=(0.0,), delta_grid=(0.0,), u_low_grid=(0.1,), s_min_grid=(0.1,),
                      c_min_grid=(0.1,), n_sims=max(200, a.n_sims // 4), n_boot=max(200, a.n_boot // 4), u_al_high=None)
     res["half_widths_binomial"] = binom["half_widths"]

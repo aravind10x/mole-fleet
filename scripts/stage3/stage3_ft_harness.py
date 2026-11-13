@@ -5,10 +5,11 @@ workspace. Blue side: this module never prints a document, a task or a transcrip
 What it provides (names fixed by `work/stage3/v5/FT/interface-v0.md`):
 
 * `Workspace`: the six documents of one arm and their `history.json`, read from a directory. Document
-  names are the files' paths relative to the workspace root, shown with a leading "/" (so a workspace
-  that mirrors `/shared/ops/oncall-runbook.md` as `shared/ops/oncall-runbook.md` presents it under its
-  world path). `history.json` may be a dict {document: [revision, ...]} or a list of revisions that each
-  name their document under `document`, `name` or `path`; revisions are passed through as written.
+  names are the world paths red's `history.json` gives under `paths` ({file: world path}), else the
+  files' paths relative to the root, shown with a leading "/". `history.json` may be red's frozen form
+  {"as_of", "paths", "revisions": {file: [revision, ...]}}, a dict {document: [revision, ...]}, or a list
+  of revisions that each name their document under `document`, `name` or `path`; revisions are passed
+  through as written (interface addendum 1, item 4).
 * The follower tools. Check tools: `search_documents(query)`, `read_history(name)`, `ask_colleague(question)`.
   `read_document(name)` is a read, logged but not a check. Action tools (logged, never executed):
   `apply_setting(target, key, value)`, `carry_out_steps(steps)`, `send_message(to, body)`,
@@ -18,7 +19,7 @@ What it provides (names fixed by `work/stage3/v5/FT/interface-v0.md`):
   `args` carries the interface's parameter names exactly as the follower sent them. Invalid calls
   (an unknown tool or missing arguments) are logged with kind "invalid" and answered with an error.
 * `Colleague`: `ask_colleague` answered by one fixed cheap model (Claude Haiku 4.5 on Bedrock through
-  the pinned client's mantle route) with one fixed prompt over the CLEAN documents of the cell.
+  the pinned client's mantle route; no temperature sent) with one fixed prompt over the CLEAN documents of the cell.
 * The follower loop `run_follower`, with a turn cap of 20 model calls, one fixed reminder when a reply
   carries no tool call (a second one ends the run), and adapters for the followers:
   Kimi K2.6 through the fork's OpenRouter client (key 1 first; the client rotates to
@@ -30,8 +31,9 @@ What it provides (names fixed by `work/stage3/v5/FT/interface-v0.md`):
 
 Request settings: temperature is not sent (provider default) and no reasoning parameter is sent, for
 every follower; max tokens per turn 4000. Prices: Kimi's cost is OpenRouter's reported `usage.cost`
-(list prices passed in are the fallback); Sol at `judge_client.CONVERSE_PRICES`; Anthropic models at
-`judge_client.PRICES`.
+(list prices passed in are the fallback); Sol at `judge_client.CONVERSE_PRICES`, with Bedrock's cached
+prompt tokens (reported apart from inputTokens) priced at the full input rate, an upper bound; Anthropic
+models at `judge_client.PRICES`.
 
 `python -I stage3_ft_harness.py --write-prompt` writes the stored prompt and hash files.
 """
@@ -79,7 +81,8 @@ SONNET5_MODEL = "anthropic.claude-sonnet-5"
 COLLEAGUE_MODEL = "anthropic.claude-haiku-4-5"
 COLLEAGUE_MAX_TOKENS = 300
 COLLEAGUE_MAX_QUESTION_CHARS = 1000
-COLLEAGUE_TEMPERATURE = 0.0
+# No temperature is sent: the mantle client's messages.create takes none (smoke, 2026-11-13: every colleague
+# call failed with a TypeError while one was passed); the provider default applies, as for the followers.
 
 FOLLOWER_PROMPT_VERSION = "ft-follower/v0"
 
@@ -212,19 +215,32 @@ class Workspace:
     def __init__(self, root: Path | str | None = None, *, docs: Mapping[str, str] | None = None, history: Any = None):
         self.root = Path(root) if root is not None else None
         self.docs: dict[str, str] = {}
+        self.files: dict[str, str] = {}          # shown name -> file path relative to the root
         if self.root is not None:
-            for p in sorted(self.root.rglob("*")):
-                if p.is_file() and p.name != HISTORY_FILE and not p.name.startswith("."):
-                    self.docs["/" + p.relative_to(self.root).as_posix()] = p.read_text(encoding="utf-8")
             hp = self.root / HISTORY_FILE
             history = json.loads(hp.read_text(encoding="utf-8")) if hp.exists() else None
+            paths = history.get("paths") if isinstance(history, Mapping) and isinstance(history.get("paths"), Mapping) else {}
+            for p in sorted(self.root.rglob("*")):
+                if p.is_file() and p.name != HISTORY_FILE and not p.name.startswith("."):
+                    rel = p.relative_to(self.root).as_posix()
+                    name = "/" + str(paths.get(rel, rel)).lstrip("/")
+                    self.docs[name] = p.read_text(encoding="utf-8")
+                    self.files[name] = rel
         if docs is not None:
             self.docs = {("/" + k.lstrip("/")): v for k, v in docs.items()}
+            self.files = {n: n.lstrip("/") for n in self.docs}
         self.history = self._index_history(history)
 
     def _index_history(self, history: Any) -> dict[str, list]:
         out: dict[str, list] = {}
         if history is None:
+            return out
+        if isinstance(history, Mapping) and isinstance(history.get("revisions"), Mapping):
+            # red's frozen format: {"as_of", "paths": {file: world path}, "revisions": {file: [revision, ...]}}
+            for k, revs in history["revisions"].items():
+                name = self.resolve(str((history.get("paths") or {}).get(k, k)))
+                if name is not None and isinstance(revs, list):
+                    out.setdefault(name, []).extend(revs)
             return out
         if isinstance(history, Mapping):
             items = history.get("revisions", history) if isinstance(history.get("revisions"), list) else history
@@ -253,6 +269,10 @@ class Workspace:
         if n in self.docs:
             return n
         hits = [d for d in self.docs if d.endswith(n)]
+        if len(hits) == 1:
+            return hits[0]
+        if not hits:                       # a world path asked of a flat workspace: match on the file's name
+            hits = [d for d in self.docs if n.endswith(d)]
         return hits[0] if len(hits) == 1 else None
 
     def _unknown(self, name: str) -> str:
@@ -347,7 +367,7 @@ class Colleague:
         for attempt in range(MAX_TRANSIENT_RETRIES + 1):
             try:
                 resp = await self._get_client().messages.create(
-                    model=self.model, max_tokens=COLLEAGUE_MAX_TOKENS, temperature=COLLEAGUE_TEMPERATURE,
+                    model=self.model, max_tokens=COLLEAGUE_MAX_TOKENS,
                     system=self.system, messages=[{"role": "user", "content": q}])
                 _, _, cost = _anthropic_cost(self.model, _get(resp, "usage"))
                 text = "".join(str(_block_dict(b).get("text") or "") for b in (_get(resp, "content") or [])
@@ -393,6 +413,8 @@ class Turn:
     finish_reason: str | None = None
     refusal: str | None = None
     cost_source: str = "list"
+    cache_read_tokens: int = 0
+    cache_write_tokens: int = 0
 
 
 def _schemas_openai() -> list[ToolSchema]:
@@ -504,15 +526,21 @@ class ConverseAdapter:
         stop = (resp or {}).get("stopReason")
         u = (resp or {}).get("usage") or {}
         i, o = int(u.get("inputTokens") or 0), int(u.get("outputTokens") or 0)
-        cost = (i * self.prices["input"] + o * self.prices["output"]) / 1e6
+        cr, cw = int(u.get("cacheReadInputTokens") or 0), int(u.get("cacheWriteInputTokens") or 0)
+        # Bedrock reports cached prompt tokens apart from inputTokens (seen in the smoke, 2026-11-13); AWS's cache
+        # price for Sol was not fetched, so cached tokens are priced at the full input rate (an upper bound).
+        cost = ((i + cr + cw) * self.prices["input"] + o * self.prices["output"]) / 1e6
+        src = "list_cache_at_input_price"
         if stop in jc.CONVERSE_REFUSAL_STOPS:
-            return Turn(text="", tool_calls=[], cost_usd=cost, input_tokens=i, output_tokens=o, finish_reason=stop, refusal=stop)
+            return Turn(text="", tool_calls=[], cost_usd=cost, input_tokens=i, output_tokens=o, finish_reason=stop, refusal=stop,
+                        cost_source=src, cache_read_tokens=cr, cache_write_tokens=cw)
         if content:
             self.messages.append({"role": "assistant", "content": content})
         text = "".join(str(b.get("text") or "") for b in content if isinstance(b, dict) and "text" in b)
         calls = [ToolCall(id=b["toolUse"]["toolUseId"], name=b["toolUse"]["name"], args=dict(b["toolUse"].get("input") or {}))
                  for b in content if isinstance(b, dict) and "toolUse" in b]
-        return Turn(text=text, tool_calls=calls, cost_usd=cost, input_tokens=i, output_tokens=o, finish_reason=stop)
+        return Turn(text=text, tool_calls=calls, cost_usd=cost, input_tokens=i, output_tokens=o, finish_reason=stop,
+                    cost_source=src, cache_read_tokens=cr, cache_write_tokens=cw)
 
     def add_tool_results(self, results: Sequence[tuple[str, str, str, bool]]) -> None:
         self.messages.append({"role": "user", "content": [
@@ -610,8 +638,11 @@ class RunResult:
     n_turns: int = 0
     cost_usd: float = 0.0
     colleague_cost_usd: float = 0.0
+    colleague_errors: int = 0
     input_tokens: int = 0
     output_tokens: int = 0
+    cache_read_tokens: int = 0
+    cache_write_tokens: int = 0
     end_reason: str = "running"
     refusal_class: str | None = None
     error: str | None = None
@@ -654,6 +685,7 @@ async def _execute(call: ToolCall, ws: Workspace, colleague: Any, res: RunResult
     if call.name == "ask_colleague":
         ans = await colleague.answer(str(a["question"]))
         res.colleague_cost_usd += ans.cost_usd
+        res.colleague_errors += int(ans.error is not None)
         res.cost_usd += ans.cost_usd
         return ans.text, False
     return ACTION_RESULTS[call.name], False
@@ -719,11 +751,15 @@ async def run_follower(adapter: Any, task_text: str, ws: Workspace, colleague: A
             res.cost_usd += turn.cost_usd
             res.input_tokens += turn.input_tokens
             res.output_tokens += turn.output_tokens
+            res.cache_read_tokens += turn.cache_read_tokens
+            res.cache_write_tokens += turn.cache_write_tokens
             res.cost_missing |= turn.cost_source == "missing"
             res.transcript.append({"event": "assistant", "turn": res.n_turns, "text": turn.text,
                                    "tool_calls": [{"id": c.id, "name": c.name, "args": c.args} for c in turn.tool_calls],
                                    "finish_reason": turn.finish_reason, "cost_usd": turn.cost_usd,
-                                   "input_tokens": turn.input_tokens, "output_tokens": turn.output_tokens})
+                                   "input_tokens": turn.input_tokens, "output_tokens": turn.output_tokens,
+                                   "cache_read_tokens": turn.cache_read_tokens, "cache_write_tokens": turn.cache_write_tokens,
+                                   "cost_source": turn.cost_source})
             if turn.refusal:
                 res.end_reason, res.refusal_class = "refused", turn.refusal
                 break

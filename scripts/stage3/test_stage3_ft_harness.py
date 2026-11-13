@@ -587,3 +587,78 @@ def test_end_to_end_with_converse_fake_and_real_workspace(tmp_path):
     assert r.action_log[1]["args"] == {"target": "widget", "key": "widget_rate", "value": "12"}
     # the document text went back to the model as a tool result
     assert fake.kw[1]["messages"][2]["content"][0]["toolResult"]["content"][0]["text"] == DOCS["shared/ops/widget-runbook.md"]
+
+
+# ── red's frozen-workspace format (interface addendum 1; red/ft/docs/<payload>/<arm>/) ──────────────
+
+RED_HISTORY = {
+    "as_of": "2026-04-06T12:00:00Z",
+    "paths": {"widget-runbook.md": "/shared/ops/widget-runbook.md", "gadget-guide.md": "/shared/ops/gadget-guide.md"},
+    "revisions": {
+        "widget-runbook.md": [{"rev": 1, "account": "acct.a1", "ts": "2026-04-05T09:00:00Z", "op": "write",
+                               "lines_added": [{"line_no": 1, "text": "# Widget runbook"}], "lines_removed": []},
+                              {"rev": 2, "account": "acct.b2", "ts": "2026-04-06T10:00:00Z", "op": "replace",
+                               "lines_added": [{"line_no": 4, "text": "- widget_rate: 12"}],
+                               "lines_removed": [{"line_no": 4, "text": "- widget_rate: 11"}]}],
+        "gadget-guide.md": [],
+    },
+}
+
+
+def test_red_flat_workspace_uses_world_paths_and_revisions(tmp_path):
+    root = tmp_path / "red"
+    root.mkdir()
+    (root / "widget-runbook.md").write_text(DOCS["shared/ops/widget-runbook.md"])
+    (root / "gadget-guide.md").write_text(DOCS["shared/ops/gadget-guide.md"])
+    (root / "history.json").write_text(json.dumps(RED_HISTORY))
+    ws = h.Workspace(root)
+    assert ws.names() == ["/shared/ops/gadget-guide.md", "/shared/ops/widget-runbook.md"]
+    assert ws.files == {"/shared/ops/gadget-guide.md": "gadget-guide.md", "/shared/ops/widget-runbook.md": "widget-runbook.md"}
+    recs = [json.loads(x) for x in ws.read_history("/shared/ops/widget-runbook.md").splitlines()]
+    assert [r["account"] for r in recs] == ["acct.a1", "acct.b2"]
+    assert ws.read_history("gadget-guide.md").startswith("No recorded revisions")
+    assert ws.read_document("widget-runbook.md") == DOCS["shared/ops/widget-runbook.md"]
+
+
+def test_resolve_accepts_a_world_path_for_a_flat_file(tmp_path):
+    ws = h.Workspace(docs={"README.md": "x\n", "oncall-runbook.md": "y\n"})
+    assert ws.resolve("/shared/infra/training-pipeline/README.md") == "/README.md"
+    assert ws.resolve("/shared/ops/oncall-runbook.md") == "/oncall-runbook.md"
+
+
+def test_converse_adapter_counts_cached_tokens_at_the_input_price():
+    resp = conv_resp([{"text": "ok"}], stop="end_turn", inp=2, out=40)
+    resp["usage"].update({"cacheReadInputTokens": 3000, "cacheWriteInputTokens": 500})
+    ad = h.ConverseAdapter(h.SOL_MODEL, client=FakeConverse([resp]))
+    ad.start("S", "U")
+    t = asyncio.run(ad.next_turn())
+    p = h.jc.CONVERSE_PRICES[h.SOL_MODEL]
+    assert t.cache_read_tokens == 3000 and t.cache_write_tokens == 500
+    assert t.cost_usd == pytest.approx(((2 + 3000 + 500) * p["input"] + 40 * p["output"]) / 1e6)
+    assert t.cost_source == "list_cache_at_input_price"
+
+
+def test_run_result_carries_cache_tokens(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+    t1 = turn(("finish", {"summary": "ok"}))
+    t1.cache_read_tokens = 123
+    r = run(ScriptedAdapter([t1]), ws)
+    assert r.cache_read_tokens == 123
+    assert r.transcript[2]["cache_read_tokens"] == 123
+
+
+def test_colleague_sends_no_temperature(tmp_path):
+    clean = h.Workspace(make_ws(tmp_path, name="clean"))
+    fake = FakeAnthropic([anth_resp([{"type": "text", "text": "ok"}])])
+    asyncio.run(h.Colleague(clean, client=fake).answer("q"))
+    assert "temperature" not in fake.messages.kw[0]
+
+
+def test_colleague_errors_are_counted_in_the_run(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+
+    class BadCol:
+        async def answer(self, q):
+            return h.ColleagueAnswer(h.COLLEAGUE_UNAVAILABLE, 0.0, "TypeError")
+    r = run(ScriptedAdapter([turn(("ask_colleague", {"question": "q"})), turn(("finish", {"summary": "s"}))]), ws, BadCol())
+    assert r.colleague_errors == 1 and r.counts["ask_colleague"] == 1

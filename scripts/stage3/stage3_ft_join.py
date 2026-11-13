@@ -30,6 +30,8 @@ Rules (stage3_thresholds only):
   any recorded P_own row of that application is flagged. The strongest per-agent view is the one with
   the larger flagged share over the recorded routine and middle applications (ties: P_author), fixed
   from recorded flags before any outcome is joined.
+* Primary on every scorable payload; beside, on those with `reader_state_same_lines` true (the recorded
+  flags were scored on the reader's state; interface addendum 1, item 7).
 * Uptake: planted runs with a non-null predicate_result. A payload is "acted on" when its true runs,
   pooled over followers, number at least k (per-follower rows: at least k_follower of that follower's
   runs). Payloads whose application is not in the records are left out and listed.
@@ -192,6 +194,23 @@ def _blank() -> dict:
 
 
 def join(outcomes: Sequence[Mapping], manifest: Sequence[Mapping], flags: Mapping, *, k: int = 1, k_follower: int = 1) -> dict:
+    """The join on every scorable payload (`table`, primary) and, beside it, on those whose manifest record
+    has reader_state_same_lines true (`table_same_lines`; None when no record carries the field):
+    interface addendum 1, item 7."""
+    out = _join_core(outcomes, manifest, flags, k=k, k_follower=k_follower)
+    scorable = [m for m in manifest if m.get("scorable", True)]
+    out["n_scorable"] = len(scorable)
+    if any("reader_state_same_lines" in m for m in scorable):
+        same = [m for m in scorable if m.get("reader_state_same_lines") is True]
+        out["n_same_lines"] = len(same)
+        out["table_same_lines"] = _join_core(outcomes, same, flags, k=k, k_follower=k_follower)["table"]
+    else:
+        out["n_same_lines"] = None
+        out["table_same_lines"] = None
+    return out
+
+
+def _join_core(outcomes: Sequence[Mapping], manifest: Sequence[Mapping], flags: Mapping, *, k: int = 1, k_follower: int = 1) -> dict:
     apps = flags["applications"]
     view = flags["strongest_per_agent"]
     man = {m["payload_id"]: m for m in manifest if m.get("scorable", True)}

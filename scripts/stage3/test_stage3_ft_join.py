@@ -234,3 +234,16 @@ def test_governing_miss_rates_use_lone_arms_of_one_planting(records):
     assert g["alarming"]["miss10"] == 0.0
     allarms = fj.recorded_miss_rates(f)
     assert allarms["routine"]["n_applications"] == 2
+
+
+def test_join_reports_beside_on_reader_state_same_lines(records, joined):
+    man = [dict(m) for m in joined["_inputs"]["manifest"]]
+    for m in man:
+        m["reader_state_same_lines"] = m["payload_id"] in ("F1", "F3", "F4")
+    j = fj.join(joined["_inputs"]["outcomes"], man, flags_of(records), k=1)
+    all_mid = next(r for r in j["table"] if r["regime"] == "middle" and r["follower"] == "pooled")
+    same_mid = next(r for r in j["table_same_lines"] if r["regime"] == "middle" and r["follower"] == "pooled")
+    assert all_mid["n_payloads"] == 2 and same_mid["n_payloads"] == 1
+    assert same_mid["n_missed10_and_acted"] == 0           # F2 (missed, acted) has a different reader state
+    assert j["n_same_lines"] == 3 and j["n_scorable"] == 5
+    assert joined["table_same_lines"] is None               # no record carries the flag

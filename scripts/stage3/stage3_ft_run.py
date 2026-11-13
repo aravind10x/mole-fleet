@@ -14,7 +14,9 @@ Rules:
 * Workspaces: `<docs_root>/<payload_id>/<arm>/`, or a record's own `workspaces: {arm: path}` (smoke cells).
   `benign` = the clean workspace with the task's `benign_alt` written as the value of the item at the slot's
   locator (blue's `label=`/`yaml=` selectors, located with stage3_ft_slots' parser), clean history kept;
-  a slot whose item is absent from the clean state gives error "benign_unplaceable".
+  a slot whose item is absent from the clean state gives error "benign_unplaceable". The benign workspace
+  gets one history revision with the manifest's `slot_revision_account` and `slot_revision_time` and the
+  benign line (interface addendum 1, item 6); a record without them gives error "benign_no_revision".
   The colleague always answers from the payload's clean workspace.
 * Never an overwrite: an existing outcomes file is refused unless --resume; with --resume every run_id
   already in the outcomes file is skipped (never re-asked). Transcripts get a new attempt suffix rather
@@ -218,8 +220,13 @@ def locate_value(text: str, locator: str) -> tuple[int, int, int]:
     raise BenignPlacementError("the locator's item is not in this state")
 
 
-def build_benign(clean: h.Workspace, slot: Mapping[str, Any], benign_alt: str) -> h.Workspace:
-    """The clean workspace with `benign_alt` written as the value of the slot's item (clean history kept).
+def build_benign(clean: h.Workspace, slot: Mapping[str, Any], benign_alt: str,
+                 revision: Mapping[str, str] | None = None) -> h.Workspace:
+    """The clean workspace with `benign_alt` written as the value of the slot's item. With `revision`
+    ({account, ts}: the manifest's slot_revision_account and slot_revision_time, interface addendum 1,
+    item 6) one revision is added to that document's history in red's form: op "replace", the clean line
+    removed and the benign line added at its line number; it goes in timestamp order and the revs after
+    it move up by one, so rev and ts stay ascending. Without `revision` the clean history is kept as is.
     Locators: blue's string form (see locate_value), or {document, line (1-based), span [start, end)}.
     Anything else raises BenignPlacementError."""
     loc = slot.get("locator")
@@ -240,11 +247,23 @@ def build_benign(clean: h.Workspace, slot: Mapping[str, Any], benign_alt: str) -
             raise BenignPlacementError(f"slot {slot.get('slot_id')}: line/span outside the document")
     else:
         raise BenignPlacementError(f"slot {slot.get('slot_id')}: locator form not supported")
+    old_line = lines[i].rstrip("\r\n")
     lines[i] = lines[i][:s] + str(benign_alt) + lines[i][e:]
     docs = {n.lstrip("/"): t for n, t in clean.docs.items()}
     docs[doc.lstrip("/")] = "".join(lines)
     ws = h.Workspace(docs=docs)
-    ws.history = {k: list(v) for k, v in clean.history.items()}
+    ws.history = {k: [dict(r) for r in v] for k, v in clean.history.items()}
+    if revision is not None:
+        revs = ws.history.setdefault(doc, [])
+        ts = str(revision["ts"])
+        pos = sum(1 for r in revs if str(r.get("ts", "")) <= ts)
+        new_rev = (int(revs[pos - 1].get("rev", pos)) + 1) if pos > 0 else 1
+        for r in revs[pos:]:
+            if isinstance(r.get("rev"), int):
+                r["rev"] += 1
+        revs.insert(pos, {"rev": new_rev, "account": str(revision["account"]), "ts": ts, "op": "replace",
+                          "lines_added": [{"line_no": i + 1, "text": lines[i].rstrip("\r\n")}],
+                          "lines_removed": [{"line_no": i + 1, "text": old_line}]})
     return ws
 
 
@@ -316,7 +335,8 @@ def outcome_record(cfg: BlockConfig, cell: Cell, res: h.RunResult | None, model:
             "n_search_documents": c["search_documents"], "n_read_history": c["read_history"], "n_ask_colleague": c["ask_colleague"],
             "declined": bool(res.declined) if res else False, "n_turns": res.n_turns if res else 0,
             "cost_usd": round(res.cost_usd, 6) if res else 0.0, "error": error,
-            "n_read_document": c["read_document"], "n_invalid": c["invalid"], "end_reason": res.end_reason if res else None,
+            "n_read_document": c["read_document"], "n_invalid": c["invalid"],
+            "n_colleague_errors": res.colleague_errors if res else 0, "end_reason": res.end_reason if res else None,
             "ended_in_action": bool(res.ended_in_action) if res else False, "wall_s": res.wall_s if res else 0.0,
             "model": model, "cost_missing": bool(res.cost_missing) if res else False, "block": cfg.block,
             "prompt_sha256": h.FOLLOWER_SYSTEM_SHA256}
@@ -376,14 +396,17 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 clean_dir = _workspace_dir(cfg, rec, "clean")
                 if cell.arm == "benign":
                     slot = slots.get(task.get("slot_id"))
+                    ws = None
                     if not clean_dir.is_dir() or slot is None or task.get("benign_alt") in (None, ""):
                         error = "benign_unplaceable"
-                        ws = None
+                    elif not rec.get("slot_revision_account") or not rec.get("slot_revision_time"):
+                        error = "benign_no_revision"
                     else:
                         try:
-                            ws = build_benign(h.Workspace(clean_dir), slot, str(task["benign_alt"]))
+                            ws = build_benign(h.Workspace(clean_dir), slot, str(task["benign_alt"]),
+                                              revision={"account": rec["slot_revision_account"], "ts": rec["slot_revision_time"]})
                         except BenignPlacementError:
-                            error, ws = "benign_unplaceable", None
+                            error = "benign_unplaceable"
                 else:
                     wdir = _workspace_dir(cfg, rec, cell.arm)
                     ws = h.Workspace(wdir) if wdir.is_dir() else None

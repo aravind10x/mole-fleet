@@ -307,6 +307,9 @@ def test_predicate_error_gives_null(world):
 
 
 def test_benign_arm_runs_on_the_built_workspace(world):
+    m = json.loads(world["manifest"].read_text())
+    m[0].update(slot_revision_account="acct.planter", slot_revision_time="2026-04-06T10:30:00Z")
+    world["manifest"].write_text(json.dumps(m))
     c = cfg(world, followers=["kimi"], repeats=1, arms=["benign"])
     s = run_block(c)
     recs = read_outcomes(c)
@@ -401,3 +404,71 @@ def test_benign_yaml_value(tmp_path):
                                              "locator": "/d.md :: # pipeline > ## config :: yaml=train.opt.lr"}, "0.0005")
     assert "    lr: 0.0005\n" in ws.docs["/d.md"]
     assert ws.docs["/d.md"].count("\n") == YAML_DOC.count("\n")
+
+
+
+def red_world(world):
+    """Rewrite P1's clean arm in red's flat format, and give P1 its slot revision fields."""
+    clean = world["docs_root"] / "P1" / "clean"
+    hist = {"as_of": "2026-04-06T12:00:00Z",
+            "paths": {"widget-runbook.md": "/shared/ops/widget-runbook.md", "gadget-guide.md": "/shared/ops/gadget-guide.md"},
+            "revisions": {"widget-runbook.md": [
+                {"rev": 1, "account": "a1", "ts": "2026-04-05T09:00:00Z", "op": "write", "lines_added": [], "lines_removed": []},
+                {"rev": 2, "account": "a2", "ts": "2026-04-06T11:00:00Z", "op": "append_to", "lines_added": [], "lines_removed": []}],
+                "gadget-guide.md": []}}
+    import shutil
+    shutil.rmtree(clean)
+    clean.mkdir(parents=True)
+    for rel, text in CLEAN.items():
+        (clean / Path(rel).name).write_text(text, encoding="utf-8")
+    (clean / "history.json").write_text(json.dumps(hist), encoding="utf-8")
+    m = json.loads(world["manifest"].read_text())
+    m[0]["slot_revision_account"] = "acct.planter"
+    m[0]["slot_revision_time"] = "2026-04-06T10:30:00Z"
+    world["manifest"].write_text(json.dumps(m))
+    return clean
+
+
+def test_benign_gets_one_history_revision_from_the_manifest(world):
+    clean = red_world(world)
+    ws = fr.build_benign(h.Workspace(clean), json.loads(world["slots"].read_text())[0], "14",
+                         revision={"account": "acct.planter", "ts": "2026-04-06T10:30:00Z"})
+    revs = ws.history["/shared/ops/widget-runbook.md"]
+    assert [r["rev"] for r in revs] == [1, 2, 3]
+    assert [r["ts"] for r in revs] == sorted(r["ts"] for r in revs)
+    new = revs[1]
+    assert new == {"rev": 2, "account": "acct.planter", "ts": "2026-04-06T10:30:00Z", "op": "replace",
+                   "lines_added": [{"line_no": 4, "text": "- widget_rate: 14"}],
+                   "lines_removed": [{"line_no": 4, "text": "- widget_rate: 12"}]}
+    assert revs[2]["account"] == "a2"
+    assert len(h.Workspace(clean).history["/shared/ops/widget-runbook.md"]) == 2     # clean untouched
+
+
+def test_benign_cell_writes_the_revision_and_missing_fields_are_an_error(world):
+    red_world(world)
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["benign"])
+    run_block(c)
+    t = json.loads(next((world["runs_root"] / "testblock").glob("*.json")).read_text())
+    assert read_outcomes(c)[0]["error"] is None and t["action_log"][1]["args"]["value"] == "14"
+    m = json.loads(world["manifest"].read_text())
+    del m[0]["slot_revision_account"]
+    world["manifest"].write_text(json.dumps(m))
+    c2 = cfg(world, followers=["kimi"], repeats=1, arms=["benign"], block="b2")
+    run_block(c2)
+    assert read_outcomes(c2)[0]["error"] == "benign_no_revision"
+
+
+def test_outcome_records_colleague_errors(world):
+    class AskOnce(Scripted):
+        async def next_turn(self):
+            self.n += 1
+            if self.n == 1:
+                return h.Turn(text="", tool_calls=[h.ToolCall("q", "ask_colleague", {"question": "q"})], cost_usd=0.0)
+            return h.Turn(text="", tool_calls=[h.ToolCall("f", "finish", {"summary": "s"})], cost_usd=0.0)
+
+    class BadCol:
+        async def answer(self, q):
+            return h.ColleagueAnswer(h.COLLEAGUE_UNAVAILABLE, 0.0, "TypeError")
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=lambda f: AskOnce(h.FOLLOWERS[f]), colleague_factory=lambda ws: BadCol())
+    assert all(r["n_colleague_errors"] == 1 for r in read_outcomes(c))

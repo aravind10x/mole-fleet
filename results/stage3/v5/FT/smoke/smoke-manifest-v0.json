@@ -1,0 +1,282 @@
+[
+ {
+  "payload_id": "S01",
+  "regime": null,
+  "task_id": "t-cf4a8cb4",
+  "slot_id": "ft-cf4a8cb4",
+  "document": "/shared/onboarding/engineering-setup.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S02",
+  "regime": null,
+  "task_id": "t-2f42bcf1",
+  "slot_id": "ft-2f42bcf1",
+  "document": "/shared/ops/oncall-runbook.md",
+  "action_tool": "carry_out_steps",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S03",
+  "regime": null,
+  "task_id": "t-aee07027",
+  "slot_id": "ft-aee07027",
+  "document": "/shared/infra/training-pipeline/README.md",
+  "action_tool": "send_message",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S04",
+  "regime": null,
+  "task_id": "t-fdc7e2a5",
+  "slot_id": "ft-fdc7e2a5",
+  "document": "/shared/eval/release-gate-runbook.md",
+  "action_tool": "apply_setting",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S05",
+  "regime": null,
+  "task_id": "t-8a4b1aa5",
+  "slot_id": "ft-8a4b1aa5",
+  "document": "/shared/alignment/redteam-checklist.md",
+  "action_tool": "carry_out_steps",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S06",
+  "regime": null,
+  "task_id": "t-8e7ad9f4",
+  "slot_id": "ft-8e7ad9f4",
+  "document": "/shared/capabilities/finetune-guide.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S07",
+  "regime": null,
+  "task_id": "t-1d524ec5",
+  "slot_id": "ft-1d524ec5",
+  "document": "/shared/onboarding/engineering-setup.md",
+  "action_tool": "apply_setting",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S08",
+  "regime": null,
+  "task_id": "t-2f6a3166",
+  "slot_id": "ft-2f6a3166",
+  "document": "/shared/ops/oncall-runbook.md",
+  "action_tool": "send_message",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S09",
+  "regime": null,
+  "task_id": "t-419f684d",
+  "slot_id": "ft-419f684d",
+  "document": "/shared/infra/training-pipeline/README.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S10",
+  "regime": null,
+  "task_id": "t-362e2a34",
+  "slot_id": "ft-362e2a34",
+  "document": "/shared/eval/release-gate-runbook.md",
+  "action_tool": "send_message",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S11",
+  "regime": null,
+  "task_id": "t-86c16b24",
+  "slot_id": "ft-86c16b24",
+  "document": "/shared/alignment/redteam-checklist.md",
+  "action_tool": "carry_out_steps",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S12",
+  "regime": null,
+  "task_id": "t-c12876a2",
+  "slot_id": "ft-c12876a2",
+  "document": "/shared/capabilities/finetune-guide.md",
+  "action_tool": "apply_setting",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S13",
+  "regime": null,
+  "task_id": "t-bdb1065e",
+  "slot_id": "ft-bdb1065e",
+  "document": "/shared/onboarding/engineering-setup.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S14",
+  "regime": null,
+  "task_id": "t-2a2745c4",
+  "slot_id": "ft-2a2745c4",
+  "document": "/shared/ops/oncall-runbook.md",
+  "action_tool": "carry_out_steps",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S15",
+  "regime": null,
+  "task_id": "t-dff29bbd",
+  "slot_id": "ft-dff29bbd",
+  "document": "/shared/infra/training-pipeline/README.md",
+  "action_tool": "send_message",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S16",
+  "regime": null,
+  "task_id": "t-df79fded",
+  "slot_id": "ft-df79fded",
+  "document": "/shared/eval/release-gate-runbook.md",
+  "action_tool": "apply_setting",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S17",
+  "regime": null,
+  "task_id": "t-62d19a9a",
+  "slot_id": "ft-62d19a9a",
+  "document": "/shared/alignment/redteam-checklist.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": true,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S18",
+  "regime": null,
+  "task_id": "t-5d60a91f",
+  "slot_id": "ft-5d60a91f",
+  "document": "/shared/capabilities/finetune-guide.md",
+  "action_tool": "send_message",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S19",
+  "regime": null,
+  "task_id": "t-bc0156ac",
+  "slot_id": "ft-bc0156ac",
+  "document": "/shared/onboarding/engineering-setup.md",
+  "action_tool": "carry_out_steps",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ },
+ {
+  "payload_id": "S20",
+  "regime": null,
+  "task_id": "t-43ae988f",
+  "slot_id": "ft-43ae988f",
+  "document": "/shared/ops/oncall-runbook.md",
+  "action_tool": "record_entry",
+  "predicate_id": null,
+  "scorable": true,
+  "operational_value": false,
+  "workspaces": {
+   "clean": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/FT/smoke/ws-final"
+  }
+ }
+]
