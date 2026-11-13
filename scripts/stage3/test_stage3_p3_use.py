@@ -249,6 +249,7 @@ def test_totals_by_document_and_kind_and_the_share_never_carried():
     assert tot["by_kind"]["operational_value"]["slots"] == 1 and tot["by_kind"]["operational_value"]["slots_carried"] == 1
     assert tot["by_document"][DOC]["carrying"] == 2          # carrying actions summed over the document's slots
     assert tot["all"]["slots_carried_specific"] == 2 and abs(tot["all"]["share_never_carried_specific"] - 5 / 7) < 1e-12
+    assert tot["all"]["slots_carried_specific_nocopy"] == 2 and abs(tot["all"]["share_never_carried_specific_nocopy"] - 5 / 7) < 1e-12
 
 
 def test_a_carrying_action_is_counted_once_per_slot_even_when_it_carries_several_slots():
@@ -303,8 +304,8 @@ def test_actions_are_also_counted_by_action_name():
               ev(2, DAY1 + "T09:20:00Z", "C", "mkdir", {"path": "/x"})]
     res, slots = run(events, states)
     ba = res["actions"]["by_action"]
-    assert ba["post_message"] == {"state_changing": 2, "with_content": 2, "carrying_any_slot": 1, "carrying_specific_any_slot": 1}
-    assert ba["mkdir"] == {"state_changing": 1, "with_content": 0, "carrying_any_slot": 0, "carrying_specific_any_slot": 0}
+    assert ba["post_message"] == {"state_changing": 2, "with_content": 2, "carrying_any_slot": 1, "carrying_specific_any_slot": 1, "carrying_specific_nocopy_any_slot": 1}
+    assert ba["mkdir"] == {"state_changing": 1, "with_content": 0, "carrying_any_slot": 0, "carrying_specific_any_slot": 0, "carrying_specific_nocopy_any_slot": 0}
 
 
 def test_an_action_that_carries_only_a_date_is_not_counted_as_a_specific_carrier():
@@ -313,3 +314,125 @@ def test_an_action_that_carries_only_a_date_is_not_counted_as_a_specific_carrier
     events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "see the note of 2026-04-01"}, service="rocketchat")]
     res, slots = run(events, states)
     assert res["actions"]["carrying_any_slot"] >= 1 and res["actions"]["carrying_specific_any_slot"] == 0
+
+
+# ── v1: near-copies (an action whose content holds half or more of a document's current lines) ──
+
+def test_line_share_is_the_share_of_current_non_empty_lines_the_content_holds():
+    assert pu.line_share(BASE, "## Contacts\n- Pager: `ops-pager`") == (2, 7)
+    assert pu.line_share(BASE, "nothing") == (0, 7)
+    assert pu.line_share("a line one\n\nb line two\n", "the a line one only") == (1, 2)      # blank lines are not lines
+    assert pu.line_share("   \n\n", "x") == (0, 0)
+
+
+def test_half_or_more_is_a_near_copy():
+    assert pu.is_near_copy(1, 2) is True
+    assert pu.is_near_copy(4, 7) is True
+    assert pu.is_near_copy(3, 7) is False
+    assert pu.is_near_copy(0, 0) is False
+
+
+PART = "# Runbook\n## Contacts\n- Pager: `ops-pager`\n- Owner: the platform team"       # 4 of the 7 non-empty lines
+
+
+def test_an_action_holding_half_the_documents_lines_is_a_near_copy_and_leaves_the_third_count():
+    states = {DOC: [st(0, BASE)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "write_file", {"path": "/elsewhere/part.md", "content": PART}),
+              ev(1, DAY1 + "T09:10:00Z", "C", "post_message", {"text": "page `ops-pager` please"}, service="rocketchat")]
+    res, slots = run(events, states)
+    c = cell(res, slots, PAGER, DAY1)
+    assert c["carrying_specific"] == 2 and c["carrying_specific_nocopy"] == 1       # the partial copy is left out, the message stays
+    a = res["actions"]
+    assert a["carrying_specific_any_slot"] == 2 and a["carrying_specific_nocopy_any_slot"] == 1
+
+
+def test_a_partial_copy_that_is_under_half_stays_in_the_third_count():
+    states = {DOC: [st(0, BASE)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "write_file", {"path": "/elsewhere/part.md", "content": "## Contacts\n- Pager: `ops-pager`\n- Owner: the platform team"})]
+    res, slots = run(events, states)
+    c = cell(res, slots, PAGER, DAY1)
+    assert c["carrying_specific"] == 1 and c["carrying_specific_nocopy"] == 1         # 3 of 7 lines
+
+
+def test_the_near_copy_test_reads_the_document_the_slot_belongs_to():
+    other = "# Other\n\n## Notes\n\n- Contact: `ops-desk`\n- Extra: something here\n"
+    states = {DOC: [st(0, BASE)], OTHER: [st(0, other)]}
+    # the content holds three of the OTHER document's four lines and none of DOC's
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "# Other\n## Notes\n- Contact: `ops-desk`\npage `ops-pager`"}, service="rocketchat")]
+    res, slots = run(events, states)
+    assert cell(res, slots, PAGER, DAY1)["carrying_specific_nocopy"] == 1            # 0 of 7 lines of DOC
+    assert cell(res, slots, ":: label=contact#1", DAY1)["carrying_specific"] == 1
+    assert cell(res, slots, ":: label=contact#1", DAY1)["carrying_specific_nocopy"] == 0   # 3 of 4 lines of OTHER
+
+
+def test_near_copies_are_characterised_by_action_and_target():
+    states = {DOC: [st(0, BASE)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "write_file", {"path": "/elsewhere/part.md", "content": PART}),
+              ev(1, DAY1 + "T09:10:00Z", "C", "append_to_file", {"path": DOC, "text": PART, "content": BASE + PART}),
+              ev(2, DAY1 + "T09:20:00Z", "D", "post_message", {"text": "page `ops-pager`"}, service="rocketchat")]
+    res, slots = run(events, states)
+    ch = res["characterisation"]
+    assert ch["carrying_actions"] == 3
+    assert ch["near_copy_by_action_target"] == {"write_file|other_path": 1, "append_to_file|same_document": 1}
+    assert ch["by_action"]["post_message"] == {"carrying": 1, "many_slot": 0, "many_slot_weak_only": 0, "many_slot_with_specific": 0, "near_copy": 0}
+    assert ch["by_action"]["write_file"]["near_copy"] == 1
+    assert sum(ch["share_bins"].values()) == 3
+
+
+def test_many_slot_actions_are_those_carrying_ten_or_more_slots():
+    lines = "\n".join(f"- Key{i}: `val-{i}-abc`" for i in range(12))
+    doc = "# Big\n\n## Keys\n\n" + lines + "\n"
+    states = {DOC: [st(0, doc)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "\n".join(f"`val-{i}-abc`" for i in range(11))}, service="rocketchat")]
+    res, slots = run(events, states)
+    ch = res["characterisation"]
+    assert ch["many_slot_actions"] == 1 and ch["by_action"]["post_message"]["many_slot"] == 1
+
+
+def test_slots_carried_only_by_a_near_copy_are_never_carried_under_the_third_count():
+    states = {DOC: [st(0, BASE)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "write_file", {"path": "/elsewhere/part.md", "content": PART})]
+    res, slots = run(events, states)
+    tot = pu.totals(res, slots)["all"]
+    assert tot["slots_carried_specific"] > 0 and tot["slots_carried_specific_nocopy"] == 0
+    assert tot["share_never_carried_specific_nocopy"] == 1.0
+
+
+def test_many_slot_actions_that_rest_only_on_a_shared_date_are_told_apart_from_specific_ones():
+    lines = "\n".join(f"- Dated{i}: 2026-04-06" for i in range(12))
+    doc = "# Big\n\n## Dates\n\n" + lines + "\n"
+    states = {DOC: [st(0, doc)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "nothing changed since 2026-04-06"}, service="rocketchat")]
+    res, slots = run(events, states)
+    ch = res["characterisation"]
+    assert ch["many_slot_actions"] == 1 and ch["many_slot_weak_only"] == 1 and ch["many_slot_with_specific"] == 0
+    assert ch["by_action"]["post_message"]["many_slot_weak_only"] == 1
+    assert res["actions"]["carrying_specific_any_slot"] == 0
+
+
+def test_a_many_slot_action_with_a_specific_carry_is_counted_as_such():
+    lines = "\n".join(f"- Key{i}: `val-{i}-abc`" for i in range(12))
+    doc = "# Big\n\n## Keys\n\n" + lines + "\n"
+    states = {DOC: [st(0, doc)]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "\n".join(f"`val-{i}-abc`" for i in range(11))}, service="rocketchat")]
+    res, slots = run(events, states)
+    ch = res["characterisation"]
+    assert ch["many_slot_with_specific"] == 1 and ch["many_slot_weak_only"] == 0
+
+
+def test_many_slot_actions_are_told_apart_by_whether_one_shared_literal_carries_most_slots():
+    dated = "\n".join(f"- Dated{i}: 2026-04-06" for i in range(12))
+    states = {DOC: [st(0, "# Big\n\n## Dates\n\n" + dated + "\n")]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "nothing changed since 2026-04-06"}, service="rocketchat")]
+    res, _ = run(events, states)
+    assert res["characterisation"]["many_slot_one_literal"] == 1 and res["characterisation"]["many_slot_many_literals"] == 0
+    keys = "\n".join(f"- Key{i}: `val-{i}-abc`" for i in range(12))
+    states = {DOC: [st(0, "# Big\n\n## Keys\n\n" + keys + "\n")]}
+    events = [ev(0, DAY1 + "T09:00:00Z", "B", "post_message", {"text": "\n".join(f"`val-{i}-abc`" for i in range(11))}, service="rocketchat")]
+    res, _ = run(events, states)
+    assert res["characterisation"]["many_slot_one_literal"] == 0 and res["characterisation"]["many_slot_many_literals"] == 1
+
+
+def test_needles_come_in_a_fixed_order_so_a_run_does_not_depend_on_the_hash_seed():
+    whole, toks = pu._needles(["`zeta-9` and `alpha-1` and `mid_2` plus `beta-3`"], "")
+    assert [n for n, _ in toks] == sorted(n for n, _ in toks)
