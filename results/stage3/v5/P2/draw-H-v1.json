@@ -1,0 +1,1735 @@
+{
+ "rule": "preregistration-v1.1 section D: random.Random(20261114) created once; payloads sorted; strata need, may_touch, any; tasks sorted by id; choices with arrival weights, k = 2, 1, rest to 4; an empty stratum's draws pass to any (all runnable tasks); need at the payload's clean state (need_at_state)",
+ "seed": 20261114,
+ "n": 216,
+ "draws": [
+  {
+   "draw_id": "H0001",
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "alignment/175",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0002",
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "capabilities/179",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0003",
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "may_touch",
+   "task_id": "platform/192",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0004",
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "any",
+   "task_id": "hr/40",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0005",
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0006",
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0007",
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "may_touch",
+   "task_id": "platform/217",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0008",
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "any",
+   "task_id": "capabilities/197",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0009",
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "platform/23",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0010",
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "capabilities/154",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0011",
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "platform/185",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0012",
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "platform/180",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0013",
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "legal/55",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0014",
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "hr/67",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0015",
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "hr/10",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0016",
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "evaluations/117",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0017",
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "capabilities/198",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0018",
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "capabilities/151",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0019",
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "platform/214",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0020",
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "hr/89",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0021",
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "may_touch",
+   "task_id": "platform/222",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0022",
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "platform/184",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0023",
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "platform/208",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0024",
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "evaluations/98",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0025",
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "any",
+   "task_id": "hr/23",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0026",
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "any",
+   "task_id": "platform/161",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0027",
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "any",
+   "task_id": "platform/148",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0028",
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "stratum": "any",
+   "task_id": "legal/4",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0029",
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "platform/69",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0030",
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "platform/23",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0031",
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "evaluations/184",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0032",
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "capabilities/166",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0033",
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "legal/144",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0034",
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "evaluations/192",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0035",
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "may_touch",
+   "task_id": "platform/218",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0036",
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "stratum": "any",
+   "task_id": "capabilities/147",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0037",
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "alignment/181",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0038",
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "capabilities/188",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0039",
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "alignment/85",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0040",
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "hr/58",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0041",
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "need",
+   "task_id": "platform/170",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0042",
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "need",
+   "task_id": "capabilities/160",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0043",
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "may_touch",
+   "task_id": "platform/166",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0044",
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "stratum": "any",
+   "task_id": "capabilities/146",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0045",
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "may_touch",
+   "task_id": "platform/218",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0046",
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "evaluations/135",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0047",
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "capabilities/151",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0048",
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "stratum": "any",
+   "task_id": "platform/149",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0049",
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "platform/222",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0050",
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "need",
+   "task_id": "capabilities/197",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0051",
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "may_touch",
+   "task_id": "capabilities/192",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0052",
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "stratum": "any",
+   "task_id": "hr/122",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0053",
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "hr/40",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0054",
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "evaluations/184",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0055",
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "legal/128",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0056",
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "stratum": "any",
+   "task_id": "platform/185",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0057",
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "evaluations/159",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0058",
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/168",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0059",
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "may_touch",
+   "task_id": "platform/162",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0060",
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "any",
+   "task_id": "platform/164",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0061",
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "platform/220",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0062",
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "platform/90",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0063",
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "hr/31",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0064",
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "capabilities/154",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0065",
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "hr/31",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0066",
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "capabilities/111",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0067",
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "legal/94",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0068",
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "legal/29",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0069",
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "need",
+   "task_id": "platform/195",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0070",
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "need",
+   "task_id": "evaluations/176",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0071",
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "may_touch",
+   "task_id": "platform/189",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0072",
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "any",
+   "task_id": "hr/5",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0073",
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "alignment/175",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0074",
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "need",
+   "task_id": "capabilities/179",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0075",
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "may_touch",
+   "task_id": "platform/186",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0076",
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "stratum": "any",
+   "task_id": "legal/121",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0077",
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "platform/215",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0078",
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "legal/66",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0079",
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "platform/177",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0080",
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "legal/99",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0081",
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "any",
+   "task_id": "platform/137",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0082",
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "any",
+   "task_id": "evaluations/165",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0083",
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "any",
+   "task_id": "platform/198",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0084",
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "stratum": "any",
+   "task_id": "legal/76",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0085",
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "any",
+   "task_id": "platform/221",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0086",
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "any",
+   "task_id": "capabilities/154",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0087",
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "any",
+   "task_id": "platform/221",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0088",
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "stratum": "any",
+   "task_id": "capabilities/64",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0089",
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "any",
+   "task_id": "platform/174",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0090",
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "any",
+   "task_id": "evaluations/193",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0091",
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "any",
+   "task_id": "platform/158",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0092",
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "stratum": "any",
+   "task_id": "alignment/145",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0093",
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "need",
+   "task_id": "evaluations/176",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0094",
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "need",
+   "task_id": "platform/195",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0095",
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "may_touch",
+   "task_id": "platform/189",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0096",
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "stratum": "any",
+   "task_id": "hr/130",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0097",
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "alignment/177",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0098",
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "alignment/177",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0099",
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "may_touch",
+   "task_id": "platform/194",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0100",
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "any",
+   "task_id": "hr/5",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0101",
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "platform/163",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0102",
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "evaluations/155",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0103",
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "any",
+   "task_id": "platform/187",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0104",
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "any",
+   "task_id": "platform/13",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0105",
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "evaluations/13",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0106",
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "platform/149",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0107",
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "platform/156",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0108",
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "evaluations/117",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0109",
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "evaluations/175",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0110",
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "need",
+   "task_id": "alignment/177",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0111",
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "may_touch",
+   "task_id": "platform/194",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0112",
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "stratum": "any",
+   "task_id": "alignment/155",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0113",
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "need",
+   "task_id": "capabilities/177",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0114",
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "need",
+   "task_id": "capabilities/177",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0115",
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "may_touch",
+   "task_id": "platform/192",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0116",
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "stratum": "any",
+   "task_id": "alignment/171",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0117",
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "need",
+   "task_id": "platform/171",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0118",
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "need",
+   "task_id": "platform/171",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0119",
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "may_touch",
+   "task_id": "capabilities/155",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0120",
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "stratum": "any",
+   "task_id": "platform/171",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0121",
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "any",
+   "task_id": "alignment/42",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0122",
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "any",
+   "task_id": "hr/27",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0123",
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "any",
+   "task_id": "hr/145",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0124",
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "stratum": "any",
+   "task_id": "legal/25",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0125",
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "any",
+   "task_id": "platform/144",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0126",
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "any",
+   "task_id": "hr/83",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0127",
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "any",
+   "task_id": "alignment/189",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0128",
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "stratum": "any",
+   "task_id": "capabilities/177",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0129",
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "any",
+   "task_id": "evaluations/148",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0130",
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "any",
+   "task_id": "evaluations/25",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0131",
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "any",
+   "task_id": "alignment/164",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0132",
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "stratum": "any",
+   "task_id": "evaluations/151",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0133",
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "hr/83",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0134",
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "legal/62",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0135",
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "platform/137",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0136",
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "hr/46",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0137",
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "capabilities/157",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0138",
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "need",
+   "task_id": "platform/163",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0139",
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "any",
+   "task_id": "capabilities/166",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0140",
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "stratum": "any",
+   "task_id": "capabilities/17",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0141",
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "any",
+   "task_id": "capabilities/64",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0142",
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "any",
+   "task_id": "platform/145",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0143",
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "any",
+   "task_id": "platform/165",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0144",
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "stratum": "any",
+   "task_id": "alignment/156",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0145",
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "alignment/149",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0146",
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "capabilities/51",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0147",
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "evaluations/15",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0148",
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "stratum": "any",
+   "task_id": "capabilities/60",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0149",
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "any",
+   "task_id": "hr/130",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0150",
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "any",
+   "task_id": "platform/172",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0151",
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "any",
+   "task_id": "alignment/16",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0152",
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "stratum": "any",
+   "task_id": "capabilities/162",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0153",
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "alignment/169",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0154",
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "platform/201",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0155",
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "evaluations/192",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0156",
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "evaluations/119",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0157",
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "capabilities/60",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0158",
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "legal/20",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0159",
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "legal/10",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0160",
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "stratum": "any",
+   "task_id": "evaluations/83",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0161",
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "evaluations/25",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0162",
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "capabilities/157",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0163",
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "evaluations/152",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0164",
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "stratum": "any",
+   "task_id": "hr/52",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0165",
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "any",
+   "task_id": "legal/88",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0166",
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "any",
+   "task_id": "platform/163",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0167",
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "any",
+   "task_id": "hr/151",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0168",
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "stratum": "any",
+   "task_id": "hr/94",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0169",
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "platform/199",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0170",
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "hr/123",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0171",
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "hr/115",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0172",
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "capabilities/164",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0173",
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "evaluations/159",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0174",
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "need",
+   "task_id": "platform/172",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0175",
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "may_touch",
+   "task_id": "evaluations/154",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0176",
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "stratum": "any",
+   "task_id": "platform/151",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0177",
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "may_touch",
+   "task_id": "evaluations/170",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0178",
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "legal/95",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0179",
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "legal/140",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0180",
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "hr/89",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0181",
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "may_touch",
+   "task_id": "evaluations/170",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0182",
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "hr/152",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0183",
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "platform/89",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0184",
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "stratum": "any",
+   "task_id": "evaluations/173",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0185",
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "evaluations/186",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0186",
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "platform/150",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0187",
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "alignment/35",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0188",
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "stratum": "any",
+   "task_id": "capabilities/112",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0189",
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "need",
+   "task_id": "hr/152",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0190",
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "need",
+   "task_id": "alignment/190",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0191",
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "may_touch",
+   "task_id": "platform/213",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0192",
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "stratum": "any",
+   "task_id": "capabilities/84",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0193",
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "platform/161",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0194",
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "evaluations/65",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0195",
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "alignment/26",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0196",
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "stratum": "any",
+   "task_id": "hr/149",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0197",
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "alignment/188",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0198",
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "need",
+   "task_id": "platform/221",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0199",
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "may_touch",
+   "task_id": "evaluations/186",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0200",
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "stratum": "any",
+   "task_id": "legal/79",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0201",
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "any",
+   "task_id": "alignment/177",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0202",
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "any",
+   "task_id": "evaluations/179",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0203",
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "any",
+   "task_id": "evaluations/69",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0204",
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "stratum": "any",
+   "task_id": "platform/220",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0205",
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "need",
+   "task_id": "platform/220",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0206",
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "need",
+   "task_id": "platform/220",
+   "need_class": "needs"
+  },
+  {
+   "draw_id": "H0207",
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "may_touch",
+   "task_id": "platform/214",
+   "need_class": "may_touch"
+  },
+  {
+   "draw_id": "H0208",
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "stratum": "any",
+   "task_id": "hr/149",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0209",
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "any",
+   "task_id": "capabilities/168",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0210",
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "any",
+   "task_id": "alignment/147",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0211",
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "any",
+   "task_id": "capabilities/192",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0212",
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "stratum": "any",
+   "task_id": "alignment/184",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0213",
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "platform/158",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0214",
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "capabilities/73",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0215",
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "alignment/180",
+   "need_class": "no"
+  },
+  {
+   "draw_id": "H0216",
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "stratum": "any",
+   "task_id": "platform/157",
+   "need_class": "no"
+  }
+ ]
+}

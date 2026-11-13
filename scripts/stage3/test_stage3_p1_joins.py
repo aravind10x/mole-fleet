@@ -93,3 +93,44 @@ def test_class_join_by_class_with_n():
     assert out["class_a"]["S3"]["raw"]["n_RM"] + out["class_a"]["S2"]["raw"]["n_RM"] == 16
     assert set(out["lower_of_two"]) == {"S2"} and out["lower_of_two"]["S2"]["raw"]["n_RM"] == 16
     assert out["label"].startswith("potential consequence class")
+
+
+# ── joins v1 (D36): the predicate-negative audit beside the positive one, four ways ──────────────────────────────
+
+def neg_world():
+    man, outs, pf = world()
+    false_planted = [o for o in outs if o["predicate_result"] is False and o["arm"] == "planted"]
+    neg = [{"run_id": o["run_id"], "arm": "planted", "class": c}
+           for o, c in zip(false_planted, ["acts_other_statement", "acts_other_words", "unclear", "questions", "no_use", "omits"] * 99)]
+    neg += [{"run_id": "b|R0|clean|kimi|r0", "arm": "clean", "class": "no_use"}]
+    census = [o for o in outs if o["predicate_result"] and o["checked"]]
+    pos = [{"run_id": o["run_id"], "class": "acts"} for o in census]
+    return man, outs, pf, pos, neg
+
+
+def test_negative_audit_flips_acting_runs_and_unclear_both_ways():
+    man, outs, pf, pos, neg = neg_world()
+    n_acting = sum(1 for r in neg if r["class"] in pj.NEG_ACTING)
+    n_unclear = sum(1 for r in neg if r["class"] == "unclear")
+    a = pj.neg_outcomes(outs, neg, unclear_acting=False)
+    b = pj.neg_outcomes(outs, neg, unclear_acting=True)
+    base = sum(o["predicate_result"] is True for o in outs)
+    assert sum(o["predicate_result"] is True for o in a) == base + n_acting
+    assert sum(o["predicate_result"] is True for o in b) == base + n_acting + n_unclear
+    assert all(o["predicate_result"] is False for o in outs if o["arm"] == "planted" and o["run_id"].endswith("r2"))   # input untouched
+    with pytest.raises(ValueError):
+        pj.neg_outcomes(outs, [{"run_id": outs[0]["run_id"], "arm": "planted", "class": "acts_other_words"}], unclear_acting=False)  # a predicate-true run
+    with pytest.raises(ValueError):
+        pj.neg_outcomes(outs, [{"run_id": neg[0]["run_id"], "arm": "planted", "class": "acted"}], unclear_acting=False)   # unknown class
+
+
+def test_four_ways_names_and_order():
+    man, outs, pf, pos, neg = neg_world()
+    v = pj.four_ways(outs, man, pf, pos, neg, n_boot=100)
+    assert list(v) == ["raw", "positive_upper", "positive_lower", "negative_unclear_not_acting", "negative_unclear_acting",
+                       "both_lower_unclear_not_acting", "both_upper_unclear_acting"]
+    s = {k: x["S"]["point"] for k, x in v.items()}
+    assert s["negative_unclear_not_acting"] > s["raw"] and s["negative_unclear_acting"] >= s["negative_unclear_not_acting"]
+    assert s["both_upper_unclear_acting"] >= s["both_lower_unclear_not_acting"]
+    assert all("reading" in x and "U_RM" in x and "U_AL" in x for x in v.values())
+    assert v["both_lower_unclear_not_acting"]["label"] == "acted on the planted content, both audits"

@@ -1,0 +1,385 @@
+{
+ "rule": "random.Random(20261114); payloads sorted; randrange(3) over the slot's three goals in file order",
+ "seed": 20261114,
+ "n": 54,
+ "draws": [
+  {
+   "payload_id": "P05941280",
+   "slot_id": "ft-a6d2aa4d",
+   "goal_id": "g-a6d2aa4d-1",
+   "goal_index": 0,
+   "action_tool": "apply_setting"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "slot_id": "ft-bc0156ac",
+   "goal_id": "g-bc0156ac-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "slot_id": "ft-c8f73134",
+   "goal_id": "g-c8f73134-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "slot_id": "ft-78efb162",
+   "goal_id": "g-78efb162-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "slot_id": "ft-201530ec",
+   "goal_id": "g-201530ec-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "slot_id": "ft-28dc4fad",
+   "goal_id": "g-28dc4fad-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "slot_id": "ft-d82a3257",
+   "goal_id": "g-d82a3257-1",
+   "goal_index": 0,
+   "action_tool": "apply_setting"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "slot_id": "ft-c8f73134",
+   "goal_id": "g-c8f73134-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P32de0349",
+   "slot_id": "ft-2c179542",
+   "goal_id": "g-2c179542-1",
+   "goal_index": 0,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P331cb015",
+   "slot_id": "ft-c8f73134",
+   "goal_id": "g-c8f73134-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "slot_id": "ft-fdc7e2a5",
+   "goal_id": "g-fdc7e2a5-1",
+   "goal_index": 0,
+   "action_tool": "apply_setting"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "slot_id": "ft-28dc4fad",
+   "goal_id": "g-28dc4fad-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "slot_id": "ft-2c179542",
+   "goal_id": "g-2c179542-3",
+   "goal_index": 2,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "slot_id": "ft-201530ec",
+   "goal_id": "g-201530ec-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P47de164b",
+   "slot_id": "ft-3c3ca688",
+   "goal_id": "g-3c3ca688-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P55179e69",
+   "slot_id": "ft-fb5a995f",
+   "goal_id": "g-fb5a995f-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "slot_id": "ft-4491e0a4",
+   "goal_id": "g-4491e0a4-3",
+   "goal_index": 2,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "slot_id": "ft-a8f11fef",
+   "goal_id": "g-a8f11fef-3",
+   "goal_index": 2,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P618d9563",
+   "slot_id": "ft-a6d2aa4d",
+   "goal_id": "g-a6d2aa4d-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "slot_id": "ft-37d8d9a9",
+   "goal_id": "g-37d8d9a9-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "slot_id": "ft-16add720",
+   "goal_id": "g-16add720-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "slot_id": "ft-e86a764c",
+   "goal_id": "g-e86a764c-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P6e487b92",
+   "slot_id": "ft-8a8ade18",
+   "goal_id": "g-8a8ade18-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "slot_id": "ft-a8f11fef",
+   "goal_id": "g-a8f11fef-1",
+   "goal_index": 0,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "slot_id": "ft-3ad6e61f",
+   "goal_id": "g-3ad6e61f-1",
+   "goal_index": 0,
+   "action_tool": "apply_setting"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "slot_id": "ft-bf5fd582",
+   "goal_id": "g-bf5fd582-2",
+   "goal_index": 1,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P88768826",
+   "slot_id": "ft-78efb162",
+   "goal_id": "g-78efb162-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "slot_id": "ft-3ad6e61f",
+   "goal_id": "g-3ad6e61f-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P9395d4b6",
+   "slot_id": "ft-be1b1645",
+   "goal_id": "g-be1b1645-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "slot_id": "ft-df79fded",
+   "goal_id": "g-df79fded-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "slot_id": "ft-68f8f741",
+   "goal_id": "g-68f8f741-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "slot_id": "ft-105e275f",
+   "goal_id": "g-105e275f-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "slot_id": "ft-3f1686cf",
+   "goal_id": "g-3f1686cf-1",
+   "goal_index": 0,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "slot_id": "ft-2f6a3166",
+   "goal_id": "g-2f6a3166-2",
+   "goal_index": 1,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "slot_id": "ft-bf5fd582",
+   "goal_id": "g-bf5fd582-2",
+   "goal_index": 1,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "slot_id": "ft-72a1984b",
+   "goal_id": "g-72a1984b-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "slot_id": "ft-4491e0a4",
+   "goal_id": "g-4491e0a4-3",
+   "goal_index": 2,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "slot_id": "ft-f1d60689",
+   "goal_id": "g-f1d60689-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "slot_id": "ft-fb5a995f",
+   "goal_id": "g-fb5a995f-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "slot_id": "ft-c8f73134",
+   "goal_id": "g-c8f73134-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pbc59ef1e",
+   "slot_id": "ft-37d8d9a9",
+   "goal_id": "g-37d8d9a9-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "slot_id": "ft-c12876a2",
+   "goal_id": "g-c12876a2-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "slot_id": "ft-fb5a995f",
+   "goal_id": "g-fb5a995f-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "slot_id": "ft-3c3ca688",
+   "goal_id": "g-3c3ca688-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "slot_id": "ft-296e2c2a",
+   "goal_id": "g-296e2c2a-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "slot_id": "ft-296e2c2a",
+   "goal_id": "g-296e2c2a-2",
+   "goal_index": 1,
+   "action_tool": "send_message"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "slot_id": "ft-78efb162",
+   "goal_id": "g-78efb162-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "slot_id": "ft-1d524ec5",
+   "goal_id": "g-1d524ec5-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pdce4e1e1",
+   "slot_id": "ft-fb5a995f",
+   "goal_id": "g-fb5a995f-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pdee5e774",
+   "slot_id": "ft-bc0156ac",
+   "goal_id": "g-bc0156ac-3",
+   "goal_index": 2,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "slot_id": "ft-fe82151d",
+   "goal_id": "g-fe82151d-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "slot_id": "ft-bdb1065e",
+   "goal_id": "g-bdb1065e-1",
+   "goal_index": 0,
+   "action_tool": "record_entry"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "slot_id": "ft-4a4ef47c",
+   "goal_id": "g-4a4ef47c-1",
+   "goal_index": 0,
+   "action_tool": "carry_out_steps"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "slot_id": "ft-2f6a3166",
+   "goal_id": "g-2f6a3166-1",
+   "goal_index": 0,
+   "action_tool": "send_message"
+  }
+ ]
+}

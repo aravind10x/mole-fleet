@@ -15,6 +15,12 @@ counts.
   `choices(..., weights=arrival weights)` with replacement: 2 from the eligible tasks that need the slot, 1 from those
   that may touch it and do not need it, the rest up to 4 from all eligible runnable tasks; an empty stratum's draws go
   to the last.
+
+v1 (`P2/preregistration-v1.1.md` sections A and D, ab171917; `python stage3_p2_draws.py v1`): the 54 payloads red's
+validity table keeps (8f6538b0); D by the same rule on them; need at each payload's clean state by blue's
+`stage3_ft_bank.need_at_state` (398e2e09), called rule-defined need shares; H drawn exactly as section D (any = all
+runnable tasks; each draw its own id and its actual need class). Writes `draw-D-v1.json`, `draw-H-v1.json`,
+`need-table-v1.json`; v0 files are kept.
 """
 from __future__ import annotations
 
@@ -136,6 +142,119 @@ def draw_H(manifest: Sequence[Mapping], matrix: Mapping, bank: Sequence[Mapping]
             "seed": SEED, "n": len(out), "draws": out}
 
 
+# ── v1 (preregistration-v1.1 sections A and D, ab171917) ──────────────────────────────────────────
+
+def retained(manifest: Sequence[Mapping], validity: Sequence[Mapping]) -> list[Mapping]:
+    """The scorable payloads the red side's validity table keeps (section A), sorted by id."""
+    ok = {v["payload_id"]: bool(v["valid"]) for v in validity}
+    sc = _scorable(manifest)
+    missing = [m["payload_id"] for m in sc if m["payload_id"] not in ok]
+    if missing:
+        raise ValueError(f"payloads missing from the validity table: {missing}")
+    return [m for m in sc if ok[m["payload_id"]]]
+
+
+def _need_fn():
+    import stage3_ft_bank as fb
+    return fb.need_at_state
+
+
+def populations_at_state(m: Mapping, bank: Sequence[Mapping], slots: Mapping[str, Mapping], docs_root: Path, *,
+                         need_fn=None) -> dict:
+    """Section D: blue's class rule on the payload's clean state alone (`need_at_state`). need = runnable tasks that
+    need the payload's slot there; may_touch = those that may touch it and do not need it; any = all runnable tasks.
+    Each list sorted by task id; `cls` gives every runnable task's actual class for this payload."""
+    need_fn = need_fn or _need_fn()
+    s = m["slot_id"]
+    doc = slots[s]["document"]
+    of_doc = [x for x in slots.values() if x["document"] == doc]
+    text = clean_docs(docs_root, m["payload_id"]).get(doc, "")
+    runnable = sorted([b for b in bank if b.get("runnable")], key=lambda b: b["task_id"])
+    cls = {}
+    for b in runnable:
+        n = need_fn(b, of_doc, text)
+        cls[b["task_id"]] = "needs" if s in n["needs"] else "may_touch" if s in n["may_touch"] else "no"
+    return {"need": [b for b in runnable if cls[b["task_id"]] == "needs"],
+            "may_touch": [b for b in runnable if cls[b["task_id"]] == "may_touch"], "any": runnable, "cls": cls}
+
+
+H_COUNTS_V1 = (("need", 2), ("may_touch", 1), ("any", 1))
+
+
+def draw_H_v1(kept: Sequence[Mapping], bank: Sequence[Mapping], slots: Mapping, docs_root: Path, *, need_fn=None) -> dict:
+    rng = random.Random(SEED)                                       # one generator, created once
+    out = []
+    for m in sorted(kept, key=lambda m: m["payload_id"]):
+        pop = populations_at_state(m, bank, slots, docs_root, need_fn=need_fn)
+        carry = 0
+        for name, k in H_COUNTS_V1:
+            k = k + (carry if name == "any" else 0)
+            xs = pop[name]
+            if not xs:
+                carry += k
+                continue
+            for t in rng.choices(xs, weights=[float(b["weight"]) for b in xs], k=k):
+                out.append({"draw_id": f"H{len(out) + 1:04d}", "payload_id": m["payload_id"], "slot_id": m["slot_id"],
+                            "stratum": name, "task_id": t["task_id"], "need_class": pop["cls"][t["task_id"]]})
+    return {"rule": "preregistration-v1.1 section D: random.Random(20261114) created once; payloads sorted; strata need, "
+                    "may_touch, any; tasks sorted by id; choices with arrival weights, k = 2, 1, rest to 4; an empty stratum's "
+                    "draws pass to any (all runnable tasks); need at the payload's clean state (need_at_state)",
+            "seed": SEED, "n": len(out), "draws": out}
+
+
+def need_table_v1(kept: Sequence[Mapping], bank: Sequence[Mapping], slots: Mapping, docs_root: Path, *, need_fn=None) -> dict:
+    """Rule-defined need shares (section D) on the retained payloads."""
+    all_w = sum(float(b["weight"]) for b in bank)
+    run_w = sum(float(b["weight"]) for b in bank if b.get("runnable"))
+    w = lambda xs: sum(float(b["weight"]) for b in xs)  # noqa: E731
+    rows = {}
+    for m in kept:
+        pop = populations_at_state(m, bank, slots, docs_root, need_fn=need_fn)
+        rows[m["payload_id"]] = {"regime": m.get("regime"), "slot_id": m["slot_id"], "n_need": len(pop["need"]),
+                                 "n_may_touch": len(pop["may_touch"]),
+                                 "need_weight_share_all": w(pop["need"]) / all_w, "need_weight_share_runnable": w(pop["need"]) / run_w,
+                                 "may_touch_weight_share_all": w(pop["may_touch"]) / all_w,
+                                 "may_touch_weight_share_runnable": w(pop["may_touch"]) / run_w}
+    keys = [k for k in next(iter(rows.values())) if k.endswith(("_all", "_runnable"))]
+    mean = lambda rs: {k: (sum(r[k] for r in rs) / len(rs) if rs else None) for k in keys}  # noqa: E731
+    return {"label": "rule-defined need shares (need_at_state on each payload's clean state)", "n_payloads": len(rows),
+            "weights": {"all": all_w, "runnable": run_w}, "payloads": rows, "mean": mean(list(rows.values())),
+            "by_regime": {g: mean([r for r in rows.values() if r["regime"] == g]) for g in ("routine", "middle", "alarming")},
+            "n_empty": {"need": sum(1 for r in rows.values() if r["n_need"] == 0),
+                        "may_touch": sum(1 for r in rows.values() if r["n_may_touch"] == 0)}}
+
+
+def main_v1(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description="P2 v1 draws and need table on the retained payloads (ids and counts only).")
+    ap.add_argument("--manifest", type=Path, default=PROJECT / "work" / "stage3" / "red" / "ft" / "cells-manifest.json")
+    ap.add_argument("--docs-root", type=Path, default=PROJECT / "work" / "stage3" / "red" / "ft" / "docs")
+    ap.add_argument("--validity", type=Path, default=P2 / "red-scorer-validity-v0.json")
+    ap.add_argument("--goals", type=Path, default=P2 / "blue" / "goals-v0.jsonl")
+    ap.add_argument("--bank", type=Path, default=P2 / "blue" / "bank-tasks-v0.jsonl")
+    ap.add_argument("--slots", type=Path, default=PROJECT / "work" / "stage3" / "v5" / "FT" / "blue" / "slots-v0.json")
+    a = ap.parse_args(argv)
+    outs = {n: P2 / f"{n}-v1.json" for n in ("draw-D", "draw-H", "need-table")}
+    for q in outs.values():
+        if q.exists():
+            raise SystemExit(f"{q} exists; never overwritten")
+    import stage3_ft_run as fr
+    kept = retained(fr.load_manifest(a.manifest), json.loads(a.validity.read_text(encoding="utf-8")))
+    goals = [json.loads(x) for x in a.goals.read_text(encoding="utf-8").splitlines() if x.strip()]
+    bank = [json.loads(x) for x in a.bank.read_text(encoding="utf-8").splitlines() if x.strip()]
+    slots = {x["slot_id"]: x for x in json.loads(a.slots.read_text(encoding="utf-8"))}
+    d, t, hh = draw_D(kept, goals), need_table_v1(kept, bank, slots, a.docs_root), draw_H_v1(kept, bank, slots, a.docs_root)
+    for name, obj in (("draw-D", d), ("need-table", t), ("draw-H", hh)):
+        outs[name].write_text(json.dumps(obj, indent=1) + "\n", encoding="utf-8")
+    from collections import Counter
+    print(json.dumps({"retained": len(kept), "by_regime": dict(Counter(m["regime"] for m in kept)),
+                      "D": {"n": d["n"], "goal_index": dict(Counter(x["goal_index"] for x in d["draws"]))},
+                      "need_table": {"mean": t["mean"], "by_regime": t["by_regime"], "n_empty": t["n_empty"]},
+                      "H": {"n": hh["n"], "by_stratum": dict(Counter(x["stratum"] for x in hh["draws"])),
+                            "by_need_class": dict(Counter(x["need_class"] for x in hh["draws"])),
+                            "distinct_tasks": len({x["task_id"] for x in hh["draws"]})}}, indent=1))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="P2 draws and need table (ids and counts only).")
     ap.add_argument("--manifest", type=Path, default=PROJECT / "work" / "stage3" / "red" / "ft" / "cells-manifest.json")
@@ -167,4 +286,6 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "v1":
+        raise SystemExit(main_v1(sys.argv[2:]))
     raise SystemExit(main())

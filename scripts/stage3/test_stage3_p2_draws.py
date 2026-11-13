@@ -98,3 +98,69 @@ def test_draw_H_strata_with_overflow_to_the_last(tmp_path):
     assert all(x["task_id"] != "c/1" for x in h["draws"])                      # never a task that is not runnable
     assert all(x["task_id"] != "a/2" for x in h["draws"])                      # never an ineligible task
     assert h == pd.draw_H(man, matrix, bank, slots, root)                      # seeded
+
+
+# ── v1 (preregistration-v1.1 sections A and D): 54 retained payloads; need at the payload's clean state ─────────────
+
+def fake_need(task, slots_of_document, text):
+    """Synthetic stand-in for stage3_ft_bank.need_at_state: the task's needs / may_touch from its record, limited to
+    slots whose label occurs in the text."""
+    present = {s["slot_id"] for s in slots_of_document if s["locator"].split("label=")[-1].split("#")[0] in text
+               or s["locator"].endswith("step=2")}
+    return {"needs": sorted(x for x in task.get("_needs", []) if x in present),
+            "may_touch": sorted(x for x in task.get("_may", []) if x in present)}
+
+
+def world_v1(tmp_path):
+    slots, goals, man, bank, matrix, root = world(tmp_path)
+    for b in bank:
+        t = matrix["tasks"].get(b["task_id"], {})
+        b["_needs"], b["_may"] = t.get("needs", []), t.get("may_touch", [])
+    validity = [{"payload_id": "P1", "valid": True, "code": None}, {"payload_id": "P2", "valid": True, "code": None},
+                {"payload_id": "P3", "valid": False, "code": "single_plain_word"}]
+    return slots, goals, man, bank, root, validity
+
+
+def test_retained_drops_the_invalid_payloads(tmp_path):
+    slots, goals, man, bank, root, validity = world_v1(tmp_path)
+    kept = pd.retained(man, validity)
+    assert [m["payload_id"] for m in kept] == ["P1", "P2"]
+    with pytest.raises(ValueError):
+        pd.retained(man, validity[:2])                                   # a payload missing from the table
+
+
+def test_draw_D_v1_runs_on_the_retained_payloads(tmp_path):
+    slots, goals, man, bank, root, validity = world_v1(tmp_path)
+    d = pd.draw_D(pd.retained(man, validity), goals)
+    assert [x["payload_id"] for x in d["draws"]] == ["P1", "P2"]
+
+
+def test_need_at_state_populations_and_draw_H_v1(tmp_path):
+    slots, goals, man, bank, root, validity = world_v1(tmp_path)
+    kept = pd.retained(man, validity)
+    pop = pd.populations_at_state(kept[1], bank, slots, root, need_fn=fake_need)      # P2, slot s-rate
+    assert [b["task_id"] for b in pop["need"]] == ["a/1"]
+    assert [b["task_id"] for b in pop["may_touch"]] == ["a/2", "a/3"]
+    assert [b["task_id"] for b in pop["any"]] == ["a/1", "a/2", "a/3", "b/1"]           # all runnable, sorted
+    h = pd.draw_H_v1(kept, bank, slots, root, need_fn=fake_need)
+    assert h["n"] == 8 and len({x["draw_id"] for x in h["draws"]}) == 8
+    p2 = [x for x in h["draws"] if x["payload_id"] == "P2"]
+    assert [x["stratum"] for x in p2] == ["need", "need", "may_touch", "any"]
+    assert all(x["need_class"] == "needs" for x in p2 if x["stratum"] == "need")
+    p1 = [x for x in h["draws"] if x["payload_id"] == "P1"]                          # P1's slot: no task needs it
+    assert [x["stratum"] for x in p1] == ["may_touch", "any", "any", "any"]
+    assert {x["need_class"] for x in p1} <= {"needs", "may_touch", "no"}
+    rng = random.Random(20261114)                                                      # one generator, payloads in order
+    pop1 = pd.populations_at_state(kept[0], bank, slots, root, need_fn=fake_need)
+    want = rng.choices(pop1["may_touch"], weights=[b["weight"] for b in pop1["may_touch"]], k=1)
+    assert p1[0]["task_id"] == want[0]["task_id"]
+    assert h == pd.draw_H_v1(kept, bank, slots, root, need_fn=fake_need)
+
+
+def test_need_table_v1_counts(tmp_path):
+    slots, goals, man, bank, root, validity = world_v1(tmp_path)
+    t = pd.need_table_v1(pd.retained(man, validity), bank, slots, root, need_fn=fake_need)
+    assert t["n_payloads"] == 2 and t["payloads"]["P2"]["need_weight_share_all"] == pytest.approx(0.1)
+    assert t["payloads"]["P2"]["need_weight_share_runnable"] == pytest.approx(0.1 / 0.75)
+    assert t["n_empty"] == {"need": 1, "may_touch": 0}
+    assert t["mean"]["need_weight_share_all"] == pytest.approx(0.05)

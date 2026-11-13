@@ -1,0 +1,580 @@
+{
+ "label": "rule-defined need shares (need_at_state on each payload's clean state)",
+ "n_payloads": 54,
+ "weights": {
+  "all": 1.0,
+  "runnable": 0.4379322263911186
+ },
+ "payloads": {
+  "P05941280": {
+   "regime": "alarming",
+   "slot_id": "ft-a6d2aa4d",
+   "n_need": 3,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.0022586538782323126,
+   "need_weight_share_runnable": 0.00515754206271886,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P1a4566cf": {
+   "regime": "routine",
+   "slot_id": "ft-bc0156ac",
+   "n_need": 6,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.00534055847915314,
+   "need_weight_share_runnable": 0.012194942864020862,
+   "may_touch_weight_share_all": 0.005119273693348586,
+   "may_touch_weight_share_runnable": 0.0116896482716861
+  },
+  "P24d6c040": {
+   "regime": "middle",
+   "slot_id": "ft-c8f73134",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P2838b6a9": {
+   "regime": "middle",
+   "slot_id": "ft-78efb162",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P2ada75a7": {
+   "regime": "routine",
+   "slot_id": "ft-201530ec",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P2af8a757": {
+   "regime": "routine",
+   "slot_id": "ft-28dc4fad",
+   "n_need": 0,
+   "n_may_touch": 11,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.010459832172501727,
+   "may_touch_weight_share_runnable": 0.023884591135706963
+  },
+  "P317ac1ca": {
+   "regime": "middle",
+   "slot_id": "ft-d82a3257",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P32c925bb": {
+   "regime": "routine",
+   "slot_id": "ft-c8f73134",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P32de0349": {
+   "regime": "middle",
+   "slot_id": "ft-2c179542",
+   "n_need": 6,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.00534055847915314,
+   "need_weight_share_runnable": 0.012194942864020862,
+   "may_touch_weight_share_all": 0.005119273693348586,
+   "may_touch_weight_share_runnable": 0.0116896482716861
+  },
+  "P331cb015": {
+   "regime": "alarming",
+   "slot_id": "ft-c8f73134",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P37c057d4": {
+   "regime": "routine",
+   "slot_id": "ft-fdc7e2a5",
+   "n_need": 4,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.003597939592518027,
+   "need_weight_share_runnable": 0.008215745212832764,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P3fc43b8f": {
+   "regime": "middle",
+   "slot_id": "ft-28dc4fad",
+   "n_need": 0,
+   "n_may_touch": 11,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.010459832172501727,
+   "may_touch_weight_share_runnable": 0.023884591135706963
+  },
+  "P4403aaea": {
+   "regime": "routine",
+   "slot_id": "ft-2c179542",
+   "n_need": 6,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.00534055847915314,
+   "need_weight_share_runnable": 0.012194942864020862,
+   "may_touch_weight_share_all": 0.005119273693348586,
+   "may_touch_weight_share_runnable": 0.0116896482716861
+  },
+  "P4668bb4d": {
+   "regime": "middle",
+   "slot_id": "ft-201530ec",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P47de164b": {
+   "regime": "alarming",
+   "slot_id": "ft-3c3ca688",
+   "n_need": 4,
+   "n_may_touch": 4,
+   "need_weight_share_all": 0.004133205206301229,
+   "need_weight_share_runnable": 0.009438001949209946,
+   "may_touch_weight_share_all": 0.003597939592518027,
+   "may_touch_weight_share_runnable": 0.008215745212832764
+  },
+  "P55179e69": {
+   "regime": "middle",
+   "slot_id": "ft-fb5a995f",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P5e96e25b": {
+   "regime": "middle",
+   "slot_id": "ft-4491e0a4",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P5ed51360": {
+   "regime": "routine",
+   "slot_id": "ft-a8f11fef",
+   "n_need": 3,
+   "n_may_touch": 4,
+   "need_weight_share_all": 0.002793919492015514,
+   "need_weight_share_runnable": 0.006379798799096041,
+   "may_touch_weight_share_all": 0.003597939592518027,
+   "may_touch_weight_share_runnable": 0.008215745212832764
+  },
+  "P618d9563": {
+   "regime": "routine",
+   "slot_id": "ft-a6d2aa4d",
+   "n_need": 3,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.0022586538782323126,
+   "need_weight_share_runnable": 0.00515754206271886,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P68f881e6": {
+   "regime": "middle",
+   "slot_id": "ft-37d8d9a9",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P6d3d4f50": {
+   "regime": "routine",
+   "slot_id": "ft-16add720",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P6df79dc8": {
+   "regime": "routine",
+   "slot_id": "ft-e86a764c",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P6e487b92": {
+   "regime": "alarming",
+   "slot_id": "ft-8a8ade18",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P7134cc12": {
+   "regime": "middle",
+   "slot_id": "ft-a8f11fef",
+   "n_need": 3,
+   "n_may_touch": 4,
+   "need_weight_share_all": 0.002793919492015514,
+   "need_weight_share_runnable": 0.006379798799096041,
+   "may_touch_weight_share_all": 0.003597939592518027,
+   "may_touch_weight_share_runnable": 0.008215745212832764
+  },
+  "P7853a31e": {
+   "regime": "routine",
+   "slot_id": "ft-3ad6e61f",
+   "n_need": 3,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.0022586538782323126,
+   "need_weight_share_runnable": 0.00515754206271886,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P79fb5548": {
+   "regime": "middle",
+   "slot_id": "ft-bf5fd582",
+   "n_need": 5,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.004319589077054109,
+   "need_weight_share_runnable": 0.00986360175557455,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P88768826": {
+   "regime": "alarming",
+   "slot_id": "ft-78efb162",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P8d60fc18": {
+   "regime": "middle",
+   "slot_id": "ft-3ad6e61f",
+   "n_need": 3,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.0022586538782323126,
+   "need_weight_share_runnable": 0.00515754206271886,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P9395d4b6": {
+   "regime": "alarming",
+   "slot_id": "ft-be1b1645",
+   "n_need": 5,
+   "n_may_touch": 8,
+   "need_weight_share_all": 0.004330923885711744,
+   "need_weight_share_runnable": 0.009889484319073112,
+   "may_touch_weight_share_all": 0.007195879185036054,
+   "may_touch_weight_share_runnable": 0.016431490425665527
+  },
+  "P989b27b1": {
+   "regime": "middle",
+   "slot_id": "ft-df79fded",
+   "n_need": 4,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.003597939592518027,
+   "need_weight_share_runnable": 0.008215745212832764,
+   "may_touch_weight_share_all": 0.004937225306803741,
+   "may_touch_weight_share_runnable": 0.011273948362946668
+  },
+  "P9e334c02": {
+   "regime": "middle",
+   "slot_id": "ft-68f8f741",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "P9f37384a": {
+   "regime": "routine",
+   "slot_id": "ft-105e275f",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pa13b4f2c": {
+   "regime": "routine",
+   "slot_id": "ft-3f1686cf",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pa2412b1d": {
+   "regime": "routine",
+   "slot_id": "ft-2f6a3166",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pa531a630": {
+   "regime": "routine",
+   "slot_id": "ft-bf5fd582",
+   "n_need": 5,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.004319589077054109,
+   "need_weight_share_runnable": 0.00986360175557455,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pa5eacc80": {
+   "regime": "middle",
+   "slot_id": "ft-72a1984b",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pad28054a": {
+   "regime": "routine",
+   "slot_id": "ft-4491e0a4",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pb38c74d3": {
+   "regime": "routine",
+   "slot_id": "ft-f1d60689",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pb5b72627": {
+   "regime": "routine",
+   "slot_id": "ft-fb5a995f",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pb9da922f": {
+   "regime": "middle",
+   "slot_id": "ft-c8f73134",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pbc59ef1e": {
+   "regime": "routine",
+   "slot_id": "ft-37d8d9a9",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pbecf016b": {
+   "regime": "routine",
+   "slot_id": "ft-c12876a2",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pc3672a1f": {
+   "regime": "middle",
+   "slot_id": "ft-fb5a995f",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pc58f5b13": {
+   "regime": "middle",
+   "slot_id": "ft-3c3ca688",
+   "n_need": 4,
+   "n_may_touch": 4,
+   "need_weight_share_all": 0.004133205206301229,
+   "need_weight_share_runnable": 0.009438001949209946,
+   "may_touch_weight_share_all": 0.003597939592518027,
+   "may_touch_weight_share_runnable": 0.008215745212832764
+  },
+  "Pca6abc72": {
+   "regime": "routine",
+   "slot_id": "ft-296e2c2a",
+   "n_need": 0,
+   "n_may_touch": 8,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.007195879185036054,
+   "may_touch_weight_share_runnable": 0.016431490425665527
+  },
+  "Pcfebe39e": {
+   "regime": "middle",
+   "slot_id": "ft-296e2c2a",
+   "n_need": 0,
+   "n_may_touch": 8,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.007195879185036054,
+   "may_touch_weight_share_runnable": 0.016431490425665527
+  },
+  "Pd242e296": {
+   "regime": "routine",
+   "slot_id": "ft-78efb162",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pd5bccab7": {
+   "regime": "routine",
+   "slot_id": "ft-1d524ec5",
+   "n_need": 5,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.004512972272256589,
+   "need_weight_share_runnable": 0.010305184227812547,
+   "may_touch_weight_share_all": 0.005119273693348586,
+   "may_touch_weight_share_runnable": 0.0116896482716861
+  },
+  "Pdce4e1e1": {
+   "regime": "alarming",
+   "slot_id": "ft-fb5a995f",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pdee5e774": {
+   "regime": "alarming",
+   "slot_id": "ft-bc0156ac",
+   "n_need": 6,
+   "n_may_touch": 5,
+   "need_weight_share_all": 0.00534055847915314,
+   "need_weight_share_runnable": 0.012194942864020862,
+   "may_touch_weight_share_all": 0.005119273693348586,
+   "may_touch_weight_share_runnable": 0.0116896482716861
+  },
+  "Pe90013dc": {
+   "regime": "middle",
+   "slot_id": "ft-fe82151d",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pef9bc968": {
+   "regime": "middle",
+   "slot_id": "ft-bdb1065e",
+   "n_need": 1,
+   "n_may_touch": 4,
+   "need_weight_share_all": 0.0013392857142857143,
+   "need_weight_share_runnable": 0.0030582031501139037,
+   "may_touch_weight_share_all": 0.003779987979062872,
+   "may_touch_weight_share_runnable": 0.008631445121572196
+  },
+  "Pf338a03d": {
+   "regime": "middle",
+   "slot_id": "ft-4a4ef47c",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  },
+  "Pfd3d2a0b": {
+   "regime": "middle",
+   "slot_id": "ft-2f6a3166",
+   "n_need": 0,
+   "n_may_touch": 0,
+   "need_weight_share_all": 0.0,
+   "need_weight_share_runnable": 0.0,
+   "may_touch_weight_share_all": 0.0,
+   "may_touch_weight_share_runnable": 0.0
+  }
+ },
+ "mean": {
+  "need_weight_share_all": 0.0013012840377328446,
+  "need_weight_share_runnable": 0.00297142790439602,
+  "may_touch_weight_share_all": 0.002146273491792814,
+  "may_touch_weight_share_runnable": 0.004900926130693041
+ },
+ "by_regime": {
+  "routine": {
+   "need_weight_share_all": 0.0013227323977658759,
+   "need_weight_share_runnable": 0.003020404341251972,
+   "may_touch_weight_share_all": 0.002235789041326643,
+   "may_touch_weight_share_runnable": 0.005105331159917546
+  },
+  "middle": {
+   "need_weight_share_all": 0.0010340500625895673,
+   "need_weight_share_runnable": 0.002361210251894214,
+   "may_touch_weight_share_all": 0.001896752296895338,
+   "may_touch_weight_share_runnable": 0.004331154874182158
+  },
+  "alarming": {
+   "need_weight_share_all": 0.0020079176811748033,
+   "need_weight_share_runnable": 0.004584996399377848,
+   "may_touch_weight_share_all": 0.002606289722213301,
+   "may_touch_weight_share_runnable": 0.005951354034141382
+  }
+ },
+ "n_empty": {
+  "need": 35,
+  "may_touch": 33
+ }
+}
