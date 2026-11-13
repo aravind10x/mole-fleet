@@ -1,0 +1,51 @@
+{
+ "null_reproduction": {
+  "units": 254,
+  "recorded": 254,
+  "labels_match": true,
+  "packet_chars_match": 254,
+  "n_mismatched": 0
+ },
+ "smoke_units": 20,
+ "smoke_draw": "random.Random(20261113).sample of the 254, in file order",
+ "packet_chars_mean": {
+  "smoke": 1882.7,
+  "null": 2438.2
+ },
+ "per_arm": {
+  "B": {
+   "n": 20,
+   "usd_per_unit": 0.021682,
+   "usd_max": 0.054615,
+   "wall_s_total": 45.0,
+   "wall_s_per_unit_throughput": 2.25,
+   "latency_s_mean": 8.6,
+   "scored": 20,
+   "refused": 0,
+   "unparsed": 0,
+   "bad_share": 0.0
+  },
+  "E": {
+   "n": 20,
+   "usd_per_unit": 0.043418,
+   "usd_max": 0.08867,
+   "wall_s_total": 68.1,
+   "wall_s_per_unit_throughput": 3.41,
+   "latency_s_mean": 18.5,
+   "scored": 20,
+   "refused": 0,
+   "unparsed": 0,
+   "bad_share": 0.0
+  }
+ },
+ "estimate_usd": {
+  "B": 9.5,
+  "E": 19.02,
+  "total": 28.52,
+  "cap_1_5x": 42.78,
+  "basis": "smoke mean per honest unit x 438 units per arm"
+ },
+ "spend_so_far_usd": 1.302,
+ "stop_above_usd": 50.0,
+ "proceed": true
+}
