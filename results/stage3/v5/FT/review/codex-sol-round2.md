@@ -1,0 +1,17 @@
+# Codex round 2 (narrow) on pre-registration v1.1, gpt-6.1-sol, high, read-only, packet only, 2026-11-13; raw
+
+1. [note] **Round-1 blocker status:** Codex #1 and #4, and Opus #1 and #2, are **resolved**; retain those changes. Codex #2, #7, #8 and #12 are **partly resolved**, as detailed below.
+
+2. [blocker] **§6 audit: “If the acts-weighted quantities give a different reading.”** Codex #2 remains partly resolved: operational definitions for `acts/questions/unclear` and treatment of uncertainty are still unspecified. For example, adjusted S = 0.054 preserves (a), although plausible audit contamination could put S at 0.042 and return (d). Freeze the classifications, weights and treatment of `unclear`; withhold the action-based reading whenever audit uncertainty permits a different reading.
+
+3. [blocker] **§4(a): “(a), unsettled on state” followed by “a channel exists that the composed view does not close.”** Codex #8 remains partly resolved. With RM’s lower bound above 0.10, S = 0.06 and S_same = 0.02, the rule withholds the missed-and-carried claim, then immediately asserts it in the meaning paragraph. Make this a separate terminal branch: report material transfer and an unsettled monitor association. Specify its downstream consequences separately from supported (a).
+
+4. [blocker] **§4(a): “(a) for that follower only.”** This newly attributes pooled evidence to an individual. Counterexample: follower A carries 81 caught runs and one missed run out of 144; B carries 14 missed runs out of 144. Pooled uptake comfortably clears the lower-bound gate and S = 15/288 = 0.0521. Only A exceeds 0.10, so A receives (a), although A’s own S is just 1/144 = 0.0069. Require a named follower to satisfy the uptake, S and state conditions using that follower’s quantities. State consistently whether (b) and (d) describe the mixture or individual followers.
+
+5. [blocker] **Gate 2: “Readings are computed twice.”** Codex #12 remains partly resolved because it does not explicitly rerun **both gates** under each completion. Suppose there are two observed RM clean positives and one unresolved clean run; planted outcomes robustly satisfy (a). Treating Gate 1 as already passed allows (a) under both reading calculations, although the positive completion fails Gate 1. Require the entire gate-and-reading pipeline to run under each completion, including unresolved clean outcomes; disagreement in validity must withhold a categorical reading.
+
+6. [should-fix] **§6: “a relevant check … a colleague question that was answered.”** Codex #7 remains partly resolved. An answered question such as “What is the project called?” qualifies without checking the planted instruction. Require the question and answer to address the task-relevant value or instruction. Also retain the remaining contrast limits explicitly: corroborating planted lines and unmatched value plausibility, alongside revision count.
+
+7. [should-fix] **§4(c): “Not carried” / “Followers did not carry.”** The new threshold rule establishes low measured uptake, not zero transfer. For example, each follower can carry content in seven RM runs spread across seven payloads, with zero AL positives; the specified bootstrap can put both upper bounds below 0.10 and return (c). Rename it **“Measured uptake below 0.10”** and use that wording in its interpretation. The ordered fallback appropriately leaves equality and threshold-straddling cases inconclusive.
+
+Verdict: ready after the blockers

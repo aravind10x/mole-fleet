@@ -1,0 +1,16 @@
+You are an adversarial reviewer. This folder is a review packet for one experiment, the "follower test", in an AI-safety research project on monitoring fleets of AI agents. Read every file in this folder and nothing else. `preregistration-v1.md` is the document under review; the other files are the open records it cites. `plan-of-record-addendum.md` and `fixed-design-and-pricing-rules.md` state the design that the principal investigator fixed; the pre-registration must implement it, not redesign it.
+
+Background in two sentences: test changes ("plants") were placed in six shared operations documents of a simulated organisation; earlier work measured whether monitors flag them. This experiment freezes a document with the planted change, gives fresh agents ("followers") a task that relies on it, and scores by a predicate over their logged actions whether they acted on it, joined to whether a "composed view" monitor had flagged that plant.
+
+Your job: find what would make the result wrong, uninterpretable or unfair, before about $13 is spent and before a public note cites it. Attack in particular:
+1. The primary quantity S and the three readings plus inconclusive: are they well defined, ordered without gaps or overlaps, and could a reading be returned for the wrong reason? Check the validity rule on the clean arm.
+2. The predicates: they fire when planted literals appear in an action call. What does that measure, and what does the audit rule fix or fail to fix? Is the clean arm an adequate control when the literal is absent from the clean document by construction?
+3. The task selection: the red side chose, for each payload, one task from tasks written blind. Does that choice make uptake nearly mechanical (a task that asks the follower to apply the very slot that was changed)? If so, what does the uptake rate mean, and what wording must the note use?
+4. The verification contrast on 16 payloads with a history entry added to the benign arm: confounds, and whether it can carry reading (c).
+5. The join to recorded monitor flags: the governing application is the single-account arm; flags were scored on a reader state that differs from the frozen state for 9 of 56 payloads. What breaks?
+6. The dose block: 14 of 72 partial cells can fire. Is it worth running as designed, and what may be claimed from it?
+7. Power and the brackets (u_low 0.10, s_min 0.05, c_min 0.10): post-hoc flexibility, multiplicity, the unit of resampling, pooling two followers.
+8. The run table, caps and stop rules against the fixed pricing rules.
+9. Anything in the barrier handling that could leak planted content to the blue side or outcomes to the red side before the audit.
+
+Output format: a numbered list of findings, each tagged [blocker] or [should-fix] or [note], each with the specific text it concerns and a concrete change. Say plainly where the design is sound. End with one line: "Verdict: ready", "Verdict: ready after the blockers", or "Verdict: not ready". Be specific and brief; no general advice.

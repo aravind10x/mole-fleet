@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 135,
+ "n_files": 137,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1544,6 +1544,26 @@
    "tag": "methods",
    "tag_source": "plan-v0's dry run: the MDE grid (attack-drop and honest-tail columns equal by construction)",
    "added_beyond_brief_list": false
+  },
+  {
+   "path": "v5/FT/preregistration-v1.3.md",
+   "sha256": "ac73fd1fc24f7aa0d0080b023a0e684b39b7164c63d5fdb4a1828b719f03c575",
+   "bytes": 14736,
+   "sha256_fork_copy": "ac73fd1fc24f7aa0d0080b023a0e684b39b7164c63d5fdb4a1828b719f03c575",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "roadmap v5 line FT; decisions log D11 to D13; two review rounds in v5/FT/review/",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/pre-gate-v2.md",
+   "sha256": "b5d0c57719559f5ef07d0d4e753c25836d06153f2b21f3bb183f009adf87b4f9",
+   "bytes": 8242,
+   "sha256_fork_copy": "b5d0c57719559f5ef07d0d4e753c25836d06153f2b21f3bb183f009adf87b4f9",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the launch rehearsal, module hashes and launch lines the gate names",
+   "added_beyond_brief_list": null
   }
  ],
  "amendments": [
@@ -3435,6 +3455,36 @@
     }
    ],
    "note": "descriptive; the paper cites the licensed sentence of brief 37 note 3; no other entry changed"
+  },
+  {
+   "date": "2026-11-13",
+   "by": "coordinator v5 (roadmap v5, line FT): the follower test pre-registration v1.3 and its pre-gate record added before any run on a planted document, additive",
+   "added": [
+    "v5/FT/preregistration-v1.3.md",
+    "v5/FT/pre-gate-v2.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/FT/preregistration-v1.3.md",
+     "sha256": "ac73fd1fc24f7aa0d0080b023a0e684b39b7164c63d5fdb4a1828b719f03c575",
+     "bytes": 14736,
+     "sha256_fork_copy": "ac73fd1fc24f7aa0d0080b023a0e684b39b7164c63d5fdb4a1828b719f03c575",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "roadmap v5 line FT; decisions log D11 to D13; two review rounds in v5/FT/review/",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/pre-gate-v2.md",
+     "sha256": "b5d0c57719559f5ef07d0d4e753c25836d06153f2b21f3bb183f009adf87b4f9",
+     "bytes": 8242,
+     "sha256_fork_copy": "b5d0c57719559f5ef07d0d4e753c25836d06153f2b21f3bb183f009adf87b4f9",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the launch rehearsal, module hashes and launch lines the gate names",
+     "added_beyond_brief_list": null
+    }
+   ]
   }
  ]
 }
