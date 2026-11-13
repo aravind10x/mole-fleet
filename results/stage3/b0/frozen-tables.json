@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 137,
+ "n_files": 146,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -1563,6 +1563,96 @@
    "copies_identical": true,
    "tag": "methods",
    "tag_source": "the launch rehearsal, module hashes and launch lines the gate names",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/outcomes-core-v0.jsonl",
+   "sha256": "98d9f9e0dd980456df533404c13392bea700b13b7a6e5fa49001a53031933f9b",
+   "bytes": 540420,
+   "sha256_fork_copy": "98d9f9e0dd980456df533404c13392bea700b13b7a6e5fa49001a53031933f9b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the core block's outcomes (672 runs; allowlisted, text-free fields), pre-registration v1.3 section 2",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/outcomes-verification-v0.jsonl",
+   "sha256": "9f97d6ff1c555c51bad5361e208527eda0ed5d1529c7d8040637d7fbbe43d175",
+   "bytes": 78784,
+   "sha256_fork_copy": "9f97d6ff1c555c51bad5361e208527eda0ed5d1529c7d8040637d7fbbe43d175",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the verification block's outcomes (96 runs), pre-registration v1.3 section 6",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/analysis-v0.json",
+   "sha256": "be1d24c8f60df561e94b1ddea1bb9a1f6cc40eb9de50779cda7c5aae4674e741",
+   "bytes": 12663,
+   "sha256_fork_copy": "be1d24c8f60df561e94b1ddea1bb9a1f6cc40eb9de50779cda7c5aae4674e741",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the join before the audit; reproduced byte for byte by the coordinator (decisions log D17)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/ft-results-v0.md",
+   "sha256": "4e0681ff98590818c66949abe84e0517871d50f3ce339bbc20e3bfe6686bd829",
+   "bytes": 6361,
+   "sha256_fork_copy": "4e0681ff98590818c66949abe84e0517871d50f3ce339bbc20e3bfe6686bd829",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "results before the audit, provisional by its own first line",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/audit-table-core.json",
+   "sha256": "a22d93da6c727a37c2d5e906ff2a984103db8703c772c305d61a4889c3935705",
+   "bytes": 8695,
+   "sha256_fork_copy": "a22d93da6c727a37c2d5e906ff2a984103db8703c772c305d61a4889c3935705",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the red-side audit table, run ids and classes only (decisions log D18)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/audit-table-core.md",
+   "sha256": "1a89f1a27ad02152006bfb161a9cde2e050840f7a416f8fd9e75c745795334a9",
+   "bytes": 1224,
+   "sha256_fork_copy": "1a89f1a27ad02152006bfb161a9cde2e050840f7a416f8fd9e75c745795334a9",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the audit counts by follower, regime and stratum, and the pass-two share",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/analysis-v1.json",
+   "sha256": "4f7951346a960c4a539c9b6ae3d0aa851e964973b0927b689451e67f87878d5b",
+   "bytes": 14096,
+   "sha256_fork_copy": "4f7951346a960c4a539c9b6ae3d0aa851e964973b0927b689451e67f87878d5b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the join with the audit; reproduced byte for byte by the coordinator (decisions log D19)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/ft-results-v1.md",
+   "sha256": "c85aa5a1aaed2114d7bbbebd04594d3a90948c2428cdfcd0a249481815708ad8",
+   "bytes": 9762,
+   "sha256_fork_copy": "c85aa5a1aaed2114d7bbbebd04594d3a90948c2428cdfcd0a249481815708ad8",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the final results with the audit joined: reading (a)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/FT/GATE.md",
+   "sha256": "0d1f457bc55e0686eb15ee70386ac502a6acd777cafe229218732ebd38405694",
+   "bytes": 2836,
+   "sha256_fork_copy": "0d1f457bc55e0686eb15ee70386ac502a6acd777cafe229218732ebd38405694",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the gate under which the blocks ran",
    "added_beyond_brief_list": null
   }
  ],
@@ -3482,6 +3572,113 @@
      "copies_identical": true,
      "tag": "methods",
      "tag_source": "the launch rehearsal, module hashes and launch lines the gate names",
+     "added_beyond_brief_list": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "by": "coordinator v5 (roadmap v5, line FT): the follower test's outcomes, joins, results v0 and v1, the audit table and the gate added after verification (decisions log D17 to D19), additive",
+   "added": [
+    "v5/FT/outcomes-core-v0.jsonl",
+    "v5/FT/outcomes-verification-v0.jsonl",
+    "v5/FT/analysis-v0.json",
+    "v5/FT/ft-results-v0.md",
+    "v5/FT/audit-table-core.json",
+    "v5/FT/audit-table-core.md",
+    "v5/FT/analysis-v1.json",
+    "v5/FT/ft-results-v1.md",
+    "v5/FT/GATE.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/FT/outcomes-core-v0.jsonl",
+     "sha256": "98d9f9e0dd980456df533404c13392bea700b13b7a6e5fa49001a53031933f9b",
+     "bytes": 540420,
+     "sha256_fork_copy": "98d9f9e0dd980456df533404c13392bea700b13b7a6e5fa49001a53031933f9b",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the core block's outcomes (672 runs; allowlisted, text-free fields), pre-registration v1.3 section 2",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/outcomes-verification-v0.jsonl",
+     "sha256": "9f97d6ff1c555c51bad5361e208527eda0ed5d1529c7d8040637d7fbbe43d175",
+     "bytes": 78784,
+     "sha256_fork_copy": "9f97d6ff1c555c51bad5361e208527eda0ed5d1529c7d8040637d7fbbe43d175",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the verification block's outcomes (96 runs), pre-registration v1.3 section 6",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/analysis-v0.json",
+     "sha256": "be1d24c8f60df561e94b1ddea1bb9a1f6cc40eb9de50779cda7c5aae4674e741",
+     "bytes": 12663,
+     "sha256_fork_copy": "be1d24c8f60df561e94b1ddea1bb9a1f6cc40eb9de50779cda7c5aae4674e741",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the join before the audit; reproduced byte for byte by the coordinator (decisions log D17)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/ft-results-v0.md",
+     "sha256": "4e0681ff98590818c66949abe84e0517871d50f3ce339bbc20e3bfe6686bd829",
+     "bytes": 6361,
+     "sha256_fork_copy": "4e0681ff98590818c66949abe84e0517871d50f3ce339bbc20e3bfe6686bd829",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "results before the audit, provisional by its own first line",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/audit-table-core.json",
+     "sha256": "a22d93da6c727a37c2d5e906ff2a984103db8703c772c305d61a4889c3935705",
+     "bytes": 8695,
+     "sha256_fork_copy": "a22d93da6c727a37c2d5e906ff2a984103db8703c772c305d61a4889c3935705",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the red-side audit table, run ids and classes only (decisions log D18)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/audit-table-core.md",
+     "sha256": "1a89f1a27ad02152006bfb161a9cde2e050840f7a416f8fd9e75c745795334a9",
+     "bytes": 1224,
+     "sha256_fork_copy": "1a89f1a27ad02152006bfb161a9cde2e050840f7a416f8fd9e75c745795334a9",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the audit counts by follower, regime and stratum, and the pass-two share",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/analysis-v1.json",
+     "sha256": "4f7951346a960c4a539c9b6ae3d0aa851e964973b0927b689451e67f87878d5b",
+     "bytes": 14096,
+     "sha256_fork_copy": "4f7951346a960c4a539c9b6ae3d0aa851e964973b0927b689451e67f87878d5b",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the join with the audit; reproduced byte for byte by the coordinator (decisions log D19)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/ft-results-v1.md",
+     "sha256": "c85aa5a1aaed2114d7bbbebd04594d3a90948c2428cdfcd0a249481815708ad8",
+     "bytes": 9762,
+     "sha256_fork_copy": "c85aa5a1aaed2114d7bbbebd04594d3a90948c2428cdfcd0a249481815708ad8",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the final results with the audit joined: reading (a)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/FT/GATE.md",
+     "sha256": "0d1f457bc55e0686eb15ee70386ac502a6acd777cafe229218732ebd38405694",
+     "bytes": 2836,
+     "sha256_fork_copy": "0d1f457bc55e0686eb15ee70386ac502a6acd777cafe229218732ebd38405694",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the gate under which the blocks ran",
      "added_beyond_brief_list": null
     }
    ]
