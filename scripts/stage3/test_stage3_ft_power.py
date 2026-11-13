@@ -217,9 +217,10 @@ def test_tree_high_uptake_reads_a_and_none_reads_c():
     assert tree(0.0, 0.0)["(c)"] > 0.95
 
 
-def test_tree_followers_that_differ_name_one():
+def test_tree_followers_that_differ_read_on_the_mixture_and_flag_the_difference():
     r = tree(0.02, 0.6)
-    assert r["(a) for sol only"] > 0.8
+    assert r["(a)"] + r["(e)"] > 0.8 and r["followers_differ"] > 0.8
+    assert tree(0.8, 0.8)["followers_differ"] < 0.05
 
 
 def test_tree_clean_false_positives_trip_gate1():
@@ -227,7 +228,7 @@ def test_tree_clean_false_positives_trip_gate1():
 
 
 def test_tree_unresolved_runs_make_gate2_bite():
-    assert tree(0.12, 0.12, rho=0.3)["inconclusive (unresolved runs)"] > 0.3
+    assert tree(0.12, 0.12, rho=0.3)["withheld: unresolved runs"] > 0.3
 
 
 def test_tree_alarming_only_reads_b():
@@ -236,7 +237,8 @@ def test_tree_alarming_only_reads_b():
 
 def test_tree_is_seeded_and_sums_to_one():
     a, b = tree(0.2, 0.2), tree(0.2, 0.2)
-    assert a == b and abs(sum(a.values()) - 1.0) < 1e-9
+    import stage3_ft_join as fj
+    assert a == b and abs(sum(a[k] for k in fj.LABELS) - 1.0) < 1e-9
 
 
 def test_tree_clean_bound_switch():
@@ -244,4 +246,10 @@ def test_tree_clean_bound_switch():
                            rho=0.03, miss=GOV, identical_share=40 / 48, kappa=4.0, n_sims=150, n_boot=300)
     off = fp.simulate_tree(np.random.default_rng(7), C56, u_rm={"kimi": 0.3, "sol": 0.3}, u_al={"kimi": 0.3, "sol": 0.3}, fp_rate=0.0,
                            rho=0.03, miss=GOV, identical_share=40 / 48, kappa=4.0, n_sims=150, n_boot=300, bound_clean=False)
-    assert lit["inconclusive (unresolved runs)"] > 0.5 and off["(a)"] > 0.8
+    assert lit["withheld: unresolved runs"] > 0.5 and off["(a)"] > 0.8
+
+
+def test_tree_reading_e_when_only_differing_states_carry_S():
+    r = fp.simulate_tree(np.random.default_rng(3), C56, u_rm={"kimi": 0.5, "sol": 0.5}, u_al={"kimi": 0.5, "sol": 0.5}, fp_rate=0.0,
+                         rho=0.0, miss=GOV, identical_share=0.0, kappa=4.0, n_sims=100, n_boot=200)
+    assert r["(e)"] > 0.95

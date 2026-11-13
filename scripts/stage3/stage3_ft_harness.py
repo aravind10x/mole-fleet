@@ -640,6 +640,7 @@ class RunResult:
     colleague_cost_usd: float = 0.0
     colleague_errors: int = 0
     colleague_answered: int = 0
+    colleague_answered_seqs: list[int] = field(default_factory=list)
     input_tokens: int = 0
     output_tokens: int = 0
     cache_read_tokens: int = 0
@@ -784,7 +785,10 @@ async def run_follower(adapter: Any, task_text: str, ws: Workspace, colleague: A
                 else:
                     res.counts[call.name] += 1
                     res.action_log.append({"seq": seq, "turn": res.n_turns, "tool": call.name, "kind": _kind(call.name), "args": dict(call.args)})
+                    answered_before = res.colleague_answered
                     text, is_err = await _execute(call, ws, colleague, res)
+                    if res.colleague_answered > answered_before:
+                        res.colleague_answered_seqs.append(seq)
                     results.append((call.id, call.name, text, is_err))
                     finished |= call.name == "finish"
                 seq += 1

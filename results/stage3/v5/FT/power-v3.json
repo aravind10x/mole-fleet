@@ -16,7 +16,7 @@
   "n_sims": 1000,
   "n_boot": 500,
   "seed": 20261113,
-  "note": "Pre-registration v1.1 section 3: the final decision tree (per-follower rule, both gates, reading (d), (c) on uptake only) at r = 3."
+  "note": "Pre-registration v1.2 section 3: the final decision tree on the 50:50 mixture, gate 2 over the whole pipeline, r = 3."
  },
  "rows": [
   {
@@ -34,18 +34,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.003,
-    "(c)": 0.044,
-    "inconclusive": 0.953,
-    "inconclusive (unresolved runs)": 0.0,
+    "(c)": 0.366,
+    "inconclusive": 0.631,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.327
   },
   {
    "bound_clean": true,
@@ -62,18 +60,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
-    "(c)": 0.01,
-    "inconclusive": 0.644,
-    "inconclusive (unresolved runs)": 0.0,
+    "(c)": 0.164,
+    "inconclusive": 0.49,
     "withheld: clean control": 0.346,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.467
   },
   {
    "bound_clean": true,
@@ -90,18 +86,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
-    "(c)": 0.002,
-    "inconclusive": 0.157,
-    "inconclusive (unresolved runs)": 0.0,
+    "(c)": 0.025,
+    "inconclusive": 0.134,
     "withheld: clean control": 0.841,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.507
   },
   {
    "bound_clean": true,
@@ -118,18 +112,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.001,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.999,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.029
   },
   {
    "bound_clean": true,
@@ -146,18 +138,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
-    "(c)": 0.0,
-    "inconclusive": 0.132,
-    "inconclusive (unresolved runs)": 0.868,
+    "(c)": 0.011,
+    "inconclusive": 0.089,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.9
    },
-   "a_any": 0.0
+   "followers_differ": 0.451
   },
   {
    "bound_clean": false,
@@ -174,18 +164,16 @@
    "rho": 0.005,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.002,
-    "(c)": 0.03,
-    "inconclusive": 0.947,
-    "inconclusive (unresolved runs)": 0.021,
+    "(c)": 0.347,
+    "inconclusive": 0.588,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.063
    },
-   "a_any": 0.0
+   "followers_differ": 0.383
   },
   {
    "bound_clean": false,
@@ -202,18 +190,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.001,
-    "(c)": 0.006,
-    "inconclusive": 0.937,
-    "inconclusive (unresolved runs)": 0.056,
+    "(c)": 0.122,
+    "inconclusive": 0.602,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.275
    },
-   "a_any": 0.0
+   "followers_differ": 0.39
   },
   {
    "bound_clean": true,
@@ -229,19 +215,17 @@
    "fp": 0.0,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.012,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.001,
-    "(a), unsettled on state": 0.006,
+    "(a)": 0.013,
+    "(e)": 0.006,
     "(d)": 0.004,
     "(b)": 0.002,
-    "(c)": 0.0,
-    "inconclusive": 0.975,
-    "inconclusive (unresolved runs)": 0.0,
+    "(c)": 0.003,
+    "inconclusive": 0.972,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.019
+   "followers_differ": 0.049
   },
   {
    "bound_clean": true,
@@ -258,18 +242,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.03,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.008,
+    "(e)": 0.008,
     "(d)": 0.005,
     "(b)": 0.0,
-    "(c)": 0.0,
-    "inconclusive": 0.609,
-    "inconclusive (unresolved runs)": 0.0,
+    "(c)": 0.001,
+    "inconclusive": 0.608,
     "withheld: clean control": 0.348,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.038
+   "followers_differ": 0.366
   },
   {
    "bound_clean": true,
@@ -286,18 +268,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.013,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.003,
+    "(e)": 0.003,
     "(d)": 0.005,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.152,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.827,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.016
+   "followers_differ": 0.491
   },
   {
    "bound_clean": true,
@@ -314,18 +294,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 1.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.03
   },
   {
    "bound_clean": true,
@@ -342,18 +320,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.001,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.002,
+    "(e)": 0.002,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.142,
-    "inconclusive (unresolved runs)": 0.855,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.855
    },
-   "a_any": 0.003
+   "followers_differ": 0.469
   },
   {
    "bound_clean": false,
@@ -369,19 +345,17 @@
    "fp": 0.0,
    "rho": 0.005,
    "readings": {
-    "(a)": 0.012,
-    "(a) for kimi only": 0.002,
-    "(a) for sol only": 0.001,
-    "(a), unsettled on state": 0.002,
+    "(a)": 0.015,
+    "(e)": 0.002,
     "(d)": 0.005,
     "(b)": 0.001,
-    "(c)": 0.0,
-    "inconclusive": 0.952,
-    "inconclusive (unresolved runs)": 0.025,
+    "(c)": 0.003,
+    "inconclusive": 0.948,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.026
    },
-   "a_any": 0.017
+   "followers_differ": 0.087
   },
   {
    "bound_clean": false,
@@ -397,19 +371,17 @@
    "fp": 0.0,
    "rho": 0.02,
    "readings": {
-    "(a)": 0.011,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.001,
+    "(a)": 0.012,
+    "(e)": 0.001,
     "(d)": 0.002,
     "(b)": 0.001,
     "(c)": 0.0,
-    "inconclusive": 0.855,
-    "inconclusive (unresolved runs)": 0.13,
+    "inconclusive": 0.844,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.14
    },
-   "a_any": 0.012
+   "followers_differ": 0.166
   },
   {
    "bound_clean": true,
@@ -425,19 +397,17 @@
    "fp": 0.0,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.829,
-    "(a) for kimi only": 0.001,
-    "(a) for sol only": 0.002,
-    "(a), unsettled on state": 0.105,
+    "(a)": 0.832,
+    "(e)": 0.105,
     "(d)": 0.044,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.019,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.937
+   "followers_differ": 0.506
   },
   {
    "bound_clean": true,
@@ -453,19 +423,17 @@
    "fp": 0.01,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.593,
-    "(a) for kimi only": 0.001,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.049,
+    "(a)": 0.594,
+    "(e)": 0.049,
     "(d)": 0.016,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.013,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.328,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.643
+   "followers_differ": 0.558
   },
   {
    "bound_clean": true,
@@ -482,18 +450,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.163,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.013,
+    "(e)": 0.013,
     "(d)": 0.003,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.001,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.82,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.176
+   "followers_differ": 0.516
   },
   {
    "bound_clean": true,
@@ -510,18 +476,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 1.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.044
   },
   {
    "bound_clean": true,
@@ -538,18 +502,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.133,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.017,
+    "(e)": 0.017,
     "(d)": 0.002,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.001,
-    "inconclusive (unresolved runs)": 0.847,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.847
    },
-   "a_any": 0.15
+   "followers_differ": 0.511
   },
   {
    "bound_clean": false,
@@ -565,19 +527,17 @@
    "fp": 0.0,
    "rho": 0.005,
    "readings": {
-    "(a)": 0.844,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.099,
+    "(a)": 0.845,
+    "(e)": 0.099,
     "(d)": 0.026,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.006,
-    "inconclusive (unresolved runs)": 0.025,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.024
    },
-   "a_any": 0.943
+   "followers_differ": 0.503
   },
   {
    "bound_clean": false,
@@ -593,19 +553,17 @@
    "fp": 0.0,
    "rho": 0.02,
    "readings": {
-    "(a)": 0.818,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.063,
+    "(a)": 0.822,
+    "(e)": 0.063,
     "(d)": 0.02,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.002,
-    "inconclusive (unresolved runs)": 0.097,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.093
    },
-   "a_any": 0.881
+   "followers_differ": 0.528
   },
   {
    "bound_clean": true,
@@ -622,18 +580,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.989,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.01,
+    "(e)": 0.01,
     "(d)": 0.001,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.999
+   "followers_differ": 0.07
   },
   {
    "bound_clean": true,
@@ -650,18 +606,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.652,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.005,
+    "(e)": 0.005,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.343,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.657
+   "followers_differ": 0.353
   },
   {
    "bound_clean": true,
@@ -678,18 +632,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.184,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.816,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.184
+   "followers_differ": 0.484
   },
   {
    "bound_clean": true,
@@ -706,18 +658,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 1.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.016
   },
   {
    "bound_clean": true,
@@ -734,18 +684,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.165,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.001,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.834,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.834
    },
-   "a_any": 0.165
+   "followers_differ": 0.481
   },
   {
    "bound_clean": false,
@@ -762,18 +710,16 @@
    "rho": 0.005,
    "readings": {
     "(a)": 0.994,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.005,
+    "(e)": 0.005,
     "(d)": 0.001,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.999
+   "followers_differ": 0.055
   },
   {
    "bound_clean": false,
@@ -790,18 +736,16 @@
    "rho": 0.02,
    "readings": {
     "(a)": 0.99,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.003,
+    "(e)": 0.003,
     "(d)": 0.001,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.0,
-    "inconclusive (unresolved runs)": 0.006,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.006
    },
-   "a_any": 0.993
+   "followers_differ": 0.075
   },
   {
    "bound_clean": true,
@@ -817,19 +761,17 @@
    "fp": 0.0,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.395,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.445,
-    "(a), unsettled on state": 0.106,
+    "(a)": 0.84,
+    "(e)": 0.106,
     "(d)": 0.039,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.015,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.946
+   "followers_differ": 0.988
   },
   {
    "bound_clean": true,
@@ -845,19 +787,17 @@
    "fp": 0.01,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.363,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.214,
-    "(a), unsettled on state": 0.06,
+    "(a)": 0.577,
+    "(e)": 0.06,
     "(d)": 0.023,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.003,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.337,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.637
+   "followers_differ": 0.955
   },
   {
    "bound_clean": true,
@@ -873,19 +813,17 @@
    "fp": 0.0,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.41,
-    "(a) for kimi only": 0.426,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.118,
+    "(a)": 0.836,
+    "(e)": 0.118,
     "(d)": 0.034,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.012,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.954
+   "followers_differ": 0.986
   },
   {
    "bound_clean": true,
@@ -901,19 +839,17 @@
    "fp": 0.01,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.364,
-    "(a) for kimi only": 0.217,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.055,
+    "(a)": 0.581,
+    "(e)": 0.055,
     "(d)": 0.021,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.004,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.339,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.636
+   "followers_differ": 0.94
   },
   {
    "bound_clean": true,
@@ -929,19 +865,17 @@
    "fp": 0.0,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.015,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.681,
-    "(a), unsettled on state": 0.146,
+    "(a)": 0.696,
+    "(e)": 0.146,
     "(d)": 0.065,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.093,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.842
+   "followers_differ": 1.0
   },
   {
    "bound_clean": true,
@@ -957,19 +891,17 @@
    "fp": 0.01,
    "rho": 0.0,
    "readings": {
-    "(a)": 0.025,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.476,
-    "(a), unsettled on state": 0.08,
+    "(a)": 0.501,
+    "(e)": 0.08,
     "(d)": 0.035,
     "(b)": 0.0,
     "(c)": 0.0,
     "inconclusive": 0.032,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.352,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.581
+   "followers_differ": 0.964
   },
   {
    "bound_clean": true,
@@ -986,18 +918,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.816,
     "(c)": 0.0,
     "inconclusive": 0.184,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.0,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.496
   },
   {
    "bound_clean": true,
@@ -1014,18 +944,16 @@
    "rho": 0.0,
    "readings": {
     "(a)": 0.0,
-    "(a) for kimi only": 0.0,
-    "(a) for sol only": 0.0,
-    "(a), unsettled on state": 0.0,
+    "(e)": 0.0,
     "(d)": 0.0,
     "(b)": 0.408,
     "(c)": 0.0,
     "inconclusive": 0.236,
-    "inconclusive (unresolved runs)": 0.0,
     "withheld: clean control": 0.356,
-    "withheld: block incomplete": 0.0
+    "withheld: block incomplete": 0.0,
+    "withheld: unresolved runs": 0.0
    },
-   "a_any": 0.0
+   "followers_differ": 0.64
   }
  ]
 }

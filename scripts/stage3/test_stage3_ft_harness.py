@@ -673,3 +673,19 @@ def test_colleague_answers_are_counted(tmp_path):
     r = run(ScriptedAdapter([turn(("ask_colleague", {"question": "a"}), ("ask_colleague", {"question": "b"})),
                              turn(("finish", {"summary": "s"}))]), ws, FakeColleague())
     assert r.colleague_answered == 2 and r.colleague_errors == 0
+
+
+def test_answered_colleague_calls_are_listed_by_seq(tmp_path):
+    ws = h.Workspace(make_ws(tmp_path))
+
+    class Mixed:
+        def __init__(self):
+            self.n = 0
+
+        async def answer(self, q):
+            self.n += 1
+            return h.ColleagueAnswer("ok", 0.0, None) if self.n == 2 else h.ColleagueAnswer(h.COLLEAGUE_UNAVAILABLE, 0.0, "E")
+    r = run(ScriptedAdapter([turn(("read_document", {"name": "gadget-guide.md"}), ("ask_colleague", {"question": "a"}),
+                                  ("ask_colleague", {"question": "b"})), turn(("finish", {"summary": "s"}))]), ws, Mixed())
+    assert r.colleague_answered_seqs == [2]
+    assert set(r.action_log[1]) == {"seq", "turn", "tool", "kind", "args"}      # the action log's shape is unchanged

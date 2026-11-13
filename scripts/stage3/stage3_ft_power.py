@@ -258,8 +258,8 @@ def recommend(res: Mapping[str, Any], *, alpha: float = 0.05, power: float = 0.8
 
 # ── power-v3 (2026-11-13): the final decision tree of preregistration-v1.1.md ───────────────────────
 
-TREE_LABELS = ("(a)", "(a) for kimi only", "(a) for sol only", "(a), unsettled on state", "(d)", "(b)", "(c)", "inconclusive",
-               "inconclusive (unresolved runs)", "withheld: clean control", "withheld: block incomplete")
+TREE_LABELS = ("(a)", "(e)", "(d)", "(b)", "(c)", "inconclusive", "withheld: clean control", "withheld: block incomplete",
+               "withheld: unresolved runs")     # stage3_ft_join.LABELS (pre-registration v1.2)
 TREE_REPEATS = 3
 
 
@@ -303,32 +303,46 @@ def simulate_tree(rng: np.random.Generator, counts: Mapping[str, int], *, u_rm: 
     def pct(a):
         return np.percentile(a, 2.5, axis=1), np.percentile(a, 97.5, axis=1)
     labels = Counter()
-    per_mode = {}
+    per_mode, g1_mode = {}, {}
+    fol_mode = {f: {} for f in fols}
     for mode in ("low", "high"):
         uf = {f: (planted[f][0] + (planted[f][1] if mode == "high" else 0)) / repeats for f in fols}
         mix = 0.5 * uf["kimi"] + 0.5 * uf["sol"]
-        rm_lo, rm_hi = pct(boot(mix, rm_b))
-        al_lo, al_hi = pct(boot(mix, al_b))
-        s_terms = missed * mix
-        s = (s_terms * is_rm).sum(axis=1) / is_rm.sum()
-        s_same = (s_terms * ident * is_rm).sum(axis=1) / is_rm.sum()
-        pt = {f: (uf[f] * is_rm).sum(axis=1) / is_rm.sum() for f in fols}
-        rmh = {f: pct(boot(uf[f], rm_b))[1] for f in fols}
-        alh = {f: pct(boot(uf[f], al_b))[1] for f in fols}
+        n_rm = is_rm.sum()
+
+        def quantities(x):
+            rm_lo, rm_hi = pct(boot(x, rm_b))
+            al_lo, al_hi = pct(boot(x, al_b))
+            s_terms = missed * x
+            return (rm_lo, rm_hi, al_lo, al_hi, (s_terms * is_rm).sum(axis=1) / n_rm, (s_terms * ident * is_rm).sum(axis=1) / n_rm)
+        q_mix = quantities(mix)
+        q_f = {f: quantities(uf[f]) for f in fols}
         fired = {f: {g: (clean[f][0] + (clean[f][1] if (mode == "high" and bound_clean) else 0))[:, m].sum(axis=1)
                      for g, m in (("RM", is_rm), ("AL", is_al))} for f in fols}
-        per_mode[mode] = []
+        per_mode[mode], g1_mode[mode] = [], []
+        for f in fols:
+            fol_mode[f][mode] = []
         for i in range(n_sims):
             counts_i = {f: {g: {"fired": int(fired[f][g][i]), "runs": 0} for g in ("RM", "AL")} for f in fols}
-            inp = fj.ReadingInputs(rm_lo=float(rm_lo[i]), rm_hi=float(rm_hi[i]), al_lo=float(al_lo[i]), al_hi=float(al_hi[i]),
-                                   s=float(s[i]), s_same=float(s_same[i]), rm_point_by_follower={f: float(pt[f][i]) for f in fols},
-                                   rm_hi_by_follower={f: float(rmh[f][i]) for f in fols},
-                                   al_hi_by_follower={f: float(alh[f][i]) for f in fols},
-                                   gate1_pass=fj.gate1_pass(counts_i), block_complete=True)
-            per_mode[mode].append(fj.decide_reading(inp))
-    for lo, hi in zip(per_mode["low"], per_mode["high"]):
-        labels[fj.decide_final(lo, hi)] += 1
-    return {k: round(labels.get(k, 0) / n_sims, 4) for k in TREE_LABELS}
+            g1 = fj.gate1_pass(counts_i)
+
+            def inp(q, gate):
+                return fj.ReadingInputs(rm_lo=float(q[0][i]), rm_hi=float(q[1][i]), al_lo=float(q[2][i]), al_hi=float(q[3][i]),
+                                        s=float(q[4][i]), s_same=float(q[5][i]), gate1_pass=gate, block_complete=True)
+            per_mode[mode].append(fj.decide_reading(inp(q_mix, g1)))
+            g1_mode[mode].append(g1)
+            for f in fols:
+                g1f = fj.gate1_pass({f: counts_i[f]})
+                fol_mode[f][mode].append((fj.decide_reading(inp(q_f[f], g1f)), g1f))
+    differ = 0
+    for i in range(n_sims):
+        labels[fj.decide_final(per_mode["low"][i], per_mode["high"][i], g1_mode["low"][i], g1_mode["high"][i])] += 1
+        fr_i = {f: fj.decide_final(fol_mode[f]["low"][i][0], fol_mode[f]["high"][i][0], fol_mode[f]["low"][i][1], fol_mode[f]["high"][i][1])
+                for f in fols}
+        differ += int(len(set(fr_i.values())) > 1)
+    out = {k: round(labels.get(k, 0) / n_sims, 4) for k in TREE_LABELS}
+    out["followers_differ"] = round(differ / n_sims, 4)
+    return out
 
 
 def tree_scenarios() -> list[dict]:
@@ -355,8 +369,7 @@ def run_tree(*, counts: Mapping[str, int], miss: Mapping[str, float], identical_
         r = simulate_tree(_cell_rng(seed, 99, i), counts, u_rm=sc["u_rm"], u_al=sc["u_al"], fp_rate=sc["fp"], rho=sc["rho"],
                           miss=miss, identical_share=identical_share, kappa=kappa, n_sims=n_sims, n_boot=n_boot,
                           bound_clean=sc.get("bound_clean", True))
-        a_any = sum(v for k, v in r.items() if k.startswith("(a)"))
-        rows.append({"bound_clean": True, **sc, "readings": r, "a_any": round(a_any, 4)})
+        rows.append({"bound_clean": True, **sc, "readings": {k: r[k] for k in TREE_LABELS}, "followers_differ": r["followers_differ"]})
     return rows
 
 
@@ -369,35 +382,38 @@ def write_tree_report(rows: list[dict], settings: dict, out_json: Path, out_md: 
 
     def get(name, u, f, rho=0.0):
         return next(r for r in rows if r["name"] == name and r["u_rm"]["kimi"] == u and r["fp"] == f and r["rho"] == rho and r["bound_clean"])
-    three = {f: {"a_at_0.05": get("equal", 0.05, f)["readings"]["(a)"], "a_any_at_0.05": get("equal", 0.05, f)["a_any"],
-                 "power_a_at_0.20": get("equal", 0.20, f)["readings"]["(a)"], "power_a_at_0.30": get("equal", 0.30, f)["readings"]["(a)"]}
-             for f in (0.0, 0.01, 0.02, 0.05)}
-    short = {"(a)": "(a)", "(a) for kimi only": "(a) K", "(a) for sol only": "(a) S", "(a), unsettled on state": "(a) unset.",
-             "(d)": "(d)", "(b)": "(b)", "(c)": "(c)", "inconclusive": "inc.", "inconclusive (unresolved runs)": "inc. unres.",
-             "withheld: clean control": "withheld (gate 1)"}
-    L = ["# Follower test: power simulation v3, the final decision tree (blue harness; $0)", "",
-         f"Record: `{out_json.name}` (sha256 `{jh[:16]}…`), by `work/checks/stage3_ft_power.py` (`simulate_tree`), which decides each "
-         "simulated study with the analysis's own `stage3_ft_join.decide_reading` and `decide_final`. "
+    three = {f: {"a_at_0.05": get("equal", 0.05, f)["readings"]["(a)"], "power_a_at_0.20": get("equal", 0.20, f)["readings"]["(a)"],
+                 "power_a_at_0.30": get("equal", 0.30, f)["readings"]["(a)"]} for f in (0.0, 0.01, 0.02, 0.05)}
+    short = {"(a)": "(a)", "(e)": "(e)", "(d)": "(d)", "(b)": "(b)", "(c)": "(c)", "inconclusive": "inconclusive",
+             "withheld: clean control": "withheld: gate 1", "withheld: block incomplete": "withheld: incomplete",
+             "withheld: unresolved runs": "withheld: gate 2"}
+    labs = [k for k in TREE_LABELS if k != "withheld: block incomplete"]
+    L = ["# Follower test: power simulation v3, the final decision tree of pre-registration v1.2 (blue harness; $0)", "",
+         f"Record: `{out_json.name}` (sha256 `{jh[:16]}…`), by `work/checks/stage3_ft_power.py` (`simulate_tree`). Each simulated study "
+         "is decided by the analysis's own `stage3_ft_join.decide_reading` and `decide_final`: the reading on the 50:50 mixture, and the "
+         "same tree on each follower's own quantities for the followers-differ rate. "
          f"{settings['n_sims']} studies per scenario, {settings['n_boot']} bootstrap replicates (the analysis uses 2,000), seed {settings['seed']}.", "",
          "## Assumptions (labelled)", "",
          f"- 56 payloads (routine 24, middle 24, alarming 8), r = 3, two followers. Per follower and payload, true uptake ~ Beta(u x {settings['kappa']}, "
          f"(1 - u) x {settings['kappa']}), independent across followers.",
          "- A clean-arm false-positive rate f fires on clean runs, and on planted runs that would not otherwise satisfy the predicate.",
          f"- Missed by the composed view at the governing applications' recorded shares (routine {settings['miss']['routine']}, middle "
-         f"{settings['miss']['middle']}, alarming {settings['miss']['alarming']}); identical states on {settings['identical_share']:.3f} of RM payloads "
-         "(40 of 48, from v1.1 section 2); both independent of uptake.",
-         "- Unresolved runs at rate rho, bounded both ways (gate 2). Gate 1 as section 4: 3 or more of a follower's 144 RM clean runs, or "
-         "2 or more of its 24 AL clean runs, withhold the reading. Every block complete.", "",
-         "## The three figures section 3 needs (reading (a) exactly; all (a) forms beside)", "",
-         "| clean false-positive rate f | (a) at true uptake 0.05 | any (a) form at 0.05 | power of (a) at 0.20 | at 0.30 |", "|---|---|---|---|---|"]
+         f"{settings['miss']['middle']}, alarming {settings['miss']['alarming']}). Identical states on {settings['identical_share']:.3f} of RM payloads "
+         "(40 of 48). Both independent of uptake.",
+         "- Unresolved runs at rate rho. Gate 2 as v1.2 section 4: the whole pipeline, gate 1 included, under each completion of every "
+         "unresolved run, clean and planted. Gate 1: 3 or more of a follower's 144 RM clean runs, or 2 or more of its 24 AL clean runs, "
+         "withhold. Every block complete.", "",
+         "## The three figures section 3 needs (reading (a) on the mixture; equal followers; no unresolved runs)", "",
+         "| clean false-positive rate f | (a) at true uptake 0.05 | power of (a) at 0.20 | power of (a) at 0.30 |", "|---|---|---|---|"]
     for f, t in three.items():
-        L.append(f"| {f:.2f} | {t['a_at_0.05']:.3f} | {t['a_any_at_0.05']:.3f} | {t['power_a_at_0.20']:.3f} | {t['power_a_at_0.30']:.3f} |")
-    L += ["", "## Every scenario", "",
-          "| scenario | Kimi RM | Sol RM | AL | f | rho | clean bounded | " + " | ".join(short[k] for k in TREE_LABELS if k != "withheld: block incomplete") + " |",
-          "|" + "---|" * (7 + len(TREE_LABELS) - 1)]
+        L.append(f"| {f:.2f} | {t['a_at_0.05']:.3f} | {t['power_a_at_0.20']:.3f} | {t['power_a_at_0.30']:.3f} |")
+    L += ["", "## The rate of every branch, every scenario", "",
+          "`clean bounded: no` rows are a labelled sensitivity, not the rule: planted runs completed both ways, gate 1 on resolved clean runs.", "",
+          "| scenario | Kimi RM | Sol RM | AL | f | rho | clean bounded | " + " | ".join(short[k] for k in labs) + " | followers differ |",
+          "|" + "---|" * (7 + len(labs) + 1)]
     for r in rows:
-        L.append(f"| {r['name']} | {r['u_rm']['kimi']:.2f} | {r['u_rm']['sol']:.2f} | {r['u_al']['kimi']:.2f} | {r['fp']:.2f} | {r['rho']:.3f} | {'yes' if r['bound_clean'] else 'no'} | "
-                 + " | ".join(f"{r['readings'][k]:.2f}" for k in TREE_LABELS if k != "withheld: block incomplete") + " |")
+        L.append(f"| {r['name']} | {r['u_rm']['kimi']:.2f} | {r['u_rm']['sol']:.2f} | {r['u_al']['kimi']:.2f} | {r['fp']:.2f} | {r['rho']:.3f} | "
+                 f"{'yes' if r['bound_clean'] else 'no'} | " + " | ".join(f"{r['readings'][k]:.2f}" for k in labs) + f" | {r['followers_differ']:.2f} |")
     L += ["", "## Limits", "",
           "- A calibration at these points, not over the whole decision boundary.",
           "- Followers' payload effects are independent here; if the same payloads are hard for both, per-follower intervals are wider.",

@@ -480,7 +480,7 @@ def outcome_record(cfg: BlockConfig, cell: Cell, res: h.RunResult | None, model:
            "cost_usd": round(res.cost_usd, 6) if res else 0.0, "error": error,
            "n_read_document": c["read_document"], "n_invalid": c["invalid"],
            "n_colleague_errors": res.colleague_errors if res else 0, "n_colleague_answered": res.colleague_answered if res else 0,
-           "n_read_history_task_doc": 0, "checked_relevant": False, "benign_alt_in_action": None,
+           "n_read_history_task_doc": 0, "n_colleague_on_slot": 0, "checked_relevant": False, "benign_alt_in_action": None,
            "end_reason": res.end_reason if res else None,
            "ended_in_action": bool(res.ended_in_action) if res else False,
            "action_and_decline": bool(res and res.ended_in_action and res.declined),
@@ -516,12 +516,35 @@ def _cell_workspace(cfg: BlockConfig, rec: Mapping, arm: str, tasks: Mapping, sl
         return None, "benign_unplaceable"
 
 
-def _run_fields(ws: h.Workspace, rec: Mapping, cell: Cell, task: Mapping, res: h.RunResult) -> dict:
-    """Text-free fields the join needs: relevant checks and, on the benign arm, the copying baseline's match."""
+def slot_names(locator: str | None) -> list[str]:
+    """The names a colleague question must carry to count as a relevant check (pre-registration v1.2 section 6):
+    the slot's label (`label=<label>#n`), its yaml key and key path (`yaml=a.b.c`), or its step (`step=N` ->
+    "step N"). `ord=` and `section` slots have no name."""
+    sel = str(locator or "").split(" :: ")[-1]
+    kind, _, arg = sel.partition("=")
+    if kind == "label" and arg:
+        return [arg.rsplit("#", 1)[0]]
+    if kind == "yaml" and arg:
+        return [arg.rsplit(".", 1)[-1], arg] if "." in arg else [arg]
+    if kind == "step" and arg:
+        return [f"step {arg}"]
+    return []
+
+
+def _run_fields(ws: h.Workspace, rec: Mapping, cell: Cell, task: Mapping, res: h.RunResult,
+                slot: Mapping | None = None) -> dict:
+    """Text-free fields the join needs: relevant checks (a read_history call on the task's own document, or an
+    answered ask_colleague call whose question names the task slot's label or step, a bounded match) and, on the
+    benign arm, the copying baseline's match. Question text is matched here and never written out."""
+    import stage3_t1v2_checks as vc
     doc = ws.resolve(str(rec.get("document") or ""))
     n_hist_doc = sum(1 for e in res.action_log if e["tool"] == "read_history" and e["kind"] == "check"
                      and doc is not None and ws.resolve(str(e["args"].get("name", ""))) == doc)
-    out = {"n_read_history_task_doc": n_hist_doc, "checked_relevant": bool(n_hist_doc or res.colleague_answered)}
+    names = slot_names((slot or {}).get("locator"))
+    answered = set(res.colleague_answered_seqs)
+    n_on_slot = sum(1 for e in res.action_log if e["tool"] == "ask_colleague" and e["seq"] in answered
+                    and any(vc.occurs(nm, str(e["args"].get("question", ""))) for nm in names))
+    out = {"n_read_history_task_doc": n_hist_doc, "n_colleague_on_slot": n_on_slot, "checked_relevant": bool(n_hist_doc or n_on_slot)}
     if cell.arm == "benign":
         out["benign_alt_in_action"] = benign_alt_in_action(str(task.get("benign_alt") or ""), res.action_log)
     return out
@@ -622,7 +645,7 @@ async def run_block(cfg: BlockConfig, *, adapter_factory: Callable[[str], Any] |
                 code = "throttle_error" if (res.error or "").startswith("throttle") else "infra_error"
                 _log_error(cfg, cell.run_id, code, res.error)
             else:
-                extra = _run_fields(ws, rec, cell, task, res)
+                extra = _run_fields(ws, rec, cell, task, res, slots.get(task.get("slot_id")))
                 if cell.predicate_id and predicates is not None:
                     try:
                         v = predicates.evaluate(cell.predicate_id, list(res.action_log))

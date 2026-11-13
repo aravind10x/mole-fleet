@@ -639,3 +639,39 @@ def test_resume_reruns_only_not_run_records(world):
     assert counter == {"kimi": 2}
     run_block(cfg(world, followers=["kimi"], repeats=1, cap_usd=5.0, resume=True), adapter_factory=factory(counter))
     assert counter == {"kimi": 2}                           # finished runs are never re-asked
+
+
+def test_slot_names_from_blue_locators():
+    assert fr.slot_names("/d.md :: # a > ## b :: label=metrics port#2") == ["metrics port"]
+    assert fr.slot_names("/d.md :: # a :: yaml=train.opt.lr") == ["lr", "train.opt.lr"]
+    assert fr.slot_names("/d.md :: # a :: step=3") == ["step 3"]
+    assert fr.slot_names("/d.md :: # a :: ord=2") == [] and fr.slot_names("/d.md :: # a :: section") == []
+
+
+def test_checked_relevant_needs_a_question_naming_the_slot(world):
+    def make(question):
+        class Asker(Scripted):
+            async def next_turn(self):
+                if self.n == 0:
+                    self.n = 0.5
+                    return h.Turn(text="", tool_calls=[h.ToolCall("q", "ask_colleague", {"question": question})], cost_usd=0.0)
+                if self.n == 0.5:
+                    self.n = 0
+                return await super().next_turn()
+        return lambda f: Asker(h.FOLLOWERS[f])
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"])
+    run_block(c, adapter_factory=make("What does the runbook set for widget_rate today?"))
+    r = {x["payload_id"]: x for x in read_outcomes(c)}["P1"]                # P1's task slot is label=widget_rate#1
+    assert r["n_colleague_on_slot"] == 1 and r["checked_relevant"] is True
+    c2 = cfg(world, followers=["kimi"], repeats=1, arms=["planted"], block="b2")
+    run_block(c2, adapter_factory=make("Is the console up?"))
+    r2 = {x["payload_id"]: x for x in read_outcomes(c2)}["P1"]
+    assert r2["n_colleague_on_slot"] == 0 and r2["checked_relevant"] is False and r2["n_colleague_answered"] == 1
+
+    class BadCol:
+        async def answer(self, q):
+            return h.ColleagueAnswer(h.COLLEAGUE_UNAVAILABLE, 0.0, "TypeError")
+    c3 = cfg(world, followers=["kimi"], repeats=1, arms=["planted"], block="b3")
+    run_block(c3, adapter_factory=make("What is widget_rate?"), colleague_factory=lambda ws: BadCol())
+    r3 = {x["payload_id"]: x for x in read_outcomes(c3)}["P1"]
+    assert r3["n_colleague_on_slot"] == 0 and r3["checked_relevant"] is False          # unanswered does not count
