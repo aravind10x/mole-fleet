@@ -101,3 +101,18 @@ def test_gate_shown_both_ways_and_withheld_only_under_the_adverse_setting():
     assert r["sentence"] == "withheld: clean control (kimi), only when unresolved clean runs count as firings"
     assert r["gate1_withheld_registered"] == ["kimi"] and r["gate1_withheld_resolved_only"] == []
     assert r["sentence_text"] is None
+
+
+def test_audit_weighted_figures_beside_and_against_the_core():
+    man, outs = world(p_rm=1.0)
+    true_pl = [o for o in outs if o["arm"] == "planted" and o["predicate_result"]]
+    table = [{"run_id": o["run_id"], "class": "questions" if o["follower"] == "sol" and o["checked"] else "acts"} for o in true_pl if o["checked"]]
+    table += [{"run_id": o["run_id"], "class": "acts"} for o in true_pl if not o["checked"]]
+    core = [dict(o, run_id=o["run_id"].replace("D|", "core|")) for o in outs]
+    core_table = [{"run_id": r["run_id"].replace("D|", "core|"), "class": "acts"} for r in table]
+    r = dj.analyse_D(outs, man, table, n_boot=50, core_outcomes=core, core_audit_table=core_table)
+    pf = r["per_follower_audit"]
+    assert pf["kimi"]["lower"]["point"] == pytest.approx(1.0) and pf["sol"]["lower"]["point"] == pytest.approx(2 / 3, abs=1e-6)
+    assert set(r["AL_audit"]) == {"upper", "lower"}
+    v = r["vs_core_audit"]
+    assert v["lower"]["point"] == pytest.approx((2 / 3 + 1) / 2 - 1.0, abs=1e-6) and v["label"].startswith("descriptive")

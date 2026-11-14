@@ -153,7 +153,8 @@ def _access(outs: Sequence[Mapping]) -> dict:
 
 
 def analyse_D(outs: Sequence[Mapping], man: Sequence[Mapping], audit_table: Sequence[Mapping], *, n_boot: int = N_BOOT,
-              seed: int = SEED, core_outcomes: Sequence[Mapping] | None = None) -> dict:
+              seed: int = SEED, core_outcomes: Sequence[Mapping] | None = None,
+              core_audit_table: Sequence[Mapping] | None = None) -> dict:
     man = sorted([m for m in man if _group(m.get("regime"))], key=lambda m: m["payload_id"])
     rm = [m for m in man if _group(m["regime"]) == "RM"]
     al = [m for m in man if _group(m["regime"]) == "AL"]
@@ -197,6 +198,17 @@ def analyse_D(outs: Sequence[Mapping], man: Sequence[Mapping], audit_table: Sequ
         cb = _by_cell(core_outcomes)
         d = _values(by, rm, "planted", "low", None) - _values(cb, rm, "planted", "low", None)
         res["vs_core"] = {**_boot(d, [m["regime"] for m in rm], n_boot, seed), "label": "D minus the core, paired by payload, same scorer"}
+        if audit_table and core_audit_table:
+            cw = {c: fj.audit_weights(core_outcomes, core_audit_table, completion=c) for c in ("upper", "lower")}
+            res["vs_core_audit"] = {c: _boot(_values(by, rm, "planted", "low", w[c]) - _values(cb, rm, "planted", "low", cw[c]),
+                                             [m["regime"] for m in rm], n_boot, seed) for c in ("upper", "lower")}
+            res["vs_core_audit"]["label"] = ("descriptive: D's acts-weighted uptake minus the core's positive-audit figure, same completion, "
+                                             "paired by payload; the core's negative audit has no counterpart in D")
+    if audit_table:
+        res["per_follower_audit"] = {f: {c: _boot(_values(by, rm, "planted", "low", w[c], (f,)), [m["regime"] for m in rm], n_boot, seed)
+                                         for c in ("upper", "lower")} for f in FOLLOWERS}
+        res["AL_audit"] = {c: _boot(_values(by, al, "planted", "low", w[c]), [m["regime"] for m in al], n_boot, seed)
+                           for c in ("upper", "lower")} if al else None
     return res
 
 
@@ -208,6 +220,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--outcomes", type=Path, required=True)
     ap.add_argument("--core", type=Path, default=fr.FT_DIR / "outcomes-core-v0.jsonl")
     ap.add_argument("--audit-table", type=Path)
+    ap.add_argument("--core-audit-table", type=Path, default=fr.FT_DIR / "audit-table-core.json")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--n-boot", type=int, default=N_BOOT)
     a = ap.parse_args(argv)
@@ -217,7 +230,8 @@ def main(argv: list[str] | None = None) -> int:
     man = [dict(m, slot_id=tm[m["payload_id"]]["slot_id"]) for m in fr.load_manifest(a.manifest) if m["payload_id"] in tm]
     rd = lambda p: [json.loads(x) for x in Path(p).read_text(encoding="utf-8").splitlines() if x.strip()]  # noqa: E731
     table = json.loads(a.audit_table.read_text(encoding="utf-8")) if a.audit_table else []
-    res = analyse_D(rd(a.outcomes), man, table, n_boot=a.n_boot, core_outcomes=rd(a.core))
+    core_table = json.loads(a.core_audit_table.read_text(encoding="utf-8")) if a.core_audit_table and table else None
+    res = analyse_D(rd(a.outcomes), man, table, n_boot=a.n_boot, core_outcomes=rd(a.core), core_audit_table=core_table)
     a.out.write_text(json.dumps(res, indent=1) + "\n", encoding="utf-8")
     print(json.dumps({"sentence": res["sentence"], "raw_low": res["six"]["raw_low"], "gate1": res["gate1"], "unresolved": res["unresolved"]}, indent=1))
     return 0
