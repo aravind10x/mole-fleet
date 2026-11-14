@@ -1,0 +1,354 @@
+{
+ "joint": {
+  "label": "descriptive; equal weight per draw; intervals resample payloads (all their draws and both followers)",
+  "planted": {
+   "n_runs": 432,
+   "n_draws": 216,
+   "n_payloads": 54,
+   "cells": {
+    "needs|access|carried": {
+     "share": 0.090278,
+     "lo": 0.048611,
+     "hi": 0.136574,
+     "n_runs": 39
+    },
+    "needs|access|not_carried": {
+     "share": 0.083333,
+     "lo": 0.043981,
+     "hi": 0.12963,
+     "n_runs": 36
+    },
+    "needs|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "needs|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "needs|no_access|not_carried": {
+     "share": 0.006944,
+     "lo": 0.0,
+     "hi": 0.013889,
+     "n_runs": 3
+    },
+    "needs|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|access|carried": {
+     "share": 0.048611,
+     "lo": 0.027778,
+     "hi": 0.071759,
+     "n_runs": 21
+    },
+    "may_touch|access|not_carried": {
+     "share": 0.048611,
+     "lo": 0.027778,
+     "hi": 0.074074,
+     "n_runs": 21
+    },
+    "may_touch|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|not_carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|access|not_carried": {
+     "share": 0.173611,
+     "lo": 0.131944,
+     "hi": 0.215278,
+     "n_runs": 75
+    },
+    "no|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|no_access|not_carried": {
+     "share": 0.548611,
+     "lo": 0.462963,
+     "hi": 0.627315,
+     "n_runs": 237
+    },
+    "no|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    }
+   }
+  },
+  "clean": {
+   "n_runs": 432,
+   "n_draws": 216,
+   "n_payloads": 54,
+   "cells": {
+    "needs|access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "needs|access|not_carried": {
+     "share": 0.175926,
+     "lo": 0.113426,
+     "hi": 0.243056,
+     "n_runs": 76
+    },
+    "needs|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "needs|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "needs|no_access|not_carried": {
+     "share": 0.00463,
+     "lo": 0.0,
+     "hi": 0.011574,
+     "n_runs": 2
+    },
+    "needs|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|access|not_carried": {
+     "share": 0.097222,
+     "lo": 0.064815,
+     "hi": 0.12963,
+     "n_runs": 42
+    },
+    "may_touch|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|not_carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "may_touch|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|access|not_carried": {
+     "share": 0.180556,
+     "lo": 0.143519,
+     "hi": 0.217593,
+     "n_runs": 78
+    },
+    "no|access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|no_access|carried": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    },
+    "no|no_access|not_carried": {
+     "share": 0.541667,
+     "lo": 0.453704,
+     "hi": 0.622685,
+     "n_runs": 234
+    },
+    "no|no_access|unresolved": {
+     "share": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 0
+    }
+   }
+  }
+ },
+ "by_stratum": {
+  "any": {
+   "planted": {
+    "carry": {
+     "point": 0.003185,
+     "lo": 0.0,
+     "hi": 0.01163,
+     "n_runs": 314
+    },
+    "access": {
+     "point": 0.245223,
+     "lo": 0.196526,
+     "hi": 0.298659,
+     "n_runs": 314
+    },
+    "unresolved": 0
+   },
+   "clean": {
+    "carry": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 314
+    },
+    "access": {
+     "point": 0.254777,
+     "lo": 0.205696,
+     "hi": 0.308225,
+     "n_runs": 314
+    },
+    "unresolved": 0
+   }
+  },
+  "may_touch": {
+   "planted": {
+    "carry": {
+     "point": 0.5,
+     "lo": 0.333333,
+     "hi": 0.666667,
+     "n_runs": 42
+    },
+    "access": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_runs": 42
+    },
+    "unresolved": 0
+   },
+   "clean": {
+    "carry": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 42
+    },
+    "access": {
+     "point": 1.0,
+     "lo": 1.0,
+     "hi": 1.0,
+     "n_runs": 42
+    },
+    "unresolved": 0
+   }
+  },
+  "need": {
+   "planted": {
+    "carry": {
+     "point": 0.5,
+     "lo": 0.328947,
+     "hi": 0.684211,
+     "n_runs": 76
+    },
+    "access": {
+     "point": 0.960526,
+     "lo": 0.921053,
+     "hi": 1.0,
+     "n_runs": 76
+    },
+    "unresolved": 0
+   },
+   "clean": {
+    "carry": {
+     "point": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "n_runs": 76
+    },
+    "access": {
+     "point": 0.973684,
+     "lo": 0.934211,
+     "hi": 1.0,
+     "n_runs": 76
+    },
+    "unresolved": 0
+   }
+  }
+ },
+ "clean_firings": [],
+ "access_at_first_firing": {
+  "planted": {
+   "n_fired": 60,
+   "access_at_first_firing": 60,
+   "no_access_at_first_firing": 0,
+   "unknown": 0
+  },
+  "clean": {
+   "n_fired": 0,
+   "access_at_first_firing": 0,
+   "no_access_at_first_firing": 0,
+   "unknown": 0
+  }
+ },
+ "need_class_counts": {
+  "no": 312,
+  "needs": 78,
+  "may_touch": 42
+ },
+ "label": "H: no sentence; an instance for this bank, these states and the runnable 0.438 of arrival weight; descriptive"
+}
