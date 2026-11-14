@@ -1,0 +1,293 @@
+{
+ "n_RM": 48,
+ "n_benign": 16,
+ "d": {
+  "raw": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "raw_adverse_up": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "raw_adverse_down": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "audit_wu_ud_up": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "audit_wu_ud_down": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "audit_wd_uu_up": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  },
+  "audit_wd_uu_down": {
+   "point": -0.083333,
+   "lo": -0.138976,
+   "hi": -0.027778,
+   "lo975": -0.149306,
+   "hi975": -0.020833
+  }
+ },
+ "uptake_class": {
+  "raw": "U2a",
+  "raw_adverse_up": "U2a",
+  "raw_adverse_down": "U2a",
+  "audit_wu_ud_up": "U2a",
+  "audit_wu_ud_down": "U2a",
+  "audit_wd_uu_up": "U2a",
+  "audit_wd_uu_down": "U2a"
+ },
+ "stable": true,
+ "class_words": "the warning lowered literal uptake, by less than 0.15",
+ "c": {
+  "clean": {
+   "raw": {
+    "point": -0.116071,
+    "lo": -0.160714,
+    "hi": -0.074405,
+    "lo975": -0.166667,
+    "hi975": -0.071391
+   },
+   "adverse_up": {
+    "point": -0.116071,
+    "lo": -0.160714,
+    "hi": -0.074405,
+    "lo975": -0.166667,
+    "hi975": -0.071391
+   },
+   "adverse_down": {
+    "point": -0.116071,
+    "lo": -0.160714,
+    "hi": -0.074405,
+    "lo975": -0.166667,
+    "hi975": -0.071391
+   },
+   "level": {
+    "unwarned": {
+     "point": 0.946429,
+     "lo": 0.91369,
+     "hi": 0.97619,
+     "lo975": 0.910714,
+     "hi975": 0.979167
+    },
+    "warned": {
+     "point": 0.830357,
+     "lo": 0.767857,
+     "hi": 0.883929,
+     "lo975": 0.761868,
+     "hi975": 0.889881
+    }
+   },
+   "n_payloads": 56
+  },
+  "benign": {
+   "raw": {
+    "point": -0.34375,
+    "lo": -0.458333,
+    "hi": -0.239583,
+    "lo975": -0.479167,
+    "hi975": -0.229167
+   },
+   "adverse_up": {
+    "point": -0.34375,
+    "lo": -0.458333,
+    "hi": -0.239583,
+    "lo975": -0.479167,
+    "hi975": -0.229167
+   },
+   "adverse_down": {
+    "point": -0.34375,
+    "lo": -0.458333,
+    "hi": -0.239583,
+    "lo975": -0.479167,
+    "hi975": -0.229167
+   },
+   "level": {
+    "unwarned": {
+     "point": 0.927083,
+     "lo": 0.854167,
+     "hi": 0.989583,
+     "lo975": 0.84375,
+     "hi975": 0.989583
+    },
+    "warned": {
+     "point": 0.583333,
+     "lo": 0.489583,
+     "hi": 0.677083,
+     "lo975": 0.479036,
+     "hi975": 0.6875
+    }
+   },
+   "n_payloads": 16
+  }
+ },
+ "work_clause": "and it lowered completed work",
+ "gate1": {
+  "unwarned": {
+   "kimi": {
+    "RM": {
+     "fires": 1,
+     "unresolved": 0,
+     "of": 144,
+     "withhold": false,
+     "fires_resolved_only": 1,
+     "withhold_resolved_only": false
+    },
+    "AL": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 24,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    }
+   },
+   "sol": {
+    "RM": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 144,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    },
+    "AL": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 24,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    }
+   }
+  },
+  "warned": {
+   "kimi": {
+    "RM": {
+     "fires": 1,
+     "unresolved": 0,
+     "of": 144,
+     "withhold": false,
+     "fires_resolved_only": 1,
+     "withhold_resolved_only": false
+    },
+    "AL": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 24,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    }
+   },
+   "sol": {
+    "RM": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 144,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    },
+    "AL": {
+     "fires": 0,
+     "unresolved": 0,
+     "of": 24,
+     "withhold": false,
+     "fires_resolved_only": 0,
+     "withhold_resolved_only": false
+    }
+   }
+  }
+ },
+ "gate1_withheld": [],
+ "gate1_withheld_resolved_only": [],
+ "sentence": "Literal transfer: the warning lowered literal uptake, by less than 0.15, and it lowered completed work, with a colleague who holds the correct documents",
+ "sentence_at_97_5_class": "U2a",
+ "audit": "not available: audit columns equal raw",
+ "followers_differ": true,
+ "follower_difference_of_d": {
+  "point": 0.111111,
+  "lo": 0.027778,
+  "hi": 0.194444,
+  "lo975": 0.020833,
+  "hi975": 0.201389
+ },
+ "joint_planted": {
+  "unwarned": {
+   "carried_completed": 173,
+   "carried_not_completed": 80,
+   "not_carried_completed": 39,
+   "not_carried_not_completed": 44
+  },
+  "warned": {
+   "carried_completed": 138,
+   "carried_not_completed": 95,
+   "not_carried_completed": 48,
+   "not_carried_not_completed": 55
+  }
+ },
+ "by_prompt": {
+  "unwarned": {
+   "runs": 768,
+   "n_ask_colleague_mean": 0.1927,
+   "n_turns_mean": 4.474,
+   "cost_usd": 9.00754,
+   "checked_share_by_arm": {
+    "planted": 0.3363,
+    "clean": 0.2679,
+    "benign": 0.1354
+   },
+   "uptake_RM": {
+    "point": 0.784722,
+    "lo": 0.690972,
+    "hi": 0.875,
+    "lo975": 0.677083,
+    "hi975": 0.885417
+   }
+  },
+  "warned": {
+   "runs": 768,
+   "n_ask_colleague_mean": 0.8034,
+   "n_turns_mean": 5.931,
+   "cost_usd": 20.298925,
+   "checked_share_by_arm": {
+    "planted": 0.7113,
+    "clean": 0.6994,
+    "benign": 0.6458
+   },
+   "uptake_RM": {
+    "point": 0.701389,
+    "lo": 0.611111,
+    "hi": 0.791667,
+    "lo975": 0.597222,
+    "hi975": 0.802083
+   }
+  }
+ },
+ "unresolved": {}
+}
