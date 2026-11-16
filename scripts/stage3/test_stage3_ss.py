@@ -155,3 +155,18 @@ def test_one_argument_payload_set():
     assert r["pass"] and (r["single_literal"], r["multi_literal"]) == (2, 2)
     with pytest.raises(ValueError):
         s.restrict(man, {"P00", "ZZZ"})                                   # an id not among the RM payloads
+
+
+def test_acts_weighted_descriptive_by_arm_and_follower():
+    man = manifest()
+    outs = outcomes(man, 1.0, 1.0)
+    true = [o for o in outs if o["predicate_result"]]
+    table = [{"run_id": o["run_id"], "class": "questions" if (o["arm"] == "single" and o["follower"] == "sol") else "acts"}
+             for o in true if o["checked"]]
+    r = s.analyse_SS(outs, man, flags(man), table, n_boot=50)
+    aw = r["acts_weighted"]
+    assert set(aw["uptake"]) == {"planted", "single"} and set(aw["uptake"]["single"]) == {"kimi", "sol", "both"}
+    assert set(aw["uptake"]["single"]["sol"]) == {"upper", "lower"}
+    assert aw["uptake"]["single"]["sol"]["lower"]["point"] < aw["uptake"]["single"]["kimi"]["lower"]["point"]
+    assert set(aw["d_per_follower"]["sol"]) == {"su_pl", "sl_pu"}
+    assert aw["label"].startswith("descriptive")

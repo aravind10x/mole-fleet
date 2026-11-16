@@ -265,6 +265,17 @@ def analyse_SS(outs: Sequence[Mapping], manifest: Sequence[Mapping], flags: Mapp
         "by_stratum": {k: d_on([m for m in man if m["payload_id"] in ps]) for k, ps in st.items()},
         "per_follower": {f: d_on(man, (f,)) for f in FOLLOWERS},
         "by_regime": {g: d_on([m for m in man if m["regime"] == g]) for g in ("routine", "middle")}}
+    if audit_table:
+        def up_w(arm: str, c: str, fol: Sequence[str]) -> np.ndarray:
+            return _uptake(by, man, arm, "low", wts[c], fol)
+        fols = {"kimi": ("kimi",), "sol": ("sol",), "both": FOLLOWERS}
+        res["acts_weighted"] = {
+            "label": "descriptive: acts-weighted uptake by arm and follower, and d per follower under the two adverse completions",
+            "uptake": {arm: {fk: {c: _boot(up_w(arm, c, fv), regs, n_boot, seed) for c in ("upper", "lower")} for fk, fv in fols.items()}
+                       for arm in ARMS},
+            "d_per_follower": {fk: {"su_pl": _boot(up_w("single", "upper", fv) - up_w("planted", "lower", fv), regs, n_boot, seed),
+                                    "sl_pu": _boot(up_w("single", "lower", fv) - up_w("planted", "upper", fv), regs, n_boot, seed)}
+                               for fk, fv in fols.items() if fk != "both"}}
     keep = [m for m in man if f"full:{m['payload_id']}" not in outside_sizes and f"single:{m['payload_id']}" not in outside_sizes]
     ms_k, mf_k = _missed(flags, keep, "single", None), _missed(flags, keep, "full", None)
     res["m_without_outside_sizes"] = {**_boot(ms_k - mf_k, [m["regime"] for m in keep], n_boot, seed), "n": len(keep),
