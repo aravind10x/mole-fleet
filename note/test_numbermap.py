@@ -50,9 +50,18 @@ def test_shipped_map_is_well_formed():
     ids = [r["id"] for r in doc["rows"]]
     assert len(ids) == len(set(ids))
     for r in doc["rows"]:
-        assert r["status"] in {"released", "design", "slot", "not_in_repository"}
+        assert r["status"] in {"released", "design", "slot", "to_be_mirrored", "not_in_repository"}
         if r["status"] == "released":
             assert r["record"] and r["locate"]
         held = ("results/stage3/t1", "results/stage3/b1/", "results/stage3/b3/", "results/stage3/q1q2-synthetic/",
                 "results/stage3/phase-b/", "results/stage3/find-the-plant/", "results/stage3/prep-report.md")
         assert not (r.get("record") or "").startswith(held), r["id"]
+
+
+def test_count_locator_prints_counts_not_content(tmp_path):
+    (tmp_path / "o.jsonl").write_text('{"run": "core|P1|planted|sol|r3", "text": "secret words"}\n{"run": "other"}\n')
+    r = _row(record="o.jsonl", locate=[{"count": "core|P1|planted|sol|r3"}])
+    assert nn.check_row(r, tmp_path) == []
+    (loc, hits), = nn.find(r, tmp_path)
+    assert hits == ["1 line(s) contain core|P1|planted|sol|r3"] and "secret" not in hits[0]
+    assert nn.check_row(_row(record="o.jsonl", locate=[{"count": "absent"}]), tmp_path)

@@ -1,7 +1,7 @@
 """Print or check where each number in the note comes from.
 
     python note/numbermap.py list            # one line per row
-    python note/numbermap.py show N05        # the record lines (or values) that hold row N05's numbers
+    python note/numbermap.py show N05        # the record lines (or values, or counts) that hold row N05's numbers
     python note/numbermap.py check           # every released row: record present, locators found, numbers present
     python note/numbermap.py table           # the map as a Markdown table
 
@@ -46,6 +46,10 @@ def find(row: dict, root: Path = ROOT) -> list[tuple[dict, list[str] | None]]:
             d = json.loads((root / rec).read_text())
             val = eval(loc["json_expr"], {"__builtins__": {"sum": sum, "len": len, "min": min, "max": max}}, {"d": d})
             out.append((loc, [str(val)]))
+        elif "count" in loc:
+            # Count only: shows that an id is recorded without printing the record's content.
+            n = sum(1 for ln in (root / rec).read_text(errors="replace").splitlines() if loc["count"] in ln)
+            out.append((loc, [f"{n} line(s) contain {loc['count']}"] if n else None))
         elif "pytest" in loc:
             out.append((loc, ["run: python -m pytest -q " + loc["pytest"]]))
     return out
@@ -117,7 +121,7 @@ def main(argv=None) -> int:
         for e in errs:
             print("FAIL " + e)
         print(f"{n} released rows checked; {len(errs)} failures; "
-              f"{sum(1 for r in doc['rows'] if r['status'] != 'released')} rows not released (design, slot, not in repository)")
+              f"{sum(1 for r in doc['rows'] if r['status'] != 'released')} rows not released (design, slot, to be mirrored, not in repository)")
         return 1 if errs else 0
     if cmd == "table":
         print("| id | where in the note | as written | record | how to print it | status |")

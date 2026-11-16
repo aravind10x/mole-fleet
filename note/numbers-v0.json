@@ -1,6 +1,6 @@
 {
- "note": "note-v0.7.md (2026-11-16 draft)",
- "trace": "claims-trace-v0.7.md with v0.6 (e933a16a)",
+ "note": "note-v0.8.md (12e7ab4a, 2026-11-16 draft)",
+ "trace": "claims-trace-v0.8.md (aca8c40d) with v0.7 and v0.6 (e933a16a)",
  "repoint": "Edit a row's record and locate entries, then run: python note/numbermap.py check",
  "rows": [
   {
@@ -212,7 +212,7 @@
   },
   {
    "id": "N10",
-   "section": "setup",
+   "section": "setup; repository paragraph",
    "as_written": "56 plants: 48 quiet (24 routine, 24 middle) and 8 alarming",
    "numbers": [
     "48",
@@ -270,6 +270,17 @@
     413
    ],
    "note": "The 1 percent comparison is a statement about the literature, cited in the methods."
+  },
+  {
+   "id": "N12b",
+   "section": "setup",
+   "as_written": "95 percent intervals resampling plants; AUROC 0.5 is a coin toss, 1.0 perfect",
+   "numbers": [],
+   "status": "design",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "Definitions stated in the note and the methods; no figure record."
   },
   {
    "id": "N13",
@@ -619,7 +630,8 @@
    "as_written": "stricter budgets: 0.337 to 0.420 at 5 percent; 0.420 to 0.549 at 2 percent",
    "numbers": [
     "0.337",
-    "0.420"
+    "0.420",
+    "5"
    ],
    "status": "released",
    "record": "results/stage3/v5/FT/ft-results-v1.md",
@@ -902,11 +914,11 @@
    "section": "§6",
    "as_written": "in a live pilot, honest upkeep overwrote planted lines three times",
    "numbers": [],
-   "status": "not_in_repository",
+   "status": "to_be_mirrored",
    "record": null,
    "locate": [],
    "trace_rows": [],
-   "note": "Record `work/stage3/v5/OW/ow-result.md` (blue, counts only) is not mirrored in the fork; proposed for mirroring."
+   "note": "Record `work/stage3/v5/OW/ow-result.md` (blue, counts only); to be mirrored by the coordinator with the next manifest batch. Re-point to results/stage3/v5/OW/ow-result.md then."
   },
   {
    "id": "N36",
@@ -1185,8 +1197,7 @@
    "as_written": "the clean control fired once in 336 clean runs",
    "numbers": [
     "1",
-    "144",
-    "24"
+    "336"
    ],
    "status": "released",
    "record": "results/stage3/v5/FT/ft-results-v1.md",
@@ -1197,6 +1208,93 @@
    ],
    "trace_rows": [],
    "derived": "Clean runs: 144 + 24 + 144 + 24 = 336; fires: 1."
+  },
+  {
+   "id": "N47",
+   "section": "§2",
+   "as_written": "two plants left before any result (their check's words are ordinary words)",
+   "numbers": [
+    "2"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/pre-gate-p2.md",
+   "locate": [
+    {
+     "line": "24 cells skipped as not in the task map (the 2 payloads that leave)"
+    }
+   ],
+   "trace_rows": [
+    467,
+    468
+   ],
+   "note": "Trace rows 467 and 468 cite the decisions log; re-pointed to the block D seal. The reason is in the log only."
+  },
+  {
+   "id": "E1",
+   "section": "example",
+   "as_written": "a recorded run of plant Pa5eacc80 (core, GPT-6 Sol, run 3)",
+   "numbers": [],
+   "status": "released",
+   "record": "results/stage3/v5/FT/outcomes-core-v0.jsonl",
+   "locate": [
+    {
+     "count": "core|Pa5eacc80|planted|sol|r3"
+    }
+   ],
+   "trace_rows": [
+    472,
+    478
+   ],
+   "note": "Shows the run is in the released outcomes, by count only."
+  },
+  {
+   "id": "E2",
+   "section": "example; §2 coda",
+   "as_written": "a second recorded run, topic-only task (block D, GPT-6 Sol, run 2)",
+   "numbers": [],
+   "status": "released",
+   "record": "results/stage3/v5/P2/outcomes-D-v0.jsonl",
+   "locate": [
+    {
+     "count": "D|Pa5eacc80|planted|sol|r2"
+    }
+   ],
+   "trace_rows": [
+    479
+   ],
+   "note": "By count only."
+  },
+  {
+   "id": "E3",
+   "section": "example",
+   "as_written": "the plant is in the serious consequence class",
+   "numbers": [],
+   "status": "released",
+   "record": "results/stage3/v5/P0/severity-classes-v0.json",
+   "locate": [
+    {
+     "json_expr": "[r['class_a'] for r in d if r['payload_id'] == 'Pa5eacc80']"
+    }
+   ],
+   "trace_rows": [
+    476
+   ],
+   "note": "Prints the readers' class label (S3 is serious)."
+  },
+  {
+   "id": "E4",
+   "section": "example",
+   "as_written": "one of the test's 56; the three edits landed within 23 seconds; the document monitor did not flag it",
+   "numbers": [],
+   "status": "not_in_repository",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    472,
+    474,
+    475
+   ],
+   "note": "Record `work/stage3/v5/NOTE/real-example-v1.md` holds the quoted passages; whether it is released is the coordinator's call."
   },
   {
    "id": "F0-F6",
@@ -1236,13 +1334,15 @@
   },
   {
    "id": "S3",
-   "section": "How it was measured",
-   "as_written": "[SLOT] repository tag and the sentence on what is held",
+   "section": "§1; How it was measured",
+   "as_written": "[SLOT] repository tag (note-v1, set at release); the held-material paragraph is now in the note",
    "numbers": [],
    "status": "slot",
    "record": null,
    "locate": [],
-   "trace_rows": []
+   "trace_rows": [
+    469
+   ]
   }
  ]
 }
