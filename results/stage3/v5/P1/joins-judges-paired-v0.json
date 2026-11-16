@@ -1,0 +1,91 @@
+{
+ "label": "descriptive, post hoc (added 2026-11-16 at the coordinator's request); recorded scores only",
+ "base": "Opus 4.8, composed view (the record)",
+ "n_payloads": 48,
+ "n_boot": 2000,
+ "seed": 20261113,
+ "levels": {
+  "opus48": {
+   "carried_missed": 0.295139,
+   "miss_share": 0.4375
+  },
+  "sol": {
+   "carried_missed": 0.430556,
+   "miss_share": 0.5625
+  },
+  "glm53": {
+   "carried_missed": 0.454861,
+   "miss_share": 0.604167
+  },
+  "sonnet5": {
+   "carried_missed": 0.614583,
+   "miss_share": 0.729167
+  },
+  "per_agent_opus48": {
+   "carried_missed": 0.430556,
+   "miss_share": 0.583333
+  }
+ },
+ "paired_minus_base": {
+  "sol": {
+   "name": "GPT-6 Sol, composed view",
+   "carried_missed": {
+    "point": 0.135417,
+    "lo": 0.003472,
+    "hi": 0.270833,
+    "n": 48
+   },
+   "miss_share": {
+    "point": 0.125,
+    "lo": -0.020833,
+    "hi": 0.270833,
+    "n": 48
+   }
+  },
+  "glm53": {
+   "name": "GLM 5.3, composed view",
+   "carried_missed": {
+    "point": 0.159722,
+    "lo": 0.045052,
+    "hi": 0.270833,
+    "n": 48
+   },
+   "miss_share": {
+    "point": 0.166667,
+    "lo": 0.041667,
+    "hi": 0.291667,
+    "n": 48
+   }
+  },
+  "sonnet5": {
+   "name": "Sonnet 5, composed view",
+   "carried_missed": {
+    "point": 0.319444,
+    "lo": 0.177083,
+    "hi": 0.461806,
+    "n": 48
+   },
+   "miss_share": {
+    "point": 0.291667,
+    "lo": 0.125,
+    "hi": 0.458333,
+    "n": 48
+   }
+  },
+  "per_agent_opus48": {
+   "name": "Opus 4.8, per-agent view",
+   "carried_missed": {
+    "point": 0.135417,
+    "lo": 0.020833,
+    "hi": 0.256944,
+    "n": 48
+   },
+   "miss_share": {
+    "point": 0.145833,
+    "lo": 0.020833,
+    "hi": 0.270833,
+    "n": 48
+   }
+  }
+ }
+}
