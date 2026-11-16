@@ -22,6 +22,13 @@ STAGE3 = ROOT / "work" / "stage3"
 FORK = ROOT / "work" / "mole-fork"
 FORK_STAGE3 = FORK / "results" / "stage3"
 MANIFEST = STAGE3 / "b0" / "frozen-tables.json"
+# In the public fork (this file at scripts/stage3/), parents[2] is the repository root and the project checkout is not
+# there: the manifest is the fork's copy and only the fork copies of the pins can be checked (line REPO, 2026-11-16).
+IN_FORK = (ROOT / "results" / "stage3" / "b0" / "frozen-tables.json").exists() and not STAGE3.exists()
+if IN_FORK:
+    FORK = ROOT
+    FORK_STAGE3 = FORK / "results" / "stage3"
+    MANIFEST = FORK_STAGE3 / "b0" / "frozen-tables.json"
 BY = "brief 13 A5 W0 (the writing session, Opus 5.5)"
 PLAN_STATUS_SHA = "58b0c1211bfd1e2b10c329f592f25dba96fc3036e9fbbb2d4a49def2457f6f13"
 PLAN_STATUS_FORK_COMMIT = "58b0c24"

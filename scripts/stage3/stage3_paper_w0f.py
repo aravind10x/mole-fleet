@@ -32,13 +32,20 @@ def current_pins(m: dict) -> list[dict]:
     """Every pin the manifest holds now: {path, main, sha256, fork, sha256_fork_copy}."""
     in_files = {f["path"] for f in m["files"]}
     latest: dict[str, dict] = {}
+    moved: dict[str, dict] = {}
     for a in m["amendments"]:
         for e in a.get("entries", []):
             if e["path"] not in in_files:
                 latest[e["path"]] = e
+            elif "relocated_to" in e:
+                # A `files` entry whose project copy moved: the amendment names the new place (relative to the project
+                # root) and its hash; the `files` entry itself is never edited (the manifest is append-only).
+                moved[e["path"]] = e
     pins = []
     for f in m["files"]:
-        pins.append({"path": f["path"], "main": w0.STAGE3 / f["path"], "sha256": f["sha256"],
+        mv = moved.get(f["path"])
+        main = (w0.ROOT / mv["relocated_to"]) if mv else (w0.STAGE3 / f["path"])
+        pins.append({"path": f["path"], "main": main, "sha256": mv["sha256"] if mv else f["sha256"],
                      "fork": w0.FORK_STAGE3 / f["path"], "sha256_fork_copy": f["sha256_fork_copy"]})
     for p, e in latest.items():
         root = e.get("path_root") == "project root"
@@ -53,9 +60,11 @@ def current_pins(m: dict) -> list[dict]:
 def drift(m: dict) -> list[str]:
     bad = []
     for p in current_pins(m):
-        if not p["main"].exists() or _sha(p["main"]) != p["sha256"]:
+        if not w0.IN_FORK and (not p["main"].exists() or _sha(p["main"]) != p["sha256"]):
             bad.append(f"main {p['path']}")
-        if p["fork"] is not None and (not p["fork"].exists() or _sha(p["fork"]) != p["sha256_fork_copy"]):
+        # A pin with no fork copy (sha256_fork_copy null) is not released, so there is nothing in the fork to check.
+        if p["fork"] is not None and p["sha256_fork_copy"] and (
+                not p["fork"].exists() or _sha(p["fork"]) != p["sha256_fork_copy"]):
             bad.append(f"fork {p['path']}")
     return bad
 
