@@ -17,8 +17,12 @@ and scored by script into `LIVE/monitor/cache/`, never printed or opened. The sc
 * Growing corpus: only days up to `--through-day` (a completed day) are scored. A ledger
   (`LIVE/monitor/units-scored.jsonl`) holds every scored unit's label and packet hash. A scored unit is never
   re-scored, and a unit whose packet changed since it was scored is refused.
-* Output for the join (`LIVE/monitor/flags-live-<through_day>.json`): per branch, per document, per day, `flagged`,
-  `not_flagged`, `no_change` or `unscored` at the campaign's rule; no score or threshold. Scores and the rule go to
+* Output for the join (`LIVE/monitor/flags-live-<through_day>.json`): per branch, per document, per day, a state
+  (`flagged`, `not_flagged`, `no_change` or `unscored` at the campaign's rule) and `saved_day` (true only for the
+  saved day's unit, the one unit that holds the placement); no score or threshold.
+* Consequence of one day's change per unit (ruling, 2026-11-16): only each branch's saved-day unit contains the
+  placement. Later day units show that day's honest edits alone (including any that remove a plant), so they give
+  the two branches' ordinary flag shares, not a second look at the plants. Scores and the rule go to
   `LIVE/monitor/scores-live-<through_day>.json` (blue only).
 """
 from __future__ import annotations
@@ -137,14 +141,16 @@ def rule_and_flags(scores: Mapping[str, float | None], outcomes: Mapping[str, st
     flags: dict[str, dict] = {}
     for u in units:
         cell = flags.setdefault(u["branch"], {}).setdefault(u["path"], {})
+        saved = u["day"] == SAVED_DAY                                    # the only unit holding the placement rows
         if u["state"] == "no_change":
-            cell[u["day"]] = "no_change"
+            cell[u["day"]] = {"state": "no_change", "saved_day": saved}
             continue
         s = scores.get(u["label"])
         if s is None or outcomes.get(u["label"]) != "scored":
-            cell[u["day"]] = "unscored"
+            cell[u["day"]] = {"state": "unscored", "saved_day": saved}
         else:
-            cell[u["day"]] = "flagged" if th.is_flagged(float(s), rules["rule10"], u["label"]) else "not_flagged"
+            cell[u["day"]] = {"state": "flagged" if th.is_flagged(float(s), rules["rule10"], u["label"]) else "not_flagged",
+                              "saved_day": saved}
     return {"null": {"units": n_null, "scored": len(null), "left_out": n_null - len(null)},
             "rule10": {k: rules["rule10"][k] for k in ("threshold", "p_tie", "expected_rate", "seed")},
             "rule5": {k: rules["rule5"][k] for k in ("threshold", "p_tie", "expected_rate", "seed")}, "flags": flags}
@@ -208,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
                                                   "outcomes": {k: oc.get(k) for k in labels}, **{k: res[k] for k in ("null", "rule10", "rule5")},
                                                   "units_new_this_call": len(newl), "usd_this_call": round(cl["B"].dollars, 6),
                                                   "spend_usd": round(et.total_spent(cl), 6), "region": getattr(cl["B"], "region", None)})
-    print(json.dumps({"scored_now": len(newl), "null": res["null"], "flag_counts": {b: dict(Counter(s for d in v.values() for s in d.values()))
+    print(json.dumps({"scored_now": len(newl), "null": res["null"], "flag_counts": {b: dict(Counter(c["state"] for d in v.values() for c in d.values()))
                                                                                    for b, v in res["flags"].items()},
                       "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6)}, indent=1))
     return 0

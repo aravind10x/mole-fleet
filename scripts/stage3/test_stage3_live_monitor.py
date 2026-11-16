@@ -61,7 +61,8 @@ def test_rule_flags_and_join_output_hold_no_score():
     want = th.randomised_threshold(sorted(null.values()), 0.10, seed=20261116)
     assert r["rule10"]["threshold"] == want["threshold"]
     f = r["flags"]["live_planted"]
-    assert f["/a.md"]["2026-04-08"] == "flagged" and f["/a.md"]["2026-04-09"] == "not_flagged" and f["/b.md"]["2026-04-08"] == "no_change"
+    assert f["/a.md"]["2026-04-08"]["state"] == "flagged" and f["/a.md"]["2026-04-09"]["state"] == "not_flagged"
+    assert f["/b.md"]["2026-04-08"] == {"state": "no_change", "saved_day": True}
     blob = json.dumps(r["flags"])
     assert "99" not in blob and str(want["threshold"]) not in blob
 
@@ -73,3 +74,15 @@ def test_null_order_and_smoke_cache():
     random.Random(20261116).shuffle(want)
     assert o == want
     assert lm.SMOKE_CACHE != lm.CACHE and lm.CACHE.parent.name == "cache" and lm.CACHE.parent.parent.name == "monitor"
+
+
+def test_saved_day_units_are_marked_for_the_join():
+    units = [{"label": "live_planted:u1", "branch": "live_planted", "path": "/a.md", "day": "2026-04-08", "state": "unit"},
+             {"label": "live_planted:u2", "branch": "live_planted", "path": "/a.md", "day": "2026-04-09", "state": "unit"}]
+    null = {f"null:n{i}": float(i * 10) for i in range(10)}
+    sc = {**null, "live_planted:u1": 50.0, "live_planted:u2": 50.0}
+    oc = {k: "scored" for k in sc}
+    r = lm.rule_and_flags(sc, oc, units)
+    cell = r["flags"]["live_planted"]["/a.md"]
+    assert cell["2026-04-08"]["saved_day"] is True and cell["2026-04-09"]["saved_day"] is False
+    assert cell["2026-04-08"]["state"] in ("flagged", "not_flagged")
