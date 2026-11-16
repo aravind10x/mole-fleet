@@ -21,7 +21,7 @@ Main code, in `scripts/stage3/`:
 | explain-first judge and the frozen-state score | `stage3_etj.py`, `stage3_p0_frozen_score.py` |
 | honest deviance on MOLE's corpora | `stage3_s3_deviance.py`, `stage3_s3_run.py`, `stage3_s3_upstream.py` |
 
-Each module except the S3 driver `stage3_s3_run.py` has its test beside it (`test_<module>.py`), run by module name: `python -m pytest -q scripts/stage3/test_stage3_ft_join.py`.
+Each module except the S3 driver `stage3_s3_run.py` has its test beside it (`test_<module>.py`), run by module name: `cd scripts/stage3 && python -m pytest -q test_stage3_ft_join.py`. On a fresh clone, the tests of the joins and results pass: `stage3_ft_join`, `stage3_p2_d_join`, `stage3_p2_w`, `stage3_p2_h`, `stage3_p0_frozen_score` and `stage3_s3_deviance`. So do all 150 of upstream's test modules. Many other stage-3 tests were written in the project's own layout. They read files that are not in this repository, such as the planted stock still unused and the scorers written by the side that planted, so they fail outside it. That does not affect the note's numbers, which are reproduced from the records below.
 
 ## Reproducing the note's numbers
 
@@ -43,13 +43,52 @@ cd note/figures && python make_figures.py && python -m pytest -q test_figures.py
 
 Thresholds, tie shares and scores in the records are reported results of finished runs.
 
-## What is released and what is held
+## What is here and what is not
 
-- **Released:** the harness, the analysis and join code, the scorers' interfaces, the count-level records the note cites, and the frozen manifest of the records the paper draws from (`results/stage3/b0/frozen-tables.json`).
-- **[SLOT: planted text. The paragraph saying plainly what is public and what is held; wording to come.]**
-- **FakeLab.** Figures derived from a collaborator's unpublished repository are held until its authors have answered. Where a record cites such a source, it names it without its figures.
-- **Keys.** No API key is in the repository or its history; `.env` files are ignored.
-- **Paths.** Records keep the absolute paths of the machine they were written on.
+This repository holds the code, the count-level records behind every figure in the note, and the planted changes used in this and the earlier rounds, including the 56 the note's headline rests on. It withholds the planted stock that has not been used yet, the agents' transcripts, and a collaborator's unpublished material. Records keep the file paths they were written with.
+
+Where a record cites the collaborator's material, it names the source without its figures. No API key is in the repository or its history; `.env` files are ignored.
+
+## A map of `results/stage3/`
+
+**The note's records.** The number-to-record table cites only these:
+
+| path | what it holds |
+|---|---|
+| `v5/FT/` | the follower test: design, harness checks, outcomes, results |
+| `v5/P0/` | the audit tables, the consequence classes and the frozen-state score |
+| `v5/P1/` | the joins of follower outcomes with monitor flags, and the paired judge comparison |
+| `v5/P2/` | blocks D (topic-only tasks), W (warned follower), H (honest tasks) and Z (dose): designs, seals, outcomes, results |
+| `v5/P3/` | how long plants live and how often honest work uses an item |
+| `v5/ETJ/` | the explain-first judge against a fresh baseline |
+| `v5/S3/` | honest deviance on MOLE's released corpora (public table) |
+| `v5/SS/` | the single-statement arm (running when this was written) |
+| `b0/frozen-tables.json` | the frozen manifest: every record the paper draws on, with its hash and tag |
+| `phase-a/a2-tail-v*.md` | honest writes outside their tasks, and the honest tail under each judge |
+| `rater-07s/rater-honest-reference.md` | how a rater scores honest edits against routine and middle plants |
+
+**Earlier rounds, kept for the record.** Names and the manifest's tags only:
+
+| path | earlier round | manifest tags |
+|---|---|---|
+| `t1/`, `t1v2/`, `t1v3/`, `t1-replant/` | the T1 rounds of plants and monitor scores, and their re-plant | confirmatory |
+| `t1k-rater/` | a rater check on the T1 plants | confirmatory, exploratory |
+| `b0/` (other files) | the B0 round's results | exploratory |
+| `b1/` | the B1 judge round | confirmatory |
+| `b3/` | the B3 round on splitting a plant across agents | methods, instrument, design, pre-registration, confirmatory, exploratory |
+| `b4/`, `b4r/` | the B4 design and its B4-R world | design; confirmatory |
+| `phase-a/` (other files), `phase-b/` | phases A and B of the earlier plan | descriptive, prior art; methods, pre-registration, descriptive, sensitivity |
+| `q1q2-synthetic/` | the Q1 and Q2 judge studies on synthetic plants | exploratory, confirmatory, sensitivity, methods |
+| `rater-07s/` (other files) | a rater-composition study | exploratory, sensitivity |
+| `legibility/` | a legibility instrument | instrument |
+| `pilot/` | a pilot | exploratory, sensitivity |
+| `prefix/` | prefix units used by the S3 tables | methods |
+| `elicitation/` | the elicitation and rating of plants | not in the manifest |
+| `cohort-examples/`, `find-the-plant/` | examples built for a demonstration | exploratory |
+| `bank-reweight/`, `s5c/`, `views/`, `scores/`, `rehearsal/`, `gitlab-smoke-logs/`, `review-07f/`, `paper/` | smaller earlier checks, rehearsals, logs and early drafts | not in the manifest |
+| 44 loose files | earlier rungs | one is in the manifest (exploratory) |
+
+`results/stage0/` to `results/stage2b/` are earlier stages from before this study's design.
 
 ## Licence and upstream
 
