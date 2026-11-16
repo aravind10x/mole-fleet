@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 200,
+ "n_files": 227,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -2193,6 +2193,276 @@
    "copies_identical": true,
    "tag": "methods",
    "tag_source": "the warned follower prompt: the frozen prompt plus one paragraph",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/pre-gate-p2.md",
+   "sha256": "4d20e38f576972e31bbe012be702ec223ed042bf00135857b924d33b19d43f3f",
+   "bytes": 16674,
+   "sha256_fork_copy": "4d20e38f576972e31bbe012be702ec223ed042bf00135857b924d33b19d43f3f",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the P2 seal: hashes fixed before the first planted smoke of blocks D, W and H, with the dated caps section (D35, D45)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/power-v1.md",
+   "sha256": "b7cf0bc7c3a58bf5db232b70d02441eda29760c459a3810b76b7938c8707fa8b",
+   "bytes": 2631,
+   "sha256_fork_copy": "b7cf0bc7c3a58bf5db232b70d02441eda29760c459a3810b76b7938c8707fa8b",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "simulation of the whole D and W rules on the core outcome structure, before launch",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/power-v1.json",
+   "sha256": "547b8ffe3bd154969af29e59961da7b83271477437ff7b08e47f31d4a68d0575",
+   "bytes": 3059,
+   "sha256_fork_copy": "547b8ffe3bd154969af29e59961da7b83271477437ff7b08e47f31d4a68d0575",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/retained-payloads-v1.json",
+   "sha256": "f2055a3439b412d5959141510da72b3475ff6ab743e0c59513293f01377fbc44",
+   "bytes": 896,
+   "sha256_fork_copy": "f2055a3439b412d5959141510da72b3475ff6ab743e0c59513293f01377fbc44",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the 54 payloads retained for D and H (v1.1 A)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/tasks-D-v1.json",
+   "sha256": "e90ee925404c317d759ae5395ad6adc5148a916b32cb3dd59c8b552875d9b17d",
+   "bytes": 18439,
+   "sha256_fork_copy": "e90ee925404c317d759ae5395ad6adc5148a916b32cb3dd59c8b552875d9b17d",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the drawn discovery goals as tasks, one per payload",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/schedule-W-v0.json",
+   "sha256": "005adba7d2f94e2e22a14d0c719124de5ef91fb375da38499c95422613f9ecf7",
+   "bytes": 161470,
+   "sha256_fork_copy": "005adba7d2f94e2e22a14d0c719124de5ef91fb375da38499c95422613f9ecf7",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the frozen W schedule interleaving both prompts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/draws-H-tasks-v1.json",
+   "sha256": "8a5e52c3da4cd4e23c6166e022bde07a9ee20d08c28a9bcdb8a5dafaeccd2809",
+   "bytes": 85912,
+   "sha256_fork_copy": "8a5e52c3da4cd4e23c6166e022bde07a9ee20d08c28a9bcdb8a5dafaeccd2809",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the H draw with task ids and strata",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/completion-13nov-v0.json",
+   "sha256": "e46a29b859c88974e02b44cc7a85627b580e31824fa12a1767703f6b6cfd451f",
+   "bytes": 119062,
+   "sha256_fork_copy": "e46a29b859c88974e02b44cc7a85627b580e31824fa12a1767703f6b6cfd451f",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "completion scorer on the 13 Nov clean and benign runs: the 0.70 floor passes (D38)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/outcomes-D-v0.jsonl",
+   "sha256": "e95cecf47361e8a5ea8d7178cbcbeb1d3eb3f089f105fc5d2a83cc765b6cb3d8",
+   "bytes": 591659,
+   "sha256_fork_copy": "e95cecf47361e8a5ea8d7178cbcbeb1d3eb3f089f105fc5d2a83cc765b6cb3d8",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block D outcomes, 648 runs, text-free fields",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/analysis-D-v1.json",
+   "sha256": "a999418a51b277e5ff742e479589d72618667a9fe96140b3d2c8379484b9b396",
+   "bytes": 4442,
+   "sha256_fork_copy": "a999418a51b277e5ff742e479589d72618667a9fe96140b3d2c8379484b9b396",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block D join with the audit applied: six computations",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-D-v1.md",
+   "sha256": "6b6d5a51f25535699296f72e9e343a0d8ef0c4ac61cf8e650450a76f375d5ed6",
+   "bytes": 4891,
+   "sha256_fork_copy": "6b6d5a51f25535699296f72e9e343a0d8ef0c4ac61cf8e650450a76f375d5ed6",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block D final: sentence 1 in all six computations; raw 0.779, audited 0.557 to 0.666 (D50)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-D.json",
+   "sha256": "9aa9aa33fa4cabc6b2adcdb69a315d07563ebc0e2be9cc37bb3df4355099a5c4",
+   "bytes": 13117,
+   "sha256_fork_copy": "9aa9aa33fa4cabc6b2adcdb69a315d07563ebc0e2be9cc37bb3df4355099a5c4",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "run-level positive audit of block D: run id, follower, regime, stratum, class only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-D.md",
+   "sha256": "dc6955920fac9d00359601c6c998309cdcc3ac4201f047d3686f7a5036bc36d8",
+   "bytes": 1674,
+   "sha256_fork_copy": "dc6955920fac9d00359601c6c998309cdcc3ac4201f047d3686f7a5036bc36d8",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-D-summary.json",
+   "sha256": "f658ebe901e910460a01bece399f8df069a8b6479cacabff0f17477b34aed763",
+   "bytes": 2510,
+   "sha256_fork_copy": "f658ebe901e910460a01bece399f8df069a8b6479cacabff0f17477b34aed763",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, summary and pass-two consistency",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/outcomes-H-v0.jsonl",
+   "sha256": "ee13e3ba1f5d54b6b6f8bb87d55e0523267a7c03b768d9fc5d10adc3525d0910",
+   "bytes": 846872,
+   "sha256_fork_copy": "ee13e3ba1f5d54b6b6f8bb87d55e0523267a7c03b768d9fc5d10adc3525d0910",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "block H outcomes, 864 runs, text-free fields",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/analysis-H-v0.json",
+   "sha256": "87b4b97576eef88941d57ca9632fb92f019eae14e349443ef138451cb6107b4f",
+   "bytes": 6422,
+   "sha256_fork_copy": "87b4b97576eef88941d57ca9632fb92f019eae14e349443ef138451cb6107b4f",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "block H join: need class by access by carry",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-H.md",
+   "sha256": "9b03d60c88b66580de2eee58bd2480f867a936d53262cbf67bb040a36b3b7c95",
+   "bytes": 4261,
+   "sha256_fork_copy": "9b03d60c88b66580de2eee58bd2480f867a936d53262cbf67bb040a36b3b7c95",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "block H, descriptive as registered: need 0.0013; carry given need 0.500; 0 of 312 without need (D51)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/outcomes-W-v0.jsonl",
+   "sha256": "bed3dc7a570733897d51b41dc2ee1745d87ce8700a4ffd1c859aa066c47b0792",
+   "bytes": 1507355,
+   "sha256_fork_copy": "bed3dc7a570733897d51b41dc2ee1745d87ce8700a4ffd1c859aa066c47b0792",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block W outcomes, 1,536 runs, text-free fields",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/analysis-W-v0.json",
+   "sha256": "df7be2070d8da685db4cbee4c83bdc308feb1eb9b3ce03f4f2398b3766fe1b2b",
+   "bytes": 5795,
+   "sha256_fork_copy": "df7be2070d8da685db4cbee4c83bdc308feb1eb9b3ce03f4f2398b3766fe1b2b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block W raw join",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-W.md",
+   "sha256": "49a708fdde0799495dc80e26d275f34d455c5db040d245d741fe05ba5dd57283",
+   "bytes": 5875,
+   "sha256_fork_copy": "49a708fdde0799495dc80e26d275f34d455c5db040d245d741fe05ba5dd57283",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block W raw result: d -0.083, class U2a, completed work lowered (D52)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-W.json",
+   "sha256": "5f584243229c093497250b201a12b1999e09e71bbb9d8259e1e72a476a31ded2",
+   "bytes": 37400,
+   "sha256_fork_copy": "5f584243229c093497250b201a12b1999e09e71bbb9d8259e1e72a476a31ded2",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "run-level positive audit of block W by prompt and follower: run id, prompt, follower, regime, stratum, class only (D55)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-W.md",
+   "sha256": "d3622b03302d23ce151303bd495ba65df7f246dd9d041d60435b901a4177b3d2",
+   "bytes": 3117,
+   "sha256_fork_copy": "d3622b03302d23ce151303bd495ba65df7f246dd9d041d60435b901a4177b3d2",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-table-W-summary.json",
+   "sha256": "f4cb98ddc15b51734ae2bc5f83f3be19de2b92be8b33dd000a6418e7b1491d2e",
+   "bytes": 5986,
+   "sha256_fork_copy": "f4cb98ddc15b51734ae2bc5f83f3be19de2b92be8b33dd000a6418e7b1491d2e",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, summary; pass two 22 of 22",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-neg-table-W.json",
+   "sha256": "9bb7926ffb58e74a7b87dfa15efd298f92d444b4ae540fd12c1dbbe9642213d2",
+   "bytes": 11837,
+   "sha256_fork_copy": "9bb7926ffb58e74a7b87dfa15efd298f92d444b4ae540fd12c1dbbe9642213d2",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "predicate-negative read of block W by prompt; pass two 9 of 12 on class (D55)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/audit-neg-table-W.md",
+   "sha256": "f89025c9873a78e43fc3fbfa29da8ff2fcd278d720745b8355600a612141835f",
+   "bytes": 1196,
+   "sha256_fork_copy": "f89025c9873a78e43fc3fbfa29da8ff2fcd278d720745b8355600a612141835f",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/analysis-W-v1.json",
+   "sha256": "d5bcf0d447dc20ba065fcff7079c3b4230c46b85919531160685626fa57a9fc2",
+   "bytes": 11410,
+   "sha256_fork_copy": "d5bcf0d447dc20ba065fcff7079c3b4230c46b85919531160685626fa57a9fc2",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block W join with both audits",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P2/result-W-v1.md",
+   "sha256": "830abbfbf92ddc2d44565a0d651092d14c269598b0415da07fbc78d54742130f",
+   "bytes": 7951,
+   "sha256_fork_copy": "830abbfbf92ddc2d44565a0d651092d14c269598b0415da07fbc78d54742130f",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "block W final: registered result not stable under the audit (raw U2a, audit U1); work clause stands (D55)",
    "added_beyond_brief_list": null
   }
  ],
@@ -4829,6 +5099,311 @@
      "copies_identical": true,
      "tag": "methods",
      "tag_source": "the warned follower prompt: the frozen prompt plus one paragraph",
+     "added_beyond_brief_list": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "by": "coordinator v5 (roadmap v5, line P2 blocks D, W and H): the P2 seal, the power simulation, draws and schedule, outcomes, joins, audit tables and final results of the discovery, honest-bank and warned-follower blocks (27 files).",
+   "added": [
+    "v5/P2/pre-gate-p2.md",
+    "v5/P2/power-v1.md",
+    "v5/P2/power-v1.json",
+    "v5/P2/retained-payloads-v1.json",
+    "v5/P2/tasks-D-v1.json",
+    "v5/P2/schedule-W-v0.json",
+    "v5/P2/draws-H-tasks-v1.json",
+    "v5/P2/completion-13nov-v0.json",
+    "v5/P2/outcomes-D-v0.jsonl",
+    "v5/P2/analysis-D-v1.json",
+    "v5/P2/result-D-v1.md",
+    "v5/P2/audit-table-D.json",
+    "v5/P2/audit-table-D.md",
+    "v5/P2/audit-table-D-summary.json",
+    "v5/P2/outcomes-H-v0.jsonl",
+    "v5/P2/analysis-H-v0.json",
+    "v5/P2/result-H.md",
+    "v5/P2/outcomes-W-v0.jsonl",
+    "v5/P2/analysis-W-v0.json",
+    "v5/P2/result-W.md",
+    "v5/P2/audit-table-W.json",
+    "v5/P2/audit-table-W.md",
+    "v5/P2/audit-table-W-summary.json",
+    "v5/P2/audit-neg-table-W.json",
+    "v5/P2/audit-neg-table-W.md",
+    "v5/P2/analysis-W-v1.json",
+    "v5/P2/result-W-v1.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/P2/pre-gate-p2.md",
+     "sha256": "4d20e38f576972e31bbe012be702ec223ed042bf00135857b924d33b19d43f3f",
+     "bytes": 16674,
+     "sha256_fork_copy": "4d20e38f576972e31bbe012be702ec223ed042bf00135857b924d33b19d43f3f",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the P2 seal: hashes fixed before the first planted smoke of blocks D, W and H, with the dated caps section (D35, D45)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/power-v1.md",
+     "sha256": "b7cf0bc7c3a58bf5db232b70d02441eda29760c459a3810b76b7938c8707fa8b",
+     "bytes": 2631,
+     "sha256_fork_copy": "b7cf0bc7c3a58bf5db232b70d02441eda29760c459a3810b76b7938c8707fa8b",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "simulation of the whole D and W rules on the core outcome structure, before launch",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/power-v1.json",
+     "sha256": "547b8ffe3bd154969af29e59961da7b83271477437ff7b08e47f31d4a68d0575",
+     "bytes": 3059,
+     "sha256_fork_copy": "547b8ffe3bd154969af29e59961da7b83271477437ff7b08e47f31d4a68d0575",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/retained-payloads-v1.json",
+     "sha256": "f2055a3439b412d5959141510da72b3475ff6ab743e0c59513293f01377fbc44",
+     "bytes": 896,
+     "sha256_fork_copy": "f2055a3439b412d5959141510da72b3475ff6ab743e0c59513293f01377fbc44",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the 54 payloads retained for D and H (v1.1 A)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/tasks-D-v1.json",
+     "sha256": "e90ee925404c317d759ae5395ad6adc5148a916b32cb3dd59c8b552875d9b17d",
+     "bytes": 18439,
+     "sha256_fork_copy": "e90ee925404c317d759ae5395ad6adc5148a916b32cb3dd59c8b552875d9b17d",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the drawn discovery goals as tasks, one per payload",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/schedule-W-v0.json",
+     "sha256": "005adba7d2f94e2e22a14d0c719124de5ef91fb375da38499c95422613f9ecf7",
+     "bytes": 161470,
+     "sha256_fork_copy": "005adba7d2f94e2e22a14d0c719124de5ef91fb375da38499c95422613f9ecf7",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the frozen W schedule interleaving both prompts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/draws-H-tasks-v1.json",
+     "sha256": "8a5e52c3da4cd4e23c6166e022bde07a9ee20d08c28a9bcdb8a5dafaeccd2809",
+     "bytes": 85912,
+     "sha256_fork_copy": "8a5e52c3da4cd4e23c6166e022bde07a9ee20d08c28a9bcdb8a5dafaeccd2809",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the H draw with task ids and strata",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/completion-13nov-v0.json",
+     "sha256": "e46a29b859c88974e02b44cc7a85627b580e31824fa12a1767703f6b6cfd451f",
+     "bytes": 119062,
+     "sha256_fork_copy": "e46a29b859c88974e02b44cc7a85627b580e31824fa12a1767703f6b6cfd451f",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "completion scorer on the 13 Nov clean and benign runs: the 0.70 floor passes (D38)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/outcomes-D-v0.jsonl",
+     "sha256": "e95cecf47361e8a5ea8d7178cbcbeb1d3eb3f089f105fc5d2a83cc765b6cb3d8",
+     "bytes": 591659,
+     "sha256_fork_copy": "e95cecf47361e8a5ea8d7178cbcbeb1d3eb3f089f105fc5d2a83cc765b6cb3d8",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block D outcomes, 648 runs, text-free fields",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/analysis-D-v1.json",
+     "sha256": "a999418a51b277e5ff742e479589d72618667a9fe96140b3d2c8379484b9b396",
+     "bytes": 4442,
+     "sha256_fork_copy": "a999418a51b277e5ff742e479589d72618667a9fe96140b3d2c8379484b9b396",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block D join with the audit applied: six computations",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-D-v1.md",
+     "sha256": "6b6d5a51f25535699296f72e9e343a0d8ef0c4ac61cf8e650450a76f375d5ed6",
+     "bytes": 4891,
+     "sha256_fork_copy": "6b6d5a51f25535699296f72e9e343a0d8ef0c4ac61cf8e650450a76f375d5ed6",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block D final: sentence 1 in all six computations; raw 0.779, audited 0.557 to 0.666 (D50)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-D.json",
+     "sha256": "9aa9aa33fa4cabc6b2adcdb69a315d07563ebc0e2be9cc37bb3df4355099a5c4",
+     "bytes": 13117,
+     "sha256_fork_copy": "9aa9aa33fa4cabc6b2adcdb69a315d07563ebc0e2be9cc37bb3df4355099a5c4",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "run-level positive audit of block D: run id, follower, regime, stratum, class only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-D.md",
+     "sha256": "dc6955920fac9d00359601c6c998309cdcc3ac4201f047d3686f7a5036bc36d8",
+     "bytes": 1674,
+     "sha256_fork_copy": "dc6955920fac9d00359601c6c998309cdcc3ac4201f047d3686f7a5036bc36d8",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-D-summary.json",
+     "sha256": "f658ebe901e910460a01bece399f8df069a8b6479cacabff0f17477b34aed763",
+     "bytes": 2510,
+     "sha256_fork_copy": "f658ebe901e910460a01bece399f8df069a8b6479cacabff0f17477b34aed763",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, summary and pass-two consistency",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/outcomes-H-v0.jsonl",
+     "sha256": "ee13e3ba1f5d54b6b6f8bb87d55e0523267a7c03b768d9fc5d10adc3525d0910",
+     "bytes": 846872,
+     "sha256_fork_copy": "ee13e3ba1f5d54b6b6f8bb87d55e0523267a7c03b768d9fc5d10adc3525d0910",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "block H outcomes, 864 runs, text-free fields",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/analysis-H-v0.json",
+     "sha256": "87b4b97576eef88941d57ca9632fb92f019eae14e349443ef138451cb6107b4f",
+     "bytes": 6422,
+     "sha256_fork_copy": "87b4b97576eef88941d57ca9632fb92f019eae14e349443ef138451cb6107b4f",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "block H join: need class by access by carry",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-H.md",
+     "sha256": "9b03d60c88b66580de2eee58bd2480f867a936d53262cbf67bb040a36b3b7c95",
+     "bytes": 4261,
+     "sha256_fork_copy": "9b03d60c88b66580de2eee58bd2480f867a936d53262cbf67bb040a36b3b7c95",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "block H, descriptive as registered: need 0.0013; carry given need 0.500; 0 of 312 without need (D51)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/outcomes-W-v0.jsonl",
+     "sha256": "bed3dc7a570733897d51b41dc2ee1745d87ce8700a4ffd1c859aa066c47b0792",
+     "bytes": 1507355,
+     "sha256_fork_copy": "bed3dc7a570733897d51b41dc2ee1745d87ce8700a4ffd1c859aa066c47b0792",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block W outcomes, 1,536 runs, text-free fields",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/analysis-W-v0.json",
+     "sha256": "df7be2070d8da685db4cbee4c83bdc308feb1eb9b3ce03f4f2398b3766fe1b2b",
+     "bytes": 5795,
+     "sha256_fork_copy": "df7be2070d8da685db4cbee4c83bdc308feb1eb9b3ce03f4f2398b3766fe1b2b",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block W raw join",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-W.md",
+     "sha256": "49a708fdde0799495dc80e26d275f34d455c5db040d245d741fe05ba5dd57283",
+     "bytes": 5875,
+     "sha256_fork_copy": "49a708fdde0799495dc80e26d275f34d455c5db040d245d741fe05ba5dd57283",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block W raw result: d -0.083, class U2a, completed work lowered (D52)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-W.json",
+     "sha256": "5f584243229c093497250b201a12b1999e09e71bbb9d8259e1e72a476a31ded2",
+     "bytes": 37400,
+     "sha256_fork_copy": "5f584243229c093497250b201a12b1999e09e71bbb9d8259e1e72a476a31ded2",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "run-level positive audit of block W by prompt and follower: run id, prompt, follower, regime, stratum, class only (D55)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-W.md",
+     "sha256": "d3622b03302d23ce151303bd495ba65df7f246dd9d041d60435b901a4177b3d2",
+     "bytes": 3117,
+     "sha256_fork_copy": "d3622b03302d23ce151303bd495ba65df7f246dd9d041d60435b901a4177b3d2",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-table-W-summary.json",
+     "sha256": "f4cb98ddc15b51734ae2bc5f83f3be19de2b92be8b33dd000a6418e7b1491d2e",
+     "bytes": 5986,
+     "sha256_fork_copy": "f4cb98ddc15b51734ae2bc5f83f3be19de2b92be8b33dd000a6418e7b1491d2e",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, summary; pass two 22 of 22",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-neg-table-W.json",
+     "sha256": "9bb7926ffb58e74a7b87dfa15efd298f92d444b4ae540fd12c1dbbe9642213d2",
+     "bytes": 11837,
+     "sha256_fork_copy": "9bb7926ffb58e74a7b87dfa15efd298f92d444b4ae540fd12c1dbbe9642213d2",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "predicate-negative read of block W by prompt; pass two 9 of 12 on class (D55)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/audit-neg-table-W.md",
+     "sha256": "f89025c9873a78e43fc3fbfa29da8ff2fcd278d720745b8355600a612141835f",
+     "bytes": 1196,
+     "sha256_fork_copy": "f89025c9873a78e43fc3fbfa29da8ff2fcd278d720745b8355600a612141835f",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/analysis-W-v1.json",
+     "sha256": "d5bcf0d447dc20ba065fcff7079c3b4230c46b85919531160685626fa57a9fc2",
+     "bytes": 11410,
+     "sha256_fork_copy": "d5bcf0d447dc20ba065fcff7079c3b4230c46b85919531160685626fa57a9fc2",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block W join with both audits",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P2/result-W-v1.md",
+     "sha256": "830abbfbf92ddc2d44565a0d651092d14c269598b0415da07fbc78d54742130f",
+     "bytes": 7951,
+     "sha256_fork_copy": "830abbfbf92ddc2d44565a0d651092d14c269598b0415da07fbc78d54742130f",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "block W final: registered result not stable under the audit (raw U2a, audit U1); work clause stands (D55)",
      "added_beyond_brief_list": null
     }
    ]

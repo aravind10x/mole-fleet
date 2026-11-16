@@ -1,0 +1,162 @@
+{
+ "group_fields": [
+  "follower"
+ ],
+ "strata": {
+  "kimi": {
+   "chk_population": 109,
+   "chk_sampled": 40,
+   "other_population": 7,
+   "other_sampled": 7
+  },
+  "sol": {
+   "chk_population": 120,
+   "chk_sampled": 40,
+   "other_population": 7,
+   "other_sampled": 7
+  }
+ },
+ "classes": [
+  {
+   "group": "kimi",
+   "regime": "alarming",
+   "stratum": "chk_sample",
+   "acts": 6,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "group": "kimi",
+   "regime": "middle",
+   "stratum": "chk_sample",
+   "acts": 16,
+   "questions": 2,
+   "unclear": 0
+  },
+  {
+   "group": "kimi",
+   "regime": "middle",
+   "stratum": "other_all",
+   "acts": 1,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "group": "kimi",
+   "regime": "routine",
+   "stratum": "chk_sample",
+   "acts": 16,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "group": "kimi",
+   "regime": "routine",
+   "stratum": "other_all",
+   "acts": 6,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "group": "sol",
+   "regime": "alarming",
+   "stratum": "chk_sample",
+   "acts": 3,
+   "questions": 4,
+   "unclear": 0
+  },
+  {
+   "group": "sol",
+   "regime": "middle",
+   "stratum": "chk_sample",
+   "acts": 4,
+   "questions": 8,
+   "unclear": 0
+  },
+  {
+   "group": "sol",
+   "regime": "middle",
+   "stratum": "other_all",
+   "acts": 4,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "group": "sol",
+   "regime": "routine",
+   "stratum": "chk_sample",
+   "acts": 18,
+   "questions": 3,
+   "unclear": 0
+  },
+  {
+   "group": "sol",
+   "regime": "routine",
+   "stratum": "other_all",
+   "acts": 3,
+   "questions": 0,
+   "unclear": 0
+  }
+ ],
+ "classes_by_stratum": {
+  "chk_sample": {
+   "acts": 63,
+   "questions": 17,
+   "unclear": 0
+  },
+  "other_all": {
+   "acts": 14,
+   "questions": 0,
+   "unclear": 0
+  }
+ },
+ "estimated_planted": [
+  {
+   "group": "kimi",
+   "regime": "alarming",
+   "acts": 16.35,
+   "questions": 0.0,
+   "unclear": 0.0
+  },
+  {
+   "group": "kimi",
+   "regime": "middle",
+   "acts": 44.6,
+   "questions": 5.45,
+   "unclear": 0.0
+  },
+  {
+   "group": "kimi",
+   "regime": "routine",
+   "acts": 49.6,
+   "questions": 0.0,
+   "unclear": 0.0
+  },
+  {
+   "group": "sol",
+   "regime": "alarming",
+   "acts": 9.0,
+   "questions": 12.0,
+   "unclear": 0.0
+  },
+  {
+   "group": "sol",
+   "regime": "middle",
+   "acts": 16.0,
+   "questions": 24.0,
+   "unclear": 0.0
+  },
+  {
+   "group": "sol",
+   "regime": "routine",
+   "acts": 57.0,
+   "questions": 9.0,
+   "unclear": 0.0
+  }
+ ],
+ "consistency": {
+  "n": 14,
+  "identical": 14,
+  "share": 1.0
+ }
+}
