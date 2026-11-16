@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Runner for the pinned SS negative-audit join (`stage3_ss_neg.py` b1e282ba, unchanged). Red's Part F table names a
 control's shown form `control_form` and the second pass `pass2_agreement`; this adapter renames those two fields to the
-module's `form` and `consistency`, and changes nothing else. Hash-checked inputs; writes a new file."""
+module's `form` and `consistency`; and the display table's `pairs` with `class_own_form` / `class_other_form` to the
+module's rows with `class_own` / `class_other`. It changes nothing else. Hash-checked inputs; writes a new file."""
 from __future__ import annotations
 
 import argparse
@@ -29,6 +30,17 @@ def adapt(table: Any) -> tuple[list[dict], Any]:
     return out, (table.get("pass2_agreement", table.get("consistency")) if isinstance(table, dict) else None)
 
 
+def adapt_display(table: Any) -> list[dict]:
+    """Red's display table (`{"pairs": [{run_id, arm, class_own_form, class_other_form}]}`) to the module's
+    `{run_id, arm, class_own, class_other}`; a list already in the module's names passes through."""
+    rows = table.get("pairs", table.get("runs")) if isinstance(table, dict) else table
+    out = []
+    for r in rows:
+        out.append({"run_id": r["run_id"], "arm": r["arm"], "class_own": r.get("class_own_form", r.get("class_own")),
+                    "class_other": r.get("class_other_form", r.get("class_other"))})
+    return out
+
+
 def main(argv: list[str] | None = None) -> int:
     import stage3_ft_run as fr
     import stage3_ss_neg as sn
@@ -50,8 +62,7 @@ def main(argv: list[str] | None = None) -> int:
     rows, p2 = adapt(json.loads(a.neg_table.read_text(encoding="utf-8")))
     disp = None
     if a.display_table:
-        dt = json.loads(a.display_table.read_text(encoding="utf-8"))
-        disp = dt["runs"] if isinstance(dt, dict) else dt
+        disp = adapt_display(json.loads(a.display_table.read_text(encoding="utf-8")))
     outs = [json.loads(x) for x in (S5 / "outcomes-SS-v0.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
     pos = json.loads((S5 / "audit-table-SS.json").read_text(encoding="utf-8"))
     res = sn.analyse_neg(outs, fr.load_manifest(fr.RED_FT / "cells-manifest.json"), pos, rows, display_rows=disp)
