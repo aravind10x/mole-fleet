@@ -117,3 +117,51 @@ def test_w_gate_both_ways():
     r = w.analyse_W(outs, man, [], n_boot=50)
     assert r["gate1"]["warned"]["kimi"]["RM"]["withhold"] is True and r["gate1"]["warned"]["kimi"]["RM"]["withhold_resolved_only"] is False
     assert r["sentence"] == "withheld: clean control (warned kimi), only when unresolved clean runs count as firings"
+
+
+# ── v1 (audits joined, 2026-11-16): descriptive figures beside the registered class ───────────────────────────────
+
+def audit_world():
+    man = manifest()
+    outs = outcomes(man, 2 / 3, 1 / 3)
+    true_pl = [o for o in outs if o["arm"] == "planted" and o["predicate_result"]]
+    table = [{"run_id": o["run_id"], "class": ("questions" if o["prompt"] == "warned" and o["follower"] == "sol" else "acts")}
+             for o in true_pl if o["checked"]]
+    false_pl = [o for o in outs if o["arm"] == "planted" and o["predicate_result"] is False]
+    neg = [{"run_id": o["run_id"], "arm": "planted", "prompt": o["prompt"], "class": c}
+           for o, c in zip(false_pl[::2], ["acts_other_words", "questions", "unclear"] * 50)]
+    clean = [o for o in outs if o["arm"] == "clean"]
+    neg += [{"run_id": o["run_id"], "arm": "clean", "prompt": o["prompt"], "class": "no_use"} for o in clean[:8]]
+    return man, outs, table, neg
+
+
+def test_point_weights_sit_between_the_completions():
+    man, outs, table, neg = audit_world()
+    wp = w.audit_weights_W(outs, table, completion="point")
+    wl = w.audit_weights_W(outs, table, completion="lower")
+    wu = w.audit_weights_W(outs, table, completion="upper")
+    assert all(wl[k] <= wp[k] <= wu[k] for k in wp)
+
+
+def test_beside_figures_are_labelled_and_complete():
+    man, outs, table, neg = audit_world()
+    b = w.beside_W(outs, man, table, neg, n_boot=50)
+    assert b["label"].startswith("descriptive")
+    assert set(b["acts_weighted_by_prompt"]) == {"unwarned", "warned"}
+    assert set(b["acts_weighted_by_prompt"]["warned"]) == {"point", "upper", "lower"}
+    assert set(b["acts_weighted_by_prompt_follower"]["warned"]) == {"kimi", "sol"}
+    assert b["acts_weighted_by_prompt_follower"]["warned"]["sol"]["point"]["point"] < b["acts_weighted_by_prompt_follower"]["warned"]["kimi"]["point"]["point"]
+    assert set(b["d_acts_weighted"]) == {"overall", "kimi", "sol"} and set(b["d_acts_weighted"]["overall"]) == {"point", "wu_ud", "wd_uu"}
+    assert set(b["negative_read_by_prompt"]) == {"unwarned", "warned"}
+    r = w._newcombe(20, 30, 0, 10)                         # the table's unwarned row: 0.6667 [0.3365, 0.8077]
+    assert (round(r["diff"], 4), round(r["lo"], 4), round(r["hi"], 4)) == (0.6667, 0.3365, 0.8077)
+
+
+def test_acted_on_range_adds_the_negative_read():
+    man, outs, table, neg = audit_world()
+    b = w.beside_W(outs, man, table, neg, n_boot=50)
+    for p in ("unwarned", "warned"):
+        ao = b["acted_on_both_audits"][p]
+        assert ao["lower"]["point"] <= ao["upper"]["point"]
+        assert ao["lower"]["point"] >= b["acts_weighted_by_prompt"][p]["lower"]["point"] - 1e-9
+    assert b["acted_on_both_audits"]["label"].startswith("not registered")
