@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 227,
+ "n_files": 246,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -2463,6 +2463,196 @@
    "copies_identical": true,
    "tag": "confirmatory",
    "tag_source": "block W final: registered result not stable under the audit (raw U2a, audit U1); work clause stands (D55)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/preregistration-v1.md",
+   "sha256": "3d398370fd0e2eda315d5f14cd8e452c1a327aa3e977dc76c99839c79f49d9d3",
+   "bytes": 8836,
+   "sha256_fork_copy": "3d398370fd0e2eda315d5f14cd8e452c1a327aa3e977dc76c99839c79f49d9d3",
+   "copies_identical": true,
+   "tag": "design",
+   "tag_source": "single-statement arm: the design that governs, after its Codex read (D56)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/pre-gate-ss.md",
+   "sha256": "206b22a20f5784ca773968e82dad87c36752a2a705da077327eccde1e1d2ffc2",
+   "bytes": 9614,
+   "sha256_fork_copy": "206b22a20f5784ca773968e82dad87c36752a2a705da077327eccde1e1d2ffc2",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the SS seal, with the dated follower-cap note of D61 (nothing above it changed)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/red-statement-choice-v0.json",
+   "sha256": "efe657ab1ae07f5e5d9168070d6c8c9ef7a2b46c2b9745a73383b7199a33d5a9",
+   "bytes": 7962,
+   "sha256_fork_copy": "efe657ab1ae07f5e5d9168070d6c8c9ef7a2b46c2b9745a73383b7199a33d5a9",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "red's statement choice per payload with strata: ids and statement numbers only (D57)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/result-red-A-v1.md",
+   "sha256": "a6e042338f6c5a7eb5092841afff0493cb139f29367a8c369646244fd329dffa",
+   "bytes": 9137,
+   "sha256_fork_copy": "a6e042338f6c5a7eb5092841afff0493cb139f29367a8c369646244fd329dffa",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "red's certification of the 48 single arms and their packets, counts and hashes (D59)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/schedule-v0.json",
+   "sha256": "b0f138a290ceb147bf095a213771f40f0ae2d1235f46ad52b4a258ea4222c260",
+   "bytes": 54909,
+   "sha256_fork_copy": "b0f138a290ceb147bf095a213771f40f0ae2d1235f46ad52b4a258ea4222c260",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the frozen SS schedule, 576 runs",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/scoring-order-v0.json",
+   "sha256": "fcff9dda2ef1184df2e03c5386599e0e825f68402f16ac1a044d88d079fdfb45",
+   "bytes": 24553,
+   "sha256_fork_copy": "fcff9dda2ef1184df2e03c5386599e0e825f68402f16ac1a044d88d079fdfb45",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "the scoring order, 350 units",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/outcomes-SS-v0.jsonl",
+   "sha256": "0a521bf656f4cb193b13183208955a66716e7a0f20d1752a4a8d9cc05e452c64",
+   "bytes": 476842,
+   "sha256_fork_copy": "0a521bf656f4cb193b13183208955a66716e7a0f20d1752a4a8d9cc05e452c64",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS follower outcomes, 576 runs, text-free fields",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/scores-SS-v0.json",
+   "sha256": "46b8a2bf1fb76266c5c5158f5b9c951d38499d74c9e72673e3ce0ccbddb2299c",
+   "bytes": 59512,
+   "sha256_fork_copy": "46b8a2bf1fb76266c5c5158f5b9c951d38499d74c9e72673e3ce0ccbddb2299c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS scoring run: scores, this run's own null rule and flags (a result of a finished run; no later run reuses the rule)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/analysis-SS-v0.json",
+   "sha256": "dafd0da474f36b54484386afea938a62d962bbf7dc2dc9162e75d03e256df2cc",
+   "bytes": 6357,
+   "sha256_fork_copy": "dafd0da474f36b54484386afea938a62d962bbf7dc2dc9162e75d03e256df2cc",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS raw join",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/result-SS.md",
+   "sha256": "ef2264f854b78697dc16d7e4e00a85151aece27f4ee480adc3519e3ab64c8afe",
+   "bytes": 5893,
+   "sha256_fork_copy": "ef2264f854b78697dc16d7e4e00a85151aece27f4ee480adc3519e3ab64c8afe",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS raw result with runs, scoring and cost (D73)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/result-red-D.md",
+   "sha256": "2d4a582c5bd22cd31545d6842694eae1ce5862642409a3c3d044e70f0f29f63a",
+   "bytes": 2974,
+   "sha256_fork_copy": "2d4a582c5bd22cd31545d6842694eae1ce5862642409a3c3d044e70f0f29f63a",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "red's audit set for SS, counts and hashes (D74)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-table-SS.json",
+   "sha256": "53ad94df8834e065e7926e26773fba5532086806e082b9d7bc0b9b1505d01c4c",
+   "bytes": 32118,
+   "sha256_fork_copy": "53ad94df8834e065e7926e26773fba5532086806e082b9d7bc0b9b1505d01c4c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "run-level positive audit of SS by arm and follower: run id, arm, follower, regime, stratum, class only (D74)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-table-SS.md",
+   "sha256": "d6142b4853451830b0a3dd238a32b090979827d1d74d7ceded2995c266551cda",
+   "bytes": 782,
+   "sha256_fork_copy": "d6142b4853451830b0a3dd238a32b090979827d1d74d7ceded2995c266551cda",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-table-SS-summary.json",
+   "sha256": "1df3c8a92ccd415e65b82d0471c7367f0b9b83602837c62deb5ebf595b1f5761",
+   "bytes": 1288,
+   "sha256_fork_copy": "1df3c8a92ccd415e65b82d0471c7367f0b9b83602837c62deb5ebf595b1f5761",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "the same, summary; pass two 19 of 20",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/analysis-SS-v1.json",
+   "sha256": "d2870426e85bb5d0ae5173ae16d3b32d0353070b3dd2c310eae3966da408d7a9",
+   "bytes": 9629,
+   "sha256_fork_copy": "d2870426e85bb5d0ae5173ae16d3b32d0353070b3dd2c310eae3966da408d7a9",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS join with the audit applied: six computations",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/result-SS-v1.md",
+   "sha256": "fa76e067ab672497e901510dba4d6c56d67e98bf4b62f83f86dcd3bc7f546049",
+   "bytes": 6792,
+   "sha256_fork_copy": "fa76e067ab672497e901510dba4d6c56d67e98bf4b62f83f86dcd3bc7f546049",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "SS final: the registered result is not stable under the audit; the monitor missed the single statement 36 of 48 against 17 of 48 (D75)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-judges-paired-v0.md",
+   "sha256": "92ba652639a5a1489919c9cc60a048b9f8e92ce134932d7a21377ff8c542ad74",
+   "bytes": 1874,
+   "sha256_fork_copy": "92ba652639a5a1489919c9cc60a048b9f8e92ce134932d7a21377ff8c542ad74",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "paired differences between judges on carried and missed, post hoc, from recorded scores (D58)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/P1/joins-judges-paired-v0.json",
+   "sha256": "e5e6ac93a250f11073b4d92208967a1fb0cfc5fa19d9b8978e3a523c03f4261b",
+   "bytes": 1681,
+   "sha256_fork_copy": "e5e6ac93a250f11073b4d92208967a1fb0cfc5fa19d9b8978e3a523c03f4261b",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/OW/ow-result.md",
+   "sha256": "226e8fc57fd35c9c4c5f95961e4663dab0b7552e80fdc91f57839bd10136a135",
+   "bytes": 2947,
+   "sha256_fork_copy": "226e8fc57fd35c9c4c5f95961e4663dab0b7552e80fdc91f57839bd10136a135",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "red's read of the pilot overwrites: counts only (line OW)",
    "added_beyond_brief_list": null
   }
  ],
@@ -5413,6 +5603,278 @@
    "by": "coordinator v5 (line REPO, leak check): the tag_source of the two Phase C rows no longer quotes figures; it points to the project record. No file, path or hash changed.",
    "added": [],
    "entries": []
+  },
+  {
+   "date": "2026-11-16",
+   "by": "coordinator v5 (roadmap v5, line SS and lines P1, OW): the single-statement arm (design, seal, red certification, schedule, outcomes, scores, joins, audit table, final result), the paired judge join and the pilot overwrite read (19 files).",
+   "added": [
+    "v5/SS/preregistration-v1.md",
+    "v5/SS/pre-gate-ss.md",
+    "v5/SS/red-statement-choice-v0.json",
+    "v5/SS/result-red-A-v1.md",
+    "v5/SS/schedule-v0.json",
+    "v5/SS/scoring-order-v0.json",
+    "v5/SS/outcomes-SS-v0.jsonl",
+    "v5/SS/scores-SS-v0.json",
+    "v5/SS/analysis-SS-v0.json",
+    "v5/SS/result-SS.md",
+    "v5/SS/result-red-D.md",
+    "v5/SS/audit-table-SS.json",
+    "v5/SS/audit-table-SS.md",
+    "v5/SS/audit-table-SS-summary.json",
+    "v5/SS/analysis-SS-v1.json",
+    "v5/SS/result-SS-v1.md",
+    "v5/P1/joins-judges-paired-v0.md",
+    "v5/P1/joins-judges-paired-v0.json",
+    "v5/OW/ow-result.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/SS/preregistration-v1.md",
+     "sha256": "3d398370fd0e2eda315d5f14cd8e452c1a327aa3e977dc76c99839c79f49d9d3",
+     "bytes": 8836,
+     "sha256_fork_copy": "3d398370fd0e2eda315d5f14cd8e452c1a327aa3e977dc76c99839c79f49d9d3",
+     "copies_identical": true,
+     "tag": "design",
+     "tag_source": "single-statement arm: the design that governs, after its Codex read (D56)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/pre-gate-ss.md",
+     "sha256": "206b22a20f5784ca773968e82dad87c36752a2a705da077327eccde1e1d2ffc2",
+     "bytes": 9614,
+     "sha256_fork_copy": "206b22a20f5784ca773968e82dad87c36752a2a705da077327eccde1e1d2ffc2",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the SS seal, with the dated follower-cap note of D61 (nothing above it changed)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/red-statement-choice-v0.json",
+     "sha256": "efe657ab1ae07f5e5d9168070d6c8c9ef7a2b46c2b9745a73383b7199a33d5a9",
+     "bytes": 7962,
+     "sha256_fork_copy": "efe657ab1ae07f5e5d9168070d6c8c9ef7a2b46c2b9745a73383b7199a33d5a9",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "red's statement choice per payload with strata: ids and statement numbers only (D57)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/result-red-A-v1.md",
+     "sha256": "a6e042338f6c5a7eb5092841afff0493cb139f29367a8c369646244fd329dffa",
+     "bytes": 9137,
+     "sha256_fork_copy": "a6e042338f6c5a7eb5092841afff0493cb139f29367a8c369646244fd329dffa",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "red's certification of the 48 single arms and their packets, counts and hashes (D59)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/schedule-v0.json",
+     "sha256": "b0f138a290ceb147bf095a213771f40f0ae2d1235f46ad52b4a258ea4222c260",
+     "bytes": 54909,
+     "sha256_fork_copy": "b0f138a290ceb147bf095a213771f40f0ae2d1235f46ad52b4a258ea4222c260",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the frozen SS schedule, 576 runs",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/scoring-order-v0.json",
+     "sha256": "fcff9dda2ef1184df2e03c5386599e0e825f68402f16ac1a044d88d079fdfb45",
+     "bytes": 24553,
+     "sha256_fork_copy": "fcff9dda2ef1184df2e03c5386599e0e825f68402f16ac1a044d88d079fdfb45",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the scoring order, 350 units",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/outcomes-SS-v0.jsonl",
+     "sha256": "0a521bf656f4cb193b13183208955a66716e7a0f20d1752a4a8d9cc05e452c64",
+     "bytes": 476842,
+     "sha256_fork_copy": "0a521bf656f4cb193b13183208955a66716e7a0f20d1752a4a8d9cc05e452c64",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS follower outcomes, 576 runs, text-free fields",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/scores-SS-v0.json",
+     "sha256": "46b8a2bf1fb76266c5c5158f5b9c951d38499d74c9e72673e3ce0ccbddb2299c",
+     "bytes": 59512,
+     "sha256_fork_copy": "46b8a2bf1fb76266c5c5158f5b9c951d38499d74c9e72673e3ce0ccbddb2299c",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS scoring run: scores, this run's own null rule and flags (a result of a finished run; no later run reuses the rule)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/analysis-SS-v0.json",
+     "sha256": "dafd0da474f36b54484386afea938a62d962bbf7dc2dc9162e75d03e256df2cc",
+     "bytes": 6357,
+     "sha256_fork_copy": "dafd0da474f36b54484386afea938a62d962bbf7dc2dc9162e75d03e256df2cc",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS raw join",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/result-SS.md",
+     "sha256": "ef2264f854b78697dc16d7e4e00a85151aece27f4ee480adc3519e3ab64c8afe",
+     "bytes": 5893,
+     "sha256_fork_copy": "ef2264f854b78697dc16d7e4e00a85151aece27f4ee480adc3519e3ab64c8afe",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS raw result with runs, scoring and cost (D73)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/result-red-D.md",
+     "sha256": "2d4a582c5bd22cd31545d6842694eae1ce5862642409a3c3d044e70f0f29f63a",
+     "bytes": 2974,
+     "sha256_fork_copy": "2d4a582c5bd22cd31545d6842694eae1ce5862642409a3c3d044e70f0f29f63a",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "red's audit set for SS, counts and hashes (D74)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-table-SS.json",
+     "sha256": "53ad94df8834e065e7926e26773fba5532086806e082b9d7bc0b9b1505d01c4c",
+     "bytes": 32118,
+     "sha256_fork_copy": "53ad94df8834e065e7926e26773fba5532086806e082b9d7bc0b9b1505d01c4c",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "run-level positive audit of SS by arm and follower: run id, arm, follower, regime, stratum, class only (D74)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-table-SS.md",
+     "sha256": "d6142b4853451830b0a3dd238a32b090979827d1d74d7ceded2995c266551cda",
+     "bytes": 782,
+     "sha256_fork_copy": "d6142b4853451830b0a3dd238a32b090979827d1d74d7ceded2995c266551cda",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-table-SS-summary.json",
+     "sha256": "1df3c8a92ccd415e65b82d0471c7367f0b9b83602837c62deb5ebf595b1f5761",
+     "bytes": 1288,
+     "sha256_fork_copy": "1df3c8a92ccd415e65b82d0471c7367f0b9b83602837c62deb5ebf595b1f5761",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "the same, summary; pass two 19 of 20",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/analysis-SS-v1.json",
+     "sha256": "d2870426e85bb5d0ae5173ae16d3b32d0353070b3dd2c310eae3966da408d7a9",
+     "bytes": 9629,
+     "sha256_fork_copy": "d2870426e85bb5d0ae5173ae16d3b32d0353070b3dd2c310eae3966da408d7a9",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS join with the audit applied: six computations",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/result-SS-v1.md",
+     "sha256": "fa76e067ab672497e901510dba4d6c56d67e98bf4b62f83f86dcd3bc7f546049",
+     "bytes": 6792,
+     "sha256_fork_copy": "fa76e067ab672497e901510dba4d6c56d67e98bf4b62f83f86dcd3bc7f546049",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "SS final: the registered result is not stable under the audit; the monitor missed the single statement 36 of 48 against 17 of 48 (D75)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-judges-paired-v0.md",
+     "sha256": "92ba652639a5a1489919c9cc60a048b9f8e92ce134932d7a21377ff8c542ad74",
+     "bytes": 1874,
+     "sha256_fork_copy": "92ba652639a5a1489919c9cc60a048b9f8e92ce134932d7a21377ff8c542ad74",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "paired differences between judges on carried and missed, post hoc, from recorded scores (D58)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/P1/joins-judges-paired-v0.json",
+     "sha256": "e5e6ac93a250f11073b4d92208967a1fb0cfc5fa19d9b8978e3a523c03f4261b",
+     "bytes": 1681,
+     "sha256_fork_copy": "e5e6ac93a250f11073b4d92208967a1fb0cfc5fa19d9b8978e3a523c03f4261b",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/OW/ow-result.md",
+     "sha256": "226e8fc57fd35c9c4c5f95961e4663dab0b7552e80fdc91f57839bd10136a135",
+     "bytes": 2947,
+     "sha256_fork_copy": "226e8fc57fd35c9c4c5f95961e4663dab0b7552e80fdc91f57839bd10136a135",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "red's read of the pilot overwrites: counts only (line OW)",
+     "added_beyond_brief_list": null
+    }
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "by": "coordinator v5 (roadmap v5, line REPO): five Phase C records moved unchanged to work/fakelab/phase-c/ (relocation entries; the files entries are not edited), and work/lessons.md re-pinned after appends.",
+   "added": [],
+   "entries": [
+    {
+     "path": "phase-c/plan-v0.md",
+     "relocated_to": "work/fakelab/phase-c/plan-v0.md",
+     "path_root": "project root",
+     "sha256": "55fe38ca10b03c575f936118c23aa97224cfa8973f594562cac1d77ac3123dad",
+     "note": "the project copy moved unchanged; not released, so no fork copy"
+    },
+    {
+     "path": "phase-c/phase-c-report.md",
+     "relocated_to": "work/fakelab/phase-c/phase-c-report.md",
+     "path_root": "project root",
+     "sha256": "84f9cec6dd56619a672b9902ab0ecf5f5e92d6714704d3777b2927185a9d7deb",
+     "note": "the project copy moved unchanged; not released, so no fork copy"
+    },
+    {
+     "path": "phase-c/phase-c-results.json",
+     "relocated_to": "work/fakelab/phase-c/phase-c-results.json",
+     "path_root": "project root",
+     "sha256": "ef86c5250a92405be629e35539a2f7d9c563586c83dc2cef5e195667ee47e0d6",
+     "note": "the project copy moved unchanged; not released, so no fork copy"
+    },
+    {
+     "path": "phase-c/scores-table-v1.json",
+     "relocated_to": "work/fakelab/phase-c/scores-table-v1.json",
+     "path_root": "project root",
+     "sha256": "45d1fb49c81a590b2007f7fb26c582813d0b181372446e461a9b87c0c91d9125",
+     "note": "the project copy moved unchanged; not released, so no fork copy"
+    },
+    {
+     "path": "phase-c/dryrun-v0.json",
+     "relocated_to": "work/fakelab/phase-c/dryrun-v0.json",
+     "path_root": "project root",
+     "sha256": "abf1bf204bdaf0743b847b3d589fd6baf793a0c0910991bae98f5964017b2586",
+     "note": "the project copy moved unchanged; not released, so no fork copy"
+    },
+    {
+     "path": "work/lessons.md",
+     "path_root": "project root",
+     "sha256": "499888e012db76bec6e82f96b277976e5dbd34986322d87a1a9e3216ad7c521d",
+     "bytes": 26832,
+     "fork_copy_path": null,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "tag": "record",
+     "tag_source": "lessons L1 onward: cited for method, never for a number; re-pinned after later lessons were appended (the previous pin is an exact prefix)",
+     "cited_only": true,
+     "added_beyond_brief_list": false
+    }
+   ]
   }
  ]
 }

@@ -1,0 +1,477 @@
+{
+ "version": "ss-choice/v0",
+ "rule": "lowest-numbered member of literal_statements",
+ "n": 48,
+ "payloads": [
+  {
+   "payload_id": "Pbc59ef1e",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P9f37384a",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P6d3d4f50",
+   "regime": "routine",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P32c925bb",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pd242e296",
+   "regime": "routine",
+   "literal_statements": [
+    3
+   ],
+   "chosen_statement": 3,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P37c057d4",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P66c865e8",
+   "regime": "routine",
+   "literal_statements": [
+    2,
+    3
+   ],
+   "chosen_statement": 2,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pa531a630",
+   "regime": "routine",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pbecf016b",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P6df79dc8",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pb5b72627",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P2ada75a7",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pca6abc72",
+   "regime": "routine",
+   "literal_statements": [
+    2
+   ],
+   "chosen_statement": 2,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P618d9563",
+   "regime": "routine",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P5ed51360",
+   "regime": "routine",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P7853a31e",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pad28054a",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pb38c74d3",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pa13b4f2c",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pa2412b1d",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P4403aaea",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P1a4566cf",
+   "regime": "routine",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P2af8a757",
+   "regime": "routine",
+   "literal_statements": [
+    2,
+    3
+   ],
+   "chosen_statement": 2,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pd5bccab7",
+   "regime": "routine",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P68f881e6",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pb9da922f",
+   "regime": "middle",
+   "literal_statements": [
+    2
+   ],
+   "chosen_statement": 2,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P24d6c040",
+   "regime": "middle",
+   "literal_statements": [
+    3
+   ],
+   "chosen_statement": 3,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pe90013dc",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pc58f5b13",
+   "regime": "middle",
+   "literal_statements": [
+    3
+   ],
+   "chosen_statement": 3,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P989b27b1",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P2838b6a9",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P79fb5548",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P317ac1ca",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P55179e69",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pc3672a1f",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P4668bb4d",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pcfebe39e",
+   "regime": "middle",
+   "literal_statements": [
+    2
+   ],
+   "chosen_statement": 2,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P8d60fc18",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P7134cc12",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "P9e334c02",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P5e96e25b",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pa5eacc80",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pf338a03d",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pfd3d2a0b",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P32de0349",
+   "regime": "middle",
+   "literal_statements": [
+    1
+   ],
+   "chosen_statement": 1,
+   "stratum": "single_literal"
+  },
+  {
+   "payload_id": "Pef9bc968",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "P3fc43b8f",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    2,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  },
+  {
+   "payload_id": "Pafd41b45",
+   "regime": "middle",
+   "literal_statements": [
+    1,
+    3
+   ],
+   "chosen_statement": 1,
+   "stratum": "multi_literal"
+  }
+ ]
+}

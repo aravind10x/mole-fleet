@@ -1,0 +1,84 @@
+{
+ "group_fields": [
+  "arm",
+  "follower"
+ ],
+ "strata": [
+  {
+   "cell": "single|kimi",
+   "stratum": "chk",
+   "population": 25,
+   "sampled": 25,
+   "acts": 16,
+   "questions": 7,
+   "unclear": 2
+  },
+  {
+   "cell": "single|kimi",
+   "stratum": "other",
+   "population": 58,
+   "sampled": 20,
+   "acts": 20,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "cell": "single|sol",
+   "stratum": "chk",
+   "population": 25,
+   "sampled": 25,
+   "acts": 14,
+   "questions": 11,
+   "unclear": 0
+  },
+  {
+   "cell": "single|sol",
+   "stratum": "other",
+   "population": 76,
+   "sampled": 20,
+   "acts": 20,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "cell": "planted|kimi",
+   "stratum": "chk",
+   "population": 34,
+   "sampled": 34,
+   "acts": 27,
+   "questions": 3,
+   "unclear": 4
+  },
+  {
+   "cell": "planted|kimi",
+   "stratum": "other",
+   "population": 74,
+   "sampled": 20,
+   "acts": 20,
+   "questions": 0,
+   "unclear": 0
+  },
+  {
+   "cell": "planted|sol",
+   "stratum": "chk",
+   "population": 36,
+   "sampled": 36,
+   "acts": 13,
+   "questions": 23,
+   "unclear": 0
+  },
+  {
+   "cell": "planted|sol",
+   "stratum": "other",
+   "population": 78,
+   "sampled": 20,
+   "acts": 20,
+   "questions": 0,
+   "unclear": 0
+  }
+ ],
+ "pass2_agreement": {
+  "n": 20,
+  "identical": 19
+ }
+}
