@@ -141,3 +141,17 @@ def test_descriptive_beside():
     assert set(r["by_regime"]) == {"routine", "middle"} and "S2" in r["by_class_a"]
     assert r["earlier_replicates"]["core_planted"]["point"] == pytest.approx(1.0)
     assert r["m_without_outside_sizes"]["n"] == 7
+
+
+def test_one_argument_payload_set():
+    man = manifest()
+    keep = {"P00", "P01", "P05", "P06"}
+    sub = s.restrict(man, keep)
+    assert {m["payload_id"] for m in sub} == keep | {"A00"} or {m["payload_id"] for m in sub} == keep
+    assert len(s.ss_cells(sub)) == 4 * 2 * 2 * 3 and s.schedule(sub)["n"] == 48
+    table = [{"payload_id": m["payload_id"], "chosen_statement": min(m["literal_statements"]),
+              "stratum": "single_literal" if len(m["literal_statements"]) == 1 else "multi_literal"} for m in sub if m["regime"] != "alarming"]
+    r = s.check_choice_table(table, sub)                                # expected counts follow the payload set
+    assert r["pass"] and (r["single_literal"], r["multi_literal"]) == (2, 2)
+    with pytest.raises(ValueError):
+        s.restrict(man, {"P00", "ZZZ"})                                   # an id not among the RM payloads

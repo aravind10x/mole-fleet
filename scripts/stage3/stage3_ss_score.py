@@ -108,11 +108,17 @@ def _write_new(path: Path, obj: Any) -> None:
     path.write_text(json.dumps(obj, indent=1) + "\n", encoding="utf-8")
 
 
-def _units(ss_sha: str) -> list[dict]:
+def _units(ss_sha: str, payloads: Path | None = None, ss_packets: Path = SS_PACKETS) -> list[dict]:
     import stage3_ft_run as fr
     rm = {m["payload_id"] for m in fr.load_manifest(fr.RED_FT / "cells-manifest.json")
           if m.get("scorable", True) and m.get("regime") in ("routine", "middle")}
-    return build_units(et.null_units(), load_packets(FULL_PACKETS, FULL_SHA), load_packets(SS_PACKETS, ss_sha), rm_ids=rm)
+    if payloads:
+        import stage3_p2_run as pr
+        keep = set(pr.load_payload_list(payloads))
+        if not keep <= rm:
+            raise SystemExit("refusing: a listed payload is not an RM payload")
+        rm = keep
+    return build_units(et.null_units(), load_packets(FULL_PACKETS, FULL_SHA), load_packets(ss_packets, ss_sha), rm_ids=rm)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -121,8 +127,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--ss-packets-sha256", required=True)
     ap.add_argument("--cap-usd", type=float, default=1.0)
     ap.add_argument("--n", type=int, default=10)
+    ap.add_argument("--payloads", type=Path, help="the built payloads ({payload_ids: [...]}); default all 48 RM")
+    ap.add_argument("--ss-packets", type=Path, default=SS_PACKETS)
     a = ap.parse_args(argv)
-    units = _units(a.ss_packets_sha256)
+    units = _units(a.ss_packets_sha256, a.payloads, a.ss_packets)
     by = {u["label"]: u for u in units}
     if a.mode == "order":
         _write_new(ORDER, scoring_order(list(by)))

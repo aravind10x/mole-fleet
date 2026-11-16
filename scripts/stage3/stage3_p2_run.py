@@ -193,6 +193,13 @@ def apply_task_map(cells: Sequence["Cell"], skipped: Mapping[str, int], tasks: d
     return out, sk
 
 
+def load_payload_list(path: Path) -> list[str]:
+    """`{"payload_ids": [...]}` or a plain JSON list of ids."""
+    obj = json.loads(Path(path).read_text(encoding="utf-8"))
+    ids = obj["payload_ids"] if isinstance(obj, dict) else obj
+    return [str(x) for x in ids]
+
+
 def load_prompts(specs: Sequence[str]) -> dict[str, str]:
     out = {}
     for spec in specs:
@@ -248,6 +255,12 @@ def build_cells(cfg: "BlockConfig", manifest: Sequence[Mapping], tasks: dict) ->
         cells = [c for c in cells if c.record.get("regime") in cfg.regimes]
         if n0 > len(cells):
             skipped = dict(skipped, regime_not_in_block=n0 - len(cells))
+    if cfg.payloads:
+        keep = set(load_payload_list(cfg.payloads))
+        n0 = len(cells)
+        cells = [c for c in cells if c.payload_id in keep]
+        if n0 > len(cells):
+            skipped = dict(skipped, payload_not_in_block=n0 - len(cells))
     if cfg.task_map:
         cells, skipped = apply_task_map(cells, skipped, tasks, load_task_map(cfg.task_map))
     if cfg.draws:
@@ -516,6 +529,7 @@ class BlockConfig:
     task_map: Path | None = None             # P2: {payload_id: task record}; payloads outside it are skipped
     expect_access_sha256: str | None = None
     expect_task_map_sha256: str | None = None
+    expect_payloads_sha256: str | None = None
     limit_per_follower: int | None = None    # P2 smokes: the first N runs of the order per follower, nothing else recorded
     prompts: tuple[str, ...] = ()            # P2 W: "name=builtin" (the frozen prompt) or "name=<path>"; cells x prompts
     schedule: Path | None = None             # P2 W: {"order": [{"run_id"}...]}, the frozen order; must equal the cell set
@@ -523,6 +537,7 @@ class BlockConfig:
     completion: bool = False                 # P2 W: blue's completion scorer in the outcome rows
     draws: Path | None = None                # P2 H: [{draw_id, payload_id, stratum, need_class, task}]; cells per draw
     regimes: tuple[str, ...] = ()            # SS: only payloads of these regimes (empty: all)
+    payloads: Path | None = None             # SS: {"payload_ids": [...]} or a JSON list; only these payloads
 
     def __post_init__(self):
         if any(r not in REGIMES for r in self.regimes):
@@ -536,7 +551,7 @@ class BlockConfig:
         if not re.fullmatch(r"[A-Za-z0-9_.-]+", self.block):
             raise ValueError("block name: letters, digits, '_', '.', '-' only")
         for name in ("expect_manifest_sha256", "expect_predicates_sha256", "expect_docs_tree_sha256", "expect_access_sha256",
-                     "expect_task_map_sha256"):
+                     "expect_task_map_sha256", "expect_payloads_sha256"):
             v = getattr(self, name)
             if v is not None and (len(v) < 8 or not re.fullmatch(r"[0-9a-f]+", v)):
                 raise ValueError(f"{name}: a lower-case hex sha256 or a prefix of at least 8 characters")
@@ -586,10 +601,11 @@ def check_hashes(cfg: BlockConfig) -> dict:
            "predicates": sha256_file(cfg.predicates) if cfg.predicates and Path(cfg.predicates).exists() else None,
            "docs_tree": docs_tree_sha256(cfg.docs_root) if Path(cfg.docs_root).is_dir() else None,
            "access": sha256_file(cfg.access) if cfg.access and Path(cfg.access).exists() else None,
-           "task_map": sha256_file(cfg.task_map) if cfg.task_map and Path(cfg.task_map).exists() else None}
+           "task_map": sha256_file(cfg.task_map) if cfg.task_map and Path(cfg.task_map).exists() else None,
+           "payloads": sha256_file(cfg.payloads) if cfg.payloads and Path(cfg.payloads).exists() else None}
     for key, want in (("manifest", cfg.expect_manifest_sha256), ("predicates", cfg.expect_predicates_sha256),
                       ("docs_tree", cfg.expect_docs_tree_sha256), ("access", cfg.expect_access_sha256),
-                      ("task_map", cfg.expect_task_map_sha256)):
+                      ("task_map", cfg.expect_task_map_sha256), ("payloads", cfg.expect_payloads_sha256)):
         if want is not None and (got[key] is None or not got[key].startswith(want)):
             raise HashMismatch(f"{key}: expected {want}, found {(got[key] or 'missing')[:16]}")
     return got
@@ -1107,6 +1123,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--completion", action="store_true", help="W: blue's completion scorer in the outcome rows")
     ap.add_argument("--draws", type=Path, help="H: the draws with their tasks; one cell set per draw")
     ap.add_argument("--regimes", default="", help="SS: comma-separated regimes to keep (default all)")
+    ap.add_argument("--payloads", type=Path, help="SS: the payload list to keep ({payload_ids: [...]})")
+    ap.add_argument("--expect-payloads-sha256")
     a = ap.parse_args(argv)
     cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
                       repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
@@ -1117,7 +1135,8 @@ def main(argv: list[str] | None = None) -> int:
                       expect_access_sha256=a.expect_access_sha256, expect_task_map_sha256=a.expect_task_map_sha256,
                       limit_per_follower=a.limit_per_follower, prompts=tuple(a.prompt), schedule=a.schedule,
                       colleague_arm_docs=a.colleague_arm_docs, completion=a.completion, draws=a.draws,
-                      regimes=tuple(x for x in a.regimes.split(",") if x))
+                      regimes=tuple(x for x in a.regimes.split(",") if x), payloads=a.payloads,
+                      expect_payloads_sha256=a.expect_payloads_sha256)
     if a.dry_run:
         p = plan_block(cfg)
         return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] and not (p["access"] or {}).get("unresolved") else 2

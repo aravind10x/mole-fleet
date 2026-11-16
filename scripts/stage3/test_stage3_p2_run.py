@@ -1033,3 +1033,11 @@ def test_single_arm_loads_its_own_documents_and_regimes_filter(world):
     assert by["single"]["predicate_result"] is True                     # the follower applied the single document's value
     with pytest.raises(ValueError):
         cfg(world, regimes=("weekly",))
+
+
+def test_payload_list_keeps_only_the_listed_payloads(world):
+    pl = world["tmp"] / "payloads.json"
+    pl.write_text(json.dumps({"payload_ids": ["P2"]}), encoding="utf-8")
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["planted"], payloads=pl)
+    s = run_block(c)
+    assert {r["payload_id"] for r in read_outcomes(c)} == {"P2"} and s["skipped_cells"].get("payload_not_in_block") == 1

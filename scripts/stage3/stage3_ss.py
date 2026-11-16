@@ -58,6 +58,15 @@ def _rm(manifest: Sequence[Mapping]) -> list[Mapping]:
                   key=lambda m: m["payload_id"])
 
 
+def restrict(manifest: Sequence[Mapping], payload_ids: set[str] | Sequence[str]) -> list[Mapping]:
+    """The manifest cut to the built payloads (red's final count); every id must be an RM payload."""
+    ids = set(payload_ids)
+    rm = {m["payload_id"] for m in _rm(manifest)}
+    if not ids <= rm:
+        raise ValueError(f"{len(ids - rm)} payload ids are not RM payloads of the manifest")
+    return [m for m in manifest if m["payload_id"] in ids]
+
+
 def ss_cells(manifest: Sequence[Mapping]) -> list[dict]:
     return [{"run_id": f"SS|{m['payload_id']}|{arm}|{f}|r{k}", "payload_id": m["payload_id"], "arm": arm, "follower": f, "repeat": k}
             for m in _rm(manifest) for arm in ARMS for f in FOLLOWERS for k in range(1, REPEATS + 1)]
@@ -85,10 +94,12 @@ def strata(manifest: Sequence[Mapping]) -> dict[str, list[str]]:
     return out
 
 
-def check_choice_table(table: Sequence[Mapping], manifest: Sequence[Mapping], *, want: tuple[int, int] = (20, 28)) -> dict:
+def check_choice_table(table: Sequence[Mapping], manifest: Sequence[Mapping], *, want: tuple[int, int] | None = None) -> dict:
     """Red's statement-choice table against the manifest: strata counts and the lowest member of `literal_statements`."""
     man = {m["payload_id"]: m for m in _rm(manifest)}
     st = strata(manifest)
+    if want is None:
+        want = (len(st["single_literal"]), len(st["multi_literal"]))
     stratum_of = {p: k for k, ps in st.items() for p in ps}
     lowest = sum(1 for r in table if r["payload_id"] in man
                  and int(r.get("chosen_statement", r.get("statement", -1))) == min(int(x) for x in man[r["payload_id"]]["literal_statements"]))
@@ -289,12 +300,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--core", type=Path, default=fr.FT_DIR / "outcomes-core-v0.jsonl")
     ap.add_argument("--w", type=Path, default=fr.PROJECT / "work" / "stage3" / "v5" / "P2" / "outcomes-W-v0.jsonl")
     ap.add_argument("--classes", type=Path, default=fr.PROJECT / "work" / "stage3" / "v5" / "P0" / "severity-classes-v0.json")
+    ap.add_argument("--payloads", type=Path, help="the built payloads ({payload_ids: [...]}); default all 48 RM")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--n-boot", type=int, default=N_BOOT)
     a = ap.parse_args(argv)
     if a.out.exists():
         raise SystemExit(f"{a.out} exists; never overwritten")
     man = fr.load_manifest(a.manifest)
+    if a.payloads:
+        import stage3_p2_run as pr
+        man = restrict(man, pr.load_payload_list(a.payloads))
     if a.mode == "schedule":
         s = schedule(man)
         a.out.write_text(json.dumps(s, indent=1) + "\n", encoding="utf-8")
