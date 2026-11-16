@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 246,
+ "n_files": 259,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -2653,6 +2653,136 @@
    "copies_identical": true,
    "tag": "descriptive",
    "tag_source": "red's read of the pilot overwrites: counts only (line OW)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/preregistration-v1-addition-neg-audit.md",
+   "sha256": "5f405aeed1a2ac663d4cdd34e9776aca363240550ab61f51ea0256beec4fd222",
+   "bytes": 4094,
+   "sha256_fork_copy": "5f405aeed1a2ac663d4cdd34e9776aca363240550ab61f51ea0256beec4fd222",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "SS post hoc addition, v1: the predicate-negative audit of the block, filed before any class; superseded by v2",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/preregistration-v1-addition-neg-audit-v2.md",
+   "sha256": "ef4b73a32548c25e19f204be130138c7e99f1a03f62c5eeef6937264d295584d",
+   "bytes": 5610,
+   "sha256_fork_copy": "ef4b73a32548c25e19f204be130138c7e99f1a03f62c5eeef6937264d295584d",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "SS post hoc addition, v2 (governs): the predicate-negative audit and its display check, filed before any class",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/dispositions-neg-audit.md",
+   "sha256": "b52615f4b8f6a2ed9b8edd6291814d035e3e1c2165612a8864bf8a989790c288",
+   "bytes": 3382,
+   "sha256_fork_copy": null,
+   "copies_identical": null,
+   "tag": "methods",
+   "tag_source": "dispositions on the review of the addition (b52615f4); a process file, not released (Aravind, 16 Nov), so no fork copy",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-neg-table-SS.json",
+   "sha256": "38ab2ffeb0baa8e3b118d3026113abfa72571ab2f9aabd369208eb13dcc82ac9",
+   "bytes": 36362,
+   "sha256_fork_copy": "38ab2ffeb0baa8e3b118d3026113abfa72571ab2f9aabd369208eb13dcc82ac9",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "run-level predicate-negative audit of SS: run id, arm, follower, class only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-neg-table-SS.md",
+   "sha256": "dd5d0e6980e48412305c68f72749d75397cdfa7e461f8b809693bb4ae8c89028",
+   "bytes": 1030,
+   "sha256_fork_copy": "dd5d0e6980e48412305c68f72749d75397cdfa7e461f8b809693bb4ae8c89028",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-neg-display-SS.json",
+   "sha256": "af6e87eaa85a2d9b5d3e65ab6d4311d30e9c1538a4a2c14f106a00b1bee2656d",
+   "bytes": 6117,
+   "sha256_fork_copy": "af6e87eaa85a2d9b5d3e65ab6d4311d30e9c1538a4a2c14f106a00b1bee2656d",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the display check: each audited run's class under its own and the other form; run id, arm, classes only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/audit-neg-display-SS.md",
+   "sha256": "a56ed61b66f9d4773b1550a4cb336d9415ea7aa284c7b154a2413a62b30943a5",
+   "bytes": 491,
+   "sha256_fork_copy": "a56ed61b66f9d4773b1550a4cb336d9415ea7aa284c7b154a2413a62b30943a5",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "the same, counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/analysis-SS-neg-v0.json",
+   "sha256": "b127f4b2b3a74c7276040ac735e8da1b7aba6a7c97012527462d51ead32dc56d",
+   "bytes": 22679,
+   "sha256_fork_copy": "b127f4b2b3a74c7276040ac735e8da1b7aba6a7c97012527462d51ead32dc56d",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "SS post hoc join with the predicate-negative audit: both-audits computations and the display check",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/result-SS-neg-v0.md",
+   "sha256": "4c6d87201927f9bf9582e5dee89772b3dda7289cc47a62da2463739c6f9b27a7",
+   "bytes": 5260,
+   "sha256_fork_copy": "4c6d87201927f9bf9582e5dee89772b3dda7289cc47a62da2463739c6f9b27a7",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "SS post hoc: neither sentence applies under both audits; the registered result (fa76e067) stands; made by stage3_ss_neg.py b1e282ba and stage3_ss_neg_run.py 872f0d29",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/repeat-table-v0.md",
+   "sha256": "25c03d4a4c3eef85dc9ff6c4344ab1acf073a111c9956fc465ec7809251aba9b",
+   "bytes": 5154,
+   "sha256_fork_copy": "25c03d4a4c3eef85dc9ff6c4344ab1acf073a111c9956fc465ec7809251aba9b",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the repeat table, v0: the headline's 48 plants across scorings and runs; superseded by v1 (both-audits cells filled), kept",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/repeat-table-v0.json",
+   "sha256": "4e7fa89c8a9be737b6b408369628cd4384d4fd4c5b744bfcdaf0d94b443e6a74",
+   "bytes": 3196,
+   "sha256_fork_copy": "4e7fa89c8a9be737b6b408369628cd4384d4fd4c5b744bfcdaf0d94b443e6a74",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, record; superseded by v1, kept",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/repeat-table-v1.md",
+   "sha256": "e13919303689776037212313f0c20c51ffae5d6424726ceefa2d92cee0184f55",
+   "bytes": 6051,
+   "sha256_fork_copy": "e13919303689776037212313f0c20c51ffae5d6424726ceefa2d92cee0184f55",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the repeat table, v1: the headline's 48 plants across three scorings and two runs, both-audits cells filled; made by stage3_ss_repeat.py d46868b9",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/SS/repeat-table-v1.json",
+   "sha256": "4e7b6f35035d536662d2a7f37e719a9362397db1ede31d6a39b49a87ae80c557",
+   "bytes": 3462,
+   "sha256_fork_copy": "4e7b6f35035d536662d2a7f37e719a9362397db1ede31d6a39b49a87ae80c557",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "the same, record",
    "added_beyond_brief_list": null
   }
  ],
@@ -5873,6 +6003,157 @@
      "tag_source": "lessons L1 onward: cited for method, never for a number; re-pinned after later lessons were appended (the previous pin is an exact prefix)",
      "cited_only": true,
      "added_beyond_brief_list": false
+    }
+   ]
+  },
+  {
+   "date": "2026-11-17",
+   "by": "coordinator v5 batch 4, appended by line REPO (blue): the single-statement block's post hoc predicate-negative audit (addition v1 and v2, dispositions, run-level and display tables, join, result) and the repeat table (v1, with v0 kept as superseded); 13 files, 12 released. Code in the fork's scripts/stage3/: stage3_ss_neg.py b1e282ba, stage3_ss_neg_run.py 872f0d29, stage3_ss_repeat.py d46868b9, with their tests. Additive; no earlier entry changed.",
+   "added": [
+    "v5/SS/preregistration-v1-addition-neg-audit.md",
+    "v5/SS/preregistration-v1-addition-neg-audit-v2.md",
+    "v5/SS/dispositions-neg-audit.md",
+    "v5/SS/audit-neg-table-SS.json",
+    "v5/SS/audit-neg-table-SS.md",
+    "v5/SS/audit-neg-display-SS.json",
+    "v5/SS/audit-neg-display-SS.md",
+    "v5/SS/analysis-SS-neg-v0.json",
+    "v5/SS/result-SS-neg-v0.md",
+    "v5/SS/repeat-table-v0.md",
+    "v5/SS/repeat-table-v0.json",
+    "v5/SS/repeat-table-v1.md",
+    "v5/SS/repeat-table-v1.json"
+   ],
+   "entries": [
+    {
+     "path": "v5/SS/preregistration-v1-addition-neg-audit.md",
+     "sha256": "5f405aeed1a2ac663d4cdd34e9776aca363240550ab61f51ea0256beec4fd222",
+     "bytes": 4094,
+     "sha256_fork_copy": "5f405aeed1a2ac663d4cdd34e9776aca363240550ab61f51ea0256beec4fd222",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "SS post hoc addition, v1: the predicate-negative audit of the block, filed before any class; superseded by v2",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/preregistration-v1-addition-neg-audit-v2.md",
+     "sha256": "ef4b73a32548c25e19f204be130138c7e99f1a03f62c5eeef6937264d295584d",
+     "bytes": 5610,
+     "sha256_fork_copy": "ef4b73a32548c25e19f204be130138c7e99f1a03f62c5eeef6937264d295584d",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "SS post hoc addition, v2 (governs): the predicate-negative audit and its display check, filed before any class",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/dispositions-neg-audit.md",
+     "sha256": "b52615f4b8f6a2ed9b8edd6291814d035e3e1c2165612a8864bf8a989790c288",
+     "bytes": 3382,
+     "sha256_fork_copy": null,
+     "copies_identical": null,
+     "tag": "methods",
+     "tag_source": "dispositions on the review of the addition (b52615f4); a process file, not released (Aravind, 16 Nov), so no fork copy",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-neg-table-SS.json",
+     "sha256": "38ab2ffeb0baa8e3b118d3026113abfa72571ab2f9aabd369208eb13dcc82ac9",
+     "bytes": 36362,
+     "sha256_fork_copy": "38ab2ffeb0baa8e3b118d3026113abfa72571ab2f9aabd369208eb13dcc82ac9",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "run-level predicate-negative audit of SS: run id, arm, follower, class only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-neg-table-SS.md",
+     "sha256": "dd5d0e6980e48412305c68f72749d75397cdfa7e461f8b809693bb4ae8c89028",
+     "bytes": 1030,
+     "sha256_fork_copy": "dd5d0e6980e48412305c68f72749d75397cdfa7e461f8b809693bb4ae8c89028",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-neg-display-SS.json",
+     "sha256": "af6e87eaa85a2d9b5d3e65ab6d4311d30e9c1538a4a2c14f106a00b1bee2656d",
+     "bytes": 6117,
+     "sha256_fork_copy": "af6e87eaa85a2d9b5d3e65ab6d4311d30e9c1538a4a2c14f106a00b1bee2656d",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the display check: each audited run's class under its own and the other form; run id, arm, classes only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/audit-neg-display-SS.md",
+     "sha256": "a56ed61b66f9d4773b1550a4cb336d9415ea7aa284c7b154a2413a62b30943a5",
+     "bytes": 491,
+     "sha256_fork_copy": "a56ed61b66f9d4773b1550a4cb336d9415ea7aa284c7b154a2413a62b30943a5",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "the same, counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/analysis-SS-neg-v0.json",
+     "sha256": "b127f4b2b3a74c7276040ac735e8da1b7aba6a7c97012527462d51ead32dc56d",
+     "bytes": 22679,
+     "sha256_fork_copy": "b127f4b2b3a74c7276040ac735e8da1b7aba6a7c97012527462d51ead32dc56d",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "SS post hoc join with the predicate-negative audit: both-audits computations and the display check",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/result-SS-neg-v0.md",
+     "sha256": "4c6d87201927f9bf9582e5dee89772b3dda7289cc47a62da2463739c6f9b27a7",
+     "bytes": 5260,
+     "sha256_fork_copy": "4c6d87201927f9bf9582e5dee89772b3dda7289cc47a62da2463739c6f9b27a7",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "SS post hoc: neither sentence applies under both audits; the registered result (fa76e067) stands; made by stage3_ss_neg.py b1e282ba and stage3_ss_neg_run.py 872f0d29",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/repeat-table-v0.md",
+     "sha256": "25c03d4a4c3eef85dc9ff6c4344ab1acf073a111c9956fc465ec7809251aba9b",
+     "bytes": 5154,
+     "sha256_fork_copy": "25c03d4a4c3eef85dc9ff6c4344ab1acf073a111c9956fc465ec7809251aba9b",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the repeat table, v0: the headline's 48 plants across scorings and runs; superseded by v1 (both-audits cells filled), kept",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/repeat-table-v0.json",
+     "sha256": "4e7fa89c8a9be737b6b408369628cd4384d4fd4c5b744bfcdaf0d94b443e6a74",
+     "bytes": 3196,
+     "sha256_fork_copy": "4e7fa89c8a9be737b6b408369628cd4384d4fd4c5b744bfcdaf0d94b443e6a74",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, record; superseded by v1, kept",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/repeat-table-v1.md",
+     "sha256": "e13919303689776037212313f0c20c51ffae5d6424726ceefa2d92cee0184f55",
+     "bytes": 6051,
+     "sha256_fork_copy": "e13919303689776037212313f0c20c51ffae5d6424726ceefa2d92cee0184f55",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the repeat table, v1: the headline's 48 plants across three scorings and two runs, both-audits cells filled; made by stage3_ss_repeat.py d46868b9",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/SS/repeat-table-v1.json",
+     "sha256": "4e7b6f35035d536662d2a7f37e719a9362397db1ede31d6a39b49a87ae80c557",
+     "bytes": 3462,
+     "sha256_fork_copy": "4e7b6f35035d536662d2a7f37e719a9362397db1ede31d6a39b49a87ae80c557",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "the same, record",
+     "added_beyond_brief_list": null
     }
    ]
   }
