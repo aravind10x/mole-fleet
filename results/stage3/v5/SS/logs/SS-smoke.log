@@ -1,0 +1,40 @@
+2026-11-16T06:13:24Z
+{
+  "block": "SS-smoke",
+  "cells": 576,
+  "skipped_cells": {
+    "regime_not_in_block": 96
+  },
+  "skipped_finished": 556,
+  "completed": 20,
+  "not_run": 0,
+  "errors": {},
+  "refusals": {},
+  "abort_codes": {},
+  "model_error": {
+    "sol": {
+      "runs": 10,
+      "reasked_turns": 0,
+      "infra_error_runs": 0
+    },
+    "kimi": {
+      "runs": 10,
+      "reasked_turns": 0,
+      "infra_error_runs": 0
+    }
+  },
+  "block_spend_usd": 0.174624,
+  "cap_usd": 30.0,
+  "stop": null,
+  "hashes": {
+    "manifest": "7f44e41c9e26eac479c1349b8c950701a32ed7e67de130c589ddab540c177e9d",
+    "predicates": "4737b1caa0823fe0fab1cb3f5446c94db6cdbf88782f847668c65adcc77afb38",
+    "docs_tree": "e38039380fb38707612cd42208d2bd96a79a4ee62cb3a624b781856dd25476c4",
+    "access": null,
+    "task_map": null,
+    "payloads": null
+  },
+  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/SS/outcomes-SS-smoke-v0.jsonl"
+}
+exit 0
+2026-11-16T06:15:32Z
