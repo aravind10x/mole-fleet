@@ -4,6 +4,8 @@
 
 [Paper](https://arxiv.org/abs/2609.06966) | [Dataset](https://huggingface.co/datasets/forgelab/mole)
 
+> **This fork:** branch `stage3` carries the study behind a research note on planted changes in shared documents. See [NOTE.md](NOTE.md). Upstream's README follows unchanged.
+
 Frontier AI laboratories are beginning to deploy AI agents for research and
 operational work: modifying repositories and evaluations, inspecting model
 checkpoints and secrets, approving releases, and communicating with colleagues. An

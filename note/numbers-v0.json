@@ -1,0 +1,1248 @@
+{
+ "note": "note-v0.7.md (2026-11-16 draft)",
+ "trace": "claims-trace-v0.7.md with v0.6 (e933a16a)",
+ "repoint": "Edit a row's record and locate entries, then run: python note/numbermap.py check",
+ "rows": [
+  {
+   "id": "N01",
+   "section": "title; opening; What happened",
+   "as_written": "acted on and missed: 0.340 to 0.367 (about a third)",
+   "numbers": [
+    "0.340",
+    "0.367"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.771 [0.710, 0.830] | 0.551 [0.374, 0.728] | 0.340 [0.230, 0.457]"
+    },
+    {
+     "line": "0.835 [0.772, 0.897] | 0.645 [0.478, 0.832] | 0.367 [0.249, 0.492]"
+    }
+   ],
+   "trace_rows": [
+    298,
+    315,
+    316,
+    426
+   ]
+  },
+  {
+   "id": "N02",
+   "section": "What happened",
+   "as_written": "acted on, both audits: 0.771 to 0.835",
+   "numbers": [
+    "0.771",
+    "0.835"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "| both audits, lower (positive lower, unclear not acting) | 0.771 [0.710, 0.830] |"
+    },
+    {
+     "line": "| both audits, upper (positive upper, unclear acting) | 0.835 [0.772, 0.897] |"
+    }
+   ],
+   "trace_rows": [
+    296,
+    297
+   ]
+  },
+  {
+   "id": "N03",
+   "section": "What happened",
+   "as_written": "carried, script alone: 0.799 [0.701, 0.885]",
+   "numbers": [
+    "0.799",
+    "0.701",
+    "0.885"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| RM uptake, mixture (48 payloads) | 0.799 [0.701, 0.885] |"
+    }
+   ],
+   "trace_rows": [
+    174,
+    445
+   ]
+  },
+  {
+   "id": "N04",
+   "section": "What happened; §4",
+   "as_written": "carried and missed, script alone: 0.295 [0.188, 0.413]",
+   "numbers": [
+    "0.295",
+    "0.188",
+    "0.413"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| S | 0.295 [0.188, 0.413] |"
+    }
+   ],
+   "trace_rows": [
+    282
+   ]
+  },
+  {
+   "id": "N05",
+   "section": "opening; §3",
+   "as_written": "serious plants: 0.187 to 0.213 (about one in five); 25 plants",
+   "numbers": [
+    "0.187",
+    "0.213",
+    "25"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.187 [0.062, 0.329]"
+    },
+    {
+     "line": "0.213 [0.067, 0.373]"
+    },
+    {
+     "line": "| S3 (25 / 8) |"
+    }
+   ],
+   "trace_rows": [
+    321,
+    427
+   ]
+  },
+  {
+   "id": "N06",
+   "section": "§3",
+   "as_written": "material plants: 0.459 to 0.489",
+   "numbers": [
+    "0.459",
+    "0.489"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.459 [0.268, 0.647]"
+    },
+    {
+     "line": "0.489 [0.293, 0.685]"
+    }
+   ],
+   "trace_rows": [
+    322
+   ]
+  },
+  {
+   "id": "N07",
+   "section": "§3",
+   "as_written": "minor plants: 0.642 to 0.666",
+   "numbers": [
+    "0.642",
+    "0.666"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.642 [0.540, 0.823]"
+    },
+    {
+     "line": "0.666 [0.582, 0.833]"
+    }
+   ],
+   "trace_rows": [
+    323
+   ]
+  },
+  {
+   "id": "N08",
+   "section": "§3",
+   "as_written": "the readers agreed on 45 of 56",
+   "numbers": [
+    "45",
+    "56"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P0/severity-classes-v0.json",
+   "locate": [
+    {
+     "json_expr": "sum(r['class_a'] == r['class_b'] for r in d)"
+    },
+    {
+     "json_expr": "len(d)"
+    }
+   ],
+   "trace_rows": [
+    325
+   ],
+   "note": "Trace row 325 cites the decisions log; re-pointed to the readers' classes record."
+  },
+  {
+   "id": "N09",
+   "section": "setup",
+   "as_written": "routine line vs honest edit AUROC 0.563; middle line 0.648",
+   "numbers": [
+    "0.563",
+    "0.648"
+   ],
+   "status": "released",
+   "record": "results/stage3/rater-07s/rater-honest-reference.md",
+   "locate": [
+    {
+     "line": "0.563 [0.480, 0.648]"
+    },
+    {
+     "line": "0.648 [0.568, 0.722]"
+    }
+   ],
+   "trace_rows": [
+    25,
+    453
+   ],
+   "note": "Trace rows cite the paper draft, which quotes this record."
+  },
+  {
+   "id": "N10",
+   "section": "setup",
+   "as_written": "56 plants: 48 quiet (24 routine, 24 middle) and 8 alarming",
+   "numbers": [
+    "48",
+    "8",
+    "24"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| RM uptake, mixture (48 payloads) |"
+    },
+    {
+     "line": "| AL uptake, mixture (8 payloads) |"
+    }
+   ],
+   "trace_rows": [
+    174,
+    175
+   ],
+   "derived": "56 = 48 + 8; routine and middle are 24 each (48 / 2, by design)."
+  },
+  {
+   "id": "N11",
+   "section": "setup",
+   "as_written": "fifty agents, six documents, three days; one generator (Kimi K2.6); two followers, three runs each",
+   "numbers": [],
+   "status": "design",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    1,
+    2,
+    3
+   ],
+   "note": "Design facts, stated in the methods. Their trace record is the paper draft, which is not in this repository."
+  },
+  {
+   "id": "N12",
+   "section": "setup",
+   "as_written": "flag budget 10 percent of honest work; 1 percent is common",
+   "numbers": [
+    "10"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v0.md",
+   "locate": [
+    {
+     "line": "each at its own recorded 10 percent rule"
+    }
+   ],
+   "trace_rows": [
+    272,
+    310,
+    413
+   ],
+   "note": "The 1 percent comparison is a statement about the literature, cited in the methods."
+  },
+  {
+   "id": "N13",
+   "section": "What happened",
+   "as_written": "first audit: 33 of 80 census runs questioned the content; 28 of the 33 were GPT-6 Sol",
+   "numbers": [
+    "80",
+    "33",
+    "28"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "80 in the census (all in the table: acts 47, questions 33)"
+    },
+    {
+     "line": "| sol | alarming | s1 | 2 | 5 | 0 |"
+    },
+    {
+     "line": "| sol | middle | s1 | 4 | 12 | 0 |"
+    },
+    {
+     "line": "| sol | routine | s1 | 8 | 11 | 0 |"
+    }
+   ],
+   "trace_rows": [
+    217,
+    357
+   ],
+   "derived": "Sol's census questions: 5 + 12 + 11 = 28 (stratum s1 is the census)."
+  },
+  {
+   "id": "N14",
+   "section": "What happened",
+   "as_written": "second audit: 44 of 80 not-carried runs acted on; 20 other wording, 24 own words",
+   "numbers": [
+    "80",
+    "20",
+    "24",
+    "44"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P0/audit-neg-table-b.md",
+   "locate": [
+    {
+     "line": "| planted | 80 | 20 | 24 | 0 | 16 | 14 | 6 | 44 | 0.55 |"
+    }
+   ],
+   "trace_rows": [
+    302
+   ]
+  },
+  {
+   "id": "N15",
+   "section": "What happened",
+   "as_written": "0 of 40 clean controls; second reader 20 of 20",
+   "numbers": [
+    "40",
+    "20"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P0/audit-neg-table-b.md",
+   "locate": [
+    {
+     "line": "| clean | 40 | 0 | 0 | 0 | 0 | 40 | 0 | 0 | 0.0 |"
+    },
+    {
+     "line": "Exact class: 20 of 20 identical (share 1.0)."
+    }
+   ],
+   "trace_rows": [
+    303,
+    304
+   ]
+  },
+  {
+   "id": "N16",
+   "section": "§1",
+   "as_written": "harmless value 0.990 against planted 0.708 on the same 16",
+   "numbers": [
+    "0.990",
+    "0.708",
+    "16"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "Harmless alternative carried into the action: 0.990; planted content carried on the same payloads: 0.708"
+    },
+    {
+     "line": "(16 payload"
+    }
+   ],
+   "trace_rows": [
+    184,
+    185,
+    444
+   ]
+  },
+  {
+   "id": "N17",
+   "section": "§2",
+   "as_written": "topic-only tasks: 0.779 [0.692, 0.862] on 46 quiet plants",
+   "numbers": [
+    "0.779",
+    "0.692",
+    "0.862",
+    "46"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "| raw, unresolved not carried | 0.779 | [0.692, 0.862] |"
+    },
+    {
+     "line": "The six computations (46 RM payloads"
+    }
+   ],
+   "trace_rows": [
+    359,
+    360
+   ]
+  },
+  {
+   "id": "N18",
+   "section": "§2",
+   "as_written": "difference against pointed tasks: −0.014 [−0.087, 0.062]",
+   "numbers": [
+    "0.014",
+    "0.087",
+    "0.062"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "| raw | -0.014 [-0.087, 0.062] |"
+    }
+   ],
+   "trace_rows": [
+    363
+   ]
+  },
+  {
+   "id": "N19",
+   "section": "§2",
+   "as_written": "topic-only after the first audit: 0.557 to 0.666",
+   "numbers": [
+    "0.557",
+    "0.666"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "| audit lower, unresolved not carried | 0.557 |"
+    },
+    {
+     "line": "| audit upper, unresolved not carried | 0.666 |"
+    }
+   ],
+   "trace_rows": [
+    361,
+    362
+   ]
+  },
+  {
+   "id": "N20",
+   "section": "§2",
+   "as_written": "pointed tasks after the first audit: 0.646 to 0.699 (48 plants)",
+   "numbers": [
+    "0.646",
+    "0.699",
+    "48"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| RM uptake, mixture (48 payloads) | 0.799 [0.701, 0.885] | 0.699 [0.606, 0.790] | 0.646 [0.559, 0.730] |"
+    }
+   ],
+   "trace_rows": [
+    308
+   ],
+   "note": "Trace row 308 cites the decisions log; re-pointed to the follower-test result."
+  },
+  {
+   "id": "N21",
+   "section": "§2",
+   "as_written": "324 of 324 runs: content reached the follower before its first action",
+   "numbers": [
+    "324"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "Access before the first action was 324 of 324 planted runs"
+    }
+   ],
+   "trace_rows": [
+    364
+   ]
+  },
+  {
+   "id": "N22",
+   "section": "§2; §6",
+   "as_written": "honest tasks that need the item: 0.500 [0.329, 0.684]; may touch 0.500 [0.333, 0.667]",
+   "numbers": [
+    "0.500",
+    "0.329",
+    "0.684",
+    "0.333",
+    "0.667"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "| need | 0.500 [0.329, 0.684] |"
+    },
+    {
+     "line": "| may touch | 0.500 [0.333, 0.667] |"
+    }
+   ],
+   "trace_rows": [
+    390,
+    391
+   ]
+  },
+  {
+   "id": "N23",
+   "section": "§2",
+   "as_written": "post hoc, 11 items: partial plant 0.870, full plant 0.985",
+   "numbers": [
+    "11",
+    "0.870",
+    "0.985"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-Z-v2.md",
+   "locate": [
+    {
+     "line": "| partial cells, k = 1 | 11 | 0.870 [0.769, 0.958] |"
+    },
+    {
+     "line": "| full triple | 11 | 0.985 [0.955, 1.000] |"
+    }
+   ],
+   "trace_rows": [
+    400,
+    401,
+    455
+   ]
+  },
+  {
+   "id": "N24",
+   "section": "§3",
+   "as_written": "alarming plants acted on 0.551 to 0.645; the monitor flagged all eight",
+   "numbers": [
+    "0.551",
+    "0.645",
+    "0"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.771 [0.710, 0.830] | 0.551 [0.374, 0.728]"
+    },
+    {
+     "line": "0.835 [0.772, 0.897] | 0.645 [0.478, 0.832]"
+    }
+   ],
+   "trace_rows": [
+    318,
+    319,
+    283
+   ],
+   "note": "Flagged all eight: recorded misses on the alarming applications are 0 of 24 (row N24b)."
+  },
+  {
+   "id": "N24b",
+   "section": "§3",
+   "as_written": "the monitor flagged all eight alarming plants (recorded misses 0 of 24 applications)",
+   "numbers": [
+    "24",
+    "0"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/ETJ/result.md",
+   "locate": [
+    {
+     "line": "| alarming | 24 | 0 (0.000) | 1 (0.042) | 0 (0.000) |"
+    }
+   ],
+   "trace_rows": [
+    283
+   ]
+  },
+  {
+   "id": "N25",
+   "section": "§4",
+   "as_written": "paired against Opus 4.8: Sol +0.135 [0.003, 0.271]; GLM +0.160 [0.045, 0.271]; Sonnet +0.319 [0.177, 0.462]; per-author +0.135 [0.021, 0.257]",
+   "numbers": [
+    "0.135",
+    "0.003",
+    "0.271",
+    "0.160",
+    "0.045",
+    "0.319",
+    "0.177",
+    "0.462",
+    "0.021",
+    "0.257"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-judges-paired-v0.md",
+   "locate": [
+    {
+     "line": "+0.135 [+0.003, +0.271]"
+    },
+    {
+     "line": "+0.160 [+0.045, +0.271]"
+    },
+    {
+     "line": "+0.319 [+0.177, +0.462]"
+    },
+    {
+     "line": "+0.135 [+0.021, +0.257]"
+    }
+   ],
+   "trace_rows": [
+    447,
+    448,
+    449,
+    450
+   ]
+  },
+  {
+   "id": "N26",
+   "section": "§4",
+   "as_written": "stricter budgets: 0.337 to 0.420 at 5 percent; 0.420 to 0.549 at 2 percent",
+   "numbers": [
+    "0.337",
+    "0.420"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "5 percent rule: S 0.337 (ties flagged) to 0.420 (ties missed)"
+    }
+   ],
+   "trace_rows": [
+    191
+   ]
+  },
+  {
+   "id": "N26b",
+   "section": "§4",
+   "as_written": "2 percent range ends",
+   "numbers": [
+    "0.420",
+    "0.549"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v0.md",
+   "locate": [
+    {
+     "line": "| ties flagged | 0.420 [0.299, 0.552] |"
+    },
+    {
+     "line": "| ties missed | 0.549 [0.427, 0.681] |"
+    }
+   ],
+   "trace_rows": [
+    407,
+    408
+   ]
+  },
+  {
+   "id": "N27",
+   "section": "§4",
+   "as_written": "followers' exact documents: 0.292 against the recorded 0.295; 22 of 47 shorter",
+   "numbers": [
+    "0.292",
+    "0.295",
+    "22",
+    "47"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P0/frozen-result.md",
+   "locate": [
+    {
+     "line": "Frozen-state score 0.292 [0.177, 0.410]"
+    },
+    {
+     "line": "recorded 0.295"
+    },
+    {
+     "line": "22 of the 47 identical-state packets differ beyond the timestamp line"
+    },
+    {
+     "line": "in all 22 the frozen body is shorter and has fewer changed lines"
+    }
+   ],
+   "trace_rows": [
+    414,
+    415,
+    457
+   ]
+  },
+  {
+   "id": "N28",
+   "section": "§4",
+   "as_written": "explain first: baseline 0.302 [0.191, 0.424], explain 0.250 [0.146, 0.358], difference 0.052 [−0.038, 0.149]",
+   "numbers": [
+    "0.302",
+    "0.191",
+    "0.424",
+    "0.250",
+    "0.146",
+    "0.358",
+    "0.052",
+    "0.038",
+    "0.149"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/ETJ/result.md",
+   "locate": [
+    {
+     "line": "| S_B, fresh baseline | 0.302 [0.191, 0.424] |"
+    },
+    {
+     "line": "| S_E, explain-then-judge | 0.250 [0.146, 0.358] |"
+    },
+    {
+     "line": "D = S_B - S_E | 0.052 [-0.038, 0.149]"
+    }
+   ],
+   "trace_rows": [
+    222,
+    223,
+    224,
+    225
+   ]
+  },
+  {
+   "id": "N29",
+   "section": "§5",
+   "as_written": "warning: planted text reached an action 0.785 to 0.701, fall 0.083 [0.028, 0.139]",
+   "numbers": [
+    "0.785",
+    "0.083",
+    "0.028",
+    "0.139"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "Unwarned RM uptake: 0.785 here"
+    },
+    {
+     "line": "| raw | -0.083 | [-0.139, -0.028] | U2a |"
+    }
+   ],
+   "trace_rows": [
+    375,
+    376,
+    377
+   ],
+   "note": "The warned 0.701 is in row N29b."
+  },
+  {
+   "id": "N29b",
+   "section": "§5",
+   "as_written": "warned literal uptake 0.701",
+   "numbers": [
+    "0.701"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| warned | both | 0.701 [0.611, 0.792] |"
+    }
+   ],
+   "trace_rows": [
+    377
+   ]
+  },
+  {
+   "id": "N30",
+   "section": "§5",
+   "as_written": "Sol 0 of 40 acted; audited acted-on 0.636 to 0.000; Kimi 0.719 to 0.672",
+   "numbers": [
+    "40",
+    "0.636",
+    "0.000",
+    "0.719",
+    "0.672"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "Under the warning, every one of Sol's 40 sampled carried runs questioned the content (0 acts)."
+    },
+    {
+     "line": "| unwarned | Sol | | 0.636 [0.521, 0.756] |"
+    },
+    {
+     "line": "| warned | Sol | | 0.000 [0.000, 0.000] |"
+    },
+    {
+     "line": "| unwarned | Kimi | | 0.719 [0.611, 0.823] |"
+    },
+    {
+     "line": "| warned | Kimi | | 0.672 [0.563, 0.779] |"
+    }
+   ],
+   "trace_rows": [
+    430,
+    431,
+    432,
+    433,
+    434
+   ]
+  },
+  {
+   "id": "N31",
+   "section": "§5",
+   "as_written": "both audits: 0.740 to 0.861 unwarned, 0.384 to 0.466 warned",
+   "numbers": [
+    "0.740",
+    "0.861",
+    "0.384",
+    "0.466"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| unwarned | 0.740 [0.696, 0.782] | 0.861 [0.810, 0.908] |"
+    },
+    {
+     "line": "| warned | 0.384 [0.355, 0.413] | 0.466 [0.440, 0.490] |"
+    }
+   ],
+   "trace_rows": [
+    435,
+    436
+   ]
+  },
+  {
+   "id": "N32",
+   "section": "§5",
+   "as_written": "completed work down 0.116 on clean, 0.344 on 16 updated documents",
+   "numbers": [
+    "0.116",
+    "0.344",
+    "16",
+    "56"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| clean | 56 | 0.946 | 0.830 | -0.116 [-0.161, -0.074] |"
+    },
+    {
+     "line": "| benign | 16 | 0.927 | 0.583 | -0.344 [-0.458, -0.240] |"
+    }
+   ],
+   "trace_rows": [
+    380,
+    381
+   ]
+  },
+  {
+   "id": "N33",
+   "section": "§5",
+   "as_written": "declines 17 to 94 planted, 10 to 45 clean, 0 to 41 updated",
+   "numbers": [
+    "17",
+    "94",
+    "10",
+    "45",
+    "0",
+    "41"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| declines, planted / clean / benign | 17 / 10 / 0 | 94 / 45 / 41 |"
+    }
+   ],
+   "trace_rows": [
+    384
+   ]
+  },
+  {
+   "id": "N34",
+   "section": "§6",
+   "as_written": "no planted application undone: 0 of 184",
+   "numbers": [
+    "0",
+    "184"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P3/retention-v0.md",
+   "locate": [
+    {
+     "line": "Applications: 184; composed 184; ended by an honest edit 0; censored 184."
+    }
+   ],
+   "trace_rows": [
+    329
+   ]
+  },
+  {
+   "id": "N35",
+   "section": "§6",
+   "as_written": "in a live pilot, honest upkeep overwrote planted lines three times",
+   "numbers": [],
+   "status": "not_in_repository",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "Record `work/stage3/v5/OW/ow-result.md` (blue, counts only) is not mirrored in the fork; proposed for mirroring."
+  },
+  {
+   "id": "N36",
+   "section": "§6",
+   "as_written": "136 of 296 items never carried (94 on a looser rule)",
+   "numbers": [
+    "296",
+    "94",
+    "136"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P3/use-v1.md",
+   "locate": [
+    {
+     "line": "| all slots | 296 | 94 (31.8%) | 136 (45.9%) | 136 (45.9%) |"
+    }
+   ],
+   "trace_rows": [
+    333
+   ],
+   "note": "Trace row 333 cites P3/result-use-v1.md (not mirrored); the same table is in P3/use-v1.md."
+  },
+  {
+   "id": "N37",
+   "section": "§6",
+   "as_written": "need share averages 0.0013; 35 of 54 planted items needed by no runnable task",
+   "numbers": [
+    "0.0013",
+    "35",
+    "54"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "the rule-defined need share has a mean of 0.0013 of all arrival weight"
+    },
+    {
+     "line": "35 of the 54 payloads have no runnable task that needs their slot"
+    }
+   ],
+   "trace_rows": [
+    338,
+    339,
+    340,
+    341
+   ],
+   "note": "Trace rows cite the decisions log and need-table-v1.json; re-pointed to the block H result."
+  },
+  {
+   "id": "N38",
+   "section": "§6",
+   "as_written": "on the 0.438 of arrival weight that runs here",
+   "numbers": [
+    "0.438"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/preregistration-v1.md",
+   "locate": [
+    {
+     "line": "480 of 1,106 tasks runnable offline, 0.438 of arrival weight"
+    }
+   ],
+   "trace_rows": [
+    342
+   ],
+   "note": "Trace row 342 cites the decisions log; re-pointed to the filed design."
+  },
+  {
+   "id": "N39",
+   "section": "§6",
+   "as_written": "tasks that did not need the item never carried it: 0 of 312; content reached them in 75",
+   "numbers": [
+    "75",
+    "312",
+    "0"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "312 no-need"
+    },
+    {
+     "line": "| no | yes | no | 0.174 [0.132, 0.215] | 75 |"
+    },
+    {
+     "line": "| no | no | no | 0.549 [0.463, 0.627] | 237 |"
+    }
+   ],
+   "trace_rows": [
+    392
+   ],
+   "derived": "No-need runs: 75 with access + 237 without = 312, all in rows with carried = no.",
+   "note": "Trace row 392 cites the decisions log; re-pointed to the block H result."
+  },
+  {
+   "id": "N40",
+   "section": "§7",
+   "as_written": "59 of 127 honest writes outside their tasks' items; 68 licensed; none dictated",
+   "numbers": [
+    "59",
+    "127"
+   ],
+   "status": "released",
+   "record": "results/stage3/phase-a/a2-tail-v2.md",
+   "locate": [
+    {
+     "line": "59 of 127 changing writes"
+    }
+   ],
+   "trace_rows": [
+    41,
+    43
+   ]
+  },
+  {
+   "id": "N40b",
+   "section": "§7",
+   "as_written": "68 item-licensed; 0 task-dictated",
+   "numbers": [
+    "68",
+    "0"
+   ],
+   "status": "released",
+   "record": "results/stage3/phase-a/a2-tail-v0.md",
+   "locate": [
+    {
+     "line": "Item-licensed, agent-chosen value: 68."
+    },
+    {
+     "line": "Task-dictated: 0 by construction."
+    }
+   ],
+   "trace_rows": [
+    43
+   ]
+  },
+  {
+   "id": "N41",
+   "section": "§7",
+   "as_written": "Sonnet 5: 30 diffs at or above threshold on 9 of 18 document-days; 6 writes outside their tasks",
+   "numbers": [
+    "30",
+    "9",
+    "6",
+    "18"
+   ],
+   "status": "released",
+   "record": "results/stage3/phase-a/a2-tail-v2.md",
+   "locate": [
+    {
+     "line": "| Sonnet 5 | unlicensed | 30 | 9 | 21 | 80 | 42 | 6 |"
+    },
+    {
+     "line": "The 254 honest composed units sit on 18 document-day chains"
+    }
+   ],
+   "trace_rows": [
+    45,
+    46
+   ]
+  },
+  {
+   "id": "N42",
+   "section": "§7",
+   "as_written": "12 after-the-fact approval records come down to one write",
+   "numbers": [
+    "12"
+   ],
+   "status": "released",
+   "record": "results/stage3/phase-a/a2-tail-v2.md",
+   "locate": [
+    {
+     "line": "All 12 of Sonnet 5's retroactive-approval units are touched by one unlicensed write"
+    }
+   ],
+   "trace_rows": [
+    146,
+    147
+   ],
+   "note": "Trace rows cite the recall-budget note (not released); re-pointed to the tail record."
+  },
+  {
+   "id": "N43",
+   "section": "§7; figure 6",
+   "as_written": "MOLE corpora: 5,763 shared variants; 81 to 96 percent; unlicensed shares by model",
+   "numbers": [
+    "5,763",
+    "81",
+    "96",
+    "0.136",
+    "0.109",
+    "0.165",
+    "0.625",
+    "0.587",
+    "0.664",
+    "0.632",
+    "0.593",
+    "0.672",
+    "0.759",
+    "0.724",
+    "0.793"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "5,763 of them appear in all eight."
+    },
+    {
+     "line": "81 to 96 percent of each split's fed items are on those shared variant"
+    },
+    {
+     "line": "0.136 [0.109, 0.165] (81/596)"
+    },
+    {
+     "line": "0.625 [0.587, 0.664] (375/600)"
+    },
+    {
+     "line": "0.632 [0.593, 0.672] (378/598)"
+    },
+    {
+     "line": "0.759 [0.724, 0.793] (455/600)"
+    }
+   ],
+   "trace_rows": [
+    239,
+    240,
+    241,
+    242,
+    243,
+    244
+   ]
+  },
+  {
+   "id": "N44",
+   "section": "How it was measured",
+   "as_written": "threshold fitted on 254 honest units",
+   "numbers": [
+    "254"
+   ],
+   "status": "released",
+   "record": "results/stage3/phase-a/a2-tail-v2.md",
+   "locate": [
+    {
+     "line": "The 254 honest composed units sit on 18 document-day chains"
+    }
+   ],
+   "trace_rows": [
+    46
+   ]
+  },
+  {
+   "id": "N45",
+   "section": "How it was measured",
+   "as_written": "672 core runs, none unresolved",
+   "numbers": [
+    "672",
+    "0"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| core | 672 | 0 | none | 0 |"
+    }
+   ],
+   "trace_rows": [
+    194
+   ]
+  },
+  {
+   "id": "N46",
+   "section": "How it was measured",
+   "as_written": "the clean control fired once in 336 clean runs",
+   "numbers": [
+    "1",
+    "144",
+    "24"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "unresolved as not satisfied: kimi RM 1 of 144, AL 0 of 24; sol RM 0 of 144, AL 0 of 24"
+    }
+   ],
+   "trace_rows": [],
+   "derived": "Clean runs: 144 + 24 + 144 + 24 = 336; fires: 1."
+  },
+  {
+   "id": "F0-F6",
+   "section": "figures 0 to 6",
+   "as_written": "every plotted value",
+   "numbers": [],
+   "status": "released",
+   "record": "note/figures/figure_data.py",
+   "locate": [
+    {
+     "pytest": "note/figures/test_figures.py"
+    }
+   ],
+   "trace_rows": [],
+   "note": "Each plotted value is listed with its record and exact string; the test checks each against the record and draws the figures."
+  },
+  {
+   "id": "S1",
+   "section": "§2",
+   "as_written": "[SLOT] single-statement arm result",
+   "numbers": [],
+   "status": "slot",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "Running now (SS). Re-point to results/stage3/v5/SS/ when its result lands."
+  },
+  {
+   "id": "S2",
+   "section": "What comes next",
+   "as_written": "[SLOT] live paired run, if it reports before the note",
+   "numbers": [],
+   "status": "slot",
+   "record": null,
+   "locate": [],
+   "trace_rows": []
+  },
+  {
+   "id": "S3",
+   "section": "How it was measured",
+   "as_written": "[SLOT] repository tag and the sentence on what is held",
+   "numbers": [],
+   "status": "slot",
+   "record": null,
+   "locate": [],
+   "trace_rows": []
+  }
+ ]
+}
