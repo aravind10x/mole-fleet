@@ -1,6 +1,6 @@
 # The repeat table: the headline's 48 plants across scorings and runs (blue harness session, 2026-11-16; $0)
 
-Descriptive, by script from records on file; no new claim, and the note's wording is Aravind's call.
+Descriptive, by script from records on file; no new claim, and the note's wording is the author's call.
 - **Plants:** the 48 routine and middle plants of the headline.
 - **Runs:** two follower runs of the full plant: the 13 Nov core, and the single-statement block's concurrent full-plant arm (16 Nov).
 - **Scorings:** three of the monitor (composed view, Opus 4.8).

@@ -100,3 +100,16 @@ def test_fork_mode_checks_only_fork_copies(layout, monkeypatch):
     assert w0f.drift(_m(files)) == []
     (fork_stage3 / "x" / "c.md").write_bytes(b"changed")
     assert w0f.drift(_m(files)) == ["fork x/c.md"]
+
+
+def test_fork_copy_edit_entry_repins_only_the_fork_copy(layout):
+    # line REPO batch 4: a public copy edited for hygiene (e.g. a name replaced) is re-pinned by an appended entry;
+    # the project copy's pin and the files entry stay as they are.
+    root, stage3, fork_stage3 = layout
+    (stage3 / "x" / "d.md").write_bytes(b"by Someone")
+    (fork_stage3 / "x" / "d.md").write_bytes(b"by the author")
+    files = [{"path": "x/d.md", "sha256": _sha(b"by Someone"), "sha256_fork_copy": _sha(b"by Someone")}]
+    assert w0f.drift(_m(files)) == ["fork x/d.md"]
+    edit = {"path": "x/d.md", "fork_copy_edit": "name replaced", "sha256_fork_copy": _sha(b"by the author")}
+    assert w0f.drift(_m(files, [edit])) == []
+    assert files[0]["sha256_fork_copy"] == _sha(b"by Someone")  # the files entry is untouched

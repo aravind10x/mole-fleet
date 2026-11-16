@@ -6156,6 +6156,25 @@
      "added_beyond_brief_list": null
     }
    ]
+  },
+  {
+   "date": "2026-11-17",
+   "by": "coordinator v5 batch 4, ruling 2, appended by line REPO (blue): hygiene of two public copies (the owner's name replaced by \"the author\"); fork copies re-pinned, project copies and files entries unchanged. Additive.",
+   "added": [],
+   "entries": [
+    {
+     "path": "v5/SS/repeat-table-v0.md",
+     "fork_copy_edit": "the owner's name in the header replaced by \"the author\" in the public copy; the project copy is unchanged",
+     "sha256_fork_copy": "9bd00536621cb97e09588fa3a5dc7b3959b2dafc3d17de61ee394798236d93d0",
+     "bytes_fork_copy": 5157
+    },
+    {
+     "path": "v5/SS/repeat-table-v1.md",
+     "fork_copy_edit": "the owner's name in the header replaced by \"the author\" in the public copy; the project copy is unchanged",
+     "sha256_fork_copy": "b77c665ef73e6f1de54cad5822f3a75bd68d98ec38467fe96926b420097d5dec",
+     "bytes_fork_copy": 6054
+    }
+   ]
   }
  ]
 }

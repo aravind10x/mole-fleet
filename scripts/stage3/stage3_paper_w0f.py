@@ -33,6 +33,7 @@ def current_pins(m: dict) -> list[dict]:
     in_files = {f["path"] for f in m["files"]}
     latest: dict[str, dict] = {}
     moved: dict[str, dict] = {}
+    forked: dict[str, dict] = {}
     for a in m["amendments"]:
         for e in a.get("entries", []):
             if e["path"] not in in_files:
@@ -41,12 +42,18 @@ def current_pins(m: dict) -> list[dict]:
                 # A `files` entry whose project copy moved: the amendment names the new place (relative to the project
                 # root) and its hash; the `files` entry itself is never edited (the manifest is append-only).
                 moved[e["path"]] = e
+            elif "fork_copy_edit" in e:
+                # A `files` entry whose public copy was edited for hygiene (the project copy unchanged): the amendment
+                # re-pins the fork copy only.
+                forked[e["path"]] = e
     pins = []
     for f in m["files"]:
         mv = moved.get(f["path"])
         main = (w0.ROOT / mv["relocated_to"]) if mv else (w0.STAGE3 / f["path"])
+        fk = forked.get(f["path"])
         pins.append({"path": f["path"], "main": main, "sha256": mv["sha256"] if mv else f["sha256"],
-                     "fork": w0.FORK_STAGE3 / f["path"], "sha256_fork_copy": f["sha256_fork_copy"]})
+                     "fork": w0.FORK_STAGE3 / f["path"],
+                     "sha256_fork_copy": fk["sha256_fork_copy"] if fk else f["sha256_fork_copy"]})
     for p, e in latest.items():
         root = e.get("path_root") == "project root"
         main = (w0.ROOT / p) if root else (w0.STAGE3 / p)

@@ -1,6 +1,6 @@
 # The repeat table, v1: the headline's 48 plants across scorings and runs (blue harness session, 2026-11-16; $0)
 
-Descriptive, by script from records on file; no new claim, and the note's wording is Aravind's call. v1 fills v0's pending both-audits cells for the repeat and the pooled row, from the block's predicate-negative audit table (`SS/audit-neg-table-SS.json` 38ab2ffe; its full-plant arm's 66 classes). Everything else is as v0 (25c03d4a). The repeat's negative audit is post hoc (`SS/preregistration-v1-addition-neg-audit-v2.md` ef4b73a3).
+Descriptive, by script from records on file; no new claim, and the note's wording is the author's call. v1 fills v0's pending both-audits cells for the repeat and the pooled row, from the block's predicate-negative audit table (`SS/audit-neg-table-SS.json` 38ab2ffe; its full-plant arm's 66 classes). Everything else is as v0 (25c03d4a). The repeat's negative audit is post hoc (`SS/preregistration-v1-addition-neg-audit-v2.md` ef4b73a3).
 - **Plants:** the 48 routine and middle plants of the headline.
 - **Runs:** two follower runs of the full plant: the 13 Nov core, and the single-statement block's concurrent full-plant arm (16 Nov).
 - **Scorings:** three of the monitor (composed view, Opus 4.8).

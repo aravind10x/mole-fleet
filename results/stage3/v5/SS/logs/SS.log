@@ -35,7 +35,7 @@
     "task_map": null,
     "payloads": null
   },
-  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/SS/outcomes-SS-v0.jsonl"
+  "outcomes": "results/stage3/v5/SS/outcomes-SS-v0.jsonl"
 }
 launch exit 0
 == retry pass
@@ -63,7 +63,7 @@ launch exit 0
     "task_map": null,
     "payloads": null
   },
-  "outcomes": "/Users/aravind/KruxAI/tais-project-selection/work/stage3/v5/SS/outcomes-SS-v0.jsonl",
+  "outcomes": "results/stage3/v5/SS/outcomes-SS-v0.jsonl",
   "retry_pass": {
     "candidates": 0,
     "reasked": 0
