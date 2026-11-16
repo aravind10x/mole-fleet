@@ -1,0 +1,156 @@
+{
+ "label": "descriptive; records on file; no new claim",
+ "n_plants": 48,
+ "monitor": {
+  "missed": {
+   "recorded": 21,
+   "frozen_state": 20,
+   "repeat": 17
+  },
+  "flips": {
+   "recorded": {
+    "recorded": 0,
+    "frozen_state": 3,
+    "repeat": 6
+   },
+   "frozen_state": {
+    "recorded": 3,
+    "frozen_state": 0,
+    "repeat": 3
+   },
+   "repeat": {
+    "recorded": 6,
+    "frozen_state": 3,
+    "repeat": 0
+   }
+  }
+ },
+ "uptake": {
+  "core": {
+   "point": 0.798611,
+   "lo": 0.701389,
+   "hi": 0.885417
+  },
+  "repeat": {
+   "point": 0.770833,
+   "lo": 0.670139,
+   "hi": 0.854167
+  }
+ },
+ "S": {
+  "core": {
+   "raw": {
+    "point": 0.295139,
+    "lo": 0.1875,
+    "hi": 0.413194
+   },
+   "upper": {
+    "point": 0.277055,
+    "lo": 0.176652,
+    "hi": 0.39462
+   },
+   "lower": {
+    "point": 0.256756,
+    "lo": 0.163553,
+    "hi": 0.363183
+   },
+   "both_audits_lower": {
+    "point": 0.340089,
+    "lo": 0.229615,
+    "hi": 0.456703
+   },
+   "both_audits_upper": {
+    "point": 0.367333,
+    "lo": 0.249462,
+    "hi": 0.492057
+   }
+  },
+  "repeat": {
+   "raw": {
+    "point": 0.236111,
+    "lo": 0.131944,
+    "hi": 0.347309
+   },
+   "upper": {
+    "point": 0.229167,
+    "lo": 0.128472,
+    "hi": 0.336892
+   },
+   "lower": {
+    "point": 0.20455,
+    "lo": 0.114458,
+    "hi": 0.303238
+   },
+   "both_audits": "pending: the block's predicate-negative audit (preregistration-v1-addition-neg-audit.md 5f405aee)"
+  }
+ },
+ "pooled_by_plant": {
+  "raw": {
+   "point": 0.265625,
+   "lo": 0.163194,
+   "hi": 0.373264
+  },
+  "upper": {
+   "point": 0.253111,
+   "lo": 0.157732,
+   "hi": 0.355504
+  },
+  "lower": {
+   "point": 0.230653,
+   "lo": 0.142888,
+   "hi": 0.325325
+  },
+  "both_audits": "pending: needs the repeat's both-audits count"
+ },
+ "S_raw_each_run_under_each_scoring": {
+  "core": {
+   "recorded": {
+    "point": 0.295139,
+    "lo": 0.1875,
+    "hi": 0.413194
+   },
+   "frozen_state": {
+    "point": 0.291667,
+    "lo": 0.177083,
+    "hi": 0.409722
+   },
+   "repeat": {
+    "point": 0.239583,
+    "lo": 0.131944,
+    "hi": 0.354167
+   }
+  },
+  "repeat": {
+   "recorded": {
+    "point": 0.305556,
+    "lo": 0.190972,
+    "hi": 0.423611
+   },
+   "frozen_state": {
+    "point": 0.298611,
+    "lo": 0.180556,
+    "hi": 0.423611
+   },
+   "repeat": {
+    "point": 0.236111,
+    "lo": 0.131944,
+    "hi": 0.347309
+   }
+  }
+ },
+ "sources": {
+  "manifest": "7f44e41c9e26eac479c1349b8c950701a32ed7e67de130c589ddab540c177e9d",
+  "core_outcomes": "98d9f9e0dd980456df533404c13392bea700b13b7a6e5fa49001a53031933f9b",
+  "core_audit": "a22d93da6c727a37c2d5e906ff2a984103db8703c772c305d61a4889c3935705",
+  "core_neg_audit": "02bd6444dd310720f545f9b907e8d7af2de462cfba6f37096b089192f7ca7c37",
+  "frozen_scores": "ea10cd41dbfd0f13dcdc5291ee8b3129342f6cbbb22d4475a232a3e2b3307d87",
+  "etj_scores_B": "1062eca577ab4bf6ea13e62dc6d348d44c98c9f83edb22be621097cfe9049c00",
+  "ss_outcomes": "0a521bf656f4cb193b13183208955a66716e7a0f20d1752a4a8d9cc05e452c64",
+  "ss_scores": "46b8a2bf1fb76266c5c5158f5b9c951d38499d74c9e72673e3ce0ccbddb2299c",
+  "ss_audit": "53ad94df8834e065e7926e26773fba5532086806e082b9d7bc0b9b1505d01c4c"
+ },
+ "seeds": {
+  "core_and_pooled": 20261113,
+  "repeat": 20261116
+ }
+}
