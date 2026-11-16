@@ -1,0 +1,2887 @@
+{
+ "rule": "random.Random(20261116) created once; per follower (kimi then sol) run ids sorted then shuffled; followers alternate, kimi first",
+ "seed": 20261116,
+ "n": 576,
+ "order": [
+  {
+   "run_id": "SS|Pca6abc72|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P55179e69|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32de0349|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32de0349|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5ed51360|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P618d9563|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P989b27b1|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P618d9563|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb9da922f|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P55179e69|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P3fc43b8f|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P618d9563|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32c925bb|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pca6abc72|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pca6abc72|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P8d60fc18|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbc59ef1e|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P55179e69|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2838b6a9|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P5e96e25b|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P32de0349|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P317ac1ca|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7134cc12|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9f37384a|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7853a31e|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pbecf016b|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P8d60fc18|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd242e296|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P4403aaea|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P317ac1ca|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4668bb4d|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc3672a1f|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pef9bc968|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb9da922f|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4668bb4d|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2af8a757|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32c925bb|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb38c74d3|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P55179e69|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P24d6c040|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P68f881e6|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P2ada75a7|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P4403aaea|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pc58f5b13|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pafd41b45|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pcfebe39e|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6df79dc8|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2ada75a7|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P7853a31e|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P618d9563|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa5eacc80|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa531a630|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pbecf016b|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pfd3d2a0b|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P2af8a757|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P7134cc12|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P32de0349|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pad28054a|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd242e296|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P37c057d4|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pe90013dc|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pb5b72627|planted|sol|r2",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P1a4566cf|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pad28054a|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P79fb5548|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P24d6c040|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pf338a03d|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|kimi|r3",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P9e334c02|single|sol|r3",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|planted|kimi|r1",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa13b4f2c|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|Pa2412b1d|single|kimi|r2",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pd5bccab7|single|sol|r2",
+   "follower": "sol",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|Pb5b72627|single|kimi|r1",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P66c865e8|planted|sol|r1",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|planted|kimi|r2",
+   "follower": "kimi",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P37c057d4|planted|sol|r3",
+   "follower": "sol",
+   "arm": "planted"
+  },
+  {
+   "run_id": "SS|P68f881e6|single|kimi|r3",
+   "follower": "kimi",
+   "arm": "single"
+  },
+  {
+   "run_id": "SS|P6d3d4f50|single|sol|r1",
+   "follower": "sol",
+   "arm": "single"
+  }
+ ]
+}

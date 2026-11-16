@@ -76,7 +76,8 @@ DEFAULT_DOCS_ROOT = RED_FT / "docs"
 DEFAULT_TASKS = FT_DIR / "blue" / "tasks-v0.jsonl"
 DEFAULT_SLOTS = FT_DIR / "blue" / "slots-v0.json"
 SUBSET_ARMS = tuple(f"subset_{i}" for i in range(1, 7))
-KNOWN_ARMS = ("planted", "clean", "benign") + SUBSET_ARMS
+KNOWN_ARMS = ("planted", "clean", "benign") + SUBSET_ARMS + ("single",)   # single: SS arm (2026-11-16)
+REGIMES = ("routine", "middle", "alarming")
 # The verification control runs on routine and middle payloads only (roadmap addendum; the coordinator's
 # pre-gate item 4 leaves out the one alarming payload with a benign alternative); None = a smoke record.
 BENIGN_REGIMES = ("routine", "middle", None)
@@ -242,6 +243,11 @@ def apply_schedule(cells: Sequence["Cell"], path: Path) -> list:
 def build_cells(cfg: "BlockConfig", manifest: Sequence[Mapping], tasks: dict) -> tuple[list, dict, dict[str, str]]:
     """The block's cells in run order, the skip counts, and the prompt texts by name."""
     cells, skipped = expand_cells(manifest, block=cfg.block, arms=cfg.arms, followers=cfg.followers, repeats=cfg.repeats)
+    if cfg.regimes:
+        n0 = len(cells)
+        cells = [c for c in cells if c.record.get("regime") in cfg.regimes]
+        if n0 > len(cells):
+            skipped = dict(skipped, regime_not_in_block=n0 - len(cells))
     if cfg.task_map:
         cells, skipped = apply_task_map(cells, skipped, tasks, load_task_map(cfg.task_map))
     if cfg.draws:
@@ -516,8 +522,11 @@ class BlockConfig:
     colleague_arm_docs: bool = False         # P2 W: the benign arm's colleague holds the benign documents
     completion: bool = False                 # P2 W: blue's completion scorer in the outcome rows
     draws: Path | None = None                # P2 H: [{draw_id, payload_id, stratum, need_class, task}]; cells per draw
+    regimes: tuple[str, ...] = ()            # SS: only payloads of these regimes (empty: all)
 
     def __post_init__(self):
+        if any(r not in REGIMES for r in self.regimes):
+            raise ValueError(f"regimes: a subset of {REGIMES}")
         if self.limit_per_follower is not None and self.limit_per_follower < 1:
             raise ValueError("limit_per_follower: 1 or more")
         if self.scorer not in SCORERS:
@@ -1097,6 +1106,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--colleague-arm-docs", action="store_true", help="W: the benign arm's colleague holds the benign documents")
     ap.add_argument("--completion", action="store_true", help="W: blue's completion scorer in the outcome rows")
     ap.add_argument("--draws", type=Path, help="H: the draws with their tasks; one cell set per draw")
+    ap.add_argument("--regimes", default="", help="SS: comma-separated regimes to keep (default all)")
     a = ap.parse_args(argv)
     cfg = BlockConfig(manifest=a.manifest, block=a.block, arms=a.arms.split(","), followers=a.followers.split(","),
                       repeats=a.repeats, cap_usd=a.cap_usd, tasks=a.tasks, slots=a.slots, docs_root=a.docs_root,
@@ -1106,7 +1116,8 @@ def main(argv: list[str] | None = None) -> int:
                       retry_unresolved=a.retry_unresolved, scorer=a.scorer, access=a.access, task_map=a.task_map,
                       expect_access_sha256=a.expect_access_sha256, expect_task_map_sha256=a.expect_task_map_sha256,
                       limit_per_follower=a.limit_per_follower, prompts=tuple(a.prompt), schedule=a.schedule,
-                      colleague_arm_docs=a.colleague_arm_docs, completion=a.completion, draws=a.draws)
+                      colleague_arm_docs=a.colleague_arm_docs, completion=a.completion, draws=a.draws,
+                      regimes=tuple(x for x in a.regimes.split(",") if x))
     if a.dry_run:
         p = plan_block(cfg)
         return 0 if not p["workspaces"]["missing"] and not p["predicates"]["unresolved"] and not (p["access"] or {}).get("unresolved") else 2

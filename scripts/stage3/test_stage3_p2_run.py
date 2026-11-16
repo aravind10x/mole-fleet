@@ -1015,3 +1015,21 @@ def test_schedule_matches_ignoring_the_block_name(world):
     run_block(c)
     recs = read_outcomes(c)
     assert [r["run_id"] for r in recs] == ["W-smoke|" + ids[-1].split("|", 1)[1]]
+
+
+# ── SS (2026-11-16): the single-statement arm and a regime filter ───────────────────────────────────────────────────
+
+def test_single_arm_loads_its_own_documents_and_regimes_filter(world):
+    single = dict(CLEAN)
+    single["shared/ops/widget-runbook.md"] = CLEAN["shared/ops/widget-runbook.md"].replace("widget_rate: 12", "widget_rate: 99")
+    for pid in ("P1", "P2"):
+        write_ws(world["docs_root"] / pid / "single", single)
+    c = cfg(world, followers=["kimi"], repeats=1, arms=["single", "planted"], regimes=("routine",))
+    s = run_block(c)
+    recs = read_outcomes(c)
+    assert sorted((r["payload_id"], r["arm"]) for r in recs) == [("P1", "planted"), ("P1", "single")]
+    assert all(r["error"] is None for r in recs) and s["skipped_cells"].get("regime_not_in_block") == 2
+    by = {r["arm"]: r for r in recs}
+    assert by["single"]["predicate_result"] is True                     # the follower applied the single document's value
+    with pytest.raises(ValueError):
+        cfg(world, regimes=("weekly",))
