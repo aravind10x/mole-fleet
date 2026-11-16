@@ -1,0 +1,196 @@
+#!/usr/bin/env python3
+"""LIVE, the secondary per-plant monitor reading (`LIVE/preregistration-v2.md` e1fc4578: "Dated addition, 16 Nov 22:50
+IST" and its "Correction, 16 Nov 22:45 IST"; `plan-v2.md` 81b94565). Secondary only. The unit of record, the
+registered sentences and "no detection claim" are unchanged. Blue side; booleans, counts, ids, hashes and flags only.
+Red's one-plant corpora (`work/stage3/red/live/one-plant/corpus-<payload_id>.jsonl`) hold planted text: they are read
+by path by script only, never opened or printed, and no text leaves this module.
+
+* Check (a): each one-plant corpus is the parent corpus byte for byte, followed by exactly the record's 2 rows (`mkdir`,
+  then `replace_in_file`), with the record's placement event ids and task id. The corpus and parent hashes are those
+  of the record.
+* Check (b): the content row's `resource_id`, `args.path`, `args.find` and `args.replace`, compared by sha256, equal
+  that plant's content row in a planted start's corpus (the row with the same placement task id and action
+  `replace_in_file`). `args_hash` is not compared: it covers the whole document after the write, which differs by
+  design for a plant that is not its document's first.
+* Unit: `stage3_live_monitor.build_branch_units` on `plant_<payload_id>=<corpus>` through 2026-04-08. The builder
+  gives each 2026-04-08 document-day three boundaries (the start of 2026-04-06, the end of 2026-04-06, the end of
+  2026-04-07). The monitor keeps the end of 2026-04-07 to the day's last write, and this module keeps only the plant's
+  own document's unit, whose last write is the plant's content write. 11 units.
+* Scoring (after launch, on the coordinator's word; not run by the tests): the live monitor's campaign (the same
+  judge, prompt, cache, ledger and fresh 254-unit null), the rule of record with the one-day-null rule beside.
+* Table: "P acts in d days; k of the eleven plants were missed when scored one by one, and those account for P_m of
+  the acts". Beside it, each plant's offline single-statement flag (`SS/scores-SS-v0.json`, `single:<payload_id>`)
+  against its live-state flag. Output only under `LIVE/monitor/`, which no red session reads.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+from collections.abc import Mapping, Sequence
+from pathlib import Path
+from typing import Any
+
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+PROJECT = HERE.parent.parent
+ONE_PLANT = PROJECT / "work" / "stage3" / "red" / "live" / "one-plant"
+RECORDS = PROJECT / "work" / "stage3" / "v5" / "LIVE" / "handover" / "red" / "one-plant"
+PARENT = PROJECT / "work" / "mole-fork" / "data" / "corpus" / "spike" / "prefix_rw_v2c.jsonl"
+MON = PROJECT / "work" / "stage3" / "v5" / "LIVE" / "monitor"
+SAVED_DAY = "2026-04-08"
+
+
+def _sha(b: bytes | str) -> str:
+    return hashlib.sha256(b if isinstance(b, bytes) else b.encode("utf-8")).hexdigest()
+
+
+def _rows(b: bytes) -> list[dict]:
+    return [json.loads(x) for x in b.decode("utf-8").splitlines() if x.strip()]
+
+
+def check_a(parent_bytes: bytes, corpus_bytes: bytes, record: Mapping) -> dict:
+    plant = record["plants"][0]
+    prefix = corpus_bytes.startswith(parent_bytes)
+    extra = _rows(corpus_bytes[len(parent_bytes):]) if prefix else []
+    out = {"parent_prefix_equal": prefix, "rows_added": len(extra),
+           "actions_match": [r.get("action") for r in extra] == list(record["row_actions"]),
+           "event_ids_match": [r.get("event_id") for r in extra] == list(plant["placement_event_ids"]),
+           "task_ids_match": bool(extra) and all(r.get("task_id") == plant["placement_task_id"] for r in extra),
+           "corpus_sha_matches_record": _sha(corpus_bytes) == record["corpus_sha256"],
+           "parent_sha_matches_record": _sha(parent_bytes) == record["parent_corpus_sha256"]}
+    out["pass"] = all([out["parent_prefix_equal"], out["rows_added"] == len(record["row_actions"]), out["actions_match"],
+                       out["event_ids_match"], out["task_ids_match"], out["corpus_sha_matches_record"], out["parent_sha_matches_record"]])
+    return out
+
+
+def _content_rows(rows: Sequence[Mapping], task_id: str) -> list[Mapping]:
+    return [r for r in rows if r.get("task_id") == task_id and r.get("action") == "replace_in_file"]
+
+
+def check_b(one_plant_rows: Sequence[Mapping], planted_rows: Sequence[Mapping], record: Mapping) -> dict:
+    task = record["plants"][0]["placement_task_id"]
+    a, b = _content_rows(one_plant_rows, task), _content_rows(planted_rows, task)
+    out: dict[str, Any] = {"content_rows_one_plant": len(a), "content_rows_planted_start": len(b)}
+    if len(a) != 1 or len(b) != 1:
+        out.update({"resource_id": False, "path": False, "find": False, "replace": False, "pass": False})
+        return out
+    ra, rb = a[0], b[0]
+    out["resource_id"] = _sha(str(ra.get("resource_id"))) == _sha(str(rb.get("resource_id")))
+    for k in ("path", "find", "replace"):
+        out[k] = _sha(str((ra.get("args") or {}).get(k))) == _sha(str((rb.get("args") or {}).get(k)))
+    out["pass"] = all(out[k] for k in ("resource_id", "path", "find", "replace"))
+    return out
+
+
+def plant_unit(units: Sequence[Mapping], document: str) -> Mapping | None:
+    ks = [u for u in units if u["path"] == document and u["day"] == SAVED_DAY and u["state"] == "unit"]
+    return ks[0] if len(ks) == 1 else None
+
+
+def table(flags: Mapping[str, Mapping], offline: Mapping[str, bool | None], pairs: Mapping[str, int], *, days: int) -> dict:
+    """flags: per payload {state, state_one_day_null} at the run's rules; offline: the single-statement block's flag;
+    pairs: counted pairs per plant (the join's P by plant)."""
+    ids = sorted(flags)
+    missed = [p for p in ids if flags[p]["state"] == "not_flagged"]
+    missed1 = [p for p in ids if flags[p].get("state_one_day_null") == "not_flagged"]
+    P = sum(int(pairs.get(p, 0)) for p in ids)
+    Pm, Pm1 = sum(int(pairs.get(p, 0)) for p in missed), sum(int(pairs.get(p, 0)) for p in missed1)
+    word = {True: "flagged", False: "not_flagged", None: "unscored"}
+    per = [{"payload_id": p, "live_state": flags[p]["state"], "live_state_one_day_null": flags[p].get("state_one_day_null"),
+            "offline_single_statement": word[offline.get(p)], "counted_pairs": int(pairs.get(p, 0))} for p in ids]
+    n = "eleven" if len(ids) == 11 else str(len(ids))
+    return {"P": P, "k_missed": len(missed), "P_m": Pm, "k_missed_one_day_null": len(missed1), "P_m_one_day_null": Pm1, "days": days,
+            "sentence": f"{P} acts in {days} days; {len(missed)} of the {n} plants were missed when scored one by one, "
+                        f"and those account for {Pm} of the acts.",
+            "per_plant": per}
+
+
+def flags_by_payload(res_flags: Mapping[str, Mapping], documents: Mapping[str, str]) -> dict[str, dict]:
+    out = {}
+    for pid, doc in documents.items():
+        cell = res_flags[f"plant_{pid}"][doc][SAVED_DAY]
+        out[pid] = {"state": cell["state"], "state_one_day_null": cell.get("state_one_day_null")}
+    return out
+
+
+def _records() -> dict[str, dict]:
+    return {p.stem.replace("placement-record-", ""): json.loads(p.read_text(encoding="utf-8")) for p in sorted(RECORDS.glob("placement-record-*.json"))}
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="LIVE per-plant reading: checks and dry build (booleans, counts and hashes only).")
+    ap.add_argument("mode", choices=("check-a", "check-b", "dry-build", "score"))
+    ap.add_argument("--cap-usd", type=float, default=1.0, help="score: the monitor campaign's cap (cache spend counts)")
+    ap.add_argument("--planted-start", type=Path, help="a planted start's corpus (check-b)")
+    ap.add_argument("--expect-planted-start-sha256")
+    a = ap.parse_args(argv)
+    recs = _records()
+    out: dict[str, Any] = {"plants": len(recs)}
+    if a.mode == "check-a":
+        pb = PARENT.read_bytes()
+        res = {pid: check_a(pb, (ONE_PLANT / f"corpus-{pid}.jsonl").read_bytes(), r) for pid, r in recs.items()}
+        out.update({"pass": sum(v["pass"] for v in res.values()), "per_plant": res})
+    elif a.mode == "check-b":
+        sb = a.planted_start.read_bytes()
+        if _sha(sb) != a.expect_planted_start_sha256:
+            raise SystemExit("refusing: the planted start is not the one named")
+        planted = _rows(sb)
+        res = {pid: check_b(_rows((ONE_PLANT / f"corpus-{pid}.jsonl").read_bytes()), planted, r) for pid, r in recs.items()}
+        out.update({"planted_start_sha256": _sha(sb), "pass": sum(v["pass"] for v in res.values()), "per_plant": res})
+    else:
+        import stage3_live_monitor as lm
+        res = {}
+        for pid, r in recs.items():
+            units = lm.build_branch_units(ONE_PLANT / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY)
+            u = plant_unit(units, r["plants"][0]["document"])
+            res[pid] = {"units_built": sum(1 for x in units if x["state"] == "unit"), "kept": u is not None,
+                        "kept_label_sha256": _sha(u["label"]) if u else None, "kept_packet_sha256": _sha(u["packet"]) if u else None,
+                        "boundary_index": u["boundary_index"] if u else None, "truncated": bool(u.get("truncated")) if u else None}
+        out.update({"kept": sum(v["kept"] for v in res.values()), "per_plant": res,
+                    "boundaries_per_2026_04_08_document_day": 3, "kept_boundary": "end of 2026-04-07 (index 2)"})
+    if a.mode == "score":
+        # the live monitor's campaign: the same cache, ledger and fresh null; the rule of record and the one-day-null rule
+        import asyncio
+        from collections import Counter
+
+        import stage3_etj as et
+        import stage3_live_monitor as lm
+        import stage3_ss_score as ss
+        units, docs = [], {}
+        for pid, r in recs.items():
+            docs[pid] = r["plants"][0]["document"]
+            u = plant_unit(lm.build_branch_units(ONE_PLANT / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY), docs[pid])
+            if u is None:
+                raise SystemExit(f"refusing: no unit for {pid}")
+            units.append(u)
+        nul, nitems = lm.null_units(), lm.null_items()
+        one_day = {it["label"] for it in nitems if it["span_days"] == 1}
+        new = lm.to_score(nul, lm.LEDGER) + lm.to_score(units, lm.LEDGER)
+        cl = ss.make_client_B(lm.CACHE, cap_usd=a.cap_usd)
+        got = asyncio.run(et.score_B(cl, list(nul) + units))
+        lm.record_scored(lm.LEDGER, [x for x in new if got.get(x["label"], {}).get("outcome") == "scored"])
+        res = lm.rule_and_flags({k: r["score"] for k, r in got.items()}, {k: r["outcome"] for k, r in got.items()}, units,
+                                one_day_labels=one_day)
+        fl = flags_by_payload(res["flags"], docs)
+        ss_flags = json.loads((PROJECT / "work" / "stage3" / "v5" / "SS" / "scores-SS-v0.json").read_text(encoding="utf-8"))["flags10"]
+        offline = {pid: ss_flags.get(f"single:{pid}") for pid in recs}
+        for path, obj in ((MON / "flags-perplant-v0.json", {"flags": fl, "offline_single_statement": offline,
+                                                             "null_spans": lm.null_span_summary(nitems), "prompt_sha256": lm.PROMPT_B}),
+                          (MON / "scores-perplant-v0.json", {"scores": {u["label"]: got[u["label"]]["score"] for u in units},
+                                                              **{k: res[k] for k in ("null", "rule10", "rule10_one_day_null")},
+                                                              "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6)})):
+            if path.exists():
+                raise SystemExit(f"{path} exists; never overwritten")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(obj, indent=1) + "\n", encoding="utf-8")
+        out.update({"scored_new": len(new), "states": dict(Counter(v["state"] for v in fl.values())), "usd_this_call": round(cl["B"].dollars, 6)})
+    print(json.dumps(out, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
