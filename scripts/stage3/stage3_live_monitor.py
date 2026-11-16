@@ -11,8 +11,19 @@ and scored by script into `LIVE/monitor/cache/`, never printed or opened. The sc
   placement rows, which the builder treats as ordinary edits by their accounts, ruling 4); then one per document per
   completed simulated day. A document with no change that day has no unit (`no_change`).
 * Judge and rule: arm B of the ETJ line (Opus 4.8 on Bedrock through the sealed client; the sealed composed-view
-  prompt 0dad3af9), with its own cache. The 10 percent rule comes from a fresh 254-unit null scored in the same
-  campaign (`stage3_thresholds.randomised_threshold`, tie seed 20261116); 5 percent beside. A 20-unit smoke (the
+  prompt 0dad3af9), with its own cache. The rule of record (ruling, 2026-11-16) is the 10 percent rule of a fresh
+  254-unit null scored in the same campaign (`stage3_thresholds.randomised_threshold`, tie seed 20261116), 5 percent
+  beside. The null is as built: every day boundary paired with every later successful write, spans of one to three
+  days. That is the construction the offline planted units were scored against, so the live reading stays
+  comparable with the offline one.
+* Limit, stated once: a scored unit is one per document-day (the previous day's end to that day's last write).
+  This kind is in the null's support (18 of the 254 are exactly it; 130 are one-day units), but the null is a
+  mixture with longer and mid-day spans, so the rule's calibration for this kind is approximate. The span counts and
+  the exactly-this-kind count are written to the output.
+* Sensitivity, labelled, from the same scores and no extra call: each unit's flag under the 10 percent rule of the
+  null's one-day units only (same tie seed), as `state_one_day_null` beside `state`, with `disagree` per unit. The
+  join groups acts by the rule of record. Scoring every write (any-of-several) is not done: it would change the
+  unit and inflate the share. A 20-unit smoke (the
   first 20 null units of a seeded order) runs on its own cache. `--cap-usd` stops spending.
 * Growing corpus: only days up to `--through-day` (a completed day) are scored. A ledger
   (`LIVE/monitor/units-scored.jsonl`) holds every scored unit's label and packet hash. A scored unit is never
@@ -98,6 +109,33 @@ def null_units() -> list[dict]:
     return [{"label": f"null:{u['label']}", "packet": u["packet"]} for u in et.null_units()]
 
 
+def null_items() -> list[dict]:
+    """The null's units with their spans, by the same builder call as `stage3_etj.null_units` (labels checked equal)."""
+    import stage3_etj as et
+    import stage3_ft_slots as sl
+    import stage3_views as sv
+    corpus = Path(sl.CORPUS)
+    rows = sv.read_jsonl(corpus)
+    days, base, paths = sv.corpus_days(rows), sv.seed_base(), sv.class_doc_paths()
+    tl = {p: sv.document_timeline(rows, p, base) for p in paths}
+    items = [it for it in sv.cumulative_diff_units(rows, paths, days, base, sv.stem_of(corpus), tl) if it.get("packet") is not None]
+    if [it["label"] for it in items] != [u["label"] for u in et.null_units()]:
+        raise SystemExit("refusing: the null's items do not match stage3_etj.null_units")
+    return [{**it, "label": f"null:{it['label']}"} for it in items]
+
+
+def null_span_summary(items: Sequence[Mapping]) -> dict:
+    """Span counts of the null, its one-day units, and how many are exactly the scored kind (one day, the
+    document-day's last write)."""
+    last: dict[tuple, int] = {}
+    for it in items:
+        k = (it["path"], it["boundary_index"], it["write_day"])
+        last[k] = max(last.get(k, -1), it["write_index"])
+    exact = sum(1 for it in items if it["span_days"] == 1 and it["write_index"] == last[(it["path"], it["boundary_index"], it["write_day"])])
+    return {"by_span_days": {str(k): v for k, v in sorted(Counter(it["span_days"] for it in items).items())},
+            "one_day": sum(1 for it in items if it["span_days"] == 1), "exactly_unit_kind": exact}
+
+
 def null_list_sha(units: Sequence[Mapping]) -> str:
     return _sha(json.dumps([[u["label"], _sha(u["packet"])] for u in units]))
 
@@ -134,10 +172,17 @@ def record_scored(ledger: Path, units: Sequence[Mapping]) -> None:
             f.write(json.dumps({"label": u["label"], "packet_sha256": _sha(u["packet"])}) + "\n")
 
 
-def rule_and_flags(scores: Mapping[str, float | None], outcomes: Mapping[str, str], units: Sequence[Mapping]) -> dict:
-    null = sorted(float(v) for k, v in scores.items() if k.startswith("null:") and v is not None and outcomes.get(k) == "scored")
+def rule_and_flags(scores: Mapping[str, float | None], outcomes: Mapping[str, str], units: Sequence[Mapping], *,
+                   one_day_labels: set[str] | None = None) -> dict:
+    ok = lambda k: scores.get(k) is not None and outcomes.get(k) == "scored"  # noqa: E731
+    null = sorted(float(v) for k, v in scores.items() if k.startswith("null:") and ok(k))
     n_null = sum(1 for k in scores if k.startswith("null:"))
     rules = {r: th.randomised_threshold(null, rate, seed=SEED) for r, rate in (("rule10", 0.10), ("rule5", 0.05))}
+    one = None
+    if one_day_labels:
+        one_scores = sorted(float(scores[k]) for k in one_day_labels if ok(k))
+        one = th.randomised_threshold(one_scores, 0.10, seed=SEED)
+    disagreements = 0
     flags: dict[str, dict] = {}
     for u in units:
         cell = flags.setdefault(u["branch"], {}).setdefault(u["path"], {})
@@ -149,11 +194,20 @@ def rule_and_flags(scores: Mapping[str, float | None], outcomes: Mapping[str, st
         if s is None or outcomes.get(u["label"]) != "scored":
             cell[u["day"]] = {"state": "unscored", "saved_day": saved}
         else:
-            cell[u["day"]] = {"state": "flagged" if th.is_flagged(float(s), rules["rule10"], u["label"]) else "not_flagged",
-                              "saved_day": saved}
-    return {"null": {"units": n_null, "scored": len(null), "left_out": n_null - len(null)},
-            "rule10": {k: rules["rule10"][k] for k in ("threshold", "p_tie", "expected_rate", "seed")},
-            "rule5": {k: rules["rule5"][k] for k in ("threshold", "p_tie", "expected_rate", "seed")}, "flags": flags}
+            st = "flagged" if th.is_flagged(float(s), rules["rule10"], u["label"]) else "not_flagged"
+            cell[u["day"]] = {"state": st, "saved_day": saved}
+            if one is not None:
+                st1 = "flagged" if th.is_flagged(float(s), one, u["label"]) else "not_flagged"
+                cell[u["day"]].update({"state_one_day_null": st1, "disagree": st1 != st})
+                disagreements += int(st1 != st)
+    keep = ("threshold", "p_tie", "expected_rate", "seed")
+    out = {"null": {"units": n_null, "scored": len(null), "left_out": n_null - len(null)},
+           "rule10": {k: rules["rule10"][k] for k in keep}, "rule5": {k: rules["rule5"][k] for k in keep}, "flags": flags,
+           "disagreements": disagreements}
+    if one is not None:
+        out["rule10_one_day_null"] = {k: one[k] for k in keep}
+        out["null_one_day"] = {"units": len(one_day_labels), "scored": sum(1 for k in one_day_labels if ok(k))}
+    return out
 
 
 def _write_new(path: Path, obj: Any) -> None:
@@ -174,7 +228,10 @@ def main(argv: list[str] | None = None) -> int:
     units = [u for b, p in sorted(branches.items()) for u in build_branch_units(Path(p), b, a.through_day)]
     scoreable = [u for u in units if u["state"] == "unit"]
     nul = null_units()
-    info = {"null_units": len(nul), "null_list_sha256": null_list_sha(nul), "prompt_sha256": PROMPT_B,
+    nitems = null_items()
+    spans = null_span_summary(nitems)
+    one_day = {it["label"] for it in nitems if it["span_days"] == 1}
+    info = {"null_units": len(nul), "null_list_sha256": null_list_sha(nul), "prompt_sha256": PROMPT_B, "null_spans": spans,
             "branches": {b: {"documents": len({u["path"] for u in units if u["branch"] == b}),
                              "days": sorted({u["day"] for u in units if u["branch"] == b}),
                              "units": sum(1 for u in scoreable if u["branch"] == b),
@@ -206,12 +263,15 @@ def main(argv: list[str] | None = None) -> int:
     sc = {k: r["score"] for k, r in got.items()}
     oc = {k: r["outcome"] for k, r in got.items()}
     labels = set(got)
-    res = rule_and_flags({k: sc.get(k) for k in labels}, oc, units)
+    res = rule_and_flags({k: sc.get(k) for k in labels}, oc, units, one_day_labels=one_day)
     tag = a.through_day
-    _write_new(MON / f"flags-live-{tag}.json", {"through_day": tag, "rule": "10 percent rule of the campaign's fresh null (seed 20261116)",
-                                                 "flags": res["flags"], "null_list_sha256": info["null_list_sha256"], "prompt_sha256": PROMPT_B})
+    _write_new(MON / f"flags-live-{tag}.json", {"through_day": tag,
+                                                 "rule": "rule of record: the 10 percent rule of the campaign's fresh 254-unit null, as built (seed 20261116)",
+                                                 "sensitivity": "state_one_day_null: the 10 percent rule of the null's one-day units only (same seed); labelled",
+                                                 "null_spans": spans, "disagreements": res["disagreements"], "flags": res["flags"],
+                                                 "null_list_sha256": info["null_list_sha256"], "prompt_sha256": PROMPT_B})
     _write_new(MON / f"scores-live-{tag}.json", {"through_day": tag, "scores": {k: sc.get(k) for k in labels},
-                                                  "outcomes": {k: oc.get(k) for k in labels}, **{k: res[k] for k in ("null", "rule10", "rule5")},
+                                                  "outcomes": {k: oc.get(k) for k in labels}, **{k: res[k] for k in ("null", "rule10", "rule5", "rule10_one_day_null", "null_one_day")},
                                                   "units_new_this_call": len(newl), "usd_this_call": round(cl["B"].dollars, 6),
                                                   "spend_usd": round(et.total_spent(cl), 6), "region": getattr(cl["B"], "region", None)})
     print(json.dumps({"scored_now": len(newl), "null": res["null"], "flag_counts": {b: dict(Counter(c["state"] for d in v.values() for c in d.values()))

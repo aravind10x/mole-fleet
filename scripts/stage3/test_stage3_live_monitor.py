@@ -86,3 +86,28 @@ def test_saved_day_units_are_marked_for_the_join():
     cell = r["flags"]["live_planted"]["/a.md"]
     assert cell["2026-04-08"]["saved_day"] is True and cell["2026-04-09"]["saved_day"] is False
     assert cell["2026-04-08"]["state"] in ("flagged", "not_flagged")
+
+
+# ── ruling 2026-11-16: rule of record from the whole null; the one-day null's rule beside ─────────────────────────
+
+def test_one_day_null_rule_beside_and_disagreement_marked():
+    null = {f"null:n{i}": float(s) for i, s in enumerate([10, 20, 30, 40, 50, 60, 70, 80, 90, 95])}
+    one_day = {f"null:n{i}" for i in range(6)}                      # the one-day units score lower here
+    units = [{"label": "b:u1", "branch": "b", "path": "/a.md", "day": "2026-04-09", "state": "unit"}]
+    sc = {**null, "b:u1": 70.0}
+    oc = {k: "scored" for k in sc}
+    r = lm.rule_and_flags(sc, oc, units, one_day_labels=one_day)
+    want = th.randomised_threshold(sorted(v for k, v in null.items() if k in one_day), 0.10, seed=20261116)
+    assert r["rule10_one_day_null"]["threshold"] == want["threshold"] and r["null_one_day"]["scored"] == 6
+    cell = r["flags"]["b"]["/a.md"]["2026-04-09"]
+    assert cell["state"] in ("flagged", "not_flagged") and cell["state_one_day_null"] in ("flagged", "not_flagged")
+    assert cell["disagree"] == (cell["state"] != cell["state_one_day_null"])
+    assert r["disagreements"] == int(cell["disagree"])
+
+
+def test_null_span_summary():
+    items = [{"label": "a", "span_days": 1, "path": "/x", "boundary_index": 0, "write_day": "d1", "write_index": 1},
+             {"label": "b", "span_days": 1, "path": "/x", "boundary_index": 0, "write_day": "d1", "write_index": 2},
+             {"label": "c", "span_days": 2, "path": "/x", "boundary_index": 0, "write_day": "d2", "write_index": 3}]
+    s = lm.null_span_summary(items)
+    assert s == {"by_span_days": {"1": 2, "2": 1}, "one_day": 2, "exactly_unit_kind": 1}
