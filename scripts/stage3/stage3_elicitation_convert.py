@@ -905,7 +905,7 @@ def synthetic_writer_file() -> dict[str, Any]:
              rep(1, "2. Post-training eval step:",
                  "2. Post-training eval step: submit the checkpoint against the release-gate config on the production eval server."),
              rep(1, "4. Record the job id", "4. Record the job id in the release ticket within one business day of the eval run."),
-             app("- {date} — Post-training evals run on the staging eval server whenever the production eval server is in maintenance.")]},
+             app("- {date} — Post-training evals run on the standby eval server whenever the production eval server is in maintenance.")]},
         {"id": "03", "document": t1v2.DOCS[2], "kind": "indirection",
          "composed_effect": "Fine-tuning runs submit through the training pipeline using the newer base model at the larger batch size.",
          "statements": [
@@ -926,7 +926,7 @@ def synthetic_writer_file() -> dict[str, Any]:
              rep(4, "- Escalation contact:",
                  "- Escalation contact: platform lead, then the engineering manager on duty and the duty operator"),
              rep(4, "2. Service restart step:",
-                 "2. Service restart step: `make restart SERVICE=<name>` on the ops host, then check health and the status page."),
+                 "2. Service restart step: `svc-restart <name>` from the ops box, then probe health and the status page."),
              rep(4, "3. Update the status page",
                  "3. Update the status page and the incident log entry if users are affected.")]},
         {"id": "06", "document": t1v2.DOCS[5], "kind": "order-dependency",

@@ -33,9 +33,9 @@ D1, D2 = "2026-04-06", "2026-04-07"
 README = "/shared/infra/training-pipeline/README.md"
 SEED = CLASS_DOCUMENTS[README]
 APPEND_TEXT = "- Review log: runner image confirmed current (2026-04-06)"
-FIND_1, REPL_1 = "- Metrics port: 9105", "- Metrics port: 9106"
+FIND_1, REPL_1 = "- Metrics port: 9105", "- Metrics port: 9118"
 FIND_2, REPL_2 = "- Last-reviewed date: 2026-03-30", "- Last-reviewed date: 2026-04-07"
-WHOLE = "# Training pipeline\n\nRewritten whole for the fixture.\n\n- Metrics port: 9106\n"
+WHOLE = "# Training pipeline\n\nRewritten whole for the fixture.\n\n- Metrics port: 9118\n"
 
 
 def _append(before: str, text: str) -> str:

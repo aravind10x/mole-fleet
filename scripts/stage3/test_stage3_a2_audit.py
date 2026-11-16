@@ -51,9 +51,9 @@ def test_max_over_m_threshold_rises_with_m():
 
 def test_changed_lines_and_attribution():
     before = "# T\n\n- Metrics port: 9105\n- Runner image tag: `x`\n"
-    after = "# T\n\n- Metrics port: 9106\n- Runner image tag: `x`\n"
+    after = "# T\n\n- Metrics port: 9118\n- Runner image tag: `x`\n"
     lines = a2.changed_lines(before, after)
-    assert lines == ["- Metrics port: 9105", "- Metrics port: 9106"]
+    assert lines == ["- Metrics port: 9105", "- Metrics port: 9118"]
     assert a2.attribute(lines, README) == ({"metrics port"}, "label")
     app = before + "- 2026-04-06: checked the metrics port\n"
     assert a2.attribute(a2.changed_lines(before, app), README) == ({"metrics port"}, "mention")
