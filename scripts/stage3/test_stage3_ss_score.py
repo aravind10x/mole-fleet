@@ -57,3 +57,8 @@ def test_rule_flags_failures_and_sizes():
     assert r["flags10"]["full:P1"] is True and r["flags10"]["single:P1"] is False and r["flags10"]["full:P2"] is None
     assert r["unscored_planted"] == ["full:P2"]
     assert r["outside_null_sizes"] == ["single:P1", "single:P2"]
+
+
+def test_smoke_uses_its_own_cache_so_the_run_starts_empty():
+    assert ss.cache_for("smoke") == ss.SMOKE_CACHE and ss.cache_for("score") == ss.CACHE
+    assert ss.SMOKE_CACHE != ss.CACHE and ss.CACHE.name == "etj-B-ss.jsonl" and ss.SMOKE_CACHE.name == "etj-B-ss-smoke.jsonl"

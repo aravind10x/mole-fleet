@@ -36,6 +36,7 @@ FULL_PACKETS = P0 / "cache" / "packets-frozen-v0.jsonl"
 FULL_SHA = "cd0d6205471b1a50b9495319e0a61778828d15a933f0480432ee7e1d4adce4b3"
 SS_PACKETS = SS / "cache" / "packets-ss-v0.jsonl"
 CACHE = SS / "cache" / "etj-B-ss.jsonl"
+SMOKE_CACHE = SS / "cache" / "etj-B-ss-smoke.jsonl"     # the smoke's own cache: the scoring run's cache starts empty
 ORDER = SS / "scoring-order-v0.json"
 SMOKE_OUT = SS / "scores-SS-smoke-v0.json"
 SCORES_OUT = SS / "scores-SS-v0.json"
@@ -57,6 +58,10 @@ def make_client_B(cache_path: Path, *, cap_usd: float, client: Any = None, sleep
                                  max_tokens=et.MAX_TOKENS, client=client, sleep=sleep, verbose=verbose, system=prompts["B"],
                                  prompt_version=sv.prompt_version("O_diff", 0), effort=None, parse=None, request_guard=guard)
     return cl
+
+
+def cache_for(mode: str) -> Path:
+    return SMOKE_CACHE if mode == "smoke" else CACHE
 
 
 def load_packets(path: Path, expected_sha: str) -> list[dict]:
@@ -141,7 +146,9 @@ def main(argv: list[str] | None = None) -> int:
     if sorted(order) != sorted(by):
         raise SystemExit("refusing: the scoring order does not match the units")
     pick = order[: a.n] if a.mode == "smoke" else order
-    cl = make_client_B(CACHE, cap_usd=a.cap_usd)
+    if a.mode == "score" and CACHE.exists() and CACHE.stat().st_size > 0:
+        raise SystemExit("refusing: the scoring run's cache is not empty")
+    cl = make_client_B(cache_for(a.mode), cap_usd=a.cap_usd)
     got = asyncio.run(et.score_B(cl, [by[k] for k in pick]))
     costs = [r["cost_usd"] for r in got.values()]
     if a.mode == "smoke":
