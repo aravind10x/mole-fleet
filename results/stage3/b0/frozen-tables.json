@@ -1506,7 +1506,7 @@
    "copies_identical": null,
    "fakelab_commit": "18e30b9",
    "tag": "descriptive",
-   "tag_source": "brief 37 Phase C report v2 (fakelab 18e30b9): the licensed sentence of brief 37 note 3 (one-line against full task on the same prompt +0.091; FakeLab's task-free prompt, which also rewrites the reasoning steps, 0.669; honest mean shift +0.120; two of four chains); the plan arm descriptive; read e95074d1",
+   "tag_source": "brief 37 Phase C report v2 (a project record under work/fakelab; its figures are held until the FakeLab authors have answered); the plan arm descriptive; read e95074d1",
    "added_beyond_brief_list": false
   },
   {
@@ -4314,7 +4314,7 @@
      "copies_identical": null,
      "fakelab_commit": "18e30b9",
      "tag": "descriptive",
-     "tag_source": "brief 37 Phase C report v2 (fakelab 18e30b9): the licensed sentence of brief 37 note 3 (one-line against full task on the same prompt +0.091; FakeLab's task-free prompt, which also rewrites the reasoning steps, 0.669; honest mean shift +0.120; two of four chains); the plan arm descriptive; read e95074d1",
+     "tag_source": "brief 37 Phase C report v2 (a project record under work/fakelab; its figures are held until the FakeLab authors have answered); the plan arm descriptive; read e95074d1",
      "added_beyond_brief_list": false
     },
     {
@@ -5407,6 +5407,12 @@
      "added_beyond_brief_list": null
     }
    ]
+  },
+  {
+   "date": "2026-11-16",
+   "by": "coordinator v5 (line REPO, leak check): the tag_source of the two Phase C rows no longer quotes figures; it points to the project record. No file, path or hash changed.",
+   "added": [],
+   "entries": []
   }
  ]
 }
