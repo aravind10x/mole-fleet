@@ -1,0 +1,1 @@
+addition-neg-audit v2 filed: SS/preregistration-v1-addition-neg-audit-v2.md sha256 ef4b73a32548c25e19f204be130138c7e99f1a03f62c5eeef6937264d295584d; work/checks/stage3_ss_neg.py b1e282ba1ff24c5aefedb28f421fc4620202e4667b7e31098f52e3bb6dd5790b; test_stage3_ss_neg.py 6b0d675428c128daadfe171f77b059b8bd943b0f71e66354c616d9c59ec7bca8 (8 pass); 2026-11-16, before any class read
