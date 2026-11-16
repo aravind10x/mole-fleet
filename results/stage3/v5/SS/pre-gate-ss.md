@@ -90,3 +90,11 @@ All from `work/checks`, with `( set -a; source ../mole-fork/.env; set +a; … )`
 4. **Follower runs:** line 1 with `--block SS`, no `--limit-per-follower`, and `--cap-usd` as in step 3. One retry pass (`--resume --retry-unresolved`) follows, only on a clean finish.
 5. **Scoring run:** `stage3_ss_score.py score --cap-usd <step 3> --ss-packets ../stage3/v5/SS/cache/packets-ss-v1.jsonl --ss-packets-sha256 4945bb38abcc57259ec4a9a46d354e487b626aab9873ee8dc784e238b6bd9f72`, writing `SS/scores-SS-v0.json`, which no red session reads.
 6. **Join (raw):** `stage3_ss.py join --outcomes ../stage3/v5/SS/outcomes-SS-v0.jsonl --scores ../stage3/v5/SS/scores-SS-v0.json --out ../stage3/v5/SS/analysis-SS-v0.json`. Then `SS/result-SS.md` is written, provisional until red's audit table.
+
+---
+
+## Follower cap after the smoke (added 2026-11-16, ruling D61, with no SS outcome read; nothing above is changed)
+- **The ruling:** a stop at the $7.37 follower cap is a pause, not a final stop. The 10-run smoke under-priced Kimi against every earlier block.
+- **On such a stop:** resume the same schedule (`--resume`; nothing re-drawn, no run cut or re-ordered, completed runs kept) under a follower cap of $13.8 in all, which is 1.5 times the pre-registration's $9.2 follower figure. The cap counts the block's whole ledger, so the resume line takes `--cap-usd 13.8`. The one guarded retry pass follows a clean finish.
+- **If the resumed block reaches $13.8,** that stop is final.
+- **Unchanged:** more than 10 provider refusals, a 402 on the last key, and the scoring run's $10.62 cap still stop. No analysis rule, schedule, arm or retry rule changes. The resume is mechanical and reads no outcome.
