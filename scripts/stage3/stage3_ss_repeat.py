@@ -58,18 +58,35 @@ def boot(vals: np.ndarray, regimes: Sequence[str], *, n_boot: int = N_BOOT, seed
     return {"point": round(float(np.mean(vals)), 6), "lo": round(float(np.percentile(reps, 2.5)), 6), "hi": round(float(np.percentile(reps, 97.5)), 6)}
 
 
+def both_audits_uptake(outs: Sequence[Mapping], man: Sequence[Mapping], neg_rows: Sequence[Mapping], *,
+                       weights: Mapping[str, Mapping | None]) -> tuple[np.ndarray, np.ndarray]:
+    """Per-plant full-plant uptake on both audits: the positive lower completion with the negative audit's acting runs
+    (unclear as not acting), and the positive upper with unclear as acting (as the core's both-audits join)."""
+    import stage3_ss_neg as sn
+    rows = [r for r in neg_rows if r.get("arm") == "planted" or r.get("control")]
+    lo = per_plant_uptake(sn.neg_flip(outs, rows, unclear_acting=False), man, weights=weights["lower"])
+    hi = per_plant_uptake(sn.neg_flip(outs, rows, unclear_acting=True), man, weights=weights["upper"])
+    return lo, hi
+
+
 def _sha(p: Path) -> str:
     return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     import stage3_etj as et
     import stage3_ft_run as fr
     import stage3_p1_joins as pj
     import stage3_ss as ss
+    import argparse
+    ap = argparse.ArgumentParser(description="The repeat table (v0; v1 fills the repeat's both-audits cells).")
+    ap.add_argument("--neg-table", type=Path, help="SS/audit-neg-table-SS.json (v1)")
+    ap.add_argument("--expect-neg-sha256")
+    a = ap.parse_args(argv)
     S3 = HERE.parent / "stage3"
     V5 = S3 / "v5"
-    out_j, out_m = V5 / "SS" / "repeat-table-v0.json", V5 / "SS" / "repeat-table-v0.md"
+    ver = "v1" if a.neg_table else "v0"
+    out_j, out_m = V5 / "SS" / f"repeat-table-{ver}.json", V5 / "SS" / f"repeat-table-{ver}.md"
     for p in (out_j, out_m):
         if p.exists():
             raise SystemExit(f"{p} exists; never overwritten")
@@ -109,10 +126,23 @@ def main() -> int:
     S["core"]["both_audits_lower"] = boot(both["lower"] * missed["recorded"], regs, seed=SEED_CORE)
     S["core"]["both_audits_upper"] = boot(both["upper"] * missed["recorded"], regs, seed=SEED_CORE)
     S["repeat"]["both_audits"] = "pending: the block's predicate-negative audit (preregistration-v1-addition-neg-audit.md 5f405aee)"
+    if a.neg_table:
+        if _sha(a.neg_table) != a.expect_neg_sha256:
+            raise SystemExit("refusing: the negative-audit table is not the one of record")
+        src["ss_neg_audit"] = a.neg_table
+        nt = json.loads(a.neg_table.read_text(encoding="utf-8"))
+        rlo, rhi = both_audits_uptake(ssout, man, nt["runs"] if isinstance(nt, dict) else nt, weights=sw)
+        del S["repeat"]["both_audits"]
+        S["repeat"]["both_audits_lower"] = boot(rlo * missed["repeat"], regs, seed=SEED_SS)
+        S["repeat"]["both_audits_upper"] = boot(rhi * missed["repeat"], regs, seed=SEED_SS)
     uptake = {r: boot(u[r]["raw"], regs, seed=seed[r]) for r in u}
     pooled = {k: boot((u["core"][k] * missed["recorded"] + u["repeat"][k] * missed["repeat"]) / 2, regs, seed=SEED_CORE)
               for k in ("raw", "upper", "lower")}
     pooled["both_audits"] = "pending: needs the repeat's both-audits count"
+    if a.neg_table:
+        del pooled["both_audits"]
+        pooled["both_audits_lower"] = boot((both["lower"] * missed["recorded"] + rlo * missed["repeat"]) / 2, regs, seed=SEED_CORE)
+        pooled["both_audits_upper"] = boot((both["upper"] * missed["recorded"] + rhi * missed["repeat"]) / 2, regs, seed=SEED_CORE)
     # beside: each run under each scoring, raw
     cross = {r: {n: boot(u[r]["raw"] * missed[n], regs, seed=seed[r]) for n in flags} for r in u}
     res = {"label": "descriptive; records on file; no new claim", "n_plants": len(ids), "monitor": mf, "uptake": uptake, "S": S,

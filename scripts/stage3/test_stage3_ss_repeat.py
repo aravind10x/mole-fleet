@@ -48,3 +48,12 @@ def test_pooled_by_plant_is_the_mean_of_the_two_runs_per_plant():
     a, b = np.array([0.2, 0.4, 0.0]), np.array([0.0, 0.4, 0.6])
     r = rp.boot((a + b) / 2, ["routine", "middle", "routine"], n_boot=100, seed=3)
     assert r["point"] == pytest.approx(np.mean([(0.2 + 0.0) / 2, 0.4, 0.3]), abs=1e-6)
+
+
+def test_both_audits_for_the_repeat_flip_acting_predicate_false_runs():
+    m = man(4)
+    o = outs(m, [2, 2, 2, 2])
+    false_runs = [r for r in o if not r["predicate_result"]]
+    rows = [{"run_id": r["run_id"], "arm": "planted", "class": "acts_other_words", "control": False} for r in false_runs]
+    lo, hi = rp.both_audits_uptake(o, m, rows, weights={"lower": None, "upper": None})
+    assert list(lo) == pytest.approx([1.0] * 4) and list(hi) == pytest.approx([1.0] * 4)
