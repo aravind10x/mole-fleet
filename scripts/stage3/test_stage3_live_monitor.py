@@ -152,7 +152,7 @@ def test_input_fields_fail_loudly_naming_the_field():
     good = [{"ts": "2026-04-08T10:00:00Z", "service": "owncloud", "action": "replace_in_file", "exit_code": 0, "account": "a",
              "task_id": "t", "args": {"path": "/shared/x.md", "content": "c"}},
             {"ts": "2026-04-08T10:01:00Z", "service": "plane", "action": "read_issue"}]
-    assert lm.check_input_fields(good) == {"rows": 2, "owncloud_writes": 1}
+    assert lm.check_input_fields(good) == {"pass": True}
     for i, drop in ((0, "ts"), (1, "action"), (0, "exit_code"), (0, "account")):
         bad = [dict(r) for r in good]
         bad[i].pop(drop)
@@ -166,7 +166,7 @@ def test_input_fields_fail_loudly_naming_the_field():
 def test_a_failed_write_need_not_carry_content():
     rows = [{"ts": "t", "service": "owncloud", "action": "replace_in_file", "exit_code": 1, "account": "a", "task_id": "t",
              "args": {"path": "/x.md", "find": "f", "replace": "r"}}]
-    assert lm.check_input_fields(rows) == {"rows": 1, "owncloud_writes": 1}
+    assert lm.check_input_fields(rows) == {"pass": True}
     rows[0]["exit_code"] = 0
     with pytest.raises(SystemExit, match="args.content"):
         lm.check_input_fields(rows)
@@ -175,7 +175,7 @@ def test_a_failed_write_need_not_carry_content():
 def test_a_failed_write_need_not_carry_a_path_either():
     rows = [{"ts": "t", "service": "owncloud", "action": "write_file", "exit_code": 1, "account": "a", "task_id": "t",
              "args": {"content": "c"}}]
-    assert lm.check_input_fields(rows)["owncloud_writes"] == 1
+    assert lm.check_input_fields(rows) == {"pass": True}
     rows[0]["exit_code"] = 0
     with pytest.raises(SystemExit, match="args.path"):
         lm.check_input_fields(rows)
@@ -189,3 +189,23 @@ def test_no_outcome_named_key_in_machinery_except_the_outcome_file_pointer(tmp_p
     lm.emit({"call_status_counts": {"scored": 3}, "outcome_file": "outcome-x.json", "outcome_file_sha256": "ab"})
     src = (Path(lm.__file__)).read_text()
     assert '"outcome_counts"' not in src
+
+
+# ── G8 fix 2 (coordinator, 17 Nov 17:35 IST): the field check prints pass or fail only; no per-branch counts ────────
+
+def test_field_check_mode_prints_pass_per_branch_and_no_counts(tmp_path, capsys):
+    rows = [{"ts": "2026-04-09T10:00:00Z", "service": "owncloud", "action": "write_file", "exit_code": 0, "account": "a",
+             "task_id": "t", "args": {"path": "/shared/x.md", "content": "c"}},
+            {"ts": "2026-04-09T10:01:00Z", "service": "plane", "action": "read_issue"}]
+    for b in ("g_clean", "g_planted"):
+        (tmp_path / f"{b}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+    assert lm.main(["check-fields", "--corpus", f"g_clean={tmp_path / 'g_clean.jsonl'}",
+                    "--corpus", f"g_planted={tmp_path / 'g_planted.jsonl'}"]) == 0
+    out = capsys.readouterr().out
+    assert json.loads(out) == {"corpora": 2, "pass": {"g_clean": True, "g_planted": True}}
+    for word in ("rows", "owncloud_writes", "corpus_days", "branches"):
+        assert word not in out
+    bad = dict(rows[0]); bad.pop("account")
+    (tmp_path / "g_bad.jsonl").write_text(json.dumps(bad) + "\n")
+    with pytest.raises(SystemExit, match="account"):
+        lm.main(["check-fields", "--corpus", f"g_bad={tmp_path / 'g_bad.jsonl'}"])

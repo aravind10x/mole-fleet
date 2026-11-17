@@ -159,17 +159,82 @@ def _records(d: Path | None = None) -> dict[str, dict]:
     return recs
 
 
+TABLE_FIELDS = ("P", "k_missed", "P_m", "k_missed_one_day_null", "P_m_one_day_null", "days", "sentence", "per_plant")
+_PER_PLANT_KEYS = ("payload_id", "live_state", "live_state_one_day_null", "offline_single_statement", "counted_pairs")
+
+
+def table_mode(a: Any) -> int:
+    """Sealed, $0: the per-plant table from the campaign's `outcome-perplant.json` and the join's outcome file (its
+    `per_plant[].counted`, keyed by slot, mapped to payload ids by the branch's placement record) and the join's
+    machinery (`completed_days`). Each input must be the one its owner names by hash. Writes
+    `outcome-perplant-table.json` (sealed) beside `machinery-perplant-table.json`; prints machinery only."""
+    import stage3_live_monitor as lm
+    cp = lm.campaign_paths(a.campaign)
+    lm.open_campaign(cp)
+    jm = json.loads(Path(a.join_machinery).read_text(encoding="utf-8"))
+    jo_b = Path(a.join_outcome).read_bytes()
+    if _sha(jo_b) != jm.get("outcome_sha256"):
+        raise SystemExit("refusing: the join outcome is not the one the join's machinery names")
+    rec_b = Path(a.placement_record).read_bytes()
+    if _sha(rec_b)[:8] != (jm.get("inputs") or {}).get("placement-planted"):
+        raise SystemExit("refusing: the placement record is not the one the join used")
+    pm = json.loads((cp["dir"] / "machinery-perplant.json").read_text(encoding="utf-8"))
+    po_b = (cp["dir"] / "outcome-perplant.json").read_bytes()
+    if _sha(po_b) != pm.get("outcome_file_sha256"):
+        raise SystemExit("refusing: outcome-perplant.json is not the one machinery-perplant.json names")
+    if "completed_days" not in jm:
+        raise SystemExit("missing input field 'completed_days' in the join's machinery file")
+    jo, po, rec = json.loads(jo_b), json.loads(po_b), json.loads(rec_b)
+    for k in ("flags", "offline_single_statement"):
+        if k not in po:
+            raise SystemExit(f"missing input field {k!r} in outcome-perplant.json")
+    if "per_plant" not in jo:
+        raise SystemExit("missing input field 'per_plant' in the join's outcome file")
+    slot_to_pid = {}
+    for i, pl in enumerate(rec.get("plants") or []):
+        for k in ("slot_id", "payload_id"):
+            if k not in pl:
+                raise SystemExit(f"missing input field {k!r} in placement record plant {i}")
+        slot_to_pid[pl["slot_id"]] = pl["payload_id"]
+    pairs: dict[str, int] = {}
+    for i, row in enumerate(jo["per_plant"]):
+        for k in ("slot_id", "counted"):
+            if k not in row:
+                raise SystemExit(f"missing input field 'per_plant[].{k}' in the join's outcome file, row {i}")
+        if row["slot_id"] in slot_to_pid:
+            pairs[slot_to_pid[row["slot_id"]]] = int(row["counted"])
+    offline = {pid: v for pid, v in po["offline_single_statement"].items()}
+    t = table(po["flags"], offline, pairs, days=int(jm["completed_days"]))
+    rows_ok = len(t["per_plant"]) == len(po["flags"]) and all(all(r.get(k) is not None for k in _PER_PLANT_KEYS) for r in t["per_plant"])
+    present = {f"has_{k}": (rows_ok if k == "per_plant" else t.get(k) is not None) for k in TABLE_FIELDS}
+    outcome = {**t, "join_P": jo.get("P"), "plants_with_join_entry": sum(1 for pid in po["flags"] if pid in pairs)}
+    machinery = {"campaign": a.campaign, "plants_in_table": len(po["flags"]), "units_expected": 11, "fields_present": present,
+                 "inputs": {"join_sealed_file_sha256": _sha(jo_b), "join_machinery_sha256": _sha(Path(a.join_machinery).read_bytes()),
+                            "placement_record_sha256": _sha(rec_b), "perplant_sealed_file_sha256": _sha(po_b)},
+                 "complete": len(po["flags"]) == 11 and all(present.values())}
+    mp, _ = lm.write_envelopes(cp["dir"], "perplant-table", machinery, outcome)
+    lm.emit(json.loads(mp.read_text(encoding="utf-8")))
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     import argparse
     ap = argparse.ArgumentParser(description="LIVE per-plant reading: checks and dry build (booleans, counts and hashes only).")
-    ap.add_argument("mode", choices=("check-a", "check-b", "dry-build", "score"))
+    ap.add_argument("mode", choices=("check-a", "check-b", "dry-build", "score", "table"))
     ap.add_argument("--cap-usd", type=float, default=1.0, help="score: the monitor campaign's cap (cache spend counts)")
     ap.add_argument("--planted-start", type=Path, help="a planted start's corpus (check-b)")
     ap.add_argument("--expect-planted-start-sha256")
     ap.add_argument("--campaign", help="score: the campaign folder's name (live, g8); the same campaign as the monitor run")
     ap.add_argument("--one-plant-dir", type=Path, help="the folder of one-plant corpora (default: red's live folder)")
     ap.add_argument("--records-dir", type=Path, help="the folder of one-plant placement records (default: red's handover)")
+    ap.add_argument("--join-outcome", type=Path, help="table: the join's sealed outcome file (read by script only)")
+    ap.add_argument("--join-machinery", type=Path, help="table: the join's machinery file, which names the outcome by hash")
+    ap.add_argument("--placement-record", type=Path, help="table: the branch's placement record (slot_id to payload_id)")
     a = ap.parse_args(argv)
+    if a.mode == "table":
+        if not (a.campaign and a.join_outcome and a.join_machinery and a.placement_record):
+            raise SystemExit("table needs --campaign, --join-outcome, --join-machinery and --placement-record")
+        return table_mode(a)
     op_dir, rec_dir = a.one_plant_dir or ONE_PLANT, a.records_dir or RECORDS
     recs = _records(rec_dir)
     out: dict[str, Any] = {"plants": len(recs)}

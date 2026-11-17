@@ -113,3 +113,72 @@ def test_content_row_fields_fail_loudly():
     del one2[0]["resource_id"]
     with pytest.raises(SystemExit, match="resource_id"):
         pp.check_b(one2, [row("z1", "replace_in_file", task=TASK)], record(b"", b""))
+
+
+# ── G8 fix 1 (coordinator, 17 Nov 17:35 IST): the sealed `table` mode ───────────────────────────────────────────────
+
+import stage3_live_monitor as lm  # noqa: E402
+
+
+def _table_inputs(tmp_path, monkeypatch, *, per_plant=None):
+    monkeypatch.setattr(lm, "MON", tmp_path / "mon")
+    cp = lm.campaign_paths("t")
+    lm.open_campaign(cp)
+    lm.write_envelopes(cp["dir"], "perplant", {"campaign": "t"},
+                       {"flags": {"P1": {"state": "not_flagged", "state_one_day_null": "not_flagged"},
+                                  "P2": {"state": "flagged", "state_one_day_null": "not_flagged"}},
+                        "offline_single_statement": {"P1": False, "P2": True}, "scores": {"x": 1.0}})
+    rec = {"plants": [{"slot_id": "S1", "payload_id": "P1"}, {"slot_id": "S2", "payload_id": "P2"}]}
+    rp = tmp_path / "placement.json"
+    rp.write_text(json.dumps(rec))
+    jo = tmp_path / "join-outcome.json"
+    jo.write_text(json.dumps({"P": 5, "per_plant": per_plant if per_plant is not None else
+                              [{"slot_id": "S1", "counted": 3}, {"slot_id": "S2", "counted": 2}]}))
+    jm = tmp_path / "join-machinery.json"
+    jm.write_text(json.dumps({"completed_days": 1, "outcome_sha256": hashlib.sha256(jo.read_bytes()).hexdigest(),
+                              "inputs": {"placement-planted": hashlib.sha256(rp.read_bytes()).hexdigest()[:8]}}))
+    return cp, ["table", "--campaign", "t", "--join-outcome", str(jo), "--join-machinery", str(jm), "--placement-record", str(rp)]
+
+
+def test_table_mode_writes_the_sealed_table_and_prints_machinery_only(tmp_path, monkeypatch, capsys):
+    cp, argv = _table_inputs(tmp_path, monkeypatch)
+    assert pp.main(argv) == 0
+    out = capsys.readouterr().out
+    printed = json.loads(out)
+    assert lm._outcome_keys_in(printed) == [] and "acts in" not in out
+    assert printed["plants_in_table"] == 2 and printed["units_expected"] == 11 and printed["complete"] is False
+    assert set(printed["fields_present"]) == {"has_P", "has_k_missed", "has_P_m", "has_k_missed_one_day_null",
+                                              "has_P_m_one_day_null", "has_days", "has_sentence", "has_per_plant"}
+    assert all(printed["fields_present"].values())
+    op = cp["dir"] / "outcome-perplant-table.json"
+    assert printed["outcome_file"] == op.name and printed["outcome_file_sha256"] == hashlib.sha256(op.read_bytes()).hexdigest()
+    t = json.loads(op.read_text())
+    expect = pp.table({"P1": {"state": "not_flagged", "state_one_day_null": "not_flagged"},
+                       "P2": {"state": "flagged", "state_one_day_null": "not_flagged"}}, {"P1": False, "P2": True},
+                      {"P1": 3, "P2": 2}, days=1)
+    assert {k: t[k] for k in expect} == expect
+    assert t["join_P"] == 5 and t["plants_with_join_entry"] == 2
+
+
+def test_table_mode_refuses_inputs_that_are_not_the_named_ones(tmp_path, monkeypatch):
+    cp, argv = _table_inputs(tmp_path, monkeypatch)
+    jo = Path(argv[argv.index("--join-outcome") + 1])
+    jo.write_text(jo.read_text() + " ")                                   # the join outcome is not the one its machinery names
+    with pytest.raises(SystemExit, match="join outcome"):
+        pp.main(argv)
+    cp, argv = _table_inputs(tmp_path / "b", monkeypatch)
+    rp = Path(argv[argv.index("--placement-record") + 1])
+    rp.write_text(rp.read_text() + " ")
+    with pytest.raises(SystemExit, match="placement record"):
+        pp.main(argv)
+    cp, argv = _table_inputs(tmp_path / "c", monkeypatch)
+    o = cp["dir"] / "outcome-perplant.json"
+    o.write_text(o.read_text() + " ")
+    with pytest.raises(SystemExit, match="outcome-perplant"):
+        pp.main(argv)
+
+
+def test_table_mode_fails_loudly_on_a_missing_join_field(tmp_path, monkeypatch):
+    cp, argv = _table_inputs(tmp_path, monkeypatch, per_plant=[{"slot_id": "S1"}])
+    with pytest.raises(SystemExit, match="counted"):
+        pp.main(argv)

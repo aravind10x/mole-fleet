@@ -145,14 +145,13 @@ def check_input_fields(rows: Sequence[Mapping]) -> dict:
     """Every corpus field the unit builder reads must be present: `ts`, `service`, `action` on every row; on an ownCloud
     content write also `exit_code`, `account` and `task_id`, and on a successful one (exit code 0) `args.path` and
     `args.content` (the full text after the write, which the file-order replay applies; a failed write is not applied
-    and need not carry them). A missing field is a stop, named."""
-    n_w = 0
+    and need not carry them). A missing field is a stop, named. Returns pass only: per-branch row and write counts are
+    dropped (nothing needs them; under read list v3 they are not machinery)."""
     for i, r in enumerate(rows):
         for k in ("ts", "service", "action"):
             if r.get(k) is None:
                 raise SystemExit(f"missing input field {k!r} in corpus row {i}")
         if r["service"] == "owncloud" and r["action"] in OWNCLOUD_WRITES:
-            n_w += 1
             for k in ("exit_code", "account", "task_id"):
                 if k not in r:
                     raise SystemExit(f"missing input field {k!r} in corpus row {i}")
@@ -164,7 +163,7 @@ def check_input_fields(rows: Sequence[Mapping]) -> dict:
             for k in ("path", "content"):
                 if k not in a:
                     raise SystemExit(f"missing input field 'args.{k}' in corpus row {i} (a successful write)")
-    return {"rows": len(rows), "owncloud_writes": n_w}
+    return {"pass": True}
 
 
 def _sha(s: str) -> str:
@@ -322,15 +321,19 @@ def _write_new(path: Path, obj: Any) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="LIVE monitor scorer (ids, flags, hashes and dollars only).")
-    ap.add_argument("mode", choices=("dry-run", "smoke", "score"))
+    ap.add_argument("mode", choices=("dry-run", "smoke", "score", "check-fields"))
     ap.add_argument("--corpus", action="append", default=[], help="BRANCH=PATH of a branch's corpus (repeat per branch)")
     ap.add_argument("--through-day", default=SAVED_DAY, help="the last completed simulated day to score")
     ap.add_argument("--cap-usd", type=float, default=1.0)
     ap.add_argument("--campaign", help="smoke/score: the campaign folder's name (e.g. live, g8); never shared")
     a = ap.parse_args(argv)
-    if a.mode != "dry-run" and not a.campaign:
+    if a.mode in ("smoke", "score") and not a.campaign:
         raise SystemExit("--campaign is required for smoke and score")
     branches = dict(x.split("=", 1) for x in a.corpus)
+    if a.mode == "check-fields":                       # $0: the input-field check alone; pass per branch, no counts
+        import stage3_views as sv
+        emit({"corpora": len(branches), "pass": {b: check_input_fields(sv.read_jsonl(Path(p)))["pass"] for b, p in sorted(branches.items())}})
+        return 0
     units = [u for b, p in sorted(branches.items()) for u in build_branch_units(Path(p), b, a.through_day)]
     scoreable = [u for u in units if u["state"] == "unit"]
     nul = null_units()
