@@ -73,7 +73,8 @@ PROMPT_B = "0dad3af9674834164cea8ca99f5ba88548eed771a6114741f2c7780b5688c909"
 OUTCOME_KEYS = frozenset({"scores", "score", "flags", "rule10", "rule5", "rule10_one_day_null", "threshold", "p_tie", "null_scores",
                           "k_missed", "P_m", "P", "k_missed_one_day_null", "P_m_one_day_null", "per_plant", "state",
                           "state_one_day_null", "disagree", "disagreements", "offline_single_statement", "live_state",
-                          "live_state_one_day_null", "sentence", "outcomes_by_label", "flag_counts", "states"})
+                          "live_state_one_day_null", "sentence", "outcomes_by_label", "flag_counts", "states",
+                          "branches"})  # per-branch no-change counts: outcome under read list v3
 _CAMPAIGN_NAME = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 
 
@@ -341,12 +342,13 @@ def main(argv: list[str] | None = None) -> int:
     spans = null_span_summary(nitems)
     one_day = {it["label"] for it in nitems if it["span_days"] == 1}
     info = {"null_units": len(nul), "null_list_sha256": null_list_sha(nul), "prompt_sha256": PROMPT_B, "null_spans": spans,
-            "branches": {b: {"documents": len({u["path"] for u in units if u["branch"] == b}),
-                             "days": sorted({u["day"] for u in units if u["branch"] == b}),
-                             "units": sum(1 for u in scoreable if u["branch"] == b),
-                             "no_change": sum(1 for u in units if u["branch"] == b and u["state"] == "no_change"),
-                             "truncated": sum(1 for u in scoreable if u["branch"] == b and u.get("truncated")),
-                             "by_day": dict(Counter(u["day"] for u in scoreable if u["branch"] == b))} for b in branches}}
+            "units_built": len(units), "units_scoreable": len(scoreable)}
+    bsum = {b: {"documents": len({u["path"] for u in units if u["branch"] == b}),
+                "days": sorted({u["day"] for u in units if u["branch"] == b}),
+                "units": sum(1 for u in scoreable if u["branch"] == b),
+                "no_change": sum(1 for u in units if u["branch"] == b and u["state"] == "no_change"),
+                "truncated": sum(1 for u in scoreable if u["branch"] == b and u.get("truncated")),
+                "by_day": dict(Counter(u["day"] for u in scoreable if u["branch"] == b))} for b in branches}  # outcome-class
     if a.mode == "dry-run":
         emit(info)
         return 0
@@ -378,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
     res = rule_and_flags({k: sc.get(k) for k in labels}, oc, units, one_day_labels=one_day)
     tag = f"monitor-{a.through_day}"
     unit_labels = [u["label"] for u in scoreable]
-    machinery = {"campaign": a.campaign, "through_day": a.through_day, "branches": info["branches"],
+    machinery = {"campaign": a.campaign, "through_day": a.through_day,
                  "units_built": len(units), "units_scoreable": len(scoreable), "units_new_this_call": len(newl),
                  "units_scored_ok": sum(1 for k in unit_labels if oc.get(k) == "scored"),
                  "null_units": len(nul), "null_scored_ok": res["null"]["scored"], "null_left_out": res["null"]["left_out"],
@@ -392,7 +394,7 @@ def main(argv: list[str] | None = None) -> int:
                                                                 for u in units),
                                     "rules_computed": all(res.get(k) is not None for k in ("rule10", "rule5", "rule10_one_day_null"))},
                  "complete": all(oc.get(k) == "scored" for k in unit_labels) and res["null"]["left_out"] == 0}
-    outcome = {"through_day": a.through_day, "flags": res["flags"], "disagreements": res["disagreements"],
+    outcome = {"through_day": a.through_day, "branches": bsum, "flags": res["flags"], "disagreements": res["disagreements"],
                "scores": {k: sc.get(k) for k in labels}, "outcomes_by_label": {k: oc.get(k) for k in labels},
                **{k: res[k] for k in ("null", "rule10", "rule5", "rule10_one_day_null", "null_one_day")}}
     mp, op = write_envelopes(cp["dir"], tag, machinery, outcome)

@@ -209,3 +209,59 @@ def test_field_check_mode_prints_pass_per_branch_and_no_counts(tmp_path, capsys)
     (tmp_path / "g_bad.jsonl").write_text(json.dumps(bad) + "\n")
     with pytest.raises(SystemExit, match="account"):
         lm.main(["check-fields", "--corpus", f"g_bad={tmp_path / 'g_bad.jsonl'}"])
+
+
+# ── G8 fix 3 (coordinator, 17 Nov 18:05 IST): `branches` is outcome-class; out of the dry-run print and machinery ──
+
+def _stub_run(tmp_path, monkeypatch):
+    import stage3_etj as et
+    import stage3_ss_score as ss
+    monkeypatch.setattr(lm, "MON", tmp_path / "mon")
+    units = [{"branch": "g_planted", "path": "/a.md", "day": "2026-04-08", "state": "unit", "label": "g_planted:a8", "packet": "A8"},
+             {"branch": "g_planted", "path": "/b.md", "day": "2026-04-08", "state": "no_change", "label": None},
+             {"branch": "g_clean", "path": "/a.md", "day": "2026-04-08", "state": "unit", "label": "g_clean:a8", "packet": "C8"}]
+    monkeypatch.setattr(lm, "build_branch_units", lambda p, b, d: [u for u in units if u["branch"] == b])
+    nitems = [{"label": f"null:n{i}", "packet": f"N{i}", "path": "/a.md", "boundary_index": 2, "write_day": "2026-04-08",
+               "write_index": i, "span_days": 1 + i % 3} for i in range(30)]
+    monkeypatch.setattr(lm, "null_items", lambda: nitems)
+    monkeypatch.setattr(lm, "null_units", lambda: [{"label": it["label"], "packet": it["packet"]} for it in nitems])
+
+    class FakeB:
+        dollars, region = 0.5, "us-east-1"
+
+        def total_spent(self):
+            return 0.5
+    monkeypatch.setattr(ss, "make_client_B", lambda cache, cap_usd: {"B": FakeB()})
+
+    async def fake_score(cl, us):
+        return {u["label"]: {"outcome": "scored", "score": float(i % 10), "cost_usd": 0.01} for i, u in enumerate(us)}
+    monkeypatch.setattr(et, "score_B", fake_score)
+    return ["--corpus", "g_planted=x", "--corpus", "g_clean=y"]
+
+
+def test_branches_is_an_outcome_key():
+    with pytest.raises(SystemExit, match="branches"):
+        lm.emit({"branches": {"g": {"no_change": 1}}})
+
+
+def test_dry_run_prints_no_branches_and_keeps_the_completion_counts(tmp_path, monkeypatch, capsys):
+    argv = _stub_run(tmp_path, monkeypatch)
+    assert lm.main(["dry-run"] + argv) == 0
+    out = capsys.readouterr().out
+    printed = json.loads(out)
+    assert "branches" not in out and lm._outcome_keys_in(printed) == []
+    assert printed["units_built"] == 3 and printed["units_scoreable"] == 2 and printed["null_units"] == 30
+
+
+def test_score_puts_branches_in_the_outcome_file_only(tmp_path, monkeypatch, capsys):
+    argv = _stub_run(tmp_path, monkeypatch)
+    assert lm.main(["score", "--campaign", "t", "--cap-usd", "1"] + argv) == 0
+    out = capsys.readouterr().out
+    assert "branches" not in out
+    d = tmp_path / "mon" / "campaign-t"
+    m = json.loads((d / "machinery-monitor-2026-04-08.json").read_text())
+    o = json.loads((d / "outcome-monitor-2026-04-08.json").read_text())
+    assert "branches" not in m and lm._outcome_keys_in({k: v for k, v in m.items()}) == []
+    assert m["units_built"] == 3 and m["units_scoreable"] == 2 and m["complete"] is True
+    assert o["branches"]["g_planted"] == {"documents": 2, "days": ["2026-04-08"], "units": 1, "no_change": 1, "truncated": 0,
+                                          "by_day": {"2026-04-08": 1}}
