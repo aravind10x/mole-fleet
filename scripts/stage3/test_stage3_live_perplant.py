@@ -82,3 +82,34 @@ def test_flags_by_payload_from_the_monitor_flags():
     docs = {"P1": "/shared/x.md", "P2": "/shared/y.md"}
     f = pp.flags_by_payload(res_flags, docs)
     assert f == {"P1": {"state": "not_flagged", "state_one_day_null": "flagged"}, "P2": {"state": "flagged", "state_one_day_null": None}}
+
+
+# ── G8: input fields fail loudly; sealed output ──────────────────────────────────────────────────────────────────────
+
+import pytest  # noqa: E402
+
+
+def test_record_fields_fail_loudly_naming_the_field():
+    pb, cb = build([row("e1", "mkdir", task=TASK), row("e2", "replace_in_file", task=TASK)])
+    r = record(cb, pb)
+    assert pp.check_record_fields(r) is None
+    for path, drop in ((("plants", 0), "placement_task_id"), ((), "row_actions"), (("plants", 0), "document")):
+        bad = json.loads(json.dumps(r))
+        tgt = bad
+        for k in path:
+            tgt = tgt[k]
+        tgt.pop(drop)
+        with pytest.raises(SystemExit, match=drop):
+            pp.check_record_fields(bad)
+
+
+def test_content_row_fields_fail_loudly():
+    one = [row("e2", "replace_in_file", task=TASK)]
+    planted = [row("z1", "replace_in_file", task=TASK)]
+    del planted[0]["args"]["find"]
+    with pytest.raises(SystemExit, match="args.find"):
+        pp.check_b(one, planted, record(b"", b""))
+    one2 = [dict(row("e2", "replace_in_file", task=TASK))]
+    del one2[0]["resource_id"]
+    with pytest.raises(SystemExit, match="resource_id"):
+        pp.check_b(one2, [row("z1", "replace_in_file", task=TASK)], record(b"", b""))

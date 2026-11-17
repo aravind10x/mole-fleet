@@ -1,0 +1,88 @@
+{
+ "by": "blue harness session, 2026-11-17",
+ "rule": "each script fails loudly naming any missing field (stage3_live_monitor.check_input_fields; stage3_live_perplant.check_record_fields and the content-row check)",
+ "inputs": [
+  {
+   "script": "stage3_live_monitor.py (and stage3_live_perplant.py through it)",
+   "source": "a branch corpus or a one-plant corpus, every row",
+   "fields": [
+    "ts",
+    "service",
+    "action"
+   ],
+   "use": "event timestamps (day boundaries, file order) and the write filter",
+   "shown_present": "prefix_rw_v2c (ffc1f6cd) and the rehearsal planted start prefix_rw_v2c_reh2_planted (e99c2e53), by the field check, 17 Nov"
+  },
+  {
+   "script": "stage3_live_monitor.py",
+   "source": "an ownCloud content write (write_file, append_to_file, replace_in_file)",
+   "fields": [
+    "exit_code",
+    "account",
+    "task_id"
+   ],
+   "use": "success (only successful writes are applied); the writer; the task",
+   "shown_present": "same, 17 Nov"
+  },
+  {
+   "script": "stage3_live_monitor.py",
+   "source": "a successful ownCloud content write (exit code 0)",
+   "fields": [
+    "args.path",
+    "args.content"
+   ],
+   "use": "the document written and its full text after the write: the daily document states are rebuilt by file-order replay of args.content (the day-0 state comes from the repository's class-document seed, not the corpus)",
+   "shown_present": "same, 17 Nov; failed writes (126 without args.content, 3 without args.path in the prefix) are not applied and not required"
+  },
+  {
+   "script": "stage3_live_perplant.py",
+   "source": "a one-plant placement record (handover/red/one-plant)",
+   "fields": [
+    "parent_corpus_sha256",
+    "corpus_sha256",
+    "row_actions",
+    "plants[0].payload_id",
+    "plants[0].document",
+    "plants[0].placement_task_id",
+    "plants[0].placement_event_ids"
+   ],
+   "use": "checks (a) and (b); which document's unit is kept",
+   "shown_present": "the 11 records of 16 Nov, 17 Nov"
+  },
+  {
+   "script": "stage3_live_perplant.py",
+   "source": "a one-plant corpus's 2 added rows",
+   "fields": [
+    "event_id",
+    "action",
+    "task_id"
+   ],
+   "use": "check (a)",
+   "shown_present": "11 of 11, 17 Nov"
+  },
+  {
+   "script": "stage3_live_perplant.py",
+   "source": "the content row in a one-plant corpus and in a planted start",
+   "fields": [
+    "event_id",
+    "task_id",
+    "action",
+    "resource_id",
+    "args.path",
+    "args.find",
+    "args.replace"
+   ],
+   "use": "check (b), compared by sha256 (args_hash not compared)",
+   "shown_present": "11 of 11 against e99c2e53, 17 Nov"
+  },
+  {
+   "script": "stage3_live_perplant.py",
+   "source": "SS/scores-SS-v0.json (46b8a2bf)",
+   "fields": [
+    "flags10.single:<payload_id>"
+   ],
+   "use": "the offline single-statement flag beside",
+   "shown_present": "11 of 11, 16 Nov"
+  }
+ ]
+}

@@ -1,0 +1,532 @@
+{
+ "by": "blue harness session, 2026-11-17",
+ "scripts": {
+  "stage3_live_monitor.py": "cb66e63196b93f68f45ed813c5ea112ae13ff6f763686fe41f1f954c4cdf907b",
+  "stage3_live_perplant.py": "cf6ad63e0cc35270e373f71e04916ea7ec0da91c82607a648938c3e20f47cd27"
+ },
+ "rule": "outcome = any score, flag, threshold, tie share, null score, k, P_m, per-plant flag or figure derived from them; never printed; the machinery file carries the outcome file's sha256",
+ "fields": [
+  {
+   "field": "campaign",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "campaign folder name (live or g8)",
+   "class": "machinery"
+  },
+  {
+   "field": "through_day",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "last completed day scored",
+   "class": "machinery"
+  },
+  {
+   "field": "branches",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "per branch: documents, days, unit and no-change counts, truncation, units by day",
+   "class": "machinery"
+  },
+  {
+   "field": "units_built",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "document-day cells built",
+   "class": "machinery"
+  },
+  {
+   "field": "units_scoreable",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "cells with a packet",
+   "class": "machinery"
+  },
+  {
+   "field": "units_new_this_call",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "units first scored in this call",
+   "class": "machinery"
+  },
+  {
+   "field": "units_scored_ok",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "units with outcome 'scored'",
+   "class": "machinery"
+  },
+  {
+   "field": "null_units",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "null size (254)",
+   "class": "machinery"
+  },
+  {
+   "field": "null_scored_ok",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "null units scored",
+   "class": "machinery"
+  },
+  {
+   "field": "null_left_out",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "null units refused or unparsed",
+   "class": "machinery"
+  },
+  {
+   "field": "null_spans",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "null span counts (130/83/41) and exactly-this-kind count (18)",
+   "class": "machinery"
+  },
+  {
+   "field": "null_list_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "hash of the null unit list",
+   "class": "machinery"
+  },
+  {
+   "field": "prompt_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "sealed judge prompt hash",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_counts",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "count of scored / refused / errored calls (errors only, no score)",
+   "class": "machinery"
+  },
+  {
+   "field": "packet_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "per unit label, the packet's hash",
+   "class": "machinery"
+  },
+  {
+   "field": "rule_names",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "names of the rule of record and the one-day-null rule (no threshold)",
+   "class": "machinery"
+  },
+  {
+   "field": "usd_this_call",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "Bedrock spend this call",
+   "class": "machinery"
+  },
+  {
+   "field": "spend_usd",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "campaign spend so far",
+   "class": "machinery"
+  },
+  {
+   "field": "region",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "Bedrock region",
+   "class": "machinery"
+  },
+  {
+   "field": "fields_present",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "flags exist for every unit; rules computed (booleans)",
+   "class": "machinery"
+  },
+  {
+   "field": "complete",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "every unit and every null unit scored",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_file",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "name of the sealed outcome file",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_file_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
+   "meaning": "hash of the sealed outcome file",
+   "class": "machinery"
+  },
+  {
+   "field": "flags",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "per branch, document, day: state under the rule of record, state under the one-day-null rule, disagree, saved_day",
+   "class": "outcome"
+  },
+  {
+   "field": "disagreements",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "units where the two rules differ",
+   "class": "outcome"
+  },
+  {
+   "field": "scores",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "every judge score (null units and units)",
+   "class": "outcome"
+  },
+  {
+   "field": "outcomes_by_label",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "per label call outcome",
+   "class": "outcome"
+  },
+  {
+   "field": "null",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "null counts as used by the rule",
+   "class": "outcome"
+  },
+  {
+   "field": "rule10",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "threshold and tie share of the rule of record",
+   "class": "outcome"
+  },
+  {
+   "field": "rule5",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "5 percent rule beside",
+   "class": "outcome"
+  },
+  {
+   "field": "rule10_one_day_null",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "threshold and tie share of the one-day-null rule",
+   "class": "outcome"
+  },
+  {
+   "field": "null_one_day",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "one-day null counts",
+   "class": "outcome"
+  },
+  {
+   "field": "through_day",
+   "file": "LIVE/monitor/campaign-<name>/outcome-monitor-<through_day>.json",
+   "meaning": "day tag (also in machinery)",
+   "class": "outcome"
+  },
+  {
+   "field": "campaign",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "n",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "smoke units (20 null units)",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_counts",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "scored / refused / errored",
+   "class": "machinery"
+  },
+  {
+   "field": "usd_per_unit",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "mean cost per unit",
+   "class": "machinery"
+  },
+  {
+   "field": "usd_max",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "largest unit cost",
+   "class": "machinery"
+  },
+  {
+   "field": "spend_usd",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "region",
+   "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_units",
+   "file": "stdout of stage3_live_monitor.py dry-run",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_list_sha256",
+   "file": "stdout of stage3_live_monitor.py dry-run",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "prompt_sha256",
+   "file": "stdout of stage3_live_monitor.py dry-run",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_spans",
+   "file": "stdout of stage3_live_monitor.py dry-run",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "branches",
+   "file": "stdout of stage3_live_monitor.py dry-run",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "campaign",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "units_built_per_corpus",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "units_kept",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "one-plant units kept (11 expected)",
+   "class": "machinery"
+  },
+  {
+   "field": "units_expected",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "units_new_this_call",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "units_scored_ok",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "packet_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_units",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_scored_ok",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "null_spans",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "prompt_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "rule_names",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "usd_this_call",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "spend_usd",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "fields_present",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "a flag per plant; an offline flag per plant (booleans)",
+   "class": "machinery"
+  },
+  {
+   "field": "complete",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "11 units kept and scored",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_file",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "outcome_file_sha256",
+   "file": "LIVE/monitor/campaign-<name>/machinery-perplant.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "flags",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "per payload: state under the rule of record and under the one-day-null rule",
+   "class": "outcome"
+  },
+  {
+   "field": "offline_single_statement",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "each plant's single-statement block flag (SS scores)",
+   "class": "outcome"
+  },
+  {
+   "field": "scores",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "the 11 unit scores",
+   "class": "outcome"
+  },
+  {
+   "field": "null",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "",
+   "class": "outcome"
+  },
+  {
+   "field": "rule10",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "threshold and tie share",
+   "class": "outcome"
+  },
+  {
+   "field": "rule10_one_day_null",
+   "file": "LIVE/monitor/campaign-<name>/outcome-perplant.json",
+   "meaning": "threshold and tie share",
+   "class": "outcome"
+  },
+  {
+   "field": "plants",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "pass",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "checks_by_payload",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "per plant booleans of checks (a)/(b) or unit-build hashes",
+   "class": "machinery"
+  },
+  {
+   "field": "planted_start_sha256",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "kept",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "boundaries_per_2026_04_08_document_day",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "kept_boundary",
+   "file": "stdout and LIVE/monitor/per-plant-check-*.json, per-plant-dry-build-*.json",
+   "meaning": "",
+   "class": "machinery"
+  },
+  {
+   "field": "P",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "counted pairs (primary count)",
+   "class": "outcome"
+  },
+  {
+   "field": "k_missed",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "plants not flagged one by one",
+   "class": "outcome"
+  },
+  {
+   "field": "P_m",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "counted pairs on those plants",
+   "class": "outcome"
+  },
+  {
+   "field": "k_missed_one_day_null",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "",
+   "class": "outcome"
+  },
+  {
+   "field": "P_m_one_day_null",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "",
+   "class": "outcome"
+  },
+  {
+   "field": "days",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "",
+   "class": "outcome"
+  },
+  {
+   "field": "sentence",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "the fixed sentence with the figures",
+   "class": "outcome"
+  },
+  {
+   "field": "per_plant",
+   "file": "table() of stage3_live_perplant.py (with the join's counted pairs)",
+   "meaning": "per plant live and offline flags and counted pairs",
+   "class": "outcome"
+  },
+  {
+   "field": "(judge cache rows)",
+   "file": "LIVE/monitor/campaign-<name>/cache/etj-B*.jsonl",
+   "meaning": "the client's cache holds every score: never opened",
+   "class": "outcome"
+  },
+  {
+   "field": "label",
+   "file": "LIVE/monitor/campaign-<name>/units-scored.jsonl",
+   "meaning": "scored unit label",
+   "class": "machinery"
+  },
+  {
+   "field": "packet_sha256",
+   "file": "LIVE/monitor/campaign-<name>/units-scored.jsonl",
+   "meaning": "packet hash at scoring",
+   "class": "machinery"
+  }
+ ]
+}

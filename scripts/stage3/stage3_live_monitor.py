@@ -43,6 +43,7 @@ import asyncio
 import hashlib
 import json
 import random
+import re
 import sys
 from collections import Counter
 from collections.abc import Mapping, Sequence
@@ -63,6 +64,103 @@ LEDGER = MON / "units-scored.jsonl"
 SAVED_DAY = "2026-04-08"
 SEED = 20261116
 PROMPT_B = "0dad3af9674834164cea8ca99f5ba88548eed771a6114741f2c7780b5688c909"
+
+
+# ── G8 and the live run (Aravind's decisions 1(d)-(g), 2026-11-17): campaigns, two envelopes, input fields ────────
+
+# Fields that carry or derive from scores: never printed, never in a machinery file (thresholds and null scores
+# included). The read list committed for G8 governs; anything not on it is sealed.
+OUTCOME_KEYS = frozenset({"scores", "score", "flags", "rule10", "rule5", "rule10_one_day_null", "threshold", "p_tie", "null_scores",
+                          "k_missed", "P_m", "P", "k_missed_one_day_null", "P_m_one_day_null", "per_plant", "state",
+                          "state_one_day_null", "disagree", "disagreements", "offline_single_statement", "live_state",
+                          "live_state_one_day_null", "sentence", "outcomes_by_label", "flag_counts", "states"})
+_CAMPAIGN_NAME = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
+
+
+def _outcome_keys_in(obj: Any) -> list[str]:
+    found: list[str] = []
+    if isinstance(obj, Mapping):
+        for k, v in obj.items():
+            if k in OUTCOME_KEYS:
+                found.append(str(k))
+            found += _outcome_keys_in(v)
+    elif isinstance(obj, (list, tuple)):
+        for v in obj:
+            found += _outcome_keys_in(v)
+    return found
+
+
+def emit(machinery: Any) -> None:
+    """The only print path: refuses any outcome field anywhere in the structure (sealed by construction)."""
+    bad = _outcome_keys_in(machinery)
+    if bad:
+        raise SystemExit(f"refusing to print outcome fields: {sorted(set(bad))}")
+    print(json.dumps(machinery, indent=1))
+
+
+def campaign_paths(name: str, *, root: Path | None = None) -> dict[str, Path]:
+    if not _CAMPAIGN_NAME.match(name):
+        raise ValueError(f"campaign name {name!r}: lower-case letters, digits, '_' or '-'")
+    d = Path(root if root is not None else MON) / f"campaign-{name}"
+    return {"name": name, "dir": d, "cache": d / "cache" / "etj-B.jsonl", "smoke_cache": d / "cache" / "etj-B-smoke.jsonl",
+            "ledger": d / "units-scored.jsonl"}
+
+
+def open_campaign(paths: Mapping[str, Any]) -> None:
+    """A campaign folder belongs to one campaign: its marker must name it (the G8 rehearsal never shares the live
+    campaign's cache, ledger or null)."""
+    d = Path(paths["dir"])
+    d.mkdir(parents=True, exist_ok=True)
+    marker = d / "campaign.json"
+    if marker.exists():
+        if json.loads(marker.read_text(encoding="utf-8")).get("name") != paths["name"]:
+            raise SystemExit(f"refusing: {d} belongs to another campaign")
+    else:
+        marker.write_text(json.dumps({"name": paths["name"]}) + "\n", encoding="utf-8")
+
+
+def write_envelopes(d: Path, tag: str, machinery: Mapping, outcome: Mapping) -> tuple[Path, Path]:
+    bad = _outcome_keys_in(machinery)
+    if bad:
+        raise SystemExit(f"refusing: outcome fields in the machinery file: {sorted(set(bad))}")
+    mp, op = Path(d) / f"machinery-{tag}.json", Path(d) / f"outcome-{tag}.json"
+    for x in (mp, op):
+        if x.exists():
+            raise SystemExit(f"{x} exists; never overwritten")
+    Path(d).mkdir(parents=True, exist_ok=True)
+    op.write_text(json.dumps(outcome, indent=1) + "\n", encoding="utf-8")
+    mp.write_text(json.dumps({**machinery, "outcome_file": op.name,
+                              "outcome_file_sha256": hashlib.sha256(op.read_bytes()).hexdigest()}, indent=1) + "\n", encoding="utf-8")
+    return mp, op
+
+
+OWNCLOUD_WRITES = ("write_file", "append_to_file", "replace_in_file")
+
+
+def check_input_fields(rows: Sequence[Mapping]) -> dict:
+    """Every corpus field the unit builder reads must be present: `ts`, `service`, `action` on every row; on an ownCloud
+    content write also `exit_code`, `account` and `task_id`, and on a successful one (exit code 0) `args.path` and
+    `args.content` (the full text after the write, which the file-order replay applies; a failed write is not applied
+    and need not carry them). A missing field is a stop, named."""
+    n_w = 0
+    for i, r in enumerate(rows):
+        for k in ("ts", "service", "action"):
+            if r.get(k) is None:
+                raise SystemExit(f"missing input field {k!r} in corpus row {i}")
+        if r["service"] == "owncloud" and r["action"] in OWNCLOUD_WRITES:
+            n_w += 1
+            for k in ("exit_code", "account", "task_id"):
+                if k not in r:
+                    raise SystemExit(f"missing input field {k!r} in corpus row {i}")
+            if (r.get("exit_code") or 0) != 0:
+                continue                                                      # a failed write is not applied
+            a = r.get("args")
+            if not isinstance(a, Mapping):
+                raise SystemExit(f"missing input field 'args' in corpus row {i} (a successful write)")
+            for k in ("path", "content"):
+                if k not in a:
+                    raise SystemExit(f"missing input field 'args.{k}' in corpus row {i} (a successful write)")
+    return {"rows": len(rows), "owncloud_writes": n_w}
 
 
 def _sha(s: str) -> str:
@@ -98,6 +196,7 @@ def select_day_units(items: Sequence[Mapping], paths: Sequence[str], corpus_days
 def build_branch_units(corpus: Path, branch: str, through_day: str) -> list[dict]:
     import stage3_views as sv
     rows = sv.read_jsonl(Path(corpus))
+    check_input_fields(rows)
     cdays = sv.corpus_days(rows)
     paths = sv.class_doc_paths()
     items = sv.cumulative_diff_units(rows, paths, cdays, sv.seed_base(), sv.stem_of(Path(corpus)))
@@ -223,7 +322,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--corpus", action="append", default=[], help="BRANCH=PATH of a branch's corpus (repeat per branch)")
     ap.add_argument("--through-day", default=SAVED_DAY, help="the last completed simulated day to score")
     ap.add_argument("--cap-usd", type=float, default=1.0)
+    ap.add_argument("--campaign", help="smoke/score: the campaign folder's name (e.g. live, g8); never shared")
     a = ap.parse_args(argv)
+    if a.mode != "dry-run" and not a.campaign:
+        raise SystemExit("--campaign is required for smoke and score")
     branches = dict(x.split("=", 1) for x in a.corpus)
     units = [u for b, p in sorted(branches.items()) for u in build_branch_units(Path(p), b, a.through_day)]
     scoreable = [u for u in units if u["state"] == "unit"]
@@ -239,44 +341,57 @@ def main(argv: list[str] | None = None) -> int:
                              "truncated": sum(1 for u in scoreable if u["branch"] == b and u.get("truncated")),
                              "by_day": dict(Counter(u["day"] for u in scoreable if u["branch"] == b))} for b in branches}}
     if a.mode == "dry-run":
-        print(json.dumps(info, indent=1))
+        emit(info)
         return 0
+    cp = campaign_paths(a.campaign)
+    open_campaign(cp)
     import stage3_etj as et
     import stage3_ss_score as ss
     if a.mode == "smoke":
         by = {u["label"]: u for u in nul}
         pick = [by[k] for k in null_order(list(by))[:20]]
-        cl = ss.make_client_B(SMOKE_CACHE, cap_usd=a.cap_usd)
+        cl = ss.make_client_B(cp["smoke_cache"], cap_usd=a.cap_usd)
         got = asyncio.run(et.score_B(cl, pick))
         costs = [r["cost_usd"] for r in got.values()]
-        out = {"n": len(got), "outcomes": dict(Counter(r["outcome"] for r in got.values())), "usd_per_unit": round(sum(costs) / len(costs), 6),
-               "usd_max": round(max(costs), 6), "spend_usd": round(et.total_spent(cl), 6), "region": getattr(cl["B"], "region", None)}
-        _write_new(MON / "smoke-live-v0.json", out)
-        print(json.dumps(out, indent=1))
+        out = {"campaign": a.campaign, "n": len(got), "outcome_counts": dict(Counter(r["outcome"] for r in got.values())),
+               "usd_per_unit": round(sum(costs) / len(costs), 6), "usd_max": round(max(costs), 6), "spend_usd": round(et.total_spent(cl), 6),
+               "region": getattr(cl["B"], "region", None)}
+        _write_new(cp["dir"] / "machinery-smoke.json", out)
+        emit(out)
         return 0
-    new = to_score(nul, LEDGER) + to_score(scoreable, LEDGER)      # refuses a unit whose packet changed since it was scored
+    new = to_score(nul, cp["ledger"]) + to_score(scoreable, cp["ledger"])   # refuses a unit whose packet changed since scored
     # `--cap-usd` caps the whole campaign: the client counts the cache's recorded spend plus this call's.
-    cl = ss.make_client_B(CACHE, cap_usd=a.cap_usd)
+    cl = ss.make_client_B(cp["cache"], cap_usd=a.cap_usd)
     got = asyncio.run(et.score_B(cl, list(nul) + scoreable))     # units already scored come back from the cache, uncalled
     newl = {u["label"] for u in new}
-    record_scored(LEDGER, [u for u in new if got.get(u["label"], {}).get("outcome") == "scored"])
+    record_scored(cp["ledger"], [u for u in new if got.get(u["label"], {}).get("outcome") == "scored"])
     sc = {k: r["score"] for k, r in got.items()}
     oc = {k: r["outcome"] for k, r in got.items()}
     labels = set(got)
     res = rule_and_flags({k: sc.get(k) for k in labels}, oc, units, one_day_labels=one_day)
-    tag = a.through_day
-    _write_new(MON / f"flags-live-{tag}.json", {"through_day": tag,
-                                                 "rule": "rule of record: the 10 percent rule of the campaign's fresh 254-unit null, as built (seed 20261116)",
-                                                 "sensitivity": "state_one_day_null: the 10 percent rule of the null's one-day units only (same seed); labelled",
-                                                 "null_spans": spans, "disagreements": res["disagreements"], "flags": res["flags"],
-                                                 "null_list_sha256": info["null_list_sha256"], "prompt_sha256": PROMPT_B})
-    _write_new(MON / f"scores-live-{tag}.json", {"through_day": tag, "scores": {k: sc.get(k) for k in labels},
-                                                  "outcomes": {k: oc.get(k) for k in labels}, **{k: res[k] for k in ("null", "rule10", "rule5", "rule10_one_day_null", "null_one_day")},
-                                                  "units_new_this_call": len(newl), "usd_this_call": round(cl["B"].dollars, 6),
-                                                  "spend_usd": round(et.total_spent(cl), 6), "region": getattr(cl["B"], "region", None)})
-    print(json.dumps({"scored_now": len(newl), "null": res["null"], "flag_counts": {b: dict(Counter(c["state"] for d in v.values() for c in d.values()))
-                                                                                   for b, v in res["flags"].items()},
-                      "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6)}, indent=1))
+    tag = f"monitor-{a.through_day}"
+    unit_labels = [u["label"] for u in scoreable]
+    machinery = {"campaign": a.campaign, "through_day": a.through_day, "branches": info["branches"],
+                 "units_built": len(units), "units_scoreable": len(scoreable), "units_new_this_call": len(newl),
+                 "units_scored_ok": sum(1 for k in unit_labels if oc.get(k) == "scored"),
+                 "null_units": len(nul), "null_scored_ok": res["null"]["scored"], "null_left_out": res["null"]["left_out"],
+                 "null_spans": spans, "null_list_sha256": info["null_list_sha256"], "prompt_sha256": PROMPT_B,
+                 "outcome_counts": dict(Counter(oc.get(k) for k in list(oc))),
+                 "packet_sha256": {u["label"]: _sha(u["packet"]) for u in scoreable},
+                 "rule_names": ["rule of record: the 10 percent rule of the campaign's fresh 254-unit null, as built (seed 20261116)",
+                                "beside: the 10 percent rule of the null's one-day units only (same seed)"],
+                 "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6), "region": getattr(cl["B"], "region", None),
+                 "fields_present": {"flags_for_every_unit": all(u["label"] is None or any(u["day"] in v for v in res["flags"].get(u["branch"], {}).values())
+                                                                for u in units),
+                                    "rules_computed": all(res.get(k) is not None for k in ("rule10", "rule5", "rule10_one_day_null"))},
+                 "complete": all(oc.get(k) == "scored" for k in unit_labels) and res["null"]["left_out"] == 0}
+    outcome = {"through_day": a.through_day, "flags": res["flags"], "disagreements": res["disagreements"],
+               "scores": {k: sc.get(k) for k in labels}, "outcomes_by_label": {k: oc.get(k) for k in labels},
+               **{k: res[k] for k in ("null", "rule10", "rule5", "rule10_one_day_null", "null_one_day")}}
+    mp, op = write_envelopes(cp["dir"], tag, machinery, outcome)
+    emit({"machinery_file": mp.name, "complete": machinery["complete"], "units_scored_ok": machinery["units_scored_ok"],
+          "units_scoreable": len(scoreable), "null_scored_ok": machinery["null_scored_ok"], "usd_this_call": machinery["usd_this_call"],
+          "outcome_file_sha256": json.loads(mp.read_text(encoding="utf-8"))["outcome_file_sha256"]})
     return 0
 
 

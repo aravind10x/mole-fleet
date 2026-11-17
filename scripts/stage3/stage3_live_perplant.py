@@ -51,7 +51,38 @@ def _rows(b: bytes) -> list[dict]:
     return [json.loads(x) for x in b.decode("utf-8").splitlines() if x.strip()]
 
 
+RECORD_FIELDS = ("parent_corpus_sha256", "corpus_sha256", "row_actions", "plants")
+PLANT_FIELDS = ("payload_id", "document", "placement_task_id", "placement_event_ids")
+CONTENT_ROW_FIELDS = ("event_id", "task_id", "action", "resource_id")
+CONTENT_ARG_FIELDS = ("path", "find", "replace")
+
+
+def check_record_fields(record: Mapping) -> None:
+    """Every placement-record field this module reads must be present; a missing one is a stop, named."""
+    for k in RECORD_FIELDS:
+        if k not in record:
+            raise SystemExit(f"missing placement-record field {k!r}")
+    if not record["plants"]:
+        raise SystemExit("missing placement-record field 'plants[0]'")
+    for k in PLANT_FIELDS:
+        if k not in record["plants"][0]:
+            raise SystemExit(f"missing placement-record field 'plants[0].{k}'")
+
+
+def _check_content_row(r: Mapping, where: str) -> None:
+    for k in CONTENT_ROW_FIELDS:
+        if k not in r:
+            raise SystemExit(f"missing input field {k!r} in the {where} content row")
+    a = r.get("args")
+    if not isinstance(a, Mapping):
+        raise SystemExit(f"missing input field 'args' in the {where} content row")
+    for k in CONTENT_ARG_FIELDS:
+        if k not in a:
+            raise SystemExit(f"missing input field 'args.{k}' in the {where} content row")
+
+
 def check_a(parent_bytes: bytes, corpus_bytes: bytes, record: Mapping) -> dict:
+    check_record_fields(record)
     plant = record["plants"][0]
     prefix = corpus_bytes.startswith(parent_bytes)
     extra = _rows(corpus_bytes[len(parent_bytes):]) if prefix else []
@@ -73,6 +104,10 @@ def _content_rows(rows: Sequence[Mapping], task_id: str) -> list[Mapping]:
 def check_b(one_plant_rows: Sequence[Mapping], planted_rows: Sequence[Mapping], record: Mapping) -> dict:
     task = record["plants"][0]["placement_task_id"]
     a, b = _content_rows(one_plant_rows, task), _content_rows(planted_rows, task)
+    for r in a:
+        _check_content_row(r, "one-plant")
+    for r in b:
+        _check_content_row(r, "planted start")
     out: dict[str, Any] = {"content_rows_one_plant": len(a), "content_rows_planted_start": len(b)}
     if len(a) != 1 or len(b) != 1:
         out.update({"resource_id": False, "path": False, "find": False, "replace": False, "pass": False})
@@ -116,8 +151,12 @@ def flags_by_payload(res_flags: Mapping[str, Mapping], documents: Mapping[str, s
     return out
 
 
-def _records() -> dict[str, dict]:
-    return {p.stem.replace("placement-record-", ""): json.loads(p.read_text(encoding="utf-8")) for p in sorted(RECORDS.glob("placement-record-*.json"))}
+def _records(d: Path | None = None) -> dict[str, dict]:
+    d = d or RECORDS
+    recs = {p.stem.replace("placement-record-", ""): json.loads(p.read_text(encoding="utf-8")) for p in sorted(d.glob("placement-record-*.json"))}
+    for r in recs.values():
+        check_record_fields(r)
+    return recs
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -127,30 +166,34 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--cap-usd", type=float, default=1.0, help="score: the monitor campaign's cap (cache spend counts)")
     ap.add_argument("--planted-start", type=Path, help="a planted start's corpus (check-b)")
     ap.add_argument("--expect-planted-start-sha256")
+    ap.add_argument("--campaign", help="score: the campaign folder's name (live, g8); the same campaign as the monitor run")
+    ap.add_argument("--one-plant-dir", type=Path, help="the folder of one-plant corpora (default: red's live folder)")
+    ap.add_argument("--records-dir", type=Path, help="the folder of one-plant placement records (default: red's handover)")
     a = ap.parse_args(argv)
-    recs = _records()
+    op_dir, rec_dir = a.one_plant_dir or ONE_PLANT, a.records_dir or RECORDS
+    recs = _records(rec_dir)
     out: dict[str, Any] = {"plants": len(recs)}
     if a.mode == "check-a":
         pb = PARENT.read_bytes()
-        res = {pid: check_a(pb, (ONE_PLANT / f"corpus-{pid}.jsonl").read_bytes(), r) for pid, r in recs.items()}
-        out.update({"pass": sum(v["pass"] for v in res.values()), "per_plant": res})
+        res = {pid: check_a(pb, (op_dir / f"corpus-{pid}.jsonl").read_bytes(), r) for pid, r in recs.items()}
+        out.update({"pass": sum(v["pass"] for v in res.values()), "checks_by_payload": res})
     elif a.mode == "check-b":
         sb = a.planted_start.read_bytes()
         if _sha(sb) != a.expect_planted_start_sha256:
             raise SystemExit("refusing: the planted start is not the one named")
         planted = _rows(sb)
-        res = {pid: check_b(_rows((ONE_PLANT / f"corpus-{pid}.jsonl").read_bytes()), planted, r) for pid, r in recs.items()}
-        out.update({"planted_start_sha256": _sha(sb), "pass": sum(v["pass"] for v in res.values()), "per_plant": res})
+        res = {pid: check_b(_rows((op_dir / f"corpus-{pid}.jsonl").read_bytes()), planted, r) for pid, r in recs.items()}
+        out.update({"planted_start_sha256": _sha(sb), "pass": sum(v["pass"] for v in res.values()), "checks_by_payload": res})
     else:
         import stage3_live_monitor as lm
         res = {}
         for pid, r in recs.items():
-            units = lm.build_branch_units(ONE_PLANT / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY)
+            units = lm.build_branch_units(op_dir / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY)
             u = plant_unit(units, r["plants"][0]["document"])
             res[pid] = {"units_built": sum(1 for x in units if x["state"] == "unit"), "kept": u is not None,
                         "kept_label_sha256": _sha(u["label"]) if u else None, "kept_packet_sha256": _sha(u["packet"]) if u else None,
                         "boundary_index": u["boundary_index"] if u else None, "truncated": bool(u.get("truncated")) if u else None}
-        out.update({"kept": sum(v["kept"] for v in res.values()), "per_plant": res,
+        out.update({"kept": sum(v["kept"] for v in res.values()), "checks_by_payload": res,
                     "boundaries_per_2026_04_08_document_day": 3, "kept_boundary": "end of 2026-04-07 (index 2)"})
     if a.mode == "score":
         # the live monitor's campaign: the same cache, ledger and fresh null; the rule of record and the one-day-null rule
@@ -160,35 +203,44 @@ def main(argv: list[str] | None = None) -> int:
         import stage3_etj as et
         import stage3_live_monitor as lm
         import stage3_ss_score as ss
+        if not a.campaign:
+            raise SystemExit("--campaign is required for score")
+        cp = lm.campaign_paths(a.campaign)
+        lm.open_campaign(cp)
         units, docs = [], {}
         for pid, r in recs.items():
             docs[pid] = r["plants"][0]["document"]
-            u = plant_unit(lm.build_branch_units(ONE_PLANT / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY), docs[pid])
+            u = plant_unit(lm.build_branch_units(op_dir / f"corpus-{pid}.jsonl", f"plant_{pid}", SAVED_DAY), docs[pid])
             if u is None:
                 raise SystemExit(f"refusing: no unit for {pid}")
             units.append(u)
         nul, nitems = lm.null_units(), lm.null_items()
         one_day = {it["label"] for it in nitems if it["span_days"] == 1}
-        new = lm.to_score(nul, lm.LEDGER) + lm.to_score(units, lm.LEDGER)
-        cl = ss.make_client_B(lm.CACHE, cap_usd=a.cap_usd)
+        new = lm.to_score(nul, cp["ledger"]) + lm.to_score(units, cp["ledger"])
+        cl = ss.make_client_B(cp["cache"], cap_usd=a.cap_usd)
         got = asyncio.run(et.score_B(cl, list(nul) + units))
-        lm.record_scored(lm.LEDGER, [x for x in new if got.get(x["label"], {}).get("outcome") == "scored"])
+        lm.record_scored(cp["ledger"], [x for x in new if got.get(x["label"], {}).get("outcome") == "scored"])
         res = lm.rule_and_flags({k: r["score"] for k, r in got.items()}, {k: r["outcome"] for k, r in got.items()}, units,
                                 one_day_labels=one_day)
         fl = flags_by_payload(res["flags"], docs)
         ss_flags = json.loads((PROJECT / "work" / "stage3" / "v5" / "SS" / "scores-SS-v0.json").read_text(encoding="utf-8"))["flags10"]
         offline = {pid: ss_flags.get(f"single:{pid}") for pid in recs}
-        for path, obj in ((MON / "flags-perplant-v0.json", {"flags": fl, "offline_single_statement": offline,
-                                                             "null_spans": lm.null_span_summary(nitems), "prompt_sha256": lm.PROMPT_B}),
-                          (MON / "scores-perplant-v0.json", {"scores": {u["label"]: got[u["label"]]["score"] for u in units},
-                                                              **{k: res[k] for k in ("null", "rule10", "rule10_one_day_null")},
-                                                              "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6)})):
-            if path.exists():
-                raise SystemExit(f"{path} exists; never overwritten")
-            path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(json.dumps(obj, indent=1) + "\n", encoding="utf-8")
-        out.update({"scored_new": len(new), "states": dict(Counter(v["state"] for v in fl.values())), "usd_this_call": round(cl["B"].dollars, 6)})
-    print(json.dumps(out, indent=1))
+        machinery = {"campaign": a.campaign, "units_built_per_corpus": 6, "units_kept": len(units), "units_expected": 11,
+                     "units_new_this_call": len(new), "units_scored_ok": sum(1 for u in units if got[u["label"]]["outcome"] == "scored"),
+                     "packet_sha256": {u["label"]: hashlib.sha256(u["packet"].encode("utf-8")).hexdigest() for u in units},
+                     "null_units": len(nul), "null_scored_ok": res["null"]["scored"], "null_spans": lm.null_span_summary(nitems),
+                     "prompt_sha256": lm.PROMPT_B,
+                     "rule_names": ["rule of record: the 10 percent rule of the campaign's fresh 254-unit null", "beside: the one-day null's rule"],
+                     "usd_this_call": round(cl["B"].dollars, 6), "spend_usd": round(et.total_spent(cl), 6),
+                     "fields_present": {"flag_per_plant": len(fl) == len(units), "offline_flag_per_plant": all(offline.get(p) is not None for p in recs)},
+                     "complete": len(units) == 11 and all(got[u["label"]]["outcome"] == "scored" for u in units)}
+        outcome = {"flags": fl, "offline_single_statement": offline, "scores": {u["label"]: got[u["label"]]["score"] for u in units},
+                   **{k: res[k] for k in ("null", "rule10", "rule10_one_day_null")}}
+        mp, op = lm.write_envelopes(cp["dir"], "perplant", machinery, outcome)
+        out.update({"machinery_file": mp.name, "complete": machinery["complete"], "units_scored_ok": machinery["units_scored_ok"],
+                    "usd_this_call": machinery["usd_this_call"]})
+    import stage3_live_monitor as lm_
+    lm_.emit(out)
     return 0
 
 

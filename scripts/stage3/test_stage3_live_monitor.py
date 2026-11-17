@@ -111,3 +111,71 @@ def test_null_span_summary():
              {"label": "c", "span_days": 2, "path": "/x", "boundary_index": 0, "write_day": "d2", "write_index": 3}]
     s = lm.null_span_summary(items)
     assert s == {"by_span_days": {"1": 2, "2": 1}, "one_day": 2, "exactly_unit_kind": 1}
+
+
+# ── G8 (Aravind's decisions 1(d)-(g), 2026-11-17): campaigns, two envelopes, input fields ─────────────────────────
+
+def test_campaign_paths_are_separate_and_marked(tmp_path):
+    live = lm.campaign_paths("live", root=tmp_path)
+    g8 = lm.campaign_paths("g8", root=tmp_path)
+    assert live["cache"] != g8["cache"] and live["ledger"] != g8["ledger"] and live["dir"] != g8["dir"]
+    lm.open_campaign(g8)
+    assert json.loads((g8["dir"] / "campaign.json").read_text())["name"] == "g8"
+    (live["dir"]).mkdir(parents=True)
+    (live["dir"] / "campaign.json").write_text(json.dumps({"name": "g8"}))
+    with pytest.raises(SystemExit):
+        lm.open_campaign(live)                                            # a folder marked for another campaign
+    with pytest.raises(ValueError):
+        lm.campaign_paths("../live", root=tmp_path)
+
+
+def test_sealed_emit_refuses_any_outcome_field(capsys):
+    lm.emit({"units_scored": 3, "outcome_file_sha256": "ab"})
+    assert "units_scored" in capsys.readouterr().out
+    for bad in ({"threshold": 55}, {"x": {"flags": {}}}, {"rule10": {}}, {"scores": {}}, [{"k_missed": 1}], {"y": [{"P_m": 2}]}):
+        with pytest.raises(SystemExit):
+            lm.emit(bad)
+
+
+def test_envelopes_hash_the_outcome_into_the_machinery(tmp_path):
+    m, o = lm.write_envelopes(tmp_path, "monitor-2026-04-08", {"units_scored": 2}, {"scores": {"a": 1.0}, "rule10": {"threshold": 9}})
+    mj = json.loads(m.read_text())
+    assert mj["outcome_file_sha256"] == __import__("hashlib").sha256(o.read_bytes()).hexdigest()
+    assert "scores" not in mj and "rule10" not in mj and o.name.startswith("outcome-") and m.name.startswith("machinery-")
+    with pytest.raises(SystemExit):
+        lm.write_envelopes(tmp_path, "monitor-2026-04-08", {"units_scored": 2}, {})        # never overwritten
+    with pytest.raises(SystemExit):
+        lm.write_envelopes(tmp_path, "other", {"threshold": 1}, {})                         # an outcome field in the machinery
+
+
+def test_input_fields_fail_loudly_naming_the_field():
+    good = [{"ts": "2026-04-08T10:00:00Z", "service": "owncloud", "action": "replace_in_file", "exit_code": 0, "account": "a",
+             "task_id": "t", "args": {"path": "/shared/x.md", "content": "c"}},
+            {"ts": "2026-04-08T10:01:00Z", "service": "plane", "action": "read_issue"}]
+    assert lm.check_input_fields(good) == {"rows": 2, "owncloud_writes": 1}
+    for i, drop in ((0, "ts"), (1, "action"), (0, "exit_code"), (0, "account")):
+        bad = [dict(r) for r in good]
+        bad[i].pop(drop)
+        with pytest.raises(SystemExit, match=drop):
+            lm.check_input_fields(bad)
+    bad = [dict(good[0], args={"path": "/shared/x.md"}), good[1]]
+    with pytest.raises(SystemExit, match="args.content"):
+        lm.check_input_fields(bad)
+
+
+def test_a_failed_write_need_not_carry_content():
+    rows = [{"ts": "t", "service": "owncloud", "action": "replace_in_file", "exit_code": 1, "account": "a", "task_id": "t",
+             "args": {"path": "/x.md", "find": "f", "replace": "r"}}]
+    assert lm.check_input_fields(rows) == {"rows": 1, "owncloud_writes": 1}
+    rows[0]["exit_code"] = 0
+    with pytest.raises(SystemExit, match="args.content"):
+        lm.check_input_fields(rows)
+
+
+def test_a_failed_write_need_not_carry_a_path_either():
+    rows = [{"ts": "t", "service": "owncloud", "action": "write_file", "exit_code": 1, "account": "a", "task_id": "t",
+             "args": {"content": "c"}}]
+    assert lm.check_input_fields(rows)["owncloud_writes"] == 1
+    rows[0]["exit_code"] = 0
+    with pytest.raises(SystemExit, match="args.path"):
+        lm.check_input_fields(rows)
