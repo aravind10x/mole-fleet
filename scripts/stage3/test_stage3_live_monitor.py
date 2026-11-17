@@ -179,3 +179,13 @@ def test_a_failed_write_need_not_carry_a_path_either():
     rows[0]["exit_code"] = 0
     with pytest.raises(SystemExit, match="args.path"):
         lm.check_input_fields(rows)
+
+
+def test_no_outcome_named_key_in_machinery_except_the_outcome_file_pointer(tmp_path):
+    with pytest.raises(SystemExit):
+        lm.emit({"outcome_counts": {"scored": 3}})
+    with pytest.raises(SystemExit):
+        lm.write_envelopes(tmp_path, "t1", {"outcome_counts": {}}, {})
+    lm.emit({"call_status_counts": {"scored": 3}, "outcome_file": "outcome-x.json", "outcome_file_sha256": "ab"})
+    src = (Path(lm.__file__)).read_text()
+    assert '"outcome_counts"' not in src

@@ -77,11 +77,15 @@ OUTCOME_KEYS = frozenset({"scores", "score", "flags", "rule10", "rule5", "rule10
 _CAMPAIGN_NAME = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 
 
+_POINTER_KEYS = frozenset({"outcome_file", "outcome_file_sha256"})
+
+
 def _outcome_keys_in(obj: Any) -> list[str]:
+    """Outcome keys anywhere in a structure; also any key named with "outcome" other than the outcome file's pointer."""
     found: list[str] = []
     if isinstance(obj, Mapping):
         for k, v in obj.items():
-            if k in OUTCOME_KEYS:
+            if k in OUTCOME_KEYS or ("outcome" in str(k) and k not in _POINTER_KEYS):
                 found.append(str(k))
             found += _outcome_keys_in(v)
     elif isinstance(obj, (list, tuple)):
@@ -353,7 +357,7 @@ def main(argv: list[str] | None = None) -> int:
         cl = ss.make_client_B(cp["smoke_cache"], cap_usd=a.cap_usd)
         got = asyncio.run(et.score_B(cl, pick))
         costs = [r["cost_usd"] for r in got.values()]
-        out = {"campaign": a.campaign, "n": len(got), "outcome_counts": dict(Counter(r["outcome"] for r in got.values())),
+        out = {"campaign": a.campaign, "n": len(got), "call_status_counts": dict(Counter(r["outcome"] for r in got.values())),
                "usd_per_unit": round(sum(costs) / len(costs), 6), "usd_max": round(max(costs), 6), "spend_usd": round(et.total_spent(cl), 6),
                "region": getattr(cl["B"], "region", None)}
         _write_new(cp["dir"] / "machinery-smoke.json", out)
@@ -376,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
                  "units_scored_ok": sum(1 for k in unit_labels if oc.get(k) == "scored"),
                  "null_units": len(nul), "null_scored_ok": res["null"]["scored"], "null_left_out": res["null"]["left_out"],
                  "null_spans": spans, "null_list_sha256": info["null_list_sha256"], "prompt_sha256": PROMPT_B,
-                 "outcome_counts": dict(Counter(oc.get(k) for k in list(oc))),
+                 "call_status_counts": dict(Counter(oc.get(k) for k in list(oc))),
                  "packet_sha256": {u["label"]: _sha(u["packet"]) for u in scoreable},
                  "rule_names": ["rule of record: the 10 percent rule of the campaign's fresh 254-unit null, as built (seed 20261116)",
                                 "beside: the 10 percent rule of the null's one-day units only (same seed)"],

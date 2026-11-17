@@ -1,7 +1,7 @@
 {
  "by": "blue harness session, 2026-11-17",
  "scripts": {
-  "stage3_live_monitor.py": "cb66e63196b93f68f45ed813c5ea112ae13ff6f763686fe41f1f954c4cdf907b",
+  "stage3_live_monitor.py": "08681e48f46b5aa0ec336d8801701901e55713329352cdd1256befff3edcff16",
   "stage3_live_perplant.py": "cf6ad63e0cc35270e373f71e04916ea7ec0da91c82607a648938c3e20f47cd27"
  },
  "rule": "outcome = any score, flag, threshold, tie share, null score, k, P_m, per-plant flag or figure derived from them; never printed; the machinery file carries the outcome file's sha256",
@@ -85,9 +85,9 @@
    "class": "machinery"
   },
   {
-   "field": "outcome_counts",
+   "field": "call_status_counts",
    "file": "LIVE/monitor/campaign-<name>/machinery-monitor-<through_day>.json",
-   "meaning": "count of scored / refused / errored calls (errors only, no score)",
+   "meaning": "count of judge calls by status: scored, refused or errored (call status only; nothing derived from scores or flags)",
    "class": "machinery"
   },
   {
@@ -217,9 +217,9 @@
    "class": "machinery"
   },
   {
-   "field": "outcome_counts",
+   "field": "call_status_counts",
    "file": "LIVE/monitor/campaign-<name>/machinery-smoke.json",
-   "meaning": "scored / refused / errored",
+   "meaning": "count of judge calls by status: scored, refused or errored (call status only; nothing derived from scores or flags)",
    "class": "machinery"
   },
   {
@@ -528,5 +528,6 @@
    "meaning": "packet hash at scoring",
    "class": "machinery"
   }
- ]
+ ],
+ "revision": "v2, 2026-11-17: outcome_counts renamed call_status_counts (judge call status); no other change"
 }
