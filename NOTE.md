@@ -18,7 +18,7 @@ MOLE's code as first copied into this fork is commit `050d07f` (upstream `702199
 - **Further blocks.** Topic-only tasks, honest tasks from the organisation's bank, a single planted line instead of the whole plant, a warned follower, an explain-first judge, other judges, and the honest-deviance tables on MOLE's released corpora.
 - **The two addenda of 19 Nov.** A monitor on the agent that acts: the recorded follower runs scored a second time, each run's task and whole logged run read by one judge (check AM; no new follower runs). And the document monitor told what to look for: one paragraph added to its prompt, scored against a fresh baseline at the same budget (check TP).
 
-The design of each block was filed before its runs; the filed designs and results are in `results/stage3/v5/` (`FT/`, `P0/` to `P3/`, `ETJ/`, `S3/`, `SS/`, `AM/`, `TP/`).
+The full method, as the post's companion, is [note/methods-v1.0.md](note/methods-v1.0.md). The design of each block was filed before its runs; the filed designs and results are in `results/stage3/v5/` (`FT/`, `P0/` to `P3/`, `ETJ/`, `S3/`, `SS/`, `AM/`, `TP/`).
 
 Main code, in `scripts/stage3/`:
 

@@ -6834,6 +6834,25 @@
      "added_beyond_brief_list": null
     }
    ]
+  },
+  {
+   "date": "2026-11-19",
+   "by": "coordinator v5 batch 5 follow-up, appended by line REPO (blue): the post's companion methods file, which the post names beside the repository, released at the fork's note/methods-v1.0.md. Additive.",
+   "added": [
+    "v5/NOTE/methods-v1.0.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/NOTE/methods-v1.0.md",
+     "sha256": "8f458dde733d66eb89c854ef83f46babd3bafaf8a90f3271826cc1ad6969e181",
+     "bytes": 26950,
+     "fork_copy_path": "note/methods-v1.0.md",
+     "sha256_fork_copy": "8f458dde733d66eb89c854ef83f46babd3bafaf8a90f3271826cc1ad6969e181",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "the post's companion: the full method, every filed computation, the audit rules and their completions"
+    }
+   ]
   }
  ]
 }

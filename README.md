@@ -17,6 +17,7 @@ This repository is a fork of [MOLE](https://github.com/aashiqmuhamed/mole), an o
 | the count-level records behind the post's figures | `results/stage3/v5/`; `results/stage3/b0/frozen-tables.json` is the manifest of the records the study draws on, each with its hash |
 | the planted changes used in this and the earlier rounds, including the 56 the post rests on | earlier rounds' folders under `results/stage3/` |
 | the map from every figure in the post to its record, and the figures' script | `note/` |
+| the full method: every filed computation, the audit rules and their completions | [note/methods-v1.0.md](note/methods-v1.0.md) |
 | the full guide: what was run, a map of the folders, what changed from upstream | [NOTE.md](NOTE.md) |
 
 **Check the post's figures from a fresh clone** (Python 3.9 or later; the check itself needs nothing else):
