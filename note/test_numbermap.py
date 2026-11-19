@@ -2,6 +2,7 @@
 import json
 
 import numbermap as nn
+from pathlib import Path
 
 
 def _row(**kw):
@@ -65,3 +66,28 @@ def test_count_locator_prints_counts_not_content(tmp_path):
     (loc, hits), = nn.find(r, tmp_path)
     assert hits == ["1 line(s) contain core|P1|planted|sol|r3"] and "secret" not in hits[0]
     assert nn.check_row(_row(record="o.jsonl", locate=[{"count": "absent"}]), tmp_path)
+
+
+def test_rounded_rows_accept_a_record_figure_that_rounds(tmp_path):
+    (tmp_path / "r.md").write_text("| S | 0.2953 [0.188, 0.413] |\n")
+    ok = _row(numbers=["0.30", "0.19"], match="rounded", locate=[{"line": "| S | 0.2953"}])
+    assert nn.check_row(ok, tmp_path) == []
+    exact = _row(numbers=["0.30"], locate=[{"line": "| S | 0.2953"}])
+    assert nn.check_row(exact, tmp_path)  # without "rounded", 0.30 is not 0.2953
+    bad = _row(numbers=["0.31"], match="rounded", locate=[{"line": "| S | 0.2953"}])
+    assert nn.check_row(bad, tmp_path)
+
+
+def test_shipped_v1_map_is_well_formed():
+    doc = nn.load_map(Path(__file__).with_name("numbers-v1.json"))
+    ids = [r["id"] for r in doc["rows"]]
+    assert len(ids) == len(set(ids))
+    held = ("results/stage3/t1", "results/stage3/b1/", "results/stage3/b3/", "results/stage3/q1q2-synthetic/",
+            "results/stage3/phase-b/", "results/stage3/find-the-plant/", "results/stage3/prep-report.md",
+            "results/stage3/cohort-examples/")
+    for r in doc["rows"]:
+        assert r["status"] in {"released", "design", "external", "held_fakelab_file", "held_live_file",
+                               "not_in_repository"}
+        if r["status"] == "released":
+            assert r["record"] and r["locate"] and not r["record"].startswith(held)
+        assert "LIVE/" not in (r.get("record") or "")

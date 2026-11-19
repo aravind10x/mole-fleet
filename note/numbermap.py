@@ -4,6 +4,7 @@
     python note/numbermap.py show N05        # the record lines (or values, or counts) that hold row N05's numbers
     python note/numbermap.py check           # every released row: record present, locators found, numbers present
     python note/numbermap.py table           # the map as a Markdown table
+    python note/numbermap.py --map note/numbers-v1.json check   # the published note's map
 
 The map is note/numbers-v0.json. Paths are relative to the repository root.
 Standard library only.
@@ -55,9 +56,17 @@ def find(row: dict, root: Path = ROOT) -> list[tuple[dict, list[str] | None]]:
     return out
 
 
-def number_in(num: str, text: str) -> bool:
+def number_in(num: str, text: str, rounded: bool = False) -> bool:
     n = num.replace("−", "").lstrip("-+")
-    return re.search(r"(?<![\d.])" + re.escape(n) + r"(?![\d])", text) is not None
+    if re.search(r"(?<![\d.])" + re.escape(n) + r"(?![\d])", text) is not None:
+        return True
+    if rounded and "." in n:
+        # the note rounds: a record figure with more places that rounds to the note's figure
+        places = len(n.split(".")[1])
+        for tok in re.findall(r"(?<![\d.])\d+\.\d+(?![\d])", text.replace("−", "-")):
+            if len(tok.split(".")[1]) > places and abs(float(tok) - float(n)) <= 0.5 * 10 ** -places + 1e-12:
+                return True
+    return False
 
 
 def check_row(row: dict, root: Path = ROOT) -> list[str]:
@@ -74,8 +83,9 @@ def check_row(row: dict, root: Path = ROOT) -> list[str]:
     for loc, hits in found:
         if hits is None:
             errs.append(f"{row['id']}: locator not found in {rec}: {loc}")
+    rounded = row.get("match") == "rounded"
     for num in row.get("numbers", []):
-        if not number_in(num, text) and not number_in(num, row.get("derived", "")):
+        if not number_in(num, text, rounded) and not number_in(num, row.get("derived", "")):
             errs.append(f"{row['id']}: number {num} not in the located lines")
     return errs
 
@@ -94,9 +104,16 @@ def run_pytests(doc: dict, root: Path = ROOT) -> list[str]:
 
 
 def main(argv=None) -> int:
-    argv = sys.argv[1:] if argv is None else argv
+    argv = list(sys.argv[1:] if argv is None else argv)
+    path = MAP
+    if "--map" in argv:
+        i = argv.index("--map")
+        path = Path(argv[i + 1])
+        if not path.is_absolute():
+            path = (Path.cwd() / path) if (Path.cwd() / path).exists() else ROOT / path
+        del argv[i:i + 2]
     cmd = argv[0] if argv else "list"
-    doc = load_map()
+    doc = load_map(path)
     rows = {r["id"]: r for r in doc["rows"]}
     if cmd == "list":
         for r in doc["rows"]:
@@ -121,13 +138,15 @@ def main(argv=None) -> int:
         for e in errs:
             print("FAIL " + e)
         print(f"{n} released rows checked; {len(errs)} failures; "
-              f"{sum(1 for r in doc['rows'] if r['status'] != 'released')} rows not released (design, slot, to be mirrored, not in repository)")
+              f"{sum(1 for r in doc['rows'] if r['status'] != 'released')} rows not released (design, external, slot, held, not in repository)")
         return 1 if errs else 0
     if cmd == "table":
         print("| id | where in the note | as written | record | how to print it | status |")
         print("|---|---|---|---|---|---|")
+        flag = "" if path == MAP else f" --map {path.relative_to(ROOT)}" if path.is_relative_to(ROOT) else f" --map {path}"
         for r in doc["rows"]:
-            how = f"`python note/numbermap.py show {r['id']}`" if r["status"] == "released" else "—"
+            how = (f"`python note/numbermap.py{flag} show {r['id']}`" if r["status"] == "released"
+                   else (r.get("note") or "—").split("; note lines")[0])
             rec = f"`{r['record']}`" if r.get("record") else "—"
             print(f"| {r['id']} | {r['section']} | {r['as_written']} | {rec} | {how} | {r['status']} |")
         return 0

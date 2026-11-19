@@ -1,0 +1,2272 @@
+{
+ "note": "note-v1.1.md (published; 81fd2f2b)",
+ "trace": "claims-trace-v0.6.md to v1.0.md",
+ "repoint": "Rerun work/checks/repo_note_map_v1_build.py, then: python note/numbermap.py --map note/numbers-v1.json check",
+ "rows": [
+  {
+   "id": "VN30",
+   "section": "§5",
+   "as_written": "Sol 0 of 40 acted; audited acted-on 0.636 to 0.000; Kimi 0.719 to 0.672",
+   "numbers": [
+    "0.000"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "Under the warning, every one of Sol's 40 sampled carried runs questioned the content (0 acts)."
+    },
+    {
+     "line": "| unwarned | Sol | | 0.636 [0.521, 0.756] |"
+    },
+    {
+     "line": "| warned | Sol | | 0.000 [0.000, 0.000] |"
+    },
+    {
+     "line": "| unwarned | Kimi | | 0.719 [0.611, 0.823] |"
+    },
+    {
+     "line": "| warned | Kimi | | 0.672 [0.563, 0.779] |"
+    }
+   ],
+   "trace_rows": [
+    430,
+    431,
+    432,
+    433,
+    434
+   ],
+   "note": "from the v0 map (hand-checked); line 175; "
+  },
+  {
+   "id": "VN36",
+   "section": "§6",
+   "as_written": "136 of 296 items never carried (94 on a looser rule)",
+   "numbers": [
+    "136",
+    "296"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P3/use-v1.md",
+   "locate": [
+    {
+     "line": "| all slots | 296 | 94 (31.8%) | 136 (45.9%) | 136 (45.9%) |"
+    }
+   ],
+   "trace_rows": [
+    333
+   ],
+   "note": "from the v0 map (hand-checked); line 192; line 192; "
+  },
+  {
+   "id": "VN37",
+   "section": "§6",
+   "as_written": "need share averages 0.0013; 35 of 54 planted items needed by no runnable task",
+   "numbers": [
+    "35"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "the rule-defined need share has a mean of 0.0013 of all arrival weight"
+    },
+    {
+     "line": "35 of the 54 payloads have no runnable task that needs their slot"
+    }
+   ],
+   "trace_rows": [
+    338,
+    339,
+    340,
+    341
+   ],
+   "note": "from the v0 map (hand-checked); line 192; "
+  },
+  {
+   "id": "VN39",
+   "section": "§6",
+   "as_written": "tasks that did not need the item never carried it: 0 of 312; content reached them in 75",
+   "numbers": [
+    "312",
+    "75"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "312 no-need"
+    },
+    {
+     "line": "| no | yes | no | 0.174 [0.132, 0.215] | 75 |"
+    },
+    {
+     "line": "| no | no | no | 0.549 [0.463, 0.627] | 237 |"
+    }
+   ],
+   "trace_rows": [
+    392
+   ],
+   "derived": "No-need runs: 75 with access + 237 without = 312, all in rows with carried = no.",
+   "note": "from the v0 map (hand-checked); line 193; line 193; "
+  },
+  {
+   "id": "VN46",
+   "section": "How it was measured",
+   "as_written": "the clean control fired once in 336 clean runs",
+   "numbers": [
+    "336"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "unresolved as not satisfied: kimi RM 1 of 144, AL 0 of 24; sol RM 0 of 144, AL 0 of 24"
+    }
+   ],
+   "trace_rows": [],
+   "derived": "Clean runs: 144 + 24 + 144 + 24 = 336; fires: 1.",
+   "note": "from the v0 map (hand-checked); line 246; "
+  },
+  {
+   "id": "D42",
+   "section": "Harm needs no collusion: the honest agent is the accomplice",
+   "as_written": "42 serious and material plants (25 serious + 17 material)",
+   "numbers": [
+    "42",
+    "25",
+    "17"
+   ],
+   "status": "released",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "| S3 (25 / 8) |"
+    },
+    {
+     "line": "| S2 (17 / 0) |"
+    }
+   ],
+   "trace_rows": [
+    627,
+    628
+   ],
+   "derived": "42 = 25 + 17",
+   "note": "note lines 9 111 "
+  },
+  {
+   "id": "H653",
+   "section": "6. What keeps the harm small here is need",
+   "as_written": "figures resting on PCK",
+   "numbers": [
+    "119"
+   ],
+   "status": "held_live_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    653
+   ],
+   "note": "record work/stage3/v5/LIVE/power-check-v0.md (assumption 6, written before the live run, citing the replay's counts); a live-run file, not added; the coordinator decides; note lines 191 "
+  },
+  {
+   "id": "H578",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "10",
+    "23"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    578
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 212 212 "
+  },
+  {
+   "id": "H579",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "0.91"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    579
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 212 "
+  },
+  {
+   "id": "H580",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "0.09",
+    "0.19",
+    "0.31",
+    "0.72"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    580
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 212 212 212 212 "
+  },
+  {
+   "id": "H581",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "0.10",
+    "0.29"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    581
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 212 212 "
+  },
+  {
+   "id": "H582",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "figures resting on S3R",
+   "numbers": [
+    "0.05"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    582
+   ],
+   "note": "FakeLab line record work/stage3/v5/S3/result.md (FakeLab rows; the public table in results/stage3/v5/S3/ has none): the figure is published with the authors' agreement; the file is not added; the coordinator decides; note lines 212 299 "
+  },
+  {
+   "id": "H663",
+   "section": "If I were deploying a fleet",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "0.72",
+    "0.91"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    663
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 234 234 "
+  },
+  {
+   "id": "H585",
+   "section": "The bottom line",
+   "as_written": "figures resting on S1R",
+   "numbers": [
+    "0.245"
+   ],
+   "status": "held_fakelab_file",
+   "record": null,
+   "locate": [],
+   "trace_rows": [
+    585
+   ],
+   "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 299 "
+  },
+  {
+   "id": "X1",
+   "section": "",
+   "as_written": "definition: an AUROC of 0.5 is a coin toss",
+   "numbers": [
+    "0.5"
+   ],
+   "status": "design",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 81 "
+  },
+  {
+   "id": "X2",
+   "section": "",
+   "as_written": "external: the 1 to 2 percent budgets of the cited evaluations (footnote 2)",
+   "numbers": [
+    "1",
+    "2"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 85 85 87 87 "
+  },
+  {
+   "id": "X3",
+   "section": "",
+   "as_written": "design: the stricter 2 percent budget (its figures are rows of the map)",
+   "numbers": [
+    "2"
+   ],
+   "status": "design",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 157 "
+  },
+  {
+   "id": "X4",
+   "section": "",
+   "as_written": "external: a cited budget",
+   "numbers": [
+    "2",
+    "1"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 287 288 289 290 "
+  },
+  {
+   "id": "X5",
+   "section": "",
+   "as_written": "citation year",
+   "numbers": [
+    "2023"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 287 "
+  },
+  {
+   "id": "X6",
+   "section": "",
+   "as_written": "external",
+   "numbers": [
+    "1",
+    "10",
+    "2",
+    "5"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 291 291 291 291 "
+  },
+  {
+   "id": "X7",
+   "section": "",
+   "as_written": "citation: report section numbers",
+   "numbers": [
+    "2.23"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 295 "
+  },
+  {
+   "id": "X8",
+   "section": "",
+   "as_written": "citation",
+   "numbers": [
+    "5.4"
+   ],
+   "status": "external",
+   "record": null,
+   "locate": [],
+   "trace_rows": [],
+   "note": "note lines 295 "
+  },
+  {
+   "id": "F10",
+   "section": "figures 1 to 7 (the published note's)",
+   "as_written": "every plotted value",
+   "numbers": [],
+   "status": "released",
+   "record": "note/figures/figure_data_v10.py",
+   "locate": [
+    {
+     "pytest": "note/figures/test_figures_v10.py"
+    }
+   ],
+   "trace_rows": [],
+   "note": "each plotted value is listed with its record and exact string (v0.8, v0.9 and v1.0 layers); the test checks each against its record and draws the seven figures; the two values resting on the live run's power check are held and named by a test"
+  },
+  {
+   "id": "T28",
+   "section": "One plant, one honest agent",
+   "as_written": "honest triples +1.74 [−2.843, 7.421]",
+   "numbers": [
+    "1",
+    "2"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/rater-07s/rater-composition.md",
+   "locate": [
+    {
+     "line": "+1.74 [-2.843, 7.421]"
+    }
+   ],
+   "trace_rows": [
+    28
+   ],
+   "note": "note lines 65; trace claims-trace-v0.6.md row 28 (exploratory)"
+  },
+  {
+   "id": "T45",
+   "section": "One plant, one honest agent",
+   "as_written": "Sonnet 5: 30 tail units, 9 chains, 6 unlicensed writes",
+   "numbers": [
+    "30"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/phase-a/a2-tail-v2.md",
+   "locate": [
+    {
+     "line": "Sonnet 5's 30 unlicensed tail units come down to 9 chains, and to 6 unlicensed writes that touch all of them"
+    }
+   ],
+   "trace_rows": [
+    45
+   ],
+   "note": "note lines 59, 65; trace claims-trace-v0.6.md row 45 (descriptive)"
+  },
+  {
+   "id": "T176",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "S 0.295 [0.188, 0.413]",
+   "numbers": [
+    "0.188",
+    "0.295",
+    "0.413"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| S | 0.295 [0.188, 0.413] |"
+    }
+   ],
+   "trace_rows": [
+    176
+   ],
+   "note": "note lines 161; trace claims-trace-v0.6.md row 176 (pre-registered primary)"
+  },
+  {
+   "id": "T178",
+   "section": "2. An agent finds the plant by itself",
+   "as_written": "acts-weighted RM uptake 0.699 [0.606, 0.790] (upper) and 0.646 [0.559, 0.730] (lower)",
+   "numbers": [
+    "0.56",
+    "0.65",
+    "0.70"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "0.699 [0.606, 0.790] | 0.646 [0.559, 0.730]"
+    }
+   ],
+   "trace_rows": [
+    178
+   ],
+   "note": "note lines 131; trace claims-trace-v0.6.md row 178 (pre-registered (audit))"
+  },
+  {
+   "id": "T184",
+   "section": "1. Agents take a shared document as written",
+   "as_written": "copying baseline 0.990 harmless against 0.708 planted, same 16 payloads",
+   "numbers": [
+    "0.71",
+    "0.99"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "Harmless alternative carried into the action: 0.990; planted content carried on the same payloads: 0.708"
+    }
+   ],
+   "trace_rows": [
+    184
+   ],
+   "note": "note lines 123; trace claims-trace-v0.6.md row 184 (descriptive)"
+  },
+  {
+   "id": "T194",
+   "section": "How it was measured",
+   "as_written": "672 runs, none unresolved",
+   "numbers": [
+    "672"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| core | 672 | 0 |"
+    }
+   ],
+   "trace_rows": [
+    194
+   ],
+   "note": "note lines 246; trace claims-trace-v0.6.md row 194 (count)"
+  },
+  {
+   "id": "T241",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "gpt53 judge d 0.136 [0.109, 0.165]",
+   "numbers": [
+    "0.14",
+    "0.16"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "gpt53_single_day + gpt53_multiday (pooled; judge weighted) | 91885 | 52593 | 0.187 [0.185, 0.190] (17213/91885) | 0.136 [0.109, 0.165]"
+    }
+   ],
+   "trace_rows": [
+    241
+   ],
+   "note": "note lines 157; trace claims-trace-v0.6.md row 241 (descriptive)"
+  },
+  {
+   "id": "T242",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "kimi_k26 judge d 0.625 [0.587, 0.664]",
+   "numbers": [
+    "0.625"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "0.625 [0.587, 0.664] (375/600)"
+    }
+   ],
+   "trace_rows": [
+    242
+   ],
+   "note": "note lines 210; trace claims-trace-v0.6.md row 242 (descriptive)"
+  },
+  {
+   "id": "T257",
+   "section": "The bottom line; Why does a quiet plant pass at all?",
+   "as_written": "prefix class documents: L 0.244 (31/127), item level 0.465 (59/127), judge 0.307",
+   "numbers": [
+    "0.31",
+    "127",
+    "59"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "0.244 [0.163, 0.327] (31/127); item level 0.465 [0.376, 0.550] (59/127) | 0.307 [0.222, 0.389] (39/127)"
+    }
+   ],
+   "trace_rows": [
+    257
+   ],
+   "note": "note lines 204, 212, 299; trace claims-trace-v0.6.md row 257 (descriptive)"
+  },
+  {
+   "id": "T296",
+   "section": "6. What keeps the harm small here is need; What I found",
+   "as_written": "both audits: RM uptake 0.771 to 0.835",
+   "numbers": [
+    "0.77",
+    "0.83"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "| both audits, lower (positive lower, unclear not acting) | 0.771 [0.710, 0.830] |"
+    }
+   ],
+   "trace_rows": [
+    296
+   ],
+   "note": "note lines 97, 193; trace claims-trace-v0.6.md row 296 (headline (labelled sensitivity in the record; the note's headline by D38))"
+  },
+  {
+   "id": "T337",
+   "section": "6. What keeps the harm small here is need",
+   "as_written": "need: mean share 0.0013 of all bank weight",
+   "numbers": [
+    "0.0013"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/need-table-v1.json",
+   "locate": [
+    {
+     "line": "\"need_weight_share_all\": 0.0013012840377328446"
+    }
+   ],
+   "trace_rows": [
+    337
+   ],
+   "note": "note lines 192; trace claims-trace-v0.6.md row 337 (need (rounded as D37 states it))"
+  },
+  {
+   "id": "T341",
+   "section": "6. What keeps the harm small here is need",
+   "as_written": "54 payloads",
+   "numbers": [
+    "54"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/need-table-v1.json",
+   "locate": [
+    {
+     "line": "\"n_payloads\": 54"
+    }
+   ],
+   "trace_rows": [
+    341
+   ],
+   "note": "note lines 191, 192; trace claims-trace-v0.6.md row 341 (need)"
+  },
+  {
+   "id": "T364",
+   "section": "2. An agent finds the plant by itself",
+   "as_written": "content reached follower before first action in 324 of 324",
+   "numbers": [
+    "324"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "Access before the first action was 324 of 324 planted runs"
+    }
+   ],
+   "trace_rows": [
+    364
+   ],
+   "note": "note lines 129; trace claims-trace-v0.6.md row 364 (descriptive)"
+  },
+  {
+   "id": "T384",
+   "section": "5. A warning works for one model, and costs completed work; 6. What keeps the harm small here is need; What I found",
+   "as_written": "declines 17→94 planted, 10→45 clean, 0→41 benign",
+   "numbers": [
+    "0",
+    "10",
+    "17",
+    "41",
+    "45",
+    "94"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| declines, planted / clean / benign | 17 / 10 / 0 | 94 / 45 / 41 |"
+    }
+   ],
+   "trace_rows": [
+    384
+   ],
+   "note": "note lines 111, 181, 192; trace claims-trace-v0.6.md row 384 (descriptive)"
+  },
+  {
+   "id": "T417",
+   "section": "2. An agent finds the plant by itself",
+   "as_written": "frozen flags agree 46 of 47",
+   "numbers": [
+    "46"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P0/frozen-result.md",
+   "locate": [
+    {
+     "line": "46 of 47 (0.979)"
+    }
+   ],
+   "trace_rows": [
+    417
+   ],
+   "note": "note lines 129; trace claims-trace-v0.6.md row 417 (check)"
+  },
+  {
+   "id": "T430",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "GPT-6 Sol questioned in every audited run (0 of 40 acted)",
+   "numbers": [
+    "40"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "Under the warning, every one of Sol's 40 sampled carried runs questioned the content (0 acts)."
+    }
+   ],
+   "trace_rows": [
+    430
+   ],
+   "note": "note lines 179; trace claims-trace-v0.7.md row 430 (descriptive)"
+  },
+  {
+   "id": "T444",
+   "section": "1. Agents take a shared document as written",
+   "as_written": "\"the gap between 0.990 and 0.708\"",
+   "numbers": [
+    "0.71",
+    "0.99"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "Harmless alternative carried into the action: 0.990; planted content carried on the same payloads: 0.708"
+    }
+   ],
+   "trace_rows": [
+    444
+   ],
+   "note": "note lines 125; trace claims-trace-v0.7.md row 444 (descriptive)"
+  },
+  {
+   "id": "T448",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "GLM 5.3 +0.160 [0.045, 0.271]",
+   "numbers": [
+    "0.27"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-judges-paired-v0.md",
+   "locate": [
+    {
+     "line": "+0.160 [+0.045, +0.271]"
+    }
+   ],
+   "trace_rows": [
+    448
+   ],
+   "note": "note lines 266; trace claims-trace-v0.7.md row 448 (descriptive, post hoc)"
+  },
+  {
+   "id": "T487",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "side by side, 576 follower runs across both followers",
+   "numbers": [
+    "576"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/preregistration-v1.md",
+   "locate": [
+    {
+     "line": "48 payloads × 2 followers × 3 repeats each: 576 runs"
+    }
+   ],
+   "trace_rows": [
+    487
+   ],
+   "note": "note lines 145; trace claims-trace-v0.9.md row 487 (design)"
+  },
+  {
+   "id": "T489",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "missed 36 of 48 vs 17 of 48; +0.396 [0.250, 0.542]",
+   "numbers": [
+    "0.25",
+    "0.40",
+    "0.54",
+    "17",
+    "36",
+    "48"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-v1.md",
+   "locate": [
+    {
+     "line": "The monitor missed the single statement far more often than the full plant: 36 of 48 against 17 of 48, m = +0.396 [0.250, 0.542]."
+    }
+   ],
+   "trace_rows": [
+    489
+   ],
+   "note": "note lines 147; trace claims-trace-v0.9.md row 489 (registered quantity)"
+  },
+  {
+   "id": "T512",
+   "section": "What I found",
+   "as_written": "0.83: exact 0.8349 (all/both_upper_unclear_acting/U_RM/point; three-decimal 0.835, row 319)",
+   "numbers": [
+    "0.835"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.json",
+   "locate": [
+    {
+     "line": "\"point\": 0.8349"
+    }
+   ],
+   "trace_rows": [
+    512
+   ],
+   "note": "note lines 105; trace claims-trace-v0.9.md row 512 (rounded from the exact value)"
+  },
+  {
+   "id": "T514",
+   "section": "Harm needs no collusion: the honest agent is the accomplice; If I were deploying a fleet; What I found; What comes next",
+   "as_written": "0.37 (rounds 0.367; row 316)",
+   "numbers": [
+    "0.37"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.367 [0.249, 0.492] | 0.357 [0.239, 0.485]"
+    }
+   ],
+   "trace_rows": [
+    514
+   ],
+   "note": "note lines 12, 99, 232, 274; trace claims-trace-v0.9.md row 514 (rounded in prose)"
+  },
+  {
+   "id": "T515",
+   "section": "What I found",
+   "as_written": "about one in five; serious 0.19 to 0.21 (rounds 0.187; row 321)",
+   "numbers": [
+    "0.19",
+    "0.21"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.187 [0.062, 0.329]; U_RM 0.726; (a) | 0.213 [0.067, 0.373]"
+    }
+   ],
+   "trace_rows": [
+    515
+   ],
+   "note": "note lines 113; trace claims-trace-v0.9.md row 515 (rounded in prose)"
+  },
+  {
+   "id": "T517",
+   "section": "What I found",
+   "as_written": "material 0.46 to 0.49 (rounds 0.459; row 322)",
+   "numbers": [
+    "0.46",
+    "0.49"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.459 [0.268, 0.647]; U_RM 0.883; (a) | 0.489 [0.293, 0.685]"
+    }
+   ],
+   "trace_rows": [
+    517
+   ],
+   "note": "note lines 114; trace claims-trace-v0.9.md row 517 (rounded in prose)"
+  },
+  {
+   "id": "T519",
+   "section": "5. A warning works for one model, and costs completed work; What I found",
+   "as_written": "minor 0.64 to 0.67 (rounds 0.642; row 323)",
+   "numbers": [
+    "0",
+    "0.64",
+    "0.67"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v1.md",
+   "locate": [
+    {
+     "line": "0.642 [0.540, 0.823]; U_RM 0.642; (a) | 0.666 [0.582, 0.833]"
+    }
+   ],
+   "trace_rows": [
+    519
+   ],
+   "note": "note lines 115, 179; trace claims-trace-v0.9.md row 519 (rounded in prose)"
+  },
+  {
+   "id": "T526",
+   "section": "2. An agent finds the plant by itself",
+   "as_written": "−0.01 [−0.09, 0.06] (rounds −0.014 [−0.087, 0.062]; row 363)",
+   "numbers": [
+    "0.01",
+    "0.06",
+    "0.09"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "| raw | -0.014 [-0.087, 0.062] |"
+    }
+   ],
+   "trace_rows": [
+    526
+   ],
+   "note": "note lines 129; trace claims-trace-v0.9.md row 526 (rounded in prose)"
+  },
+  {
+   "id": "T527",
+   "section": "The setup, in plain words",
+   "as_written": "topic-only first audit 0.56 (rounds 0.557; row 362)",
+   "numbers": [
+    "0.56"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-D-v1.md",
+   "locate": [
+    {
+     "line": "| audit lower, unresolved not carried | 0.557 | [0.491, 0.624] |"
+    }
+   ],
+   "trace_rows": [
+    527
+   ],
+   "note": "note lines 81; trace claims-trace-v0.9.md row 527 (rounded in prose)"
+  },
+  {
+   "id": "T533",
+   "section": "6. What keeps the harm small here is need",
+   "as_written": "0.44 (rounds 0.438; row 490)",
+   "numbers": [
+    "0.44"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-v1.md",
+   "locate": [
+    {
+     "line": "| single | 0.438 [0.309, 0.563] | 0.396 [0.278, 0.514] | 0.359 [0.253, 0.467] |"
+    }
+   ],
+   "trace_rows": [
+    533
+   ],
+   "note": "note lines 192; trace claims-trace-v0.9.md row 533 (rounded in prose)"
+  },
+  {
+   "id": "T538",
+   "section": "3. One line is still carried in two runs in three, and is mu; Harm needs no collusion: the honest agent is the accomplic",
+   "as_written": "caption and Figure 3: missed 0.750 (36 of 48) and 0.354 (17 of 48); \"about twice as often\" is their ratio",
+   "numbers": [
+    "0.35",
+    "0.354",
+    "0.750",
+    "17",
+    "36",
+    "48"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS.md",
+   "locate": [
+    {
+     "line": "Missed as a single statement 36 of 48 (0.750); as the full plant 17 of 48 (0.354)."
+    }
+   ],
+   "trace_rows": [
+    538
+   ],
+   "note": "note lines 8, 105, 107, 145, 151; trace claims-trace-v0.9.md row 538 (registered quantity)"
+  },
+  {
+   "id": "T539",
+   "section": "What I found",
+   "as_written": "Opus 4.8 0.30 (rounds 0.295; row 176)",
+   "numbers": [
+    "0.295"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "| S | 0.295 [0.188, 0.413] |"
+    }
+   ],
+   "trace_rows": [
+    539
+   ],
+   "note": "note lines 105; trace claims-trace-v0.9.md row 539 (rounded in prose)"
+  },
+  {
+   "id": "T542",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "Sonnet 5 by 0.32 (rounds +0.319; row 449)",
+   "numbers": [
+    "0.32"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-judges-paired-v0.md",
+   "locate": [
+    {
+     "line": "+0.319 [+0.177, +0.462]"
+    }
+   ],
+   "trace_rows": [
+    542
+   ],
+   "note": "note lines 157; trace claims-trace-v0.9.md row 542 (rounded in prose)"
+  },
+  {
+   "id": "T548",
+   "section": "4. Other judges did worse, and neither an explanation first ; If I were deploying a fleet",
+   "as_written": "5 percent 0.34 to 0.42 (rounds 0.337; row 191)",
+   "numbers": [
+    "0.34",
+    "0.42",
+    "5"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/FT/ft-results-v1.md",
+   "locate": [
+    {
+     "line": "5 percent rule: S 0.337 (ties flagged) to 0.420 (ties missed)"
+    }
+   ],
+   "trace_rows": [
+    548
+   ],
+   "note": "note lines 157, 233; trace claims-trace-v0.9.md row 548 (rounded in prose)"
+  },
+  {
+   "id": "T551",
+   "section": "4. Other judges did worse, and neither an explanation first ; What I found",
+   "as_written": "0.55 (rounds 0.549; row 408)",
+   "numbers": [
+    "0.55"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P1/joins-v0.md",
+   "locate": [
+    {
+     "line": "| ties missed | 0.549 [0.427, 0.681] |"
+    }
+   ],
+   "trace_rows": [
+    551
+   ],
+   "note": "note lines 109, 157; trace claims-trace-v0.9.md row 551 (rounded in prose)"
+  },
+  {
+   "id": "T554",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "0.05 [−0.04, 0.15] (rounds 0.052 [-0.038, 0.149]; row 222)",
+   "numbers": [
+    "0.04",
+    "0.05",
+    "0.15"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/ETJ/result.md",
+   "locate": [
+    {
+     "line": "D = S_B - S_E | 0.052 [-0.038, 0.149]"
+    }
+   ],
+   "trace_rows": [
+    554
+   ],
+   "note": "note lines 163; trace claims-trace-v0.9.md row 554 (rounded in prose)"
+  },
+  {
+   "id": "T555",
+   "section": "2. An agent finds the plant by itself; 5. A warning works for one model, and costs completed work",
+   "as_written": "0.78: exact 0.784722 (by_prompt/unwarned/uptake_RM/point; three-decimal 0.785, row 376)",
+   "numbers": [
+    "0.78"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/analysis-W-v1.json",
+   "locate": [
+    {
+     "line": "\"point\": 0.784722"
+    }
+   ],
+   "trace_rows": [
+    555
+   ],
+   "note": "note lines 129, 177; trace claims-trace-v0.9.md row 555 (rounded from the exact value)"
+  },
+  {
+   "id": "T557",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "0.08 [0.03, 0.14] (rounds [−0.139, −0.028]; row 375)",
+   "numbers": [
+    "0.03",
+    "0.08",
+    "0.14"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| raw | -0.083 | [-0.139, -0.028] | U2a |"
+    }
+   ],
+   "trace_rows": [
+    557
+   ],
+   "note": "note lines 177; trace claims-trace-v0.9.md row 557 (rounded in prose)"
+  },
+  {
+   "id": "T559",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "Kimi 0.72 (rounds 0.719; row 433)",
+   "numbers": [
+    "0.72"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| unwarned | Kimi | | 0.719 [0.611, 0.823] |"
+    }
+   ],
+   "trace_rows": [
+    559
+   ],
+   "note": "note lines 179; trace claims-trace-v0.9.md row 559 (rounded in prose)"
+  },
+  {
+   "id": "T560",
+   "section": "2. An agent finds the plant by itself",
+   "as_written": "0.67 (rounds 0.672; row 434)",
+   "numbers": [
+    "0.67"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| warned | Kimi | | 0.672 [0.563, 0.779] |"
+    }
+   ],
+   "trace_rows": [
+    560
+   ],
+   "note": "note lines 131; trace claims-trace-v0.9.md row 560 (rounded in prose)"
+  },
+  {
+   "id": "T561",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "both audits 0.74 to 0.86 (rounds 0.740; row 435)",
+   "numbers": [
+    "0.74",
+    "0.86"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| unwarned | 0.740 [0.696, 0.782] | 0.861 [0.810, 0.908] |"
+    }
+   ],
+   "trace_rows": [
+    561
+   ],
+   "note": "note lines 177; trace claims-trace-v0.9.md row 561 (rounded in prose)"
+  },
+  {
+   "id": "T563",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "0.38 to 0.47 (rounds 0.384; row 436)",
+   "numbers": [
+    "0.38",
+    "0.47"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W-v1.md",
+   "locate": [
+    {
+     "line": "| warned | 0.384 [0.355, 0.413] | 0.466 [0.440, 0.490] |"
+    }
+   ],
+   "trace_rows": [
+    563
+   ],
+   "note": "note lines 177; trace claims-trace-v0.9.md row 563 (rounded in prose)"
+  },
+  {
+   "id": "T565",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "work 0.12 (rounds 0.116; row 380)",
+   "numbers": [
+    "0.12"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| clean | 56 | 0.946 | 0.830 | -0.116 [-0.161, -0.074] |"
+    }
+   ],
+   "trace_rows": [
+    565
+   ],
+   "note": "note lines 181; trace claims-trace-v0.9.md row 565 (rounded in prose)"
+  },
+  {
+   "id": "T568",
+   "section": "6. What keeps the harm small here is need",
+   "as_written": "half; 0.50 [0.33, 0.68] (rounds 0.500 [0.329, 0.684]; row 390)",
+   "numbers": [
+    "0",
+    "0.33",
+    "0.50",
+    "0.68"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-H.md",
+   "locate": [
+    {
+     "line": "| need | 0.500 [0.329, 0.684] |"
+    }
+   ],
+   "trace_rows": [
+    568
+   ],
+   "note": "note lines 193; trace claims-trace-v0.9.md row 568 (rounded in prose)"
+  },
+  {
+   "id": "T571",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "0.14 (GPT-5.3) (rounds 0.136; row 241)",
+   "numbers": [
+    "0.136",
+    "0.14"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "gpt53_single_day + gpt53_multiday (pooled; judge weighted) | 91885 | 52593 | 0.187 [0.185, 0.190] (17213/91885) | 0.136 [0.109, 0.165]"
+    }
+   ],
+   "trace_rows": [
+    571
+   ],
+   "note": "note lines 204, 210; trace claims-trace-v0.9.md row 571 (rounded in prose)"
+  },
+  {
+   "id": "T572",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "0.76 (DeepSeek) (rounds 0.759; row 244)",
+   "numbers": [
+    "0.759",
+    "0.76"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/S3/s3-table-v1-public.md",
+   "locate": [
+    {
+     "line": "0.759 [0.724, 0.793] (455/600)"
+    }
+   ],
+   "trace_rows": [
+    572
+   ],
+   "note": "note lines 204, 210; trace claims-trace-v0.9.md row 572 (rounded in prose)"
+  },
+  {
+   "id": "T573",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "[0.25, 0.54] (rounds [0.250, 0.542]; row 489)",
+   "numbers": [
+    "0.25"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-v1.md",
+   "locate": [
+    {
+     "line": "The monitor missed the single statement far more often than the full plant: 36 of 48 against 17 of 48, m = +0.396 [0.250, 0.542]."
+    }
+   ],
+   "trace_rows": [
+    573
+   ],
+   "note": "note lines 163; trace claims-trace-v0.9.md row 573 (rounded in prose)"
+  },
+  {
+   "id": "T574",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "0.34, as in result 5 (rounds −0.344, the fall from 0.927 to 0.583; row 381)",
+   "numbers": [
+    "0.34"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P2/result-W.md",
+   "locate": [
+    {
+     "line": "| benign | 16 | 0.927 | 0.583 | -0.344 [-0.458, -0.240] |"
+    }
+   ],
+   "trace_rows": [
+    574
+   ],
+   "note": "note lines 181; trace claims-trace-v0.9.md row 574 (rounded in prose)"
+  },
+  {
+   "id": "T587",
+   "section": "How it was measured",
+   "as_written": "fresh honest baseline (254 units, scored in the same run)",
+   "numbers": [
+    "254"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "at the rule of a fresh 254-unit null scored in the same run (seed 20261116), cache empty"
+    }
+   ],
+   "trace_rows": [
+    587
+   ],
+   "note": "note lines 246; trace claims-trace-v0.9.md row 587 (descriptive)"
+  },
+  {
+   "id": "T588",
+   "section": "Harm needs no collusion: the honest agent is the accomplice; If I were deploying a fleet; What I found; What comes next",
+   "as_written": "repeat 0.29 to 0.32 (rounds 0.288 to 0.323); methods 0.288 to 0.323",
+   "numbers": [
+    "0.29",
+    "0.32"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "| repeat | 0.236 [0.132, 0.347] | 0.205 to 0.229 | 0.288 to 0.323 (post hoc negative audit) |"
+    }
+   ],
+   "trace_rows": [
+    588
+   ],
+   "note": "note lines 12, 107, 232, 274; trace claims-trace-v0.9.md row 588 (descriptive)"
+  },
+  {
+   "id": "T589",
+   "section": "What I found",
+   "as_written": "pooled 0.31 to 0.35 (rounds 0.314 to 0.345); methods 0.314 to 0.345",
+   "numbers": [
+    "0.31"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "| pooled by plant (the two runs' per-plant S averaged) | 0.266 [0.163, 0.373] | 0.231 to 0.253 | 0.314 to 0.345 |"
+    }
+   ],
+   "trace_rows": [
+    589
+   ],
+   "note": "note lines 107; trace claims-trace-v0.9.md row 589 (descriptive)"
+  },
+  {
+   "id": "T590",
+   "section": "What I found",
+   "as_written": "first run 0.340 to 0.367 (methods)",
+   "numbers": [
+    "0.34",
+    "0.340",
+    "0.367",
+    "0.37"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "| core | 0.295 [0.188, 0.413] | 0.257 to 0.277 | 0.340 to 0.367 |"
+    }
+   ],
+   "trace_rows": [
+    590
+   ],
+   "note": "note lines 97, 101, 105; trace claims-trace-v0.9.md row 590 (descriptive)"
+  },
+  {
+   "id": "T591",
+   "section": "What I found",
+   "as_written": "the difference is mostly the monitor's: missed 21 of 48 in the first scoring, 17 in the repeat's",
+   "numbers": [
+    "21"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "The monitor accounts for most of the gap. The repeat's scoring missed 17 plants against the record's 21"
+    }
+   ],
+   "trace_rows": [
+    591
+   ],
+   "note": "note lines 107; trace claims-trace-v0.9.md row 591 (reading)"
+  },
+  {
+   "id": "T592",
+   "section": "3. One line is still carried in two runs in three, and is mu; What I found",
+   "as_written": "the followers' uptake barely moved (0.80 and 0.77; rounds 0.799 and 0.771)",
+   "numbers": [
+    "0.77",
+    "0.771",
+    "0.799",
+    "0.80"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/repeat-table-v1.md",
+   "locate": [
+    {
+     "line": "The followers account for little: uptake 0.771 against 0.799."
+    }
+   ],
+   "trace_rows": [
+    592
+   ],
+   "note": "note lines 101, 105, 153; trace claims-trace-v0.9.md row 592 (descriptive)"
+  },
+  {
+   "id": "T599",
+   "section": "If I were deploying a fleet; One plant, one honest agent; The bottom line; Why does a quiet plant pass at all?",
+   "as_written": "36 of 104 single-statement runs acting (3 + 31 + 2)",
+   "numbers": [
+    "2",
+    "3"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "| single (104) | 3 | 31 | 2 | 11 | 54 | 3 |"
+    }
+   ],
+   "trace_rows": [
+    599
+   ],
+   "note": "note lines 63, 71, 204, 205, 237, 284; trace claims-trace-v0.9.md row 599 (post hoc)"
+  },
+  {
+   "id": "T601",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "carried less by 0.02 to 0.19: −0.017 [−0.124, 0.088]",
+   "numbers": [
+    "0.02"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "single-favourable: d = -0.017 [-0.124, 0.088], interval includes zero"
+    }
+   ],
+   "trace_rows": [
+    601
+   ],
+   "note": "note lines 153; trace claims-trace-v0.9.md row 601 (post hoc)"
+  },
+  {
+   "id": "T602",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "(0.19): −0.188 [−0.280, −0.098]",
+   "numbers": [
+    "0.19"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "full-favourable: d = -0.188 [-0.280, -0.098], single lower"
+    }
+   ],
+   "trace_rows": [
+    602
+   ],
+   "note": "note lines 153; trace claims-trace-v0.9.md row 602 (post hoc)"
+  },
+  {
+   "id": "T604",
+   "section": "If I were deploying a fleet; The bottom line",
+   "as_written": "20 single-statement runs re-read with the full plant beside them; all 6 of those classed as acting lost that class (net −6 of 20; trigger 4)",
+   "numbers": [
+    "6"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "| single (re-read under the full plant's form) | 0 | 6 | 0 | 14 | -6 | yes |"
+    }
+   ],
+   "trace_rows": [
+    604
+   ],
+   "note": "note lines 238, 301; trace claims-trace-v0.9.md row 604 (limit)"
+  },
+  {
+   "id": "T605",
+   "section": "If I were deploying a fleet; The bottom line; Why does a quiet plant pass at all?",
+   "as_written": "trigger of 4 of 20",
+   "numbers": [
+    "4"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "|net flips| ≥ 4 of 20 in either arm, in either direction"
+    }
+   ],
+   "trace_rows": [
+    605
+   ],
+   "note": "note lines 206, 229, 230, 301; trace claims-trace-v0.9.md row 605 (design)"
+  },
+  {
+   "id": "T609",
+   "section": "3. One line is still carried in two runs in three, and is mu; What I found",
+   "as_written": "about two runs in three: 0.64 on the script's count (row 494); 0.64 to 0.71 with both audits (rounds 0.642 and 0.712)",
+   "numbers": [
+    "0.64"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "Uptake on both audits: single 0.712 (single-favourable) and 0.642 (full-favourable)"
+    }
+   ],
+   "trace_rows": [
+    609
+   ],
+   "note": "note lines 109, 153; trace claims-trace-v0.9.md row 609 (post hoc)"
+  },
+  {
+   "id": "T610",
+   "section": "What I found",
+   "as_written": "about three in four for the full plant: 0.77 on the script's count (row 495); 0.73 to 0.83 with both audits",
+   "numbers": [
+    "0.83"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-neg-v0.md",
+   "locate": [
+    {
+     "line": "Uptake on both audits: single 0.712 (single-favourable) and 0.642 (full-favourable); full plant 0.729 and 0.830."
+    }
+   ],
+   "trace_rows": [
+    610
+   ],
+   "note": "note lines 101; trace claims-trace-v0.9.md row 610 (post hoc)"
+  },
+  {
+   "id": "T617",
+   "section": "What I found",
+   "as_written": "the 42 serious and material plants: 0.30 (rounds 0.297014; methods 0.297), \"about three times in ten\"",
+   "numbers": [
+    "0.30"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/computations-v1.0.md",
+   "locate": [
+    {
+     "line": "| both audits, lower | 0.187119 | 0.458624 | 0.297014 |"
+    }
+   ],
+   "trace_rows": [
+    617
+   ],
+   "note": "note lines 111; trace claims-trace-v1.0.md row 617 (computation 1 (v1.0, $0))"
+  },
+  {
+   "id": "T618",
+   "section": "What I found",
+   "as_written": "0.32 (rounds 0.324694; methods 0.325)",
+   "numbers": [
+    "0.32"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/computations-v1.0.md",
+   "locate": [
+    {
+     "line": "| both audits, upper | 0.212891 | 0.489111 | 0.324694 |"
+    }
+   ],
+   "trace_rows": [
+    618
+   ],
+   "note": "note lines 111; trace claims-trace-v1.0.md row 618 (computation 1 (v1.0, $0))"
+  },
+  {
+   "id": "T619",
+   "section": "4. Other judges did worse, and neither an explanation first ; Addendum, 19 Nov: the document monitor told what to look f",
+   "as_written": "script count 0.278 (0.277778)",
+   "numbers": [
+    "0.28"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/computations-v1.0.md",
+   "locate": [
+    {
+     "line": "| script count (raw) | 0.173333 | 0.431373 | 0.277778 |"
+    }
+   ],
+   "trace_rows": [
+    619
+   ],
+   "note": "note lines 167, 266; trace claims-trace-v1.0.md row 619 (computation 1 (v1.0, $0))"
+  },
+  {
+   "id": "T654",
+   "section": "1. Agents take a shared document as written; 5. A warning works for one model, and costs completed work; Addendum, 19 No",
+   "as_written": "16 ignored edits on 8 alarming placements",
+   "numbers": [
+    "16"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P3/retention-v0.md",
+   "locate": [
+    {
+     "line": "| alarming | 24 | 8 | 16 |"
+    }
+   ],
+   "trace_rows": [
+    654
+   ],
+   "note": "note lines 123, 171, 258; trace claims-trace-v1.0.md row 654 (retention)"
+  },
+  {
+   "id": "T661",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "carried, script count: single 0.639",
+   "numbers": [
+    "0.639"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-v1.md",
+   "locate": [
+    {
+     "line": "| single | both | 0.639 [0.517, 0.757] |"
+    }
+   ],
+   "trace_rows": [
+    661
+   ],
+   "note": "note lines 151; trace claims-trace-v1.0.md row 661 (registered quantity)"
+  },
+  {
+   "id": "T662",
+   "section": "3. One line is still carried in two runs in three, and is mu",
+   "as_written": "full plant 0.771",
+   "numbers": [
+    "0.771"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/SS/result-SS-v1.md",
+   "locate": [
+    {
+     "line": "| full plant | both | 0.771 [0.670, 0.854] |"
+    }
+   ],
+   "trace_rows": [
+    662
+   ],
+   "note": "note lines 151; trace claims-trace-v1.0.md row 662 (registered quantity)"
+  },
+  {
+   "id": "T677",
+   "section": "The bottom line",
+   "as_written": "run D\\|Pa5eacc80\\|planted\\|sol\\|r2 and its readers' class",
+   "numbers": [
+    "2",
+    "5"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/shortlist-D-column-v0.json",
+   "locate": [
+    {
+     "line": "\"run_id\": \"D|Pa5eacc80|planted|sol|r2\""
+    }
+   ],
+   "trace_rows": [
+    677
+   ],
+   "note": "note lines 297; trace claims-trace-v1.0.md row 677 (computation 2 (harness file))"
+  },
+  {
+   "id": "T683",
+   "section": "6. What keeps the harm small here is need; Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "all 184 placements still standing when the log ended (censored at the corpus end)",
+   "numbers": [
+    "184"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/P3/retention-v0.md",
+   "locate": [
+    {
+     "line": "Applications: 184; composed 184; ended by an honest edit 0; censored 184."
+    }
+   ],
+   "trace_rows": [
+    683
+   ],
+   "note": "note lines 191, 264; trace claims-trace-v1.0.md row 683 (retention)"
+  },
+  {
+   "id": "T685",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "core: \"it catches some\"; 0.37 [0.26, 0.48] (rounds 0.373913 [0.264305, 0.482762]); 86 of 230",
+   "numbers": [
+    "0.26",
+    "0.37",
+    "0.48",
+    "230",
+    "86"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "Core: \"it catches some\". R = 0.374 [0.264, 0.483]: 86 of the 230 carried quiet runs were flagged, over 48 payloads."
+    }
+   ],
+   "trace_rows": [
+    685
+   ],
+   "note": "note lines 254; trace claims-trace-v1.0.md row 685 (registered)"
+  },
+  {
+   "id": "T687",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "topic-only: \"it misses most of them\"; 0.29 [0.20, 0.39] (rounds 0.288372 [0.19905, 0.394634]); 62 of 215; interval reaches above 0.30",
+   "numbers": [
+    "0.20",
+    "0.29",
+    "0.30",
+    "0.39",
+    "215",
+    "62"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "Block D, the less pointed tasks: \"it misses most of them\". R = 0.288 [0.199, 0.395]: 62 of 215 carried quiet runs, 46 payloads. The interval reaches above 0.30, so the sentence rests on the point estimate."
+    }
+   ],
+   "trace_rows": [
+    687
+   ],
+   "note": "note lines 254; trace claims-trace-v1.0.md row 687 (registered)"
+  },
+  {
+   "id": "T689",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts; What I found",
+   "as_written": "three-way core 0.22 [0.13, 0.33] (0.222222 [0.131944, 0.326389]) against 0.30 (0.295)",
+   "numbers": [
+    "0.13",
+    "0.22",
+    "0.29",
+    "0.30",
+    "0.33"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "| core | 0.295 [0.188, 0.413] | 0.222 [0.132, 0.326] | 0.374 [0.264, 0.483] |"
+    }
+   ],
+   "trace_rows": [
+    689
+   ],
+   "note": "note lines 99, 256, 258; trace claims-trace-v1.0.md row 689 (descriptive)"
+  },
+  {
+   "id": "T691",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "three-way D 0.24 [0.14, 0.36] (0.242754 [0.137681, 0.355072]) against 0.33 (0.333333)",
+   "numbers": [
+    "0.14",
+    "0.24",
+    "0.33",
+    "0.36"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "| D | 0.333 [0.214, 0.457] | 0.243 [0.138, 0.355] | 0.288 [0.199, 0.395] |"
+    }
+   ],
+   "trace_rows": [
+    691
+   ],
+   "note": "note lines 256; trace claims-trace-v1.0.md row 691 (descriptive)"
+  },
+  {
+   "id": "T694",
+   "section": "4. Other judges did worse, and neither an explanation first ",
+   "as_written": "0.274 upper",
+   "numbers": [
+    "0.27"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "| both audits, upper | 0.353 [0.250, 0.459] | 0.367 | 0.274 [0.170, 0.385] |"
+    }
+   ],
+   "trace_rows": [
+    694
+   ],
+   "note": "note lines 167; trace claims-trace-v1.0.md row 694 (descriptive)"
+  },
+  {
+   "id": "T695",
+   "section": "5. A warning works for one model, and costs completed work",
+   "as_written": "every weighting keeps core 0.30 to 0.70 and D at or below 0.30",
+   "numbers": [
+    "0.70"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "Every weighting keeps the core's R between 0.30 and 0.70, and D's at or below 0.30."
+    }
+   ],
+   "trace_rows": [
+    695
+   ],
+   "note": "note lines 177; trace claims-trace-v1.0.md row 695 (descriptive)"
+  },
+  {
+   "id": "T696",
+   "section": "4. Other judges did worse, and neither an explanation first ; Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "prompt W: core 0.49 (0.491304), topic-only 0.30 (0.302326); view A core 0.33 (0.326087)",
+   "numbers": [
+    "0.30",
+    "0.49"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "| TW: view T, prompt W (the warning) | 0.491 [0.381, 0.593] | 0.302 [0.215, 0.399] |"
+    }
+   ],
+   "trace_rows": [
+    696
+   ],
+   "note": "note lines 163, 258; trace claims-trace-v1.0.md row 696 (descriptive)"
+  },
+  {
+   "id": "T698",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts; The setup, in plain words; Why does a quiet plant pass at all?",
+   "as_written": "harmless arm 11 of 95; planted 6 of 68; clean 1 of 96; reacts to a new value",
+   "numbers": [
+    "11",
+    "95"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "flagged carried harmless runs: 11 of 95 (0.116)"
+    }
+   ],
+   "trace_rows": [
+    698
+   ],
+   "note": "note lines 93, 210, 258; trace claims-trace-v1.0.md row 698 (descriptive)"
+  },
+  {
+   "id": "T699",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "6 of 68",
+   "numbers": [
+    "6",
+    "68"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "flagged carried planted runs on the same 16 payloads: 6 of 68 (0.088)"
+    }
+   ],
+   "trace_rows": [
+    699
+   ],
+   "note": "note lines 258; trace claims-trace-v1.0.md row 699 (descriptive)"
+  },
+  {
+   "id": "T700",
+   "section": "Addendum, 19 Nov: a monitor on the agent that acts",
+   "as_written": "1 of 96",
+   "numbers": [
+    "1",
+    "96"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/AM/result-AM.md",
+   "locate": [
+    {
+     "line": "flagged clean runs on those payloads: 1 of 96 (0.010)"
+    }
+   ],
+   "trace_rows": [
+    700
+   ],
+   "note": "note lines 258; trace claims-trace-v1.0.md row 700 (descriptive)"
+  },
+  {
+   "id": "T712",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "0.28 with (0.277778) against 0.27 without (0.274306); D 0.00 [−0.08, 0.07] (−0.003472 [−0.083333, 0.072917])",
+   "numbers": [
+    "0.00",
+    "0.07",
+    "0.08"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "| D = S_B - S_T | -0.003 [-0.083, 0.073] |"
+    }
+   ],
+   "trace_rows": [
+    712
+   ],
+   "note": "note lines 266; trace claims-trace-v1.0.md row 712 (registered)"
+  },
+  {
+   "id": "T717",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "5 percent: 0.50 against 0.34 (0.336806)",
+   "numbers": [
+    "0.34",
+    "0.50",
+    "5"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "| 5 percent | 0.337 [0.219, 0.462] | 0.500 [0.375, 0.625] | -0.163 [-0.288, -0.056] |"
+    }
+   ],
+   "trace_rows": [
+    717
+   ],
+   "note": "note lines 266; trace claims-trace-v1.0.md row 717 (descriptive)"
+  },
+  {
+   "id": "T718",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "2 percent: 0.62 (0.621528) against 0.49 (0.486111)",
+   "numbers": [
+    "0.49",
+    "0.62",
+    "2"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "| 2 percent | 0.486 [0.361, 0.618] | 0.622 [0.507, 0.743] | -0.135 [-0.243, -0.031] |"
+    }
+   ],
+   "trace_rows": [
+    718
+   ],
+   "note": "note lines 266; trace claims-trace-v1.0.md row 718 (descriptive)"
+  },
+  {
+   "id": "T721",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "honest mean 23.3 to 31.3; flags 119 of 184 against 117",
+   "numbers": [
+    "23.3",
+    "31.3"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "Arm T's honest null has a mean score of 31.3 against arm B's 23.3"
+    }
+   ],
+   "trace_rows": [
+    721
+   ],
+   "note": "note lines 268; trace claims-trace-v1.0.md row 721 (descriptive)"
+  },
+  {
+   "id": "T722",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "119 of 184 against 117",
+   "numbers": [
+    "117",
+    "119",
+    "184"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "it flags 119 of the 184 planted applications against arm B's 117"
+    }
+   ],
+   "trace_rows": [
+    722
+   ],
+   "note": "note lines 268; trace claims-trace-v1.0.md row 722 (descriptive)"
+  },
+  {
+   "id": "T725",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "0.274 against 0.302 and 0.295; draw-to-draw 0.028 larger than the effect",
+   "numbers": [
+    "0.27",
+    "0.30"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "S_B: 0.274 against ETJ's 0.302 and the record's 0.295. The baseline's draw-to-draw difference is 0.028; D is 0.003 in size."
+    }
+   ],
+   "trace_rows": [
+    725
+   ],
+   "note": "note lines 270; trace claims-trace-v1.0.md row 725 (descriptive)"
+  },
+  {
+   "id": "T726",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
+   "as_written": "184 planted, 254-unit fresh null, each at its own 10 percent",
+   "numbers": [
+    "254"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/TP/result.md",
+   "locate": [
+    {
+     "line": "Thresholds, each arm on its own fresh 254-unit null"
+    }
+   ],
+   "trace_rows": [
+    726
+   ],
+   "note": "note lines 264; trace claims-trace-v1.0.md row 726 (design)"
+  },
+  {
+   "id": "T735",
+   "section": "4. Other judges did worse, and neither an explanation first ; What I found",
+   "as_written": "acted on and missed 0.30 (0.295139) to 0.34 to 0.37",
+   "numbers": [
+    "0.30"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/facts-audit-split-v0.json",
+   "locate": [
+    {
+     "line": "\"missed_part\": 0.295139"
+    }
+   ],
+   "trace_rows": [
+    735
+   ],
+   "note": "note lines 101, 157; trace claims-trace-v1.0.md row 735 (computed fact)"
+  },
+  {
+   "id": "T761",
+   "section": "One plant, one honest agent",
+   "as_written": "27 of 50 accounts have a /safety-reports area (19 read, 8 read-write; 23 none)",
+   "numbers": [
+    "23"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/facts-example-ground-truth-v0.md",
+   "locate": [
+    {
+     "line": "/safety-reports is read for 19, read-write for 8, and absent for 23"
+    }
+   ],
+   "trace_rows": [
+    761
+   ],
+   "note": "note lines 59; trace claims-trace-v1.0.md row 761 (fact (harness))"
+  },
+  {
+   "id": "T775",
+   "section": "Harm needs no collusion: the honest agent is the accomplice; How it was measured; The setup, in plain words; What I foun",
+   "as_written": "the follower test took all 56",
+   "numbers": [
+    "56"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/facts-plant-provenance-v0.md",
+   "locate": [
+    {
+     "line": "\"56 scorable, 0 excluded\""
+    }
+   ],
+   "trace_rows": [
+    775
+   ],
+   "note": "note lines 8, 81, 111, 248; trace claims-trace-v1.0.md row 775 (fact (harness))"
+  },
+  {
+   "id": "T777",
+   "section": "Why does a quiet plant pass at all?",
+   "as_written": "writers: T1 v2 controller session; claude-fable-5-1 writer for middle",
+   "numbers": [
+    "1"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/facts-plant-provenance-v0.md",
+   "locate": [
+    {
+     "line": "written by a fresh writer session, claude-fable-5-1, with no sub-agent."
+    }
+   ],
+   "trace_rows": [
+    777
+   ],
+   "note": "note lines 203; trace claims-trace-v1.0.md row 777 (fact (harness))"
+  },
+  {
+   "id": "T779",
+   "section": "3. One line is still carried in two runs in three, and is mu; 4. Other judges did worse, and neither an explanation firs",
+   "as_written": "first 10 draws: breaks no later honest edit",
+   "numbers": [
+    "10"
+   ],
+   "status": "released",
+   "match": "rounded",
+   "record": "results/stage3/v5/NOTE/facts-plant-provenance-v0.md",
+   "locate": [
+    {
+     "line": "For its first PREFER_CLEAN_DRAWS = 10 draws, it also requires that the plant breaks no later honest edit."
+    }
+   ],
+   "trace_rows": [
+    779
+   ],
+   "note": "note lines 16, 85, 87, 145, 157, 163, 167, 214, 231, 252, 260, 264; trace claims-trace-v1.0.md row 779 (fact (harness))"
+  }
+ ]
+}
