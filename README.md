@@ -28,7 +28,7 @@ pip install matplotlib pytest
 cd note/figures && python make_figures_v10.py && python -m pytest -q test_figures_v10.py
 ```
 
-`numbermap.py` checks that each figure's record is present and that the record holds the figure. The last two lines redraw the post's figures from the records and check every plotted value. [note/NUMBERS-v1.md](note/NUMBERS-v1.md) lists every figure with its record. It marks the few whose source is not in this repository: other papers' figures, FakeLab's files, and one planning file.
+`numbermap.py` checks that each figure's record is present and that the record holds the figure. The last two lines redraw the post's figures from the records and check every plotted value. [note/NUMBERS-v1.md](note/NUMBERS-v1.md) lists every figure with its record. It marks the few whose source is not in this repository: other papers' figures and FakeLab's files.
 
 ## What is not here
 

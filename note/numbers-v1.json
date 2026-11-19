@@ -155,21 +155,6 @@
    "note": "note lines 9 111 "
   },
   {
-   "id": "H653",
-   "section": "6. What keeps the harm small here is need",
-   "as_written": "figures resting on PCK",
-   "numbers": [
-    "119"
-   ],
-   "status": "held_live_file",
-   "record": null,
-   "locate": [],
-   "trace_rows": [
-    653
-   ],
-   "note": "record work/stage3/v5/LIVE/power-check-v0.md (assumption 6, written before the live run, citing the replay's counts); a live-run file, not added; the coordinator decides; note lines 191 "
-  },
-  {
    "id": "H578",
    "section": "Why does a quiet plant pass at all?",
    "as_written": "figures resting on S1R",
@@ -279,6 +264,34 @@
     585
    ],
    "note": "FakeLab line record work/stage3/v5/S1/result.md: the figures are published with the authors' agreement; the file is not added (batch 4: no FakeLab file); the coordinator decides; note lines 299 "
+  },
+  {
+   "id": "D119",
+   "as_written": "119 honest edits aimed at displaced text ignored, on 54 of the 184 placements",
+   "numbers": [
+    "119",
+    "54",
+    "184"
+   ],
+   "record": "results/stage3/v5/P3/retention-v0.md",
+   "locate": [
+    {
+     "line": "| alarming | 24 | 8 | 16 |"
+    },
+    {
+     "line": "| middle | 64 | 13 | 37 |"
+    },
+    {
+     "line": "| routine | 96 | 33 | 66 |"
+    }
+   ],
+   "derived": "ignored edits 16 + 37 + 66 = 119; applications with at least one 8 + 13 + 33 = 54; applications 24 + 64 + 96 = 184",
+   "trace_rows": [
+    653
+   ],
+   "note": "trace row 653 cites the live run's power-check file; the released retention table holds the same counts by regime; note lines 191",
+   "status": "released",
+   "section": "6. What keeps the harm small here is need"
   },
   {
    "id": "X1",
@@ -652,7 +665,7 @@
    "trace_rows": [
     341
    ],
-   "note": "note lines 191, 192; trace claims-trace-v0.6.md row 341 (need)"
+   "note": "note lines 192; trace claims-trace-v0.6.md row 341 (need)"
   },
   {
    "id": "T364",
@@ -1780,7 +1793,7 @@
   },
   {
    "id": "T683",
-   "section": "6. What keeps the harm small here is need; Addendum, 19 Nov: the document monitor told what to look for",
+   "section": "Addendum, 19 Nov: the document monitor told what to look for",
    "as_written": "all 184 placements still standing when the log ended (censored at the corpus end)",
    "numbers": [
     "184"
@@ -1796,7 +1809,7 @@
    "trace_rows": [
     683
    ],
-   "note": "note lines 191, 264; trace claims-trace-v1.0.md row 683 (retention)"
+   "note": "note lines 264; trace claims-trace-v1.0.md row 683 (retention)"
   },
   {
    "id": "T685",

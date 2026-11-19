@@ -44,8 +44,7 @@ python note/numbermap.py --map note/numbers-v1.json show T617           # print 
 
 A few rows are not records of this repository, and the table says which and why:
 - figures from external sources (other papers' budgets, citation years and section numbers);
-- FakeLab's figures, published with its authors' agreement, whose source files are not released;
-- one count whose record belongs to the live run's planning files.
+- FakeLab's figures, published with its authors' agreement, whose source files are not released.
 
 The figures are drawn from the same records. Each plotted value is listed with its record and exact string in `note/figures/figure_data_v10.py` (with the v0.9 and v0.8 layers it builds on):
 
