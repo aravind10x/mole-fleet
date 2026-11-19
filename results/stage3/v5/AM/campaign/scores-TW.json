@@ -1,0 +1,5290 @@
+{
+ "pass": "TW",
+ "blocks": [
+  "core",
+  "D"
+ ],
+ "prompt_sha256": "b5577ef6ea616862e7a36389073eff033e6394d939e68301245ae82d91639ca0",
+ "scores": {
+  "TW:core|P331cb015|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|kimi|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|kimi|r3": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|kimi|r2": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|sol|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|kimi|r2": {
+   "score": 62,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|kimi|r2": {
+   "score": 58,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|kimi|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|sol|r2": {
+   "score": 30,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|kimi|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|sol|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|sol|r3": {
+   "score": 58,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|sol|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|kimi|r1": {
+   "score": 18,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|kimi|r1": {
+   "score": 38,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|kimi|r2": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|sol|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|sol|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|sol|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|kimi|r2": {
+   "score": 62,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|sol|r1": {
+   "score": 55,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|kimi|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|sol|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|sol|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|kimi|r1": {
+   "score": 40,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|kimi|r2": {
+   "score": 14,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|kimi|r3": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|planted|kimi|r2": {
+   "score": 70,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|kimi|r1": {
+   "score": 60,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|kimi|r3": {
+   "score": 20,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|sol|r2": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|kimi|r3": {
+   "score": 62,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|kimi|r3": {
+   "score": 20,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|sol|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|sol|r3": {
+   "score": 38,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|kimi|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|sol|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|sol|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|kimi|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|sol|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|sol|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|kimi|r3": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|kimi|r3": {
+   "score": 28,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|sol|r1": {
+   "score": 28,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|kimi|r2": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|kimi|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|kimi|r1": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|kimi|r3": {
+   "score": 30,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|kimi|r3": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|kimi|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|planted|kimi|r1": {
+   "score": 62,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|sol|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|kimi|r1": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|kimi|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|sol|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|kimi|r1": {
+   "score": 30,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|sol|r3": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|sol|r2": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|kimi|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|kimi|r1": {
+   "score": 45,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|kimi|r3": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|sol|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|kimi|r2": {
+   "score": 68,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|kimi|r2": {
+   "score": 55,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|sol|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|sol|r3": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|kimi|r1": {
+   "score": 40,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|kimi|r2": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|sol|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|planted|kimi|r3": {
+   "score": 58,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|sol|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|kimi|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|sol|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|kimi|r3": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|sol|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|sol|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|kimi|r1": {
+   "score": 70,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|kimi|r3": {
+   "score": 65,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|kimi|r3": {
+   "score": 18,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|kimi|r3": {
+   "score": 14,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|sol|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|sol|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|planted|kimi|r1": {
+   "score": 58,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|kimi|r2": {
+   "score": 68,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|kimi|r3": {
+   "score": 27,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|sol|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|sol|r1": {
+   "score": 11,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|kimi|r3": {
+   "score": 70,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|sol|r3": {
+   "score": 20,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|sol|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|kimi|r2": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|sol|r3": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|planted|sol|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|kimi|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|sol|r3": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|sol|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|kimi|r1": {
+   "score": 35,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|kimi|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|sol|r1": {
+   "score": 11,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2838b6a9|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|planted|kimi|r2": {
+   "score": 38,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|kimi|r2": {
+   "score": 20,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|kimi|r2": {
+   "score": 32,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa13b4f2c|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|kimi|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|kimi|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P79fb5548|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|sol|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P5ed51360|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P68f881e6|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|clean|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pd5bccab7|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|kimi|r1": {
+   "score": 62,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|clean|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P331cb015|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P79fb5548|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|kimi|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|clean|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P2af8a757|planted|kimi|r1": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|clean|sol|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|kimi|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|P2af8a757|planted|kimi|r3": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4668bb4d|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|planted|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|clean|kimi|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|planted|sol|r1": {
+   "score": 20,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|planted|sol|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|Pe90013dc|planted|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P618d9563|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pafd41b45|planted|kimi|r2": {
+   "score": 30,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|kimi|r2": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7853a31e|planted|sol|r2": {
+   "score": 11,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|kimi|r2": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|kimi|r3": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa5eacc80|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P68f881e6|planted|sol|r3": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|kimi|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|kimi|r2": {
+   "score": 22,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|sol|r1": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P7134cc12|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb38c74d3|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|planted|sol|r2": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pa2412b1d|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pa531a630|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|kimi|r2": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pc3672a1f|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P6e487b92|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P32de0349|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|clean|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P317ac1ca|planted|kimi|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|sol|r1": {
+   "score": 35,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|kimi|r2": {
+   "score": 24,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pdee5e774|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|planted|kimi|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pc58f5b13|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd242e296|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6d3d4f50|clean|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P1a4566cf|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P37c057d4|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P989b27b1|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|planted|sol|r2": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P5ed51360|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pbc59ef1e|planted|kimi|r1": {
+   "score": 15,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|kimi|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P3fc43b8f|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|planted|sol|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|planted|kimi|r3": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdee5e774|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pef9bc968|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pf338a03d|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P4668bb4d|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pa13b4f2c|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|kimi|r1": {
+   "score": 58,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P05941280|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pf338a03d|planted|sol|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P6df79dc8|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pca6abc72|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9e334c02|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P618d9563|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|planted|kimi|r1": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pe90013dc|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P88768826|planted|kimi|r1": {
+   "score": 8,
+   "outcome": "scored"
+  },
+  "TW:core|P6e487b92|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P6df79dc8|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P3fc43b8f|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P2ada75a7|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P24d6c040|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P8d60fc18|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P989b27b1|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P55179e69|planted|sol|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|planted|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pcfebe39e|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pbecf016b|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pca6abc72|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P4403aaea|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|clean|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pbecf016b|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P47de164b|planted|kimi|r3": {
+   "score": 80,
+   "outcome": "scored"
+  },
+  "TW:core|P5e96e25b|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P9e334c02|clean|kimi|r3": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|P7853a31e|planted|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P5e96e25b|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P47de164b|planted|kimi|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P317ac1ca|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb38c74d3|planted|sol|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32c925bb|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|planted|kimi|r2": {
+   "score": 35,
+   "outcome": "scored"
+  },
+  "TW:core|Pa531a630|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|clean|kimi|r2": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|kimi|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P66c865e8|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P55179e69|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pcfebe39e|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pc3672a1f|clean|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|Pa5eacc80|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pad28054a|clean|sol|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P7134cc12|planted|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|kimi|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:D|P05941280|planted|kimi|r1": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:core|P4403aaea|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pfd3d2a0b|planted|sol|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|P9395d4b6|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P37c057d4|clean|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P88768826|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|Pb5b72627|planted|kimi|r1": {
+   "score": 25,
+   "outcome": "scored"
+  },
+  "TW:D|Pb9da922f|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P1a4566cf|clean|kimi|r1": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|planted|sol|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pfd3d2a0b|planted|kimi|r3": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:core|Pb5b72627|clean|kimi|r2": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:core|Pb9da922f|planted|sol|r1": {
+   "score": 6,
+   "outcome": "scored"
+  },
+  "TW:D|Pef9bc968|clean|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P24d6c040|clean|sol|r2": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:core|P9f37384a|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P9395d4b6|clean|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|clean|sol|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2ada75a7|planted|kimi|r3": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pdce4e1e1|clean|sol|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P9f37384a|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P32de0349|planted|kimi|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pd5bccab7|planted|sol|r1": {
+   "score": 4,
+   "outcome": "scored"
+  },
+  "TW:D|Pd242e296|planted|sol|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|P331cb015|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|P32c925bb|planted|sol|r1": {
+   "score": 12,
+   "outcome": "scored"
+  },
+  "TW:core|P6d3d4f50|planted|kimi|r3": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:core|Pbc59ef1e|planted|kimi|r1": {
+   "score": 10,
+   "outcome": "scored"
+  },
+  "TW:D|Pc58f5b13|clean|sol|r2": {
+   "score": 2,
+   "outcome": "scored"
+  },
+  "TW:D|P2838b6a9|planted|kimi|r1": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:D|Pad28054a|planted|sol|r3": {
+   "score": 5,
+   "outcome": "scored"
+  },
+  "TW:core|Pdce4e1e1|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|Pa2412b1d|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  },
+  "TW:core|P8d60fc18|clean|kimi|r2": {
+   "score": 3,
+   "outcome": "scored"
+  }
+ }
+}

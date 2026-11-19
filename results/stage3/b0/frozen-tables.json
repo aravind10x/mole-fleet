@@ -4,7 +4,7 @@
  "written": "2026-10-27T19:24Z",
  "rule": "the paper (brief 13) drafts only from these files at these hashes; every number carries its file's tag (confirmatory / exploratory / sensitivity, from the plan that produced it); no analysis is added to a frozen table except as a labelled sensitivity",
  "paths_relative_to": "work/stage3/ and the fork's results/stage3/ (byte-identical copies)",
- "n_files": 259,
+ "n_files": 290,
  "all_copies_identical": true,
  "mismatched_or_missing": 0,
  "files": [
@@ -2783,6 +2783,316 @@
    "copies_identical": true,
    "tag": "descriptive",
    "tag_source": "the same, record",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/preregistration-AM.md",
+   "sha256": "21841e8bb8874df5fcefc453f1507ec0648cf2e3441a30665c376b099c7862f9",
+   "bytes": 6694,
+   "sha256_fork_copy": "21841e8bb8874df5fcefc453f1507ec0648cf2e3441a30665c376b099c7862f9",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "check AM (a monitor on the agent that acts): the filed design",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/preregistration-AM-addition-1.md",
+   "sha256": "1da6168ac6ca50892154d969032c81fbcbde6cee453e211f68db16b977126f49",
+   "bytes": 3952,
+   "sha256_fork_copy": "1da6168ac6ca50892154d969032c81fbcbde6cee453e211f68db16b977126f49",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "check AM, addition 1: binds the review dispositions, before any run score",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/preregistration-AM-addition-2.md",
+   "sha256": "08b79fce085460893a97054f8b0dfb2d5283c2f67332078a26851d9154e5e1ae",
+   "bytes": 1704,
+   "sha256_fork_copy": "08b79fce085460893a97054f8b0dfb2d5283c2f67332078a26851d9154e5e1ae",
+   "copies_identical": true,
+   "tag": "pre-registration",
+   "tag_source": "check AM, addition 2: the analysis code frozen before any run score",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/prompts-frozen.md",
+   "sha256": "de048fc879218e859686c62cfc3e9e2922a5d1be7d795c4b785631ed71b18614",
+   "bytes": 1198,
+   "sha256_fork_copy": "de048fc879218e859686c62cfc3e9e2922a5d1be7d795c4b785631ed71b18614",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "check AM: prompts G and W frozen before any model call, with hashes",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/prompts/prompt-G.txt",
+   "sha256": "85b033971cf28018184b778d60bc57d57d96a98528cc3d3aebb7398d25e82d1a",
+   "bytes": 2134,
+   "sha256_fork_copy": "85b033971cf28018184b778d60bc57d57d96a98528cc3d3aebb7398d25e82d1a",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "check AM: monitor prompt G (primary)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/prompts/prompt-W.txt",
+   "sha256": "b5577ef6ea616862e7a36389073eff033e6394d939e68301245ae82d91639ca0",
+   "bytes": 2348,
+   "sha256_fork_copy": "b5577ef6ea616862e7a36389073eff033e6394d939e68301245ae82d91639ca0",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "check AM: monitor prompt W (secondary; G plus one paragraph)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/campaign/scores-AG.json",
+   "sha256": "69046ecd3151626f1001653b9a97e4ceddebde8e8dac912108919092d8d35547",
+   "bytes": 55921,
+   "sha256_fork_copy": "69046ecd3151626f1001653b9a97e4ceddebde8e8dac912108919092d8d35547",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check AM: per-run scores and flags, view A, prompt G",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/campaign/scores-TG.json",
+   "sha256": "453a074b857f80ed7e8fe7985add192173412274d67b575036c43f33e7b91971",
+   "bytes": 189839,
+   "sha256_fork_copy": "453a074b857f80ed7e8fe7985add192173412274d67b575036c43f33e7b91971",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check AM: per-run scores and flags, view T, prompt G",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/campaign/scores-TG-v1.json",
+   "sha256": "8e32feb0af195e8fccefb3968602c722d222ab844f56ed8468d7b716e62acc14",
+   "bytes": 189966,
+   "sha256_fork_copy": "8e32feb0af195e8fccefb3968602c722d222ab844f56ed8468d7b716e62acc14",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check AM: view T, prompt G, after the retry pass",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/campaign/scores-TW.json",
+   "sha256": "125cda52ecc5b5f5012901c07f7e02c2afd6a464e9aac5a533c94a1f008bb5c5",
+   "bytes": 107231,
+   "sha256_fork_copy": "125cda52ecc5b5f5012901c07f7e02c2afd6a464e9aac5a533c94a1f008bb5c5",
+   "copies_identical": true,
+   "tag": "sensitivity",
+   "tag_source": "check AM: per-run scores and flags, view T, prompt W",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/campaign/analysis-AM-v0.json",
+   "sha256": "a3f04aedd0afb597db75865ed2662ffe7b47b68880170084863f456af3f7cfe9",
+   "bytes": 87258,
+   "sha256_fork_copy": "a3f04aedd0afb597db75865ed2662ffe7b47b68880170084863f456af3f7cfe9",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check AM: the registered readings and the beside-readings",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/AM/result-AM.md",
+   "sha256": "3105b1ce881623229891400fee7540ce1a5f0501ff673b89a53c8f50fe28c64b",
+   "bytes": 8959,
+   "sha256_fork_copy": "3105b1ce881623229891400fee7540ce1a5f0501ff673b89a53c8f50fe28c64b",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "addendum 1 of the post: a monitor on the agent that acts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/preregistration-addition-TP.md",
+   "sha256": "8c3e7ddfb063b2d774bc7c6279e5619d0697a979051749e4f799fabd8b6cec82",
+   "bytes": 6245,
+   "sha256_fork_copy": "b7b145443c46f39b07ea15a8a56501f2ed3d6d6b7f6bf80e52964154d2f917c8",
+   "copies_identical": false,
+   "tag": "pre-registration",
+   "tag_source": "check TP: addition to the ETJ design, filed before any score; the public copy carries \"the author\" for the owner's name, otherwise identical",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/prompts-frozen.md",
+   "sha256": "514da8c31d9d689e62f75a7c3697f1e270098fa19467e202f185623c8dee8a90",
+   "bytes": 2137,
+   "sha256_fork_copy": "514da8c31d9d689e62f75a7c3697f1e270098fa19467e202f185623c8dee8a90",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "check TP: prompts frozen before any model call, with hashes",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/prompt-T.txt",
+   "sha256": "c08593403195334deaf0de744cc52e68376d28a172edb673a8d1c0aa521ede0c",
+   "bytes": 2533,
+   "sha256_fork_copy": "c08593403195334deaf0de744cc52e68376d28a172edb673a8d1c0aa521ede0c",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "check TP: the targeted document-monitor prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/paragraph-T.txt",
+   "sha256": "1008c497bdd3b9c0e8af3025212d853a36ca35cef8007880f1afb42e821a6f39",
+   "bytes": 1036,
+   "sha256_fork_copy": "1008c497bdd3b9c0e8af3025212d853a36ca35cef8007880f1afb42e821a6f39",
+   "copies_identical": true,
+   "tag": "instrument",
+   "tag_source": "check TP: the one paragraph added to the sealed prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/null-B-v0.json",
+   "sha256": "8c72794ff516ddf5220b243b96f88772a96ca58ac96fed3f879981aa920134d8",
+   "bytes": 46024,
+   "sha256_fork_copy": "8c72794ff516ddf5220b243b96f88772a96ca58ac96fed3f879981aa920134d8",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: fresh honest null, baseline prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/null-T-v0.json",
+   "sha256": "2e18158579f4459bd848ba11d032b1ba9376fe53b30cd77b3dce6cf1c4afac0d",
+   "bytes": 46046,
+   "sha256_fork_copy": "2e18158579f4459bd848ba11d032b1ba9376fe53b30cd77b3dce6cf1c4afac0d",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: fresh honest null, targeted prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/planted-B-v0.json",
+   "sha256": "97bf844f8bf666a444f9a3e8ef236dedfa50a99c4d67a7d2cbefb54c45747e23",
+   "bytes": 11170,
+   "sha256_fork_copy": "97bf844f8bf666a444f9a3e8ef236dedfa50a99c4d67a7d2cbefb54c45747e23",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: planted units, baseline prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/planted-T-v0.json",
+   "sha256": "b99fff5665a09a9b51cbcc622eb2093b6a3f2e0c23a6dd36841d678f72ae3963",
+   "bytes": 11175,
+   "sha256_fork_copy": "b99fff5665a09a9b51cbcc622eb2093b6a3f2e0c23a6dd36841d678f72ae3963",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: planted units, targeted prompt",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/scores-B.json",
+   "sha256": "9ea30c7d03d2eb73bc57249d8f11b00c8b469980916ce80b0a80c79afdb811b4",
+   "bytes": 44019,
+   "sha256_fork_copy": "9ea30c7d03d2eb73bc57249d8f11b00c8b469980916ce80b0a80c79afdb811b4",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: per-unit flags at the arm's own rule, baseline",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/scores-T.json",
+   "sha256": "a10f5f94fa0b13c4e8e46de4d6b5c959ff4901a9fc729a1fb6f993f59e27a63c",
+   "bytes": 44041,
+   "sha256_fork_copy": "a10f5f94fa0b13c4e8e46de4d6b5c959ff4901a9fc729a1fb6f993f59e27a63c",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: per-unit flags at the arm's own rule, targeted",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/analysis-v0.json",
+   "sha256": "a983288ed3aecb634ca1934e2d4f656866f88438c20f7496d995b747ee10bd37",
+   "bytes": 4551,
+   "sha256_fork_copy": "a983288ed3aecb634ca1934e2d4f656866f88438c20f7496d995b747ee10bd37",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "check TP: the contrast and its interval",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/TP/result.md",
+   "sha256": "50457676944cf26ad5c032c2851520d6b4a63ebebe44276de6543c0875c7b6d6",
+   "bytes": 8917,
+   "sha256_fork_copy": "50457676944cf26ad5c032c2851520d6b4a63ebebe44276de6543c0875c7b6d6",
+   "copies_identical": true,
+   "tag": "confirmatory",
+   "tag_source": "addendum 2 of the post: no detectable change from the targeted paragraph, at this size",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/computations-v1.0.md",
+   "sha256": "8bcb5bf0aac941f656a679d3e9921fe67747ff31bef4bf3c73a4b358a77fa45b",
+   "bytes": 4545,
+   "sha256_fork_copy": "8b7d0f3faea6a94e9d97f43744f9e18ea8f2bdc2af6adfb0a3403207726e2ccd",
+   "copies_identical": false,
+   "tag": "descriptive",
+   "tag_source": "the post's computations 1 and 2 (v1.0); the public copy carries \"the author\" for the owner's name, otherwise identical",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/computations_v1_0.py",
+   "sha256": "323cd8d4a967f3af506c1ffe0c9db111cc4692ba56959e2bd507d09f829bcaf9",
+   "bytes": 1404,
+   "sha256_fork_copy": "323cd8d4a967f3af506c1ffe0c9db111cc4692ba56959e2bd507d09f829bcaf9",
+   "copies_identical": true,
+   "tag": "methods",
+   "tag_source": "computation 1's script (reads P1/joins-v1.json)",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/shortlist-D-column-v0.json",
+   "sha256": "7da0223a2189d5c6250e64f925dbcdb0a3f75110636ae9b92300afe2f1dcce5a",
+   "bytes": 4432,
+   "sha256_fork_copy": "7da0223a2189d5c6250e64f925dbcdb0a3f75110636ae9b92300afe2f1dcce5a",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "computation 2's topic-only column: ids and class names only",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/facts-audit-split-v0.json",
+   "sha256": "a13d455a955c2ada26e1cae2d5725bbd45c85438a73e8e0a09cbdf967165639a",
+   "bytes": 3429,
+   "sha256_fork_copy": "a13d455a955c2ada26e1cae2d5725bbd45c85438a73e8e0a09cbdf967165639a",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "fact file: how the two audits split, by script",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/facts-threat-model-v0.md",
+   "sha256": "ad89efbda459965ec08350350f84610ee3b7e53c56148c84cc4ef297247d2961",
+   "bytes": 5406,
+   "sha256_fork_copy": "ad89efbda459965ec08350350f84610ee3b7e53c56148c84cc4ef297247d2961",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "fact file: the threat model as the records state it",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/facts-example-ground-truth-v0.md",
+   "sha256": "b94157267ad7561bc268d3746a644f4bd3b7713ea3cfedce92e5946a50572dee",
+   "bytes": 3946,
+   "sha256_fork_copy": "b94157267ad7561bc268d3746a644f4bd3b7713ea3cfedce92e5946a50572dee",
+   "copies_identical": true,
+   "tag": "descriptive",
+   "tag_source": "fact file: the real example's ground truth, ids and counts",
+   "added_beyond_brief_list": null
+  },
+  {
+   "path": "v5/NOTE/facts-plant-provenance-v0.md",
+   "sha256": "a1908c6a610fbe7ba24bf52bd2c3c5626ff4bd35cf681e3b54f5518b8f247b9c",
+   "bytes": 7268,
+   "sha256_fork_copy": "ba703ac5d5bcfcab161157bffc5d49ab22074afc5482d9e1ff4b5e587d0af69f",
+   "copies_identical": false,
+   "tag": "descriptive",
+   "tag_source": "fact file: how the plants were written and placed; the public copy carries \"the author\" for the owner's name, otherwise identical",
    "added_beyond_brief_list": null
   }
  ],
@@ -6173,6 +6483,355 @@
      "fork_copy_edit": "the owner's name in the header replaced by \"the author\" in the public copy; the project copy is unchanged",
      "sha256_fork_copy": "b77c665ef73e6f1de54cad5822f3a75bd68d98ec38467fe96926b420097d5dec",
      "bytes_fork_copy": 6054
+    }
+   ]
+  },
+  {
+   "date": "2026-11-19",
+   "by": "coordinator v5 batch 5, appended by line REPO (blue): the records the published post's figures rest on: the two 19 Nov addenda (check AM: design, additions, frozen prompts, scores, analysis, result; check TP: addition, frozen prompts, nulls, planted units, scores, analysis, result) and the post's computations and fact files (31 files, all released; three public copies carry \"the author\" for the owner's name). Code in the fork's scripts/stage3/: stage3_am.py, stage3_tp.py, with their tests. Additive; no earlier entry changed.",
+   "added": [
+    "v5/AM/preregistration-AM.md",
+    "v5/AM/preregistration-AM-addition-1.md",
+    "v5/AM/preregistration-AM-addition-2.md",
+    "v5/AM/prompts-frozen.md",
+    "v5/AM/prompts/prompt-G.txt",
+    "v5/AM/prompts/prompt-W.txt",
+    "v5/AM/campaign/scores-AG.json",
+    "v5/AM/campaign/scores-TG.json",
+    "v5/AM/campaign/scores-TG-v1.json",
+    "v5/AM/campaign/scores-TW.json",
+    "v5/AM/campaign/analysis-AM-v0.json",
+    "v5/AM/result-AM.md",
+    "v5/TP/preregistration-addition-TP.md",
+    "v5/TP/prompts-frozen.md",
+    "v5/TP/prompt-T.txt",
+    "v5/TP/paragraph-T.txt",
+    "v5/TP/null-B-v0.json",
+    "v5/TP/null-T-v0.json",
+    "v5/TP/planted-B-v0.json",
+    "v5/TP/planted-T-v0.json",
+    "v5/TP/scores-B.json",
+    "v5/TP/scores-T.json",
+    "v5/TP/analysis-v0.json",
+    "v5/TP/result.md",
+    "v5/NOTE/computations-v1.0.md",
+    "v5/NOTE/computations_v1_0.py",
+    "v5/NOTE/shortlist-D-column-v0.json",
+    "v5/NOTE/facts-audit-split-v0.json",
+    "v5/NOTE/facts-threat-model-v0.md",
+    "v5/NOTE/facts-example-ground-truth-v0.md",
+    "v5/NOTE/facts-plant-provenance-v0.md"
+   ],
+   "entries": [
+    {
+     "path": "v5/AM/preregistration-AM.md",
+     "sha256": "21841e8bb8874df5fcefc453f1507ec0648cf2e3441a30665c376b099c7862f9",
+     "bytes": 6694,
+     "sha256_fork_copy": "21841e8bb8874df5fcefc453f1507ec0648cf2e3441a30665c376b099c7862f9",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "check AM (a monitor on the agent that acts): the filed design",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/preregistration-AM-addition-1.md",
+     "sha256": "1da6168ac6ca50892154d969032c81fbcbde6cee453e211f68db16b977126f49",
+     "bytes": 3952,
+     "sha256_fork_copy": "1da6168ac6ca50892154d969032c81fbcbde6cee453e211f68db16b977126f49",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "check AM, addition 1: binds the review dispositions, before any run score",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/preregistration-AM-addition-2.md",
+     "sha256": "08b79fce085460893a97054f8b0dfb2d5283c2f67332078a26851d9154e5e1ae",
+     "bytes": 1704,
+     "sha256_fork_copy": "08b79fce085460893a97054f8b0dfb2d5283c2f67332078a26851d9154e5e1ae",
+     "copies_identical": true,
+     "tag": "pre-registration",
+     "tag_source": "check AM, addition 2: the analysis code frozen before any run score",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/prompts-frozen.md",
+     "sha256": "de048fc879218e859686c62cfc3e9e2922a5d1be7d795c4b785631ed71b18614",
+     "bytes": 1198,
+     "sha256_fork_copy": "de048fc879218e859686c62cfc3e9e2922a5d1be7d795c4b785631ed71b18614",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "check AM: prompts G and W frozen before any model call, with hashes",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/prompts/prompt-G.txt",
+     "sha256": "85b033971cf28018184b778d60bc57d57d96a98528cc3d3aebb7398d25e82d1a",
+     "bytes": 2134,
+     "sha256_fork_copy": "85b033971cf28018184b778d60bc57d57d96a98528cc3d3aebb7398d25e82d1a",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "check AM: monitor prompt G (primary)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/prompts/prompt-W.txt",
+     "sha256": "b5577ef6ea616862e7a36389073eff033e6394d939e68301245ae82d91639ca0",
+     "bytes": 2348,
+     "sha256_fork_copy": "b5577ef6ea616862e7a36389073eff033e6394d939e68301245ae82d91639ca0",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "check AM: monitor prompt W (secondary; G plus one paragraph)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/campaign/scores-AG.json",
+     "sha256": "69046ecd3151626f1001653b9a97e4ceddebde8e8dac912108919092d8d35547",
+     "bytes": 55921,
+     "sha256_fork_copy": "69046ecd3151626f1001653b9a97e4ceddebde8e8dac912108919092d8d35547",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check AM: per-run scores and flags, view A, prompt G",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/campaign/scores-TG.json",
+     "sha256": "453a074b857f80ed7e8fe7985add192173412274d67b575036c43f33e7b91971",
+     "bytes": 189839,
+     "sha256_fork_copy": "453a074b857f80ed7e8fe7985add192173412274d67b575036c43f33e7b91971",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check AM: per-run scores and flags, view T, prompt G",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/campaign/scores-TG-v1.json",
+     "sha256": "8e32feb0af195e8fccefb3968602c722d222ab844f56ed8468d7b716e62acc14",
+     "bytes": 189966,
+     "sha256_fork_copy": "8e32feb0af195e8fccefb3968602c722d222ab844f56ed8468d7b716e62acc14",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check AM: view T, prompt G, after the retry pass",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/campaign/scores-TW.json",
+     "sha256": "125cda52ecc5b5f5012901c07f7e02c2afd6a464e9aac5a533c94a1f008bb5c5",
+     "bytes": 107231,
+     "sha256_fork_copy": "125cda52ecc5b5f5012901c07f7e02c2afd6a464e9aac5a533c94a1f008bb5c5",
+     "copies_identical": true,
+     "tag": "sensitivity",
+     "tag_source": "check AM: per-run scores and flags, view T, prompt W",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/campaign/analysis-AM-v0.json",
+     "sha256": "a3f04aedd0afb597db75865ed2662ffe7b47b68880170084863f456af3f7cfe9",
+     "bytes": 87258,
+     "sha256_fork_copy": "a3f04aedd0afb597db75865ed2662ffe7b47b68880170084863f456af3f7cfe9",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check AM: the registered readings and the beside-readings",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/AM/result-AM.md",
+     "sha256": "3105b1ce881623229891400fee7540ce1a5f0501ff673b89a53c8f50fe28c64b",
+     "bytes": 8959,
+     "sha256_fork_copy": "3105b1ce881623229891400fee7540ce1a5f0501ff673b89a53c8f50fe28c64b",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "addendum 1 of the post: a monitor on the agent that acts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/preregistration-addition-TP.md",
+     "sha256": "8c3e7ddfb063b2d774bc7c6279e5619d0697a979051749e4f799fabd8b6cec82",
+     "bytes": 6245,
+     "sha256_fork_copy": "b7b145443c46f39b07ea15a8a56501f2ed3d6d6b7f6bf80e52964154d2f917c8",
+     "copies_identical": false,
+     "tag": "pre-registration",
+     "tag_source": "check TP: addition to the ETJ design, filed before any score; the public copy carries \"the author\" for the owner's name, otherwise identical",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/prompts-frozen.md",
+     "sha256": "514da8c31d9d689e62f75a7c3697f1e270098fa19467e202f185623c8dee8a90",
+     "bytes": 2137,
+     "sha256_fork_copy": "514da8c31d9d689e62f75a7c3697f1e270098fa19467e202f185623c8dee8a90",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "check TP: prompts frozen before any model call, with hashes",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/prompt-T.txt",
+     "sha256": "c08593403195334deaf0de744cc52e68376d28a172edb673a8d1c0aa521ede0c",
+     "bytes": 2533,
+     "sha256_fork_copy": "c08593403195334deaf0de744cc52e68376d28a172edb673a8d1c0aa521ede0c",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "check TP: the targeted document-monitor prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/paragraph-T.txt",
+     "sha256": "1008c497bdd3b9c0e8af3025212d853a36ca35cef8007880f1afb42e821a6f39",
+     "bytes": 1036,
+     "sha256_fork_copy": "1008c497bdd3b9c0e8af3025212d853a36ca35cef8007880f1afb42e821a6f39",
+     "copies_identical": true,
+     "tag": "instrument",
+     "tag_source": "check TP: the one paragraph added to the sealed prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/null-B-v0.json",
+     "sha256": "8c72794ff516ddf5220b243b96f88772a96ca58ac96fed3f879981aa920134d8",
+     "bytes": 46024,
+     "sha256_fork_copy": "8c72794ff516ddf5220b243b96f88772a96ca58ac96fed3f879981aa920134d8",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: fresh honest null, baseline prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/null-T-v0.json",
+     "sha256": "2e18158579f4459bd848ba11d032b1ba9376fe53b30cd77b3dce6cf1c4afac0d",
+     "bytes": 46046,
+     "sha256_fork_copy": "2e18158579f4459bd848ba11d032b1ba9376fe53b30cd77b3dce6cf1c4afac0d",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: fresh honest null, targeted prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/planted-B-v0.json",
+     "sha256": "97bf844f8bf666a444f9a3e8ef236dedfa50a99c4d67a7d2cbefb54c45747e23",
+     "bytes": 11170,
+     "sha256_fork_copy": "97bf844f8bf666a444f9a3e8ef236dedfa50a99c4d67a7d2cbefb54c45747e23",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: planted units, baseline prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/planted-T-v0.json",
+     "sha256": "b99fff5665a09a9b51cbcc622eb2093b6a3f2e0c23a6dd36841d678f72ae3963",
+     "bytes": 11175,
+     "sha256_fork_copy": "b99fff5665a09a9b51cbcc622eb2093b6a3f2e0c23a6dd36841d678f72ae3963",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: planted units, targeted prompt",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/scores-B.json",
+     "sha256": "9ea30c7d03d2eb73bc57249d8f11b00c8b469980916ce80b0a80c79afdb811b4",
+     "bytes": 44019,
+     "sha256_fork_copy": "9ea30c7d03d2eb73bc57249d8f11b00c8b469980916ce80b0a80c79afdb811b4",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: per-unit flags at the arm's own rule, baseline",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/scores-T.json",
+     "sha256": "a10f5f94fa0b13c4e8e46de4d6b5c959ff4901a9fc729a1fb6f993f59e27a63c",
+     "bytes": 44041,
+     "sha256_fork_copy": "a10f5f94fa0b13c4e8e46de4d6b5c959ff4901a9fc729a1fb6f993f59e27a63c",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: per-unit flags at the arm's own rule, targeted",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/analysis-v0.json",
+     "sha256": "a983288ed3aecb634ca1934e2d4f656866f88438c20f7496d995b747ee10bd37",
+     "bytes": 4551,
+     "sha256_fork_copy": "a983288ed3aecb634ca1934e2d4f656866f88438c20f7496d995b747ee10bd37",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "check TP: the contrast and its interval",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/TP/result.md",
+     "sha256": "50457676944cf26ad5c032c2851520d6b4a63ebebe44276de6543c0875c7b6d6",
+     "bytes": 8917,
+     "sha256_fork_copy": "50457676944cf26ad5c032c2851520d6b4a63ebebe44276de6543c0875c7b6d6",
+     "copies_identical": true,
+     "tag": "confirmatory",
+     "tag_source": "addendum 2 of the post: no detectable change from the targeted paragraph, at this size",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/computations-v1.0.md",
+     "sha256": "8bcb5bf0aac941f656a679d3e9921fe67747ff31bef4bf3c73a4b358a77fa45b",
+     "bytes": 4545,
+     "sha256_fork_copy": "8b7d0f3faea6a94e9d97f43744f9e18ea8f2bdc2af6adfb0a3403207726e2ccd",
+     "copies_identical": false,
+     "tag": "descriptive",
+     "tag_source": "the post's computations 1 and 2 (v1.0); the public copy carries \"the author\" for the owner's name, otherwise identical",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/computations_v1_0.py",
+     "sha256": "323cd8d4a967f3af506c1ffe0c9db111cc4692ba56959e2bd507d09f829bcaf9",
+     "bytes": 1404,
+     "sha256_fork_copy": "323cd8d4a967f3af506c1ffe0c9db111cc4692ba56959e2bd507d09f829bcaf9",
+     "copies_identical": true,
+     "tag": "methods",
+     "tag_source": "computation 1's script (reads P1/joins-v1.json)",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/shortlist-D-column-v0.json",
+     "sha256": "7da0223a2189d5c6250e64f925dbcdb0a3f75110636ae9b92300afe2f1dcce5a",
+     "bytes": 4432,
+     "sha256_fork_copy": "7da0223a2189d5c6250e64f925dbcdb0a3f75110636ae9b92300afe2f1dcce5a",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "computation 2's topic-only column: ids and class names only",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/facts-audit-split-v0.json",
+     "sha256": "a13d455a955c2ada26e1cae2d5725bbd45c85438a73e8e0a09cbdf967165639a",
+     "bytes": 3429,
+     "sha256_fork_copy": "a13d455a955c2ada26e1cae2d5725bbd45c85438a73e8e0a09cbdf967165639a",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "fact file: how the two audits split, by script",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/facts-threat-model-v0.md",
+     "sha256": "ad89efbda459965ec08350350f84610ee3b7e53c56148c84cc4ef297247d2961",
+     "bytes": 5406,
+     "sha256_fork_copy": "ad89efbda459965ec08350350f84610ee3b7e53c56148c84cc4ef297247d2961",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "fact file: the threat model as the records state it",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/facts-example-ground-truth-v0.md",
+     "sha256": "b94157267ad7561bc268d3746a644f4bd3b7713ea3cfedce92e5946a50572dee",
+     "bytes": 3946,
+     "sha256_fork_copy": "b94157267ad7561bc268d3746a644f4bd3b7713ea3cfedce92e5946a50572dee",
+     "copies_identical": true,
+     "tag": "descriptive",
+     "tag_source": "fact file: the real example's ground truth, ids and counts",
+     "added_beyond_brief_list": null
+    },
+    {
+     "path": "v5/NOTE/facts-plant-provenance-v0.md",
+     "sha256": "a1908c6a610fbe7ba24bf52bd2c3c5626ff4bd35cf681e3b54f5518b8f247b9c",
+     "bytes": 7268,
+     "sha256_fork_copy": "ba703ac5d5bcfcab161157bffc5d49ab22074afc5482d9e1ff4b5e587d0af69f",
+     "copies_identical": false,
+     "tag": "descriptive",
+     "tag_source": "fact file: how the plants were written and placed; the public copy carries \"the author\" for the owner's name, otherwise identical",
+     "added_beyond_brief_list": null
     }
    ]
   }
