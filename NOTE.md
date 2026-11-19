@@ -2,10 +2,10 @@
 
 *In AI agent fleets that share documents, an attacker needs one quiet change and no accomplice. An honest agent whose work needs the changed line acts on it four times in five, and a third of the time it acts on a change the monitor missed.*
 
-This branch (`stage3`) of a fork of [MOLE](https://github.com/forgelab/mole) (Muhamed and Smith, [arXiv 2609.06966](https://arxiv.org/abs/2609.06966)) carries the code and the count-level records behind the post above.
+This branch (`stage3`) of a fork of [MOLE](https://github.com/aashiqmuhamed/mole) (Muhamed and Smith, [arXiv 2609.06966](https://arxiv.org/abs/2609.06966)) carries the code and the count-level records behind the post above. The front page is [README.md](README.md); this file is the fuller guide.
 
-- **The post:** **[SLOT: the published post's URL]**
-- **This state:** the tag `note-v1` names the commit that matches the published post. The branch may move on; the tag does not.
+- **The post:** [the published post](https://docs.google.com/document/d/14BTLdAXSXc7dqLPPDqhLPtD32f2yBQ-L8-iCx739Udk/)
+- **This state:** the tag `note-v1` names the state of this repository that the post's figures were checked against. The branch may move on; the tag does not.
 
 Upstream's code is unchanged on `master`, the fork's default branch; everything the study added is listed in [What changed from upstream](#what-changed-from-upstream).
 
@@ -111,7 +111,7 @@ FakeLab's figures in the post are published with its authors' agreement; its cod
 
 ## Licence and upstream
 
-MOLE is Apache-2.0. Upstream's `LICENSE`, `CITATION.cff` and `README.md` are kept unchanged (the README gains one pointer line to this file); upstream ships no `NOTICE` file. If you use the benchmark, cite MOLE as `CITATION.cff` says. **[SLOT: how to cite the note.]**
+MOLE is Apache-2.0. Upstream's `LICENSE` and `CITATION.cff` are kept unchanged, and upstream's README is kept byte for byte as [README-MOLE.md](README-MOLE.md) (renamed, with its history); `README.md` is this study's front page. Upstream ships no `NOTICE` file. If you use the benchmark, cite MOLE as `CITATION.cff` says; to cite the post, see [README.md](README.md#how-to-cite).
 
 ### What changed from upstream
 
