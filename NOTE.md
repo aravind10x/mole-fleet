@@ -7,7 +7,7 @@ This branch (`stage3`) of a fork of [MOLE](https://github.com/aashiqmuhamed/mole
 - **The post:** [the published post](https://docs.google.com/document/d/14BTLdAXSXc7dqLPPDqhLPtD32f2yBQ-L8-iCx739Udk/)
 - **This state:** the tag `note-v1` names the state of this repository that the post's figures were checked against. The branch may move on; the tag does not.
 
-Upstream's code is unchanged on `master`, the fork's default branch; everything the study added is listed in [What changed from upstream](#what-changed-from-upstream).
+MOLE's code as first copied into this fork is commit `050d07f` (upstream `702199e`), an ancestor of every branch here, `master` (the fork's default branch) included; everything above it is this project's. [What changed from upstream](#what-changed-from-upstream) says how to list it.
 
 ## What was run
 
@@ -115,8 +115,8 @@ MOLE is Apache-2.0. Upstream's `LICENSE` and `CITATION.cff` are kept unchanged, 
 
 ### What changed from upstream
 
-`master` is a pristine copy of upstream (`2a4765b`). `stage3` adds the study's code and records and modifies some upstream files (lab mode, the audit log, the generator and state backends, and their tests). To list every changed upstream file, as Apache-2.0 section 4(b) asks:
+Commit `050d07f` is the pristine copy of upstream MOLE (upstream commit `702199e`). Every commit above it is this project's: `master` carries its earlier stages, and `stage3` adds this study's code and records. Both modify some upstream files (lab mode, the audit log, the generator and state backends, and their tests), and `README.md` is this study's front page with upstream's README kept as `README-MOLE.md`. To list every changed upstream file, as Apache-2.0 section 4(b) asks:
 
 ```bash
-git diff --name-status 2a4765b note-v1 -- . ':!results' ':!scripts/stage3' ':!note' ':!NOTE.md'
+git diff --name-status 050d07f note-v1 -- . ':!results' ':!scripts/stage3' ':!note' ':!NOTE.md'
 ```

@@ -7,14 +7,14 @@ This repository is a fork of [MOLE](https://github.com/aashiqmuhamed/mole), an o
 ## Who did what
 
 - **This study** is by Aravind ([aravind10x](https://github.com/aravind10x)).
-- **MOLE** is the benchmark of Aashiq Muhamed and Virginia Smith, Carnegie Mellon University ([arXiv 2609.06966](https://arxiv.org/abs/2609.06966), [code](https://github.com/aashiqmuhamed/mole), [data](https://huggingface.co/datasets/forgelab/mole)). Their code is on this fork's `master` branch, unchanged. It is Apache-2.0 ([LICENSE](LICENSE)), and [CITATION.cff](CITATION.cff) is theirs.
+- **MOLE** is the benchmark of Aashiq Muhamed and Virginia Smith, Carnegie Mellon University ([arXiv 2609.06966](https://arxiv.org/abs/2609.06966), [code](https://github.com/aashiqmuhamed/mole), [data](https://huggingface.co/datasets/forgelab/mole)). Their code as first copied into this fork is commit `050d07f` (their commit `702199e`), an ancestor of every branch here; everything above it is this project's, and [NOTE.md](NOTE.md#what-changed-from-upstream) gives the command that lists what changed. MOLE is Apache-2.0 ([LICENSE](LICENSE)), and [CITATION.cff](CITATION.cff) is theirs.
 
 ## What is here
 
 | what | where |
 |---|---|
 | the study's code: the harness, the monitors, the joins and their tests | `scripts/stage3/` |
-| the count-level records behind the post's figures | `results/stage3/v5/` and `results/stage3/b0/frozen-tables.json`, the manifest of every record with its hash |
+| the count-level records behind the post's figures | `results/stage3/v5/`; `results/stage3/b0/frozen-tables.json` is the manifest of the records the study draws on, each with its hash |
 | the planted changes used in this and the earlier rounds, including the 56 the post rests on | earlier rounds' folders under `results/stage3/` |
 | the map from every figure in the post to its record, and the figures' script | `note/` |
 | the full guide: what was run, a map of the folders, what changed from upstream | [NOTE.md](NOTE.md) |
